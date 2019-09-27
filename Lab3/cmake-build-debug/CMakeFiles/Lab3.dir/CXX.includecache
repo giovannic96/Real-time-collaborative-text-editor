@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/Users/giova/CLionProjects/Lab3/Message.h
+Symbol.h
+/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.h
+
+/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.h
+Message.h
+/cygdrive/c/Users/giova/CLionProjects/Lab3/Message.h
+vector
+/cygdrive/c/Users/giova/CLionProjects/Lab3/vector
+memory
+/cygdrive/c/Users/giova/CLionProjects/Lab3/memory
+queue
+/cygdrive/c/Users/giova/CLionProjects/Lab3/queue
+
+/cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.h
+NetworkServer.h
+/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.h
+Symbol.h
+/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.h
+
+/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.h
+vector
+-
+tuple
+-
+
+/cygdrive/c/Users/giova/CLionProjects/Lab3/main.cpp
+iostream
+-
+NetworkServer.h
+/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.h
+SharedEditor.h
+/cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.h
+
