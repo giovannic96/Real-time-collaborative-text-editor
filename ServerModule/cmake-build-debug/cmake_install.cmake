@@ -1,4 +1,4 @@
-# Install script for directory: /cygdrive/c/Users/giova/Desktop/ServerModule
+# Install script for directory: /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

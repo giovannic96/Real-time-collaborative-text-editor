@@ -48,10 +48,10 @@ RM = /cygdrive/c/Users/giova/.CLion2019.2/system/cygwin_cmake/bin/cmake.exe -E r
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/c/Users/giova/Desktop/ServerModule
+CMAKE_SOURCE_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug
+CMAKE_BINARY_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles/progress.marks"
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -150,6 +150,60 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+myServer.o: myServer.cpp.o
+
+.PHONY : myServer.o
+
+# target to build an object file
+myServer.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/myServer.cpp.o
+.PHONY : myServer.cpp.o
+
+myServer.i: myServer.cpp.i
+
+.PHONY : myServer.i
+
+# target to preprocess a source file
+myServer.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/myServer.cpp.i
+.PHONY : myServer.cpp.i
+
+myServer.s: myServer.cpp.s
+
+.PHONY : myServer.s
+
+# target to generate assembly for a file
+myServer.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/myServer.cpp.s
+.PHONY : myServer.cpp.s
+
+session.o: session.cpp.o
+
+.PHONY : session.o
+
+# target to build an object file
+session.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/session.cpp.o
+.PHONY : session.cpp.o
+
+session.i: session.cpp.i
+
+.PHONY : session.i
+
+# target to preprocess a source file
+session.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/session.cpp.i
+.PHONY : session.cpp.i
+
+session.s: session.cpp.s
+
+.PHONY : session.s
+
+# target to generate assembly for a file
+session.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/session.cpp.s
+.PHONY : session.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +216,12 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... myServer.o"
+	@echo "... myServer.i"
+	@echo "... myServer.s"
+	@echo "... session.o"
+	@echo "... session.i"
+	@echo "... session.s"
 .PHONY : help
 
 

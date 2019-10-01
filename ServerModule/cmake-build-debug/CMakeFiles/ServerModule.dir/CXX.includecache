@@ -6,3 +6,43 @@
 
 #IncludeRegexTransform: 
 
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp
+memory
+-
+utility
+-
+boost/asio.hpp
+-
+iostream
+-
+myServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.cpp
+boost/asio.hpp
+-
+iostream
+-
+memory
+-
+utility
+-
+myServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.h
+session.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp
+memory
+-
+utility
+-
+boost/asio.hpp
+-
+session.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.h
+
