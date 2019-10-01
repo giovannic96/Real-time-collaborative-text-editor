@@ -1,1 +1,0 @@
-/usr/bin/c++.exe   -Wl,--enable-auto-import CMakeFiles/ServerModule.dir/main.cpp.o  -o ServerModule.exe -Wl,--out-implib,libServerModule.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
