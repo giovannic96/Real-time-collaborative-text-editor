@@ -1,4 +1,5 @@
-QT       += core gui
+QT       += core gui sql
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -17,14 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     loginwindow.cpp \
+    singupwindow.cpp \
     versioninfo.cpp
 
 HEADERS += \
     loginwindow.h \
+    singupwindow.h \
     versioninfo.h
 
 FORMS += \
-    loginwindow.ui
+    loginwindow.ui \
+    singupwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -33,3 +37,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Risorse.qrc
+
+DISTFILES += \
+    Db/texteditor_users.sqlite

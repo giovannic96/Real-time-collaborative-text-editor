@@ -1,5 +1,5 @@
 //  CLASSE LoginWindow - v 0.1.1a
-//  LastEdit = 2019/10/05 @ 02:30
+//  LastEdit = 2019/10/05 @ 17:00
 
 #pragma once
 #include <QString>
@@ -18,7 +18,7 @@ private:
     QString str;
 public:
     //Costruttore senza parametri (di default)
-    VersionInfo(): Major(0), Minor(1), Patch(1), ReleaseType("a"), BuildTypeAndNumber("Canary 1001"){
+    VersionInfo(): Major(0), Minor(1), Patch(1), ReleaseType("a"), BuildTypeAndNumber("Daily 1031"){
         str= "v"+QString::number(Major)+"."+QString::number(Minor)+"."+QString::number(Patch)+ReleaseType+" - "+BuildTypeAndNumber;
     }
 
@@ -51,7 +51,8 @@ La stringa è nel formato "vA.B.CD - E F" dove:
  + niente si usa quando si arriva al rilascio finale
 
  - E può essere
- + Nightly Build    --> Build rilasciata con cadenza quasi serale, nelle tarde ore della notte. (Alcuni la chiamano Daily Build)
+ + Nightly Build    --> Build rilasciata con cadenza quasi serale, nelle tarde ore della notte.
+ + Daily Build      --> Come la precedente, ma rilasciata per essere modificata da un altro sviluppatore (possibilmente nello stesso giorno)
  + Canary Build     --> Build rilasciata quasi settimanalmente, di solito porta a compimento le feature introdotte
  + Vanilla Build    --> Build quasi completa, a rilascio anticipato, senza customizzazioni
  + vuoto
