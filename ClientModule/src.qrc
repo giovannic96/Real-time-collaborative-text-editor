@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/images">
-        <file>crypto_key.jpg</file>
-        <file>bg.jpg</file>
-    </qresource>
-</RCC>
