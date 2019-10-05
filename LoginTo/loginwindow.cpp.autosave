@@ -30,9 +30,15 @@ LoginWindow::~LoginWindow(){
 
 /*HS*************************************************************************
 * Questa funzione viene richiamata quando clicchiamo il pulsante "X" per uscire dal programma
+* QApplication offre le funzioni membro exit(), quit() e close(). Dato che stiamo sviluppando
+* per S.O. Microsoft Windows, il termine corretto da usare è exit() come riportato nel link
+* https://msdn.microsoft.com/en-us/library/windows/desktop/dn742392.aspx
+* Se stessimo sviluppando per MacOS avremmo dovuto usare quit() come descritto nella sezione
+* "The App Menù" del seguente link: 
+* https://developer.apple.com/library/mac/documentation/UserExperience/Conceptual/AppleHIGuidelines/Menus/Menus.html#//apple_ref/doc/uid/TP30000356-TP6
 *****************************************************************************/
 void LoginWindow::on_exitButton_clicked(){
-    QApplication::quit(); //TODO: Il programma finisce "male"?
+    QApplication::exit();
 }
 
 /*HS*************************************************************************
