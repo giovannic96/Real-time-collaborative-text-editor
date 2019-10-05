@@ -1,5 +1,12 @@
 # Changelog LoginTo
 
+## [v0.1.1a - Daily 1042] - 2019/10/05 @ 18:50
+### Cambiamenti
+- Classe SingupWindow è stata ricreata col nome RegWindow
+### Todo
+- Correzione della connessione al DB
+- Correggere switching tra finestre
+
 ## [v0.1.1a - Daily 1031] - 2019/10/05 @ 17:00
 ### Aggiunto
 - Classe SingupWindow

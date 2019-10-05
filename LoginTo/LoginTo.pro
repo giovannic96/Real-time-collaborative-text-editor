@@ -18,17 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     loginwindow.cpp \
-    singupwindow.cpp \
+    regwindow.cpp \
     versioninfo.cpp
 
 HEADERS += \
     loginwindow.h \
-    singupwindow.h \
+    regwindow.h \
     versioninfo.h
 
 FORMS += \
     loginwindow.ui \
-    singupwindow.ui
+    regwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -39,4 +39,5 @@ RESOURCES += \
     Risorse.qrc
 
 DISTFILES += \
-    Db/texteditor_users.sqlite
+    Db/texteditor_users.sqlite \
+    changelog.md

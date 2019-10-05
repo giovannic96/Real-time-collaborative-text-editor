@@ -3,7 +3,6 @@
 #include "versioninfo.h"
 #include <QtGui>            //Per QPoint
 #include <QMessageBox>      //Per Messaggi di alert
-#include "singupwindow.h"   //Per switch alla finestra di SingUp
 
 /*HS************Costruttore della LoginWindow********************************
 * Il costruttore costruisce la MainWindows con i parametri FramelessWindowsHint e WindowSystemMenuHint
@@ -83,15 +82,16 @@ void LoginWindow::on_ForgotPasswordButton_clicked(){
 * ToDO
 ******************************************************************************/
 void LoginWindow::on_SingUpButton_clicked(){
-    QMessageBox msgBox;
-    msgBox.setText("Funzione non implementata");
-    msgBox.exec();
+//    QMessageBox msgBox;
+//    msgBox.setText("Funzione non implementata");
+//    msgBox.exec();
+    this->close();
+
+
 }
 
 
 void LoginWindow::on_LoginButton_clicked(){
-    SingupWindow registrazione; //new window
-    registrazione.showMaximized();
 
 
 //       db2 = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");

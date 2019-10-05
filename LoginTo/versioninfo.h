@@ -1,5 +1,5 @@
 //  CLASSE LoginWindow - v 0.1.1a
-//  LastEdit = 2019/10/05 @ 17:00
+//  LastEdit = 2019/10/05 @ 18:50
 
 #pragma once
 #include <QString>
@@ -18,7 +18,7 @@ private:
     QString str;
 public:
     //Costruttore senza parametri (di default)
-    VersionInfo(): Major(0), Minor(1), Patch(1), ReleaseType("a"), BuildTypeAndNumber("Daily 1031"){
+    VersionInfo(): Major(0), Minor(1), Patch(1), ReleaseType("a"), BuildTypeAndNumber("Daily 1042"){
         str= "v"+QString::number(Major)+"."+QString::number(Minor)+"."+QString::number(Patch)+ReleaseType+" - "+BuildTypeAndNumber;
     }
 
