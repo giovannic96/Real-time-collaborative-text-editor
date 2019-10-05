@@ -1,3 +1,0 @@
-/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles/ServerModule.dir
-/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles/edit_cache.dir
