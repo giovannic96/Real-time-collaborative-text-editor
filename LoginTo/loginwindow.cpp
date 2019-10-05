@@ -78,21 +78,7 @@ void LoginWindow::on_ForgotPasswordButton_clicked(){
     msgBox.exec();
 }
 
-/*HS**************************************************************************
-* ToDO
-******************************************************************************/
-void LoginWindow::on_SingUpButton_clicked(){
-//    QMessageBox msgBox;
-//    msgBox.setText("Funzione non implementata");
-//    msgBox.exec();
-    this->close();
-
-
-}
-
-
 void LoginWindow::on_LoginButton_clicked(){
-
 
 //       db2 = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
 //       db2.setDatabaseName("C:/Users/giova/QTProjects/ClientModule/Db/texteditor_users.sqlite");
@@ -131,4 +117,14 @@ void LoginWindow::on_LoginButton_clicked(){
 //           QSqlError error = db2.lastError();
 //           QMessageBox::information(this, "Error during connection", error.databaseText());
 //       }
+}
+
+/*HR**************************************************************************
+* Funzione che permette di switchare da questa Window (LoginWindow) alla
+* finestra di registrazione (RegWindow). Questa funzione ha fatto sudare Enrico e Rinaldo
+******************************************************************************/
+void LoginWindow::on_RegistratiButton_clicked(){
+    RegWindow *l = new RegWindow();
+    l->show();
+    this->hide();
 }

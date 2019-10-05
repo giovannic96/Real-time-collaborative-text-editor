@@ -1,5 +1,13 @@
 # Changelog LoginTo
 
+## [v0.1.2a - Canary 1043] - 2019/10/05 @ 20:00
+### Cambiamenti
+- Switching tra finestre corretto
+- Cambiato commento sulla chiusura della finestra, riportando la corretta scelta implementativa dallo studio effettuato.
+- BugFix
+### Todo
+- Correzione della connessione al DB (Giovanni Calà & Francesco Raitano)
+
 ## [v0.1.1a - Daily 1042] - 2019/10/05 @ 18:50
 ### Cambiamenti
 - Classe SingupWindow è stata ricreata col nome RegWindow

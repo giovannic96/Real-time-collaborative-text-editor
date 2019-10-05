@@ -83,7 +83,7 @@ font-size: 16px;
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>370</y>
+      <y>380</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -114,7 +114,7 @@ font-size: 16px;
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>430</y>
+      <y>447</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -141,7 +141,7 @@ background-color: rgb(20, 78, 117);
 }</string>
     </property>
     <property name="text">
-     <string>Log In</string>
+     <string>Accedi</string>
     </property>
    </widget>
    <widget class="QLabel" name="version">
@@ -169,7 +169,7 @@ background-color: rgb(20, 78, 117);
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>490</y>
+      <y>507</y>
       <width>181</width>
       <height>21</height>
      </rect>
@@ -197,10 +197,10 @@ text-decoration: underline;
      <string>Password dimenticata?</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="SingUpButton">
+   <widget class="QPushButton" name="RegistratiButton">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>200</x>
       <y>280</y>
       <width>81</width>
       <height>23</height>
@@ -212,13 +212,13 @@ text-decoration: underline;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">#SingUpButton {
+     <string notr="true">#RegistratiButton {
 color: #0033CC;
 background-color: Transparent;
 background-repeat:no-repeat;
 }
 
-#SingUpButton:hover {
+#RegistratiButton:hover {
 color: #0040FF;
 text-decoration: underline;
 }</string>

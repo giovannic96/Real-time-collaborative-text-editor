@@ -8,7 +8,7 @@
 #include <QtSql>            //Per SQL
 #include <QSqlDatabase>     //Per SQL
 #include "versioninfo.h"    //Per visualizzare la versione corrente del software
-#include "regwindow.h"
+#include "regwindow.h"      //Per lo switch delle window
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginWindow; }
@@ -28,8 +28,8 @@ public:
 private slots:
     void on_exitButton_clicked();           //gestione del click sul pulsante di uscita (la X in alto a destra)
     void on_ForgotPasswordButton_clicked();
-    void on_SingUpButton_clicked();
     void on_LoginButton_clicked();
+    void on_RegistratiButton_clicked();
 
 private:
     Ui::LoginWindow *ui;                    //Creo "ui" (user interface)

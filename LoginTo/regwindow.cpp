@@ -4,6 +4,10 @@
 #include <QtGui>            //Per QPoint
 #include <QMessageBox>      //Per Messaggi di alert
 
+/*HS************Costruttore della RegWindow********************************
+* Il costruttore costruisce la MainWindows con i parametri FramelessWindowsHint e WindowSystemMenuHint
+* che permettono di rendere "bordless" la finestra. Avrei potuto abilitare la proprietà della QMainWindow
+*****************************************************************************/
 RegWindow::RegWindow(QWidget *parent) :
     QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::RegWindow){
     ui->setupUi(this);
@@ -14,6 +18,9 @@ RegWindow::RegWindow(QWidget *parent) :
     frame->setStyleSheet("background-image: url(:/image/Registration.png)");
 }
 
+/*HS************Distruttore della RegWindow*********************************
+ * Distruggo il frame e l'user interface
+ ***************************************************************************/
 RegWindow::~RegWindow(){
     delete frame;
     delete ui;
@@ -56,12 +63,38 @@ void RegWindow::mouseMoveEvent(QMouseEvent *evt){
 
 /*HS*************************************************************************
 * Questa funzione viene richiamata quando clicchiamo il pulsante "X" per uscire dal programma
+*
+* La QApplication mette a disposizione tre funzioni membro: exit(), close() e quit(). Nonostante la semantica sia uguale,
+* le funzioni vanno scelte a seconda del S.O. di destinazione e dal contesto (per la coerenza) con il nome visualizzato.
+* C'è ancora molta confusione su quale delle tre funzioni membro usare, come si evince nel seguente thread:
+* https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
+*
+* Dato che stiamo sviluppando questa applicazione per S.O. Windows, abbiamo deciso di usare la exit() come suggerito dal
+* Windows Dev Center, nella sezione "Standard Menu Bars", al seguente link:
+* https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
+*
+* Se fossimo stati in un contesto MacOS, avremmo utilizzato la quit(), come suggerito nella  Human Interface Guidelines
+* della Apple, che trovate al seguente link:
+* https://developer.apple.com/design/human-interface-guidelines/macos/overview/themes/#//apple_ref/doc/uid/TP30000356-TP6
+*
+* Tuttavia, dato che la semantica è uguale per tutte le funzioni, e la "X" è il simbolo universale della chiusura del
+* programma,è indifferente quale funzione scegliere.
 *****************************************************************************/
 void RegWindow::on_exitButton_clicked(){
     QApplication::exit();
 }
 
-void RegWindow::on_SingUpButton_clicked()
-{
-    this->close();
+/*HR**************************************************************************
+* Funzione che permette di switchare da questa Window (RegWindow) alla
+* finestra di login (LoginWindow). Questa funzione ha fatto sudare Enrico e Rinaldo
+******************************************************************************/
+void LoginWindow::on_RegistratiButton_clicked(){
+    RegWindow *l = new RegWindow();
+    l->show();
+    this->hide();
+}
+void RegWindow::on_AccediButton_clicked(){
+    LoginWindow *l = new LoginWindow();
+    l->show();
+    this->hide();
 }

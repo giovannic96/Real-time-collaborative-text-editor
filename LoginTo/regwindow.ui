@@ -30,7 +30,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>370</y>
+      <y>440</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -57,10 +57,10 @@ font-size: 16px;
      <string>Password</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="SingUpButton">
+   <widget class="QPushButton" name="AccediButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>240</x>
       <y>280</y>
       <width>61</width>
       <height>23</height>
@@ -72,13 +72,13 @@ font-size: 16px;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">#SingUpButton {
+     <string notr="true">#AccediButton {
 color: #0033CC;
 background-color: Transparent;
 background-repeat:no-repeat;
 }
 
-#SingUpButton:hover {
+#AccediButton:hover {
 color: #0040FF;
 text-decoration: underline;
 }</string>
@@ -87,11 +87,11 @@ text-decoration: underline;
      <string>Accedi</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="LoginButton">
+   <widget class="QPushButton" name="SignUpButton">
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>430</y>
+      <y>506</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -104,21 +104,21 @@ text-decoration: underline;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">#LoginButton{color: rgb(255, 255, 255); 
+     <string notr="true">#SignUpButton{color: rgb(255, 255, 255); 
 background-color: rgb(20, 115, 255); 
 font-size: 16px; 
 border-radius: 20px; 
 border: 3px solid rgb(28, 110, 164);
 }
-#LoginButton:hover{
+#SignUpButton:hover{
 background-color: rgb(28, 110, 164);
 }
-#LoginButton:pressed{
+#SignUpButton:pressed{
 background-color: rgb(20, 78, 117);
 }</string>
     </property>
     <property name="text">
-     <string>Sign Up</string>
+     <string>Registrati</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -171,7 +171,7 @@ background-repeat:no-repeat;
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>320</y>
+      <y>380</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -211,6 +211,31 @@ font-size: 16px;
     </property>
     <property name="text">
      <string>QuestoTestoVieneSostituitoDaVersione</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="LineEditMailForm">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>320</y>
+      <width>281</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:rgb(255, 255, 255);
+border: 1px solid gray;
+border-radius: 15px;
+padding: 0 8px;
+selection-background-color: darkgray;
+font-size: 16px;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>Email</string>
     </property>
    </widget>
   </widget>
