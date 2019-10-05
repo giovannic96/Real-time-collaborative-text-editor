@@ -74,7 +74,7 @@ void LoginWindow::mouseMoveEvent(QMouseEvent *evt){
 * La funzione va a settare uno StyleSheet diverso quando il bottone va tenuto premuto
 *****************************************************************************/
 void LoginWindow::on_LoginButton_pressed(){
-    ui->LoginButton->setStyleSheet("QPushButton:pressed { color: rgb(255, 255, 255); background-color: rgb(28, 110, 164); font-size: 16px; border-radius: 20px; border: 3px solid rgb(28, 110, 164);}");
+   // ui->LoginButton->setStyleSheet("QPushButton:pressed { color: rgb(255, 255, 255); background-color: #144E75; font-size: 16px; border-radius: 20px; border: 3px solid rgb(28, 110, 164);}");
 }
 
 /*HS*************************************************************************
@@ -82,7 +82,7 @@ void LoginWindow::on_LoginButton_pressed(){
 * La funzione riporta lo StyleSheet del bottone ai suoi valori originali
 *****************************************************************************/
 void LoginWindow::on_LoginButton_released(){
-    ui->LoginButton->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background-color: rgb(20, 115, 255); font-size: 16px; border-radius: 20px; border: 3px solid rgb(28, 110, 164);}");
+   //ui->LoginButton->setStyleSheet("QPushButton { color: rgb(255, 255, 255); background-color: rgb(20, 115, 255); font-size: 16px; border-radius: 20px; border: 3px solid rgb(28, 110, 164);}");
 }
 
 /*HS**************************************************************************
@@ -92,4 +92,54 @@ void LoginWindow::on_ForgotPasswordButton_clicked(){
     QMessageBox msgBox;
     msgBox.setText("Funzione non implementata");
     msgBox.exec();
+}
+
+/*HS**************************************************************************
+* ToDO
+******************************************************************************/
+void LoginWindow::on_SingUpButton_clicked(){
+    QMessageBox msgBox;
+    msgBox.setText("Funzione non implementata");
+    msgBox.exec();
+}
+
+
+void LoginWindow::on_LoginButton_clicked(){
+       db2 = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
+       db2.setDatabaseName("C:/Users/giova/QTProjects/ClientModule/Db/texteditor_users.sqlite");
+       if(db2.open()) {
+
+           //Retrieve data from input fields
+           QString username = ui->LineEditUsernameForm->text();
+           QString password = ui->LineEditPasswordForm->text();
+
+           //Run our query
+           QSqlQuery query(QSqlDatabase::database("MyConnect"));
+           query.prepare(QString("SELECT * FROM users WHERE username = :username AND password = :password"));
+           query.bindValue(":username", username);
+           query.bindValue(":password", password);
+
+           if(query.exec()) {
+               while(query.next()) {
+                   QString usernameFromDb = query.value(0).toString();
+                   QString passwordFromDb = query.value(1).toString();
+
+                   if(usernameFromDb == username && passwordFromDb == password) {
+                       QMessageBox::information(this, "Success", "Login success");
+//                       loginDialog myDialog; //new window
+//                       myDialog.setModal(true);
+//                       myDialog.exec();
+                   } else {
+                       QMessageBox::information(this, "Failure", "Login failed");
+                   }
+               }
+               db2.close();
+           } else {
+               QMessageBox::information(this, "Failed", "Error: Query failed to execute!");
+               db2.close();
+           }
+       } else {
+           QSqlError error = db2.lastError();
+           QMessageBox::information(this, "Error during connection", error.databaseText());
+       }
 }
