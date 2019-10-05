@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp
+memory
+-
+utility
+-
+boost/asio.hpp
+-
+iostream
+-
+session.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.h
+

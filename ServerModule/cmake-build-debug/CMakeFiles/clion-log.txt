@@ -1,0 +1,4 @@
+C:\Users\giova\.CLion2019.2\system\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug
