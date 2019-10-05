@@ -241,6 +241,9 @@ ServerModule_BINARY_DIR:STATIC=/cygdrive/c/Users/giova/CLionProjects/Real time t
 //Value Computed by CMake
 ServerModule_SOURCE_DIR:STATIC=/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule
 
+//The directory containing a CMake configuration file for nlohmann_json.
+nlohmann_json_DIR:PATH=nlohmann_json_DIR-NOTFOUND
+
 
 ########################
 # INTERNAL cache entries

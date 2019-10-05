@@ -8,6 +8,7 @@ CMakeFiles/ServerModule.dir/myServer.cpp.o: ../myServer.cpp
 CMakeFiles/ServerModule.dir/myServer.cpp.o: ../myServer.h
 CMakeFiles/ServerModule.dir/myServer.cpp.o: ../session.h
 
+CMakeFiles/ServerModule.dir/session.cpp.o: ../json.hpp
 CMakeFiles/ServerModule.dir/session.cpp.o: ../session.cpp
 CMakeFiles/ServerModule.dir/session.cpp.o: ../session.h
 

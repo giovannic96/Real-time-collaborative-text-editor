@@ -123,6 +123,33 @@ ServerModule/fast:
 	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/build
 .PHONY : ServerModule/fast
 
+jsonUtility.o: jsonUtility.cpp.o
+
+.PHONY : jsonUtility.o
+
+# target to build an object file
+jsonUtility.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/jsonUtility.cpp.o
+.PHONY : jsonUtility.cpp.o
+
+jsonUtility.i: jsonUtility.cpp.i
+
+.PHONY : jsonUtility.i
+
+# target to preprocess a source file
+jsonUtility.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/jsonUtility.cpp.i
+.PHONY : jsonUtility.cpp.i
+
+jsonUtility.s: jsonUtility.cpp.s
+
+.PHONY : jsonUtility.s
+
+# target to generate assembly for a file
+jsonUtility.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/jsonUtility.cpp.s
+.PHONY : jsonUtility.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -213,6 +240,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... ServerModule"
 	@echo "... edit_cache"
+	@echo "... jsonUtility.o"
+	@echo "... jsonUtility.i"
+	@echo "... jsonUtility.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

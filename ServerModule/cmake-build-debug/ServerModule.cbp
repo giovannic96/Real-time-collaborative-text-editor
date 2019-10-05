@@ -82,6 +82,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.h">
+			<Option target="ServerModule"/>
+		</Unit>
 		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
