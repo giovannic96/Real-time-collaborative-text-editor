@@ -48,10 +48,10 @@ RM = /cygdrive/c/Users/giova/.CLion2019.2/system/cygwin_cmake/bin/cmake.exe -E r
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule"
+CMAKE_SOURCE_DIR = /cygdrive/c/Users/giova/Desktop/ServerModule
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"
+CMAKE_BINARY_DIR = /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -122,6 +122,33 @@ ServerModule: cmake_check_build_system
 ServerModule/fast:
 	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/build
 .PHONY : ServerModule/fast
+
+dbService.o: dbService.cpp.o
+
+.PHONY : dbService.o
+
+# target to build an object file
+dbService.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/dbService.cpp.o
+.PHONY : dbService.cpp.o
+
+dbService.i: dbService.cpp.i
+
+.PHONY : dbService.i
+
+# target to preprocess a source file
+dbService.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/dbService.cpp.i
+.PHONY : dbService.cpp.i
+
+dbService.s: dbService.cpp.s
+
+.PHONY : dbService.s
+
+# target to generate assembly for a file
+dbService.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/dbService.cpp.s
+.PHONY : dbService.cpp.s
 
 jsonUtility.o: jsonUtility.cpp.o
 
@@ -177,6 +204,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+message.o: message.cpp.o
+
+.PHONY : message.o
+
+# target to build an object file
+message.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/message.cpp.o
+.PHONY : message.cpp.o
+
+message.i: message.cpp.i
+
+.PHONY : message.i
+
+# target to preprocess a source file
+message.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/message.cpp.i
+.PHONY : message.cpp.i
+
+message.s: message.cpp.s
+
+.PHONY : message.s
+
+# target to generate assembly for a file
+message.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/message.cpp.s
+.PHONY : message.cpp.s
+
 myServer.o: myServer.cpp.o
 
 .PHONY : myServer.o
@@ -203,6 +257,60 @@ myServer.s: myServer.cpp.s
 myServer.cpp.s:
 	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/myServer.cpp.s
 .PHONY : myServer.cpp.s
+
+participant.o: participant.cpp.o
+
+.PHONY : participant.o
+
+# target to build an object file
+participant.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/participant.cpp.o
+.PHONY : participant.cpp.o
+
+participant.i: participant.cpp.i
+
+.PHONY : participant.i
+
+# target to preprocess a source file
+participant.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/participant.cpp.i
+.PHONY : participant.cpp.i
+
+participant.s: participant.cpp.s
+
+.PHONY : participant.s
+
+# target to generate assembly for a file
+participant.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/participant.cpp.s
+.PHONY : participant.cpp.s
+
+room.o: room.cpp.o
+
+.PHONY : room.o
+
+# target to build an object file
+room.cpp.o:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/room.cpp.o
+.PHONY : room.cpp.o
+
+room.i: room.cpp.i
+
+.PHONY : room.i
+
+# target to preprocess a source file
+room.cpp.i:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/room.cpp.i
+.PHONY : room.cpp.i
+
+room.s: room.cpp.s
+
+.PHONY : room.s
+
+# target to generate assembly for a file
+room.cpp.s:
+	$(MAKE) -f CMakeFiles/ServerModule.dir/build.make CMakeFiles/ServerModule.dir/room.cpp.s
+.PHONY : room.cpp.s
 
 session.o: session.cpp.o
 
@@ -240,15 +348,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... ServerModule"
 	@echo "... edit_cache"
+	@echo "... dbService.o"
+	@echo "... dbService.i"
+	@echo "... dbService.s"
 	@echo "... jsonUtility.o"
 	@echo "... jsonUtility.i"
 	@echo "... jsonUtility.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... message.o"
+	@echo "... message.i"
+	@echo "... message.s"
 	@echo "... myServer.o"
 	@echo "... myServer.i"
 	@echo "... myServer.s"
+	@echo "... participant.o"
+	@echo "... participant.i"
+	@echo "... participant.s"
+	@echo "... room.o"
+	@echo "... room.i"
+	@echo "... room.s"
 	@echo "... session.o"
 	@echo "... session.i"
 	@echo "... session.s"

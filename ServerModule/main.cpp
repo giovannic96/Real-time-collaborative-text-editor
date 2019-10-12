@@ -1,15 +1,15 @@
 #include <memory>
-#include <utility>
 #include <boost/asio.hpp>
 #include <iostream>
-#include "myServer.h"
+#include "header_files/myServer.h"
 
 int main(int argc, char* argv[])
 {
     try
     {
         boost::asio::io_context io_context;
-        myServer s(io_context, std::atoi("63504"));
+        tcp::endpoint endpoint(tcp::v4(), std::atoi("63504"));
+        myServer s(io_context, endpoint);
         io_context.run();
     }
     catch (std::exception& e)

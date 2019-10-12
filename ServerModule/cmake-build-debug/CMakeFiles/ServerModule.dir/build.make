@@ -43,10 +43,10 @@ RM = /cygdrive/c/Users/giova/.CLion2019.2/system/cygwin_cmake/bin/cmake.exe -E r
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule"
+CMAKE_SOURCE_DIR = /cygdrive/c/Users/giova/Desktop/ServerModule
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"
+CMAKE_BINARY_DIR = /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/ServerModule.dir/depend.make
@@ -59,62 +59,118 @@ include CMakeFiles/ServerModule.dir/flags.make
 
 CMakeFiles/ServerModule.dir/main.cpp.o: CMakeFiles/ServerModule.dir/flags.make
 CMakeFiles/ServerModule.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ServerModule.dir/main.cpp.o"
-	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/main.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ServerModule.dir/main.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/main.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/main.cpp
 
 CMakeFiles/ServerModule.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/main.cpp.i"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp" > CMakeFiles/ServerModule.dir/main.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/main.cpp > CMakeFiles/ServerModule.dir/main.cpp.i
 
 CMakeFiles/ServerModule.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/main.cpp.s"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp" -o CMakeFiles/ServerModule.dir/main.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/main.cpp -o CMakeFiles/ServerModule.dir/main.cpp.s
 
 CMakeFiles/ServerModule.dir/myServer.cpp.o: CMakeFiles/ServerModule.dir/flags.make
 CMakeFiles/ServerModule.dir/myServer.cpp.o: ../myServer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ServerModule.dir/myServer.cpp.o"
-	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/myServer.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ServerModule.dir/myServer.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/myServer.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/myServer.cpp
 
 CMakeFiles/ServerModule.dir/myServer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/myServer.cpp.i"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.cpp" > CMakeFiles/ServerModule.dir/myServer.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/myServer.cpp > CMakeFiles/ServerModule.dir/myServer.cpp.i
 
 CMakeFiles/ServerModule.dir/myServer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/myServer.cpp.s"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.cpp" -o CMakeFiles/ServerModule.dir/myServer.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/myServer.cpp -o CMakeFiles/ServerModule.dir/myServer.cpp.s
 
 CMakeFiles/ServerModule.dir/session.cpp.o: CMakeFiles/ServerModule.dir/flags.make
 CMakeFiles/ServerModule.dir/session.cpp.o: ../session.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ServerModule.dir/session.cpp.o"
-	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/session.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ServerModule.dir/session.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/session.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/session.cpp
 
 CMakeFiles/ServerModule.dir/session.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/session.cpp.i"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp" > CMakeFiles/ServerModule.dir/session.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/session.cpp > CMakeFiles/ServerModule.dir/session.cpp.i
 
 CMakeFiles/ServerModule.dir/session.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/session.cpp.s"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp" -o CMakeFiles/ServerModule.dir/session.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/session.cpp -o CMakeFiles/ServerModule.dir/session.cpp.s
 
 CMakeFiles/ServerModule.dir/jsonUtility.cpp.o: CMakeFiles/ServerModule.dir/flags.make
 CMakeFiles/ServerModule.dir/jsonUtility.cpp.o: ../jsonUtility.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ServerModule.dir/jsonUtility.cpp.o"
-	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/jsonUtility.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ServerModule.dir/jsonUtility.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/jsonUtility.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/jsonUtility.cpp
 
 CMakeFiles/ServerModule.dir/jsonUtility.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/jsonUtility.cpp.i"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.cpp" > CMakeFiles/ServerModule.dir/jsonUtility.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/jsonUtility.cpp > CMakeFiles/ServerModule.dir/jsonUtility.cpp.i
 
 CMakeFiles/ServerModule.dir/jsonUtility.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/jsonUtility.cpp.s"
-	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.cpp" -o CMakeFiles/ServerModule.dir/jsonUtility.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/jsonUtility.cpp -o CMakeFiles/ServerModule.dir/jsonUtility.cpp.s
+
+CMakeFiles/ServerModule.dir/dbService.cpp.o: CMakeFiles/ServerModule.dir/flags.make
+CMakeFiles/ServerModule.dir/dbService.cpp.o: ../dbService.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ServerModule.dir/dbService.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/dbService.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/dbService.cpp
+
+CMakeFiles/ServerModule.dir/dbService.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/dbService.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/dbService.cpp > CMakeFiles/ServerModule.dir/dbService.cpp.i
+
+CMakeFiles/ServerModule.dir/dbService.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/dbService.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/dbService.cpp -o CMakeFiles/ServerModule.dir/dbService.cpp.s
+
+CMakeFiles/ServerModule.dir/room.cpp.o: CMakeFiles/ServerModule.dir/flags.make
+CMakeFiles/ServerModule.dir/room.cpp.o: ../room.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ServerModule.dir/room.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/room.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/room.cpp
+
+CMakeFiles/ServerModule.dir/room.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/room.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/room.cpp > CMakeFiles/ServerModule.dir/room.cpp.i
+
+CMakeFiles/ServerModule.dir/room.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/room.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/room.cpp -o CMakeFiles/ServerModule.dir/room.cpp.s
+
+CMakeFiles/ServerModule.dir/participant.cpp.o: CMakeFiles/ServerModule.dir/flags.make
+CMakeFiles/ServerModule.dir/participant.cpp.o: ../participant.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/ServerModule.dir/participant.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/participant.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/participant.cpp
+
+CMakeFiles/ServerModule.dir/participant.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/participant.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/participant.cpp > CMakeFiles/ServerModule.dir/participant.cpp.i
+
+CMakeFiles/ServerModule.dir/participant.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/participant.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/participant.cpp -o CMakeFiles/ServerModule.dir/participant.cpp.s
+
+CMakeFiles/ServerModule.dir/message.cpp.o: CMakeFiles/ServerModule.dir/flags.make
+CMakeFiles/ServerModule.dir/message.cpp.o: ../message.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/ServerModule.dir/message.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ServerModule.dir/message.cpp.o -c /cygdrive/c/Users/giova/Desktop/ServerModule/message.cpp
+
+CMakeFiles/ServerModule.dir/message.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ServerModule.dir/message.cpp.i"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/Desktop/ServerModule/message.cpp > CMakeFiles/ServerModule.dir/message.cpp.i
+
+CMakeFiles/ServerModule.dir/message.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ServerModule.dir/message.cpp.s"
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/Desktop/ServerModule/message.cpp -o CMakeFiles/ServerModule.dir/message.cpp.s
 
 # Object files for target ServerModule
 ServerModule_OBJECTS = \
 "CMakeFiles/ServerModule.dir/main.cpp.o" \
 "CMakeFiles/ServerModule.dir/myServer.cpp.o" \
 "CMakeFiles/ServerModule.dir/session.cpp.o" \
-"CMakeFiles/ServerModule.dir/jsonUtility.cpp.o"
+"CMakeFiles/ServerModule.dir/jsonUtility.cpp.o" \
+"CMakeFiles/ServerModule.dir/dbService.cpp.o" \
+"CMakeFiles/ServerModule.dir/room.cpp.o" \
+"CMakeFiles/ServerModule.dir/participant.cpp.o" \
+"CMakeFiles/ServerModule.dir/message.cpp.o"
 
 # External object files for target ServerModule
 ServerModule_EXTERNAL_OBJECTS =
@@ -123,9 +179,13 @@ ServerModule.exe: CMakeFiles/ServerModule.dir/main.cpp.o
 ServerModule.exe: CMakeFiles/ServerModule.dir/myServer.cpp.o
 ServerModule.exe: CMakeFiles/ServerModule.dir/session.cpp.o
 ServerModule.exe: CMakeFiles/ServerModule.dir/jsonUtility.cpp.o
+ServerModule.exe: CMakeFiles/ServerModule.dir/dbService.cpp.o
+ServerModule.exe: CMakeFiles/ServerModule.dir/room.cpp.o
+ServerModule.exe: CMakeFiles/ServerModule.dir/participant.cpp.o
+ServerModule.exe: CMakeFiles/ServerModule.dir/message.cpp.o
 ServerModule.exe: CMakeFiles/ServerModule.dir/build.make
 ServerModule.exe: CMakeFiles/ServerModule.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable ServerModule.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable ServerModule.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ServerModule.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -138,6 +198,6 @@ CMakeFiles/ServerModule.dir/clean:
 .PHONY : CMakeFiles/ServerModule.dir/clean
 
 CMakeFiles/ServerModule.dir/depend:
-	cd "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/CMakeFiles/ServerModule.dir/DependInfo.cmake" --color=$(COLOR)
+	cd /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /cygdrive/c/Users/giova/Desktop/ServerModule /cygdrive/c/Users/giova/Desktop/ServerModule /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug /cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/CMakeFiles/ServerModule.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ServerModule.dir/depend
 

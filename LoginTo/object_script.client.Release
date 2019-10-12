@@ -1,7 +1,6 @@
 generated/objs/jsonUtility.o
 generated/objs/main.o
 generated/objs/loginwindow.o
-generated/objs/message.o
 generated/objs/myClient.o
 generated/objs/regwindow.o
 generated/objs/versioninfo.o
