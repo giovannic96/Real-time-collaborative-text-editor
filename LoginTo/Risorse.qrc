@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>image/basics-22-128.png</file>
-        <file>image/SfondoTotal.png</file>
-        <file>image/Registration.png</file>
-    </qresource>
-</RCC>
