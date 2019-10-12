@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ServerModule"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ServerModule">
+				<Option output="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/ServerModule.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 ServerModule"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ServerModule/fast">
+				<Option output="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/ServerModule.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 ServerModule/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/dbService.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/dbService.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/jsonUtility.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/message.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/myServer.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/participant.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/room.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/session.h">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/jsonUtility.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/main.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/message.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/myServer.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/participant.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/room.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/session.cpp">
+			<Option target="ServerModule"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
