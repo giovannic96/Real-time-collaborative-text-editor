@@ -1,28 +1,23 @@
-//  CLASSE LoginWindow - v 0.1.2a
-//  LastEdit = 2019/10/05 @ 20:00
-
+//  CLASS VersionInfo - v 0.1.2a
 #pragma once
 #include <QString>
 
-/*HS************Classe VersionInfo*******************************************
-* Questa classe contiene le informazioni sulla versione del software sviluppato
-* Per maggiori informazioni vedere note in fondo
-*****************************************************************************/
+//Class StartMenu --> This class handle and provide information of the current version of this software
 class VersionInfo{
 private:
     int Major;
     int Minor;
     int Patch;
-    QString ReleaseType; //a=Alpha - b=Beta - rc=ReleaseCandidate ' '=Vanilla/Milestone
+    QString ReleaseType;
     QString BuildTypeAndNumber;
     QString str;
 public:
-    //Costruttore senza parametri (di default)
-    VersionInfo(): Major(0), Minor(1), Patch(2), ReleaseType("a"), BuildTypeAndNumber("Canary 1043"){
+    //CONSTRUCTOR WITHOUT PARAMETER (Default)
+    VersionInfo(): Major(0), Minor(1), Patch(2), ReleaseType("a"), BuildTypeAndNumber("Nightly 1053"){
         str= "v"+QString::number(Major)+"."+QString::number(Minor)+"."+QString::number(Patch)+ReleaseType+" - "+BuildTypeAndNumber;
     }
 
-    //Funzioni membro inline
+    //INLINE MEMBER FUNCTION
     int getMajor(){return Major;}
     int getMinor(){return Minor;}
     int getPatch(){return Patch;}
@@ -32,34 +27,38 @@ public:
 
 
 /*HS***************NOTE*****************
-La versione del software è scritta secondo la convenzione angloamericana, anzichè la SemVer (Semantic Version)
-pertanto la stringa risultante segue lo schema a quattro numeri.
-Spiego la convenzione in sintesi,
+The software version is indicated by the American convention instead of SemVer (Semantic Version) therefore the resulting string follow the four digit scheme.
 
-La stringa è nel formato "vA.B.CD - E F" dove:
- - A è la "Major Version" (o Major Number)      --> aumenta in seguito a cambiamenti radicali del software
- - B è la "Minor Version" (o Minor Number)      --> aumenta con l'introduzione di grosse funzionalità
- - C è la "Patch Version" (o Release Number)    --> aumenta con l'introduzione di piccoli cambiamenti e funzionalità
- - D è il "Release Type"                        --> Indica il tipo di release del software
- - E è il "Build Type"                          --> Indica il tipo di Build
- - F è il "Build Number"                        --> Indica il numero di Build
+The version is in the "vA.B.CD - E F" form, where:
+ - A is "Major Version" (or Major Number)
+ - B is "Minor Version" (or Minor Number)
+ - C is "Patch Version" (or Release Number)
+ - D is "Release Type"
+ - E is "Build Type"
+ - F is "Build Number"
 
- - D può assumere 4 valori (a, b, rc o 'niente')
- + a indica "Alpha" -->  Software in fase di sviluppo, le cui funzionalità non sono ancora state completamente implementate / presenta bug da risolvere
- + b indica "Beta"  -->  Software non definitvo ma testato in gruppo
- + rc indica "Release Candidate" --> "versione quasi definitiva, candidata ad essere pronta per il rilascio"
- + niente si usa quando si arriva al rilascio finale
+ - D can be one of this following symbol
+ + 'a' stand for "Alpha Version"         -->  Software in development stage, functions not fully implemented / have bug to fix
+ + 'b' stand for  "Beta"                 -->  Software tested in group
+ + 'rc' stand for "Release Candidate"    -->  Semi-definitive version, candidate for final version
+ + nothing/empty when is finished
 
  - E può essere
- + Nightly Build    --> Build rilasciata con cadenza quasi serale, nelle tarde ore della notte.
- + Daily Build      --> Come la precedente, ma rilasciata per essere modificata da un altro sviluppatore (possibilmente nello stesso giorno)
- + Canary Build     --> Build rilasciata quasi settimanalmente, di solito porta a compimento le feature introdotte
- + Vanilla Build    --> Build quasi completa, a rilascio anticipato, senza customizzazioni
- + vuoto
+ + Nightly Build    --> Build released every night.
+ + Daily Build      --> Build released when is necessary to another developer in the same day
+ + Canary Build     --> Build stable, function finished and new feature fully implemented. If the Nightly/Daily is broken, this is the recovery point.
+ + Vanilla Build    --> Build almost completed, not customized
+ + nothing/empty when is finished
 
- - F è il numero di Build progressivo
+ - F is progressive number/letter format
 
-Per maggiori informazioni, visionare i seguenti link
+Man, I know is hard and is a boring work that take time, but this instruction is so clear and can really help if we done constantly upgrade and update to this project.
+Imagine that all the stuff implemented is f****d up, I mean, we can recovery from a stable version, or maybe we can take the functionality individually implemented
+in a Nightly and paste on a Canary, or take a customization and apply to a vanilla! Is a function done, and we never touch it again? Well, put a 'rc' and we are
+sure that the project is working fine enaugh! I know you're going to hate me, but trust me, you will hate most your future boss than me, and this bad version thing
+can help you to be "not-fired"! Trust me, i'm an Engineer! (and this comment will end in "The HOF of comment" someday!)
+
+Have some question? Follow the link.
 http://www.computersemplice.it/i-numeri-di-versione-del-software/
 https://softwareengineering.stackexchange.com/questions/55946/release-build-vs-nightly-build
 https://it.wikipedia.org/wiki/Versione_alfa
