@@ -1,5 +1,35 @@
 # Changelog LoginTo
 
+## [v0.1.2a - Canary 1052] - 2019/10/09 @ 00:15
+### Cambiamenti
+- Pulizia codice
+- Commenti sistemati e tradotti in inglese (come vuole Giovanni).
+### Note
+Difficoltà a installare Boost. Ripristinato da Canary 1050.
+
+## [v0.1.2a - Canary 1050] - 2019/10/08 @ 21:00
+### Aggiunto
+- Classe "StartMenu"
+- Costruttore window con parametro nella StartMenu
+### Cambiamenti
+- Breve pulizia del codice della classe Login
+### Build note
+- Cambiare Path DB locale
+### Todo
+- Aggiungere classe DBManager per gestire meglio connessione con DB e distruttore db
+
+## [v0.1.2a - Nightly 1047] - 2019/10/08 @ 18:00
+### Cambiamenti
+- Aggiunta connessione DB
+
+## [v0.1.2a - Nighly 1046] - 2019/10/08 @ 17:00
+### Cambiamenti
+- BugFix della UI
+
+## [v0.1.2a - Nighly 1045] - 2019/10/08 @ 16:00
+### Cambiamenti
+- Cambiamento radicale della UI
+
 ## [v0.1.2a - Canary 1043] - 2019/10/05 @ 20:00
 ### Cambiamenti
 - Switching tra finestre corretto

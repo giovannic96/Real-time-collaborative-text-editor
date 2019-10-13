@@ -1,4 +1,3 @@
-#include <boost/asio.hpp>
 #include "loginwindow.h"
 #include <QApplication>
 
@@ -10,6 +9,6 @@ int main(int argc, char *argv[])
     LoginWindow w;
     w.show();
 
-    //punto di inizio dell'event loop del thread GUI (o thread principale)
-    return a.exec();
+
+    return a.exec(); //Starting point of the event loop of "thread GUI" (or primary thread)
 }

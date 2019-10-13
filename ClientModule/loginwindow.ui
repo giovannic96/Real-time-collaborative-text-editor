@@ -6,34 +6,40 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>384</width>
-    <height>667</height>
+    <width>900</width>
+    <height>525</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>384</width>
-    <height>667</height>
+    <width>900</width>
+    <height>525</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>384</width>
-    <height>667</height>
+    <width>900</width>
+    <height>525</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>LoginWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#centralwidget {border-image: url(:/image/accesso.jpg);}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>870</x>
       <y>0</y>
-      <width>41</width>
-      <height>31</height>
+      <width>29</width>
+      <height>23</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: Transparent;
@@ -42,10 +48,6 @@ background-repeat:no-repeat;
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="icon">
-     <iconset resource="Risorse.qrc">
-      <normaloff>:/image/basics-22-128.png</normaloff>:/image/basics-22-128.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -57,15 +59,14 @@ background-repeat:no-repeat;
    <widget class="QLineEdit" name="LineEditUsernameForm">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>320</y>
-      <width>281</width>
-      <height>41</height>
+      <x>630</x>
+      <y>215</y>
+      <width>231</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:rgb(255, 255, 255);
-border: 1px solid gray;
+     <string notr="true">background-color: transparent;
 border-radius: 15px;
 padding: 0 8px;
 selection-background-color: darkgray;
@@ -82,15 +83,14 @@ font-size: 16px;
    <widget class="QLineEdit" name="LineEditPasswordForm">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>380</y>
-      <width>281</width>
-      <height>41</height>
+      <x>630</x>
+      <y>263</y>
+      <width>231</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:rgb(255, 255, 255);
-border: 1px solid gray;
+     <string notr="true">background-color: transparent;
 border-radius: 15px;
 padding: 0 8px;
 selection-background-color: darkgray;
@@ -113,8 +113,8 @@ font-size: 16px;
    <widget class="QPushButton" name="LoginButton">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>447</y>
+      <x>740</x>
+      <y>310</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -125,6 +125,9 @@ font-size: 16px;
       <weight>75</weight>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">#LoginButton{color: rgb(255, 255, 255); 
@@ -148,7 +151,7 @@ background-color: rgb(20, 78, 117);
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>640</y>
+      <y>500</y>
       <width>191</width>
       <height>16</height>
      </rect>
@@ -168,8 +171,8 @@ background-color: rgb(20, 78, 117);
    <widget class="QPushButton" name="ForgotPasswordButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>507</y>
+      <x>640</x>
+      <y>370</y>
       <width>181</width>
       <height>21</height>
      </rect>
@@ -178,6 +181,9 @@ background-color: rgb(20, 78, 117);
      <font>
       <pointsize>10</pointsize>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">#ForgotPasswordButton {
@@ -200,8 +206,8 @@ text-decoration: underline;
    <widget class="QPushButton" name="RegistratiButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>280</y>
+      <x>740</x>
+      <y>480</y>
       <width>81</width>
       <height>23</height>
      </rect>
@@ -210,6 +216,9 @@ text-decoration: underline;
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">#RegistratiButton {
@@ -230,8 +239,8 @@ text-decoration: underline;
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>280</y>
+      <x>650</x>
+      <y>480</y>
       <width>91</width>
       <height>21</height>
      </rect>
@@ -245,72 +254,8 @@ text-decoration: underline;
      <string>Sei nuovo?</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_status">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>190</y>
-      <width>55</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Status</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_connect">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>130</y>
-      <width>121</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Connect to server</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_disconnect">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>130</y>
-      <width>161</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Disconnect from server</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit_log">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>170</y>
-      <width>291</width>
-      <height>87</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_send">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>220</y>
-      <width>71</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>send</string>
-    </property>
-   </widget>
   </widget>
  </widget>
- <resources>
-  <include location="Risorse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
