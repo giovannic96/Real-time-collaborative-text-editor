@@ -29,38 +29,11 @@
    <string notr="true">#centralwidget {border-image: url(:/image/accesso.jpg);}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="exitButton">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>0</y>
-      <width>29</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: Transparent;
-background-repeat:no-repeat;
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>25</width>
-      <height>25</height>
-     </size>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="LineEditUsernameForm">
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>215</y>
+      <y>216</y>
       <width>231</width>
       <height>31</height>
      </rect>
@@ -126,9 +99,6 @@ font-size: 16px;
       <bold>true</bold>
      </font>
     </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
     <property name="styleSheet">
      <string notr="true">#LoginButton{color: rgb(255, 255, 255); 
 background-color: rgb(20, 115, 255); 
@@ -172,7 +142,7 @@ background-color: rgb(20, 78, 117);
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>370</y>
+      <y>360</y>
       <width>181</width>
       <height>21</height>
      </rect>
@@ -181,9 +151,6 @@ background-color: rgb(20, 78, 117);
      <font>
       <pointsize>10</pointsize>
      </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
      <string notr="true">#ForgotPasswordButton {
@@ -217,9 +184,6 @@ text-decoration: underline;
       <pointsize>12</pointsize>
      </font>
     </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
     <property name="styleSheet">
      <string notr="true">#RegistratiButton {
 color: #0033CC;
@@ -252,6 +216,98 @@ text-decoration: underline;
     </property>
     <property name="text">
      <string>Sei nuovo?</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_status">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>380</y>
+      <width>55</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #EAFF00;</string>
+    </property>
+    <property name="text">
+     <string>Status</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_connect">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>350</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Connect to server</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_disconnect">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>350</y>
+      <width>161</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Disconnect from server</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_log">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>380</y>
+      <width>291</width>
+      <height>87</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_send">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>400</y>
+      <width>71</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>send</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>0</y>
+      <width>29</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: Transparent;
+background-repeat:no-repeat;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
   </widget>

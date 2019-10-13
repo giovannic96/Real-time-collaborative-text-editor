@@ -3,9 +3,9 @@
 #define REGWINDOW_H
 
 #include <QMainWindow>
-#include <QtGui>            //Per QPoint
-#include <QtSql>            //Per SQL
-#include <QSqlDatabase>     //Per SQL
+#include <QtGui>            //For QPoint
+#include <QtSql>            //For SQL
+#include <QSqlDatabase>     //For SQL
 #include "versioninfo.h"    //Needed to show the current version of the software
 #include "loginwindow.h"    //switching the login window
 
@@ -22,10 +22,10 @@ public:
 private slots:
     void on_exitButton_clicked();
     void on_AccediButton_clicked();
-
     void on_SignUpButton_clicked();
 
 private:
+    //The User Interface
     Ui::RegWindow *ui;
     //For mouse related event
     QPoint oldPos;                          //This "oldPos" object is used to save the old position of the windows for the translation of windows

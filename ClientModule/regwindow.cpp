@@ -73,3 +73,4 @@ void RegWindow::on_SignUpButton_clicked()
         QMessageBox::information(this, "Error during connection", error.databaseText());
     }
 }
+

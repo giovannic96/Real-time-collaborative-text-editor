@@ -1,3 +1,5 @@
+//UNTESTED CAUSE I CAN'T ANYMORE ACCESS TO THIS WINDOW!!!
+
 #include "startmenu.h"
 #include "ui_startmenu.h"
 
@@ -6,7 +8,7 @@ StartMenu::StartMenu(QString nome, QWidget *parent) :
     QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::StartMenu){
     ui->setupUi(this);
     ui->version->setText(qstr); //Associate the QLabel "version" at the string "qstr". In this way I can show the version of this software
-    ui->Username->setText(nome); //Associate the QLabel "Usernate" at the string "nome" passed by argument. In this way I can show the username of the user
+    ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
 }
 
 //DESTRUCTOR

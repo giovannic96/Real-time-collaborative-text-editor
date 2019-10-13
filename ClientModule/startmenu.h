@@ -1,3 +1,4 @@
+//UNTESTED CAUSE I CAN'T ANYMORE ACCESS TO THIS WINDOW!!!
 //  CLASS StartMenu - v 0.1.2a
 #ifndef STARTMENU_H
 #define STARTMENU_H
@@ -15,7 +16,7 @@ class StartMenu : public QMainWindow{
 public:
     explicit StartMenu(QString nome, QWidget *parent = nullptr);
     ~StartMenu();
-    //void setNomeUtente(QString nome){nomeutente=nome;}    //No more necessary
+    //void setNomeUtente(QString nome){nomeutente=nome;}    //No more necessary //Dont delete me for a moment
 
 private slots:
     void on_exitButton_clicked();

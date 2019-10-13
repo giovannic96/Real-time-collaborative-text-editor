@@ -1,4 +1,4 @@
-//  CLASS LoginWindow - v 0.1.2a
+//  CLASSE LoginWindow - v 0.1.2a
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 #include <QMainWindow>
@@ -8,6 +8,11 @@
 #include "versioninfo.h"    //Needed to show the current version of the software
 #include "regwindow.h"      //switching the registration window
 #include "startmenu.h"      //switching the startmenu window
+#include "myClient.h"
+#include <deque>
+#include "json.hpp"
+#include "jsonUtility.h"
+#include <boost/asio.hpp>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class LoginWindow; }
@@ -26,6 +31,14 @@ private slots:
     void on_ForgotPasswordButton_clicked();
     void on_LoginButton_clicked();
     void on_RegistratiButton_clicked();
+    //void on_pushButton_send_clicked();    //Giovanni Edit
+    void on_pushButton_connect_clicked();   //Giovanni Edit
+    void on_pushButton_disconnect_clicked();//Giovanni Edit
+
+public slots:
+    void setStatus(bool newStatus);         //TODO --> Giovanni mi spieghi perchè public? dove le richiami? Grazie!
+    void receivedSomething(QString msg);
+    void gotError(QAbstractSocket::SocketError err);
 
 private:
     Ui::LoginWindow *ui;                    //"ui" (user interface)
@@ -36,6 +49,8 @@ private:
     //For "version" QString
     VersionInfo v1;
     QString qstr = v1.getVersion();
+    //...
+    myClient *client;
     //...
 
 protected:

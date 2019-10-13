@@ -2,9 +2,6 @@
     <qresource prefix="/">
         <file>image/basics-22-128.png</file>
         <file>image/SfondoTotal.png</file>
-        <file>image/Registration.png</file>
-        <file>image/NS1.png</file>
-        <file>image/NS2.png</file>
         <file>image/accesso.jpg</file>
         <file>image/registrazione.jpg</file>
         <file>image/start.jpg</file>
