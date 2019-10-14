@@ -1,4 +1,4 @@
-//  CLASS RegWindow - v 0.1.2a
+//  CLASS RegWindow - v0.1.3a
 #ifndef REGWINDOW_H
 #define REGWINDOW_H
 
@@ -25,8 +25,7 @@ private slots:
     void on_SignUpButton_clicked();
 
 private:
-    //The User Interface
-    Ui::RegWindow *ui;
+    Ui::RegWindow *ui;                      //"ui" (user interface)
     //For mouse related event
     QPoint oldPos;                          //This "oldPos" object is used to save the old position of the windows for the translation of windows
     //For "version" QString

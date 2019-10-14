@@ -1,5 +1,14 @@
 # Changelog ClientModule
 
+## [v0.1.3a - Nightly 1175] - 2019/10/16 @ 00:10
+### Aggiunto
+- Classe "UserProfile" --> (una finestra popup con il profilo dell'utente)
+- Placeholder per l'immagine dell'utente
+### Cambiamenti
+- Correzione di alcuni parametri e correzioni generali nel codice
+### Rimosso
+- Libreria QMessageBox dalla classe StartMenu
+
 ## [v0.1.3a - Nightly 1174] - 2019/10/14 @ 04:10
 ### Aggiunto
 - Pulsante per l'accesso come superuser (administrator) usato per debug

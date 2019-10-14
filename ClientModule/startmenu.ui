@@ -40,6 +40,7 @@
     </property>
     <property name="font">
      <font>
+      <family>MS Shell Dlg 2</family>
       <italic>true</italic>
      </font>
     </property>
@@ -100,7 +101,7 @@ background-repeat:no-repeat;
 </string>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>UsernameGoesHere</string>
     </property>
    </widget>
    <widget class="QPushButton" name="LogoutButton">

@@ -1,4 +1,4 @@
-//  CLASSE LoginWindow - v 0.1.2a
+//  CLASSE LoginWindow - v0.1.3a
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 #include <QMainWindow>

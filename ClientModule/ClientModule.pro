@@ -33,6 +33,7 @@ SOURCES += \
     myClient.cpp \
     regwindow.cpp \
     startmenu.cpp \
+    userprofile.cpp \
     versioninfo.cpp
 
 HEADERS += \
@@ -43,12 +44,14 @@ HEADERS += \
     myClient.h \
     regwindow.h \
     startmenu.h \
+    userprofile.h \
     versioninfo.h
 
 FORMS += \
     loginwindow.ui \
     regwindow.ui \
-    startmenu.ui
+    startmenu.ui \
+    userprofile.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

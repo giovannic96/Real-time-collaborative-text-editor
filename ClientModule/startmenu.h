@@ -1,10 +1,11 @@
-//  CLASS StartMenu - v 0.1.2a
+//  CLASS StartMenu - v0.1.3a
 #ifndef STARTMENU_H
 #define STARTMENU_H
 #include <QMainWindow>
 #include <QtGui>            //QPoint
 #include "versioninfo.h"    //Needed to show the current version of the software
 #include "loginwindow.h"    //For switching to the login window
+#include "userprofile.h"    //For switching to the userprofile window
 
 namespace Ui {class StartMenu;}
 
@@ -23,7 +24,7 @@ private slots:
     void on_Username_clicked();
 
 private:
-    Ui::StartMenu *ui;
+    Ui::StartMenu *ui;                      //"ui" (user interface)
     //For "version" QString
     VersionInfo v1;
     QString qstr = v1.getVersion();

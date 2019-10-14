@@ -1,6 +1,5 @@
 #include "startmenu.h"
 #include "ui_startmenu.h"
-#include <QMessageBox>
 
 //CONSTRUCTOR WITH PARAMETERS
 StartMenu::StartMenu(QString nome, QWidget *parent) :
@@ -40,9 +39,8 @@ void StartMenu::on_LogoutButton_clicked(){
     this->hide();
 }
 
-//USERNAME BUTTON
+//USERNAME BUTTON --> open a widget (pop-up window) with the user's profile
 void StartMenu::on_Username_clicked(){
-    QMessageBox msgBox;
-    msgBox.setText("Cliccando qui apparirà la schermata di impostazioni dell'utente.\nLa schermata sarà richiamabile anche all'interno dell'editor");
-    msgBox.exec();
+    UserProfile *up = new UserProfile();
+    up->show();
 }
