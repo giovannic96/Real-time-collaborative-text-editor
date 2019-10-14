@@ -29,23 +29,6 @@
    <string notr="true">#centralwidget {border-image: url(:/image/start.jpg);}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="Username">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>180</y>
-      <width>181</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: #0000FF;
-font-size: 20px;</string>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="version">
     <property name="geometry">
      <rect>
@@ -92,6 +75,76 @@ background-repeat:no-repeat;
       <width>25</width>
       <height>25</height>
      </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Username">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>180</y>
+      <width>211</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#Username{
+	text-align: left;
+	color: #0000FF;
+	font-size: 20px;
+	background-color:transparent;
+	border: transparent;
+}
+#Username:hover{
+	text-decoration: underline;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LogoutButton">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>470</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777199</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#LogoutButton{
+	color: rgb(255, 255, 255); 
+	background-color: rgb(20, 115, 255); 
+	font-size: 16px; 
+	border-radius: 20px; 
+	border: 3px solid rgb(28, 110, 164);
+}
+#LogoutButton:hover{
+	background-color: rgb(28, 110, 164);
+}
+#LogoutButton:pressed{
+	background-color: rgb(20, 78, 117);
+}</string>
+    </property>
+    <property name="text">
+     <string>Disconnettiti</string>
     </property>
    </widget>
   </widget>

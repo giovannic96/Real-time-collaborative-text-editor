@@ -1,11 +1,10 @@
-//UNTESTED CAUSE I CAN'T ANYMORE ACCESS TO THIS WINDOW!!!
 //  CLASS StartMenu - v 0.1.2a
 #ifndef STARTMENU_H
 #define STARTMENU_H
-
 #include <QMainWindow>
 #include <QtGui>            //QPoint
 #include "versioninfo.h"    //Needed to show the current version of the software
+#include "loginwindow.h"    //For switching to the login window
 
 namespace Ui {class StartMenu;}
 
@@ -20,6 +19,8 @@ public:
 
 private slots:
     void on_exitButton_clicked();
+    void on_LogoutButton_clicked();
+    void on_Username_clicked();
 
 private:
     Ui::StartMenu *ui;

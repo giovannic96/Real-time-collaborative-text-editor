@@ -1,7 +1,6 @@
-//UNTESTED CAUSE I CAN'T ANYMORE ACCESS TO THIS WINDOW!!!
-
 #include "startmenu.h"
 #include "ui_startmenu.h"
+#include <QMessageBox>
 
 //CONSTRUCTOR WITH PARAMETERS
 StartMenu::StartMenu(QString nome, QWidget *parent) :
@@ -31,4 +30,19 @@ void StartMenu::mouseMoveEvent(QMouseEvent *evt){
     const QPoint delta = evt->globalPos() - oldPos;
     move(x()+delta.x(), y()+delta.y());
     oldPos = evt->globalPos();
+}
+
+//LOGOUT BUTTON --> handle the switch beetween this window and the "login window"
+void StartMenu::on_LogoutButton_clicked(){
+       //TODO --> MAKE THE USER REALLY DISCONNECT
+    LoginWindow *l = new LoginWindow();
+    l->show();
+    this->hide();
+}
+
+//USERNAME BUTTON
+void StartMenu::on_Username_clicked(){
+    QMessageBox msgBox;
+    msgBox.setText("Cliccando qui apparirà la schermata di impostazioni dell'utente.\nLa schermata sarà richiamabile anche all'interno dell'editor");
+    msgBox.exec();
 }

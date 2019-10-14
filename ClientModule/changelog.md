@@ -1,16 +1,24 @@
 # Changelog ClientModule
 
+## [v0.1.3a - Nightly 1174] - 2019/10/14 @ 04:10
+### Aggiunto
+- Pulsante per l'accesso come superuser (administrator) usato per debug
+- Pulsante per far disconnettere l'utente
+### Cambiamenti
+- La stringa username di "startmenu.h" adesso è un bottone (porterà l'utente nella sua pagina personale)
+- Cambiati alcuni stylesheet
+
 ## [v0.1.3a - Nightly 1173] - 2019/10/13 @ 03:00  - MERGED BUILD
 ### Cambiamenti
 - Codice unito con il lavoro di Giovanni.
 ### NOTE
-- Codice non testato, non pronto per una Canary, tuttavia costituisce la base per i prossimi update.
+- Codice non testato, non pronto per una Canary, tuttavia costituisce la base per i prossimi update
 - Aggiornamento v0.1.2 --> v0.1.3
 
 ## [v0.1.2a - Canary 1052] - 2019/10/09 @ 00:15  - LOST UPDATE
 ### Cambiamenti
 - Pulizia codice
-- Commenti sistemati e tradotti in inglese (metterli in italiano?).
+- Commenti sistemati e tradotti in inglese (metterli in italiano?)
 
 ## [v0.1.2a - Nighly 1051] - LOST UPDATE
 

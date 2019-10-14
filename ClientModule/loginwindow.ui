@@ -310,6 +310,40 @@ background-repeat:no-repeat;
      </size>
     </property>
    </widget>
+   <widget class="QPushButton" name="LoginAdmin">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>400</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#LoginAdmin{color: rgb(255, 255, 255); 
+background-color: rgb(255, 0, 0); 
+font-size: 16px; 
+border-radius: 20px; 
+border: 3px solid #B30000;
+}
+#LoginAdmin:hover{
+background-color: #B30000;
+}
+#LoginAdmin:pressed{
+background-color: #800000;
+}</string>
+    </property>
+    <property name="text">
+     <string>Accedi (Admin Mode)</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

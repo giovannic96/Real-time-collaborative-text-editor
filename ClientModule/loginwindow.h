@@ -6,8 +6,8 @@
 #include <QtSql>            //SQL
 #include <QSqlDatabase>     //SQL
 #include "versioninfo.h"    //Needed to show the current version of the software
-#include "regwindow.h"      //switching the registration window
-#include "startmenu.h"      //switching the startmenu window
+#include "regwindow.h"      //For switching to the registration window
+#include "startmenu.h"      //For switching to the startmenu window
 #include "myClient.h"
 #include <deque>
 #include "json.hpp"
@@ -34,6 +34,8 @@ private slots:
     //void on_pushButton_send_clicked();    //Giovanni Edit
     void on_pushButton_connect_clicked();   //Giovanni Edit
     void on_pushButton_disconnect_clicked();//Giovanni Edit
+
+    void on_LoginAdmin_clicked();
 
 public slots:
     void setStatus(bool newStatus);         //TODO --> Giovanni mi spieghi perchè public? dove le richiami? Grazie!

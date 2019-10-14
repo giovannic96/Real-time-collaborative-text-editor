@@ -66,7 +66,7 @@ font-size: 16px;
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>330</y>
+      <y>320</y>
       <width>121</width>
       <height>41</height>
      </rect>

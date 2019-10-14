@@ -7,7 +7,7 @@
 #include <QtSql>            //For SQL
 #include <QSqlDatabase>     //For SQL
 #include "versioninfo.h"    //Needed to show the current version of the software
-#include "loginwindow.h"    //switching the login window
+#include "loginwindow.h"    //For switching to the login window
 
 namespace Ui {class RegWindow;}
 

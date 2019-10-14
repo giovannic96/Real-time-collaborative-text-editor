@@ -198,3 +198,10 @@ void LoginWindow::on_LoginButton_clicked(){
            QMessageBox::information(this, "Error during connection", error.databaseText());
        }
 */
+
+//LOGIN ADMIN BUTTON    --> Avoid database connection and start the "startmenu window" like there was an Admin logged in
+void LoginWindow::on_LoginAdmin_clicked(){
+    StartMenu *start = new StartMenu("Superior Administrator"); //new window with parameters //TODO --> The parameter will become the "username" of who are logged into the system.
+    start->show();
+    this->hide();
+}
