@@ -73,12 +73,10 @@ void myClient::do_read_body() {
 
                 if(db_responseJSON == "LOGIN_OK") {
                     qDebug() << "Login success" << endl;
-                    //POPUP MESSAGE: "Login success"
-                    //Go to the next window
+                    emit formResult("SUCCESS", "Login Success", "Login successfully completed");
                 } else {
                     qDebug() << "Wrong user or password" << endl;
-                    //POPUP MESSAGE: "WRONG USER AND PASSWORD"
-                    //Stay in the same window
+                    emit formResult("FAILURE", "Login Failed", "Login not completed: wrong user or password");
                 }
             }
             do_read_header(); //continue reading loop

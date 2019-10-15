@@ -35,19 +35,16 @@ private slots:
 
 public slots:
     void setStatus(bool newStatus);
+    void showFormPopup(QString result, QString title, QString msg);
 
 private:
     Ui::LoginWindow *ui;                    //"ui" (user interface)
-    //For database
     QSqlDatabase db;
     //For mouse related event
     QPoint oldPos;                          //This "oldPos" object is used to save the old position of the windows for the translation of windows
-    //For "version" QString
     VersionInfo v1;
     QString qstr = v1.getVersion();
-    //...
     myClient *client;
-    //...
 
 protected:
     //Function for mouse related event

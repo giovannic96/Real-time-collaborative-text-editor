@@ -31,7 +31,7 @@ public:
 
 signals:
     void statusChanged(bool);
-    void hasReadSome(QString msg);
+    void formResult(QString result, QString title, QString msg);
 
 private:
     boost::asio::io_context io_context_;

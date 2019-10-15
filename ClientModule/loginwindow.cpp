@@ -20,6 +20,7 @@ LoginWindow::LoginWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     ui->version->setText(qstr);
     setStatus(client->getStatus());
     connect(client, &myClient::statusChanged, this, &LoginWindow::setStatus);
+    connect(client, &myClient::formResult, this, &LoginWindow::showFormPopup);
 }
 
 LoginWindow::~LoginWindow(){
@@ -33,6 +34,24 @@ void LoginWindow::setStatus(bool newStatus) {
     }
     else {
         ui->label_status->setText(tr("<font color=\"red\">DISCONNECTED</font>"));
+    }
+}
+
+void LoginWindow::showFormPopup(QString result, QString title, QString msg) {
+    if(result == "SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.information(nullptr, title, msg);
+        messageBox.setFixedSize(500,200);
+        //TODO: Go to the next window
+    } else if(result == "FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, title, msg);
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else {
+        QMessageBox messageBox;
+        messageBox.information(nullptr, title, msg);
+        messageBox.setFixedSize(500,200);
     }
 }
 
