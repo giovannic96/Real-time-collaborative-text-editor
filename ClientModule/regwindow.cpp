@@ -4,32 +4,27 @@
 #include <QtGui>            //QPoint
 #include <QMessageBox>      //Alert Message
 
-//CONSTRUCTOR --> The FramelessWindowsHint and WindowSystemMenuHint options is needed for make bordless the window
 RegWindow::RegWindow(QWidget *parent) :
     QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::RegWindow){
     ui->setupUi(this);
     ui->version->setText(qstr); //Associate the QLabel "version" at the string "qstr". In this way I can show the version of this software
 }
 
-//DESTRUCTOR
-RegWindow::~RegWindow(){
+RegWindow::~RegWindow() {
     delete ui;
     db.close();
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void RegWindow::mousePressEvent(QMouseEvent *evt){
      oldPos = evt->globalPos();
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void RegWindow::mouseMoveEvent(QMouseEvent *evt){
     const QPoint delta = evt->globalPos() - oldPos;
     move(x()+delta.x(), y()+delta.y());
     oldPos = evt->globalPos();
 }
 
-//EXIT BUTTON
 void RegWindow::on_exitButton_clicked(){
     QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
 }
@@ -41,7 +36,6 @@ void RegWindow::on_AccediButton_clicked(){
     this->hide();
 }
 
-//SIGN UP BUTTON
 void RegWindow::on_SignUpButton_clicked()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");

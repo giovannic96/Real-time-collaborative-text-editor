@@ -27,20 +27,11 @@ public:
     QTcpSocket *tcpSocket;
     bool getStatus();
     void close();
-    void write(const message& msg);
-
-public slots:
-    void closeConnection();
-    void connect2host();
+    void write(const message& msg);    
 
 signals:
     void statusChanged(bool);
     void hasReadSome(QString msg);
-
-private slots:
-    void readyRead();
-    void connected();
-    void connectionTimeout();
 
 private:
     boost::asio::io_context io_context_;
@@ -53,9 +44,8 @@ private:
     void do_read_header();
     void do_read_body();
     void do_write();
-
+    void closeConnection();
     bool status;
-    QTimer *timeoutTimer;
 };
 
 #endif // MYCLIENT_H

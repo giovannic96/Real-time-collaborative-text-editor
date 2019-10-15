@@ -31,16 +31,10 @@ private slots:
     void on_ForgotPasswordButton_clicked();
     void on_LoginButton_clicked();
     void on_RegistratiButton_clicked();
-    //void on_pushButton_send_clicked();    //Giovanni Edit
-    void on_pushButton_connect_clicked();   //Giovanni Edit
-    void on_pushButton_disconnect_clicked();//Giovanni Edit
-
     void on_LoginAdmin_clicked();
 
 public slots:
-    void setStatus(bool newStatus);         //TODO --> Giovanni mi spieghi perchè public? dove le richiami? Grazie!
-    void receivedSomething(QString msg);
-    void gotError(QAbstractSocket::SocketError err);
+    void setStatus(bool newStatus);
 
 private:
     Ui::LoginWindow *ui;                    //"ui" (user interface)

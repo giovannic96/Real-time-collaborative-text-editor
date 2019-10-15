@@ -1,9 +1,8 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
 #include "versioninfo.h"
-//#include "loggeduserinfo.h"   //DOVE CAZZO LA USAVO QUESTA LIBRERIA ORA? LASCIAMI E NON CANCELLARMI, POTREI AVERE QUALCHE IDEA RELATIVA AD ESSO
 #include <QtGui>            //For QPoint
-#include <QDebug>           //TODO --> CREDO SIA INUTILE
+#include <QDebug>
 #include <QMessageBox>      //For Alert Message
 #include "jsonUtility.h"
 #include <QDebug>
@@ -15,112 +14,50 @@ using json = nlohmann::json;
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;
 
-//CONSTRUCTOR --> The FramelessWindowsHint and WindowSystemMenuHint options is needed for make bordless the window
-LoginWindow::LoginWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::LoginWindow), client(new myClient) {
+LoginWindow::LoginWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint),
+                                                                       ui(new Ui::LoginWindow), client(new myClient) {
     ui->setupUi(this);
     ui->version->setText(qstr);
-    //setStatus(client->getStatus());
-    //connect(client, &myClient::hasReadSome, this, &LoginWindow::receivedSomething);
-    //connect(client, &myClient::statusChanged, this, &LoginWindow::setStatus);
-    // FIXME change this connection to the new syntax
-    //connect(client->tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-            //this, SLOT(gotError(QAbstractSocket::SocketError)));
+    setStatus(client->getStatus());
+    connect(client, &myClient::statusChanged, this, &LoginWindow::setStatus);
 }
 
-//DESTRUCTION
 LoginWindow::~LoginWindow(){
     delete ui;
     delete client;
 }
 
-//TODO --> CAN I HAVE SOME TITLE OR COMMENT RELATED TO IT?
-void LoginWindow::setStatus(bool newStatus)
-{
-    if(newStatus)
-    {
+void LoginWindow::setStatus(bool newStatus) {
+    if(newStatus) {
         ui->label_status->setText(tr("<font color=\"green\">CONNECTED</font>"));
-        ui->pushButton_connect->setVisible(false);
-        ui->pushButton_disconnect->setVisible(true);
     }
-    else
-    {
+    else {
         ui->label_status->setText(tr("<font color=\"red\">DISCONNECTED</font>"));
-        ui->pushButton_connect->setVisible(true);
-        ui->pushButton_disconnect->setVisible(false);
     }
 }
 
-//TODO --> CAN I HAVE SOME TITLE OR COMMENT RELATED TO IT?
-void LoginWindow::receivedSomething(QString msg) {
-    ui->textEdit_log->append("[SERVER] " + msg);
-}
-
-//TODO --> CAN I HAVE SOME TITLE OR COMMENT RELATED TO IT?
-void LoginWindow::gotError(QAbstractSocket::SocketError err)
-{
-    //qDebug() << "got error";
-    QString strError = "unknown";
-    switch (err)
-    {
-        case 0:
-            strError = "Connessione rifiutata";
-            break;
-        case 1:
-            strError = "Remote host closed the connection";
-            break;
-        case 2:
-            strError = "Host address was not found";
-            break;
-        case 5:
-            strError = "Connection timed out";
-            break;
-        default:
-            strError = "Errore sconosciuto";
-    }
-    ui->textEdit_log->append(strError);
-}
-
-
-//TODO --> CAN I HAVE SOME TITLE OR COMMENT RELATED TO IT?
-void LoginWindow::on_pushButton_connect_clicked()
-{
-    //client->connect2host();
-    client->do_connect();
-}
-
-//TODO --> CAN I HAVE SOME TITLE OR COMMENT RELATED TO IT?
-void LoginWindow::on_pushButton_disconnect_clicked()
-{
-    client->closeConnection();
-}
-
-
-//EXIT BUTTON
 void LoginWindow::on_exitButton_clicked(){
     QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void LoginWindow::mousePressEvent(QMouseEvent *evt){
      oldPos = evt->globalPos();
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void LoginWindow::mouseMoveEvent(QMouseEvent *evt){
     const QPoint delta = evt->globalPos() - oldPos;
     move(x()+delta.x(), y()+delta.y());
     oldPos = evt->globalPos();
 }
 
-//FORGOT PASSWORD BUTTON
 void LoginWindow::on_ForgotPasswordButton_clicked(){
     QMessageBox msgBox;
-    msgBox.setText("Funzione non implementata");
+    msgBox.setText("Not implemented yet");
     msgBox.exec();
 }
 
-//TODO --> CAN I HAVE SOME TITLE OR COMMENT RELATED TO IT?
-void LoginWindow::on_LoginButton_clicked() {
+void LoginWindow::on_LoginButton_clicked()
+{
     //Get data from the form
     QString user = ui->LineEditUsernameForm->text();
     QByteArray ba_user = user.toLocal8Bit();
@@ -199,7 +136,7 @@ void LoginWindow::on_LoginButton_clicked(){
        }
 */
 
-//LOGIN ADMIN BUTTON    --> Avoid database connection and start the "startmenu window" like there was an Admin logged in
+//LOGIN ADMIN BUTTON --> Avoid database connection and start the "startmenu window" like there was an Admin logged in
 void LoginWindow::on_LoginAdmin_clicked(){
     StartMenu *start = new StartMenu("Superior Administrator"); //new window with parameters //TODO --> The parameter will become the "username" of who are logged into the system.
     start->show();

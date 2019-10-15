@@ -32,7 +32,7 @@ void StartMenu::mouseMoveEvent(QMouseEvent *evt){
 }
 
 //LOGOUT BUTTON --> handle the switch beetween this window and the "login window"
-void StartMenu::on_LogoutButton_clicked(){
+void StartMenu::on_LogoutButton_clicked() {
        //TODO --> MAKE THE USER REALLY DISCONNECT
     LoginWindow *l = new LoginWindow();
     l->show();
