@@ -8,4 +8,4 @@ Completed function that allows server to connect to db to retrieve info about us
 Missing signup
 
 
-[v0.0.1a - Nightly 1176]: https://github.com/giovannic96/Real-time-collaborative-text-editor/tree/master/ClientModule
+[v0.0.2a - Nightly 1176]: https://github.com/giovannic96/Real-time-collaborative-text-editor/tree/master/ServerModule
