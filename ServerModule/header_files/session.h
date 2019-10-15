@@ -21,8 +21,7 @@ private:
     room& room_;
     message read_msg_;
     message_queue write_msgs_;
-
-    dbService _dbService;
+    dbService dbService_;
     void do_read_header();
     void do_read_body();
     void do_write(); //for the editor

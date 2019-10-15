@@ -6,12 +6,13 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <iostream>
-#include "header_files/json.hpp"
 #include "sqlite3.h"
+#include "header_files/json.hpp"
 #include "header_files/message.h"
 #include "header_files/session.h"
 #include "header_files/room.h"
 #include "header_files/jsonUtility.h"
+#include "header_files/dbService.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
@@ -72,10 +73,20 @@ void session::do_read_body()
                 std::string passJSON;
                 jsonUtility::from_json(jdata_in, userJSON, passJSON); //get json value and put into JSON variables
 
-                /* OPERATIONS ON DB */
-
                 //Get data from db
-                const char *db_res = "LOGIN_OK";
+                //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+                const char *db_res;
+                dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
+                if(resp == dbService::LOGIN_OK)
+                    db_res = "LOGIN_OK";
+                else if(resp == dbService::LOGIN_FAILED)
+                    db_res = "LOGIN_FAILED";
+                else if(resp == dbService::DB_ERROR)
+                    db_res = "DB_ERROR";
+                else if(resp == dbService::QUERY_ERROR)
+                    db_res = "QUERY_ERROR";
+                else
+                    db_res = "DB_ERROR";
 
                 //Serialize data
                 json j;

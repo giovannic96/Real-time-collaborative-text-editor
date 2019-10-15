@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++.exe
 CXX_FLAGS = -g   -l sqlite3 -std=gnu++14
 
-CXX_DEFINES = -DBOOST_ERROR_CODE_HEADER_ONLY
+CXX_DEFINES = -DBOOST_ERROR_CODE_HEADER_ONLY -DQT_CORE_LIB -DQT_SQL_LIB
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtSql -isystem /usr/include/qt5/QtCore -isystem /usr/lib/qt5/mkspecs/cygwin-g++ 
 

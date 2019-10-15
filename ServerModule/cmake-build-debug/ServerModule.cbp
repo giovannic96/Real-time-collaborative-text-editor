@@ -5,36 +5,42 @@
 		<Option title="ServerModule"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ServerModule">
-				<Option output="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/ServerModule.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option output="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/ServerModule.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add option="-DQT_SQL_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add directory="/usr/include/qt5"/>
+					<Add directory="/usr/include/qt5/QtSql"/>
+					<Add directory="/usr/include/qt5/QtCore"/>
+					<Add directory="/usr/lib/qt5/mkspecs/cygwin-g++"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
@@ -43,20 +49,26 @@
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 ServerModule"/>
-					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 ServerModule"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ServerModule/fast">
-				<Option output="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/ServerModule.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option output="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug/ServerModule.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add option="-DBOOST_ERROR_CODE_HEADER_ONLY"/>
+					<Add option="-DQT_SQL_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add directory="/usr/include/qt5"/>
+					<Add directory="/usr/include/qt5/QtSql"/>
+					<Add directory="/usr/include/qt5/QtCore"/>
+					<Add directory="/usr/lib/qt5/mkspecs/cygwin-g++"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
@@ -65,70 +77,112 @@
 					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 ServerModule/fast"/>
-					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 ServerModule/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/Desktop/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/ServerModule/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/dbService.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/dbService.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/dbService.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/dbService.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/jsonUtility.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/jsonUtility.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/message.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/message.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/myServer.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/myServer.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/participant.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/participant.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/room.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/session.h">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/session.h">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/jsonUtility.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/main.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/message.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/message.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/myServer.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/participant.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/participant.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/room.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/room.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/session.cpp">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp">
 			<Option target="ServerModule"/>
 		</Unit>
-		<Unit filename="/cygdrive/c/Users/giova/Desktop/ServerModule/CMakeLists.txt">
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/ExtraSourceIncludes.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5SqlConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QMYSQLDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QODBCDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QPSQLDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QSQLiteDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QTDSDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Core/ExtraSourceIncludes.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

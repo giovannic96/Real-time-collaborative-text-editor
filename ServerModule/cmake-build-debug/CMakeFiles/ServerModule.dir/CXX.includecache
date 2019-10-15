@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/dbService.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/dbService.h
 sqlite3.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/sqlite3.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/sqlite3.h
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/json.hpp
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/json.hpp
 algorithm
 -
 cassert
@@ -344,19 +344,19 @@ limits
 type_traits
 -
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/jsonUtility.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/jsonUtility.h
 json.hpp
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/json.hpp
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/json.hpp
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/message.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/message.h
 string
 -
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/participant.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/participant.h
 message.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/message.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/message.h
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/room.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h
 memory
 -
 string
@@ -366,25 +366,21 @@ set
 deque
 -
 participant.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/participant.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/participant.h
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/session.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/session.h
 json.hpp
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/json.hpp
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/json.hpp
 dbService.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/dbService.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/dbService.h
 boost/asio.hpp
 -
 message.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/message.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/message.h
 room.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/room.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h
 
-/cygdrive/c/Users/giova/Desktop/ServerModule/jsonUtility.cpp
-header_files/jsonUtility.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/jsonUtility.h
-
-/cygdrive/c/Users/giova/Desktop/ServerModule/session.cpp
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp
 memory
 -
 utility
@@ -393,16 +389,18 @@ boost/asio.hpp
 -
 iostream
 -
-header_files/json.hpp
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/json.hpp
 sqlite3.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/sqlite3.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/sqlite3.h
+header_files/json.hpp
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/json.hpp
 header_files/message.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/message.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/message.h
 header_files/session.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/session.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/session.h
 header_files/room.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/room.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h
 header_files/jsonUtility.h
-/cygdrive/c/Users/giova/Desktop/ServerModule/header_files/jsonUtility.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/jsonUtility.h
+header_files/dbService.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/dbService.h
 
