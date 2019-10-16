@@ -2,6 +2,7 @@
 #include "ui_regwindow.h"
 #include "versioninfo.h"
 #include <QtGui>            //QPoint
+#include <QMessageBox>      //Alert Message
 
 //CONSTRUCTOR
 RegWindow::RegWindow(QWidget *parent) :

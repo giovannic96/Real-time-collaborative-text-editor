@@ -1,14 +1,23 @@
 # Changelog ClientModule
 
+## [v0.1.3a - Nightly 1182] - 2019/10/16 @ 22:30
+### Aggiunto
+- Funzione che rende bordi rotondi della UserProfile Window
+- Libreria QMessageBox dalla classe RegWindow (rimossa per errore nella build precedente)
+### Cambiamenti
+- Sistemata label della connessione
+### Note
+- Valutare la possibilità si spostare la connessione al server sol dopo il click sul pulsante accedi o registrati anzichè all'apertura della finestra di login.
+  Il caricamento della finestra è molto rallentato a causa del tentativo di connessione
+- Valutare la possibilità di rendere tutte le precedenti finestre con bordi arrotondati
+### Todo
+- Rimuovere immagini non usate dalla cartella "image"
+
 ## [v0.1.3a - Nightly 1180] - 2019/10/16 @ 15:00
 ### Aggiunto
 - Bottone per apertura text editor dallo start menù
 ### Rimosso
 - Libreria QMessageBox dalla classe RegWindow
-### Note
-- Valutare la possibilità si spostare la connessione al server sol dopo il click sul pulsante accedi o registrati anzichè all'apertura della finestra di login.
-### Todo
-- Rimuovere immagini non usate dalla cartella "image"
 
 ## [v0.1.3a - Nightly 1178] - 2019/10/16 @ 01:00
 ### Cambiamenti

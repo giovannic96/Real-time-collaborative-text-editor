@@ -13,11 +13,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>0</y>
+     <y>10</y>
      <width>29</width>
      <height>23</height>
     </rect>
@@ -52,6 +55,9 @@ background-repeat:no-repeat;
      <width>168</width>
      <height>168</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>

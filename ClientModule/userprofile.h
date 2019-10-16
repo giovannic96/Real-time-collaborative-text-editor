@@ -13,6 +13,7 @@ class UserProfile : public QWidget{
 public:
     explicit UserProfile(QWidget *parent = nullptr);
     ~UserProfile();
+    void SetRadiusBorder();
 
 private slots:
     void on_exitButton_clicked();
