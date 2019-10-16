@@ -1,6 +1,7 @@
 #include "startmenu.h"
 #include "ui_startmenu.h"
 #include <QMessageBox>      //Alert Message
+#include <QDebug>
 
 //CONSTRUCTOR WITH PARAMETERS
 StartMenu::StartMenu(QString nome, QWidget *parent) :
@@ -13,6 +14,7 @@ StartMenu::StartMenu(QString nome, QWidget *parent) :
 //DESTRUCTOR
 StartMenu::~StartMenu(){
     delete ui;
+    qDebug() << "Hello from Destructor!";
 }
 
 //EXIT BUTTON
@@ -38,11 +40,12 @@ void StartMenu::on_LogoutButton_clicked() {
     LoginWindow *l = new LoginWindow();
     l->show();
     this->hide();
+    delete this;    //Così sono sicuro che chiamo il distruttore quando cambio finestra. Da sistemare con il vostro aiuto????
 }
 
 //USERNAME BUTTON --> open a widget (pop-up window) with the user's profile
 void StartMenu::on_Username_clicked(){
-    UserProfile *up = new UserProfile();
+    UserProfile *up = new UserProfile("Superior Administrator"); //with parameters //TODO --> The parameter will become the "username" of who are logged into the system.
     up->show();
 }
 

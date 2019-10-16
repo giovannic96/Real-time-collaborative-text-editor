@@ -29,6 +29,8 @@ LoginWindow::LoginWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
 LoginWindow::~LoginWindow(){
     delete ui;
     delete client;
+
+    qDebug() << "Hello from LoginDestructor!";
 }
 
 //SET STATUS LABEL
