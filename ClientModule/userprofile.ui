@@ -73,6 +73,23 @@ background-repeat:no-repeat;
     </size>
    </property>
   </widget>
+  <widget class="QLabel" name="Username">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>240</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #0000FF;
+font-size: 20px;</string>
+   </property>
+   <property name="text">
+    <string>UsernameGoesHere</string>
+   </property>
+  </widget>
  </widget>
  <resources>
   <include location="Risorse.qrc"/>
