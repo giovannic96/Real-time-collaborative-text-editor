@@ -23,6 +23,8 @@ private slots:
     void on_LogoutButton_clicked();
     void on_Username_clicked();
 
+    void on_openEditor_clicked();
+
 private:
     Ui::StartMenu *ui;                      //"ui" (user interface)
     //For "version" QString

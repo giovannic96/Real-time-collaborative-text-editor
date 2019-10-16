@@ -1,6 +1,30 @@
 # Changelog ClientModule
 
-## [v0.1.3a - Nightly 1175] - 2019/10/16 @ 00:10
+## [v0.1.3a - Nightly 1180] - 2019/10/16 @ 15:00
+### Aggiunto
+- Bottone per apertura text editor dallo start menù
+### Rimosso
+- Libreria QMessageBox dalla classe RegWindow
+### Note
+- Valutare la possibilità si spostare la connessione al server sol dopo il click sul pulsante accedi o registrati anzichè all'apertura della finestra di login.
+### Todo
+- Rimuovere immagini non usate dalla cartella "image"
+
+## [v0.1.3a - Nightly 1178] - 2019/10/16 @ 01:00
+### Cambiamenti
+- Funzione che permette al server di connettersi al database per recuperare le informazioni dell'utente
+
+## [v0.1.3a - Nightly 1178] - 2019/10/15 @ 23:30
+### Aggiunto
+- Funzioni di gestione della connessione nella schermata di login
+### Cambiamenti
+- Fix della finestra di login
+
+## [v0.1.3a - Nightly 1176] - 2019/10/15 @ 20:45
+### Cambiamenti
+- Sostituito pannello di controllo (di debug) per la connessione al server con funzione lanciata allo startup
+
+## [v0.1.3a - Nightly 1175] - 2019/10/15 @ 00:10
 ### Aggiunto
 - Classe "UserProfile" --> (una finestra popup con il profilo dell'utente)
 - Placeholder per l'immagine dell'utente

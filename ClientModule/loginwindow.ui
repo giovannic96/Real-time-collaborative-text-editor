@@ -221,8 +221,8 @@ text-decoration: underline;
    <widget class="QLabel" name="label_status">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>490</y>
+      <x>490</x>
+      <y>500</y>
       <width>55</width>
       <height>16</height>
      </rect>

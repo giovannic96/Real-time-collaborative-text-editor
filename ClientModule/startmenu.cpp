@@ -1,5 +1,6 @@
 #include "startmenu.h"
 #include "ui_startmenu.h"
+#include <QMessageBox>      //Alert Message
 
 //CONSTRUCTOR WITH PARAMETERS
 StartMenu::StartMenu(QString nome, QWidget *parent) :
@@ -43,4 +44,10 @@ void StartMenu::on_LogoutButton_clicked() {
 void StartMenu::on_Username_clicked(){
     UserProfile *up = new UserProfile();
     up->show();
+}
+
+//OPEN EDITOR BUTTON
+void StartMenu::on_openEditor_clicked()
+{
+
 }
