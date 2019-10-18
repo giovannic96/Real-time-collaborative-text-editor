@@ -2,7 +2,7 @@
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
 ## EM - Rilasciata [v0.1.4a - Canary 1190] - 2019/10/18 @ 20:00 - [Differences]
- - Upgrade to 0.1.4a
+Upgrade to 0.1.4a
 Add a "Start Window" that handle the switch beetwen the Login, Sign Up and Main Menu pages.
 This update deprecated the functionality of some classes
 
