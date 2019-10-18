@@ -1,6 +1,7 @@
 #include "userprofile.h"
 #include "ui_userprofile.h"
 #include <QMessageBox>
+#include <QDebug>
 
 //CONSTRUCTOR WITH PARAMETERS
 UserProfile::UserProfile(QString nome, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
@@ -13,11 +14,14 @@ UserProfile::UserProfile(QString nome, QWidget *parent): QWidget(parent, Qt::Fra
 //DESTRUCTOR
 UserProfile::~UserProfile(){
     delete ui;
+    qDebug() << "Destructor of UserProfile Widget in action";
 }
 
 //EXIT BUTTON
 void UserProfile::on_exitButton_clicked(){
+
     QWidget::close();
+     delete this;   //Very important, is needed for calling the destructor
 }
 
 //USER'S IMAGE BUTTON

@@ -1,11 +1,9 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include "versioninfo.h"
 #include <QtGui>            //For QPoint
 #include <QDebug>
 #include <QMessageBox>      //For Alert Message
 #include "jsonUtility.h"
-#include <QDebug>
 #include <iostream>
 #include <thread>
 #include "message.h"

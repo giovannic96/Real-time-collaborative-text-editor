@@ -218,22 +218,6 @@ text-decoration: underline;
      <string>Sei nuovo?</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_status">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>500</y>
-      <width>81</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: #EAFF00;</string>
-    </property>
-    <property name="text">
-     <string>Status</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
      <rect>
