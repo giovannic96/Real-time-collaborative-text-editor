@@ -25,13 +25,14 @@ public:
     QPushButton *UserImageButton;
     QLabel *Username;
     QLabel *Mail;
+    QWidget *widget;
 
     void setupUi(QWidget *UserProfile)
     {
         if (UserProfile->objectName().isEmpty())
             UserProfile->setObjectName(QString::fromUtf8("UserProfile"));
         UserProfile->resize(437, 600);
-        UserProfile->setStyleSheet(QString::fromUtf8("#UserProfile {border-image: url(:/image/infoprofile.png);}"));
+        UserProfile->setStyleSheet(QString::fromUtf8("#UserProfile{border-image: url(:/image/infoprofile.png);}"));
         exitButton = new QPushButton(UserProfile);
         exitButton->setObjectName(QString::fromUtf8("exitButton"));
         exitButton->setGeometry(QRect(403, 7, 29, 23));
@@ -39,17 +40,14 @@ public:
         exitButton->setStyleSheet(QString::fromUtf8("background-color: Transparent;\n"
 "background-repeat:no-repeat;\n"
 ""));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/image/basics-22-128.png"), QSize(), QIcon::Normal, QIcon::Off);
-        exitButton->setIcon(icon);
-        exitButton->setIconSize(QSize(25, 25));
         UserImageButton = new QPushButton(UserProfile);
         UserImageButton->setObjectName(QString::fromUtf8("UserImageButton"));
         UserImageButton->setGeometry(QRect(12, 112, 128, 128));
+        UserImageButton->setCursor(QCursor(Qt::PointingHandCursor));
         UserImageButton->setStyleSheet(QString::fromUtf8(""));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/image/Immagine.png"), QSize(), QIcon::Normal, QIcon::Off);
-        UserImageButton->setIcon(icon1);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/image/Immagine.png"), QSize(), QIcon::Normal, QIcon::Off);
+        UserImageButton->setIcon(icon);
         UserImageButton->setIconSize(QSize(128, 128));
         Username = new QLabel(UserProfile);
         Username->setObjectName(QString::fromUtf8("Username"));
@@ -61,6 +59,15 @@ public:
         Mail->setGeometry(QRect(230, 430, 231, 31));
         Mail->setStyleSheet(QString::fromUtf8("color: #0000FF;\n"
 "font-size: 20px;"));
+        widget = new QWidget(UserProfile);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(0, 0, 437, 600));
+        widget->setStyleSheet(QString::fromUtf8("border-image: url(:/image/infoprofile.png);"));
+        widget->raise();
+        exitButton->raise();
+        UserImageButton->raise();
+        Username->raise();
+        Mail->raise();
 
         retranslateUi(UserProfile);
 

@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-err34-c"
+#pragma ide diagnostic ignored "cert-msc32-c"
 #include <memory>
 #include <boost/asio.hpp>
 #include <iostream>
@@ -7,6 +10,7 @@ int main(int argc, char* argv[])
 {
     try
     {
+        srand(time(nullptr));
         boost::asio::io_context io_context;
         tcp::endpoint endpoint(tcp::v4(), std::atoi("63504"));
         myServer s(io_context, endpoint);
@@ -19,3 +23,4 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+#pragma clang diagnostic pop

@@ -191,15 +191,15 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryNewFile(userJSON, filenameJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
 
-        if(resp == dbService::SIGNUP_OK)
+        if(resp == dbService::NEWFILE_OK)
             db_res = "NEWFILE_OK";
-        else if(resp == dbService::SIGNUP_FAILED)
+        else if(resp == dbService::NEWFILE_FAILED)
             db_res = "NEWFILE_FAILED";
         else if(resp == dbService::DB_ERROR)
             db_res = "DB_ERROR";
         else if(resp == dbService::QUERY_ERROR)
             db_res = "QUERY_ERROR";
-        else if(resp == dbService::EMAIL_ERROR)
+        else if(resp == dbService::FILENAME_ERROR)
             db_res = "FILENAME_ERROR";
         else
             db_res = "DB_ERROR";
