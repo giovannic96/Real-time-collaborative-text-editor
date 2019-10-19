@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/provaDbQt.dir/main.cpp.o"
-  "libprovaDbQt.dll.a"
-  "provaDbQt.exe"
   "provaDbQt.pdb"
+  "provaDbQt.exe"
+  "libprovaDbQt.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
