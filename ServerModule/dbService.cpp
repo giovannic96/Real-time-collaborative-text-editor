@@ -54,20 +54,64 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
 }
 
 dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::string& pass, const std::string& email) {
+    QSqlDatabase db;
 
-    std::string query = "INSERT INTO users (username, password, email) VALUES (?,?,?)";
-    sqlite3_stmt * st;
+    QString username = QString::fromUtf8(user.data(), user.size());
+    QString password = QString::fromUtf8(pass.data(), pass.size());
+    QString mail = QString::fromUtf8(email.data(), email.size());
 
-    if(sqlite3_open("Db/texteditor_users.sqlite", &_db) == SQLITE_OK) {
-        sqlite3_prepare(_db, query.c_str(), -1, &st, nullptr);
-        sqlite3_bind_text(st, 1, user.c_str(), user.length(), SQLITE_TRANSIENT);
-        sqlite3_bind_text(st, 2, pass.c_str(), pass.length(), SQLITE_TRANSIENT);
-        sqlite3_bind_text(st, 3, email.c_str(), email.length(), SQLITE_TRANSIENT);
-        sqlite3_step(st);
-        return SIGNUP_OK;
-    } else {
-        return SIGNUP_FAILED;
+    //control email with regex
+    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    mailREX.setCaseSensitivity(Qt::CaseInsensitive);
+    mailREX.setPatternSyntax(QRegExp::RegExp);
+    if (!mailREX.exactMatch(mail)) {
+        return EMAIL_ERROR;
     }
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
+    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+
+    if (db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect"));
+        query.prepare(QString("SELECT * FROM users WHERE username = :username"));
+        query.bindValue(":username", username);
+
+        if (query.exec()) {
+            if (query.next()) {
+                QString usernameFromDb = query.value(0).toString();
+                QString passwordFromDb = query.value(1).toString();
+                if (usernameFromDb == username) {
+                    return SIGNUP_FAILED;
+                }
+            } else {
+                //user can be created
+                QSqlQuery query2(QSqlDatabase::database("MyConnect"));
+                query2.prepare("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)");
+                query2.bindValue(":username", username);
+                query2.bindValue(":password", password);
+                query2.bindValue(":email", mail);
+
+                if (query2.exec()) {
+                    //std::cout << "Inserted Data inserted successfully";
+                    return SIGNUP_OK;
+                } else {
+                    //std::cout << "Not inserted Error: Data not inserted!";
+                    return QUERY_ERROR;
+                }
+            }
+            db.close();
+        } else {
+            //std::cout << "Query SELECT fallita" << std::endl;
+            db.close();
+            return DB_ERROR;
+        }
+
+    } else {
+        QSqlError error = db.lastError();
+        //std::cout << "Error during connection";
+        return DB_ERROR;
+    }
+    QSqlDatabase::removeDatabase("QSQLITE");
 }
 
 inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
