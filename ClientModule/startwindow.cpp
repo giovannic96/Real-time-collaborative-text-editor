@@ -93,6 +93,7 @@ void StartWindow::on_SignUpButton_clicked(){
     msg.encode_header();
     client->write(msg);
 }
+
 /*
 void StartWindow::on_NewFileButton_clicked(){ // when press ok
     //Get data from the form
