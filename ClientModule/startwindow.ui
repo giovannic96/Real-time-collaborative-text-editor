@@ -37,7 +37,7 @@
     </property>
     <widget class="QWidget" name="loginPage">
      <property name="styleSheet">
-      <string notr="true">#loginPage {border-image: url(:/image/accesso.jpg);}</string>
+      <string notr="true">#loginPage {border-image: url(:/image/accesso.png);}</string>
      </property>
      <widget class="QPushButton" name="LoginAdmin">
       <property name="geometry">
@@ -128,7 +128,7 @@ background-color: rgb(20, 78, 117);
      <widget class="QLineEdit" name="LoginPasswordForm">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>640</x>
         <y>263</y>
         <width>231</width>
         <height>31</height>
@@ -220,7 +220,7 @@ text-decoration: underline;
      <widget class="QLineEdit" name="LoginUsernameForm">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>640</x>
         <y>216</y>
         <width>231</width>
         <height>31</height>
@@ -260,7 +260,7 @@ font-size: 16px;
     </widget>
     <widget class="QWidget" name="regPage">
      <property name="styleSheet">
-      <string notr="true">#regPage {border-image: url(:/image/registrazione.jpg);}</string>
+      <string notr="true">#regPage {border-image: url(:/image/registrazione.png);}</string>
      </property>
      <widget class="QLabel" name="Haigiaaccount">
       <property name="geometry">
@@ -283,8 +283,8 @@ font-size: 16px;
      <widget class="QLineEdit" name="RegUsernameForm">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>186</y>
+        <x>650</x>
+        <y>216</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -307,8 +307,8 @@ font-size: 16px;
      <widget class="QLineEdit" name="RegMailForm">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>230</y>
+        <x>650</x>
+        <y>260</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -332,7 +332,7 @@ font-size: 16px;
       <property name="geometry">
        <rect>
         <x>740</x>
-        <y>320</y>
+        <y>370</y>
         <width>121</width>
         <height>41</height>
        </rect>
@@ -401,8 +401,8 @@ text-decoration: underline;
      <widget class="QLineEdit" name="RegPasswordForm">
       <property name="geometry">
        <rect>
-        <x>630</x>
-        <y>274</y>
+        <x>650</x>
+        <y>304</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -431,7 +431,7 @@ font-size: 16px;
     </widget>
     <widget class="QWidget" name="menuPage">
      <property name="styleSheet">
-      <string notr="true">#menuPage {border-image: url(:/image/start.jpg);}</string>
+      <string notr="true">#menuPage {border-image: url(:/image/start.png);}</string>
      </property>
      <widget class="QPushButton" name="LogoutButton">
       <property name="geometry">
@@ -481,7 +481,7 @@ font-size: 16px;
       <property name="geometry">
        <rect>
         <x>600</x>
-        <y>260</y>
+        <y>290</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -500,7 +500,7 @@ font-size: 16px;
 </string>
       </property>
       <property name="text">
-       <string>Apri Editor</string>
+       <string>Apri File</string>
       </property>
       <property name="icon">
        <iconset resource="Risorse.qrc">
@@ -517,7 +517,7 @@ font-size: 16px;
       <property name="geometry">
        <rect>
         <x>670</x>
-        <y>180</y>
+        <y>200</y>
         <width>211</width>
         <height>23</height>
        </rect>
