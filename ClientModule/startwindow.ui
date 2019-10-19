@@ -128,8 +128,8 @@ background-color: rgb(20, 78, 117);
      <widget class="QLineEdit" name="LoginPasswordForm">
       <property name="geometry">
        <rect>
-        <x>640</x>
-        <y>263</y>
+        <x>641</x>
+        <y>258</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -220,8 +220,8 @@ text-decoration: underline;
      <widget class="QLineEdit" name="LoginUsernameForm">
       <property name="geometry">
        <rect>
-        <x>640</x>
-        <y>216</y>
+        <x>641</x>
+        <y>210</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -283,8 +283,8 @@ font-size: 16px;
      <widget class="QLineEdit" name="RegUsernameForm">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>216</y>
+        <x>641</x>
+        <y>210</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -307,8 +307,8 @@ font-size: 16px;
      <widget class="QLineEdit" name="RegMailForm">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>260</y>
+        <x>641</x>
+        <y>307</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -401,8 +401,8 @@ text-decoration: underline;
      <widget class="QLineEdit" name="RegPasswordForm">
       <property name="geometry">
        <rect>
-        <x>650</x>
-        <y>304</y>
+        <x>641</x>
+        <y>258</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -591,6 +591,23 @@ background-repeat:no-repeat;
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>RegUsernameForm</tabstop>
+  <tabstop>RegPasswordForm</tabstop>
+  <tabstop>RegMailForm</tabstop>
+  <tabstop>LoginUsernameForm</tabstop>
+  <tabstop>LoginPasswordForm</tabstop>
+  <tabstop>LoginButton</tabstop>
+  <tabstop>ForgotPasswordButton</tabstop>
+  <tabstop>RegisterButton</tabstop>
+  <tabstop>LogoutButton</tabstop>
+  <tabstop>SignUpButton</tabstop>
+  <tabstop>AccediButton</tabstop>
+  <tabstop>exitButton</tabstop>
+  <tabstop>LoginAdmin</tabstop>
+  <tabstop>Username</tabstop>
+  <tabstop>openEditor</tabstop>
+ </tabstops>
  <resources>
   <include location="Risorse.qrc"/>
  </resources>

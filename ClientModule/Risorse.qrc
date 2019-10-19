@@ -3,9 +3,9 @@
         <file>image/basics-22-128.png</file>
         <file>image/Immagine.png</file>
         <file>image/397435-200.png</file>
-        <file>image/infoprofile.png</file>
         <file>image/accesso.png</file>
         <file>image/registrazione.png</file>
         <file>image/start.png</file>
+        <file>image/infoprofile.png</file>
     </qresource>
 </RCC>

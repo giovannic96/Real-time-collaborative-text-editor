@@ -14,6 +14,7 @@ public:
     explicit UserProfile(QString nome, QWidget *parent = nullptr);
     ~UserProfile();
     void SetRadiusBorder();
+    void SetImage();
 
 private slots:
     void on_exitButton_clicked();

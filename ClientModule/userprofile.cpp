@@ -8,6 +8,7 @@ UserProfile::UserProfile(QString nome, QWidget *parent): QWidget(parent, Qt::Fra
     ui->setupUi(this);
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
     SetRadiusBorder();
+    SetImage();
     this->show();
 }
 
@@ -19,9 +20,8 @@ UserProfile::~UserProfile(){
 
 //EXIT BUTTON
 void UserProfile::on_exitButton_clicked(){
-
     QWidget::close();
-     delete this;   //Very important, is needed for calling the destructor
+    delete this;   //Very important, is needed for calling the destructor
 }
 
 //USER'S IMAGE BUTTON
@@ -41,10 +41,17 @@ void UserProfile::on_UserImageButton_clicked(){
 
 //SET RADIUS BORDER --> Called in constructor to make the window with round edges
 void UserProfile::SetRadiusBorder(){
-    const int radius = 40;
+    const int radius = 21;
 
     QPainterPath path;
     path.addRoundedRect(this->rect(), radius, radius);
     QRegion mask = QRegion (path.toFillPolygon().toPolygon());
     this->setMask(mask);
+}
+
+void UserProfile::SetImage(){
+    QRect rect(0,0,128,128);
+    QRegion region(rect, QRegion::Ellipse);
+    qDebug() << region.boundingRect().size();
+    ui->UserImageButton->setMask(region);
 }

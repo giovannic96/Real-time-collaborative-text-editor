@@ -1,11 +1,10 @@
 generated/objs/jsonUtility.o
 generated/objs/main.o
-generated/objs/message.o
+generated/objs/loginwindow.o
 generated/objs/myClient.o
-generated/objs/startwindow.o
-generated/objs/userprofile.o
+generated/objs/regwindow.o
 generated/objs/versioninfo.o
 generated/objs/qrc_Risorse.o
+generated/objs/moc_loginwindow.o
 generated/objs/moc_myClient.o
-generated/objs/moc_startwindow.o
-generated/objs/moc_userprofile.o
+generated/objs/moc_regwindow.o
