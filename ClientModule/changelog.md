@@ -1,11 +1,18 @@
 # Changelog ClientModule
 
 ### Note
-- Valutare la possibilità si spostare la connessione al server sol dopo il click sul pulsante accedi o registrati anzichè all'apertura della finestra di login.
-  Il caricamento della finestra è molto rallentato a causa del tentativo di connessione
 - Valutare la possibilità di rendere tutte le precedenti finestre con bordi arrotondati
 ### Todo
 - Rimuovere immagini non usate dalla cartella "image"
+
+## [v0.1.4a - Daily 1192] - 2019/10/19 @ 16:20
+### Cambiamenti
+- Aggiornamento interfaccia grafica
+
+## [v0.1.4a - Daily 1191] - 2019/10/19 @ 13:00
+### Aggiunto
+- Connessione al DB
+- Funzionalità di registrazione
 
 ## [v0.1.4a - Canary 1190] - 2019/10/18 @ 20:00
 ### Aggiunto

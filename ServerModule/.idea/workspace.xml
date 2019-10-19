@@ -13,19 +13,14 @@
   <component name="ChangeListManager">
     <list default="true" id="80fc83ad-504f-4c7e-962e-e0f4ede5a1d5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Debug" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Debug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Release" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Release" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/debug/client.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/debug/client.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/main.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/main.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/moc_userprofile.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/moc_userprofile.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/myClient.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/myClient.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/qrc_Risorse.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/qrc_Risorse.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/userprofile.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/userprofile.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/rccs/qrc_Risorse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/rccs/qrc_Risorse.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/uis/ui_userprofile.h" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/uis/ui_userprofile.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Debug" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Debug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Release" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Release" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/Risorse.qrc" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/Risorse.qrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/changelog.md" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/changelog.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/image/accesso.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/image/accesso.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/image/registrazione.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/image/registrazione.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/image/start.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/image/start.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/startwindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/startwindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/userprofile.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/userprofile.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/versioninfo.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/versioninfo.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -157,7 +152,7 @@
       <workItem from="1571132984006" duration="10704000" />
       <workItem from="1571178950807" duration="1585000" />
       <workItem from="1571475282337" duration="3323000" />
-      <workItem from="1571483336781" duration="4911000" />
+      <workItem from="1571483336781" duration="5004000" />
     </task>
     <servers />
   </component>
