@@ -155,7 +155,7 @@ font-size: 16px;
        <string>Password</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="RegistratiButton">
+     <widget class="QPushButton" name="RegisterButton">
       <property name="geometry">
        <rect>
         <x>740</x>

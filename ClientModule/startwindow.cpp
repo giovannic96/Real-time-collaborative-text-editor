@@ -69,7 +69,7 @@ void StartWindow::on_LoginButton_clicked(){
 }
 
 //SIGNUP BUTTON
-void StartWindow::on_SignupButton_clicked(){
+void StartWindow::on_SignUpButton_clicked(){
     //Get data from the form
     QString user = ui->RegUsernameForm->text();
     QByteArray ba_user = user.toLocal8Bit();
@@ -106,8 +106,8 @@ void StartWindow::on_LoginAdmin_clicked(){
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-//REGISTRATI BUTTON
-void StartWindow::on_RegistratiButton_clicked(){
+//REGISTER BUTTON
+void StartWindow::on_RegisterButton_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
 }
 

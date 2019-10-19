@@ -24,9 +24,9 @@ private slots:
     void on_exitButton_clicked();
     void on_ForgotPasswordButton_clicked();
     void on_LoginAdmin_clicked();
-    void on_RegistratiButton_clicked();
+    void on_RegisterButton_clicked();
     void on_LoginButton_clicked();
-    void on_SignupButton_clicked();
+    void on_SignUpButton_clicked();
     void on_AccediButton_clicked();
     void on_LogoutButton_clicked();
     void on_Username_clicked();

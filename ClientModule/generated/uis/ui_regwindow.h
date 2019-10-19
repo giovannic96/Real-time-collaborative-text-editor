@@ -143,7 +143,7 @@ public:
         LineEditPasswordForm->setText(QString());
         LineEditPasswordForm->setPlaceholderText(QCoreApplication::translate("RegWindow", "Password", nullptr));
         AccediButton->setText(QCoreApplication::translate("RegWindow", "Accedi", nullptr));
-        SignUpButton->setText(QCoreApplication::translate("RegWindow", "Registrati", nullptr));
+        SignUpButton->setText(QCoreApplication::translate("RegWindow", "Register", nullptr));
         label->setText(QCoreApplication::translate("RegWindow", "Hai gi\303\240 un account?", nullptr));
         exitButton->setText(QString());
         LineEditUsernameForm->setText(QString());

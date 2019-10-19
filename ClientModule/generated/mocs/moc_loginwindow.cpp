@@ -37,7 +37,7 @@ QT_MOC_LITERAL(1, 12, 21), // "on_exitButton_clicked"
 QT_MOC_LITERAL(2, 34, 0), // ""
 QT_MOC_LITERAL(3, 35, 31), // "on_ForgotPasswordButton_clicked"
 QT_MOC_LITERAL(4, 67, 22), // "on_LoginButton_clicked"
-QT_MOC_LITERAL(5, 90, 27), // "on_RegistratiButton_clicked"
+QT_MOC_LITERAL(5, 90, 27), // "on_RegisterButton_clicked"
 QT_MOC_LITERAL(6, 118, 26), // "on_pushButton_send_clicked"
 QT_MOC_LITERAL(7, 145, 29), // "on_pushButton_connect_clicked"
 QT_MOC_LITERAL(8, 175, 32), // "on_pushButton_disconnect_clicked"
@@ -53,7 +53,7 @@ QT_MOC_LITERAL(15, 288, 3) // "err"
     "LoginWindow\0on_exitButton_clicked\0\0"
     "on_ForgotPasswordButton_clicked\0"
     "on_LoginButton_clicked\0"
-    "on_RegistratiButton_clicked\0"
+    "on_RegisterButton_clicked\0"
     "on_pushButton_send_clicked\0"
     "on_pushButton_connect_clicked\0"
     "on_pushButton_disconnect_clicked\0"
@@ -112,7 +112,7 @@ void LoginWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 0: _t->on_exitButton_clicked(); break;
         case 1: _t->on_ForgotPasswordButton_clicked(); break;
         case 2: _t->on_LoginButton_clicked(); break;
-        case 3: _t->on_RegistratiButton_clicked(); break;
+        case 3: _t->on_RegisterButton_clicked(); break;
         case 4: _t->on_pushButton_send_clicked(); break;
         case 5: _t->on_pushButton_connect_clicked(); break;
         case 6: _t->on_pushButton_disconnect_clicked(); break;

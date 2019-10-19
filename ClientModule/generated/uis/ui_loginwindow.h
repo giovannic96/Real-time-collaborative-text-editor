@@ -31,7 +31,7 @@ public:
     QPushButton *LoginButton;
     QLabel *version;
     QPushButton *ForgotPasswordButton;
-    QPushButton *RegistratiButton;
+    QPushButton *RegisterButton;
     QLabel *label;
     QLabel *label_status;
     QPushButton *pushButton_connect;
@@ -123,19 +123,19 @@ public:
 "background-repeat:no-repeat;\n"
 "text-decoration: underline;\n"
 "}"));
-        RegistratiButton = new QPushButton(centralwidget);
-        RegistratiButton->setObjectName(QString::fromUtf8("RegistratiButton"));
-        RegistratiButton->setGeometry(QRect(200, 280, 81, 23));
+        RegisterButton = new QPushButton(centralwidget);
+        RegisterButton->setObjectName(QString::fromUtf8("RegisterButton"));
+        RegisterButton->setGeometry(QRect(200, 280, 81, 23));
         QFont font3;
         font3.setPointSize(12);
-        RegistratiButton->setFont(font3);
-        RegistratiButton->setStyleSheet(QString::fromUtf8("#RegistratiButton {\n"
+        RegisterButton->setFont(font3);
+        RegisterButton->setStyleSheet(QString::fromUtf8("#RegisterButton {\n"
 "color: #0033CC;\n"
 "background-color: Transparent;\n"
 "background-repeat:no-repeat;\n"
 "}\n"
 "\n"
-"#RegistratiButton:hover {\n"
+"#RegisterButton:hover {\n"
 "color: #0040FF;\n"
 "text-decoration: underline;\n"
 "}"));
@@ -177,7 +177,7 @@ public:
         LoginButton->setText(QCoreApplication::translate("LoginWindow", "Accedi", nullptr));
         version->setText(QCoreApplication::translate("LoginWindow", "QuestoTestoVieneSostituitoDaVersione", nullptr));
         ForgotPasswordButton->setText(QCoreApplication::translate("LoginWindow", "Password dimenticata?", nullptr));
-        RegistratiButton->setText(QCoreApplication::translate("LoginWindow", "Registrati", nullptr));
+        RegisterButton->setText(QCoreApplication::translate("LoginWindow", "Registrati", nullptr));
         label->setText(QCoreApplication::translate("LoginWindow", "Sei nuovo?", nullptr));
         label_status->setText(QCoreApplication::translate("LoginWindow", "Status", nullptr));
         pushButton_connect->setText(QCoreApplication::translate("LoginWindow", "Connect to server", nullptr));

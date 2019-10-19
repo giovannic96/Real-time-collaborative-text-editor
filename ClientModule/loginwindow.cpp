@@ -108,8 +108,8 @@ void LoginWindow::on_LoginButton_clicked()
     client->write(msg);
 }
 
-//REGISTRATI BUTTON --> handle the switch beetween this window and the "registration window"
-void LoginWindow::on_RegistratiButton_clicked(){
+//REGISTER BUTTON --> handle the switch beetween this window and the "registration window"
+void LoginWindow::on_RegisterButton_clicked(){
     RegWindow *l = new RegWindow();
     l->show();
     this->hide();
