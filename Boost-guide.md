@@ -1,6 +1,7 @@
 # Installing boost libraries for GCC on Windows - Final Guide
 
 ## 1) First step
+1. Download [Boost 1.66.0]
 1. Add to environment variables PATH the string "C:\Qt\Qt5.13.1\Tools\mingw730_64\bin"
 2. Order it as first one
 
@@ -25,7 +26,9 @@
 b2 --build-dir="C:\Program Files\boost_1_66_0\build" --prefix="C:\Program Files\boost" toolset=gcc install
 ```
 
-## 5) Project setup
+## 5) Project setup (for Qt Creator)
 1. Add include folder, i.e. `C:\Program Files\boost\include\boost-1_66`.
 2. Add linker folder, i.e. `C:\Program Files\boost\lib`.
 3. Link required libraries, e.g. `libboost_regex-mgw48-mt-1_66.a`.
+
+[Boost 1.66.0]: https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.7z
