@@ -1,7 +1,7 @@
 # :memo: Real-time-collaborative-text-editor
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## RC - Rilasciata [v0.1.4a - Daily 1193] - 2019/10/19 @ 17:40 - [Differences]
+## Last Release [v0.1.4a - Daily 1193] - 2019/10/19 @ 17:40 - [Differences]
  - Daily Build with some imrpovements and bug fix
 
 ## Author & Developers
