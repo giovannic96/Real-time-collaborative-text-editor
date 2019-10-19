@@ -3,6 +3,8 @@
 
 CMakeFiles/ServerModule.dir/dbService.cpp.o: ../dbService.cpp
 CMakeFiles/ServerModule.dir/dbService.cpp.o: ../header_files/dbService.h
+CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/QDateTime
+CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/QString
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/QVariant
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qalgorithms.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qarraydata.h
@@ -20,6 +22,7 @@ CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qconfig.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qcontainerfwd.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qcontiguouscache.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qcoreevent.h
+CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qdatetime.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qdebug.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qflags.h
 CMakeFiles/ServerModule.dir/dbService.cpp.o: /usr/include/qt5/QtCore/qgenericatomic.h
@@ -95,6 +98,35 @@ CMakeFiles/ServerModule.dir/myServer.cpp.o: ../header_files/participant.h
 CMakeFiles/ServerModule.dir/myServer.cpp.o: ../header_files/room.h
 CMakeFiles/ServerModule.dir/myServer.cpp.o: ../header_files/session.h
 CMakeFiles/ServerModule.dir/myServer.cpp.o: ../myServer.cpp
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/QString
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qarraydata.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qatomic.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qatomic_bootstrap.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qatomic_cxx11.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qatomic_msvc.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qbasicatomic.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qbytearray.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qchar.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qcompilerdetection.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qconfig-bootstrapped.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qconfig.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qflags.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qgenericatomic.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qglobal.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qglobalstatic.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qlogging.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qmutex.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qnamespace.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qnumeric.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qprocessordetection.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qrefcount.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qstring.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qstringbuilder.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qsysinfo.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qsystemdetection.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qtcore-config.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qtypeinfo.h
+CMakeFiles/ServerModule.dir/myServer.cpp.o: /usr/include/qt5/QtCore/qversiontagging.h
 
 CMakeFiles/ServerModule.dir/participant.cpp.o: ../header_files/message.h
 CMakeFiles/ServerModule.dir/participant.cpp.o: ../header_files/participant.h
@@ -113,6 +145,7 @@ CMakeFiles/ServerModule.dir/session.cpp.o: ../header_files/participant.h
 CMakeFiles/ServerModule.dir/session.cpp.o: ../header_files/room.h
 CMakeFiles/ServerModule.dir/session.cpp.o: ../header_files/session.h
 CMakeFiles/ServerModule.dir/session.cpp.o: ../session.cpp
+CMakeFiles/ServerModule.dir/session.cpp.o: /usr/include/qt5/QtCore/QString
 CMakeFiles/ServerModule.dir/session.cpp.o: /usr/include/qt5/QtCore/qarraydata.h
 CMakeFiles/ServerModule.dir/session.cpp.o: /usr/include/qt5/QtCore/qatomic.h
 CMakeFiles/ServerModule.dir/session.cpp.o: /usr/include/qt5/QtCore/qatomic_bootstrap.h

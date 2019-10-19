@@ -13,21 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="80fc83ad-504f-4c7e-962e-e0f4ede5a1d5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/Makefile.Debug" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/Makefile.Debug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/Makefile.Release" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/Makefile.Release" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/debug/client.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/debug/client.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/mocs/moc_myClient.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/mocs/moc_myClient.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/moc_myClient.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/moc_myClient.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/qrc_Risorse.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/qrc_Risorse.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/startwindow.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/startwindow.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/userprofile.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/userprofile.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/rccs/qrc_Risorse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/rccs/qrc_Risorse.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/uis/ui_startwindow.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/uis/ui_startwindow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/uis/ui_userprofile.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/uis/ui_userprofile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/startwindow.ui.autosave" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header_files/jsonUtility.h" beforeDir="false" afterPath="$PROJECT_DIR$/header_files/jsonUtility.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header_files/session.h" beforeDir="false" afterPath="$PROJECT_DIR$/header_files/session.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jsonUtility.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/jsonUtility.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dbService.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/dbService.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/header_files/dbService.h" beforeDir="false" afterPath="$PROJECT_DIR$/header_files/dbService.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/session.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/session.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,6 +28,7 @@
   </component>
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
+    <option name="clangWarnings" value="-Wno-unused-variable,-Werror=implicit-function-declaration,-Wshadow,-Wno-shadow-field-in-constructor-modified,-Wno-shadow-ivar,-Wno-uninitialized,-Wno-unknown-pragmas" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -160,7 +151,7 @@
       <workItem from="1571132984006" duration="10704000" />
       <workItem from="1571178950807" duration="1585000" />
       <workItem from="1571475282337" duration="3323000" />
-      <workItem from="1571483336781" duration="8382000" />
+      <workItem from="1571483336781" duration="12456000" />
     </task>
     <servers />
   </component>

@@ -23,8 +23,12 @@ QSqlQuery
 -
 QtCore/QVariant
 -
+QtCore/QDateTime
+-
 
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/dbService.h
+QtCore/QString
+-
 sqlite3.h
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/sqlite3.h
 
@@ -370,6 +374,10 @@ json.hpp
 string
 -
 
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/myServer.h
+room.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h
+
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/participant.h
 message.h
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/message.h
@@ -398,6 +406,34 @@ message.h
 room.h
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h
 
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/jsonUtility.cpp
+header_files/jsonUtility.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/jsonUtility.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/main.cpp
+memory
+-
+boost/asio.hpp
+-
+iostream
+-
+header_files/myServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/myServer.h
+
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/myServer.cpp
+boost/asio.hpp
+-
+iostream
+-
+memory
+-
+utility
+-
+header_files/myServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/myServer.h
+header_files/session.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/session.h
+
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp
 memory
 -
@@ -423,6 +459,14 @@ header_files/jsonUtility.h
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/jsonUtility.h
 header_files/dbService.h
 /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/dbService.h
+
+/usr/include/qt5/QtCore/QDateTime
+qdatetime.h
+/usr/include/qt5/QtCore/qdatetime.h
+
+/usr/include/qt5/QtCore/QString
+qstring.h
+/usr/include/qt5/QtCore/qstring.h
 
 /usr/include/qt5/QtCore/QVariant
 qvariant.h
@@ -528,6 +572,16 @@ QtCore/qnamespace.h
 QtCore/qbytearray.h
 -
 QtCore/qobjectdefs.h
+-
+
+/usr/include/qt5/QtCore/qdatetime.h
+QtCore/qstring.h
+-
+QtCore/qnamespace.h
+-
+QtCore/qshareddata.h
+-
+limits
 -
 
 /usr/include/qt5/QtCore/qdebug.h

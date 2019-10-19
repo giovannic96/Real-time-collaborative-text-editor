@@ -107,7 +107,7 @@ public:
 "}"));
         LoginPasswordForm = new QLineEdit(loginPage);
         LoginPasswordForm->setObjectName(QString::fromUtf8("LoginPasswordForm"));
-        LoginPasswordForm->setGeometry(QRect(640, 263, 231, 31));
+        LoginPasswordForm->setGeometry(QRect(641, 258, 231, 31));
         LoginPasswordForm->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 15px;\n"
 "padding: 0 8px;\n"
@@ -149,7 +149,7 @@ public:
 "}"));
         LoginUsernameForm = new QLineEdit(loginPage);
         LoginUsernameForm->setObjectName(QString::fromUtf8("LoginUsernameForm"));
-        LoginUsernameForm->setGeometry(QRect(640, 216, 231, 31));
+        LoginUsernameForm->setGeometry(QRect(641, 210, 231, 31));
         LoginUsernameForm->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 15px;\n"
 "padding: 0 8px;\n"
@@ -170,7 +170,7 @@ public:
         Haigiaaccount->setFont(font1);
         RegUsernameForm = new QLineEdit(regPage);
         RegUsernameForm->setObjectName(QString::fromUtf8("RegUsernameForm"));
-        RegUsernameForm->setGeometry(QRect(650, 216, 231, 31));
+        RegUsernameForm->setGeometry(QRect(641, 210, 231, 31));
         RegUsernameForm->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
 "border: transparent;\n"
 "padding: 0 8px;\n"
@@ -179,7 +179,7 @@ public:
 ""));
         RegMailForm = new QLineEdit(regPage);
         RegMailForm->setObjectName(QString::fromUtf8("RegMailForm"));
-        RegMailForm->setGeometry(QRect(650, 260, 231, 31));
+        RegMailForm->setGeometry(QRect(641, 307, 231, 31));
         RegMailForm->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
 "border: transparent;\n"
 "padding: 0 8px;\n"
@@ -220,7 +220,7 @@ public:
 "}"));
         RegPasswordForm = new QLineEdit(regPage);
         RegPasswordForm->setObjectName(QString::fromUtf8("RegPasswordForm"));
-        RegPasswordForm->setGeometry(QRect(650, 304, 231, 31));
+        RegPasswordForm->setGeometry(QRect(641, 258, 231, 31));
         RegPasswordForm->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
 "border: transparent;\n"
 "padding: 0 8px;\n"
@@ -300,6 +300,20 @@ public:
         version->setFont(font3);
         version->setStyleSheet(QString::fromUtf8("color: #EAFF00;"));
         StartWindow->setCentralWidget(centralwidget);
+        QWidget::setTabOrder(RegUsernameForm, RegPasswordForm);
+        QWidget::setTabOrder(RegPasswordForm, RegMailForm);
+        QWidget::setTabOrder(RegMailForm, LoginUsernameForm);
+        QWidget::setTabOrder(LoginUsernameForm, LoginPasswordForm);
+        QWidget::setTabOrder(LoginPasswordForm, LoginButton);
+        QWidget::setTabOrder(LoginButton, ForgotPasswordButton);
+        QWidget::setTabOrder(ForgotPasswordButton, RegisterButton);
+        QWidget::setTabOrder(RegisterButton, LogoutButton);
+        QWidget::setTabOrder(LogoutButton, SignUpButton);
+        QWidget::setTabOrder(SignUpButton, AccediButton);
+        QWidget::setTabOrder(AccediButton, exitButton);
+        QWidget::setTabOrder(exitButton, LoginAdmin);
+        QWidget::setTabOrder(LoginAdmin, Username);
+        QWidget::setTabOrder(Username, openEditor);
 
         retranslateUi(StartWindow);
 
