@@ -7254,26 +7254,11 @@ generated/objs/startwindow.o: startwindow.cpp startwindow.h \
 		jsonUtility.h \
 		json.hpp \
 		generated/uis/ui_startwindow.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/QVariant \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/QIcon \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QApplication \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qapplication.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdesktopwidget.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QLabel \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qlabel.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qframe.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QLineEdit \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QPushButton \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QStackedWidget \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qstackedwidget.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdialog.h \
-		userprofile.h
+		userprofile.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated/objs/startwindow.o startwindow.cpp
 
 generated/objs/userprofile.o: userprofile.cpp userprofile.h \
@@ -7381,22 +7366,6 @@ generated/objs/userprofile.o: userprofile.cpp userprofile.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qtouchdevice.h \
 		generated/uis/ui_userprofile.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/QVariant \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/QIcon \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qicon.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QApplication \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qapplication.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/qcoreapplication.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/qeventloop.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdesktopwidget.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qguiapplication.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qinputmethod.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QLabel \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qlabel.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qframe.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QPushButton \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdialog.h \

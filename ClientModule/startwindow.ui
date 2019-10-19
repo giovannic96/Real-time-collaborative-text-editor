@@ -42,7 +42,7 @@
      <widget class="QPushButton" name="LoginAdmin">
       <property name="geometry">
        <rect>
-        <x>630</x>
+        <x>510</x>
         <y>400</y>
         <width>201</width>
         <height>41</height>

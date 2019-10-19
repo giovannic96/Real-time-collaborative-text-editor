@@ -66,7 +66,7 @@ public:
         loginPage->setStyleSheet(QString::fromUtf8("#loginPage {border-image: url(:/image/accesso.png);}"));
         LoginAdmin = new QPushButton(loginPage);
         LoginAdmin->setObjectName(QString::fromUtf8("LoginAdmin"));
-        LoginAdmin->setGeometry(QRect(630, 400, 201, 41));
+        LoginAdmin->setGeometry(QRect(510, 400, 201, 41));
         QFont font;
         font.setBold(true);
         font.setWeight(75);

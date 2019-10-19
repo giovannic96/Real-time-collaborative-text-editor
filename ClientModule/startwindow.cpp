@@ -93,7 +93,7 @@ void StartWindow::on_SignUpButton_clicked(){
     msg.encode_header();
     client->write(msg);
 }
-
+/*
 void StartWindow::on_NewFileButton_clicked(){ // when press ok
     //Get data from the form
     QString user = ui->NewFileUsernameForm->text();
@@ -114,7 +114,7 @@ void StartWindow::on_NewFileButton_clicked(){ // when press ok
     std::memcpy(msg.body(), req, msg.body_length());
     msg.encode_header();
     client->write(msg);
-}
+}*/
 
 //FORGOT PASSWORD BUTTON
 void StartWindow::on_ForgotPasswordButton_clicked(){

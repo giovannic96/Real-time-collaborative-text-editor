@@ -184,6 +184,7 @@
 #define __VERSION__ "7.3.0"
 #define __UINT64_C(c) c ## ULL
 #define __cpp_unicode_characters 200704
+#define WIN32_LEAN_AND_MEAN 1
 #define __GCC_ATOMIC_INT_LOCK_FREE 2
 #define __FLT128_MAX_EXP__ 16384
 #define __FLT32_MANT_DIG__ 24
