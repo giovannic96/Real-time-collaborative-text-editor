@@ -100,6 +100,41 @@ void session::do_read_body()
                 msg.encode_header();
                 shared_from_this()->deliver(msg); //deliver msg only to the participant
 
+            } else if (opJSON == "SIGNUP_REQUEST"){
+                std::string userJSON;
+                std::string passJSON;
+                std::string emailJSON;
+                jsonUtility::from_json(jdata_in, userJSON, passJSON, emailJSON); //get json value and put into JSON variables
+
+                //Get data from db
+                //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+                const char *db_res;
+                dbService::DB_RESPONSE resp = dbService::trySignup(userJSON, passJSON, emailJSON);
+                if(resp == dbService::SIGNUP_OK)
+                    db_res = "SIGNUP_OK";
+                else if(resp == dbService::SIGNUP_FAILED)
+                    db_res = "SIGNUP_FAILED";
+                else if(resp == dbService::DB_ERROR)
+                    db_res = "DB_ERROR";
+                else if(resp == dbService::QUERY_ERROR)
+                    db_res = "QUERY_ERROR";
+                else if(resp == dbService::EMAIL_ERROR)
+                    db_res = "EMAIL_ERROR";
+                else
+                    db_res = "DB_ERROR";
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json(j, "LOGIN_RESPONSE", db_res);
+                const char* req = j.dump().c_str();
+
+                //Send data (header and body)
+                message msg;
+                msg.body_length(std::strlen(req));
+                std::memcpy(msg.body(), req, msg.body_length());
+                msg.encode_header();
+                shared_from_this()->deliver(msg); //deliver msg only to the participant
+
             } else { //editor functions
                 room_.deliver(read_msg_); //deliver to all the participants
             }
