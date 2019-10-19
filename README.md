@@ -1,4 +1,4 @@
-# Real-time-collaborative-text-editor
+# :memo: Real-time-collaborative-text-editor
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
 ## EM - Rilasciata [v0.1.4a - Canary 1190] - 2019/10/18 @ 20:00 - [Differences]
@@ -6,5 +6,16 @@ Cooperative text editing system that allows one or more users to modify the cont
  - Add a "Start Window" that handle the switch beetwen the Login, Sign Up and Main Menu pages.
  - This update deprecated the functionality of some classes
 
+## Author & Developers
+A special thanks to all of us. Ordered by Surname:
+ - [Giovanni Calà] :computer:
+ - [Rinaldo Clemente] :computer:
+ - [Enrico Mancuso] :computer:
+ - [Francesco Raitano] :computer:
+
 [v0.1.4a - Canary 1190]: https://github.com/giovannic96/Real-time-collaborative-text-editor/tree/master/ClientModule
 [Differences]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/c3d1d41be21d8e6276b0a0fec30c43082bfaa9f3
+[Giovanni Calà]: https://github.com/giovannic96/
+[Rinaldo Clemente]: https://github.com/rinaldoclemente
+[Enrico Mancuso]: https://github.com/HidroSaphire
+[Francesco Raitano]: https://github.com/fr2sinc
