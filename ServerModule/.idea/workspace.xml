@@ -12,85 +12,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="80fc83ad-504f-4c7e-962e-e0f4ede5a1d5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../provaDbQt/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../provaDbQt/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../provaDbQt/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../provaDbQt/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../provaDbQt/.idea/provaDbQt.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../provaDbQt/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdC/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CompilerIdCXX/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Db/texteditor_users.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/Db/texteditor_users.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/build.make" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/dbService.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/dbService.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/depend.internal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/jsonUtility.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/jsonUtility.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/message.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/message.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/myServer.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/myServer.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/participant.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/participant.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/room.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/room.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/session.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ServerModule.dir/session.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ServerModule.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ServerModule.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/ServerModule.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/ServerModule.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dbService.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/dbService.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header_files/dbService.h" beforeDir="false" afterPath="$PROJECT_DIR$/header_files/dbService.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/header_files/session.h" beforeDir="false" afterPath="$PROJECT_DIR$/header_files/session.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/session.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/session.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CMakeRCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdC/a.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/3.15.3/CompilerIdCXX/a.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/cmake.check_cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/depend.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/main.cpp.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/provaDbQt.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/provaDbQt.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/provaDbQt.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../provaDbQt/cmake-build-debug/provaDbQt.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Debug" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Debug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Release" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/Makefile.Release" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/debug/client.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/debug/client.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/main.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/main.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/moc_userprofile.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/moc_userprofile.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/myClient.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/myClient.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/qrc_Risorse.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/qrc_Risorse.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/userprofile.o" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/objs/userprofile.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/rccs/qrc_Risorse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/rccs/qrc_Risorse.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/uis/ui_userprofile.h" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/generated/uis/ui_userprofile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Debug" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Debug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Release" beforeDir="false" afterPath="$PROJECT_DIR$/../build-ClientModule-Desktop_Qt_5_13_1_MinGW_64_bit-Debug/object_script.client.Release" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -139,6 +83,9 @@
     <select />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FavoritesManager">
+    <favorites_list name="ServerModule" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -218,6 +165,8 @@
       <workItem from="1570886846489" duration="793000" />
       <workItem from="1571132984006" duration="10704000" />
       <workItem from="1571178950807" duration="1585000" />
+      <workItem from="1571475282337" duration="3323000" />
+      <workItem from="1571483336781" duration="4161000" />
     </task>
     <servers />
   </component>

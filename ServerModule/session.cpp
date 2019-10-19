@@ -6,6 +6,7 @@
 #include <utility>
 #include <boost/asio.hpp>
 #include <iostream>
+#include <QtSql/QSqlDatabase>
 #include "sqlite3.h"
 #include "header_files/json.hpp"
 #include "header_files/message.h"
@@ -77,6 +78,8 @@ void session::do_read_body()
                 //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
                 const char *db_res;
                 dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
+                QSqlDatabase::removeDatabase("MyConnect2");
+
                 if(resp == dbService::LOGIN_OK)
                     db_res = "LOGIN_OK";
                 else if(resp == dbService::LOGIN_FAILED)
@@ -110,6 +113,8 @@ void session::do_read_body()
                 //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
                 const char *db_res;
                 dbService::DB_RESPONSE resp = dbService::trySignup(userJSON, passJSON, emailJSON);
+                QSqlDatabase::removeDatabase("MyConnect");
+
                 if(resp == dbService::SIGNUP_OK)
                     db_res = "SIGNUP_OK";
                 else if(resp == dbService::SIGNUP_FAILED)
@@ -125,7 +130,7 @@ void session::do_read_body()
 
                 //Serialize data
                 json j;
-                jsonUtility::to_json(j, "LOGIN_RESPONSE", db_res);
+                jsonUtility::to_json(j, "SIGNUP_RESPONSE", db_res);
                 const char* req = j.dump().c_str();
 
                 //Send data (header and body)

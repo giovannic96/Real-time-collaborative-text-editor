@@ -114,3 +114,34 @@ CMakeFiles/ServerModule.dir/session.cpp.o
  /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/room.h
  /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/header_files/session.h
  /cygdrive/c/Users/giova/CLionProjects/Real time text editor/ServerModule/session.cpp
+ /usr/include/qt5/QtCore/qarraydata.h
+ /usr/include/qt5/QtCore/qatomic.h
+ /usr/include/qt5/QtCore/qatomic_bootstrap.h
+ /usr/include/qt5/QtCore/qatomic_cxx11.h
+ /usr/include/qt5/QtCore/qatomic_msvc.h
+ /usr/include/qt5/QtCore/qbasicatomic.h
+ /usr/include/qt5/QtCore/qbytearray.h
+ /usr/include/qt5/QtCore/qchar.h
+ /usr/include/qt5/QtCore/qcompilerdetection.h
+ /usr/include/qt5/QtCore/qconfig-bootstrapped.h
+ /usr/include/qt5/QtCore/qconfig.h
+ /usr/include/qt5/QtCore/qflags.h
+ /usr/include/qt5/QtCore/qgenericatomic.h
+ /usr/include/qt5/QtCore/qglobal.h
+ /usr/include/qt5/QtCore/qglobalstatic.h
+ /usr/include/qt5/QtCore/qlogging.h
+ /usr/include/qt5/QtCore/qmutex.h
+ /usr/include/qt5/QtCore/qnamespace.h
+ /usr/include/qt5/QtCore/qnumeric.h
+ /usr/include/qt5/QtCore/qprocessordetection.h
+ /usr/include/qt5/QtCore/qrefcount.h
+ /usr/include/qt5/QtCore/qstring.h
+ /usr/include/qt5/QtCore/qstringbuilder.h
+ /usr/include/qt5/QtCore/qsysinfo.h
+ /usr/include/qt5/QtCore/qsystemdetection.h
+ /usr/include/qt5/QtCore/qtcore-config.h
+ /usr/include/qt5/QtCore/qtypeinfo.h
+ /usr/include/qt5/QtCore/qversiontagging.h
+ /usr/include/qt5/QtSql/QSqlDatabase
+ /usr/include/qt5/QtSql/qsqldatabase.h
+ /usr/include/qt5/QtSql/qtsqlglobal.h

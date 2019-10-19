@@ -50,7 +50,6 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
         std::cout << "Error on db connection. " << error.text().data() << std::endl;
         return DB_ERROR;
     }
-    QSqlDatabase::removeDatabase("QSQLITE");
 }
 
 dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::string& pass, const std::string& email) {
@@ -61,7 +60,7 @@ dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::
     QString mail = QString::fromUtf8(email.data(), email.size());
 
     //control email with regex
-    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    QRegExp mailREX(R"(\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b)");
     mailREX.setCaseSensitivity(Qt::CaseInsensitive);
     mailREX.setPatternSyntax(QRegExp::RegExp);
     if (!mailREX.exactMatch(mail)) {
@@ -111,7 +110,6 @@ dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::
         //std::cout << "Error during connection";
         return DB_ERROR;
     }
-    QSqlDatabase::removeDatabase("QSQLITE");
 }
 
 inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
