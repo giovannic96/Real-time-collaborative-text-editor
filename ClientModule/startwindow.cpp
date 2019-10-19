@@ -1,11 +1,11 @@
 #include "startwindow.h"
 #include "ui_startwindow.h"
-#include <QMessageBox>      //For Alert Message
-#include <iostream>         //GIOVANNI --> Needed???
-#include <thread>           //GIOVANNI --> For what?
-#include "userprofile.h"    //Show the userprofile window
-#include "jsonUtility.h"    //GIOVANNI --> What is do it?
-#include "message.h"        //GIOVANNI --> Spiegami
+#include <QMessageBox>
+#include <iostream>
+#include <thread>
+#include "userprofile.h"
+#include "jsonUtility.h"
+#include "message.h"
 
 using json = nlohmann::json;
 using boost::asio::ip::tcp;
@@ -18,7 +18,6 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     ui->setupUi(this);
     ui->version->setText(qstr);
     setStatus(client->getStatus());
-    //Le due seguenti connect li metterei in una funzione standalone che richiamerei dentro il pulsante "accedi" e la funzione viene circondata da un try-catch che riprova la connessione per n-volte e poi tira l'eccezione che viene gestita.
     connect(client, &myClient::statusChanged, this, &StartWindow::setStatus);
     connect(client, &myClient::formResult, this, &StartWindow::showFormPopup);
 }
@@ -26,12 +25,12 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
 //DESTRUCTOR
 StartWindow::~StartWindow(){
     delete ui;
+    delete client;
 }
 
 //EXIT BUTTON
 void StartWindow::on_exitButton_clicked(){
     QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
-    //TODO --> Valutate the possibility to add a "delete this;" instruction for calling the destructor
 }
 
 //FUNCTION FOR MAKE DRAGGABLE THE WINDOW
@@ -59,6 +58,32 @@ void StartWindow::on_LoginButton_clicked(){
     //Serialize data
     json j;
     jsonUtility::to_json(j, "LOGIN_REQUEST", c_user, c_pass);
+    const char* req = j.dump().c_str();
+
+    //Send data (header and body)
+    message msg;
+    msg.body_length(std::strlen(req));
+    std::memcpy(msg.body(), req, msg.body_length());
+    msg.encode_header();
+    client->write(msg);
+}
+
+//SIGNUP BUTTON
+void StartWindow::on_SignupButton_clicked(){
+    //Get data from the form
+    QString user = ui->RegUsernameForm->text();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+    QString pass = ui->RegPasswordForm->text();
+    QByteArray ba_pass = pass.toLocal8Bit();
+    const char *c_pass = ba_pass.data();
+    QString email = ui->RegMailForm->text();
+    QByteArray ba_email = email.toLocal8Bit();
+    const char *c_email = ba_email.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_json(j, "SIGNUP_REQUEST", c_user, c_pass, c_email);
     const char* req = j.dump().c_str();
 
     //Send data (header and body)
@@ -106,21 +131,30 @@ void StartWindow::on_Username_clicked(){
 //SET STATUS LABEL
 void StartWindow::setStatus(bool newStatus) {
     if(newStatus) {
-        ui->label_status->setText(tr("<font color=\"green\">CONNESSO</font>"));
+        ui->label_status->setText(tr("<font color=\"green\">CONNECTED</font>"));
     }
     else {
-        ui->label_status->setText(tr("<font color=\"red\">DISCONNESSO</font>"));
+        ui->label_status->setText(tr("<font color=\"red\">DISCONNECTED</font>"));
     }
 }
 
-//SHOW FORM POPUP --> Cosa fa????
 void StartWindow::showFormPopup(QString result, QString title, QString msg) {
-    if(result == "SUCCESS") {
+    if(result == "LOGIN_SUCCESS") {
         QMessageBox messageBox;
         messageBox.information(nullptr, title, msg);
         messageBox.setFixedSize(500,200);
-        //TODO: Go to the next window
-    } else if(result == "FAILURE") {
+        ui->stackedWidget->setCurrentIndex(2);
+    } else if(result == "LOGIN_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, title, msg);
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else if(result == "SIGNUP_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, title, msg);
+        messageBox.setFixedSize(500,200);
+        ui->stackedWidget->setCurrentIndex(0);
+    } else if(result == "SIGNUP_FAILURE") {
         QMessageBox messageBox;
         messageBox.critical(nullptr, title, msg);
         messageBox.setFixedSize(500,200);

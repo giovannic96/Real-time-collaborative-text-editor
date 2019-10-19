@@ -28,11 +28,8 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 SOURCES += \
     jsonUtility.cpp \
     main.cpp \
-    loginwindow.cpp \
     message.cpp \
     myClient.cpp \
-    regwindow.cpp \
-    startmenu.cpp \
     startwindow.cpp \
     userprofile.cpp \
     versioninfo.cpp
@@ -40,19 +37,13 @@ SOURCES += \
 HEADERS += \
     json.hpp \
     jsonUtility.h \
-    loginwindow.h \
     message.h \
     myClient.h \
-    regwindow.h \
-    startmenu.h \
     startwindow.h \
     userprofile.h \
     versioninfo.h
 
 FORMS += \
-    loginwindow.ui \
-    regwindow.ui \
-    startmenu.ui \
     startwindow.ui \
     userprofile.ui
 

@@ -73,10 +73,21 @@ void myClient::do_read_body() {
 
                 if(db_responseJSON == "LOGIN_OK") {
                     qDebug() << "Login success" << endl;
-                    emit formResult("SUCCESS", "Login Success", "Login successfully completed");
+                    emit formResult("LOGIN_SUCCESS", "Login Success", "Login successfully completed");
                 } else {
                     qDebug() << "Wrong user or password" << endl;
-                    emit formResult("FAILURE", "Login Failed", "Login not completed: wrong user or password");
+                    emit formResult("LOGIN_FAILURE", "Login Failed", "Login not completed: wrong user or password");
+                }
+            } else if(opJSON == "SIGNUP_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "SIGNUP_OK") {
+                    qDebug() << "Signup success" << endl;
+                    emit formResult("SIGNUP_SUCCESS", "Signup Success", "Signup successfully completed");
+                } else {
+                    qDebug() << "Something went wrong" << endl;
+                    emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
                 }
             }
             do_read_header(); //continue reading loop

@@ -26,11 +26,12 @@ private slots:
     void on_LoginAdmin_clicked();
     void on_RegistratiButton_clicked();
     void on_LoginButton_clicked();
+    void on_SignupButton_clicked();
     void on_AccediButton_clicked();
     void on_LogoutButton_clicked();
     void on_Username_clicked();
 
-public slots:   //GIOVANNI --> PERCHè PUBLIC?????
+public slots:
     void setStatus(bool newStatus);
     void showFormPopup(QString result, QString title, QString msg);
 
