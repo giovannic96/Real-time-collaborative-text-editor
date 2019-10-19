@@ -6,13 +6,14 @@
 
 namespace Ui {class UserProfile;}
 
-//Class StartMenu --> This class show a welcome page for the logged user in a bordless window
+//Class UserProfile --> This class show the information about the logged user in a bordless window
 class UserProfile : public QWidget{
     Q_OBJECT
 
 public:
-    explicit UserProfile(QWidget *parent = nullptr);
+    explicit UserProfile(QString nome, QWidget *parent = nullptr);
     ~UserProfile();
+    void SetRadiusBorder();
 
 private slots:
     void on_exitButton_clicked();
@@ -20,6 +21,8 @@ private slots:
 
 private:
     Ui::UserProfile *ui;                //"ui" (user interface)
+    //For "Username" QString
+    QString nomeutente;
 };
 
 #endif // USERPROFILE_H

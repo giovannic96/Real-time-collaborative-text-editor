@@ -5,7 +5,7 @@
 #include <QtGui>            //QPoint
 #include "versioninfo.h"    //Needed to show the current version of the software
 #include "loginwindow.h"    //For switching to the login window
-#include "userprofile.h"    //For switching to the userprofile window
+#include "userprofile.h"
 
 namespace Ui {class StartMenu;}
 
@@ -22,6 +22,7 @@ private slots:
     void on_exitButton_clicked();
     void on_LogoutButton_clicked();
     void on_Username_clicked();
+    void on_openEditor_clicked();
 
 private:
     Ui::StartMenu *ui;                      //"ui" (user interface)
@@ -32,6 +33,7 @@ private:
     QString nomeutente;
     //For mouse related event
     QPoint oldPos;                          //This "oldPos" object is used to save the old position of the windows for the translation of windows
+
 
 protected:
     //Function for mouse related event

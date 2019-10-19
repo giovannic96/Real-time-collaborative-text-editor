@@ -33,6 +33,7 @@ SOURCES += \
     myClient.cpp \
     regwindow.cpp \
     startmenu.cpp \
+    startwindow.cpp \
     userprofile.cpp \
     versioninfo.cpp
 
@@ -44,6 +45,7 @@ HEADERS += \
     myClient.h \
     regwindow.h \
     startmenu.h \
+    startwindow.h \
     userprofile.h \
     versioninfo.h
 
@@ -51,6 +53,7 @@ FORMS += \
     loginwindow.ui \
     regwindow.ui \
     startmenu.ui \
+    startwindow.ui \
     userprofile.ui
 
 # Default rules for deployment.

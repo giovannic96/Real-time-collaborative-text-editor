@@ -148,8 +148,46 @@ background-repeat:no-repeat;
      <string>Disconnettiti</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="openEditor">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>260</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#openEditor{
+	text-align: left;
+	color: #0000FF;
+	font-size: 20px;
+	background-color:transparent;
+	border: transparent;
+}
+#openEditor:hover{
+	text-decoration: underline;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Apri Editor</string>
+    </property>
+    <property name="icon">
+     <iconset resource="Risorse.qrc">
+      <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="Risorse.qrc"/>
+ </resources>
  <connections/>
 </ui>

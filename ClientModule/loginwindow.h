@@ -42,8 +42,10 @@ private:
     QSqlDatabase db;
     //For mouse related event
     QPoint oldPos;                          //This "oldPos" object is used to save the old position of the windows for the translation of windows
+    //For "version" QString
     VersionInfo v1;
     QString qstr = v1.getVersion();
+    //For client
     myClient *client;
 
 protected:

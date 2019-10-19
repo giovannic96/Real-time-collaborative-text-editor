@@ -13,11 +13,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>0</y>
+     <y>10</y>
      <width>29</width>
      <height>23</height>
     </rect>
@@ -53,6 +56,9 @@ background-repeat:no-repeat;
      <height>168</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -65,6 +71,23 @@ background-repeat:no-repeat;
      <width>168</width>
      <height>168</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Username">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>240</y>
+     <width>231</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: #0000FF;
+font-size: 20px;</string>
+   </property>
+   <property name="text">
+    <string>UsernameGoesHere</string>
    </property>
   </widget>
  </widget>
