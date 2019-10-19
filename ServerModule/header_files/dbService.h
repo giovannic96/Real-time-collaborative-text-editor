@@ -13,10 +13,10 @@ private:
     sqlite3* _db;
 
 public:
-    enum DB_RESPONSE {LOGIN_OK, LOGIN_FAILED, SIGNUP_OK, SIGNUP_FAILED, DB_ERROR, QUERY_ERROR};
+    enum DB_RESPONSE {LOGIN_OK, LOGIN_FAILED, SIGNUP_OK, SIGNUP_FAILED, DB_ERROR, QUERY_ERROR, EMAIL_ERROR};
     static inline const char* enumToStr(dbService::DB_RESPONSE db_resp);
     static DB_RESPONSE tryLogin(const std::string& user, const std::string& pass);
-    DB_RESPONSE trySignup(const std::string &user, const std::string &pass, const std::string &email);
+    static DB_RESPONSE trySignup(const std::string& user, const std::string& pass, const std::string& email);
 };
 
 
