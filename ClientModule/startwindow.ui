@@ -42,8 +42,8 @@
      <widget class="QPushButton" name="LoginAdmin">
       <property name="geometry">
        <rect>
-        <x>850</x>
-        <y>430</y>
+        <x>860</x>
+        <y>590</y>
         <width>201</width>
         <height>41</height>
        </rect>
@@ -116,12 +116,17 @@ background-color: rgb(20, 78, 117);
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>-1</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent;
 border-radius: 15px;
 padding: 0 8px;
 selection-background-color: darkgray;
-font-size: 16px;
+font-size: 18px;
 </string>
       </property>
       <property name="inputMask">
@@ -149,7 +154,7 @@ font-size: 16px;
       <property name="font">
        <font>
         <family>Calibri</family>
-        <pointsize>14</pointsize>
+        <pointsize>16</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -173,9 +178,9 @@ text-decoration: underline;
      <widget class="QPushButton" name="ForgotPasswordButton">
       <property name="geometry">
        <rect>
-        <x>730</x>
+        <x>750</x>
         <y>380</y>
-        <width>181</width>
+        <width>151</width>
         <height>21</height>
        </rect>
       </property>
@@ -211,12 +216,17 @@ text-decoration: underline;
         <height>31</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>-1</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent;
 border-radius: 15px;
 padding: 0 8px;
 selection-background-color: darkgray;
-font-size: 16px;
+font-size: 18px;
 </string>
       </property>
       <property name="text">
@@ -261,7 +271,7 @@ font-size: 16px;
 border: transparent;
 padding: 0 8px;
 selection-background-color: darkgray;
-font-size: 16px;
+font-size: 18px;
 </string>
       </property>
       <property name="text">
@@ -285,7 +295,7 @@ font-size: 16px;
 border: transparent;
 padding: 0 8px;
 selection-background-color: darkgray;
-font-size: 16px;
+font-size: 18px;
 </string>
       </property>
       <property name="text">
@@ -335,7 +345,7 @@ background-color: rgb(20, 78, 117);
      <widget class="QPushButton" name="AccediButton">
       <property name="geometry">
        <rect>
-        <x>590</x>
+        <x>600</x>
         <y>40</y>
         <width>81</width>
         <height>23</height>
@@ -381,7 +391,7 @@ text-decoration: underline;
 border: transparent;
 padding: 0 8px;
 selection-background-color: darkgray;
-font-size: 16px;
+font-size: 18px;
 </string>
       </property>
       <property name="inputMask">
