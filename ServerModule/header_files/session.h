@@ -26,6 +26,8 @@ private:
     void do_read_body();
     void do_write(); //for the editor
     void do_write(message m); //for single client
+    const char* handleRequests(const std::string& opJSON, const json& jdata_in);
+    void sendMsg(const char* response);
 
 public:
     explicit session(tcp::socket socket, room& room);

@@ -69,80 +69,8 @@ void session::do_read_body()
             } catch (json::type_error& e) {
                 std::cerr << e.what() << '\n';
             }
-            if(opJSON == "LOGIN_REQUEST") {
-                std::string userJSON;
-                std::string passJSON;
-                jsonUtility::from_json(jdata_in, userJSON, passJSON); //get json value and put into JSON variables
-
-                //Get data from db
-                //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
-                const char *db_res;
-                dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
-                QSqlDatabase::removeDatabase("MyConnect2");
-
-                if(resp == dbService::LOGIN_OK)
-                    db_res = "LOGIN_OK";
-                else if(resp == dbService::LOGIN_FAILED)
-                    db_res = "LOGIN_FAILED";
-                else if(resp == dbService::DB_ERROR)
-                    db_res = "DB_ERROR";
-                else if(resp == dbService::QUERY_ERROR)
-                    db_res = "QUERY_ERROR";
-                else
-                    db_res = "DB_ERROR";
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json(j, "LOGIN_RESPONSE", db_res);
-                const char* req = j.dump().c_str();
-
-                //Send data (header and body)
-                message msg;
-                msg.body_length(std::strlen(req));
-                std::memcpy(msg.body(), req, msg.body_length());
-                msg.encode_header();
-                shared_from_this()->deliver(msg); //deliver msg only to the participant
-
-            } else if (opJSON == "SIGNUP_REQUEST"){
-                std::string userJSON;
-                std::string passJSON;
-                std::string emailJSON;
-                jsonUtility::from_json(jdata_in, userJSON, passJSON, emailJSON); //get json value and put into JSON variables
-
-                //Get data from db
-                //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
-                const char *db_res;
-                dbService::DB_RESPONSE resp = dbService::trySignup(userJSON, passJSON, emailJSON);
-                QSqlDatabase::removeDatabase("MyConnect");
-
-                if(resp == dbService::SIGNUP_OK)
-                    db_res = "SIGNUP_OK";
-                else if(resp == dbService::SIGNUP_FAILED)
-                    db_res = "SIGNUP_FAILED";
-                else if(resp == dbService::DB_ERROR)
-                    db_res = "DB_ERROR";
-                else if(resp == dbService::QUERY_ERROR)
-                    db_res = "QUERY_ERROR";
-                else if(resp == dbService::EMAIL_ERROR)
-                    db_res = "EMAIL_ERROR";
-                else
-                    db_res = "DB_ERROR";
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json(j, "SIGNUP_RESPONSE", db_res);
-                const char* req = j.dump().c_str();
-
-                //Send data (header and body)
-                message msg;
-                msg.body_length(std::strlen(req));
-                std::memcpy(msg.body(), req, msg.body_length());
-                msg.encode_header();
-                shared_from_this()->deliver(msg); //deliver msg only to the participant
-
-            } else { //editor functions
-                room_.deliver(read_msg_); //deliver to all the participants
-            }
+            const char* response = this->handleRequests(opJSON, jdata_in);
+            this->sendMsg(response);
             do_read_header(); //continue reading loop
         }
         else {
@@ -181,5 +109,109 @@ void session::do_write(message m) {
              room_.leave(shared_from_this());
          }
      });
+}
+
+void session::sendMsg(const char* response) {
+    //Send data (header and body)
+    message msg;
+    msg.body_length(std::strlen(response));
+    std::memcpy(msg.body(), response, msg.body_length());
+    msg.encode_header();
+    shared_from_this()->deliver(msg); //deliver msg only to the participant
+}
+
+const char* session::handleRequests(const std::string& opJSON, const json& jdata_in) {
+    if(opJSON == "LOGIN_REQUEST") {
+        std::string userJSON;
+        std::string passJSON;
+        jsonUtility::from_json(jdata_in, userJSON, passJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
+        QSqlDatabase::removeDatabase("MyConnect2");
+
+        if(resp == dbService::LOGIN_OK)
+            db_res = "LOGIN_OK";
+        else if(resp == dbService::LOGIN_FAILED)
+            db_res = "LOGIN_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "LOGIN_RESPONSE", db_res);
+        const char* response = j.dump().c_str();
+        return response;
+
+    } else if (opJSON == "SIGNUP_REQUEST"){
+        std::string userJSON;
+        std::string passJSON;
+        std::string emailJSON;
+        jsonUtility::from_json(jdata_in, userJSON, passJSON, emailJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+        dbService::DB_RESPONSE resp = dbService::trySignup(userJSON, passJSON, emailJSON);
+        QSqlDatabase::removeDatabase("MyConnect");
+
+        if(resp == dbService::SIGNUP_OK)
+            db_res = "SIGNUP_OK";
+        else if(resp == dbService::SIGNUP_FAILED)
+            db_res = "SIGNUP_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else if(resp == dbService::EMAIL_ERROR)
+            db_res = "EMAIL_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "SIGNUP_RESPONSE", db_res);
+        const char* response = j.dump().c_str();
+        return response;
+
+    } else if (opJSON == "NEWFILE_REQUEST") {
+        std::string userJSON;
+        std::string filenameJSON;
+        jsonUtility::from_json_filename(jdata_in, userJSON, filenameJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+        dbService::DB_RESPONSE resp = dbService::tryNewFile(userJSON, filenameJSON);
+        QSqlDatabase::removeDatabase("MyConnect3");
+
+        if(resp == dbService::SIGNUP_OK)
+            db_res = "NEWFILE_OK";
+        else if(resp == dbService::SIGNUP_FAILED)
+            db_res = "NEWFILE_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else if(resp == dbService::EMAIL_ERROR)
+            db_res = "FILENAME_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "NEWFILE_RESPONSE", db_res);
+        const char* response = j.dump().c_str();
+        return response;
+
+    } else { //editor functions
+        room_.deliver(read_msg_); //deliver to all the participants
+    }
 }
 #pragma clang diagnostic pop
