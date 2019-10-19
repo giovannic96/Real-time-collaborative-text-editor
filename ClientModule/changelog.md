@@ -1,9 +1,11 @@
 # Changelog ClientModule
 
-### Note
-- Valutare la possibilità di rendere tutte le precedenti finestre con bordi arrotondati
-### Todo
-- Rimuovere immagini non usate dalla cartella "image"
+## [v0.1.4a - Daily 1193] - 2019/10/19 @ 17:40
+### Cambiamenti
+- BugFix: Corretto errore dello sfondo di UserProfile
+- BugFix: BorderRadius corretto
+- BugFix: Ordine dei Tab dei LineForm corretto
+- Arrotondamento dell'immagine della UserProfile
 
 ## [v0.1.4a - Daily 1192] - 2019/10/19 @ 16:20
 ### Cambiamenti
