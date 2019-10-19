@@ -127,12 +127,13 @@ compiler_rcc_clean:
 	-$(DEL_FILE) generated/rccs/qrc_Risorse.cpp
 generated/rccs/qrc_Risorse.cpp: Risorse.qrc \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/bin/rcc.exe \
-		image/start.jpg \
+		image/registrazione.png \
+		image/accesso.png \
 		image/397435-200.png \
-		image/registrazione.jpg \
+		image/start.png \
 		image/basics-22-128.png \
-		image/accesso.jpg \
-		image/Immagine.png
+		image/Immagine.png \
+		image/infoprofile.png
 	'C:\Qt\Qt5.13.1\5.13.1\mingw73_64\bin\rcc.exe' -name Risorse Risorse.qrc -o generated/rccs/qrc_Risorse.cpp
 
 compiler_moc_predefs_make_all: generated/mocs/moc_predefs.h
@@ -7253,11 +7254,26 @@ generated/objs/startwindow.o: startwindow.cpp startwindow.h \
 		jsonUtility.h \
 		json.hpp \
 		generated/uis/ui_startwindow.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/QVariant \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/QIcon \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QLineEdit \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QStackedWidget \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qstackedwidget.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdialog.h \
-		userprofile.h \
-		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QWidget
+		userprofile.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated/objs/startwindow.o startwindow.cpp
 
 generated/objs/userprofile.o: userprofile.cpp userprofile.h \
@@ -7365,6 +7381,22 @@ generated/objs/userprofile.o: userprofile.cpp userprofile.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qtouchdevice.h \
 		generated/uis/ui_userprofile.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/QVariant \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/QIcon \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qicon.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QApplication \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qapplication.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/qcoreapplication.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtCore/qeventloop.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdesktopwidget.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qguiapplication.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtGui/qinputmethod.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QLabel \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qlabel.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qframe.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QPushButton \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.13.1/5.13.1/mingw73_64/include/QtWidgets/qdialog.h \

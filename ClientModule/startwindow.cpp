@@ -94,6 +94,28 @@ void StartWindow::on_SignUpButton_clicked(){
     client->write(msg);
 }
 
+void StartWindow::on_NewFileButton_clicked(){ // when press ok
+    //Get data from the form
+    QString user = ui->NewFileUsernameForm->text();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+    QString filename = ui->NewFileFilenameForm->text();
+    QByteArray ba_filename = filename.toLocal8Bit();
+    const char *c_filename = ba_filename.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
+    const char* req = j.dump().c_str();
+
+    //Send data (header and body)
+    message msg;
+    msg.body_length(std::strlen(req));
+    std::memcpy(msg.body(), req, msg.body_length());
+    msg.encode_header();
+    client->write(msg);
+}
+
 //FORGOT PASSWORD BUTTON
 void StartWindow::on_ForgotPasswordButton_clicked(){
     QMessageBox msgBox;

@@ -63,7 +63,7 @@ public:
         stackedWidget->setGeometry(QRect(0, 0, 900, 525));
         loginPage = new QWidget();
         loginPage->setObjectName(QString::fromUtf8("loginPage"));
-        loginPage->setStyleSheet(QString::fromUtf8("#loginPage {border-image: url(:/image/accesso.jpg);}"));
+        loginPage->setStyleSheet(QString::fromUtf8("#loginPage {border-image: url(:/image/accesso.png);}"));
         LoginAdmin = new QPushButton(loginPage);
         LoginAdmin->setObjectName(QString::fromUtf8("LoginAdmin"));
         LoginAdmin->setGeometry(QRect(630, 400, 201, 41));
@@ -107,7 +107,7 @@ public:
 "}"));
         LoginPasswordForm = new QLineEdit(loginPage);
         LoginPasswordForm->setObjectName(QString::fromUtf8("LoginPasswordForm"));
-        LoginPasswordForm->setGeometry(QRect(630, 263, 231, 31));
+        LoginPasswordForm->setGeometry(QRect(640, 263, 231, 31));
         LoginPasswordForm->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 15px;\n"
 "padding: 0 8px;\n"
@@ -149,7 +149,7 @@ public:
 "}"));
         LoginUsernameForm = new QLineEdit(loginPage);
         LoginUsernameForm->setObjectName(QString::fromUtf8("LoginUsernameForm"));
-        LoginUsernameForm->setGeometry(QRect(630, 216, 231, 31));
+        LoginUsernameForm->setGeometry(QRect(640, 216, 231, 31));
         LoginUsernameForm->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border-radius: 15px;\n"
 "padding: 0 8px;\n"
@@ -163,14 +163,14 @@ public:
         stackedWidget->addWidget(loginPage);
         regPage = new QWidget();
         regPage->setObjectName(QString::fromUtf8("regPage"));
-        regPage->setStyleSheet(QString::fromUtf8("#regPage {border-image: url(:/image/registrazione.jpg);}"));
+        regPage->setStyleSheet(QString::fromUtf8("#regPage {border-image: url(:/image/registrazione.png);}"));
         Haigiaaccount = new QLabel(regPage);
         Haigiaaccount->setObjectName(QString::fromUtf8("Haigiaaccount"));
         Haigiaaccount->setGeometry(QRect(610, 480, 151, 21));
         Haigiaaccount->setFont(font1);
         RegUsernameForm = new QLineEdit(regPage);
         RegUsernameForm->setObjectName(QString::fromUtf8("RegUsernameForm"));
-        RegUsernameForm->setGeometry(QRect(630, 186, 231, 31));
+        RegUsernameForm->setGeometry(QRect(650, 216, 231, 31));
         RegUsernameForm->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
 "border: transparent;\n"
 "padding: 0 8px;\n"
@@ -179,7 +179,7 @@ public:
 ""));
         RegMailForm = new QLineEdit(regPage);
         RegMailForm->setObjectName(QString::fromUtf8("RegMailForm"));
-        RegMailForm->setGeometry(QRect(630, 230, 231, 31));
+        RegMailForm->setGeometry(QRect(650, 260, 231, 31));
         RegMailForm->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
 "border: transparent;\n"
 "padding: 0 8px;\n"
@@ -188,7 +188,7 @@ public:
 ""));
         SignUpButton = new QPushButton(regPage);
         SignUpButton->setObjectName(QString::fromUtf8("SignUpButton"));
-        SignUpButton->setGeometry(QRect(740, 320, 121, 41));
+        SignUpButton->setGeometry(QRect(740, 370, 121, 41));
         SignUpButton->setFont(font);
         SignUpButton->setCursor(QCursor(Qt::PointingHandCursor));
         SignUpButton->setStyleSheet(QString::fromUtf8("#SignUpButton{color: rgb(255, 255, 255); \n"
@@ -220,7 +220,7 @@ public:
 "}"));
         RegPasswordForm = new QLineEdit(regPage);
         RegPasswordForm->setObjectName(QString::fromUtf8("RegPasswordForm"));
-        RegPasswordForm->setGeometry(QRect(630, 274, 231, 31));
+        RegPasswordForm->setGeometry(QRect(650, 304, 231, 31));
         RegPasswordForm->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
 "border: transparent;\n"
 "padding: 0 8px;\n"
@@ -231,7 +231,7 @@ public:
         stackedWidget->addWidget(regPage);
         menuPage = new QWidget();
         menuPage->setObjectName(QString::fromUtf8("menuPage"));
-        menuPage->setStyleSheet(QString::fromUtf8("#menuPage {border-image: url(:/image/start.jpg);}"));
+        menuPage->setStyleSheet(QString::fromUtf8("#menuPage {border-image: url(:/image/start.png);}"));
         LogoutButton = new QPushButton(menuPage);
         LogoutButton->setObjectName(QString::fromUtf8("LogoutButton"));
         LogoutButton->setGeometry(QRect(670, 470, 131, 41));
@@ -253,7 +253,7 @@ public:
 "}"));
         openEditor = new QPushButton(menuPage);
         openEditor->setObjectName(QString::fromUtf8("openEditor"));
-        openEditor->setGeometry(QRect(600, 260, 131, 31));
+        openEditor->setGeometry(QRect(600, 290, 131, 31));
         openEditor->setStyleSheet(QString::fromUtf8("#openEditor{\n"
 "	text-align: left;\n"
 "	color: #0000FF;\n"
@@ -271,7 +271,7 @@ public:
         openEditor->setIconSize(QSize(13, 13));
         Username = new QPushButton(menuPage);
         Username->setObjectName(QString::fromUtf8("Username"));
-        Username->setGeometry(QRect(670, 180, 211, 23));
+        Username->setGeometry(QRect(670, 200, 211, 23));
         Username->setStyleSheet(QString::fromUtf8("#Username{\n"
 "	text-align: left;\n"
 "	color: #0000FF;\n"
@@ -331,7 +331,7 @@ public:
         RegPasswordForm->setText(QString());
         RegPasswordForm->setPlaceholderText(QCoreApplication::translate("StartWindow", "Password", nullptr));
         LogoutButton->setText(QCoreApplication::translate("StartWindow", "Disconnettiti", nullptr));
-        openEditor->setText(QCoreApplication::translate("StartWindow", "Apri Editor", nullptr));
+        openEditor->setText(QCoreApplication::translate("StartWindow", "Apri File", nullptr));
         Username->setText(QCoreApplication::translate("StartWindow", "UsernameGoesHere", nullptr));
         exitButton->setText(QString());
         version->setText(QCoreApplication::translate("StartWindow", "QuestoTestoVieneSostituitoDaVersione", nullptr));

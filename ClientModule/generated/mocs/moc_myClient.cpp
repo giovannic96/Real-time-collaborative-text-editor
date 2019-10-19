@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_myClient_t {
-    QByteArrayData data[10];
-    char stringdata0[107];
+    QByteArrayData data[7];
+    char stringdata0[52];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,18 +35,14 @@ static const qt_meta_stringdata_myClient_t qt_meta_stringdata_myClient = {
 QT_MOC_LITERAL(0, 0, 8), // "myClient"
 QT_MOC_LITERAL(1, 9, 13), // "statusChanged"
 QT_MOC_LITERAL(2, 23, 0), // ""
-QT_MOC_LITERAL(3, 24, 11), // "hasReadSome"
-QT_MOC_LITERAL(4, 36, 3), // "msg"
-QT_MOC_LITERAL(5, 40, 15), // "closeConnection"
-QT_MOC_LITERAL(6, 56, 12), // "connect2host"
-QT_MOC_LITERAL(7, 69, 9), // "readyRead"
-QT_MOC_LITERAL(8, 79, 9), // "connected"
-QT_MOC_LITERAL(9, 89, 17) // "connectionTimeout"
+QT_MOC_LITERAL(3, 24, 10), // "formResult"
+QT_MOC_LITERAL(4, 35, 6), // "result"
+QT_MOC_LITERAL(5, 42, 5), // "title"
+QT_MOC_LITERAL(6, 48, 3) // "msg"
 
     },
-    "myClient\0statusChanged\0\0hasReadSome\0"
-    "msg\0closeConnection\0connect2host\0"
-    "readyRead\0connected\0connectionTimeout"
+    "myClient\0statusChanged\0\0formResult\0"
+    "result\0title\0msg"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,7 +52,7 @@ static const uint qt_meta_data_myClient[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,26 +60,12 @@ static const uint qt_meta_data_myClient[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    2, 0x06 /* Public */,
-       3,    1,   52,    2, 0x06 /* Public */,
-
- // slots: name, argc, parameters, tag, flags
-       5,    0,   55,    2, 0x0a /* Public */,
-       6,    0,   56,    2, 0x0a /* Public */,
-       7,    0,   57,    2, 0x08 /* Private */,
-       8,    0,   58,    2, 0x08 /* Private */,
-       9,    0,   59,    2, 0x08 /* Private */,
+       1,    1,   24,    2, 0x06 /* Public */,
+       3,    3,   27,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Bool,    2,
-    QMetaType::Void, QMetaType::QString,    4,
-
- // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString,    4,    5,    6,
 
        0        // eod
 };
@@ -95,12 +77,7 @@ void myClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->statusChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 1: _t->hasReadSome((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: _t->closeConnection(); break;
-        case 3: _t->connect2host(); break;
-        case 4: _t->readyRead(); break;
-        case 5: _t->connected(); break;
-        case 6: _t->connectionTimeout(); break;
+        case 1: _t->formResult((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -113,8 +90,8 @@ void myClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
             }
         }
         {
-            using _t = void (myClient::*)(QString );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&myClient::hasReadSome)) {
+            using _t = void (myClient::*)(QString , QString , QString );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&myClient::formResult)) {
                 *result = 1;
                 return;
             }
@@ -151,13 +128,13 @@ int myClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 2)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 2;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 2)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 2;
     }
     return _id;
 }
@@ -170,9 +147,9 @@ void myClient::statusChanged(bool _t1)
 }
 
 // SIGNAL 1
-void myClient::hasReadSome(QString _t1)
+void myClient::formResult(QString _t1, QString _t2, QString _t3)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t3))) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_WARNING_POP
