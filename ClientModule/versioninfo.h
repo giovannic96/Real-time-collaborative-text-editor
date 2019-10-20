@@ -13,7 +13,7 @@ private:
     QString str;
 public:
     //CONSTRUCTOR WITHOUT PARAMETER (Default)
-    VersionInfo(): Major(0), Minor(1), Patch(4), ReleaseType("a"), BuildTypeAndNumber("Daily 1194"){
+    VersionInfo(): Major(0), Minor(1), Patch(4), ReleaseType("a"), BuildTypeAndNumber("Daily 1196"){
         str = "v"+QString::number(Major)+"."+QString::number(Minor)+"."+QString::number(Patch)+ReleaseType+" - "+BuildTypeAndNumber;
     }
 
@@ -51,12 +51,6 @@ The version is in the "vA.B.CD - E F" form, where:
  + nothing/empty when is finished
 
  - F is progressive number/letter format
-
-Man, I know is hard and is a boring work that take time, but this instruction is so clear and can really help if we done constantly upgrade and update to this project.
-Imagine that all the stuff implemented is f****d up, I mean, we can recovery from a stable version, or maybe we can take the functionality individually implemented
-in a Nightly and paste on a Canary, or take a customization and apply to a vanilla! Is a function done, and we never touch it again? Well, put a 'rc' and we are
-sure that the project is working fine enaugh! I know you're going to hate me, but trust me, you will hate most your future boss than me, and this bad version thing
-can help you to be "not-fired"! Trust me, i'm an Engineer! (and this comment will end in "The HOF of comment" someday!)
 
 Have some question? Follow the link.
 http://www.computersemplice.it/i-numeri-di-versione-del-software/
