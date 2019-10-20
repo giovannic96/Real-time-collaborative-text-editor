@@ -3,7 +3,11 @@
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 
-## [v0.1.4a - Nightly 1196] - 2019/10/19 @ 02:32
+## [v0.1.4a - Nightly 1197] - 2019/10/20 @ 18:00
+### Cambiamenti
+- Ottimizzazione dell'interfaccia
+
+## [v0.1.4a - Nightly 1196] - 2019/10/20 @ 02:32
 ### Cambiamenti
 - Half BugFix: Aumentare DPI continua a tagliare i bottoni, ma decrementarli non taglia più la finestra
 

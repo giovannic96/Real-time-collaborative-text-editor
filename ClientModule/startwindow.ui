@@ -145,9 +145,9 @@ font-size: 18px;
      <widget class="QPushButton" name="RegisterButton">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>560</x>
         <y>80</y>
-        <width>101</width>
+        <width>121</width>
         <height>31</height>
        </rect>
       </property>
@@ -159,11 +159,15 @@ font-size: 18px;
         <bold>true</bold>
        </font>
       </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">#RegisterButton {
 color: #FFFFFF;
 background-color: Transparent;
 background-repeat:no-repeat;
+text-align: right;
 }
 
 #RegisterButton:hover {
@@ -178,9 +182,9 @@ text-decoration: underline;
      <widget class="QPushButton" name="ForgotPasswordButton">
       <property name="geometry">
        <rect>
-        <x>750</x>
+        <x>740</x>
         <y>380</y>
-        <width>151</width>
+        <width>171</width>
         <height>21</height>
        </rect>
       </property>
@@ -482,7 +486,7 @@ font-size: 18px;
        <string>Apri File</string>
       </property>
       <property name="icon">
-       <iconset resource="Risorse.qrc">
+       <iconset>
         <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
       </property>
       <property name="iconSize">
@@ -587,8 +591,6 @@ background-repeat:no-repeat;
   <tabstop>Username</tabstop>
   <tabstop>openEditor</tabstop>
  </tabstops>
- <resources>
-  <include location="Risorse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
