@@ -14,15 +14,9 @@
     <list default="true" id="80fc83ad-504f-4c7e-962e-e0f4ede5a1d5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ClientModule/debug/client.exe" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/debug/client.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/mocs/moc_predefs.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/mocs/moc_predefs.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/jsonUtility.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/jsonUtility.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/main.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/main.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/myClient.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/myClient.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/startwindow.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/startwindow.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/generated/objs/versioninfo.o" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/objs/versioninfo.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ClientModule/generated/uis/ui_startwindow.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/generated/uis/ui_startwindow.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/startwindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/startwindow.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ClientModule/startwindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/startwindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -155,7 +149,7 @@
       <workItem from="1571132984006" duration="10704000" />
       <workItem from="1571178950807" duration="1585000" />
       <workItem from="1571475282337" duration="3323000" />
-      <workItem from="1571483336781" duration="13059000" />
+      <workItem from="1571483336781" duration="14106000" />
     </task>
     <servers />
   </component>
