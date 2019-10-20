@@ -20,6 +20,8 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     setStatus(client->getStatus());
     connect(client, &myClient::statusChanged, this, &StartWindow::setStatus);
     connect(client, &myClient::formResult, this, &StartWindow::showFormPopup);
+    //adjustSize(); //CUT EVERYTHING
+    setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
 }
 
 //DESTRUCTOR

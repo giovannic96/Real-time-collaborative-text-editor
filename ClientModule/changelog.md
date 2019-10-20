@@ -1,5 +1,26 @@
 # Changelog ClientModule
 
+### TODO
+- BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
+
+## [v0.1.4a - Nightly 1196] - 2019/10/19 @ 02:32
+### Cambiamenti
+- Half BugFix: Aumentare DPI continua a tagliare i bottoni, ma decrementarli non taglia più la finestra
+
+## [v0.1.4a - Daily 1195] - 2019/10/19 @ 19:00
+### Aggiunto
+- New File Query
+### Cambiamenti
+- Ridemnsionamento finestra StartWindow (ingrandita)
+- BugFix: permessi sui file .ui
+
+## [v0.1.4a - Daily 1194] - 2019/10/19 @ 18:25
+### Cambiamenti
+- BugFix: Corretto errore dello sfondo di UserProfile
+- BugFix: BorderRadius corretto
+- BugFix: Ordine dei Tab dei LineForm corretto
+- Arrotondamento dell'immagine della UserProfile
+
 ## [v0.1.4a - Daily 1193] - 2019/10/19 @ 17:40
 ### Cambiamenti
 - BugFix: Corretto errore dello sfondo di UserProfile
@@ -18,7 +39,7 @@
 
 ## [v0.1.4a - Canary 1190] - 2019/10/18 @ 20:00
 ### Aggiunto
-- Aggiornamento cumulativo v0.1.2a --> v0.1.4a
+- Aggiornamento cumulativo v0.1.3a --> v0.1.4a
 - Classe "StartWindow" - Racchiude Login, Registrazione e Menù iniziale in un unica window
 - Distruttore (in debug) della finestra UserProfile
 ### Deprecato
