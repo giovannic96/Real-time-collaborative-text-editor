@@ -30,6 +30,7 @@ private slots:
     void on_AccediButton_clicked();
     void on_LogoutButton_clicked();
     void on_Username_clicked();
+    void on_newDoc_clicked();
 
 public slots:
     void setStatus(bool newStatus);

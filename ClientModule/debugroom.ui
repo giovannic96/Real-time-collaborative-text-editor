@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DebugRoom</class>
+ <widget class="QMainWindow" name="DebugRoom">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>356</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: black</string>
+   </property>
+   <widget class="QPushButton" name="StartButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>90</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#StartButton{color: rgb(255, 255, 255); 
+background-color: rgb(255, 0, 0); 
+font-size: 16px; 
+border-radius: 20px; 
+border: 3px solid #B30000;
+}
+#StartButton:hover{
+background-color: #B30000;
+}
+#StartButton:pressed{
+background-color: #800000;
+}</string>
+    </property>
+    <property name="text">
+     <string>START WINDOW</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="UserProfileButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>150</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#UserProfileButton{color: rgb(0, 0, 0); 
+background-color: #FFFF00; 
+font-size: 16px; 
+border-radius: 20px; 
+border: 3px solid #CCCC00;
+}
+#UserProfileButton:hover{
+background-color: #CCCC00;
+}
+#UserProfileButton:pressed{
+background-color: #808000;
+}</string>
+    </property>
+    <property name="text">
+     <string>USER PROFILE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="EditorButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>210</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#EditorButton{color: rgb(255, 255, 255);
+background-color: #0000FF;
+font-size: 16px; 
+border-radius: 20px; 
+border: 3px solid #0000CC;
+}
+#EditorButton:hover{
+background-color: #0000CC;
+}
+#EditorButton:pressed{
+background-color: #008080;
+}</string>
+    </property>
+    <property name="text">
+     <string>EDITOR</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>341</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Comic Sans MS</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #00FF00;
+text-align: center;</string>
+    </property>
+    <property name="text">
+     <string>    Enrico &amp; Rinaldo Debug Room</string>
+    </property>
+   </widget>
+   <zorder>UserProfileButton</zorder>
+   <zorder>EditorButton</zorder>
+   <zorder>label</zorder>
+   <zorder>StartButton</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>356</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -460,14 +460,17 @@ font-size: 18px;
        <string>Disconnettiti</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="openEditor">
+     <widget class="QPushButton" name="newDoc">
       <property name="geometry">
        <rect>
         <x>720</x>
         <y>350</y>
-        <width>131</width>
+        <width>261</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
        <string notr="true">#openEditor{
@@ -483,10 +486,10 @@ font-size: 18px;
 </string>
       </property>
       <property name="text">
-       <string>Apri File</string>
+       <string>Nuovo Documento</string>
       </property>
       <property name="icon">
-       <iconset>
+       <iconset resource="Risorse.qrc">
         <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
       </property>
       <property name="iconSize">
@@ -504,6 +507,9 @@ font-size: 18px;
         <width>211</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
        <string notr="true">#Username{
@@ -589,8 +595,10 @@ background-repeat:no-repeat;
   <tabstop>exitButton</tabstop>
   <tabstop>LoginAdmin</tabstop>
   <tabstop>Username</tabstop>
-  <tabstop>openEditor</tabstop>
+  <tabstop>newDoc</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="Risorse.qrc"/>
+ </resources>
  <connections/>
 </ui>

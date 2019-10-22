@@ -24,6 +24,18 @@ void UserProfile::on_exitButton_clicked(){
     delete this;   //Very important, is needed for calling the destructor
 }
 
+//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
+void UserProfile::mousePressEvent(QMouseEvent *evt){
+     oldPos = evt->globalPos();
+}
+
+//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
+void UserProfile::mouseMoveEvent(QMouseEvent *evt){
+    const QPoint delta = evt->globalPos() - oldPos;
+    move(x()+delta.x(), y()+delta.y());
+    oldPos = evt->globalPos();
+}
+
 //USER'S IMAGE BUTTON
 //TODO --> Quando l'utente passa il mouse sul bottone, dovrà apparire sovrapposta un'altra immagine semitrasparente con un icona di uan fotocamera al centro
 void UserProfile::on_UserImageButton_clicked(){

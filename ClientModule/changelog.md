@@ -3,6 +3,19 @@
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 
+## [v0.1.4a - Canary 1200] - 2019/10/20 @ 20:00
+### Aggiunto
+- Debug Room ("The Lobby") per facilitare il test e il debug del software
+- Finestra principale dell'editor di testo
+- Area per la videoscrittura
+### Cambiamenti
+- Aggiornamento e revisione delle funzioni per la gestione dei documenti
+- Modifica delle funzioni per rinominare un documento
+
+## [v0.1.4a - Daily 1198] - 2019/10/20 @ 17:30
+### Aggiunto
+- Funzione per apertuna di un nuovo documento
+
 ## [v0.1.4a - Nightly 1197] - 2019/10/20 @ 18:00
 ### Cambiamenti
 - Ottimizzazione dell'interfaccia
