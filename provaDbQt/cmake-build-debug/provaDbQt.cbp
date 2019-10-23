@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="provaDbQt"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="provaDbQt">
+				<Option output="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug/provaDbQt.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_SQL_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add directory="/usr/include/qt5"/>
+					<Add directory="/usr/include/qt5/QtSql"/>
+					<Add directory="/usr/include/qt5/QtCore"/>
+					<Add directory="/usr/lib/qt5/mkspecs/cygwin-g++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 provaDbQt"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="provaDbQt/fast">
+				<Option output="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug/provaDbQt.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_SQL_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add directory="/usr/include/qt5"/>
+					<Add directory="/usr/include/qt5/QtSql"/>
+					<Add directory="/usr/include/qt5/QtCore"/>
+					<Add directory="/usr/lib/qt5/mkspecs/cygwin-g++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/7.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 provaDbQt/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j4 -f &quot;/cygdrive/c/Users/giova/CLionProjects/Real\ time\ text\ editor/provaDbQt/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/main.cpp">
+			<Option target="provaDbQt"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/ExtraSourceIncludes.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5SqlConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QMYSQLDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QODBCDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QPSQLDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QSQLiteDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Sql/Qt5Sql_QTDSDriverPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Core/ExtraSourceIncludes.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/../../../../../../../usr/lib/cmake/Qt5Core/Qt5CoreMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\Qt5Core\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

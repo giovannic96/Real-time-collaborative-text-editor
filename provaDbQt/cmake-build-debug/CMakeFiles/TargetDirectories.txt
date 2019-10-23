@@ -1,0 +1,3 @@
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug/CMakeFiles/provaDbQt.dir
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/provaDbQt/cmake-build-debug/CMakeFiles/edit_cache.dir
