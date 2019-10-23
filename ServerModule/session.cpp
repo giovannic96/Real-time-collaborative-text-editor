@@ -145,7 +145,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json(j, "LOGIN_RESPONSE", db_res);
+        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON);
         const char* response = j.dump().c_str();
         return response;
 

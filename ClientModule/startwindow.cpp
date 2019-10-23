@@ -22,6 +22,7 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     setStatus(client->getStatus());
     connect(client, &myClient::statusChanged, this, &StartWindow::setStatus);
     connect(client, &myClient::formResult, this, &StartWindow::showFormPopup);
+    connect(client, &myClient::changeTextUsername, this, &StartWindow::labelChangeText);
     //adjustSize(); //CUT EVERYTHING
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
 }
@@ -65,11 +66,7 @@ void StartWindow::on_LoginButton_clicked(){
     const char* req = j.dump().c_str();
 
     //Send data (header and body)
-    message msg;
-    msg.body_length(std::strlen(req));
-    std::memcpy(msg.body(), req, msg.body_length());
-    msg.encode_header();
-    client->write(msg);
+    sendRequestMsg(req);
 }
 
 //SIGNUP BUTTON
@@ -91,35 +88,8 @@ void StartWindow::on_SignUpButton_clicked(){
     const char* req = j.dump().c_str();
 
     //Send data (header and body)
-    message msg;
-    msg.body_length(std::strlen(req));
-    std::memcpy(msg.body(), req, msg.body_length());
-    msg.encode_header();
-    client->write(msg);
+    sendRequestMsg(req);
 }
-
-/*
-void StartWindow::on_NewFileButton_clicked(){ // when press ok
-    //Get data from the form
-    QString user = ui->NewFileUsernameForm->text();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-    QString filename = ui->NewFileFilenameForm->text();
-    QByteArray ba_filename = filename.toLocal8Bit();
-    const char *c_filename = ba_filename.data();
-
-    //Serialize data
-    json j;
-    jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
-    const char* req = j.dump().c_str();
-
-    //Send data (header and body)
-    message msg;
-    msg.body_length(std::strlen(req));
-    std::memcpy(msg.body(), req, msg.body_length());
-    msg.encode_header();
-    client->write(msg);
-}*/
 
 //FORGOT PASSWORD BUTTON
 void StartWindow::on_ForgotPasswordButton_clicked(){
@@ -165,6 +135,10 @@ void StartWindow::setStatus(bool newStatus) {
     }
 }
 
+void StartWindow::labelChangeText(QString text) {
+    ui->Username->setText(text);
+}
+
 void StartWindow::showFormPopup(QString result, QString title, QString msg) {
     if(result == "LOGIN_SUCCESS") {
         QMessageBox messageBox;
@@ -205,7 +179,23 @@ void StartWindow::on_newDoc_clicked()
             messageBox.information(nullptr, "Nuovo documento", "Apertura in corso..");
             messageBox.setFixedSize(600,400);
             messageBox.show();
-            //TODO Inserire il file nel database
+
+            //Get data from the form
+            QString user = ui->Username->text();
+            QByteArray ba_user = user.toLocal8Bit();
+            const char *c_user = ba_user.data();
+            QString filename = text;
+            QByteArray ba_filename = filename.toLocal8Bit();
+            const char *c_filename = ba_filename.data();
+
+            //Serialize data
+            json j;
+            jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
+            const char* req = j.dump().c_str();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+
             //TODO aprire il file nell'editor
 
             EditorWindow *ew = new EditorWindow(text);
@@ -224,4 +214,12 @@ void StartWindow::on_newDoc_clicked()
             messageBox.setFixedSize(600,400);
             on_newDoc_clicked();
         }
+}
+
+void StartWindow::sendRequestMsg(const char* req) {
+    message msg;
+    msg.body_length(std::strlen(req));
+    std::memcpy(msg.body(), req, msg.body_length());
+    msg.encode_header();
+    client->write(msg);
 }

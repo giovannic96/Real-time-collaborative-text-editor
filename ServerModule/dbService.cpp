@@ -123,7 +123,7 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
             if (query.next()) //username already exists
                 return NEWFILE_FAILED;
 
-            QString uri = generateURI(10);
+            QString uri = generateURI(12);
             QString timestamp = getTimestamp();
             QSqlQuery query2(QSqlDatabase::database("MyConnect3"));
 
@@ -184,6 +184,7 @@ QString dbService::generateURI(int len) {
 
 QString dbService::getTimestamp() {
     qint64 utcTime = QDateTime::currentMSecsSinceEpoch();
-    QDateTime localTime = QDateTime::fromTime_t(utcTime, Qt::LocalTime);
-    return localTime.toString("yyyy-MM-dd hh:mm:ss");
+    QDateTime dt;
+    dt.setTime_t(utcTime/1000);
+    return dt.toString("yyyy-MM-dd hh:mm:ss");
 }

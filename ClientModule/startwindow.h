@@ -34,6 +34,7 @@ private slots:
 
 public slots:
     void setStatus(bool newStatus);
+    void labelChangeText(QString text);
     void showFormPopup(QString result, QString title, QString msg);
 
 private:
@@ -45,6 +46,7 @@ private:
     QString qstr = version.getVersion();
     //For client
     myClient *client;
+    void sendRequestMsg(const char* req);
 
 protected:
     //Function for mouse related event

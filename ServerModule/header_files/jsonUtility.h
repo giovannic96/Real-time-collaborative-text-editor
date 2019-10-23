@@ -16,6 +16,7 @@ class jsonUtility {
 
 public:
     static void to_json(json &j, const std::string &op, const std::string &resp);
+    static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
     static void from_json(const json& j, std::string& op);

@@ -26,12 +26,15 @@ public:
 
     QTcpSocket *tcpSocket;
     bool getStatus();
+    QString getUsername();
+    void setUsername(QString name);
     void close();
     void write(const message& msg);    
 
 signals:
     void statusChanged(bool);
     void formResult(QString result, QString title, QString msg);
+    void changeTextUsername(QString text);
 
 private:
     boost::asio::io_context io_context_;
@@ -46,6 +49,7 @@ private:
     void do_write();
     void closeConnection();
     bool status;
+    QString username_;
 };
 
 #endif // MYCLIENT_H

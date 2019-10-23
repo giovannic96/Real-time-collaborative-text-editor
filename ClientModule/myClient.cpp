@@ -8,7 +8,8 @@ typedef std::deque<message> message_queue;
 myClient::myClient()
         : work_(new boost::asio::io_context::work(io_context_)),
           resolver_(io_context_),
-          socket_(io_context_) {
+          socket_(io_context_),
+          username_("") {
     worker_= std::thread([&](){
        io_context_.run(); //boost thread loop start
     });
@@ -73,6 +74,11 @@ void myClient::do_read_body() {
 
                 if(db_responseJSON == "LOGIN_OK") {
                     qDebug() << "Login success" << endl;
+                    std::string db_usernameLoginJSON;
+                    jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON);
+                    QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
+                    this->setUsername(name_qstring);
+                    emit changeTextUsername(this->getUsername());
                     emit formResult("LOGIN_SUCCESS", "Login Success", "Login successfully completed");
                 } else {
                     qDebug() << "Wrong user or password" << endl;
@@ -141,4 +147,12 @@ void myClient::close() {
     boost::asio::post(io_context_, [this]() {
         closeConnection();
     });
+}
+
+void myClient::setUsername(QString name) {
+    this->username_ = name;
+}
+
+QString myClient::getUsername() {
+    return this->username_;
 }

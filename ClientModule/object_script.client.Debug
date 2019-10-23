@@ -1,3 +1,5 @@
+generated/objs/debugroom.o
+generated/objs/editorwindow.o
 generated/objs/jsonUtility.o
 generated/objs/main.o
 generated/objs/message.o
@@ -6,6 +8,8 @@ generated/objs/startwindow.o
 generated/objs/userprofile.o
 generated/objs/versioninfo.o
 generated/objs/qrc_Risorse.o
+generated/objs/moc_debugroom.o
+generated/objs/moc_editorwindow.o
 generated/objs/moc_myClient.o
 generated/objs/moc_startwindow.o
 generated/objs/moc_userprofile.o

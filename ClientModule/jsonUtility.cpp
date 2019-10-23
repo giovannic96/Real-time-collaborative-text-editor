@@ -52,6 +52,10 @@ void jsonUtility::from_json_resp(const json &j, std::string &resp) {
     resp = j.at("content").at("response").get<std::string>();
 }
 
+void jsonUtility::from_json_usernameLogin(const json &j, std::string &name) {
+    name = j.at("content").at("usernameLogin").get<std::string>();
+}
+
 void jsonUtility::from_json(const json &j, std::string &user, std::string &pass) {
     user = j.at("content").at("username").get<std::string>();
     pass = j.at("content").at("password").get<std::string>();

@@ -42,7 +42,7 @@ public:
     QLineEdit *RegPasswordForm;
     QWidget *menuPage;
     QPushButton *LogoutButton;
-    QPushButton *openEditor;
+    QPushButton *newDoc;
     QPushButton *Username;
     QPushButton *exitButton;
     QLabel *version;
@@ -111,17 +111,19 @@ public:
         LoginPasswordForm->setEchoMode(QLineEdit::Password);
         RegisterButton = new QPushButton(loginPage);
         RegisterButton->setObjectName(QString::fromUtf8("RegisterButton"));
-        RegisterButton->setGeometry(QRect(580, 80, 101, 31));
+        RegisterButton->setGeometry(QRect(560, 80, 121, 31));
         QFont font2;
         font2.setFamily(QString::fromUtf8("Calibri"));
         font2.setPointSize(16);
         font2.setBold(true);
         font2.setWeight(75);
         RegisterButton->setFont(font2);
+        RegisterButton->setLayoutDirection(Qt::LeftToRight);
         RegisterButton->setStyleSheet(QString::fromUtf8("#RegisterButton {\n"
 "color: #FFFFFF;\n"
 "background-color: Transparent;\n"
 "background-repeat:no-repeat;\n"
+"text-align: right;\n"
 "}\n"
 "\n"
 "#RegisterButton:hover {\n"
@@ -130,7 +132,7 @@ public:
 "}"));
         ForgotPasswordButton = new QPushButton(loginPage);
         ForgotPasswordButton->setObjectName(QString::fromUtf8("ForgotPasswordButton"));
-        ForgotPasswordButton->setGeometry(QRect(750, 380, 151, 21));
+        ForgotPasswordButton->setGeometry(QRect(740, 380, 171, 21));
         QFont font3;
         font3.setPointSize(10);
         ForgotPasswordButton->setFont(font3);
@@ -246,10 +248,11 @@ public:
 "#LogoutButton:pressed{\n"
 "	background-color: rgb(20, 78, 117);\n"
 "}"));
-        openEditor = new QPushButton(menuPage);
-        openEditor->setObjectName(QString::fromUtf8("openEditor"));
-        openEditor->setGeometry(QRect(720, 350, 131, 31));
-        openEditor->setStyleSheet(QString::fromUtf8("#openEditor{\n"
+        newDoc = new QPushButton(menuPage);
+        newDoc->setObjectName(QString::fromUtf8("newDoc"));
+        newDoc->setGeometry(QRect(720, 350, 261, 31));
+        newDoc->setCursor(QCursor(Qt::PointingHandCursor));
+        newDoc->setStyleSheet(QString::fromUtf8("#openEditor{\n"
 "	text-align: left;\n"
 "	color: #0000FF;\n"
 "	font-size: 20px;\n"
@@ -262,11 +265,12 @@ public:
 ""));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/image/397435-200.png"), QSize(), QIcon::Normal, QIcon::Off);
-        openEditor->setIcon(icon);
-        openEditor->setIconSize(QSize(13, 13));
+        newDoc->setIcon(icon);
+        newDoc->setIconSize(QSize(13, 13));
         Username = new QPushButton(menuPage);
         Username->setObjectName(QString::fromUtf8("Username"));
         Username->setGeometry(QRect(820, 250, 211, 23));
+        Username->setCursor(QCursor(Qt::PointingHandCursor));
         Username->setStyleSheet(QString::fromUtf8("#Username{\n"
 "	text-align: left;\n"
 "	color: #0000FF;\n"
@@ -308,7 +312,7 @@ public:
         QWidget::setTabOrder(AccediButton, exitButton);
         QWidget::setTabOrder(exitButton, LoginAdmin);
         QWidget::setTabOrder(LoginAdmin, Username);
-        QWidget::setTabOrder(Username, openEditor);
+        QWidget::setTabOrder(Username, newDoc);
 
         retranslateUi(StartWindow);
 
@@ -338,7 +342,7 @@ public:
         RegPasswordForm->setText(QString());
         RegPasswordForm->setPlaceholderText(QCoreApplication::translate("StartWindow", "Password", nullptr));
         LogoutButton->setText(QCoreApplication::translate("StartWindow", "Disconnettiti", nullptr));
-        openEditor->setText(QCoreApplication::translate("StartWindow", "Apri File", nullptr));
+        newDoc->setText(QCoreApplication::translate("StartWindow", "Nuovo Documento", nullptr));
         Username->setText(QCoreApplication::translate("StartWindow", "UsernameGoesHere", nullptr));
         exitButton->setText(QString());
         version->setText(QCoreApplication::translate("StartWindow", "QuestoTestoVieneSostituitoDaVersione", nullptr));
