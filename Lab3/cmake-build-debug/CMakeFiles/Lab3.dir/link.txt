@@ -1,1 +1,0 @@
-C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe -g  -Wl,--enable-auto-import CMakeFiles/Lab3.dir/main.cpp.o CMakeFiles/Lab3.dir/NetworkServer.cpp.o CMakeFiles/Lab3.dir/SharedEditor.cpp.o CMakeFiles/Lab3.dir/Message.cpp.o CMakeFiles/Lab3.dir/Symbol.cpp.o  -o Lab3.exe -Wl,--out-implib,libLab3.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
