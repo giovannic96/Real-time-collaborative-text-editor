@@ -145,9 +145,9 @@ font-size: 18px;
      <widget class="QPushButton" name="RegisterButton">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>560</x>
         <y>80</y>
-        <width>101</width>
+        <width>121</width>
         <height>31</height>
        </rect>
       </property>
@@ -159,11 +159,15 @@ font-size: 18px;
         <bold>true</bold>
        </font>
       </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">#RegisterButton {
 color: #FFFFFF;
 background-color: Transparent;
 background-repeat:no-repeat;
+text-align: right;
 }
 
 #RegisterButton:hover {
@@ -178,9 +182,9 @@ text-decoration: underline;
      <widget class="QPushButton" name="ForgotPasswordButton">
       <property name="geometry">
        <rect>
-        <x>750</x>
+        <x>740</x>
         <y>380</y>
-        <width>151</width>
+        <width>171</width>
         <height>21</height>
        </rect>
       </property>
@@ -456,14 +460,17 @@ font-size: 18px;
        <string>Disconnettiti</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="openEditor">
+     <widget class="QPushButton" name="newDoc">
       <property name="geometry">
        <rect>
         <x>720</x>
         <y>350</y>
-        <width>131</width>
+        <width>261</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
        <string notr="true">#openEditor{
@@ -479,7 +486,7 @@ font-size: 18px;
 </string>
       </property>
       <property name="text">
-       <string>Apri File</string>
+       <string>Nuovo Documento</string>
       </property>
       <property name="icon">
        <iconset resource="Risorse.qrc">
@@ -500,6 +507,9 @@ font-size: 18px;
         <width>211</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
        <string notr="true">#Username{
@@ -585,7 +595,7 @@ background-repeat:no-repeat;
   <tabstop>exitButton</tabstop>
   <tabstop>LoginAdmin</tabstop>
   <tabstop>Username</tabstop>
-  <tabstop>openEditor</tabstop>
+  <tabstop>newDoc</tabstop>
  </tabstops>
  <resources>
   <include location="Risorse.qrc"/>

@@ -3,8 +3,10 @@
 #include <QMessageBox>
 #include <iostream>
 #include <thread>
+#include <QInputDialog>
 #include "userprofile.h"
 #include "jsonUtility.h"
+#include "editorwindow.h"
 #include "message.h"
 
 using json = nlohmann::json;
@@ -189,4 +191,37 @@ void StartWindow::showFormPopup(QString result, QString title, QString msg) {
         messageBox.information(nullptr, title, msg);
         messageBox.setFixedSize(500,200);
     }
+}
+
+void StartWindow::on_newDoc_clicked()
+{
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                             tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty() && text.size()<=15){
+            //TODO controllo file database (nome e utente)
+            QMessageBox messageBox;
+            messageBox.information(nullptr, "Nuovo documento", "Apertura in corso..");
+            messageBox.setFixedSize(600,400);
+            messageBox.show();
+            //TODO Inserire il file nel database
+            //TODO aprire il file nell'editor
+
+            EditorWindow *ew = new EditorWindow(text);
+            ew->show();
+            delete this;
+        }
+        else if (ok && !text.isEmpty() && text.size()>15){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+            messageBox.setFixedSize(600,400);
+            on_newDoc_clicked();
+        }
+        else if (ok && text.isEmpty()){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome!");
+            messageBox.setFixedSize(600,400);
+            on_newDoc_clicked();
+        }
 }

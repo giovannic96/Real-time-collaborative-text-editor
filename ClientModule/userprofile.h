@@ -3,6 +3,7 @@
 #define USERPROFILE_H
 
 #include <QWidget>
+#include <QtGui>            //QPoint
 
 namespace Ui {class UserProfile;}
 
@@ -22,8 +23,13 @@ private slots:
 
 private:
     Ui::UserProfile *ui;                //"ui" (user interface)
-    //For "Username" QString
-    QString nomeutente;
+    //For mouse related event
+    QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
+
+protected:
+    //Function for mouse related event
+    void mousePressEvent(QMouseEvent *evt);
+    void mouseMoveEvent(QMouseEvent *evt);
 };
 
 #endif // USERPROFILE_H

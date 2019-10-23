@@ -26,6 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    debugroom.cpp \
+    editorwindow.cpp \
     jsonUtility.cpp \
     main.cpp \
     message.cpp \
@@ -35,6 +37,8 @@ SOURCES += \
     versioninfo.cpp
 
 HEADERS += \
+    debugroom.h \
+    editorwindow.h \
     json.hpp \
     jsonUtility.h \
     message.h \
@@ -44,6 +48,8 @@ HEADERS += \
     versioninfo.h
 
 FORMS += \
+    debugroom.ui \
+    editorwindow.ui \
     startwindow.ui \
     userprofile.ui
 
