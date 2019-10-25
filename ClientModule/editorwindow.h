@@ -14,11 +14,13 @@ public:
 
 private slots:
     void on_pushButton_3_clicked();
+    void on_Grassetto_clicked();
 
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
     QString textname;
+    bool Grassetto;
 
 };
 
