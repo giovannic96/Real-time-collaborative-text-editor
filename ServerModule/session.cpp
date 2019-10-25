@@ -5,6 +5,7 @@
 #include <memory>
 #include <utility>
 #include <boost/asio.hpp>
+#include <boost/filesystem.hpp>
 #include <iostream>
 #include <QtSql/QSqlDatabase>
 #include "sqlite3.h"
@@ -188,8 +189,13 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
+
+        //update tables on db
         dbService::DB_RESPONSE resp = dbService::tryNewFile(userJSON, filenameJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
+
+        //create file on local filesystem
+        boost::filesystem::ofstream(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
 
         if(resp == dbService::NEWFILE_OK)
             db_res = "NEWFILE_OK";
