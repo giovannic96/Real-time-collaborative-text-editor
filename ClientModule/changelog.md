@@ -3,6 +3,17 @@
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 
+## [v0.1.4a - Nightly 1202] - 2019/10/25 @ 03:10
+### Aggiunto
+- Bottone per rendere grassetto il testo
+### Cambiamenti
+- Funzionalità grassetto dinamica tramite booleano
+
+## [v0.1.4a - Canary 1201] - 2019/10/23 @ 12:30
+### Aggiunto
+- Parametro username dopo login
+- Funzionalità newfile sincronizzata tra server-side e client-side
+
 ## [v0.1.4a - Canary 1200] - 2019/10/20 @ 20:00
 ### Aggiunto
 - Debug Room ("The Lobby") per facilitare il test e il debug del software

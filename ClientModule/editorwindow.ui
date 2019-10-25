@@ -32,17 +32,24 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="Grassetto">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>0</y>
-       <width>75</width>
+       <width>31</width>
        <height>23</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
-      <string>PushButton</string>
+      <string>B</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_2">
@@ -120,11 +127,12 @@ text-align: right;</string>
       <x>170</x>
       <y>100</y>
       <width>851</width>
-      <height>441</height>
+      <height>601</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
+     <string notr="true">background-color: white;
+border: 1px solid #808080;</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -132,13 +140,16 @@ text-align: right;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QTextEdit" name="textEdit">
+    <property name="midLineWidth">
+     <number>0</number>
+    </property>
+    <widget class="QTextEdit" name="RealTextEdit">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>801</width>
-       <height>231</height>
+       <x>30</x>
+       <y>40</y>
+       <width>791</width>
+       <height>551</height>
       </rect>
      </property>
      <property name="styleSheet">

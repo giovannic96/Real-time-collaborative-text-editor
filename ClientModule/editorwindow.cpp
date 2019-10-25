@@ -7,6 +7,7 @@
 EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent),  ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
+    Grassetto = false;
 }
 
 EditorWindow::~EditorWindow(){
@@ -14,8 +15,7 @@ EditorWindow::~EditorWindow(){
 }
 
 //FUNZIONE WORK-IN-PROGRESS DA GESTIRE MEGLIO, TODO PERCHé é UN CASINO!
-void EditorWindow::on_pushButton_3_clicked()
-{
+void EditorWindow::on_pushButton_3_clicked(){
     bool ok;
         QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                              tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
@@ -43,4 +43,17 @@ void EditorWindow::on_pushButton_3_clicked()
         }
         //AT THE END
 
+}
+
+//FUNCTION GRASSETTO --> Make Bold inside text area
+void EditorWindow::on_Grassetto_clicked(){
+    QTextCharFormat formato{};
+    if(Grassetto==false){
+        formato.setFontWeight(QFont::Bold);
+        Grassetto=true;
+    }else{
+         formato.setFontWeight(QFont::Thin);
+         Grassetto=false;
+    }
+    ui->RealTextEdit->setCurrentCharFormat(formato);
 }
