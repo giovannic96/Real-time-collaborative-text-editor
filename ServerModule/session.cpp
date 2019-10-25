@@ -195,6 +195,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect3");
 
         //create file on local filesystem
+        //TODO: change path
         boost::filesystem::ofstream(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
 
         if(resp == dbService::NEWFILE_OK)
