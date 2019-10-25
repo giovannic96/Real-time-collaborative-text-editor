@@ -528,6 +528,45 @@ font-size: 18px;
        <string>UsernameGoesHere</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="openDoc">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>400</y>
+        <width>261</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#openEditor{
+	text-align: left;
+	color: #0000FF;
+	font-size: 20px;
+	background-color:transparent;
+	border: transparent;
+}
+#openEditor:hover{
+	text-decoration: underline;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Apri Documento</string>
+      </property>
+      <property name="icon">
+       <iconset resource="Risorse.qrc">
+        <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>13</width>
+        <height>13</height>
+       </size>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="exitButton">

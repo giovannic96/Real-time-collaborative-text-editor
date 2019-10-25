@@ -96,6 +96,11 @@ void myClient::do_read_body() {
                     emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
                 }
             }
+
+            //TODO: NEWFILE_RESPONSE
+
+            //TODO: OPENFILE_RESPONSE
+
             do_read_header(); //continue reading loop
         }
         else {

@@ -217,6 +217,46 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         const char* response = j.dump().c_str();
         return response;
 
+    } else if (opJSON == "OPENFILE_REQUEST") {
+        std::string userJSON;
+        std::string filenameJSON;
+        jsonUtility::from_json_filename(jdata_in, userJSON, filenameJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+        //update tables on db
+        dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON); //TODO: function tryOpenFile
+        QSqlDatabase::removeDatabase("MyConnect4");
+
+        if(resp == dbService::OPENFILE_OK) {
+            //TODO: update local file 'filenameJSON' in filesystem based on CRDT that server has in memory
+
+            //TODO: send updated file to client
+
+            //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
+
+            //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
+            db_res = "OPENFILE_OK";
+        }
+        else if(resp == dbService::OPENFILE_FAILED)
+            db_res = "OPENFILE_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else if(resp == dbService::FILENAME_ERROR)
+            db_res = "FILENAME_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "OPENFILE_RESPONSE", db_res);
+        const char* response = j.dump().c_str();
+        return response;
+
     } else { //editor functions
         room_.deliver(read_msg_); //deliver to all the participants
     }

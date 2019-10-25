@@ -161,6 +161,9 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
     }
 }
 
+dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std::string& file_name) {
+}
+
 inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
     switch (db_resp) {
         case dbService::LOGIN_OK:       return "LOGIN_OK";

@@ -4,12 +4,12 @@
 
 #include <QMainWindow>
 #include <QtGui>            //QPoint
-#include <boost/asio.hpp>   //GIOVANNI --> FOR WHAT?
-#include <deque>            //GIOVANNI --> FOR WHAT?
-#include "versioninfo.h"    //Needed to show the current version of the software
-#include "myClient.h"       //GIOVANNI --> FOR WHAT?
-#include "json.hpp"         //GIOVANNI --> FOR WHAT?
-#include "jsonUtility.h"    //GIOVANNI --> FOR WHAT?
+#include <boost/asio.hpp>
+#include <deque>
+#include "versioninfo.h"
+#include "myClient.h"
+#include "json.hpp"
+#include "jsonUtility.h"
 
 namespace Ui {class StartWindow;}
 
@@ -31,6 +31,7 @@ private slots:
     void on_LogoutButton_clicked();
     void on_Username_clicked();
     void on_newDoc_clicked();
+    void on_openDoc_clicked();
 
 public slots:
     void setStatus(bool newStatus);

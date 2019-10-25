@@ -196,8 +196,7 @@ void StartWindow::on_newDoc_clicked()
             //Send data (header and body)
             sendRequestMsg(req);
 
-            //TODO aprire il file nell'editor
-
+            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
             EditorWindow *ew = new EditorWindow(text);
             ew->show();
             delete this;
@@ -213,6 +212,56 @@ void StartWindow::on_newDoc_clicked()
             messageBox.critical(nullptr,"Errore","Inserire un nome!");
             messageBox.setFixedSize(600,400);
             on_newDoc_clicked();
+        }
+}
+
+void StartWindow::on_openDoc_clicked()
+{
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                             tr("Inserisci il nome del documento da aprire:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty() && text.size()<=15){
+            //TODO controllo file database -> quali controlli?
+            QMessageBox messageBox;
+            messageBox.information(nullptr, "Apri documento", "Apertura in corso..");
+            messageBox.setFixedSize(600,400);
+            messageBox.show();
+
+            //Get data from the form
+            QString user = ui->Username->text();
+            QByteArray ba_user = user.toLocal8Bit();
+            const char *c_user = ba_user.data();
+            QString filename = text;
+            QByteArray ba_filename = filename.toLocal8Bit();
+            const char *c_filename = ba_filename.data();
+
+            //Serialize data
+            json j;
+            jsonUtility::to_jsonFilename(j, "OPENFILE_REQUEST", c_user, c_filename);
+            const char* req = j.dump().c_str();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+
+            //TODO: receive (updated) file from server
+
+            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
+            EditorWindow *ew = new EditorWindow(text);
+            ew->show();
+            delete this;
+        }
+        else if (ok && !text.isEmpty() && text.size()>15){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+            messageBox.setFixedSize(600,400);
+            on_openDoc_clicked();
+        }
+        else if (ok && text.isEmpty()){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome!");
+            messageBox.setFixedSize(600,400);
+            on_openDoc_clicked();
         }
 }
 
