@@ -2,7 +2,7 @@
 ## Cooperative Awesome Real-Time Text Editor
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.4a - Canary 120A] - 2019/10/27 @ 02:30 - [Differences]
+## Last Release [v0.1.4a - Canary 120A] - 2019/10/27 @ 19:40 - [Differences]
 - Added "Export to PDF" functionality
 
 ## Author & Developers
