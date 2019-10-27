@@ -30,6 +30,7 @@ SOURCES += \
     editorwindow.cpp \
     jsonUtility.cpp \
     main.cpp \
+    menuwindow.cpp \
     message.cpp \
     myClient.cpp \
     startwindow.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     editorwindow.h \
     json.hpp \
     jsonUtility.h \
+    menuwindow.h \
     message.h \
     myClient.h \
     startwindow.h \
@@ -50,6 +52,7 @@ HEADERS += \
 FORMS += \
     debugroom.ui \
     editorwindow.ui \
+    menuwindow.ui \
     startwindow.ui \
     userprofile.ui
 

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MenuWindow</class>
+ <widget class="QMainWindow" name="MenuWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>652</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>750</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>652</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#centralwidget {border-image: url(:/image/startMinimal.png);}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="newDoc">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>340</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#openEditor{
+	text-align: left;
+	color: #0000FF;
+	font-size: 20px;
+	background-color:transparent;
+	border: transparent;
+}
+#openEditor:hover{
+	text-decoration: underline;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Nuovo Documento</string>
+    </property>
+    <property name="icon">
+     <iconset resource="Risorse.qrc">
+      <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>621</x>
+      <y>2</y>
+      <width>30</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: Transparent;
+background-repeat:no-repeat;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="openDoc">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>650</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#openEditor{
+	text-align: left;
+	color: #0000FF;
+	font-size: 20px;
+	background-color:transparent;
+	border: transparent;
+}
+#openEditor:hover{
+	text-decoration: underline;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Apri Documento</string>
+    </property>
+    <property name="icon">
+     <iconset resource="Risorse.qrc">
+      <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Username">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>350</y>
+      <width>211</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#Username{
+	text-align: left;
+	color: #0000FF;
+	font-size: 20px;
+	background-color:transparent;
+	border: transparent;
+}
+#Username:hover{
+	text-decoration: underline;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>UsernameGoesHere</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources>
+  <include location="Risorse.qrc"/>
+ </resources>
+ <connections/>
+</ui>

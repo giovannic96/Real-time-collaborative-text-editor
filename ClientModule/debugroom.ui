@@ -132,8 +132,8 @@ background-color: #008080;
      <font>
       <family>Comic Sans MS</family>
       <pointsize>14</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="layoutDirection">
@@ -158,7 +158,7 @@ text-align: center;</string>
      <x>0</x>
      <y>0</y>
      <width>356</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

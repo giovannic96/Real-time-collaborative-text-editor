@@ -7,5 +7,10 @@
         <file>image/registrazione.png</file>
         <file>image/start.png</file>
         <file>image/infoprofile.png</file>
+        <file>image/startMinimal.png</file>
+        <file>image/registratiButton1.png</file>
+        <file>image/registratiButton2.png</file>
+        <file>image/accediButton1.png</file>
+        <file>image/accediButton2.png</file>
     </qresource>
 </RCC>
