@@ -28,6 +28,8 @@ private slots:
 
     void on_buttonColor_clicked();
 
+    void on_actionSave_triggered();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
