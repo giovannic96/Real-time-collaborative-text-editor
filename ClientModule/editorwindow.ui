@@ -32,7 +32,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="buttonGrassetto">
+    <widget class="QPushButton" name="Grassetto">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -428,36 +428,6 @@ background-color:#3369ff;
      </property>
      <property name="text">
       <string>COPIA</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="buttonColor">
-     <property name="geometry">
-      <rect>
-       <x>410</x>
-       <y>50</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-       <underline>false</underline>
-       <strikeout>false</strikeout>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-radius:0.15em;
-box-sizing: border-box;
-text-decoration:none;
-color:#FFFFFF;
-background-color:#3369ff;
-</string>
-     </property>
-     <property name="text">
-      <string>COLOR</string>
      </property>
     </widget>
    </widget>

@@ -2,14 +2,9 @@
 #include "ui_editorwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
-#include <QColorDialog>     //FOR OPEN COLOR PALETTE
-#include <QFileDialog>      //FOR OPEN SAVE WITH NAME LOCALLY
-#include <QTextStream>      //FOR SAVE THE FILE LOCALLY AND PDF CONVERSION
 #include <QMessageBox>
-#include <QPrinter>
 
-//CONSTRUCTOR
-EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), textname(text){
+EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent),  ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
 }
@@ -50,28 +45,20 @@ void EditorWindow::on_pushButton_3_clicked(){
 }
 
 //FUNCTION GRASSETTO --> Make Bold inside text area
-void EditorWindow::on_buttonGrassetto_clicked(){
+void EditorWindow::on_Grassetto_clicked(){
     QTextCharFormat formato{};
-    if(ui->buttonGrassetto->isChecked()){
+    if(ui->Grassetto->isChecked()){
         formato.setFontWeight(QFont::Bold);
-        ui->buttonGrassetto->setCheckable(false);
+        ui->Grassetto->setCheckable(false);
     }else{
          formato.setFontWeight(QFont::Thin);
-          ui->buttonGrassetto->setCheckable(true);
+          ui->Grassetto->setCheckable(true);
     }
     ui->RealTextEdit->setCurrentCharFormat(formato);
 }
 
 void EditorWindow::on_buttonCorsivo_clicked(){
-    QTextCharFormat formato{};
-    if(ui->buttonCorsivo->isChecked()){
-        formato.setFontItalic(QFont::StyleItalic);
-        ui->buttonCorsivo->setCheckable(false);
-    }else{
-         formato.setFontItalic(QFont::StyleNormal);
-          ui->buttonCorsivo->setCheckable(true);
-    }
-    ui->RealTextEdit->setCurrentCharFormat(formato);
+
 }
 
 void EditorWindow::on_buttonSottolineato_clicked(){
@@ -108,43 +95,4 @@ void EditorWindow::on_buttonIncolla_clicked(){
 
 void EditorWindow::on_buttonCopia_clicked(){
     ui->RealTextEdit->copy();
-}
-
-void EditorWindow::on_buttonColor_clicked(){
-    QColor txtColour = QColorDialog::getColor();
-    ui->RealTextEdit->setTextColor(txtColour);
-}
-
-void EditorWindow::on_actionSave_triggered()
-{
-    QString pathname;
-
-    //GIOVANNI SO CHE HAI VOGLIA DI MODIFICARLA, SE VUOI OK, MA VORREI FARLO IO ;)
-
-    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
-    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-    //QString fileName = QFileDialog::getSaveFileName(this,"Salva il file in locale");
-       QFile File (fileName);
-       pathname = fileName;
-       if(!File.open(QFile::WriteOnly | QFile::Text)){
-          //Return if the user cancels or does something unexpected!
-          //I Don't like it, I suggest to change it with a try-catch statement
-           return;
-        }
-        else{
-          //Read the file
-          QTextStream writeData(&File);
-          QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT (DEVO PROVARE IO CON PLAINTEXT MA NON TOCCATE!!!!!!!)
-
-          QTextDocument doc;
-          doc.setHtml(fileText);
-          QPrinter file;
-          file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName("myfile.pdf"); // better to use full path //GIOVANNI MODIFICO IO
-          doc.print(&file); //REFERENCE DO NOT TOUCH IT FUNZIONA!
-
-          writeData << &file; //like CIN, but in a stream of text
-          File.flush();
-          File.close();
-        }
 }

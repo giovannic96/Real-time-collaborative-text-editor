@@ -2,17 +2,6 @@
 
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
-- Rimuovere StartWindow (pagina 3)
-
-## [v0.1.4a - Canary 120A] - 2019/10/27 @ 02:50
-### Aggiunto
-- Nuova funzione per esportare in PDF
-
-## [v0.1.4a - Daily 1206] - 2019/10/27 @ 12:50
-### Aggiunto
-- Nuova finestra menuWindow al posto del frame per l'accesso
-- Funzionalità di testo corsivo
-- Bottone e funzionalità per cambiare colore del testo
 
 ## [v0.1.4a - Nightly 1205] - 2019/10/27 @ 02:50
 ### Aggiunto

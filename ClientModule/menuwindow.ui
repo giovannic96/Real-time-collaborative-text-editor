@@ -33,33 +33,28 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>340</y>
-      <width>261</width>
-      <height>31</height>
+      <y>112</y>
+      <width>251</width>
+      <height>281</height>
      </rect>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">#openEditor{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
+     <string notr="true">#newDoc{
 	background-color:transparent;
 	border: transparent;
 }
-#openEditor:hover{
-	text-decoration: underline;
+
+#newDoc:hover {
+    border: 5px solid #962333;
+	border-radius: 10px;
 }
 </string>
     </property>
     <property name="text">
-     <string>Nuovo Documento</string>
-    </property>
-    <property name="icon">
-     <iconset resource="Risorse.qrc">
-      <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
+     <string/>
     </property>
     <property name="iconSize">
      <size>
@@ -98,34 +93,28 @@ background-repeat:no-repeat;
    <widget class="QPushButton" name="openDoc">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>650</y>
-      <width>261</width>
-      <height>31</height>
+      <x>36</x>
+      <y>418</y>
+      <width>251</width>
+      <height>281</height>
      </rect>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">#openEditor{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
+     <string notr="true">#openDoc{
 	background-color:transparent;
-	border: transparent;
+	border: transparent
 }
-#openEditor:hover{
-	text-decoration: underline;
-}
-</string>
+
+#openDoc:hover {
+    border: 5px solid #204177;
+	border-radius: 10px;
+}</string>
     </property>
     <property name="text">
-     <string>Apri Documento</string>
-    </property>
-    <property name="icon">
-     <iconset resource="Risorse.qrc">
-      <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
+     <string/>
     </property>
     <property name="iconSize">
      <size>
@@ -137,10 +126,10 @@ background-repeat:no-repeat;
    <widget class="QPushButton" name="Username">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>350</y>
-      <width>211</width>
-      <height>23</height>
+      <x>36</x>
+      <y>112</y>
+      <width>251</width>
+      <height>281</height>
      </rect>
     </property>
     <property name="cursor">
@@ -148,25 +137,90 @@ background-repeat:no-repeat;
     </property>
     <property name="styleSheet">
      <string notr="true">#Username{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
 	background-color:transparent;
 	border: transparent;
 }
-#Username:hover{
-	text-decoration: underline;
+
+#Username:hover {
+    border: 5px solid #27754D;
+	border-radius: 10px;
 }
 </string>
     </property>
     <property name="text">
-     <string>UsernameGoesHere</string>
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="uriDoc">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>418</y>
+      <width>251</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#uriDoc{
+	background-color:transparent;
+	border: transparent;
+}
+
+#uriDoc:hover {
+    border: 5px solid #BFB054;
+	border-radius: 10px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LogoutButton">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>730</y>
+      <width>110</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#Username{
+	background-color:transparent;
+	border: transparent;
+}
+
+#Username:hover {
+    border: 5px solid #962333;
+	border-radius: 10px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>13</width>
+      <height>13</height>
+     </size>
     </property>
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="Risorse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

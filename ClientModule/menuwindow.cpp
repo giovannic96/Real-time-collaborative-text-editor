@@ -36,14 +36,6 @@ void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
     oldPos = evt->globalPos();
 }
 
-//LOGOUT BUTTON
-void MenuWindow::on_LogoutButton_clicked(){
-    //TODO --> Handle really the logout of the user
-    StartWindow *sw = new StartWindow();
-    sw->show();
-    this->hide();
-}
-
 //USERNAME BUTTON
 void MenuWindow::on_Username_clicked(){
     UserProfile *up = new UserProfile("Superior Administrator"); //with parameters //TODO --> The parameter will become the "username" of who are logged into the system.
@@ -148,6 +140,29 @@ void MenuWindow::on_openDoc_clicked()
         }
 }
 
+void MenuWindow::on_uriDoc_clicked()
+{
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Sei stato invitato?"),
+                                             tr("Inserisci una URI:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty()){
+
+            QMessageBox messageBox;
+            messageBox.information(nullptr, "ATTENZIONE", "Ora si chiede troppo (da implementare)");
+            messageBox.setFixedSize(600,400);
+            messageBox.show();
+        }
+}
+
+void MenuWindow::on_LogoutButton_clicked()
+{
+    StartWindow *s= new StartWindow();
+    s->show();
+    this->hide();
+}
+
+
 void MenuWindow::sendRequestMsg(const char* req) {
     message msg;
     msg.body_length(std::strlen(req));
@@ -155,5 +170,3 @@ void MenuWindow::sendRequestMsg(const char* req) {
     msg.encode_header();
     client->write(msg);
 }
-
-

@@ -19,6 +19,7 @@ private slots:
     void on_Username_clicked();
     void on_newDoc_clicked();
     void on_openDoc_clicked();
+    void on_uriDoc_clicked();
 
 private:
     Ui::MenuWindow *ui;            //"ui" (user interface)

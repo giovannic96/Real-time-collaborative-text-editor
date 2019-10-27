@@ -28,10 +28,6 @@ private slots:
     void on_LoginButton_clicked();
     void on_SignUpButton_clicked();
     void on_AccediButton_clicked();
-    void on_LogoutButton_clicked();
-    void on_Username_clicked();
-    void on_newDoc_clicked();
-    void on_openDoc_clicked();
 
 public slots:
     void setStatus(bool newStatus);
