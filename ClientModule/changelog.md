@@ -3,6 +3,25 @@
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 
+## [v0.1.4a - Nightly 1205] - 2019/10/27 @ 02:50
+### Aggiunto
+- Bottone e funzionalità per copiare il testo
+- Bottone e funzionalità per tagliare il testo
+- Bottone e funzionalità per incollare il testo
+- Bottone e funzionalità di redo
+- Bottone e funzionalità di undo
+- Bottone e funzionalità per allineare il testo a destra
+- Bottone e funzionalità per allineare il testo a centro
+- Bottone e funzionalità per allineare il testo a sinistra
+- Bottone per sottolineare il testo
+- Bottone per inclinare il testo
+
+## [v0.1.4a - Nightly 1203] - 2019/10/25 @ 03:10
+### Aggiunto
+- Bottone per rendere grassetto il testo
+### Cambiamenti
+- Sostituito booleano del grassetto con opzione checked
+
 ## [v0.1.4a - Nightly 1202] - 2019/10/25 @ 03:10
 ### Aggiunto
 - Bottone per rendere grassetto il testo

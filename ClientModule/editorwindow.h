@@ -16,11 +16,30 @@ private slots:
     void on_pushButton_3_clicked();
     void on_Grassetto_clicked();
 
+    void on_buttonCorsivo_clicked();
+
+    void on_buttonAlignDX_clicked();
+
+    void on_buttonSottolineato_clicked();
+
+    void on_buttonAlignCX_clicked();
+
+    void on_buttonAlignSX_clicked();
+
+    void on_buttonUndo_clicked();
+
+    void on_buttonRedo_clicked();
+
+    void on_buttonTaglia_clicked();
+
+    void on_buttonIncolla_clicked();
+
+    void on_buttonCopia_clicked();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
     QString textname;
-    bool Grassetto;
 
 };
 

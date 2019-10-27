@@ -7,7 +7,6 @@
 EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent),  ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
-    Grassetto = false;
 }
 
 EditorWindow::~EditorWindow(){
@@ -48,12 +47,52 @@ void EditorWindow::on_pushButton_3_clicked(){
 //FUNCTION GRASSETTO --> Make Bold inside text area
 void EditorWindow::on_Grassetto_clicked(){
     QTextCharFormat formato{};
-    if(Grassetto==false){
+    if(ui->Grassetto->isChecked()){
         formato.setFontWeight(QFont::Bold);
-        Grassetto=true;
+        ui->Grassetto->setCheckable(false);
     }else{
          formato.setFontWeight(QFont::Thin);
-         Grassetto=false;
+          ui->Grassetto->setCheckable(true);
     }
     ui->RealTextEdit->setCurrentCharFormat(formato);
+}
+
+void EditorWindow::on_buttonCorsivo_clicked(){
+
+}
+
+void EditorWindow::on_buttonSottolineato_clicked(){
+
+}
+
+void EditorWindow::on_buttonAlignDX_clicked(){
+    ui->RealTextEdit->setAlignment(Qt::AlignRight);
+}
+
+void EditorWindow::on_buttonAlignCX_clicked(){
+    ui->RealTextEdit->setAlignment(Qt::AlignCenter);
+}
+
+void EditorWindow::on_buttonAlignSX_clicked(){
+    ui->RealTextEdit->setAlignment(Qt::AlignLeft);
+}
+
+void EditorWindow::on_buttonUndo_clicked(){
+    ui->RealTextEdit->undo();
+}
+
+void EditorWindow::on_buttonRedo_clicked(){
+    ui->RealTextEdit->redo();
+}
+
+void EditorWindow::on_buttonTaglia_clicked(){
+    ui->RealTextEdit->cut();
+}
+
+void EditorWindow::on_buttonIncolla_clicked(){
+    ui->RealTextEdit->paste();
+}
+
+void EditorWindow::on_buttonCopia_clicked(){
+    ui->RealTextEdit->copy();
 }
