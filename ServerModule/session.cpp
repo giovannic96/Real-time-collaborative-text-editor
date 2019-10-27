@@ -198,7 +198,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
 
         //create file on local filesystem
         //TODO: change path
-        boost::filesystem::ofstream(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
+        boost::filesystem::ofstream(R"(../Filesystem)" + filenameJSON + ".txt");
 
         if(resp == dbService::NEWFILE_OK)
             db_res = "NEWFILE_OK";

@@ -19,7 +19,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
     QString password = QString::fromUtf8(pass.data(), pass.size());
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
-    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
@@ -86,7 +86,7 @@ dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::
     }
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
-    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
 
     if (db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect"));
@@ -129,7 +129,7 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
     QString filename = QString::fromUtf8(file_name.data(), file_name.size());
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect3");
-    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
     if (db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect3"));
         query.prepare(QString("SELECT * FROM files WHERE filename = :filename and  owner = :username "));
