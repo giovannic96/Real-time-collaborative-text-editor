@@ -141,6 +141,8 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
         else if(resp == dbService::QUERY_ERROR)
             db_res = "QUERY_ERROR";
+        else if(resp == dbService::ALREADY_LOGGED)
+            db_res = "ALREADY_LOGGED_ERROR";
         else
             db_res = "DB_ERROR";
 

@@ -31,10 +31,27 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
             if(query.next()) {
                 QString usernameFromDb = query.value(0).toString();
                 QString passwordFromDb = query.value(1).toString();
+                bool isLoggedFromDb = query.value(3).toBool();
 
                 if(usernameFromDb == username && passwordFromDb == password) {
-                    std::cout << "Login success" << std::endl;
-                    return LOGIN_OK;
+                    if(!isLoggedFromDb) {
+                        QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
+                        query2.prepare(QString("UPDATE users SET isLogged=1 WHERE username= :username and password= :password"));
+                        query2.bindValue(":username", usernameFromDb);
+                        query2.bindValue(":password", passwordFromDb);
+
+                        if(query2.exec()) {
+                            std::cout << "Login success" << std::endl;
+                            return LOGIN_OK;
+                        } else {
+                            std::cout << "Error on UPDATE" << std::endl;
+                            return QUERY_ERROR;
+                        }
+                    }
+                    else {
+                        std::cout << "Already logged user" << std::endl;
+                        return ALREADY_LOGGED;
+                    }
                 }
             } else {
                 std::cout << "Login failed" << std::endl;
@@ -42,7 +59,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
             }
             db.close();
         } else {
-            std::cout << "Error on select" << std::endl;
+            std::cout << "Error on SELECT" << std::endl;
             db.close();
             return QUERY_ERROR;
         }
@@ -172,6 +189,7 @@ inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
         case dbService::SIGNUP_FAILED:  return "SIGNUP_FAILED";
         case dbService::DB_ERROR:       return "DB_ERROR";
         case dbService::QUERY_ERROR:    return "QUERY_ERROR";
+        case dbService::ALREADY_LOGGED: return "ALREADY_LOGGED";
         default:                        return "[Unknown db response]";
     }
 }

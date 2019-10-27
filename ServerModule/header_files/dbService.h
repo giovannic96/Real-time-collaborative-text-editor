@@ -15,7 +15,8 @@ private:
 
 public:
     enum DB_RESPONSE {LOGIN_OK, LOGIN_FAILED, SIGNUP_OK, SIGNUP_FAILED, NEWFILE_OK, NEWFILE_FAILED, OPENFILE_OK, OPENFILE_FAILED,
-                        DB_ERROR, QUERY_ERROR, EMAIL_ERROR, FILENAME_ERROR};
+                        DB_ERROR, QUERY_ERROR, EMAIL_ERROR, FILENAME_ERROR, ALREADY_LOGGED
+    };
     static inline const char* enumToStr(dbService::DB_RESPONSE db_resp);
     static QString generateURI(int len);
     static QString getTimestamp();
