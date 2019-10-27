@@ -2,9 +2,10 @@
 #include "ui_editorwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
+#include <QColorDialog>
 #include <QMessageBox>
 
-EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent),  ui(new Ui::EditorWindow), textname(text){
+EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
 }
@@ -45,20 +46,28 @@ void EditorWindow::on_pushButton_3_clicked(){
 }
 
 //FUNCTION GRASSETTO --> Make Bold inside text area
-void EditorWindow::on_Grassetto_clicked(){
+void EditorWindow::on_buttonGrassetto_clicked(){
     QTextCharFormat formato{};
-    if(ui->Grassetto->isChecked()){
+    if(ui->buttonGrassetto->isChecked()){
         formato.setFontWeight(QFont::Bold);
-        ui->Grassetto->setCheckable(false);
+        ui->buttonGrassetto->setCheckable(false);
     }else{
          formato.setFontWeight(QFont::Thin);
-          ui->Grassetto->setCheckable(true);
+          ui->buttonGrassetto->setCheckable(true);
     }
     ui->RealTextEdit->setCurrentCharFormat(formato);
 }
 
 void EditorWindow::on_buttonCorsivo_clicked(){
-
+    QTextCharFormat formato{};
+    if(ui->buttonCorsivo->isChecked()){
+        formato.setFontItalic(QFont::StyleItalic);
+        ui->buttonCorsivo->setCheckable(false);
+    }else{
+         formato.setFontItalic(QFont::StyleNormal);
+          ui->buttonCorsivo->setCheckable(true);
+    }
+    ui->RealTextEdit->setCurrentCharFormat(formato);
 }
 
 void EditorWindow::on_buttonSottolineato_clicked(){
@@ -95,4 +104,9 @@ void EditorWindow::on_buttonIncolla_clicked(){
 
 void EditorWindow::on_buttonCopia_clicked(){
     ui->RealTextEdit->copy();
+}
+
+void EditorWindow::on_buttonColor_clicked(){
+    QColor txtColour = QColorDialog::getColor();
+    ui->RealTextEdit->setTextColor(txtColour);
 }
