@@ -2,6 +2,27 @@
 
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
+- Rimuovere StartWindow (pagina 3)
+
+## [v0.1.4a - Canary 120B] - 2019/10/28 @ 03:00
+### Aggiunto
+- Funzioni differenziate tra exit() e quit() nel menù a tendina e nella barra in alto dell'editor
+- Aggiunte icone provvisorie ai bottoni
+- Aggiunte alcune shortcut da tastiera azionabili nell'editor
+- Aggiunte alcune action nell'editor
+### Cambiamenti
+- Customizzazione provvisoria della UI dell'editor
+
+## [v0.1.4a - Canary 120A] - 2019/10/27 @ 19:30
+### Aggiunto
+- Nuova funzione per esportare in PDF
+- menuWindow customizzata con bottoni interattivi
+
+## [v0.1.4a - Daily 1206] - 2019/10/27 @ 12:50
+### Aggiunto
+- Nuova finestra menuWindow al posto del frame per l'accesso
+- Funzionalità di testo corsivo
+- Bottone e funzionalità per cambiare colore del testo
 
 ## [v0.1.4a - Nightly 1205] - 2019/10/27 @ 02:50
 ### Aggiunto

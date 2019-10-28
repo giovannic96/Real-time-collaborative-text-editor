@@ -12,5 +12,18 @@
         <file>image/registratiButton2.png</file>
         <file>image/accediButton1.png</file>
         <file>image/accediButton2.png</file>
+        <file>image/Editor/center-align.png</file>
+        <file>image/Editor/font.png</file>
+        <file>image/Editor/highlighter.png</file>
+        <file>image/Editor/images.png</file>
+        <file>image/Editor/italic.png</file>
+        <file>image/Editor/justify.png</file>
+        <file>image/Editor/left-align.png</file>
+        <file>image/Editor/Redo.png</file>
+        <file>image/Editor/right-align.png</file>
+        <file>image/Editor/save(1).png</file>
+        <file>image/Editor/save.png</file>
+        <file>image/Editor/underline.png</file>
+        <file>image/Editor/Undo.png</file>
     </qresource>
 </RCC>
