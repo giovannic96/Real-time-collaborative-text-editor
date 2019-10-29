@@ -232,7 +232,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //check the list of file for the current user
         std::vector<File> vectorFile;
         dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
-        QSqlDatabase::removeDatabase("MyConnect3");
+        QSqlDatabase::removeDatabase("MyConnect2");
 
 
         if(resp == dbService::LIST_EXIST)
