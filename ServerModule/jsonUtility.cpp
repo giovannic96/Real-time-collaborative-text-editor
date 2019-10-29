@@ -61,6 +61,9 @@ void jsonUtility::from_json_filename(const json &j, std::string &user, std::stri
     user = j.at("content").at("username").get<std::string>();
     filename = j.at("content").at("filename").get<std::string>();
 }
+void jsonUtility::from_json_username(const json &j, std::string &user) {
+    user = j.at("content").at("username").get<std::string>();
+}
 
 void jsonUtility::from_json(const json &j, std::string &user, std::string &pass, std::string &email) {
     user = j.at("content").at("username").get<std::string>();

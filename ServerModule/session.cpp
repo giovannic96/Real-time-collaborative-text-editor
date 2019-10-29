@@ -15,6 +15,7 @@
 #include "header_files/room.h"
 #include "header_files/jsonUtility.h"
 #include "header_files/dbService.h"
+#include "header_files/File.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
@@ -216,6 +217,39 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json(j, "NEWFILE_RESPONSE", db_res);
+        const char* response = j.dump().c_str();
+        return response;
+
+    } else if (opJSON == "LISTFILE_REQUEST") {
+        std::string userJSON;
+        std::string filenameJSON;
+        jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+        //check the list of file for the current user
+        std::vector<File> vectorFile;
+        dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
+        QSqlDatabase::removeDatabase("MyConnect3");
+
+
+        if(resp == dbService::LIST_EXIST)
+            db_res = "LIST_EXIST";
+        else if(resp == dbService::LIST_DOESNT_EXIST)
+            db_res = "LIST_DOESNT_EXIST";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "LISTFILE_RESPONSE", db_res);
+        //TODO insert the vectorFile (that contains list of files) in the json response to the Client
         const char* response = j.dump().c_str();
         return response;
 

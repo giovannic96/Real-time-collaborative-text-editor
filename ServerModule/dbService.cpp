@@ -12,9 +12,10 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
+
+
 dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass) {
     QSqlDatabase db;
-
     QString username = QString::fromUtf8(user.data(), user.size());
     QString password = QString::fromUtf8(pass.data(), pass.size());
 
@@ -177,7 +178,45 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
         return DB_ERROR;
     }
 }
+dbService::DB_RESPONSE dbService::tryListFile(const std::string& user, std::vector<File>& vectorFile) {
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(user.data(), user.size());
 
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("SELECT * FROM permissions WHERE iduser = :username"));
+        query.bindValue(":username", username);
+
+        if (query.exec()) {
+            bool check=0;
+            while (query.next()) {
+                QString idfileFromDb = query.value(0).toString();
+                QString filenameFromDb = query.value(1).toString();
+                bool isOwnerFromDb = query.value(3).toBool();
+                QString timestampFromDb = query.value(5).toString();
+                File file = File(idfileFromDb, filenameFromDb, username, isOwnerFromDb, timestampFromDb);
+                vectorFile.push_back(file);
+                check = 1;
+            }
+            db.close();
+            if(check)
+                return LIST_EXIST;
+            else
+                return LIST_DOESNT_EXIST;
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
 dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std::string& file_name) {
 }
 
