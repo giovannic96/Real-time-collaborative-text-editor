@@ -524,7 +524,7 @@ background-color:#3369ff;
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="renameButton">
      <property name="geometry">
       <rect>
        <x>630</x>
