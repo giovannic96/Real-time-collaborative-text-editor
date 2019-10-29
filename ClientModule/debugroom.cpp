@@ -1,6 +1,7 @@
 #include "debugroom.h"
 #include "ui_debugroom.h"
 #include "startwindow.h"
+#include "menuwindow.h"
 #include "userprofile.h"
 #include "editorwindow.h"
 
@@ -25,4 +26,9 @@ void DebugRoom::on_UserProfileButton_clicked(){
 void DebugRoom::on_EditorButton_clicked(){
     EditorWindow *ew = new EditorWindow("NoTextForDebug");
     ew->show();
+}
+
+void DebugRoom::on_MenuWindowButton_clicked(){
+    MenuWindow *mw=new MenuWindow();
+    mw->show();
 }

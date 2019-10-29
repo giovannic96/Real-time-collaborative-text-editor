@@ -64,6 +64,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     Risorse.qrc
 
+RC_ICONS = icon.ico
+
 DISTFILES += \
     Db/texteditor_users.sqlite \
     changelog.md

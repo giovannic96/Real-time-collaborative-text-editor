@@ -4,7 +4,14 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
-## [v0.1.4a - Canary 120B] - 2019/10/28 @ 03:00
+## [v0.1.4a - Nightly 120C] - 2019/10/29 @ 02:00
+### Aggiunto
+- Icona ufficiale dell'applicazione in formato .ico
+- Collegamento a "menuWindow" introdotto nella Debug Room
+### Cambiamenti
+- Correzione di alcune entry nel changelog
+
+## [v0.1.4a - Nightly 120B] - 2019/10/28 @ 03:00
 ### Aggiunto
 - Funzioni differenziate tra exit() e quit() nel menù a tendina e nella barra in alto dell'editor
 - Aggiunte icone provvisorie ai bottoni

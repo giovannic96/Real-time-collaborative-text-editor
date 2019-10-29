@@ -55,7 +55,7 @@ background-color: #800000;
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>150</y>
+      <y>210</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -89,7 +89,7 @@ background-color: #808000;
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>210</y>
+      <y>270</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -144,13 +144,48 @@ background-color: #008080;
 text-align: center;</string>
     </property>
     <property name="text">
-     <string>    Enrico &amp; Rinaldo Debug Room</string>
+     <string>    Enrico &amp; Rinaldo Debug Room v2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="MenuWindowButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>150</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#MenuWindowButton{color: rgb(0, 0, 0); 
+background-color: #00FF00; 
+font-size: 16px; 
+border-radius: 20px; 
+border: 3px solid #00CC00;
+}
+#MenuWindowButton:hover{
+background-color: #00CC00;
+}
+#MenuWindowButton:pressed{
+background-color: #008000;
+}</string>
+    </property>
+    <property name="text">
+     <string>MENU WINDOW</string>
     </property>
    </widget>
    <zorder>UserProfileButton</zorder>
    <zorder>EditorButton</zorder>
    <zorder>label</zorder>
    <zorder>StartButton</zorder>
+   <zorder>MenuWindowButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -158,7 +193,7 @@ text-align: center;</string>
      <x>0</x>
      <y>0</y>
      <width>356</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
