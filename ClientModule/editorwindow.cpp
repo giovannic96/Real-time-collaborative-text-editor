@@ -18,37 +18,6 @@ EditorWindow::~EditorWindow(){
     delete ui;
 }
 
-//FUNZIONE WORK-IN-PROGRESS DA GESTIRE MEGLIO, TODO PERCHé é UN CASINO!
-void EditorWindow::on_pushButton_3_clicked(){
-    bool ok;
-        QString newText = QInputDialog::getText(this, tr("Titolo documento"),
-                                             tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
-                                             textname, &ok);
-        if (ok && !newText.isEmpty() && newText.size()<=15){
-            //TODO controllo file database (nome e utente)
-            //TODO Inserire il file nel database
-            //TODO aprire il file nell'editor
-
-            EditorWindow *ew = new EditorWindow(newText);
-            ew->show();
-            delete this;
-        }
-        else if (ok && !newText.isEmpty() && newText.size()>15){
-            QMessageBox messageBox;
-            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
-            messageBox.setFixedSize(600,400);
-            on_pushButton_3_clicked();
-        }
-        else if (ok && newText.isEmpty()){
-            QMessageBox messageBox;
-            messageBox.critical(nullptr,"Errore","Inserire un nome!");
-            messageBox.setFixedSize(600,400);
-            on_pushButton_3_clicked();
-        }
-        //AT THE END
-
-}
-
 //FUNCTION GRASSETTO --> Make Bold inside text area
 void EditorWindow::on_buttonGrassetto_clicked(){
     QTextCharFormat formato{};
@@ -117,11 +86,8 @@ void EditorWindow::on_buttonColor_clicked(){
     ui->RealTextEdit->setTextColor(txtColour);
 }
 
-void EditorWindow::on_actionSave_triggered()
-{
+void EditorWindow::on_actionSave_triggered(){
     QString pathname;
-
-    //GIOVANNI SO CHE HAI VOGLIA DI MODIFICARLA, SE VUOI OK, MA VORREI FARLO IO ;)
 
     QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
@@ -159,5 +125,51 @@ void EditorWindow::on_buttonExit_clicked(){
 //ACTION TO QUIT THE PROGRAM BY MENù
 void EditorWindow::on_actionChiudi_triggered(){
     QApplication::quit();   //I've used quit() instead exit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
+
+}
+
+
+//RENAME BUTTON v1 - "DEPRECATED FUNCTION --> SEE RENAME BUTTON v2"
+void EditorWindow::on_pushButton_3_clicked(){
+    bool ok;
+        QString newText = QInputDialog::getText(this, tr("Titolo documento"),
+                                             tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
+                                             textname, &ok);
+        if (ok && !newText.isEmpty() && newText.size()<=15){
+            //TODO controllo file database (nome e utente)
+            //TODO Inserire il file nel database
+            //TODO aprire il file nell'editor
+
+            EditorWindow *ew = new EditorWindow(newText);
+            ew->show();
+            delete this;
+        }
+        else if (ok && !newText.isEmpty() && newText.size()>15){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+            messageBox.setFixedSize(600,400);
+            on_pushButton_3_clicked();
+        }
+        else if (ok && newText.isEmpty()){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome!");
+            messageBox.setFixedSize(600,400);
+            on_pushButton_3_clicked();
+        }
+        //AT THE END
+
+}
+
+//RENAME BUTTON v2 - TODO APPLY CONTROL LIKE RENAME BUTTON v1
+void EditorWindow::on_renameButton_clicked()
+{
+    QString newText = QInputDialog::getText(this, tr("Titolo documento"),
+                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
+                                         textname);
+
+    ui->DocName->setText(newText);
+}
+
+void EditorWindow::on_pushButton_4_clicked(){
 
 }

@@ -93,7 +93,7 @@ background-color:#3369ff;
     <widget class="QLabel" name="DocName">
      <property name="geometry">
       <rect>
-       <x>440</x>
+       <x>470</x>
        <y>10</y>
        <width>291</width>
        <height>20</height>
@@ -127,7 +127,7 @@ text-align: right;</string>
       </rect>
      </property>
      <property name="text">
-      <string>RENAME</string>
+      <string>RENAMEv1</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonCorsivo">
@@ -522,6 +522,19 @@ background-color:#3369ff;
        <width>30</width>
        <height>30</height>
       </size>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_4">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>40</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>RENAMEv2</string>
      </property>
     </widget>
    </widget>

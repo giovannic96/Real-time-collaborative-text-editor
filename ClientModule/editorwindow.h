@@ -34,6 +34,10 @@ private slots:
 
     void on_actionChiudi_triggered();
 
+    void on_renameButton_clicked();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString

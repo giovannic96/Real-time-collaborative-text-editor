@@ -4,6 +4,14 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.4a - Nightly 120D] - 2019/10/29 @ 16:15
+### Deprecato
+- Funzione per rinominare il documento
+### Aggiunto
+- Nuovo bottone/funzione per rinominare un documento
+### Cambiamenti
+- Correzionedi un bug nella finestra startWindow
+
 ## [v0.1.4a - Nightly 120C] - 2019/10/29 @ 02:00
 ### Aggiunto
 - Icona ufficiale dell'applicazione in formato .ico

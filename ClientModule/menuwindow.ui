@@ -198,12 +198,12 @@ background-repeat:no-repeat;
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">#Username{
+     <string notr="true">#LogoutButton{
 	background-color:transparent;
 	border: transparent;
 }
 
-#Username:hover {
+#LogoutButton:hover {
     border: 5px solid #962333;
 	border-radius: 10px;
 }
