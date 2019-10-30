@@ -25,5 +25,11 @@
         <file>image/Editor/save.png</file>
         <file>image/Editor/underline.png</file>
         <file>image/Editor/Undo.png</file>
+        <file>image/Editor/copy.png</file>
+        <file>image/Editor/cut.png</file>
+        <file>image/Editor/paste.png</file>
+        <file>image/Editor/1024px-OOjs_UI_icon_bold-g.svg.png</file>
+        <file>image/windows2.png</file>
+        <file>image/windows3.png</file>
     </qresource>
 </RCC>

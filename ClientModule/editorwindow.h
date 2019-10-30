@@ -25,18 +25,14 @@ private slots:
     void on_buttonTaglia_clicked();
     void on_buttonIncolla_clicked();
     void on_buttonCopia_clicked();
-
     void on_buttonColor_clicked();
-
     void on_actionSave_triggered();
-
     void on_buttonExit_clicked();
-
     void on_actionChiudi_triggered();
-
     void on_renameButton_clicked();
-
-    void on_pushButton_4_clicked();
+    void on_buttonEvidenziato_clicked();
+    void on_buttonFontUp_clicked();
+    void on_buttonFontDown_clicked();
 
 private:
     Ui::EditorWindow *ui;

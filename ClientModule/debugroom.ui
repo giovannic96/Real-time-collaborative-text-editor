@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>90</y>
+      <y>140</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -55,7 +55,7 @@ background-color: #800000;
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>210</y>
+      <y>260</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -89,7 +89,7 @@ background-color: #808000;
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>270</y>
+      <y>320</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -144,14 +144,14 @@ background-color: #008080;
 text-align: center;</string>
     </property>
     <property name="text">
-     <string>    Enrico &amp; Rinaldo Debug Room v2</string>
+     <string>    Enrico &amp; Rinaldo Debug Room v2.1</string>
     </property>
    </widget>
    <widget class="QPushButton" name="MenuWindowButton">
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>150</y>
+      <y>200</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -181,11 +181,63 @@ background-color: #008000;
      <string>MENU WINDOW</string>
     </property>
    </widget>
+   <widget class="QLabel" name="version">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>518</y>
+      <width>281</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #EAFF00;</string>
+    </property>
+    <property name="text">
+     <string>QuestoTestoVieneSostituitoDaVersione</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>490</y>
+      <width>281</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <italic>false</italic>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #EAFF00;</string>
+    </property>
+    <property name="text">
+     <string>C.A.R.T.E.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>UserProfileButton</zorder>
    <zorder>EditorButton</zorder>
    <zorder>label</zorder>
    <zorder>StartButton</zorder>
    <zorder>MenuWindowButton</zorder>
+   <zorder>version</zorder>
+   <zorder>label_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

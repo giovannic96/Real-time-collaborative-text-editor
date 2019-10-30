@@ -14,39 +14,52 @@ EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent), 
     ui->DocName->setText(text);
 }
 
+//DESTRUCTOR
 EditorWindow::~EditorWindow(){
     delete ui;
 }
 
-//FUNCTION GRASSETTO --> Make Bold inside text area
+//BUTTON FOR CHANGE TYPE OF TEXT
 void EditorWindow::on_buttonGrassetto_clicked(){
-    QTextCharFormat formato{};
     if(ui->buttonGrassetto->isChecked()){
-        formato.setFontWeight(QFont::Bold);
-        ui->buttonGrassetto->setCheckable(false);
+        ui->RealTextEdit->setFontWeight(QFont::Bold);
     }else{
-         formato.setFontWeight(QFont::Thin);
-          ui->buttonGrassetto->setCheckable(true);
+         ui->RealTextEdit->setFontWeight(QFont::Light);
+         ui->buttonGrassetto->setCheckable(true);
     }
-    ui->RealTextEdit->setCurrentCharFormat(formato);
 }
 
 void EditorWindow::on_buttonCorsivo_clicked(){
-    QTextCharFormat formato{};
     if(ui->buttonCorsivo->isChecked()){
-        formato.setFontItalic(QFont::StyleItalic);
-        ui->buttonCorsivo->setCheckable(false);
+        ui->RealTextEdit->setFontItalic(true);
     }else{
-         formato.setFontItalic(QFont::StyleNormal);
-          ui->buttonCorsivo->setCheckable(true);
+         ui->RealTextEdit->setFontItalic(false);
+         ui->buttonCorsivo->setCheckable(true);
     }
-    ui->RealTextEdit->setCurrentCharFormat(formato);
 }
 
 void EditorWindow::on_buttonSottolineato_clicked(){
-    //TODO
+    if(ui->buttonSottolineato->isChecked()){
+        ui->RealTextEdit->setFontUnderline(true);
+    }else{
+         ui->RealTextEdit->setFontUnderline(false);
+         ui->buttonSottolineato->setCheckable(true);
+    }
 }
 
+//BUTTON FOR CHANGE COLOUR OF TEXT
+void EditorWindow::on_buttonEvidenziato_clicked(){
+    QColor backColour = QColorDialog::getColor();
+    ui->RealTextEdit->setTextBackgroundColor(backColour);
+}
+
+void EditorWindow::on_buttonColor_clicked(){
+    QColor txtColour = QColorDialog::getColor();
+    ui->RealTextEdit->setTextColor(txtColour);
+}
+
+
+//BUTTON FOR ALIGN THE TEXT
 void EditorWindow::on_buttonAlignDX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignRight);
 }
@@ -61,6 +74,8 @@ void EditorWindow::on_buttonAlignSX_clicked(){
 
 //TODO JUSTIFY
 
+
+//BUTTON FOR UNDO AND REDO
 void EditorWindow::on_buttonUndo_clicked(){
     ui->RealTextEdit->undo();
 }
@@ -69,6 +84,8 @@ void EditorWindow::on_buttonRedo_clicked(){
     ui->RealTextEdit->redo();
 }
 
+
+//BUTTON FOR CUT-COPY-PASTE
 void EditorWindow::on_buttonTaglia_clicked(){
     ui->RealTextEdit->cut();
 }
@@ -81,14 +98,10 @@ void EditorWindow::on_buttonCopia_clicked(){
     ui->RealTextEdit->copy();
 }
 
-void EditorWindow::on_buttonColor_clicked(){
-    QColor txtColour = QColorDialog::getColor();
-    ui->RealTextEdit->setTextColor(txtColour);
-}
 
+//FUNCTION FOR EXPORT TEXT INTO PDF
 void EditorWindow::on_actionSave_triggered(){
     QString pathname;
-
     QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
     //QString fileName = QFileDialog::getSaveFileName(this,"Salva il file in locale");
@@ -108,7 +121,7 @@ void EditorWindow::on_actionSave_triggered(){
           doc.setHtml(fileText);
           QPrinter file;
           file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName("myfile.pdf"); // better to use full path //GIOVANNI MODIFICO IO
+          file.setOutputFileName(textname+".pdf"); // better to use full path //GIOVANNI MODIFICO IO
           doc.print(&file); //REFERENCE DO NOT TOUCH IT FUNZIONA!
 
           writeData << &file; //like CIN, but in a stream of text
@@ -157,19 +170,36 @@ void EditorWindow::on_pushButton_3_clicked(){
             on_pushButton_3_clicked();
         }
         //AT THE END
-
 }
 
 //RENAME BUTTON v2 - TODO APPLY CONTROL LIKE RENAME BUTTON v1
-void EditorWindow::on_renameButton_clicked()
-{
+void EditorWindow::on_renameButton_clicked(){
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          textname);
-
     ui->DocName->setText(newText);
 }
 
-void EditorWindow::on_pushButton_4_clicked(){
 
+//BUTTON FONT UP --> THIS FUNCTION HAS TO BE MODIFIED
+void EditorWindow::on_buttonFontUp_clicked(){
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
+    if (a<100){
+        a++;
+        ui->RealTextEdit->setFontPointSize(a);
+    }
+    ui->RealTextEdit->setTextCursor(cursor);
 }
+
+//BUTTON FONT DOWN --> THIS FUNCTION HAS TO BE MODIFIED
+void EditorWindow::on_buttonFontDown_clicked(){
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
+    if (a>0){
+        a--;
+        ui->RealTextEdit->setFontPointSize(a);
+    }
+    ui->RealTextEdit->setTextCursor(cursor);
+}
+

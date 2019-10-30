@@ -7,6 +7,7 @@
 
 DebugRoom::DebugRoom(QWidget *parent): QMainWindow(parent), ui(new Ui::DebugRoom){
     ui->setupUi(this);
+    ui->version->setText(qstr);
 }
 
 DebugRoom::~DebugRoom(){

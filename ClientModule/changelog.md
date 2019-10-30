@@ -4,13 +4,26 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.5a - Nightly 1210] - 2019/10/30 @ 03:00
+- Aggiornamento v0.1.4 --> v0.1.5
+### Cambiamenti
+- Funzioni per la modifica del testo riscritte da capo e migliorate notevolmente
+- Debug Room "The Lobby" aggiornata alla versione v2.1. Adesso mostra la versione del client
+### Aggiunto
+- Bottone e funzionalità per evidenziare il testo
+- Funzione per sottolineare il testo
+- Bottoni e funzioni per aumentare e diminuire il font nell'editor
+- Bottone provvisorio per ridurre a icona l'editor
+- Bottone provvisorio per minimizzare l'editor
+- Serie di icone provvisorie per l'editor
+
 ## [v0.1.4a - Nightly 120D] - 2019/10/29 @ 16:15
 ### Deprecato
 - Funzione per rinominare il documento
 ### Aggiunto
 - Nuovo bottone/funzione per rinominare un documento
 ### Cambiamenti
-- Correzionedi un bug nella finestra startWindow
+- Correzione di un bug nella finestra startWindow
 
 ## [v0.1.4a - Nightly 120C] - 2019/10/29 @ 02:00
 ### Aggiunto
