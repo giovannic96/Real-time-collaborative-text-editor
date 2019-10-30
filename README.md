@@ -2,7 +2,7 @@
 ## Cooperative Awesome Real-Time Text Editor
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.5a - Nightly 1210] - 2019/10/29 @ 16:20 - [Differences]
+## Last Release [v0.1.5a - Nightly 1210] - 2019/10/30 @ 03:00 - [Differences]
 Update v0.1.4 -> v0.1.5
 - Functions for text editing rewritten from the beginning and greatly improved
 - Debug Room "The Lobby" updated to version v2.1
