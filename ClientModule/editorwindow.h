@@ -34,10 +34,17 @@ private slots:
     void on_buttonFontUp_clicked();
     void on_buttonFontDown_clicked();
 
+    void on_buttonToIcon_clicked();
+    void on_buttonReduce_clicked();
+    void on_actionFullscreen_triggered();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
     QString textname;
+    //For "Resizing the window"
+    //QSize currentSize;
+    //QPoint currentPos;
 
 };
 

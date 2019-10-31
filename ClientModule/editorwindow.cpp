@@ -203,3 +203,40 @@ void EditorWindow::on_buttonFontDown_clicked(){
     ui->RealTextEdit->setTextCursor(cursor);
 }
 
+//BUTTON TO ICON
+void EditorWindow::on_buttonToIcon_clicked(){
+    this->setWindowState(Qt::WindowMinimized); //See Note 2 at the end
+}
+
+//BUTTON REDUCE
+void EditorWindow::on_buttonReduce_clicked(){
+    if(ui->buttonReduce->isChecked()){
+        this->setWindowState(Qt::WindowMaximized);
+    }else{
+        this->setWindowState(Qt::WindowNoState); //See Note 1 at the end
+        ui->buttonReduce->setCheckable(true);
+    }
+}
+
+//FULLSCREEN ACTION
+void EditorWindow::on_actionFullscreen_triggered(){
+    if(ui->actionFullscreen->isChecked()){
+        this->setWindowState(Qt::WindowFullScreen);
+    }else{
+        this->setWindowState(Qt::WindowNoState); //See Note 1 at the end
+        ui->actionFullscreen->setCheckable(true);
+    }
+}
+
+
+/*
+Note 1:
+WindowNoState save automatically old position and size of the window.
+There's no need to use function like size(), resize(), pos() and move() because they needed more code, more global variable, ecc...
+It drive me crazy for implement that thing, and in the end is really easy...
+
+Note 2:
+this->parentWidget()->setWindowState(Qt::WindowMinimized); <-- This isn't working
+this->setWindowState(Qt::WindowMinimized);                 <-- That work!
+We can't follow the pointer in parentWidget(). I have to understand why.
+*/
