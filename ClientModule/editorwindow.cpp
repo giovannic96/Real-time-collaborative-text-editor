@@ -7,6 +7,7 @@
 #include <QTextStream>      //FOR SAVE THE FILE LOCALLY AND PDF CONVERSION
 #include <QMessageBox>
 #include <QPrinter>         //FOR PRINTING THE PDF
+#include "infowindow.h"
 
 //CONSTRUCTOR
 EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), textname(text){
@@ -240,3 +241,8 @@ this->parentWidget()->setWindowState(Qt::WindowMinimized); <-- This isn't workin
 this->setWindowState(Qt::WindowMinimized);                 <-- That work!
 We can't follow the pointer in parentWidget(). I have to understand why.
 */
+
+void EditorWindow::on_actionabout_triggered(){
+    infoWindow *iw = new infoWindow();
+    iw->show();
+}

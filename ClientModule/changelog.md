@@ -4,6 +4,12 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.5a - Nightly 1212] - 2019/10/31 @ 17:45
+### Aggiunto
+- Classe "infoWindow" --> mostrerà l'informazioni sul software in uso
+### IMPORTANTE
+Richiamare tale classe ha causato un paio di errori. L'ultimo è stato: FTH: (5580): *** Fault tolerant heap shim applied to current process. This is usually due to previous crashes. ***.
+
 ## [v0.1.5a - Nightly 1211] - 2019/10/31 @ 09:30
 ### Aggiunto
 - Funzione per ridurre a icona l'editor

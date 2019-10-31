@@ -38,6 +38,8 @@ private slots:
     void on_buttonReduce_clicked();
     void on_actionFullscreen_triggered();
 
+    void on_actionabout_triggered();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
