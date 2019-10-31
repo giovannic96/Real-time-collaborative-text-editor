@@ -13,23 +13,29 @@
         <file>image/accediButton1.png</file>
         <file>image/accediButton2.png</file>
         <file>image/Editor/center-align.png</file>
-        <file>image/Editor/font.png</file>
         <file>image/Editor/highlighter.png</file>
-        <file>image/Editor/images.png</file>
         <file>image/Editor/italic.png</file>
         <file>image/Editor/justify.png</file>
         <file>image/Editor/left-align.png</file>
-        <file>image/Editor/Redo.png</file>
         <file>image/Editor/right-align.png</file>
         <file>image/Editor/save(1).png</file>
         <file>image/Editor/save.png</file>
         <file>image/Editor/underline.png</file>
-        <file>image/Editor/Undo.png</file>
+        <file>image/windows2.png</file>
+        <file>image/windows3.png</file>
+        <file>image/Editor/iconcina.png</file>
         <file>image/Editor/copy.png</file>
         <file>image/Editor/cut.png</file>
         <file>image/Editor/paste.png</file>
-        <file>image/Editor/1024px-OOjs_UI_icon_bold-g.svg.png</file>
-        <file>image/windows2.png</file>
-        <file>image/windows3.png</file>
+        <file>image/Editor/redo.png</file>
+        <file>image/Editor/undo.png</file>
+        <file>image/Editor/font.png</file>
+        <file>image/Editor/icon.png</file>
+        <file>image/Editor/icon2.png</file>
+        <file>image/Editor/paintbrush.png</file>
+        <file>image/Editor/resize1.png</file>
+        <file>image/Editor/resize2.png</file>
+        <file>image/Editor/resize3.png</file>
+        <file>image/Editor/resize4.png</file>
     </qresource>
 </RCC>
