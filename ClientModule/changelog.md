@@ -4,9 +4,12 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
-## [v0.1.5a - Nightly 1210] - 2019/10/30 @ 03:00
-- Aggiornamento v0.1.4 --> v0.1.5
-### Cambiamenti
+## [v0.1.5a - Nightly 1211] - 2019/10/31 @ 09:30
+### Aggiunto
+- Funzione per ridurre a icona l'editor
+- Funzione per minimizzare l'editor
+- Tab "View" nell'editor
+- Funzione per portare l'editor in "Fullscreen"
 
 ## [v0.1.5a - Nightly 1210] - 2019/10/30 @ 03:00
 - Aggiornamento v0.1.4 --> v0.1.5

@@ -42,9 +42,6 @@ private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
     QString textname;
-    //For "Resizing the window"
-    //QSize currentSize;
-    //QPoint currentPos;
 
 };
 
