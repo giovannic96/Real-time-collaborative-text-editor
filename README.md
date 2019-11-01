@@ -1,3 +1,8 @@
+<div align="center">
+	<img src="media/OfficialLogo.png">
+	<br>
+</div>
+
 # :memo: C.A.R.T.E 
 ## Cooperative Awesome Real-Time Text Editor
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
