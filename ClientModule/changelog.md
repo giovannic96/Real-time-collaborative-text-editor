@@ -4,10 +4,6 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
-## [v0.1.6a - Daily 1216] - 2019/11/01 @ 19:30
-### Cambiamenti
-- Modifiche varie all'editor
-
 ## [v0.1.6a - Daily 1215] - 2019/11/01 @ 17:00
 ### Aggiunto
 - Link to infoWindow
@@ -22,7 +18,6 @@
 - Ritorno del focus all'editor di testo al click di un bottone
 - Bugfix posizione nome testo nell'editor
 - Bugfix stile icone dell'editor
-- Colore del bottone per ridurre a icona e per minimizzare
 
 ## [v0.1.6a - Canary 1213] - 2019/10/31 @ 18:30
 - Aggiornamento v0.1.5 --> v0.1.6

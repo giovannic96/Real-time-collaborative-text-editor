@@ -40,16 +40,10 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void on_fontComboBox_currentFontChanged(const QFont &f);
-
-    void on_comboBox_activated(int index);
-
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
     QString textname;
-    //For "Font" on editor
-    qreal initialFontSize;
 
 };
 
