@@ -13,7 +13,7 @@ public:
     ~EditorWindow();
 
 private slots:
-    void on_pushButton_3_clicked();
+    //void on_pushButton_3_clicked(); --> Old Rename Function Deprecated
     void on_buttonGrassetto_clicked();
     void on_buttonCorsivo_clicked();
     void on_buttonAlignDX_clicked();

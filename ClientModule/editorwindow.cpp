@@ -28,6 +28,7 @@ void EditorWindow::on_buttonGrassetto_clicked(){
          ui->RealTextEdit->setFontWeight(QFont::Light);
          ui->buttonGrassetto->setCheckable(true);
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonCorsivo_clicked(){
@@ -37,6 +38,7 @@ void EditorWindow::on_buttonCorsivo_clicked(){
          ui->RealTextEdit->setFontItalic(false);
          ui->buttonCorsivo->setCheckable(true);
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonSottolineato_clicked(){
@@ -46,31 +48,37 @@ void EditorWindow::on_buttonSottolineato_clicked(){
          ui->RealTextEdit->setFontUnderline(false);
          ui->buttonSottolineato->setCheckable(true);
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //BUTTON FOR CHANGE COLOUR OF TEXT
 void EditorWindow::on_buttonEvidenziato_clicked(){
     QColor backColour = QColorDialog::getColor();
     ui->RealTextEdit->setTextBackgroundColor(backColour);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonColor_clicked(){
     QColor txtColour = QColorDialog::getColor();
     ui->RealTextEdit->setTextColor(txtColour);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 
 //BUTTON FOR ALIGN THE TEXT
 void EditorWindow::on_buttonAlignDX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignRight);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonAlignCX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignCenter);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonAlignSX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignLeft);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //TODO JUSTIFY
@@ -79,24 +87,29 @@ void EditorWindow::on_buttonAlignSX_clicked(){
 //BUTTON FOR UNDO AND REDO
 void EditorWindow::on_buttonUndo_clicked(){
     ui->RealTextEdit->undo();
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonRedo_clicked(){
     ui->RealTextEdit->redo();
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 
 //BUTTON FOR CUT-COPY-PASTE
 void EditorWindow::on_buttonTaglia_clicked(){
     ui->RealTextEdit->cut();
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonIncolla_clicked(){
     ui->RealTextEdit->paste();
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonCopia_clicked(){
     ui->RealTextEdit->copy();
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 
@@ -142,8 +155,7 @@ void EditorWindow::on_actionChiudi_triggered(){
 
 }
 
-
-//RENAME BUTTON v1 - "DEPRECATED FUNCTION --> SEE RENAME BUTTON v2"
+/*RENAME BUTTON v1 - "DEPRECATED FUNCTION --> SEE RENAME BUTTON v2"
 void EditorWindow::on_pushButton_3_clicked(){
     bool ok;
         QString newText = QInputDialog::getText(this, tr("Titolo documento"),
@@ -172,6 +184,7 @@ void EditorWindow::on_pushButton_3_clicked(){
         }
         //AT THE END
 }
+*/
 
 //RENAME BUTTON v2 - TODO APPLY CONTROL LIKE RENAME BUTTON v1
 void EditorWindow::on_renameButton_clicked(){
@@ -179,6 +192,7 @@ void EditorWindow::on_renameButton_clicked(){
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          textname);
     ui->DocName->setText(newText);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 
@@ -191,6 +205,7 @@ void EditorWindow::on_buttonFontUp_clicked(){
         ui->RealTextEdit->setFontPointSize(a);
     }
     ui->RealTextEdit->setTextCursor(cursor);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //BUTTON FONT DOWN --> THIS FUNCTION HAS TO BE MODIFIED
@@ -202,6 +217,7 @@ void EditorWindow::on_buttonFontDown_clicked(){
         ui->RealTextEdit->setFontPointSize(a);
     }
     ui->RealTextEdit->setTextCursor(cursor);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //BUTTON TO ICON
@@ -217,6 +233,7 @@ void EditorWindow::on_buttonReduce_clicked(){
         this->setWindowState(Qt::WindowNoState); //See Note 1 at the end
         ui->buttonReduce->setCheckable(true);
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //FULLSCREEN ACTION
@@ -227,6 +244,7 @@ void EditorWindow::on_actionFullscreen_triggered(){
         this->setWindowState(Qt::WindowNoState); //See Note 1 at the end
         ui->actionFullscreen->setCheckable(true);
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 

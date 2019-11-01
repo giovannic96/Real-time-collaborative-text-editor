@@ -92,12 +92,11 @@
 }
 #buttonReduce:hover{
 	color: black;
-	background-color: #e5e5e5;
-	
+	background-color: #003cb3;
 }</string>
      </property>
      <property name="text">
-      <string>■</string>
+      <string>□</string>
      </property>
      <property name="iconSize">
       <size>
@@ -134,7 +133,7 @@
 }
 #buttonToIcon:hover{
   	color:black;
-	background-color: #e5e5e5;
+	background-color: #003cb3;
 }</string>
      </property>
      <property name="text">
@@ -296,7 +295,7 @@ border-left: 2px solid #EFEFEF;</string>
       <rect>
        <x>1</x>
        <y>-2</y>
-       <width>61</width>
+       <width>71</width>
        <height>51</height>
       </rect>
      </property>
@@ -323,8 +322,8 @@ text-decoration:none;
      </property>
      <property name="iconSize">
       <size>
-       <width>30</width>
-       <height>30</height>
+       <width>38</width>
+       <height>38</height>
       </size>
      </property>
     </widget>
@@ -333,7 +332,7 @@ text-decoration:none;
     <property name="geometry">
      <rect>
       <x>-1</x>
-      <y>110</y>
+      <y>90</y>
       <width>1241</width>
       <height>661</height>
      </rect>
@@ -407,12 +406,12 @@ border-left: 2px solid #505050;</string>
 </string>
      </property>
      <property name="text">
-      <string>B</string>
+      <string>G</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>21</width>
-       <height>23</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
@@ -505,8 +504,8 @@ border-left: 2px solid #505050;</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
@@ -649,8 +648,8 @@ border-left: 2px solid #505050;</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
@@ -745,8 +744,8 @@ border-left: 2px solid #505050;</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
@@ -793,8 +792,8 @@ border-left: 2px solid #505050;</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
@@ -982,8 +981,8 @@ border-left: 2px solid #505050;</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
@@ -1030,12 +1029,12 @@ border-left: 2px solid #505050;</string>
      </property>
      <property name="iconSize">
       <size>
-       <width>28</width>
-       <height>28</height>
+       <width>30</width>
+       <height>30</height>
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="buttonBarrato">
+    <widget class="QPushButton" name="buttonEvidenziato">
      <property name="geometry">
       <rect>
        <x>510</x>
@@ -1057,13 +1056,13 @@ border-left: 2px solid #505050;</string>
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
-      <string notr="true">#buttonBarrato{
+      <string notr="true">#buttonEvidenziato{
 	border:none;
 	color:#505050F;
 	background-color:#EFEFEF;
 }
 
-#buttonBarrato:hover{
+#buttonEvidenziato:hover{
 	border:1px solid #b2b2b2;
 	border-radius: 3px;
 }
@@ -1106,7 +1105,7 @@ border-left: 2px solid #505050;</string>
       <x>0</x>
       <y>50</y>
       <width>1221</width>
-      <height>61</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1121,8 +1120,8 @@ border-left: 2px solid #505050;</string>
     <widget class="QLabel" name="DocName">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>17</y>
+       <x>78</x>
+       <y>6</y>
        <width>321</width>
        <height>31</height>
       </rect>
@@ -1144,7 +1143,7 @@ text-align: left;
       <string>DocumentNameGoesHere</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </widget>
@@ -1169,7 +1168,14 @@ text-align: left;
     <addaction name="action_2"/>
     <addaction name="actionChiudi"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionFullscreen"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuView"/>
   </widget>
   <action name="actionNew">
    <property name="text">
@@ -1212,6 +1218,11 @@ text-align: left;
    </property>
    <property name="text">
     <string>Chiudi</string>
+   </property>
+  </action>
+  <action name="actionFullscreen">
+   <property name="text">
+    <string>Fullscreen</string>
    </property>
   </action>
  </widget>
