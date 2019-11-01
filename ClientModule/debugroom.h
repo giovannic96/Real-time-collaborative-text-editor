@@ -22,6 +22,8 @@ private slots:
     void on_EditorButton_clicked();
     void on_MenuWindowButton_clicked();
 
+    void on_InfoWindowButton_clicked();
+
 private:
     Ui::DebugRoom *ui;
     //For "version" QString

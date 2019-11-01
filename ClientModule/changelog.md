@@ -4,6 +4,14 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.6a - Daily 1215] - 2019/11/01 @ 17:00
+### Aggiunto
+- Link to infoWindow
+- Restyling infoWindow
+- infoWindow image
+- Debug Room "The Lobby" aggiornata alla versione v2.2. Adesso linka anche a infoWindow
+- Correzione di una entry nel Changelog
+
 ## [v0.1.6a - Daily 1214] - 2019/11/01 @ 16:15
 ### Cambiamenti
 - Bugfix UI Editor
@@ -12,7 +20,7 @@
 - Bugfix stile icone dell'editor
 
 ## [v0.1.6a - Canary 1213] - 2019/10/31 @ 18:30
-- Aggiornamento v0.1.4 --> v0.1.5
+- Aggiornamento v0.1.5 --> v0.1.6
 ### Cambiamenti
 - Restyling grafico Editor
 - Aggiornamento icone editor

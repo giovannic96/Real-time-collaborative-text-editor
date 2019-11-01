@@ -38,7 +38,7 @@ private slots:
     void on_buttonReduce_clicked();
     void on_actionFullscreen_triggered();
 
-    void on_actionabout_triggered();
+    void on_actionAbout_triggered();
 
 private:
     Ui::EditorWindow *ui;

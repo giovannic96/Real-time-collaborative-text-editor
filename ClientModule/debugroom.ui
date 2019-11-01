@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>140</y>
+      <y>120</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -55,7 +55,7 @@ background-color: #800000;
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>260</y>
+      <y>240</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -89,7 +89,7 @@ background-color: #808000;
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>320</y>
+      <y>300</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -144,14 +144,14 @@ background-color: #008080;
 text-align: center;</string>
     </property>
     <property name="text">
-     <string>    Enrico &amp; Rinaldo Debug Room v2.1</string>
+     <string>    Enrico &amp; Rinaldo Debug Room v2.2</string>
     </property>
    </widget>
    <widget class="QPushButton" name="MenuWindowButton">
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>200</y>
+      <y>180</y>
       <width>201</width>
       <height>41</height>
      </rect>
@@ -231,6 +231,40 @@ background-color: #008000;
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="InfoWindowButton">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>360</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>-1</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#InfoWindowButton{
+background-color: #FF00FF;
+font-size: 16px; 
+border-radius: 20px; 
+border: 3px solid #FF00CC;
+}
+#InfoWindowButton:hover{
+background-color: #FF00CC;
+}
+#InfoWindowButton:pressed{
+background-color: #FF8080;
+}</string>
+    </property>
+    <property name="text">
+     <string>INFO WINDOW</string>
+    </property>
+   </widget>
    <zorder>UserProfileButton</zorder>
    <zorder>EditorButton</zorder>
    <zorder>label</zorder>
@@ -238,6 +272,7 @@ background-color: #008000;
    <zorder>MenuWindowButton</zorder>
    <zorder>version</zorder>
    <zorder>label_2</zorder>
+   <zorder>InfoWindowButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

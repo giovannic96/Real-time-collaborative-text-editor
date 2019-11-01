@@ -260,7 +260,7 @@ this->setWindowState(Qt::WindowMinimized);                 <-- That work!
 We can't follow the pointer in parentWidget(). I have to understand why.
 */
 
-void EditorWindow::on_actionabout_triggered(){
+void EditorWindow::on_actionAbout_triggered(){
     infoWindow *iw = new infoWindow();
     iw->show();
 }

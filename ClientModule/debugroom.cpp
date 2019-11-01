@@ -4,6 +4,7 @@
 #include "menuwindow.h"
 #include "userprofile.h"
 #include "editorwindow.h"
+#include "infowindow.h"
 
 DebugRoom::DebugRoom(QWidget *parent): QMainWindow(parent), ui(new Ui::DebugRoom){
     ui->setupUi(this);
@@ -32,4 +33,9 @@ void DebugRoom::on_EditorButton_clicked(){
 void DebugRoom::on_MenuWindowButton_clicked(){
     MenuWindow *mw=new MenuWindow();
     mw->show();
+}
+
+void DebugRoom::on_InfoWindowButton_clicked(){
+    infoWindow *iw=new infoWindow();
+    iw->show();
 }
