@@ -6,25 +6,34 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1213</width>
-    <height>728</height>
+    <width>1211</width>
+    <height>721</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">centralwidget{
+border: 2px solid #505050;
+}</string>
+   </property>
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1221</width>
+      <width>1211</width>
       <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color:rgb(19, 29, 80)</string>
+     <string notr="true">background-color:rgb(19, 29, 80);
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -35,7 +44,7 @@
     <widget class="QPushButton" name="buttonExit">
      <property name="geometry">
       <rect>
-       <x>1172</x>
+       <x>1168</x>
        <y>0</y>
        <width>41</width>
        <height>23</height>
@@ -69,7 +78,7 @@
     <widget class="QPushButton" name="buttonReduce">
      <property name="geometry">
       <rect>
-       <x>1132</x>
+       <x>1128</x>
        <y>-7</y>
        <width>41</width>
        <height>31</height>
@@ -108,7 +117,7 @@
     <widget class="QPushButton" name="buttonToIcon">
      <property name="geometry">
       <rect>
-       <x>1090</x>
+       <x>1086</x>
        <y>0</y>
        <width>41</width>
        <height>23</height>
@@ -331,10 +340,10 @@ text-decoration:none;
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>-1</x>
-      <y>90</y>
-      <width>1241</width>
-      <height>661</height>
+      <x>0</x>
+      <y>100</y>
+      <width>1211</width>
+      <height>621</height>
      </rect>
     </property>
     <property name="font">
@@ -345,7 +354,9 @@ text-decoration:none;
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: #EFEFEF;
-text-color:white;</string>
+border-right: 2px solid #505050;
+border-left: 2px solid #505050;
+border-bottom: 2px solid #505050;</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -365,9 +376,22 @@ text-color:white;</string>
        <height>471</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">border: transparent;
 border-left: 2px solid #505050;</string>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Calibri'; font-size:14pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8.25pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QPushButton" name="buttonGrassetto">
@@ -395,7 +419,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonGrassetto{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -441,7 +464,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonCorsivo{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -485,7 +507,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignCX{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -533,7 +554,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonFontUp{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -581,7 +601,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonFontDown{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -629,7 +648,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonCopia{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -677,7 +695,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonUndo{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -725,7 +742,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignSX{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -773,7 +789,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonTaglia{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -821,7 +836,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonRedo{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -869,7 +883,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonColor{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -918,7 +931,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonSottolineato{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -962,7 +974,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonIncolla{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -1010,7 +1021,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignDX{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -1058,7 +1068,6 @@ border-left: 2px solid #505050;</string>
      <property name="styleSheet">
       <string notr="true">#buttonEvidenziato{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -1098,18 +1107,108 @@ border-left: 2px solid #505050;</string>
       <string>RENAMEv2</string>
      </property>
     </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>20</y>
+       <width>41</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>5</number>
+     </property>
+     <item>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>12</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>14</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>18</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>22</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>26</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>32</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>48</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>72</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QFontComboBox" name="fontComboBox">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>20</y>
+       <width>91</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="currentText">
+      <string>Calibri</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>50</y>
-      <width>1221</width>
-      <height>41</height>
+      <width>1211</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
+     <string notr="true">#frame_3{
+	background-color: white;
+	border-right: 2px solid #505050;
+	border-left: 2px solid #505050;
+}</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -1135,9 +1234,7 @@ border-left: 2px solid #505050;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">Color: #505050;
-text-align: left;
-</string>
+      <string notr="true">Color: #505050;</string>
      </property>
      <property name="text">
       <string>DocumentNameGoesHere</string>
@@ -1147,42 +1244,6 @@ text-align: left;
      </property>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1213</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionNew"/>
-    <addaction name="actionLoad"/>
-    <addaction name="actionSave"/>
-    <addaction name="separator"/>
-    <addaction name="action_2"/>
-    <addaction name="actionChiudi"/>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionFullscreen"/>
-   </widget>
-   <widget class="QMenu" name="menuAbout">
-    <property name="title">
-     <string>About</string>
-    </property>
-    <addaction name="actionAbout"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuView"/>
-   <addaction name="menuAbout"/>
   </widget>
   <action name="actionNew">
    <property name="text">
