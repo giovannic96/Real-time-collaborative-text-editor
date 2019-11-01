@@ -3,8 +3,6 @@
 	<br>
 </div>
 
-# :memo: C.A.R.T.E 
-## Cooperative Awesome Real-Time Text Editor
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
 ## Last Release [v0.1.6a - Daily 1214] - 2019/11/01 @ 16:15 - [Differences]
@@ -23,6 +21,9 @@ A special thanks to all of us. Ordered by Surname:
  - [Rinaldo Clemente] :computer:
  - [Enrico Mancuso] :computer:
  - [Francesco Raitano] :computer:
+
+# :memo: C.A.R.T.E 
+## Cooperative Awesome Real-Time Text Editor
 
 [v0.1.6a - Nightly 1214]: https://github.com/giovannic96/Real-time-collaborative-text-editor/tree/master/ClientModule
 [Giovanni Calà]: https://github.com/giovannic96/
