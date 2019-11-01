@@ -5,7 +5,7 @@
 
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.6a - Daily 1216] - 2019/11/01 @ 17:00 - [Differences]
+## Last Release [v0.1.6a - Daily 1216] - 2019/11/01 @ 19:30 - [Differences]
 - Modification to the Editor
 ## The 0.1.6 version brought the following updates:
 - Link to infoWindow
