@@ -29,7 +29,6 @@
         <file>image/Editor/paste.png</file>
         <file>image/Editor/redo.png</file>
         <file>image/Editor/undo.png</file>
-        <file>image/Editor/font.png</file>
         <file>image/Editor/icon.png</file>
         <file>image/Editor/icon2.png</file>
         <file>image/Editor/paintbrush.png</file>
@@ -37,5 +36,8 @@
         <file>image/Editor/resize2.png</file>
         <file>image/Editor/resize3.png</file>
         <file>image/Editor/resize4.png</file>
+        <file>image/InfoWindow.png</file>
+        <file>image/Editor/pdfImage.png</file>
+        <file>image/Editor/uriImage.png</file>
     </qresource>
 </RCC>

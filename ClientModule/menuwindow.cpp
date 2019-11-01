@@ -50,10 +50,6 @@ void MenuWindow::on_newDoc_clicked()
                                              "", &ok);
         if (ok && !text.isEmpty() && text.size()<=15){
             //TODO controllo file database (nome e utente)
-            QMessageBox messageBox;
-            messageBox.information(nullptr, "Nuovo documento", "Apertura in corso..");
-            messageBox.setFixedSize(600,400);
-            messageBox.show();
 
             //Get data from the form
             QString user = ui->Username->text();

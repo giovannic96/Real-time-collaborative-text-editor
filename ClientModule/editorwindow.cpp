@@ -7,15 +7,12 @@
 #include <QTextStream>      //FOR SAVE THE FILE LOCALLY AND PDF CONVERSION
 #include <QMessageBox>
 #include <QPrinter>         //FOR PRINTING THE PDF
-#include <QDebug>           //DELETEMEPLEASE
 #include "infowindow.h"
 
 //CONSTRUCTOR
 EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
-    initialFontSize=ui->RealTextEdit->fontPointSize();
-    qDebug() << "FontSize:" << initialFontSize;
 }
 
 //DESTRUCTOR
@@ -202,9 +199,10 @@ void EditorWindow::on_renameButton_clicked(){
 //BUTTON FONT UP --> THIS FUNCTION HAS TO BE MODIFIED
 void EditorWindow::on_buttonFontUp_clicked(){
     QTextCursor cursor = ui->RealTextEdit->textCursor();
-    if (initialFontSize<100){
-        initialFontSize++;
-        ui->RealTextEdit->setFontPointSize(initialFontSize);
+    qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
+    if (a<100){
+        a++;
+        ui->RealTextEdit->setFontPointSize(a);
     }
     ui->RealTextEdit->setTextCursor(cursor);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -213,10 +211,10 @@ void EditorWindow::on_buttonFontUp_clicked(){
 //BUTTON FONT DOWN --> THIS FUNCTION HAS TO BE MODIFIED
 void EditorWindow::on_buttonFontDown_clicked(){
     QTextCursor cursor = ui->RealTextEdit->textCursor();
-    //qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
-    if (initialFontSize>0){
-        initialFontSize--;
-        ui->RealTextEdit->setFontPointSize(initialFontSize);
+    qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
+    if (a>0){
+        a--;
+        ui->RealTextEdit->setFontPointSize(a);
     }
     ui->RealTextEdit->setTextCursor(cursor);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -265,14 +263,4 @@ We can't follow the pointer in parentWidget(). I have to understand why.
 void EditorWindow::on_actionAbout_triggered(){
     infoWindow *iw = new infoWindow();
     iw->show();
-}
-
-void EditorWindow::on_fontComboBox_currentFontChanged(const QFont &f){
-     ui->RealTextEdit->setFont(f);
-     ui->RealTextEdit->setFocus();//Return focus to textedit
-}
-
-void EditorWindow::on_comboBox_activated(int index){
-     ui->RealTextEdit->setFontPointSize(index);
-     ui->RealTextEdit->setFocus();//Return focus to textedit
 }
