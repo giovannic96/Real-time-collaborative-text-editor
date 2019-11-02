@@ -31,14 +31,14 @@ private slots:
     void on_actionChiudi_triggered();
     void on_renameButton_clicked();
     void on_buttonEvidenziato_clicked();
-    void on_buttonFontUp_clicked();
-    void on_buttonFontDown_clicked();
 
     void on_buttonToIcon_clicked();
     void on_buttonReduce_clicked();
     void on_actionFullscreen_triggered();
-
     void on_actionAbout_triggered();
+
+    void on_fontDimensionBox_activated(int index);
+    void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
 private:
     Ui::EditorWindow *ui;

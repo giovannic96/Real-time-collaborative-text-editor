@@ -320,8 +320,7 @@ text-decoration:none;
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #EFEFEF;
-text-color:white;</string>
+     <string notr="true">background-color: #EFEFEF;</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -377,7 +376,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonGrassetto{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -423,7 +421,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonCorsivo{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -467,7 +464,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignCX{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -515,7 +511,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonFontUp{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -563,7 +558,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonCopia{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -611,7 +605,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonUndo{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -659,7 +652,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignSX{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -707,7 +699,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonTaglia{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -755,7 +746,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonRedo{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -803,7 +793,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonColor{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -852,7 +841,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonSottolineato{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -896,7 +884,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonIncolla{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -944,7 +931,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignDX{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -992,7 +978,6 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonEvidenziato{
 	border:none;
-	color:#505050F;
 	background-color:#EFEFEF;
 }
 
@@ -1019,8 +1004,8 @@ border-left: 2px solid #404040;</string>
     <widget class="QPushButton" name="renameButton">
      <property name="geometry">
       <rect>
-       <x>654</x>
-       <y>20</y>
+       <x>500</x>
+       <y>60</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -1030,6 +1015,109 @@ border-left: 2px solid #404040;</string>
      </property>
      <property name="text">
       <string>RENAMEv2</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="fontDimensionBox">
+     <property name="geometry">
+      <rect>
+       <x>720</x>
+       <y>20</y>
+       <width>51</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="currentText">
+      <string>14</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>12</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>14</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>16</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>18</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>20</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>22</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>24</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>28</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>32</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>48</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>72</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QFontComboBox" name="fontSelectorBox">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>20</y>
+       <width>111</width>
+       <height>22</height>
+      </rect>
      </property>
     </widget>
    </widget>
@@ -1069,9 +1157,7 @@ border-left: 2px solid #404040;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">Color: #505050;
-text-align: left;
-</string>
+      <string notr="true">Color: #505050;</string>
      </property>
      <property name="text">
       <string>DocumentNameGoesHere</string>

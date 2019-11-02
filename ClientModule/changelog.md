@@ -4,6 +4,20 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.6a - Nightly 1217] - 2019/11/01 @ 02:00
+### Aggiunto
+- Funzione per cambiare il font del testo
+- Funzione per cambiare la dimensione del font
+- "Combobox font" e "Combobox dimensione font"
+###Cambiamenti
+- Correzione stile dei bottoni
+
+## [v0.1.6a - Daily 1216] - 2019/11/01 @ 19:15
+### Aggiunto
+- Icona "Salva come PDF"
+- Icona "Salva come URI"
+- Piccoli cambiamenti grafici nell'editor
+
 ## [v0.1.6a - Daily 1215] - 2019/11/01 @ 17:00
 ### Aggiunto
 - Link to infoWindow

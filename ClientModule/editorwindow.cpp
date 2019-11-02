@@ -195,31 +195,6 @@ void EditorWindow::on_renameButton_clicked(){
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-
-//BUTTON FONT UP --> THIS FUNCTION HAS TO BE MODIFIED
-void EditorWindow::on_buttonFontUp_clicked(){
-    QTextCursor cursor = ui->RealTextEdit->textCursor();
-    qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
-    if (a<100){
-        a++;
-        ui->RealTextEdit->setFontPointSize(a);
-    }
-    ui->RealTextEdit->setTextCursor(cursor);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-//BUTTON FONT DOWN --> THIS FUNCTION HAS TO BE MODIFIED
-void EditorWindow::on_buttonFontDown_clicked(){
-    QTextCursor cursor = ui->RealTextEdit->textCursor();
-    qreal a = ui->RealTextEdit->fontPointSize(); //getFontSize
-    if (a>0){
-        a--;
-        ui->RealTextEdit->setFontPointSize(a);
-    }
-    ui->RealTextEdit->setTextCursor(cursor);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
 //BUTTON TO ICON
 void EditorWindow::on_buttonToIcon_clicked(){
     this->setWindowState(Qt::WindowMinimized); //See Note 2 at the end
@@ -263,4 +238,78 @@ We can't follow the pointer in parentWidget(). I have to understand why.
 void EditorWindow::on_actionAbout_triggered(){
     infoWindow *iw = new infoWindow();
     iw->show();
+}
+
+
+void EditorWindow::on_fontDimensionBox_activated(int index){
+    switch(index){
+    case 0:
+        ui->RealTextEdit->setFontPointSize(2);
+        break;
+    case 1:
+        ui->RealTextEdit->setFontPointSize(4);
+        break;
+    case 2:
+        ui->RealTextEdit->setFontPointSize(6);
+        break;
+    case 3:
+        ui->RealTextEdit->setFontPointSize(8);
+        break;
+    case 4:
+        ui->RealTextEdit->setFontPointSize(10);
+        break;
+    case 5:
+        ui->RealTextEdit->setFontPointSize(12);
+        break;
+    case 6:
+        ui->RealTextEdit->setFontPointSize(14);
+        break;
+    case 7:
+        ui->RealTextEdit->setFontPointSize(16);
+        break;
+    case 8:
+        ui->RealTextEdit->setFontPointSize(18);
+        break;
+    case 9:
+        ui->RealTextEdit->setFontPointSize(20);
+        break;
+    case 10:
+        ui->RealTextEdit->setFontPointSize(22);
+        break;
+    case 11:
+        ui->RealTextEdit->setFontPointSize(24);
+        break;
+    case 12:
+        ui->RealTextEdit->setFontPointSize(28);
+        break;
+    case 13:
+        ui->RealTextEdit->setFontPointSize(32);
+        break;
+    case 14:
+        ui->RealTextEdit->setFontPointSize(48);
+        break;
+    case 15:
+        ui->RealTextEdit->setFontPointSize(32);
+        break;
+    default:
+        QMessageBox msgBox;
+        msgBox.setText("Come sei riuscito a leggere questo errore?\nContattami perchè dovrò implementare un try-catch!");
+        msgBox.exec();
+        break;
+    }
+    ui->RealTextEdit->setFocus();
+}
+
+//TODO: Find a way to restore Bold, Italic, Sub, Color and Background of text
+//TODO 2: Watch the situation of have a text made of different dimension, what's happend??
+void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    double a = ui->RealTextEdit->fontPointSize(); //save the previous dimension of the font
+    if(c.hasSelection()){
+        QTextCharFormat format;
+        format.setFont(f);
+        c.setCharFormat(format);
+        ui->RealTextEdit->setFontPointSize(a);     //restore the previous dimension of the font
+    }
+    ui->RealTextEdit->setFocus();
 }
