@@ -5,8 +5,9 @@
 
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.6a -  Nightly 1219] - 2019/11/03 @ 04:45 - [Differences]
-- Function optimization (using lambda function)
+## Last Release [v0.1.6a - Nightly 1220] - 2019/11/03 @ 17:15 - [Differences]
+- Added a temp function that return the font dimension depending on the cursor position
+- Added an initialization of the font dimension in construtor of the editor for get a default value in the beginning.
 ## The 0.1.6 version brought the following updates:
 - Restyling infoWindow
 - Debug Room "The Lobby" update to v2.2.
@@ -32,7 +33,7 @@ A special thanks to all of us. Ordered by Surname:
 # :memo: C.A.R.T.E 
 ## Cooperative Awesome Real-Time Text Editor
 
-[v0.1.6a - Nightly 1219]: https://github.com/giovannic96/Real-time-collaborative-text-editor/tree/master/ClientModule
+[v0.1.6a - Nightly 1220]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/91cb32242b9bdde15e4e5d6a4409bb563978ce20
 [Giovanni Calà]: https://github.com/giovannic96/
 [Rinaldo Clemente]: https://github.com/rinaldoclemente
 [Enrico Mancuso]: https://github.com/HidroSaphire
