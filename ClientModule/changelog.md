@@ -4,6 +4,11 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.6a - Nightly 1220] - 2019/12/03 @ 17:15
+### Aggiunto
+- Funzione provvisioria e buggata che determina la dimensione del font a seconda della posizione del cursore
+- Assegnazione della dimensione del font anche nel costruttore dell'editor in modo da assegnare un valore iniziale di default.
+
 ## [v0.1.6a - Nightly 1219] - 2019/12/03 @ 04:45
 ### Cambiamenti
 - Ottimizzazione funzione per cambiare la dimensione del testo selezionato (tramite funzione lambda)

@@ -40,6 +40,8 @@ private slots:
     void on_fontDimensionBox_activated(int index);
     void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
+    void on_RealTextEdit_cursorPositionChanged();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString

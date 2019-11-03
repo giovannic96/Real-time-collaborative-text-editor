@@ -1026,6 +1026,9 @@ border-left: 2px solid #404040;</string>
        <height>22</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="currentText">
       <string>14</string>
      </property>

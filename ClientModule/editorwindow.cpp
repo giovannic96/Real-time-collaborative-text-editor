@@ -13,6 +13,7 @@
 EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
+    ui->RealTextEdit->setFontPointSize(14); //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
 }
 
 //DESTRUCTOR
@@ -325,4 +326,13 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
 
     //AT THE END
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+//TEMP FUNCTION --> Is a Working in Progress function that change the text into Combobox, depending on the cursor position
+void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
+    //QTextCursor c = ui->RealTextEdit->textCursor();
+    double fontPointSize = ui->RealTextEdit->fontPointSize();
+    qDebug() << "La dimensione del font è "<<fontPointSize;
+    QString textFontPointSize = QString::number(fontPointSize);
+    ui->fontDimensionBox->setItemText(6, textFontPointSize);
 }
