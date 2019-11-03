@@ -4,10 +4,20 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
-## [v0.1.6a - Nightly 1217] - 2019/11/01 @ 02:00
+## [v0.1.6a - Nightly 1219] - 2019/12/03 @ 04:45
+### Cambiamenti
+- Ottimizzazione funzione per cambiare la dimensione del testo selezionato (tramite funzione lambda)
+- Ottimizzazione funzione per cambiare il font del testo selezionato (tramite salvataggio stato su variabili locali)
+
+## [v0.1.6a - Nightly 1218] - NOT RELEASED
+### Cambiamenti
+- Modifiche alla funzione per cambiare il font del testo selezionato
+- Modifiche alla funzione per cambiare la dimensione del testo selezionato
+
+## [v0.1.6a - Nightly 1217] - 2019/11/02 @ 02:00
 ### Aggiunto
-- Funzione per cambiare il font del testo
-- Funzione per cambiare la dimensione del font
+- Funzione per cambiare il font del testo selezionato
+- Funzione per cambiare la dimensione del testo selezionato
 - "Combobox font" e "Combobox dimensione font"
 ###Cambiamenti
 - Correzione stile dei bottoni

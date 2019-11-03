@@ -242,74 +242,87 @@ void EditorWindow::on_actionAbout_triggered(){
 
 
 void EditorWindow::on_fontDimensionBox_activated(int index){
-    switch(index){
-    case 0:
-        ui->RealTextEdit->setFontPointSize(2);
-        break;
-    case 1:
-        ui->RealTextEdit->setFontPointSize(4);
-        break;
-    case 2:
-        ui->RealTextEdit->setFontPointSize(6);
-        break;
-    case 3:
-        ui->RealTextEdit->setFontPointSize(8);
-        break;
-    case 4:
-        ui->RealTextEdit->setFontPointSize(10);
-        break;
-    case 5:
-        ui->RealTextEdit->setFontPointSize(12);
-        break;
-    case 6:
-        ui->RealTextEdit->setFontPointSize(14);
-        break;
-    case 7:
-        ui->RealTextEdit->setFontPointSize(16);
-        break;
-    case 8:
-        ui->RealTextEdit->setFontPointSize(18);
-        break;
-    case 9:
-        ui->RealTextEdit->setFontPointSize(20);
-        break;
-    case 10:
-        ui->RealTextEdit->setFontPointSize(22);
-        break;
-    case 11:
-        ui->RealTextEdit->setFontPointSize(24);
-        break;
-    case 12:
-        ui->RealTextEdit->setFontPointSize(28);
-        break;
-    case 13:
-        ui->RealTextEdit->setFontPointSize(32);
-        break;
-    case 14:
-        ui->RealTextEdit->setFontPointSize(48);
-        break;
-    case 15:
-        ui->RealTextEdit->setFontPointSize(32);
-        break;
-    default:
-        QMessageBox msgBox;
-        msgBox.setText("Come sei riuscito a leggere questo errore?\nContattami perchè dovrò implementare un try-catch!");
-        msgBox.exec();
-        break;
+
+    auto lambda1 = [] (int index) {return (index*2)+2;}; //Lambda Function
+    //index 0 = 2, index 1 = 4, index 2 = 6, index 3 = 8...
+
+    if (index<=11){
+        ui->RealTextEdit->setFontPointSize(lambda1(index));
+    }else{
+        //After index 11, the formula applied in the lambda function is not respected anymore
+        switch(index){
+            case 12:
+                ui->RealTextEdit->setFontPointSize(28);
+                break;
+            case 13:
+                ui->RealTextEdit->setFontPointSize(32);
+                break;
+            case 14:
+                ui->RealTextEdit->setFontPointSize(48);
+                break;
+            case 15:
+                ui->RealTextEdit->setFontPointSize(32);
+                break;
+            default:
+                QMessageBox msgBox;
+                msgBox.setText("Come sei riuscito a leggere questo errore?\nContattami perchè dovrò implementare un try-catch!");
+                msgBox.exec();
+                break;
+        }
     }
-    ui->RealTextEdit->setFocus();
+    ui->RealTextEdit->setFocus();   //Return focus to textedit
 }
 
-//TODO: Find a way to restore Bold, Italic, Sub, Color and Background of text
+//TODO 1: Find a way to restore Bold, Italic, Sub, Color and Background of text      -->    DONE!!! I'VE MADE IT!!!
 //TODO 2: Watch the situation of have a text made of different dimension, what's happend??
+//TODO 3: FIX BACKGROUND COLOR BUG
 void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
+
+    double fontPointSize;
+    bool bold = false;
+    bool italic = false;
+    bool underl = false;
+    QColor textcolor;
+    QColor backcolor;
+
+    //CATCH CURSOR
     QTextCursor c = ui->RealTextEdit->textCursor();
-    double a = ui->RealTextEdit->fontPointSize(); //save the previous dimension of the font
+
+    //SAVE PREVIOUS PROPRIETY OF TEXT
+    fontPointSize = ui->RealTextEdit->fontPointSize(); //save the previous dimension of the font
+    textcolor = ui->RealTextEdit->textColor();
+    backcolor = ui->RealTextEdit->textBackgroundColor(); //BUG HAPPEN IF NOT BACKGROUND COLOR IS SETTED
+    if(ui->RealTextEdit->fontWeight()>50){
+        bold=true;
+    }
+    if(ui->RealTextEdit->fontItalic()){
+        italic = true;
+    }
+    if(ui->RealTextEdit->fontUnderline()){
+        underl = true;
+    }
+
+    //CHANGE FONT
     if(c.hasSelection()){
         QTextCharFormat format;
         format.setFont(f);
         c.setCharFormat(format);
-        ui->RealTextEdit->setFontPointSize(a);     //restore the previous dimension of the font
     }
-    ui->RealTextEdit->setFocus();
+
+    //RESTORE PREVIOUS PROPRIETY OF TEXT
+    ui->RealTextEdit->setFontPointSize(fontPointSize);
+    ui->RealTextEdit->setTextColor(textcolor);
+    ui->RealTextEdit->setTextBackgroundColor(backcolor);
+    if(bold==true){
+        ui->RealTextEdit->setFontWeight(QFont::Bold);
+    }
+    if(italic==true){
+        ui->RealTextEdit->setFontItalic(true);
+    }
+    if(underl==true){
+        ui->RealTextEdit->setFontUnderline(true);
+    }
+
+    //AT THE END
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
