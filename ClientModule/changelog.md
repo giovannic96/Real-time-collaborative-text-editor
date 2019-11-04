@@ -4,6 +4,13 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.6a - Nightly 1221] - 2019/12/03 @ 17:15
+### Cambiamenti
+- BugFix --> Sfondo del testo diventava nero al cambio di font (adesso corretto)
+- BugFix --> Dimensione del font non corretto per valore 72 (adesso corretto)
+- Sfondo del documento cambiato da #F5F5F5 a #FFFFFF
+- I bottoni _ [] X nell'editor hanno adesso la freccia come puntatore al passaggio del mouse (come in Windows) anzichè avere la manina.
+
 ## [v0.1.6a - Nightly 1220] - 2019/12/03 @ 17:15
 ### Aggiunto
 - Funzione provvisioria e buggata che determina la dimensione del font a seconda della posizione del cursore

@@ -13,7 +13,9 @@
 EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::EditorWindow), textname(text){
     ui->setupUi(this);
     ui->DocName->setText(text);
-    ui->RealTextEdit->setFontPointSize(14); //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
+    ui->RealTextEdit->setFontPointSize(14);         //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
+    QColor a = QColor(255,255,255,255);             //R, G, B, Alpha
+    ui->RealTextEdit->setTextBackgroundColor(a);    //Force the TextEdit to have this color of background.
 }
 
 //DESTRUCTOR
@@ -117,6 +119,7 @@ void EditorWindow::on_buttonCopia_clicked(){
 //FUNCTION FOR EXPORT TEXT INTO PDF
 void EditorWindow::on_actionSave_triggered(){
     QString pathname;
+    //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
     QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
     //QString fileName = QFileDialog::getSaveFileName(this,"Salva il file in locale");
@@ -124,20 +127,20 @@ void EditorWindow::on_actionSave_triggered(){
        pathname = fileName;
        if(!File.open(QFile::WriteOnly | QFile::Text)){
           //Return if the user cancels or does something unexpected!
-          //I Don't like it, I suggest to change it with a try-catch statement
+          //I Don't like it, I suggest to change it with a try-catch statement?
            return;
         }
         else{
           //Read the file
           QTextStream writeData(&File);
-          QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT (DEVO PROVARE IO CON PLAINTEXT MA NON TOCCATE!!!!!!!)
+          QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
 
           QTextDocument doc;
           doc.setHtml(fileText);
           QPrinter file;
           file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName(textname+".pdf"); // better to use full path //GIOVANNI MODIFICO IO
-          doc.print(&file); //REFERENCE DO NOT TOUCH IT FUNZIONA!
+          file.setOutputFileName(textname+".pdf"); // better to use full path
+          doc.print(&file); //REFERENCE DO NOT TOUCH IT!
 
           writeData << &file; //like CIN, but in a stream of text
           File.flush();
@@ -262,7 +265,7 @@ void EditorWindow::on_fontDimensionBox_activated(int index){
                 ui->RealTextEdit->setFontPointSize(48);
                 break;
             case 15:
-                ui->RealTextEdit->setFontPointSize(32);
+                ui->RealTextEdit->setFontPointSize(72);
                 break;
             default:
                 QMessageBox msgBox;
@@ -274,9 +277,7 @@ void EditorWindow::on_fontDimensionBox_activated(int index){
     ui->RealTextEdit->setFocus();   //Return focus to textedit
 }
 
-//TODO 1: Find a way to restore Bold, Italic, Sub, Color and Background of text      -->    DONE!!! I'VE MADE IT!!!
-//TODO 2: Watch the situation of have a text made of different dimension, what's happend??
-//TODO 3: FIX BACKGROUND COLOR BUG
+//TODO 3: Watch the situation of have a text made of different dimension, what's happend??
 void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
 
     double fontPointSize;
@@ -290,9 +291,9 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
     QTextCursor c = ui->RealTextEdit->textCursor();
 
     //SAVE PREVIOUS PROPRIETY OF TEXT
-    fontPointSize = ui->RealTextEdit->fontPointSize(); //save the previous dimension of the font
+    fontPointSize = ui->RealTextEdit->fontPointSize();
     textcolor = ui->RealTextEdit->textColor();
-    backcolor = ui->RealTextEdit->textBackgroundColor(); //BUG HAPPEN IF NOT BACKGROUND COLOR IS SETTED
+    backcolor = ui->RealTextEdit->textBackgroundColor();
     if(ui->RealTextEdit->fontWeight()>50){
         bold=true;
     }

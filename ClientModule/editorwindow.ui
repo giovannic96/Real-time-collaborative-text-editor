@@ -50,7 +50,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">#buttonExit{
@@ -82,7 +82,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">#buttonReduce{
@@ -122,7 +122,7 @@
       </font>
      </property>
      <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">#buttonToIcon{
@@ -336,8 +336,8 @@ text-decoration:none;
       <rect>
        <x>82</x>
        <y>90</y>
-       <width>1051</width>
-       <height>511</height>
+       <width>1131</width>
+       <height>541</height>
       </rect>
      </property>
      <property name="font">
@@ -347,7 +347,7 @@ text-decoration:none;
      </property>
      <property name="styleSheet">
       <string notr="true">border: transparent;
-background: #F5F5F5;
+background: #FFFFFF;
 border-left: 2px solid #404040;</string>
      </property>
     </widget>
@@ -1030,7 +1030,7 @@ border-left: 2px solid #404040;</string>
       <string notr="true"/>
      </property>
      <property name="currentText">
-      <string>14</string>
+      <string>2</string>
      </property>
      <item>
       <property name="text">
