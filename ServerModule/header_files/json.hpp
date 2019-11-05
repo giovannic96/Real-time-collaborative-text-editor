@@ -1617,7 +1617,7 @@ JSON_HEDLEY_DIAGNOSTIC_POP
 #endif /* !defined(JSON_HEDLEY_VERSION) || (JSON_HEDLEY_VERSION < X) */
 
 
-// This fileUtility contains all internal macro definitions
+// This file contains all internal macro definitions
 // You MUST include macro_unscope.hpp at the end of json.hpp to undef all of them
 
 // exclude unsupported compilers
@@ -2376,7 +2376,7 @@ namespace detail
 
 // Note to maintainers:
 //
-// Every trait in this fileUtility expects a non CV-qualified type.
+// Every trait in this file expects a non CV-qualified type.
 // The only exceptions are in the 'aliases for detected' section
 // (i.e. those of the form: decltype(T::member_function(std::declval<T>())))
 //
@@ -6941,7 +6941,7 @@ class binary_reader
     {
         if (JSON_HEDLEY_UNLIKELY(current == std::char_traits<char>::eof()))
         {
-            return sax->parse_error(chars_read, "<end of fileUtility>",
+            return sax->parse_error(chars_read, "<end of file>",
                                     parse_error::create(110, chars_read, exception_message(format, "unexpected end of input", context)));
         }
         return true;
@@ -7266,7 +7266,7 @@ class lexer
             // get next character
             switch (get())
             {
-                // end of fileUtility while parsing string
+                // end of file while parsing string
                 case std::char_traits<char>::eof():
                 {
                     error_message = "invalid string: missing closing quote";
