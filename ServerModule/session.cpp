@@ -15,6 +15,7 @@
 #include "header_files/room.h"
 #include "header_files/jsonUtility.h"
 #include "header_files/dbService.h"
+#include "header_files/fileUtility.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
@@ -71,7 +72,10 @@ void session::do_read_body()
                 std::cerr << e.what() << '\n';
             }
             const char* response = this->handleRequests(opJSON, jdata_in);
-            this->sendMsg(response);
+            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") //TODO: add other cases
+                this->sendMsgAll(response); //send data to all the participants in the room
+            else
+                this->sendMsg(response); //send data only to this participant
             do_read_header(); //continue reading loop
         }
         else {
@@ -113,12 +117,22 @@ void session::do_write(message m) {
 }
 
 void session::sendMsg(const char* response) {
+    message msg = constructMsg(response);
+    shared_from_this()->deliver(msg); //deliver msg only to the participant
+}
+
+void session::sendMsgAll(const char* response) {
+    message msg = constructMsg(response);
+    room_.deliver(msg); //deliver msg to all the clients
+}
+
+message session::constructMsg(const char *response) {
     //Send data (header and body)
     message msg;
     msg.body_length(std::strlen(response));
     std::memcpy(msg.body(), response, msg.body_length());
     msg.encode_header();
-    shared_from_this()->deliver(msg); //deliver msg only to the participant
+    return msg;
 }
 
 const char* session::handleRequests(const std::string& opJSON, const json& jdata_in) {
@@ -130,7 +144,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
+        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON); //TODO: check if user is already logged in (try with 2 clients)
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGIN_OK)
@@ -196,7 +210,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
 
         //create file on local filesystem
         //TODO: change path
-        boost::filesystem::ofstream(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
+        boost::filesystem::ofstream(R"(..\Filesystem\)" + filenameJSON + ".txt");
 
         if(resp == dbService::NEWFILE_OK)
             db_res = "NEWFILE_OK";
@@ -217,6 +231,39 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         const char* response = j.dump().c_str();
         return response;
 
+    } else if (opJSON == "LISTFILE_REQUEST") {
+        std::string userJSON;
+        std::string filenameJSON;
+        jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+        //check the list of file for the current user
+        std::vector<File> vectorFile;
+        dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
+        QSqlDatabase::removeDatabase("MyConnect3");
+
+
+        if(resp == dbService::LIST_EXIST)
+        db_res = "LIST_EXIST";
+        else if(resp == dbService::LIST_DOESNT_EXIST)
+        db_res = "LIST_DOESNT_EXIST";
+        else if(resp == dbService::DB_ERROR)
+        db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+        db_res = "QUERY_ERROR";
+        else
+        db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "LISTFILE_RESPONSE", db_res);
+        //TODO insert the vectorFile (that contains list of files) in the json response to the Client
+        const char* response = j.dump().c_str();
+        return response;
+
     } else if (opJSON == "OPENFILE_REQUEST") {
         std::string userJSON;
         std::string filenameJSON;
@@ -230,15 +277,29 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON); //TODO: function tryOpenFile
         QSqlDatabase::removeDatabase("MyConnect4");
 
+        resp = dbService::OPENFILE_OK; //TODO: delete this later
+
         if(resp == dbService::OPENFILE_OK) {
-            //TODO: update local file 'filenameJSON' in filesystem based on CRDT that server has in memory
+            // TODO: handle these with a condition variable, lock symbols!
+
+            //TODO: update local fileUtility 'filenameJSON' in filesystem based on CRDT that server has in memory
+            fileUtility::writeFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt", shared_from_this()->getSymbols());
+            //room_->editor_->getSymbols() = fileUtility::readFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
 
             //TODO: send updated file to client
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
 
             //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
+
             db_res = "OPENFILE_OK";
+            json j;
+            //std::string str(shared_from_this()->getSymbols().begin(), shared_from_this()->getSymbols().end()); //convert from vector<symbol> to string TODO: maybe not working
+            json symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
+            jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON.dump().c_str());
+            const char* response = j.dump().c_str();
+            std::cout << "Il server sta inviando: START" << response << "END" << std::endl;
+            return response;
         }
         else if(resp == dbService::OPENFILE_FAILED)
             db_res = "OPENFILE_FAILED";
@@ -252,13 +313,39 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
 
         //Serialize data
+        /*
         json j;
-        jsonUtility::to_json(j, "OPENFILE_RESPONSE", db_res);
+        jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON.dump().c_str());
         const char* response = j.dump().c_str();
         return response;
+        */
 
+    } else if (opJSON == "INSERTION_REQUEST") {
+        /*
+        std::string tupleJSON;
+        jsonUtility::from_json_insertion(jdata_in, tupleJSON); //get json value and put into JSON variables
+
+        msgInfo m = localInsert(tupleJSON[0], tupleJSON[1]);
+        room_.send(m);
+        room_.dispatchMessages();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "INSERTION_RESPONSE", db_res);
+        const char* response = j.dump().c_str();
+        return response;
+        */
     } else { //editor functions
         room_.deliver(read_msg_); //deliver to all the participants
     }
 }
+
+__blksize_t session::getBlockSize(const char *filename) {
+    struct stat st;
+    if(stat(filename, &st) == 0)
+        return st.st_blksize;
+    else
+        return -1;
+}
+
 #pragma clang diagnostic pop
