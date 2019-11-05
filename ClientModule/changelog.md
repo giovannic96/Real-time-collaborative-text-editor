@@ -2,6 +2,149 @@
 
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
+- Rimuovere StartWindow (pagina 3)
+
+## [v0.1.6a - Nightly 1222] - 2019/12/05 @ 02:10
+### Aggiunto
+- Funzioni di test/debug nell'editor
+
+## [v0.1.6a - Nightly 1221] - 2019/12/04 @ 04:00
+### Cambiamenti
+- BugFix --> Sfondo del testo diventava nero al cambio di font (adesso corretto)
+- BugFix --> Dimensione del font non corretto per valore 72 (adesso corretto)
+- Sfondo del documento cambiato da #F5F5F5 a #FFFFFF
+- I bottoni _ [] X nell'editor hanno adesso la freccia come puntatore al passaggio del mouse (come in Windows) anzichè avere la manina.
+
+## [v0.1.6a - Nightly 1220] - 2019/12/03 @ 17:15
+### Aggiunto
+- Funzione provvisioria e buggata che determina la dimensione del font a seconda della posizione del cursore
+- Assegnazione della dimensione del font anche nel costruttore dell'editor in modo da assegnare un valore iniziale di default.
+
+## [v0.1.6a - Nightly 1219] - 2019/12/03 @ 04:45
+### Cambiamenti
+- Ottimizzazione funzione per cambiare la dimensione del testo selezionato (tramite funzione lambda)
+- Ottimizzazione funzione per cambiare il font del testo selezionato (tramite salvataggio stato su variabili locali)
+
+## [v0.1.6a - Nightly 1218] - NOT RELEASED
+### Cambiamenti
+- Modifiche alla funzione per cambiare il font del testo selezionato
+- Modifiche alla funzione per cambiare la dimensione del testo selezionato
+
+## [v0.1.6a - Nightly 1217] - 2019/11/02 @ 02:00
+### Aggiunto
+- Funzione per cambiare il font del testo selezionato
+- Funzione per cambiare la dimensione del testo selezionato
+- "Combobox font" e "Combobox dimensione font"
+###Cambiamenti
+- Correzione stile dei bottoni
+
+## [v0.1.6a - Daily 1216] - 2019/11/01 @ 19:15
+### Aggiunto
+- Icona "Salva come PDF"
+- Icona "Salva come URI"
+- Piccoli cambiamenti grafici nell'editor
+
+## [v0.1.6a - Daily 1215] - 2019/11/01 @ 17:00
+### Aggiunto
+- Link to infoWindow
+- Restyling infoWindow
+- infoWindow image
+- Debug Room "The Lobby" aggiornata alla versione v2.2. Adesso linka anche a infoWindow
+- Correzione di una entry nel Changelog
+
+## [v0.1.6a - Daily 1214] - 2019/11/01 @ 16:15
+### Cambiamenti
+- Bugfix UI Editor
+- Ritorno del focus all'editor di testo al click di un bottone
+- Bugfix posizione nome testo nell'editor
+- Bugfix stile icone dell'editor
+
+## [v0.1.6a - Canary 1213] - 2019/10/31 @ 18:30
+- Aggiornamento v0.1.5 --> v0.1.6
+### Cambiamenti
+- Restyling grafico Editor
+- Aggiornamento icone editor
+- Aggiunto stile grafico ai bottoni
+
+## [v0.1.5a - Nightly 1212] - 2019/10/31 @ 17:45
+### Aggiunto
+- Classe "infoWindow" --> mostrerà l'informazioni sul software in uso
+### IMPORTANTE
+Richiamare tale classe ha causato un paio di errori. L'ultimo è stato: FTH: (5580): *** Fault tolerant heap shim applied to current process. This is usually due to previous crashes. ***.
+
+## [v0.1.5a - Nightly 1211] - 2019/10/31 @ 09:30
+### Aggiunto
+- Funzione per ridurre a icona l'editor
+- Funzione per minimizzare l'editor
+- Tab "View" nell'editor
+- Funzione per portare l'editor in "Fullscreen"
+
+## [v0.1.5a - Nightly 1210] - 2019/10/30 @ 03:00
+- Aggiornamento v0.1.4 --> v0.1.5
+### Cambiamenti
+- Funzioni per la modifica del testo riscritte da capo e migliorate notevolmente
+- Debug Room "The Lobby" aggiornata alla versione v2.1. Adesso mostra la versione del client
+### Aggiunto
+- Bottone e funzionalità per evidenziare il testo
+- Funzione per sottolineare il testo
+- Bottoni e funzioni per aumentare e diminuire il font nell'editor
+- Bottone provvisorio per ridurre a icona l'editor
+- Bottone provvisorio per minimizzare l'editor
+- Serie di icone provvisorie per l'editor
+
+## [v0.1.4a - Nightly 120D] - 2019/10/29 @ 16:15
+### Deprecato
+- Funzione per rinominare il documento
+### Aggiunto
+- Nuovo bottone/funzione per rinominare un documento
+### Cambiamenti
+- Correzione di un bug nella finestra startWindow
+
+## [v0.1.4a - Nightly 120C] - 2019/10/29 @ 02:00
+### Aggiunto
+- Icona ufficiale dell'applicazione in formato .ico
+- Collegamento a "menuWindow" introdotto nella Debug Room
+### Cambiamenti
+- Correzione di alcune entry nel changelog
+
+## [v0.1.4a - Nightly 120B] - 2019/10/28 @ 03:00
+### Aggiunto
+- Funzioni differenziate tra exit() e quit() nel menù a tendina e nella barra in alto dell'editor
+- Aggiunte icone provvisorie ai bottoni
+- Aggiunte alcune shortcut da tastiera azionabili nell'editor
+- Aggiunte alcune action nell'editor
+### Cambiamenti
+- Customizzazione provvisoria della UI dell'editor
+
+## [v0.1.4a - Canary 120A] - 2019/10/27 @ 19:30
+### Aggiunto
+- Nuova funzione per esportare in PDF
+- menuWindow customizzata con bottoni interattivi
+
+## [v0.1.4a - Daily 1206] - 2019/10/27 @ 12:50
+### Aggiunto
+- Nuova finestra menuWindow al posto del frame per l'accesso
+- Funzionalità di testo corsivo
+- Bottone e funzionalità per cambiare colore del testo
+
+## [v0.1.4a - Nightly 1205] - 2019/10/27 @ 02:50
+### Aggiunto
+- Bottone e funzionalità per copiare il testo
+- Bottone e funzionalità per tagliare il testo
+- Bottone e funzionalità per incollare il testo
+- Bottone e funzionalità di redo
+- Bottone e funzionalità di undo
+- Bottone e funzionalità per allineare il testo a destra
+- Bottone e funzionalità per allineare il testo a centro
+- Bottone e funzionalità per allineare il testo a sinistra
+- Bottone per sottolineare il testo
+- Bottone per inclinare il testo
+
+## [v0.1.4a - Nightly 1203] - 2019/10/25 @ 03:10
+### Aggiunto
+- Bottone per rendere grassetto il testo
+### Cambiamenti
+- Sostituito booleano del grassetto con opzione checked
 
 ## [v0.1.4a - Nightly 1202] - 2019/10/25 @ 03:10
 ### Aggiunto

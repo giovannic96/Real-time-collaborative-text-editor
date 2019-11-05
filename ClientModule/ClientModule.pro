@@ -1,4 +1,4 @@
-QT       += core gui network sql
+QT       += core gui network sql printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,8 +28,10 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 SOURCES += \
     debugroom.cpp \
     editorwindow.cpp \
+    infowindow.cpp \
     jsonUtility.cpp \
     main.cpp \
+    menuwindow.cpp \
     message.cpp \
     myClient.cpp \
     startwindow.cpp \
@@ -39,8 +41,10 @@ SOURCES += \
 HEADERS += \
     debugroom.h \
     editorwindow.h \
+    infowindow.h \
     json.hpp \
     jsonUtility.h \
+    menuwindow.h \
     message.h \
     myClient.h \
     startwindow.h \
@@ -50,6 +54,8 @@ HEADERS += \
 FORMS += \
     debugroom.ui \
     editorwindow.ui \
+    infowindow.ui \
+    menuwindow.ui \
     startwindow.ui \
     userprofile.ui
 
@@ -60,6 +66,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Risorse.qrc
+
+RC_ICONS = icon.ico
 
 DISTFILES += \
     Db/texteditor_users.sqlite \

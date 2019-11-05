@@ -16,6 +16,7 @@
 #include "header_files/jsonUtility.h"
 #include "header_files/dbService.h"
 #include "header_files/fileUtility.h"
+#include "header_files/File.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
@@ -155,6 +156,8 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
         else if(resp == dbService::QUERY_ERROR)
             db_res = "QUERY_ERROR";
+        else if(resp == dbService::ALREADY_LOGGED)
+            db_res = "ALREADY_LOGGED_ERROR";
         else
             db_res = "DB_ERROR";
 
@@ -243,8 +246,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //check the list of file for the current user
         std::vector<File> vectorFile;
         dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
-        QSqlDatabase::removeDatabase("MyConnect3");
-
+        QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LIST_EXIST)
         db_res = "LIST_EXIST";

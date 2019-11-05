@@ -76,8 +76,8 @@ background-color: #800000;
      <widget class="QPushButton" name="LoginButton">
       <property name="geometry">
        <rect>
-        <x>930</x>
-        <y>370</y>
+        <x>836</x>
+        <y>490</y>
         <width>121</width>
         <height>41</height>
        </rect>
@@ -110,10 +110,10 @@ background-color: rgb(20, 78, 117);
      <widget class="QLineEdit" name="LoginPasswordForm">
       <property name="geometry">
        <rect>
-        <x>784</x>
-        <y>320</y>
+        <x>787</x>
+        <y>363</y>
         <width>231</width>
-        <height>31</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
@@ -145,10 +145,10 @@ font-size: 18px;
      <widget class="QPushButton" name="RegisterButton">
       <property name="geometry">
        <rect>
-        <x>560</x>
-        <y>80</y>
-        <width>121</width>
-        <height>31</height>
+        <x>525</x>
+        <y>90</y>
+        <width>155</width>
+        <height>35</height>
        </rect>
       </property>
       <property name="font">
@@ -159,31 +159,35 @@ font-size: 18px;
         <bold>true</bold>
        </font>
       </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="layoutDirection">
        <enum>Qt::LeftToRight</enum>
       </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">#RegisterButton {
-color: #FFFFFF;
-background-color: Transparent;
-background-repeat:no-repeat;
-text-align: right;
+border:none;
+background-image:url(:/image/registratiButton1.png)
 }
 
 #RegisterButton:hover {
-color: #FFFFFF;
-text-decoration: underline;
+border:none;
+background-image:url(:/image/registratiButton2.png)
 }</string>
       </property>
       <property name="text">
-       <string>REGISTRATI</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="ForgotPasswordButton">
       <property name="geometry">
        <rect>
-        <x>740</x>
-        <y>380</y>
+        <x>690</x>
+        <y>600</y>
         <width>171</width>
         <height>21</height>
        </rect>
@@ -214,10 +218,10 @@ text-decoration: underline;
      <widget class="QLineEdit" name="LoginUsernameForm">
       <property name="geometry">
        <rect>
-        <x>784</x>
-        <y>260</y>
+        <x>787</x>
+        <y>303</y>
         <width>231</width>
-        <height>31</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="font">
@@ -264,10 +268,10 @@ font-size: 18px;
      <widget class="QLineEdit" name="RegUsernameForm">
       <property name="geometry">
        <rect>
-        <x>784</x>
-        <y>260</y>
+        <x>791</x>
+        <y>302</y>
         <width>231</width>
-        <height>31</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -288,10 +292,10 @@ font-size: 18px;
      <widget class="QLineEdit" name="RegMailForm">
       <property name="geometry">
        <rect>
-        <x>784</x>
-        <y>377</y>
+        <x>791</x>
+        <y>419</y>
         <width>231</width>
-        <height>31</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -312,8 +316,8 @@ font-size: 18px;
      <widget class="QPushButton" name="SignUpButton">
       <property name="geometry">
        <rect>
-        <x>930</x>
-        <y>430</y>
+        <x>836</x>
+        <y>490</y>
         <width>121</width>
         <height>41</height>
        </rect>
@@ -349,10 +353,10 @@ background-color: rgb(20, 78, 117);
      <widget class="QPushButton" name="AccediButton">
       <property name="geometry">
        <rect>
-        <x>600</x>
-        <y>40</y>
-        <width>81</width>
-        <height>23</height>
+        <x>580</x>
+        <y>30</y>
+        <width>100</width>
+        <height>35</height>
        </rect>
       </property>
       <property name="font">
@@ -368,26 +372,26 @@ background-color: rgb(20, 78, 117);
       </property>
       <property name="styleSheet">
        <string notr="true">#AccediButton {
-color: #FFFFFF;
-background-color: Transparent;
-background-repeat:no-repeat;
+border:none;
+background-image:url(:/image/accediButton1.png)
 }
 
 #AccediButton:hover {
-text-decoration: underline;
+border:none;
+background-image:url(:/image/accediButton2.png)
 }</string>
       </property>
       <property name="text">
-       <string>ACCEDI</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLineEdit" name="RegPasswordForm">
       <property name="geometry">
        <rect>
-        <x>784</x>
-        <y>320</y>
+        <x>791</x>
+        <y>362</y>
         <width>231</width>
-        <height>31</height>
+        <height>30</height>
        </rect>
       </property>
       <property name="styleSheet">

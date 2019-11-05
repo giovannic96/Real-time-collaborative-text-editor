@@ -12,14 +12,15 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
+
+
 dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass) {
     QSqlDatabase db;
-
     QString username = QString::fromUtf8(user.data(), user.size());
     QString password = QString::fromUtf8(pass.data(), pass.size());
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
-    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
@@ -31,10 +32,27 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
             if(query.next()) {
                 QString usernameFromDb = query.value(0).toString();
                 QString passwordFromDb = query.value(1).toString();
+                bool isLoggedFromDb = query.value(3).toBool();
 
                 if(usernameFromDb == username && passwordFromDb == password) {
-                    std::cout << "Login success" << std::endl;
-                    return LOGIN_OK;
+                    if(!isLoggedFromDb) {
+                        QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
+                        query2.prepare(QString("UPDATE users SET isLogged=1 WHERE username= :username and password= :password"));
+                        query2.bindValue(":username", usernameFromDb);
+                        query2.bindValue(":password", passwordFromDb);
+
+                        if(query2.exec()) {
+                            std::cout << "Login success" << std::endl;
+                            return LOGIN_OK;
+                        } else {
+                            std::cout << "Error on UPDATE" << std::endl;
+                            return QUERY_ERROR;
+                        }
+                    }
+                    else {
+                        std::cout << "Already logged user" << std::endl;
+                        return ALREADY_LOGGED;
+                    }
                 }
             } else {
                 std::cout << "Login failed" << std::endl;
@@ -42,7 +60,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
             }
             db.close();
         } else {
-            std::cout << "Error on select" << std::endl;
+            std::cout << "Error on SELECT" << std::endl;
             db.close();
             return QUERY_ERROR;
         }
@@ -69,7 +87,7 @@ dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::
     }
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
-    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
 
     if (db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect"));
@@ -112,7 +130,7 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
     QString filename = QString::fromUtf8(file_name.data(), file_name.size());
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect3");
-    db.setDatabaseName("C:/Users/giova/CLionProjects/Real time text editor/ServerModule/Db/texteditor_users.sqlite");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
     if (db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect3"));
         query.prepare(QString("SELECT * FROM files WHERE filename = :filename and  owner = :username "));
@@ -160,7 +178,45 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
         return DB_ERROR;
     }
 }
+dbService::DB_RESPONSE dbService::tryListFile(const std::string& user, std::vector<File>& vectorFile) {
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(user.data(), user.size());
 
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("SELECT * FROM permissions WHERE iduser = :username"));
+        query.bindValue(":username", username);
+
+        if (query.exec()) {
+            bool check=0;
+            while (query.next()) {
+                QString idfileFromDb = query.value(0).toString();
+                QString filenameFromDb = query.value(1).toString();
+                bool isOwnerFromDb = query.value(3).toBool();
+                QString timestampFromDb = query.value(5).toString();
+                File file = File(idfileFromDb, filenameFromDb, username, isOwnerFromDb, timestampFromDb);
+                vectorFile.push_back(file);
+                check = 1;
+            }
+            db.close();
+            if(check)
+                return LIST_EXIST;
+            else
+                return LIST_DOESNT_EXIST;
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
 dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std::string& file_name) {
 }
 
@@ -172,6 +228,7 @@ inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
         case dbService::SIGNUP_FAILED:  return "SIGNUP_FAILED";
         case dbService::DB_ERROR:       return "DB_ERROR";
         case dbService::QUERY_ERROR:    return "QUERY_ERROR";
+        case dbService::ALREADY_LOGGED: return "ALREADY_LOGGED";
         default:                        return "[Unknown db response]";
     }
 }
