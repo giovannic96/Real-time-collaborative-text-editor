@@ -16,6 +16,7 @@ EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Q
     ui->RealTextEdit->setFontPointSize(14);         //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
     QColor a = QColor(255,255,255,255);             //R, G, B, Alpha
     ui->RealTextEdit->setTextBackgroundColor(a);    //Force the TextEdit to have this color of background.
+    ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
 }
 
 //DESTRUCTOR
@@ -309,6 +310,8 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
         QTextCharFormat format;
         format.setFont(f);
         c.setCharFormat(format);
+    }else{
+        //I had to change the next text font
     }
 
     //RESTORE PREVIOUS PROPRIETY OF TEXT
@@ -336,4 +339,88 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
     qDebug() << "La dimensione del font è "<<fontPointSize;
     QString textFontPointSize = QString::number(fontPointSize);
     ui->fontDimensionBox->setItemText(6, textFontPointSize);
+}
+
+
+/***********************************************************************************
+*
+*   ALL THE FOLLOWING FUNCTION ARE ONLY FOR TEST AND DEBUG
+*   ALL THESE FUNCTION MUST BE DELETED BEFORE WE REACH A BETA VERISION
+*
+*   THIS FUNCTION ARE PLAYNING WITH A CURSOR THAT ISN'T SHARED, BUT WE NEED TO
+*   BUILD A CURSOR (An original one, but I would prefer it to be a class that
+*   extends the original) SHARED BY ALL THE FUNCTION
+*
+*   THIS FUNCTION EMULATE THE MESSAGE THAT ARRIVED FROM THE SERVER.
+*   THE CURSON ISN'T SHOWN IN THE EDITOR AND WE HAD TO FIND A WAY TO DO IT!
+*
+*                                                                        HidroSaphire
+*
+***********************************************************************************/
+void EditorWindow::on_buttonDebug_clicked(){
+    if(ui->buttonDebug->isChecked()){
+        ui->DebugFrame->setVisible(false);
+    }else{
+         ui->DebugFrame->setVisible(true);
+         ui->buttonDebug->setCheckable(true);
+    }
+}
+
+void EditorWindow::on_DebugIns1_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(1);
+    c.insertText("Z");
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugInsInit_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(0);
+    c.insertText("A");
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+
+void EditorWindow::on_DebugDel1_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(1);
+    c.deleteChar();
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugCursLeft_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::PreviousCharacter,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugCursRight_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugCursLeftAnchor_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,1);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugWordLeft_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::WordLeft,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugWordRight_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::WordRight,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugIns6Word_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(6);
+    c.insertText("HidroDebug");
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }

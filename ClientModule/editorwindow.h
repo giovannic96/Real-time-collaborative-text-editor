@@ -42,6 +42,20 @@ private slots:
 
     void on_RealTextEdit_cursorPositionChanged();
 
+    /************************************
+     *           DEBUG FUNCTION         *
+     ************************************/
+    void on_buttonDebug_clicked();
+    void on_DebugIns1_clicked();
+    void on_DebugInsInit_clicked();
+    void on_DebugDel1_clicked();
+    void on_DebugCursLeft_clicked();
+    void on_DebugCursRight_clicked();
+    void on_DebugCursLeftAnchor_clicked();
+    void on_DebugWordLeft_clicked();
+    void on_DebugWordRight_clicked();
+    void on_DebugIns6Word_clicked();
+
 private:
     Ui::EditorWindow *ui;
     //For "DocName" QString

@@ -4,7 +4,11 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
 
-## [v0.1.6a - Nightly 1221] - 2019/12/03 @ 17:15
+## [v0.1.6a - Nightly 1222] - 2019/12/05 @ 02:10
+### Aggiunto
+- Funzioni di test/debug nell'editor
+
+## [v0.1.6a - Nightly 1221] - 2019/12/04 @ 04:00
 ### Cambiamenti
 - BugFix --> Sfondo del testo diventava nero al cambio di font (adesso corretto)
 - BugFix --> Dimensione del font non corretto per valore 72 (adesso corretto)

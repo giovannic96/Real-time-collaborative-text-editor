@@ -39,5 +39,6 @@
         <file>image/InfoWindow.png</file>
         <file>image/Editor/pdfImage.png</file>
         <file>image/Editor/uriImage.png</file>
+        <file>image/debugger-icon-16.jpg.png</file>
     </qresource>
 </RCC>
