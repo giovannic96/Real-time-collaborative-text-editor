@@ -17,6 +17,7 @@ EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Q
     QColor a = QColor(255,255,255,255);             //R, G, B, Alpha
     ui->RealTextEdit->setTextBackgroundColor(a);    //Force the TextEdit to have this color of background.
     ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
+    ui->FileFrame->setVisible(false);      //DELETE ME IN THE END
 }
 
 //DESTRUCTOR
@@ -193,6 +194,7 @@ void EditorWindow::on_pushButton_3_clicked(){
 
 //RENAME BUTTON v2 - TODO APPLY CONTROL LIKE RENAME BUTTON v1
 void EditorWindow::on_renameButton_clicked(){
+    ui->FileFrame->setVisible(false);
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          textname);
@@ -239,12 +241,6 @@ this->parentWidget()->setWindowState(Qt::WindowMinimized); <-- This isn't workin
 this->setWindowState(Qt::WindowMinimized);                 <-- That work!
 We can't follow the pointer in parentWidget(). I have to understand why.
 */
-
-void EditorWindow::on_actionAbout_triggered(){
-    infoWindow *iw = new infoWindow();
-    iw->show();
-}
-
 
 void EditorWindow::on_fontDimensionBox_activated(int index){
 
@@ -423,4 +419,83 @@ void EditorWindow::on_DebugIns6Word_clicked(){
     c.setPosition(6);
     c.insertText("HidroDebug");
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_fileButton_clicked()
+{
+    if(ui->fileButton->isChecked()){
+        ui->FileFrame->setVisible(false);
+    }else{
+         ui->FileFrame->setVisible(true);
+         ui->fileButton->setCheckable(true);
+    }
+}
+
+void EditorWindow::on_newDocButton_clicked()
+{
+    ui->FileFrame->setVisible(false);
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                             tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty() && text.size()<=15){
+            //TODO controllo file database (nome e utente)
+
+            //Get data from the form
+            /*QString user = ui->Username->text();
+            QByteArray ba_user = user.toLocal8Bit();
+            const char *c_user = ba_user.data();
+            QString filename = text;
+            QByteArray ba_filename = filename.toLocal8Bit();
+            const char *c_filename = ba_filename.data();
+
+            //Serialize data
+            json j;
+            jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
+            const char* req = j.dump().c_str();
+
+            //Send data (header and body)
+            sendRequestMsg(req);*/
+
+            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
+            EditorWindow *ew = new EditorWindow(text);
+            ew->show();
+            delete this;
+        }
+        else if (ok && !text.isEmpty() && text.size()>15){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+            messageBox.setFixedSize(600,400);
+            on_newDocButton_clicked();
+        }
+        else if (ok && text.isEmpty()){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome!");
+            messageBox.setFixedSize(600,400);
+            on_newDocButton_clicked();
+        }
+
+}
+
+void EditorWindow::on_URIButton_clicked()
+{
+    ui->FileFrame->setVisible(false);
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Sei stato invitato?"),
+                                             tr("Inserisci una URI:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty()){
+
+            QMessageBox messageBox;
+            messageBox.information(nullptr, "ATTENZIONE", "Ora si chiede troppo (da implementare)");
+            messageBox.setFixedSize(600,400);
+            messageBox.show();
+        }
+}
+
+void EditorWindow::on_aboutButton_clicked()
+{
+    ui->FileFrame->setVisible(false);
+    infoWindow *iw = new infoWindow();
+    iw->show();
 }

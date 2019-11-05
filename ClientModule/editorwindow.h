@@ -35,7 +35,6 @@ private slots:
     void on_buttonToIcon_clicked();
     void on_buttonReduce_clicked();
     void on_actionFullscreen_triggered();
-    void on_actionAbout_triggered();
 
     void on_fontDimensionBox_activated(int index);
     void on_fontSelectorBox_currentFontChanged(const QFont &f);
@@ -55,6 +54,14 @@ private slots:
     void on_DebugWordLeft_clicked();
     void on_DebugWordRight_clicked();
     void on_DebugIns6Word_clicked();
+
+    void on_fileButton_clicked();
+
+    void on_newDocButton_clicked();
+
+    void on_URIButton_clicked();
+
+    void on_aboutButton_clicked();
 
 private:
     Ui::EditorWindow *ui;
