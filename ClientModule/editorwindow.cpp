@@ -584,4 +584,4 @@ void EditorWindow::mouseMoveEvent(QMouseEvent *evt){
        oldPos = evt->globalPos();
 }
 
-//EVENT FILTER
+//DELETE THIS COMMENT - Made only for update version on GitHub.
