@@ -118,6 +118,31 @@ void StartWindow::on_AccediButton_clicked(){
 
 void StartWindow::on_openDoc_clicked()
 {
+            //Get data from the form
+            QString user = ui->Username->text();
+            QByteArray ba_user = user.toLocal8Bit();
+            const char *c_user = ba_user.data();
+
+            //Serialize data
+            json j;
+            jsonUtility::to_jsonUser(j, "LISTFILE_REQUEST", c_user);
+            const char* req = j.dump().c_str();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+
+            //TODO: receive (updated) file from server
+
+            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
+            //EditorWindow *ew = new EditorWindow(text);
+            //ew->show();
+            //delete this;
+
+}
+
+/* Old version
+ * void StartWindow::on_openDoc_clicked()
+{
     bool ok;
         QString text = QInputDialog::getText(this, tr("Titolo documento"),
                                              tr("Inserisci il nome del documento da aprire:"), QLineEdit::Normal,
@@ -165,7 +190,7 @@ void StartWindow::on_openDoc_clicked()
             messageBox.setFixedSize(600,400);
             on_openDoc_clicked();
         }
-}
+}*/
 
 //SET STATUS LABEL
 void StartWindow::setStatus(bool newStatus) {

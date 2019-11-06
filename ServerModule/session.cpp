@@ -260,8 +260,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json(j, "LISTFILE_RESPONSE", db_res);
-        //TODO insert the vectorFile (that contains list of files) in the json response to the Client
+        jsonUtility::to_json_vector_file(j, "LISTFILE_RESPONSE", db_res, vectorFile);
         const char* response = j.dump().c_str();
         return response;
 
