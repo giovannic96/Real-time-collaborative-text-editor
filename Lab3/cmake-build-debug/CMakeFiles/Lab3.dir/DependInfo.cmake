@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/cygdrive/c/Users/giova/CLionProjects/Lab3/Message.cpp" "/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/Message.cpp.o"
-  "/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.cpp" "/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/NetworkServer.cpp.o"
-  "/cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.cpp" "/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/SharedEditor.cpp.o"
-  "/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.cpp" "/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/Symbol.cpp.o"
-  "/cygdrive/c/Users/giova/CLionProjects/Lab3/main.cpp" "/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/main.cpp.o"
+  "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Message.cpp" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/Message.cpp.o"
+  "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.cpp" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/NetworkServer.cpp.o"
+  "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/SharedEditor.cpp" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/SharedEditor.cpp.o"
+  "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.cpp" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/Symbol.cpp.o"
+  "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/main.cpp" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

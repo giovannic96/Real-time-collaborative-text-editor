@@ -11,6 +11,7 @@
 #include "message.h"
 #include <deque>
 #include "jsonUtility.h"
+#include "symbol.h"
 
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;

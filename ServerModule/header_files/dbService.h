@@ -8,7 +8,7 @@
 #include <QtCore/QString>
 #include "sqlite3.h"
 #include <vector>
-#include "header_files/File.h"
+#include "File.h"
 
 class dbService {
 

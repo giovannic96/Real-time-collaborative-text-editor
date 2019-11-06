@@ -52,6 +52,26 @@ void jsonUtility::from_json_resp(const json &j, std::string &resp) {
     resp = j.at("content").at("response").get<std::string>();
 }
 
+void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
+    jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
+}
+
+symbol* jsonUtility::from_json_symbol(const json &j) {
+
+    //get symbol values from json
+    char letter = j.at("letter").get<char>();
+    std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
+    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
+    bool isBold = j.at("isBold").get<bool>();
+    bool isItalic = j.at("isItalic").get<bool>();
+
+    //now create the symbol
+    symbol *s = new symbol(letter, id, pos);
+    s->setBold(isBold);
+    s->setItalic(isItalic);
+    return s;
+}
+
 void jsonUtility::from_json_usernameLogin(const json &j, std::string &name) {
     name = j.at("content").at("usernameLogin").get<std::string>();
 }

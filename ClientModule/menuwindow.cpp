@@ -113,6 +113,7 @@ void MenuWindow::on_openDoc_clicked()
             const char* req = j.dump().c_str();
 
             //Send data (header and body)
+            qDebug() << "Client is sending: START" << req << "END";
             sendRequestMsg(req);
 
             //TODO: receive (updated) file from server

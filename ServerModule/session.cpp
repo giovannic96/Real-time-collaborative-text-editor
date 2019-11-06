@@ -145,7 +145,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON); //TODO: check if user is already logged in (try with 2 clients)
+        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGIN_OK)
@@ -212,7 +212,6 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect3");
 
         //create file on local filesystem
-        //TODO: change path
         boost::filesystem::ofstream(R"(..\Filesystem\)" + filenameJSON + ".txt");
 
         if(resp == dbService::NEWFILE_OK)
@@ -275,32 +274,24 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
 
-        //update tables on db
-        dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON); //TODO: function tryOpenFile
+        //update tables on db -> TODO: function tryOpenFile
+        dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON);
         QSqlDatabase::removeDatabase("MyConnect4");
-
-        resp = dbService::OPENFILE_OK; //TODO: delete this later
+        //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
 
         if(resp == dbService::OPENFILE_OK) {
-            // TODO: handle these with a condition variable, lock symbols!
-
-            //TODO: update local fileUtility 'filenameJSON' in filesystem based on CRDT that server has in memory
+            //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
             fileUtility::writeFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt", shared_from_this()->getSymbols());
             //room_->editor_->getSymbols() = fileUtility::readFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
 
-            //TODO: send updated file to client
-
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
-
             //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
 
             db_res = "OPENFILE_OK";
             json j;
-            //std::string str(shared_from_this()->getSymbols().begin(), shared_from_this()->getSymbols().end()); //convert from vector<symbol> to string TODO: maybe not working
-            json symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
-            jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON.dump().c_str());
+            std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
+            jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
             const char* response = j.dump().c_str();
-            std::cout << "Il server sta inviando: START" << response << "END" << std::endl;
             return response;
         }
         else if(resp == dbService::OPENFILE_FAILED)
@@ -315,12 +306,10 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
 
         //Serialize data
-        /*
         json j;
-        jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON.dump().c_str());
+        jsonUtility::to_json(j, "OPENFILE_RESPONSE", db_res);
         const char* response = j.dump().c_str();
         return response;
-        */
 
     } else if (opJSON == "INSERTION_REQUEST") {
         /*

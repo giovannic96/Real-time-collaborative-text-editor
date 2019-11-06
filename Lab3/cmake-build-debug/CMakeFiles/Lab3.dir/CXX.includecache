@@ -6,37 +6,37 @@
 
 #IncludeRegexTransform: 
 
-/cygdrive/c/Users/giova/CLionProjects/Lab3/Message.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Message.h
 Symbol.h
-/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.h
 
-/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.h
 Message.h
-/cygdrive/c/Users/giova/CLionProjects/Lab3/Message.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Message.h
 vector
-/cygdrive/c/Users/giova/CLionProjects/Lab3/vector
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/vector
 memory
-/cygdrive/c/Users/giova/CLionProjects/Lab3/memory
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/memory
 queue
-/cygdrive/c/Users/giova/CLionProjects/Lab3/queue
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/queue
 
-/cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/SharedEditor.h
 NetworkServer.h
-/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.h
 Symbol.h
-/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.h
 
-/cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.h
 vector
 -
 tuple
 -
 
-/cygdrive/c/Users/giova/CLionProjects/Lab3/main.cpp
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/main.cpp
 iostream
 -
 NetworkServer.h
-/cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.h
 SharedEditor.h
-/cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.h
+/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/SharedEditor.h
 

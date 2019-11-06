@@ -19,7 +19,7 @@ void fileUtility::writeFile(const std::string& filename, const std::vector<symbo
     if(outputFile.is_open()) {
         outputFile << j.dump().c_str(); //TODO: should I keep c_str() or only dump()??
         outputFile.close();
-        std::cout << "File " << filename << "written correctly";
+        std::cout << "File " << filename << " written correctly" << std::endl;
     } else
         std::cout << "Unable to open file";
 }

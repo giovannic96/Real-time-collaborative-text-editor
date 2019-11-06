@@ -17,11 +17,11 @@ class jsonUtility {
 
 public:
     static json merge(const json &a, const json &b);
-    static json fromSymToJson(const std::vector<symbol>& symbols);
+    static std::vector<json> fromSymToJson(std::vector<symbol> symbols);
     static void to_json(json &j, const std::string &op, const std::string &resp);
     static void to_json_symbol(json &j, const symbol &symbol);
     static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin);
-    static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::string &symVector);
+    static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
     static void from_json(const json& j, std::string& op);

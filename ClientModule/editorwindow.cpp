@@ -16,7 +16,9 @@ EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Q
     ui->RealTextEdit->setFontPointSize(14);         //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
     QColor a = QColor(255,255,255,255);             //R, G, B, Alpha
     ui->RealTextEdit->setTextBackgroundColor(a);    //Force the TextEdit to have this color of background.
+    /*
     ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
+    */
 }
 
 //DESTRUCTOR
@@ -26,6 +28,7 @@ EditorWindow::~EditorWindow(){
 
 //BUTTON FOR CHANGE TYPE OF TEXT
 void EditorWindow::on_buttonGrassetto_clicked(){
+    /*
     if(ui->buttonGrassetto->isChecked()){
         ui->RealTextEdit->setFontWeight(QFont::Bold);
     }else{
@@ -33,9 +36,11 @@ void EditorWindow::on_buttonGrassetto_clicked(){
          ui->buttonGrassetto->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+    */
 }
 
 void EditorWindow::on_buttonCorsivo_clicked(){
+    /*
     if(ui->buttonCorsivo->isChecked()){
         ui->RealTextEdit->setFontItalic(true);
     }else{
@@ -43,9 +48,11 @@ void EditorWindow::on_buttonCorsivo_clicked(){
          ui->buttonCorsivo->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+    */
 }
 
 void EditorWindow::on_buttonSottolineato_clicked(){
+    /*
     if(ui->buttonSottolineato->isChecked()){
         ui->RealTextEdit->setFontUnderline(true);
     }else{
@@ -53,6 +60,7 @@ void EditorWindow::on_buttonSottolineato_clicked(){
          ui->buttonSottolineato->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+    */
 }
 
 //BUTTON FOR CHANGE COLOUR OF TEXT
@@ -98,7 +106,6 @@ void EditorWindow::on_buttonRedo_clicked(){
     ui->RealTextEdit->redo();
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
-
 
 //BUTTON FOR CUT-COPY-PASTE
 void EditorWindow::on_buttonTaglia_clicked(){
@@ -207,6 +214,7 @@ void EditorWindow::on_buttonToIcon_clicked(){
 
 //BUTTON REDUCE
 void EditorWindow::on_buttonReduce_clicked(){
+    /*
     if(ui->buttonReduce->isChecked()){
         this->setWindowState(Qt::WindowMaximized);
     }else{
@@ -214,10 +222,12 @@ void EditorWindow::on_buttonReduce_clicked(){
         ui->buttonReduce->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+    */
 }
 
 //FULLSCREEN ACTION
 void EditorWindow::on_actionFullscreen_triggered(){
+    /*
     if(ui->actionFullscreen->isChecked()){
         this->setWindowState(Qt::WindowFullScreen);
     }else{
@@ -225,6 +235,7 @@ void EditorWindow::on_actionFullscreen_triggered(){
         ui->actionFullscreen->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+    */
 }
 
 
@@ -334,11 +345,13 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
 
 //TEMP FUNCTION --> Is a Working in Progress function that change the text into Combobox, depending on the cursor position
 void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
+    /*
     //QTextCursor c = ui->RealTextEdit->textCursor();
     double fontPointSize = ui->RealTextEdit->fontPointSize();
     qDebug() << "La dimensione del font è "<<fontPointSize;
     QString textFontPointSize = QString::number(fontPointSize);
     ui->fontDimensionBox->setItemText(6, textFontPointSize);
+    */
 }
 
 
@@ -358,12 +371,14 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
 *
 ***********************************************************************************/
 void EditorWindow::on_buttonDebug_clicked(){
+    /*
     if(ui->buttonDebug->isChecked()){
         ui->DebugFrame->setVisible(false);
     }else{
          ui->DebugFrame->setVisible(true);
          ui->buttonDebug->setCheckable(true);
     }
+    */
 }
 
 void EditorWindow::on_DebugIns1_clicked(){

@@ -43,10 +43,10 @@ RM = /cygdrive/c/Users/giova/.CLion2019.2/system/cygwin_cmake/bin/cmake.exe -E r
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/c/Users/giova/CLionProjects/Lab3
+CMAKE_SOURCE_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug
+CMAKE_BINARY_DIR = "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Lab3.dir/depend.make
@@ -59,68 +59,68 @@ include CMakeFiles/Lab3.dir/flags.make
 
 CMakeFiles/Lab3.dir/main.cpp.o: CMakeFiles/Lab3.dir/flags.make
 CMakeFiles/Lab3.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Lab3.dir/main.cpp.o"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/main.cpp.o -c /cygdrive/c/Users/giova/CLionProjects/Lab3/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Lab3.dir/main.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/main.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/main.cpp"
 
 CMakeFiles/Lab3.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lab3.dir/main.cpp.i"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/CLionProjects/Lab3/main.cpp > CMakeFiles/Lab3.dir/main.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/main.cpp" > CMakeFiles/Lab3.dir/main.cpp.i
 
 CMakeFiles/Lab3.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lab3.dir/main.cpp.s"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/CLionProjects/Lab3/main.cpp -o CMakeFiles/Lab3.dir/main.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/main.cpp" -o CMakeFiles/Lab3.dir/main.cpp.s
 
 CMakeFiles/Lab3.dir/NetworkServer.cpp.o: CMakeFiles/Lab3.dir/flags.make
 CMakeFiles/Lab3.dir/NetworkServer.cpp.o: ../NetworkServer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Lab3.dir/NetworkServer.cpp.o"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/NetworkServer.cpp.o -c /cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Lab3.dir/NetworkServer.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/NetworkServer.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.cpp"
 
 CMakeFiles/Lab3.dir/NetworkServer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lab3.dir/NetworkServer.cpp.i"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.cpp > CMakeFiles/Lab3.dir/NetworkServer.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.cpp" > CMakeFiles/Lab3.dir/NetworkServer.cpp.i
 
 CMakeFiles/Lab3.dir/NetworkServer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lab3.dir/NetworkServer.cpp.s"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/CLionProjects/Lab3/NetworkServer.cpp -o CMakeFiles/Lab3.dir/NetworkServer.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/NetworkServer.cpp" -o CMakeFiles/Lab3.dir/NetworkServer.cpp.s
 
 CMakeFiles/Lab3.dir/SharedEditor.cpp.o: CMakeFiles/Lab3.dir/flags.make
 CMakeFiles/Lab3.dir/SharedEditor.cpp.o: ../SharedEditor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Lab3.dir/SharedEditor.cpp.o"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/SharedEditor.cpp.o -c /cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Lab3.dir/SharedEditor.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/SharedEditor.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/SharedEditor.cpp"
 
 CMakeFiles/Lab3.dir/SharedEditor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lab3.dir/SharedEditor.cpp.i"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.cpp > CMakeFiles/Lab3.dir/SharedEditor.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/SharedEditor.cpp" > CMakeFiles/Lab3.dir/SharedEditor.cpp.i
 
 CMakeFiles/Lab3.dir/SharedEditor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lab3.dir/SharedEditor.cpp.s"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/CLionProjects/Lab3/SharedEditor.cpp -o CMakeFiles/Lab3.dir/SharedEditor.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/SharedEditor.cpp" -o CMakeFiles/Lab3.dir/SharedEditor.cpp.s
 
 CMakeFiles/Lab3.dir/Message.cpp.o: CMakeFiles/Lab3.dir/flags.make
 CMakeFiles/Lab3.dir/Message.cpp.o: ../Message.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Lab3.dir/Message.cpp.o"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/Message.cpp.o -c /cygdrive/c/Users/giova/CLionProjects/Lab3/Message.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Lab3.dir/Message.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/Message.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Message.cpp"
 
 CMakeFiles/Lab3.dir/Message.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lab3.dir/Message.cpp.i"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/CLionProjects/Lab3/Message.cpp > CMakeFiles/Lab3.dir/Message.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Message.cpp" > CMakeFiles/Lab3.dir/Message.cpp.i
 
 CMakeFiles/Lab3.dir/Message.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lab3.dir/Message.cpp.s"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/CLionProjects/Lab3/Message.cpp -o CMakeFiles/Lab3.dir/Message.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Message.cpp" -o CMakeFiles/Lab3.dir/Message.cpp.s
 
 CMakeFiles/Lab3.dir/Symbol.cpp.o: CMakeFiles/Lab3.dir/flags.make
 CMakeFiles/Lab3.dir/Symbol.cpp.o: ../Symbol.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Lab3.dir/Symbol.cpp.o"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/Symbol.cpp.o -c /cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Lab3.dir/Symbol.cpp.o"
+	/usr/bin/c++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Lab3.dir/Symbol.cpp.o -c "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.cpp"
 
 CMakeFiles/Lab3.dir/Symbol.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Lab3.dir/Symbol.cpp.i"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.cpp > CMakeFiles/Lab3.dir/Symbol.cpp.i
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.cpp" > CMakeFiles/Lab3.dir/Symbol.cpp.i
 
 CMakeFiles/Lab3.dir/Symbol.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Lab3.dir/Symbol.cpp.s"
-	C:/cygwin64/bin/x86_64-pc-cygwin-g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cygdrive/c/Users/giova/CLionProjects/Lab3/Symbol.cpp -o CMakeFiles/Lab3.dir/Symbol.cpp.s
+	/usr/bin/c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/Symbol.cpp" -o CMakeFiles/Lab3.dir/Symbol.cpp.s
 
 # Object files for target Lab3
 Lab3_OBJECTS = \
@@ -140,7 +140,7 @@ Lab3.exe: CMakeFiles/Lab3.dir/Message.cpp.o
 Lab3.exe: CMakeFiles/Lab3.dir/Symbol.cpp.o
 Lab3.exe: CMakeFiles/Lab3.dir/build.make
 Lab3.exe: CMakeFiles/Lab3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Lab3.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable Lab3.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Lab3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -153,6 +153,6 @@ CMakeFiles/Lab3.dir/clean:
 .PHONY : CMakeFiles/Lab3.dir/clean
 
 CMakeFiles/Lab3.dir/depend:
-	cd /cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /cygdrive/c/Users/giova/CLionProjects/Lab3 /cygdrive/c/Users/giova/CLionProjects/Lab3 /cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug /cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug /cygdrive/c/Users/giova/CLionProjects/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/DependInfo.cmake --color=$(COLOR)
+	cd "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug" "/cygdrive/c/Users/giova/CLionProjects/Real time text editor/Lab3/cmake-build-debug/CMakeFiles/Lab3.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Lab3.dir/depend
 

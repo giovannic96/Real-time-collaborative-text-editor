@@ -6,6 +6,7 @@
 #define SERVERMODULE_JSONUTILITY_H
 
 #include "json.hpp"
+#include "symbol.h"
 
 using nlohmann::json;
 
@@ -21,6 +22,8 @@ public:
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
     static void from_json(const json& j, std::string& op);
     static void from_json_resp(const json &j, std::string &resp);
+    static void from_json_symbols(const json &j, std::vector<json> &jsonSymbols);
+    static symbol* from_json_symbol(const json &j);
     static void from_json_usernameLogin(const json &j, std::string &name);
     static void from_json(const json& j, std::string& user, std::string& pass);
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);

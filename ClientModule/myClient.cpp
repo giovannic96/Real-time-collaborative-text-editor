@@ -95,6 +95,30 @@ void myClient::do_read_body() {
                     qDebug() << "Something went wrong" << endl;
                     emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
                 }
+            } else if(opJSON == "OPENFILE_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "OPENFILE_OK") {
+                    std::vector<json> jsonSymbols;
+                    jsonUtility::from_json_symbols(jdata_in, jsonSymbols);
+
+                    std::vector<symbol> symbols;
+                    for(const auto& j: jsonSymbols) {
+                        symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
+                        s = jsonUtility::from_json_symbol(j);
+                        symbols.push_back(*s);
+                        delete s;
+                    }
+
+                    //TODO: put these symbols into Editor correctly.
+
+                    qDebug() << "Openfile success" << endl;
+                    emit formResult("OPENFILE_SUCCESS", "Openfile Success", "Openfile successfully completed");
+                } else {
+                    qDebug() << "Something went wrong" << endl;
+                    emit formResult("OPENFILE_FAILURE", "Openfile Failed", "Openfile not completed: something went wrong");
+                }
             }
 
             //TODO: NEWFILE_RESPONSE

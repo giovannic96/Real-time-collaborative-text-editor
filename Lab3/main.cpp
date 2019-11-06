@@ -12,12 +12,58 @@ int main() {
 
     try {
         ed1.localInsert(0, 'c');
-        ed1.localInsert(1, 'a');
-        ed1.localInsert(2, 't');
+        network.dispatchMessages();
+
+        ed2.localInsert(1, 'd');
 
         network.dispatchMessages();
         std::cout << "ed1: " << ed1.to_string() << std::endl;
         std::cout << "ed2: " << ed2.to_string() << std::endl;
+
+        std::cout << std::endl << "+++ EDITOR1 SYMBOLS +++" << std::endl;
+        for (auto i : ed1.getSymbols()) {
+            std::cout << i.getValue();
+            std::cout << " [";
+            for (auto j : i.getPos())
+                std::cout << j << ", ";
+            std::cout << "]" << std::endl;
+        }
+
+        std::cout << std::endl << "+++ EDITOR2 SYMBOLS +++" << std::endl;
+        for (auto i : ed2.getSymbols()) {
+            std::cout << i.getValue();
+            std::cout << " [";
+            for (auto j : i.getPos())
+                std::cout << j << ", ";
+            std::cout << "]" << std::endl;
+        }
+
+        ed1.localInsert(1, 'i');
+        network.dispatchMessages();
+
+        ed2.localInsert(1, 'a');
+        network.dispatchMessages();
+
+        std::cout << "ed1: " << ed1.to_string() << std::endl;
+        std::cout << "ed2: " << ed2.to_string() << std::endl;
+
+        std::cout << std::endl << "+++ EDITOR1 SYMBOLS +++" << std::endl;
+        for (auto i : ed1.getSymbols()) {
+            std::cout << i.getValue();
+            std::cout << " [";
+            for (auto j : i.getPos())
+                std::cout << j << ", ";
+            std::cout << "]" << std::endl;
+        }
+
+        std::cout << std::endl << "+++ EDITOR2 SYMBOLS +++" << std::endl;
+        for (auto i : ed2.getSymbols()) {
+            std::cout << i.getValue();
+            std::cout << " [";
+            for (auto j : i.getPos())
+                std::cout << j << ", ";
+            std::cout << "]" << std::endl;
+        }
 
         ed1.localInsert(1,'h');
         ed2.localErase(1);

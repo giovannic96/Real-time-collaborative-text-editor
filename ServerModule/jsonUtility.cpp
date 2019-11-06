@@ -2,6 +2,7 @@
 // Created by giova on 05/10/2019.
 //
 
+#include <iostream>
 #include "header_files/jsonUtility.h"
 
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
@@ -23,12 +24,12 @@ void jsonUtility::to_json_symbol(json &j, const symbol &symbol) {
     };
 }
 
-void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::string &symVector) {
+void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector) {
     j = json{
             {"operation", op},
             {"content", {
                 {"response", resp},
-                {"symVector", symVector} //JSON string
+                {"symVector", symVector} //JSON vector
             }}
     };
 }
@@ -118,7 +119,19 @@ json jsonUtility::merge(const json &a, const json &b) {
     return result.unflatten();
 }
 
-json jsonUtility::fromSymToJson(const std::vector<symbol>& symbols) {
+std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
+
+    //TODO: delete this initialization of symbols
+    std::vector<int> v; //pos vector
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+    symbol s1('C', std::make_pair(0,1), v);
+    symbol s2('I', std::make_pair(0,2), v);
+    symbol s3('A', std::make_pair(1,1), v);
+    symbols.push_back(s1);
+    symbols.push_back(s2);
+    symbols.push_back(s3);
 
     // Get jsons from symbols
     std::vector<json> jsons;
@@ -127,11 +140,5 @@ json jsonUtility::fromSymToJson(const std::vector<symbol>& symbols) {
         jsonUtility::to_json_symbol(j, sym); //convert sym into json
         jsons.push_back(j);
     }
-
-    // Get all jsons merged into one single json
-    json json_merged;
-    for (auto const &j: jsons) {
-        json_merged = jsonUtility::merge(json_merged, j);
-    }
-    return json_merged;
+    return jsons;
 }

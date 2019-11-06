@@ -11,7 +11,78 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="67ac29c7-31ae-47f7-83bc-b692fc49b039" name="Default Changelist" comment="" />
+    <list default="true" id="67ac29c7-31ae-47f7-83bc-b692fc49b039" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../ClientModule/symbol.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ClientModule/symbol.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ServerModule/Filesystem/file22.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ServerModule/Filesystem/file33.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ServerModule/Filesystem/file44.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ServerModule/Filesystem/file99.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ServerModule/Filesystem/filedia4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ServerModule/Filesystem/filegiova.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/ClientModule.pro" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/ClientModule.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/ClientModule.pro.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/editorwindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/editorwindow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/image/Editor/Redo.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/image/Editor/Redo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/image/Editor/Undo.png" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/image/Editor/Undo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/jsonUtility.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/jsonUtility.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/jsonUtility.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/jsonUtility.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/menuwindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/menuwindow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/myClient.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/myClient.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/myClient.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/myClient.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/startwindow.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/startwindow.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ClientModule/startwindow.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ClientModule/startwindow.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CMakeRCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeRCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeCCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeCCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeCXXCompiler.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeCXXCompiler.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.14.5/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Lab3.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Lab3.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Lab3.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/Db/texteditor_users.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/Db/texteditor_users.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/dbService.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/dbService.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/fileUtility.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/fileUtility.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/header_files/dbService.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/header_files/dbService.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/header_files/jsonUtility.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/header_files/jsonUtility.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/header_files/participant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/header_files/participant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/jsonUtility.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/jsonUtility.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/participant.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/participant.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServerModule/session.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../ServerModule/session.cpp" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,14 +94,14 @@
     <option name="clangWarnings" value="-Wno-unused-variable,-Werror=implicit-function-declaration,-Wshadow,-Wno-shadow-field-in-constructor-modified,-Wno-shadow-ivar,-Wno-dangling-else" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>out</find>
-    </findStrings>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectId" id="1RMv0CRXAHjuFJCNDl02kZTr2hi" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -76,6 +147,7 @@
       <workItem from="1569489555578" duration="3552000" />
       <workItem from="1569594141874" duration="218000" />
       <workItem from="1569595573006" duration="603000" />
+      <workItem from="1572332292688" duration="17506000" />
     </task>
     <servers />
   </component>
@@ -90,6 +162,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

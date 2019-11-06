@@ -131,7 +131,7 @@ std::vector<symbol> participant::getSymbols() {
 
 std::string participant::to_string() {
     std::string my_string;
-    for(auto s: _symbols)
+    for(const auto& s: _symbols)
         my_string.push_back(s.getLetter());
     return my_string;
 }

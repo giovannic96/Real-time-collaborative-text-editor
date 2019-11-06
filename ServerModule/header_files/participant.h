@@ -28,7 +28,7 @@ public:
     msgInfo localErase(int index);
     void process(const msgInfo& m);
     std::string to_string();
-    std::vector<symbol> getSymbols(); //la dovrò eliminare forse, utile solo per debug
+    std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
 
 };
 
