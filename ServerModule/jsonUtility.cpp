@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "header_files/jsonUtility.h"
+#include <iomanip>
 
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
     j = json{
@@ -63,6 +64,35 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
               {"email", email}
         }}
     };
+}
+
+void to_json(json& j, const File& file){
+    j = json{
+            {"idfile", file.getidfile()},
+            {"filename", file.getfilename()},
+            {"owner", file.getowner()},
+            {"timestamp",  file.gettimestamp()}
+    };
+}
+
+void jsonUtility::to_json_vector_file(json &j, const std::string &op, const std::string &resp, const std::vector <File> &vectorFile) {
+
+    //DEBUG
+    //std::vector<File> vfile;
+    //vfile.emplace_back(File{"cipolla", "patate", "meloni", "angurie"});
+    //vfile.emplace_back(File{ "capre", "mucche", "meloni", "angurie" });
+
+    json local = vectorFile;
+    //std::cout << std::setw(2) << jlocal << std::endl;
+
+    j = json{
+            {"operation", op},
+            {"content", {
+                {"response", resp},
+                {"vectorFile", local}
+            }}
+    };
+    std::cout << std::setw(2) << j << std::endl;
 }
 
 void jsonUtility::from_json(const json &j, std::string &op) {

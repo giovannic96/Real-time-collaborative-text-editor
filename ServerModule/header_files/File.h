@@ -1,19 +1,28 @@
 //
 // Created by franc on 10/29/2019.
-#include <QtCore/QString>
+#include <string>
 #ifndef SERVERMODULE_FILE_H
 #define SERVERMODULE_FILE_H
 
 
 class File {
 private:
-    QString idfile;
-    QString filename;
-    QString iduser;
-    QString timestamp;
-    bool isOwner;
+    std::string idfile;
+    std::string filename;
+    std::string owner;
+    std::string timestamp;
 public:
-    File (const QString idfile, const QString filename, const QString iduser, const bool isOwner, const QString timestamp);
+    File (const std::string& idfile, const std::string& filename, const std::string& owner, const std::string& timestamp);
+
+    std::string ToString() const;
+
+    std::string getidfile() const;
+
+    std::string getfilename() const;
+
+    std::string getowner() const;
+
+    std::string gettimestamp() const;
 };
 
 

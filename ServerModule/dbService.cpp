@@ -188,19 +188,21 @@ dbService::DB_RESPONSE dbService::tryListFile(const std::string& user, std::vect
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-        query.prepare(QString("SELECT * FROM permissions WHERE iduser = :username"));
+        query.prepare(QString("SELECT uri, filename, owner, timestamp FROM files F, permissions P  WHERE F.uri=P.idfile and iduser = :username"));
         query.bindValue(":username", username);
-
         if (query.exec()) {
-            bool check=0;
+            bool check = false;
             while (query.next()) {
-                QString idfileFromDb = query.value(0).toString();
-                QString filenameFromDb = query.value(1).toString();
-                bool isOwnerFromDb = query.value(3).toBool();
-                QString timestampFromDb = query.value(5).toString();
-                File file = File(idfileFromDb, filenameFromDb, username, isOwnerFromDb, timestampFromDb);
+                std::string uriDb = query.value(0).toString().toStdString();
+                std::string filenameDb = query.value(1).toString().toStdString();
+                std::string ownerDb = query.value(2).toString().toStdString();
+                std::string timestampDb = query.value(3).toString().toStdString();
+
+                std::cout<< "Riga nel db trovata: "<< uriDb << " " << filenameDb << " " << ownerDb << " " << timestampDb << std::endl;
+
+                File file = File{uriDb, filenameDb, ownerDb, timestampDb};
                 vectorFile.push_back(file);
-                check = 1;
+                check = true;
             }
             db.close();
             if(check)
