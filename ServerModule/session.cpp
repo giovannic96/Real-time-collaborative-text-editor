@@ -8,6 +8,7 @@
 #include <boost/filesystem.hpp>
 #include <iostream>
 #include <QtSql/QSqlDatabase>
+#include <iomanip>
 #include "sqlite3.h"
 #include "header_files/json.hpp"
 #include "header_files/message.h"
@@ -235,7 +236,6 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
 
     } else if (opJSON == "LISTFILE_REQUEST") {
         std::string userJSON;
-        std::string filenameJSON;
         jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
 
         //Get data from db
@@ -291,6 +291,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
+            std::cout << std::setw(2) << j << std::endl;
             const char* response = j.dump().c_str();
             return response;
         }
