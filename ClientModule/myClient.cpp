@@ -115,6 +115,21 @@ void myClient::do_read_body() {
 
                     qDebug() << "Openfile success" << endl;
                     emit formResult("OPENFILE_SUCCESS", "Openfile Success", "Openfile successfully completed");
+                } else if(opJSON == "LISTFILE_RESPONSE") {
+                    qDebug() << "é entrato nella listfile response" << endl;
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                    if(db_responseJSON == "LIST_EXIST") {
+                        qDebug() << "La lista esiste" << endl;
+                        //emit formResult("SIGNUP_SUCCESS", "Signup Success", "Signup successfully completed");
+                    } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
+                        qDebug() << "Non ha nessuna lista di file" << endl;
+                        //emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
+                    } else {
+                        qDebug() << "Something went wrong" << endl;
+                        //emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
+                    }
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit formResult("OPENFILE_FAILURE", "Openfile Failed", "Openfile not completed: something went wrong");
