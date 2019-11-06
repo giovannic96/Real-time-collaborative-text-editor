@@ -44,6 +44,15 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
+void jsonUtility::to_jsonUser(json &j, const std::string &op, const std::string &user) {
+    j = json{
+            {"operation", op},
+            {"content", {
+                {"username", user}
+            }}
+    };
+}
+
 void jsonUtility::from_json(const json &j, std::string &op) {
     op = j.at("operation").get<std::string>();
 }
