@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1221</width>
+      <width>1213</width>
       <height>51</height>
      </rect>
     </property>
@@ -490,7 +490,7 @@ border-left: 2px solid #404040;</string>
     <widget class="QPushButton" name="buttonFontUp">
      <property name="geometry">
       <rect>
-       <x>550</x>
+       <x>600</x>
        <y>20</y>
        <width>31</width>
        <height>31</height>
@@ -772,7 +772,7 @@ border-left: 2px solid #404040;</string>
     <widget class="QPushButton" name="buttonColor">
      <property name="geometry">
       <rect>
-       <x>470</x>
+       <x>520</x>
        <y>20</y>
        <width>31</width>
        <height>31</height>
@@ -954,10 +954,10 @@ border-left: 2px solid #404040;</string>
       </size>
      </property>
     </widget>
-    <widget class="QPushButton" name="buttonEvidenziato">
+    <widget class="QPushButton" name="buttonBackgroundColor">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>560</x>
        <y>20</y>
        <width>31</width>
        <height>31</height>
@@ -976,12 +976,12 @@ border-left: 2px solid #404040;</string>
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
-      <string notr="true">#buttonEvidenziato{
+      <string notr="true">#buttonBackgroundColor{
 	border:none;
 	background-color:#EFEFEF;
 }
 
-#buttonEvidenziato:hover{
+#buttonBackgroundColor:hover{
 	border:1px solid #b2b2b2;
 	border-radius: 3px;
 }
@@ -1004,7 +1004,7 @@ border-left: 2px solid #404040;</string>
     <widget class="QComboBox" name="fontDimensionBox">
      <property name="geometry">
       <rect>
-       <x>720</x>
+       <x>770</x>
        <y>20</y>
        <width>51</width>
        <height>22</height>
@@ -1100,11 +1100,58 @@ border-left: 2px solid #404040;</string>
     <widget class="QFontComboBox" name="fontSelectorBox">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>660</x>
        <y>20</y>
        <width>111</width>
        <height>22</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="buttonAlignJFX">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>20</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#buttonAlignJFX{
+	border:none;
+	background-color:#EFEFEF;
+}
+
+#buttonAlignJFX:hover{
+	border:1px solid #b2b2b2;
+	border-radius: 3px;
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="Risorse.qrc">
+       <normaloff>:/image/Editor/justify.png</normaloff>:/image/Editor/justify.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
      </property>
     </widget>
    </widget>
@@ -1153,60 +1200,13 @@ border-left: 2px solid #404040;</string>
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="buttonDebug">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>10</y>
-       <width>31</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-       <underline>false</underline>
-       <strikeout>false</strikeout>
-      </font>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">#buttonDebug{
-	border:none;
-	background-color:#EFEFEF;
-}
-
-#buttonDebug:hover{
-	border:1px solid #F00000;
-	border-radius: 3px;
-}
-</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="Risorse.qrc">
-       <normaloff>:/image/debugger-icon-16.jpg.png</normaloff>:/image/debugger-icon-16.jpg.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-    </widget>
     <widget class="QFrame" name="DebugFrame">
      <property name="enabled">
       <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>672</x>
        <y>0</y>
        <width>541</width>
        <height>51</height>
@@ -1611,6 +1611,53 @@ border-left: 2px solid #404040;</string>
       </property>
      </widget>
     </widget>
+    <widget class="QPushButton" name="buttonDebug">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+       <underline>false</underline>
+       <strikeout>false</strikeout>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#buttonDebug{
+	border:none;
+	background-color:#EFEFEF;
+}
+
+#buttonDebug:hover{
+	border:1px solid #F00000;
+	border-radius: 3px;
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="Risorse.qrc">
+       <normaloff>:/image/debugger-icon-16.jpg.png</normaloff>:/image/debugger-icon-16.jpg.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="FileFrame">
     <property name="enabled">
@@ -1621,7 +1668,7 @@ border-left: 2px solid #404040;</string>
       <x>0</x>
       <y>50</y>
       <width>251</width>
-      <height>181</height>
+      <height>225</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1695,7 +1742,7 @@ border-left: 2px solid #404040;</string>
       <string>Apri con URI</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="renameButton">
+    <widget class="QPushButton" name="buttonRename">
      <property name="geometry">
       <rect>
        <x>5</x>
@@ -1713,12 +1760,12 @@ border-left: 2px solid #404040;</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">#renameButton{
+      <string notr="true">#buttonRename{
 	border:none;
 	color:white;
 }
 
-#renameButton:hover{
+#buttonRename:hover{
 	background-color: #003cb3;
 }</string>
      </property>
@@ -1758,6 +1805,37 @@ border-left: 2px solid #404040;</string>
       <string>?</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="CloseButton">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>180</y>
+       <width>241</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#CloseButton{
+	border:none;
+	color:white;
+}
+
+#CloseButton:hover{
+	background-color: #003cb3;
+}</string>
+     </property>
+     <property name="text">
+      <string>Chiudi</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <action name="actionNew">
@@ -1789,28 +1867,20 @@ border-left: 2px solid #404040;</string>
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="action_2">
-   <property name="text">
-    <string>?</string>
-   </property>
-  </action>
-  <action name="actionChiudi">
-   <property name="icon">
-    <iconset resource="Risorse.qrc">
-     <normaloff>:/image/basics-22-128.png</normaloff>:/image/basics-22-128.png</iconset>
-   </property>
-   <property name="text">
-    <string>Chiudi</string>
-   </property>
-  </action>
   <action name="actionFullscreen">
    <property name="text">
     <string>Fullscreen</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F11</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
     <string>?</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>
