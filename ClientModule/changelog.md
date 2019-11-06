@@ -3,24 +3,48 @@
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
 - Rimuovere StartWindow (pagina 3)
+- Valutare di rendere StartWindow, UserProfile, InfoWindow e Menu Window cambiano da FramelessWindowHint a PopUp (dona l'ombreggiatura alla finestra)
 
-## [v0.1.6a - Nightly 1222] - 2019/12/05 @ 02:10
+## [v0.1.7a - Canary 1225] - 2019/11/06 @ 4:30
+### Aggiunto
+- Bottone e funzione per giustificare il testo
+- Funzione di chiusura dell'editor nel menu File
+- Azioni e relative scorciatoie da tastiera (che non funzionano per qualche bug di Qt?)
+### Cambiamenti
+- Correzioni delle funzioni di debug
+- L'editor cambia da FramelessWindowHint a CustomizeWindowHint
+- Riposizionamento bottone e menu di debug dell'editor
+- Le funzioni della classe EditorWindow sono state riordinate
+- La funzione per rinominare il testo è stata aggiornata
+- La funzione per salvare il testo in PDF è stata aggiornata (v1 -> v2)
+### Rimosso
+- Bottoni di ZoomIn e ZoomOut dell'editor
+### Deprecato
+- Funzione di salvare il testo in PDF (v1)
+
+## [v0.1.6a - Nightly 1223] - 2019/11/05 @ 18:00
+### Aggiunto
+- Menù a tendina al click di "file" su editor
+### Cambiamenti
+- Aggiornamento infoWindow
+
+## [v0.1.6a - Nightly 1222] - 2019/11/05 @ 02:10
 ### Aggiunto
 - Funzioni di test/debug nell'editor
 
-## [v0.1.6a - Nightly 1221] - 2019/12/04 @ 04:00
+## [v0.1.6a - Nightly 1221] - 2019/11/04 @ 04:00
 ### Cambiamenti
 - BugFix --> Sfondo del testo diventava nero al cambio di font (adesso corretto)
 - BugFix --> Dimensione del font non corretto per valore 72 (adesso corretto)
 - Sfondo del documento cambiato da #F5F5F5 a #FFFFFF
 - I bottoni _ [] X nell'editor hanno adesso la freccia come puntatore al passaggio del mouse (come in Windows) anzichè avere la manina.
 
-## [v0.1.6a - Nightly 1220] - 2019/12/03 @ 17:15
+## [v0.1.6a - Nightly 1220] - 2019/11/03 @ 17:15
 ### Aggiunto
 - Funzione provvisioria e buggata che determina la dimensione del font a seconda della posizione del cursore
 - Assegnazione della dimensione del font anche nel costruttore dell'editor in modo da assegnare un valore iniziale di default.
 
-## [v0.1.6a - Nightly 1219] - 2019/12/03 @ 04:45
+## [v0.1.6a - Nightly 1219] - 2019/11/03 @ 04:45
 ### Cambiamenti
 - Ottimizzazione funzione per cambiare la dimensione del testo selezionato (tramite funzione lambda)
 - Ottimizzazione funzione per cambiare il font del testo selezionato (tramite salvataggio stato su variabili locali)

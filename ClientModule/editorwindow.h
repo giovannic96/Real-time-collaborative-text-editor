@@ -14,33 +14,58 @@ public:
 
 private slots:
     //void on_pushButton_3_clicked(); --> Old Rename Function Deprecated
+
+    //Button for change style of the text
     void on_buttonGrassetto_clicked();
     void on_buttonCorsivo_clicked();
-    void on_buttonAlignDX_clicked();
     void on_buttonSottolineato_clicked();
+    void on_buttonColor_clicked();
+    void on_buttonBackgroundColor_clicked();
+
+    //Button for align the text
+    void on_buttonAlignDX_clicked();
     void on_buttonAlignCX_clicked();
     void on_buttonAlignSX_clicked();
+    void on_buttonAlignJFX_clicked();
+
+    //Button for modify the text
     void on_buttonUndo_clicked();
     void on_buttonRedo_clicked();
     void on_buttonTaglia_clicked();
     void on_buttonIncolla_clicked();
     void on_buttonCopia_clicked();
-    void on_buttonColor_clicked();
-    void on_actionSave_triggered();
-    void on_buttonExit_clicked();
-    void on_actionChiudi_triggered();
-    void on_renameButton_clicked();
-    void on_buttonEvidenziato_clicked();
 
-    void on_buttonToIcon_clicked();
-    void on_buttonReduce_clicked();
-    void on_actionFullscreen_triggered();
-    void on_actionAbout_triggered();
-
+    //Button for modify font and size of text
     void on_fontDimensionBox_activated(int index);
     void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
+    //RealTextEdit Function
     void on_RealTextEdit_cursorPositionChanged();
+
+    //TopLeftBar Button
+    void on_buttonExit_clicked();
+    void on_buttonToIcon_clicked();
+    void on_buttonReduce_clicked();
+
+    //TopRightBar Button
+    void on_fileButton_clicked();
+    void on_pdfButton_clicked();
+    void on_uriButton_clicked();
+
+    //FileFrame Button
+    void on_newDocButton_clicked();
+    void on_URIButton_clicked();  
+    void on_buttonRename_clicked();
+    void on_aboutButton_clicked();
+    void on_CloseButton_clicked();
+
+    /************************************
+     *              ACTION              *
+     ************************************/
+    void on_actionFullscreen_triggered();
+    void on_actionSave_triggered();
+    void on_actionNew_triggered();
+    void on_actionAbout_triggered();
 
     /************************************
      *           DEBUG FUNCTION         *
@@ -60,6 +85,13 @@ private:
     Ui::EditorWindow *ui;
     //For "DocName" QString
     QString textname;
+    //For mouse related event
+    QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
+
+protected:
+    //Function for mouse related event
+    void mousePressEvent(QMouseEvent *evt);
+    void mouseMoveEvent(QMouseEvent *evt);
 
 };
 
