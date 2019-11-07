@@ -64,7 +64,7 @@ void StartWindow::on_LoginButton_clicked(){
     //Serialize data
     json j;
     jsonUtility::to_json(j, "LOGIN_REQUEST", c_user, c_pass);
-    const char* req = j.dump().c_str();
+    const std::string req = j.dump();
 
     //Send data (header and body)
     sendRequestMsg(req);
@@ -86,7 +86,7 @@ void StartWindow::on_SignUpButton_clicked(){
     //Serialize data
     json j;
     jsonUtility::to_json(j, "SIGNUP_REQUEST", c_user, c_pass, c_email);
-    const char* req = j.dump().c_str();
+    const std::string req = j.dump();
 
     //Send data (header and body)
     sendRequestMsg(req);
