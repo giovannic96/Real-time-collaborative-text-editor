@@ -168,7 +168,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON);
-        const char* response = j.dump().c_str();
+        const std::string response = j.dump();
         return response;
 
     } else if (opJSON == "SIGNUP_REQUEST"){
@@ -199,7 +199,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json(j, "SIGNUP_RESPONSE", db_res);
-        const char* response = j.dump().c_str();
+        const std::string response = j.dump();
         return response;
 
     } else if (opJSON == "NEWFILE_REQUEST") {
@@ -234,7 +234,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json(j, "NEWFILE_RESPONSE", db_res);
-        const char* response = j.dump().c_str();
+        const std::string response = j.dump();
         return response;
 
     } else if (opJSON == "LISTFILE_REQUEST") {
@@ -311,7 +311,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json(j, "OPENFILE_RESPONSE", db_res);
-        const char* response = j.dump().c_str();
+        const std::string response = j.dump();
         return response;
 
     } else if (opJSON == "INSERTION_REQUEST") {
@@ -326,7 +326,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json(j, "INSERTION_RESPONSE", db_res);
-        const char* response = j.dump().c_str();
+        const std::string response = j.dump();
         return response;
         */
     } else { //editor functions
