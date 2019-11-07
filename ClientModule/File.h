@@ -7,21 +7,16 @@
 
 class File {
 private:
-    std::string idfile;
-    std::string filename;
-    std::string owner;
-    std::string timestamp;
+    std::string _idfile;
+    std::string _filename;
+    std::string _owner;
+    std::string _timestamp;
 public:
-    File (const std::string& idfile, const std::string& filename, const std::string& owner, const std::string& timestamp);
-
+    File (std::string idfile, std::string filename, std::string owner, std::string timestamp);
     std::string ToString() const;
-
     std::string getidfile() const;
-
     std::string getfilename() const;
-
     std::string getowner() const;
-
     std::string gettimestamp() const;
 };
 
