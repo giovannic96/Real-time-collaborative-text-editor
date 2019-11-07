@@ -76,8 +76,10 @@ void session::do_read_body()
             const char* response = this->handleRequests(opJSON, jdata_in);
             if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") //TODO: add other cases
                 this->sendMsgAll(response); //send data to all the participants in the room
-            else
+            else {
+                std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsg(response); //send data only to this participant
+            }
             do_read_header(); //continue reading loop
         }
         else {
@@ -133,6 +135,7 @@ message session::constructMsg(const char *response) {
     message msg;
     msg.body_length(std::strlen(response));
     std::memcpy(msg.body(), response, msg.body_length());
+    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
     msg.encode_header();
     return msg;
 }
@@ -260,8 +263,11 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_vector_file(j, "LISTFILE_RESPONSE", db_res, vectorFile);
+        std::vector<json> fileVectorJSON = jsonUtility::fromFileToJson(vectorFile);
+        jsonUtility::to_json_fileVector(j, "LISTFILE_RESPONSE", db_res, fileVectorJSON);
         const char* response = j.dump().c_str();
+        std::cout << "j dump str " << j.dump().c_str() << std::endl;
+        std::cout << "response" << response << std::endl;
         return response;
 
     } else if (opJSON == "OPENFILE_REQUEST") {
@@ -274,13 +280,13 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         const char *db_res;
 
         //update tables on db -> TODO: function tryOpenFile
-        dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON);
-        QSqlDatabase::removeDatabase("MyConnect4");
-        //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
+        //dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON);
+        //QSqlDatabase::removeDatabase("MyConnect4");
+        dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
 
         if(resp == dbService::OPENFILE_OK) {
             //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
-            fileUtility::writeFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt", shared_from_this()->getSymbols());
+            fileUtility::writeFile(R"(..\Filesystem\)" + filenameJSON + ".txt", shared_from_this()->getSymbols());
             //room_->editor_->getSymbols() = fileUtility::readFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
@@ -290,10 +296,11 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
-            std::cout << std::setw(2) << j << std::endl;
             const char* response = j.dump().c_str();
+            std::cout << "j dump str " << j.dump().c_str() << std::endl;
+            std::cout << "response   " << response << std::endl;
             return response;
-        }
+    }
         else if(resp == dbService::OPENFILE_FAILED)
             db_res = "OPENFILE_FAILED";
         else if(resp == dbService::DB_ERROR)
@@ -329,14 +336,6 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
     } else { //editor functions
         room_.deliver(read_msg_); //deliver to all the participants
     }
-}
-
-__blksize_t session::getBlockSize(const char *filename) {
-    struct stat st;
-    if(stat(filename, &st) == 0)
-        return st.st_blksize;
-    else
-        return -1;
 }
 
 #pragma clang diagnostic pop

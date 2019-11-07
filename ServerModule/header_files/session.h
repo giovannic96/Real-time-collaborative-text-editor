@@ -30,7 +30,6 @@ private:
     void sendMsg(const char* response);
     void sendMsgAll(const char* response);
     static message constructMsg(const char* response);
-    __blksize_t getBlockSize(const char *filename);
 
 public:
     explicit session(tcp::socket socket, room& room);

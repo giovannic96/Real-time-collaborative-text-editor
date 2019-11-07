@@ -7,6 +7,7 @@
 
 #include "json.hpp"
 #include "symbol.h"
+#include "File.h"
 
 using nlohmann::json;
 
@@ -24,6 +25,8 @@ public:
     static void from_json(const json& j, std::string& op);
     static void from_json_resp(const json &j, std::string &resp);
     static void from_json_symbols(const json &j, std::vector<json> &jsonSymbols);
+    static void from_json_files(const json &j, std::vector<json> &jsonFiles);
+    static File* from_json_file(const json &j);
     static symbol* from_json_symbol(const json &j);
     static void from_json_usernameLogin(const json &j, std::string &name);
     static void from_json(const json& j, std::string& user, std::string& pass);

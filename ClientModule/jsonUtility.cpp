@@ -65,6 +65,10 @@ void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbol
     jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
 }
 
+void jsonUtility::from_json_files(const json &j, std::vector<json>& jsonFiles) {
+    jsonFiles = j.at("content").at("vectorFile").get<std::vector<json>>();
+}
+
 symbol* jsonUtility::from_json_symbol(const json &j) {
 
     //get symbol values from json
@@ -79,6 +83,19 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
     s->setBold(isBold);
     s->setItalic(isItalic);
     return s;
+}
+
+File* jsonUtility::from_json_file(const json &j) {
+
+    //get symbol values from json
+    std::string idfile = j.at("idfile").get<std::string>();
+    std::string filename = j.at("filename").get<std::string>();
+    std::string owner = j.at("owner").get<std::string>();
+    std::string timestamp = j.at("timestamp").get<std::string>();
+
+    //now create the file
+    File *f = new File(idfile, filename, owner, timestamp);
+    return f;
 }
 
 void jsonUtility::from_json_usernameLogin(const json &j, std::string &name) {

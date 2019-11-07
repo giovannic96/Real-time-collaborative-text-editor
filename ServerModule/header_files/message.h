@@ -11,7 +11,7 @@ class message {
 
 public:
     enum { header_length = 4 };
-    enum { max_body_length = 512 };
+    enum { max_body_length = 65536 };
     message();
     const char* data() const;
     char* data();

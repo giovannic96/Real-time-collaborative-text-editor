@@ -35,6 +35,35 @@ void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::s
     };
 }
 
+void jsonUtility::to_json_file(json &j, const File &file) {
+    j = json{
+            {"idfile", file.getidfile()},
+            {"filename", file.getfilename()},
+            {"owner", file.getowner()},
+            {"timestamp",  file.gettimestamp()}
+    };
+}
+
+void jsonUtility::to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile) {
+
+    //DEBUG
+    //std::vector<File> vfile;
+    //vfile.emplace_back(File{"cipolla", "patate", "meloni", "angurie"});
+    //vfile.emplace_back(File{ "capre", "mucche", "meloni", "angurie" });
+
+    //json local = vectorFile;
+    //std::cout << std::setw(2) << jlocal << std::endl;
+
+    j = json{
+            {"operation", op},
+            {"content", {
+                  {"response", resp},
+                  {"vectorFile", vectorFile} //JSON vector
+            }}
+    };
+    //std::cout << std::setw(2) << j << std::endl;
+}
+
 void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin) {
     j = json{
             {"operation", op},
@@ -64,35 +93,6 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
               {"email", email}
         }}
     };
-}
-
-void to_json(json& j, const File& file){
-    j = json{
-            {"idfile", file.getidfile()},
-            {"filename", file.getfilename()},
-            {"owner", file.getowner()},
-            {"timestamp",  file.gettimestamp()}
-    };
-}
-
-void jsonUtility::to_json_vector_file(json &j, const std::string &op, const std::string &resp, const std::vector <File> &vectorFile) {
-
-    //DEBUG
-    //std::vector<File> vfile;
-    //vfile.emplace_back(File{"cipolla", "patate", "meloni", "angurie"});
-    //vfile.emplace_back(File{ "capre", "mucche", "meloni", "angurie" });
-
-    json local = vectorFile;
-    //std::cout << std::setw(2) << jlocal << std::endl;
-
-    j = json{
-            {"operation", op},
-            {"content", {
-                {"response", resp},
-                {"vectorFile", local}
-            }}
-    };
-    std::cout << std::setw(2) << j << std::endl;
 }
 
 void jsonUtility::from_json(const json &j, std::string &op) {
@@ -168,6 +168,22 @@ std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
     for (auto const &sym: symbols) {
         json j;
         jsonUtility::to_json_symbol(j, sym); //convert sym into json
+        jsons.push_back(j);
+    }
+    return jsons;
+}
+
+std::vector<json> jsonUtility::fromFileToJson(std::vector<File> files) {
+
+    //TODO: delete this initialization of symbols
+    files.push_back(File{"cipolla", "patate", "meloni", "angurie"});
+    files.push_back(File{ "capre", "mucche", "meloni", "angurie" });
+
+    // Get jsons from symbols
+    std::vector<json> jsons;
+    for (auto const &f: files) {
+        json j;
+        jsonUtility::to_json_file(j, f); //convert sym into json
         jsons.push_back(j);
     }
     return jsons;

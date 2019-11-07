@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    File.cpp \
     debugroom.cpp \
     editorwindow.cpp \
     infowindow.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
     versioninfo.cpp
 
 HEADERS += \
+    File.h \
     debugroom.h \
     editorwindow.h \
     infowindow.h \

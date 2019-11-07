@@ -4,29 +4,27 @@
 
 #include "header_files/File.h"
 
-File::File (const std::string& idfile, const std::string& filename, const std::string& owner, const std::string& timestamp){
-    this->idfile = idfile;
-    this->filename = filename;
-    this->owner = owner;
-    this->timestamp = timestamp;
-}
+#include <utility>
+
+File::File(std::string idfile, std::string filename, std::string owner, std::string timestamp)
+        : _idfile(std::move(idfile)), _filename(std::move(filename)), _owner(std::move(owner)), _timestamp(std::move(timestamp)) {}
 
 std::string File::ToString() const {
-    return idfile + filename + owner + timestamp;
+    return getidfile() + getfilename() + getowner() + gettimestamp();
 }
 
 std::string File::getidfile() const {
-    return idfile;
+    return _idfile;
 }
 
 std::string File::getfilename() const {
-    return filename;
+    return _filename;
 }
 
 std::string File::getowner() const {
-    return owner;
+    return _owner;
 }
 
 std::string File::gettimestamp() const {
-    return timestamp;
+    return _timestamp;
 }

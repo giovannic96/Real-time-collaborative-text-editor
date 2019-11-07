@@ -29,6 +29,7 @@ private slots:
     void on_SignUpButton_clicked();
     void on_AccediButton_clicked();
     void on_openDoc_clicked();
+    void on_listFiles_clicked();
 
 public slots:
     void setStatus(bool newStatus);

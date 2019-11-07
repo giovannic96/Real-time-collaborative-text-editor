@@ -115,30 +115,46 @@ void myClient::do_read_body() {
 
                     qDebug() << "Openfile success" << endl;
                     emit formResult("OPENFILE_SUCCESS", "Openfile Success", "Openfile successfully completed");
-                } else if(opJSON == "LISTFILE_RESPONSE") {
-                    qDebug() << "é entrato nella listfile response" << endl;
-                    std::string db_responseJSON;
-                    jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
-
-                    if(db_responseJSON == "LIST_EXIST") {
-                        qDebug() << "La lista esiste" << endl;
-                        //emit formResult("SIGNUP_SUCCESS", "Signup Success", "Signup successfully completed");
-                    } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
-                        qDebug() << "Non ha nessuna lista di file" << endl;
-                        //emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
-                    } else {
-                        qDebug() << "Something went wrong" << endl;
-                        //emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
-                    }
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit formResult("OPENFILE_FAILURE", "Openfile Failed", "Openfile not completed: something went wrong");
                 }
+
+            } else if(opJSON == "LISTFILE_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "LIST_EXIST") {
+                    qDebug() << "La lista esiste" << endl;
+
+                    std::vector<json> jsonFiles;
+                    jsonUtility::from_json_files(jdata_in, jsonFiles);
+
+                    std::vector<File> files;
+                    for(const auto& j: jsonFiles) {
+                        File *f = nullptr; //do not remember to delete it! (keyword 'delete')
+                        f = jsonUtility::from_json_file(j);
+                        files.push_back(*f);
+                        delete f;
+                    }
+
+                    //TODO: put these files into UI correctly.
+
+                    qDebug() << "Listfile success" << endl;
+                    emit formResult("LISTFILE_SUCCESS", "Listfile Success", "Listfile successfully completed");
+                } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
+                    qDebug() << "Non ha nessuna lista di file" << endl;
+                    emit formResult("LISTFILE_FAILURE", "Listfile Failed", "Listfile not completed: list does not exist");
+                } else {
+                    qDebug() << "Something went wrong" << endl;
+                    emit formResult("LISTFILE_FAILURE", "Listfile Failed", "Listfile not completed: something went wrong");
+                }
+            } else {
+                qDebug() << "Something went wrong" << endl;
+                emit formResult("RESPONSE_FAILURE", "Response Failed", "This response is not handled");
             }
 
             //TODO: NEWFILE_RESPONSE
-
-            //TODO: OPENFILE_RESPONSE
 
             do_read_header(); //continue reading loop
         }
