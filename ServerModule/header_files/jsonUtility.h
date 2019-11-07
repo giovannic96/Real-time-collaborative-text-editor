@@ -31,6 +31,7 @@ public:
     static void from_json(const json& j, std::string& op);
     static void from_json_symbol(const json& j, symbol& symbol);
     static void from_json_filename(const json &j, std::string &user, std::string &filename);
+    static void from_json_uri(const json &j, std::string &user, std::string &uri);
     static void from_json_username(const json &j, std::string &user);
     static void from_json_resp(const json &j, std::string &resp);
     static void from_json(const json& j, std::string& user, std::string& pass);

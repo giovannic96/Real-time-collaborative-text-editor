@@ -129,6 +129,12 @@ void jsonUtility::from_json_filename(const json &j, std::string &user, std::stri
     user = j.at("content").at("username").get<std::string>();
     filename = j.at("content").at("filename").get<std::string>();
 }
+
+void jsonUtility::from_json_uri(const json &j, std::string &user, std::string &uri) {
+    user = j.at("content").at("username").get<std::string>();
+    uri = j.at("content").at("uri").get<std::string>();
+}
+
 void jsonUtility::from_json_username(const json &j, std::string &user) {
     user = j.at("content").at("username").get<std::string>();
 }

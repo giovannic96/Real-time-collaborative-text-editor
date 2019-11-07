@@ -33,6 +33,16 @@ void jsonUtility::to_jsonFilename(json &j, const std::string &op, const std::str
     };
 }
 
+void jsonUtility::to_jsonUri(json &j, const std::string &op, const std::string &user, const std::string &uri) {
+    j = json{
+            {"operation", op},
+            {"content", {
+                {"username", user},
+                {"uri", uri}
+            }}
+    };
+}
+
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &user, const std::string &pass, const std::string &email) {
     j = json{
             {"operation", op},

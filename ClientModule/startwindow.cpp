@@ -144,8 +144,8 @@ void StartWindow::on_listFiles_clicked()
 void StartWindow::on_openDoc_clicked()
 {
     bool ok;
-    QString text = QInputDialog::getText(this, tr("Titolo documento"),
-                                         tr("Inserisci il nome del documento da aprire:"), QLineEdit::Normal,
+    QString text = QInputDialog::getText(this, tr("uri"),
+                                         tr("Inserisci uri del documento:"), QLineEdit::Normal,
                                          "", &ok);
     if (ok && !text.isEmpty() && text.size()<=15){
         //TODO controllo file database -> quali controlli?
@@ -158,13 +158,13 @@ void StartWindow::on_openDoc_clicked()
         QString user = ui->Username->text();
         QByteArray ba_user = user.toLocal8Bit();
         const char *c_user = ba_user.data();
-        QString filename = text;
-        QByteArray ba_filename = filename.toLocal8Bit();
-        const char *c_filename = ba_filename.data();
+        QString uri = text;
+        QByteArray ba_uri = uri.toLocal8Bit();
+        const char *c_uri = ba_uri.data();
 
         //Serialize data
         json j;
-        jsonUtility::to_jsonFilename(j, "OPENFILE_REQUEST", c_user, c_filename);
+        jsonUtility::to_jsonUri(j, "OPENFILE_REQUEST", c_user, c_uri);
         const std::string req = j.dump();
 
         //Send data (header and body)

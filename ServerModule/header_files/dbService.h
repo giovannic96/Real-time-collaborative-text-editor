@@ -26,7 +26,7 @@ public:
     static DB_RESPONSE trySignup(const std::string& user, const std::string& pass, const std::string& email);
     static DB_RESPONSE tryNewFile(const std::string& user, const std::string& file_name);
     static DB_RESPONSE tryListFile(const std::string& user, std::vector<File>& vectorFile);
-    static DB_RESPONSE tryOpenFile(const std::string& user, const std::string& file_name);
+    static DB_RESPONSE tryOpenFile(const std::string& user, const std::string& urifile);
 };
 
 

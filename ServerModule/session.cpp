@@ -270,21 +270,21 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
     } else if (opJSON == "OPENFILE_REQUEST") {
         std::string userJSON;
-        std::string filenameJSON;
-        jsonUtility::from_json_filename(jdata_in, userJSON, filenameJSON); //get json value and put into JSON variables
+        std::string uriJSON;
+        jsonUtility::from_json_uri(jdata_in, userJSON, uriJSON); //get json value and put into JSON variables
 
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
 
         //update tables on db -> TODO: function tryOpenFile
-        //dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, filenameJSON);
-        //QSqlDatabase::removeDatabase("MyConnect4");
-        dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
+        dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, uriJSON);
+        QSqlDatabase::removeDatabase("MyConnect2");
+        //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
 
         if(resp == dbService::OPENFILE_OK) {
             //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
-            fileUtility::writeFile(R"(..\Filesystem\)" + filenameJSON + ".txt", shared_from_this()->getSymbols());
+            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", shared_from_this()->getSymbols());
             //room_->editor_->getSymbols() = fileUtility::readFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
