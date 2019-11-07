@@ -26,10 +26,10 @@ private:
     void do_read_body();
     void do_write(); //for the editor
     void do_write(message m); //for single client
-    const char* handleRequests(const std::string& opJSON, const json& jdata_in);
-    void sendMsg(const char* response);
-    void sendMsgAll(const char* response);
-    static message constructMsg(const char* response);
+    std::string handleRequests(const std::string& opJSON, const json& jdata_in);
+    void sendMsg(const std::string& response);
+    void sendMsgAll(const std::string& response);
+    static message constructMsg(const std::string& response);
 
 public:
     explicit session(tcp::socket socket, room& room);

@@ -73,7 +73,7 @@ void session::do_read_body()
             } catch (json::type_error& e) {
                 std::cerr << e.what() << '\n';
             }
-            const char* response = this->handleRequests(opJSON, jdata_in);
+            const std::string response = this->handleRequests(opJSON, jdata_in);
             if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") //TODO: add other cases
                 this->sendMsgAll(response); //send data to all the participants in the room
             else {
@@ -120,27 +120,27 @@ void session::do_write(message m) {
      });
 }
 
-void session::sendMsg(const char* response) {
+void session::sendMsg(const std::string& response) {
     message msg = constructMsg(response);
     shared_from_this()->deliver(msg); //deliver msg only to the participant
 }
 
-void session::sendMsgAll(const char* response) {
+void session::sendMsgAll(const std::string& response) {
     message msg = constructMsg(response);
     room_.deliver(msg); //deliver msg to all the clients
 }
 
-message session::constructMsg(const char *response) {
+message session::constructMsg(const std::string& response) {
     //Send data (header and body)
     message msg;
-    msg.body_length(std::strlen(response));
-    std::memcpy(msg.body(), response, msg.body_length());
+    msg.body_length(response.size());
+    std::memcpy(msg.body(), response.data(), msg.body_length());
     msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
     msg.encode_header();
     return msg;
 }
 
-const char* session::handleRequests(const std::string& opJSON, const json& jdata_in) {
+std::string session::handleRequests(const std::string& opJSON, const json& jdata_in) {
     if(opJSON == "LOGIN_REQUEST") {
         std::string userJSON;
         std::string passJSON;
@@ -265,9 +265,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
         json j;
         std::vector<json> fileVectorJSON = jsonUtility::fromFileToJson(vectorFile);
         jsonUtility::to_json_fileVector(j, "LISTFILE_RESPONSE", db_res, fileVectorJSON);
-        const char* response = j.dump().c_str();
-        std::cout << "j dump str " << j.dump().c_str() << std::endl;
-        std::cout << "response" << response << std::endl;
+        const std::string response = j.dump();
         return response;
 
     } else if (opJSON == "OPENFILE_REQUEST") {
@@ -296,9 +294,7 @@ const char* session::handleRequests(const std::string& opJSON, const json& jdata
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
-            const char* response = j.dump().c_str();
-            std::cout << "j dump str " << j.dump().c_str() << std::endl;
-            std::cout << "response   " << response << std::endl;
+            const std::string response = j.dump();
             return response;
     }
         else if(resp == dbService::OPENFILE_FAILED)

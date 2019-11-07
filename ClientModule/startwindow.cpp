@@ -126,11 +126,10 @@ void StartWindow::on_listFiles_clicked()
     //Serialize data
     json j;
     jsonUtility::to_jsonUser(j, "LISTFILE_REQUEST", c_user);
-    const char* req = j.dump().c_str();
-    std::string req2 = j.dump();
+    const std::string req = j.dump();
 
     //Send data (header and body)
-    qDebug() << "Client is sending: START" << req2.data() << "END";
+    qDebug() << "Client is sending: START" << req.data() << "END";
     sendRequestMsg(req);
 
     //TODO: receive file list from server
@@ -166,10 +165,10 @@ void StartWindow::on_openDoc_clicked()
         //Serialize data
         json j;
         jsonUtility::to_jsonFilename(j, "OPENFILE_REQUEST", c_user, c_filename);
-        const char* req = j.dump().c_str();
+        const std::string req = j.dump();
 
         //Send data (header and body)
-        qDebug() << "Client is sending: START" << req << "END";
+        qDebug() << "Client is sending: START" << req.data() << "END";
         sendRequestMsg(req);
 
         //TODO: receive (updated) file from server
@@ -245,13 +244,11 @@ void StartWindow::showFormPopup(QString result, QString title, QString msg) {
     }
 }
 
-void StartWindow::sendRequestMsg(const char* req) {
+void StartWindow::sendRequestMsg(std::string req) {
     message msg;
-    msg.body_length(std::strlen(req));
-    std::memcpy(msg.body(), req, msg.body_length());
+    msg.body_length(req.size());
+    std::memcpy(msg.body(), req.data(), msg.body_length());
     msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
     msg.encode_header();
-    qDebug() << "msg body: " << msg.body();
-    qDebug() << "msg data: " << msg.data();
     client->write(msg);
 }

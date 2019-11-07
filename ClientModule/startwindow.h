@@ -45,7 +45,7 @@ private:
     QString qstr = version.getVersion();
     //For client
     myClient *client;
-    void sendRequestMsg(const char* req);
+    void sendRequestMsg(std::string req);
 
 protected:
     //Function for mouse related event
