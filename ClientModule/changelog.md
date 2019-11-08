@@ -5,6 +5,25 @@
 - Rimuovere StartWindow (pagina 3)
 - Valutare di rendere StartWindow, UserProfile, InfoWindow e Menu Window cambiano da FramelessWindowHint a PopUp (dona l'ombreggiatura alla finestra)
 
+
+## [v0.1.7a - Nightly 1229] - 2019/11/08 @ 03:10
+### Cambiamenti
+- Minor Fix
+- Apertura di branch per confronto soluzione della Finestra Senza Bordi
+
+## [v0.1.7a - Nightly 1228] - 2019/11/08 @ 00:00
+### Aggiunto
+- tryOpenFile con URI
+
+## [v0.1.7a - Nightly 1227] - 2019/11/07 @ 22:15
+### Cambiamenti
+- fix sulla socket
+
+## [v0.1.7a - Daily 1226] - 2019/11/07 @ 16:30
+### Aggiunto
+- Classe "File"
+- altri fix minori
+
 ## [v0.1.7a - Canary 1225] - 2019/11/06 @ 4:30
 ### Aggiunto
 - Bottone e funzione per giustificare il testo
