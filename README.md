@@ -5,7 +5,7 @@
 
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.7a - Canary 1225] - 2019/11/06 @ 04:30 - [Differences]
+## Last Release [v0.1.7a - Canary 1229] - 2019/11/08 @ 03:10 - [NO EVIDENT Differences]
 ### The 0.1.7 version brought the following updates:
 - Buttor and function for justify the text
 - Close function in File menu
