@@ -268,6 +268,52 @@ dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std
     }
 }
 
+dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, const std::string& urifile) {
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(user.data(), user.size());
+    QString uri = QString::fromUtf8(urifile.data(), urifile.size());
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("SELECT idfile, iduser FROM  permissions  WHERE idfile= :uri and iduser = :username"));
+        query.bindValue(":username", username);
+        query.bindValue(":uri", uri);
+        if (query.exec()) {
+            if (query.next()) {
+                QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
+                query2.prepare(QString("UPDATE permissions SET isOpen=1, isConfirmed=1 WHERE idfile= :uri and iduser= :username"));
+                query2.bindValue(":username", username);
+                query2.bindValue(":uri", uri);
+
+                if(query2.exec()) {
+                    std::cout << "IsConfirmed and IsOpen update success" << std::endl;
+                    db.close();
+                    return OPENWITHURI_OK;
+                } else {
+                    std::cout << "Error on UPDATE" << std::endl;
+                    db.close();
+                    return QUERY_ERROR;
+                }
+            } else {
+                std::cout << "User doesn't have permission to open the file" << std::endl;
+                db.close();
+                return OPENWITHURI_FAILED;
+            }
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
+
 inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
     switch (db_resp) {
         case dbService::LOGIN_OK:       return "LOGIN_OK";

@@ -236,6 +236,50 @@ void StartWindow::on_openDoc_clicked()
     }
 }
 
+void StartWindow::on_openWithURI_clicked()
+{
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                             tr("Inserisci URI del documento:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty() && text.size()<=15){ //TODO: better controls
+            //TODO controllo file database (nome e utente)
+
+            //Get data from the form
+            QString user = ui->Username->text();
+            QByteArray ba_user = user.toLocal8Bit();
+            const char *c_user = ba_user.data();
+            QString uri = text;
+            QByteArray ba_uri = uri.toLocal8Bit();
+            const char *c_uri = ba_uri.data();
+
+            //Serialize data
+            json j;
+            jsonUtility::to_jsonUri(j, "OPENWITHURI_REQUEST", c_user, c_uri);
+            const std::string req = j.dump();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+
+            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
+            EditorWindow *ew = new EditorWindow(text);
+            ew->show();
+            delete this;
+        }
+        else if (ok && !text.isEmpty() && text.size()>15){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+            messageBox.setFixedSize(600,400);
+            on_newDoc_clicked();
+        }
+        else if (ok && text.isEmpty()){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome!");
+            messageBox.setFixedSize(600,400);
+            on_newDoc_clicked();
+        }
+}
+
 //SET STATUS LABEL
 void StartWindow::setStatus(bool newStatus) {
     if(newStatus) {

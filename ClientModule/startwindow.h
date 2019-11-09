@@ -30,6 +30,7 @@ private slots:
     void on_AccediButton_clicked();
     void on_newDoc_clicked();
     void on_openDoc_clicked();
+    void on_openWithURI_clicked();
     void on_listFiles_clicked();
 
 public slots:

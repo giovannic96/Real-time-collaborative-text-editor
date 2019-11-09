@@ -120,6 +120,31 @@ void myClient::do_read_body() {
                     emit formResult("OPENFILE_FAILURE", "Openfile Failed", "Openfile not completed: something went wrong");
                 }
 
+            } else if(opJSON == "OPENWITHURI_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "OPENWITHURI_OK") {
+                    std::vector<json> jsonSymbols;
+                    jsonUtility::from_json_symbols(jdata_in, jsonSymbols);
+
+                    std::vector<symbol> symbols;
+                    for(const auto& j: jsonSymbols) {
+                        symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
+                        s = jsonUtility::from_json_symbol(j);
+                        symbols.push_back(*s);
+                        delete s;
+                    }
+
+                    //TODO: put these symbols into Editor correctly.
+
+                    qDebug() << "OPENWITHURI success" << endl;
+                    emit formResult("OPENWITHURI_SUCCESS", "OPENWITHURI Success", "OPENWITHURI successfully completed");
+                } else {
+                    qDebug() << "Something went wrong" << endl;
+                    emit formResult("OPENWITHURI_FAILURE", "OPENWITHURI Failed", "OPENWITHURI not completed: something went wrong");
+                }
+
             } else if(opJSON == "LISTFILE_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables

@@ -226,8 +226,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
         else if(resp == dbService::QUERY_ERROR)
             db_res = "QUERY_ERROR";
-        else if(resp == dbService::FILENAME_ERROR)
-            db_res = "FILENAME_ERROR";
         else
             db_res = "DB_ERROR";
 
@@ -303,14 +301,48 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
         else if(resp == dbService::QUERY_ERROR)
             db_res = "QUERY_ERROR";
-        else if(resp == dbService::FILENAME_ERROR)
-            db_res = "FILENAME_ERROR";
         else
             db_res = "DB_ERROR";
 
         //Serialize data
         json j;
         jsonUtility::to_json(j, "OPENFILE_RESPONSE", db_res);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "OPENWITHURI_REQUEST") {
+        std::string userJSON;
+        std::string uriJSON;
+        jsonUtility::from_json_uri(jdata_in, userJSON, uriJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+        //update tables on db
+        dbService::DB_RESPONSE resp = dbService::tryOpenWithURIFile(userJSON, uriJSON);
+        QSqlDatabase::removeDatabase("MyConnect3");
+
+        if (resp == dbService::OPENWITHURI_OK) {
+            db_res = "OPENWITHURI_OK";
+            json j;
+            std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
+            jsonUtility::to_json_symVector(j, "OPENWITHURI_RESPONSE", db_res, symVectorJSON);
+            const std::string response = j.dump();
+            return response;
+        }
+        else if(resp == dbService::OPENWITHURI_FAILED)
+            db_res = "OPENWITHURI_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "OPENWITHURI_RESPONSE", db_res);
         const std::string response = j.dump();
         return response;
 
