@@ -155,11 +155,12 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
             if (query2.exec()) {
                 QSqlQuery query3(QSqlDatabase::database("MyConnect3"));
 
-                query3.prepare("INSERT INTO permissions (idfile, iduser, isOwner, isOpen) VALUES (:idfile, :iduser, :isOwner, :isOpen)");
+                query3.prepare("INSERT INTO permissions (idfile, iduser, isOwner, isOpen, isConfirmed) VALUES (:idfile, :iduser, :isOwner, :isOpen, :isConfirmed)");
                 query3.bindValue(":idfile", uri);
                 query3.bindValue(":iduser", username);
                 query3.bindValue(":isOwner", true);
                 query3.bindValue(":isOpen", true);
+                query3.bindValue(":isConfirmed", true);
 
                 if (query3.exec()) {
                     return NEWFILE_OK;
@@ -188,7 +189,7 @@ dbService::DB_RESPONSE dbService::tryListFile(const std::string& user, std::vect
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-        query.prepare(QString("SELECT uri, filename, owner, timestamp FROM files F, permissions P  WHERE F.uri=P.idfile and iduser = :username"));
+        query.prepare(QString("SELECT uri, filename, owner, timestamp FROM files F, permissions P  WHERE F.uri=P.idfile AND iduser = :username AND isConfirmed=1"));
         query.bindValue(":username", username);
         if (query.exec()) {
             bool check = false;
@@ -231,7 +232,7 @@ dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-        query.prepare(QString("SELECT idfile, iduser FROM  permissions  WHERE idfile= :uri and iduser = :username"));
+        query.prepare(QString("SELECT idfile, iduser FROM  permissions  WHERE idfile= :uri and iduser = :username and isConfirmed=true"));
         query.bindValue(":username", username);
         query.bindValue(":uri", uri);
         if (query.exec()) {

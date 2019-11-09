@@ -141,6 +141,50 @@ void StartWindow::on_listFiles_clicked()
 
 }
 
+void StartWindow::on_newDoc_clicked()
+{
+    bool ok;
+        QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                             tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
+                                             "", &ok);
+        if (ok && !text.isEmpty() && text.size()<=15){
+            //TODO controllo file database (nome e utente)
+
+            //Get data from the form
+            QString user = ui->Username->text();
+            QByteArray ba_user = user.toLocal8Bit();
+            const char *c_user = ba_user.data();
+            QString filename = text;
+            QByteArray ba_filename = filename.toLocal8Bit();
+            const char *c_filename = ba_filename.data();
+
+            //Serialize data
+            json j;
+            jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
+            const std::string req = j.dump();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+
+            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
+            EditorWindow *ew = new EditorWindow(text);
+            ew->show();
+            delete this;
+        }
+        else if (ok && !text.isEmpty() && text.size()>15){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+            messageBox.setFixedSize(600,400);
+            on_newDoc_clicked();
+        }
+        else if (ok && text.isEmpty()){
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Inserire un nome!");
+            messageBox.setFixedSize(600,400);
+            on_newDoc_clicked();
+        }
+}
+
 void StartWindow::on_openDoc_clicked()
 {
     bool ok;

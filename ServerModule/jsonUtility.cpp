@@ -179,11 +179,7 @@ std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
     return jsons;
 }
 
-std::vector<json> jsonUtility::fromFileToJson(std::vector<File> files) {
-
-    //TODO: delete this initialization of symbols
-    files.push_back(File{"cipolla", "patate", "meloni", "angurie"});
-    files.push_back(File{ "capre", "mucche", "meloni", "angurie" });
+std::vector<json> jsonUtility::fromFileToJson(const std::vector<File>& files) {
 
     // Get jsons from symbols
     std::vector<json> jsons;
