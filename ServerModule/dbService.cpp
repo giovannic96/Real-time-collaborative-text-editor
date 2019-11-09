@@ -12,7 +12,72 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
+dbService::DB_RESPONSE dbService::tryLogout(const std::string& user){
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(user.data(), user.size());
 
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("UPDATE users SET isLogged=0 WHERE username= :username"));
+        query.bindValue(":username", username);
+
+        if(query.exec()) {
+            std::cout << "LOGOUT without URI success" << std::endl;
+            db.close();
+            return  LOGOUT_OK;
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
+
+dbService::DB_RESPONSE dbService::tryLogout(const std::string& user, const std::string& urifile){
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(user.data(), user.size());
+    QString uri = QString::fromUtf8(urifile.data(), urifile.size());
+
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("UPDATE users SET isLogged=0 WHERE username= :username"));
+        query.bindValue(":username", username);
+
+        if(query.exec()) {
+            QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+            query.prepare(QString("UPDATE permissions SET isOpen=0 WHERE iduser= :username and idfile = :uri"));
+            query.bindValue(":username", username);
+            query.bindValue(":uri", uri);
+
+            if(query.exec()) {
+                std::cout << "LOGOUT with URI success" << std::endl;
+                db.close();
+                return LOGOUT_OK;
+            } else {
+                std::cout << "Error on UPDATE isOpen" << std::endl;
+                db.close();
+                return QUERY_ERROR;
+            }
+        } else {
+            std::cout << "Error on Update isLogged" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
 
 dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass) {
     QSqlDatabase db;
@@ -318,6 +383,8 @@ inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
     switch (db_resp) {
         case dbService::LOGIN_OK:       return "LOGIN_OK";
         case dbService::LOGIN_FAILED:   return "LOGIN_FAILED";
+        case dbService::LOGOUT_OK:      return "LOGOUT_OK";
+        case dbService::LOGOUT_FAILED:  return "LOGOUT_FAILED";
         case dbService::SIGNUP_OK:      return "SIGNUP_OK";
         case dbService::SIGNUP_FAILED:  return "SIGNUP_FAILED";
         case dbService::DB_ERROR:       return "DB_ERROR";

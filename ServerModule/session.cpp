@@ -171,6 +171,63 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
+    } else if (opJSON == "LOGOUT_REQUEST") {
+        std::string userJSON;
+        jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+
+        dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON);
+        QSqlDatabase::removeDatabase("MyConnect2");
+
+        if(resp == dbService::LOGOUT_OK)
+            db_res = "LOGOUT_OK";
+        else if(resp == dbService::LOGOUT_FAILED)
+            db_res = "LOGOUT_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        json j;
+        jsonUtility::to_json(j, "LOGOUT_RESPONSE", db_res);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "LOGOUTURI_REQUEST") {
+        std::string userJSON;
+        std::string uriJSON;
+        jsonUtility::from_json_uri(jdata_in,userJSON, uriJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+        dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON, uriJSON);
+        QSqlDatabase::removeDatabase("MyConnect2");
+
+        if(resp == dbService::LOGOUT_OK)
+            db_res = "LOGOUT_OK";
+        else if(resp == dbService::LOGOUT_FAILED)
+            db_res = "LOGOUT_FAILED";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //TODO WRIITE FILE IN THE FILESYSTEM
+        json j;
+        jsonUtility::to_json(j, "LOGOUT_RESPONSE", db_res);
+        const std::string response = j.dump();
+        return response;
+
     } else if (opJSON == "SIGNUP_REQUEST"){
         std::string userJSON;
         std::string passJSON;
