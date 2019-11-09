@@ -2,6 +2,7 @@
 #define MENUWINDOW_H
 
 #include <QMainWindow>
+#include <QListWidgetItem>
 #include "myClient.h"
 
 namespace Ui{class MenuWindow;}
@@ -10,24 +11,28 @@ class MenuWindow: public QMainWindow{
     Q_OBJECT
 
 public:
-    MenuWindow(QWidget *parent = nullptr); //Constructor
-    ~MenuWindow();                         //Destructor
+    MenuWindow(myClient* client, QWidget *parent = nullptr);
+    ~MenuWindow();
 
 private slots:
-    void on_exitButton_clicked();
     void on_LogoutButton_clicked();
     void on_Username_clicked();
     void on_newDoc_clicked();
-    void on_openDoc_clicked();
     void on_uriDoc_clicked();
+    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+    void on_listFiles_clicked();
+
+public slots:
+    void showPopupSuccess(QString result);
+    void showPopupFailure(QString result);
+    void showListFile(std::vector<File> files);
 
 private:
     Ui::MenuWindow *ui;            //"ui" (user interface)
-    //For mouse related event
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
-    //For client
-    myClient *client;
-    void sendRequestMsg(const char* req);
+    myClient *_client;
+    void sendRequestMsg(const std::string req);
+    void SetImage();
 
 protected:
     //Function for mouse related event

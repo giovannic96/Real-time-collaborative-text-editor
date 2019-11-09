@@ -571,7 +571,7 @@ font-size: 18px;
        </size>
       </property>
      </widget>
-     <widget class="QPushButton" name="listFiles">
+     <widget class="QPushButton" name="listFiles2">
       <property name="geometry">
        <rect>
         <x>720</x>

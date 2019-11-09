@@ -29,14 +29,24 @@ public:
     QTcpSocket *tcpSocket;
     bool getStatus();
     QString getUsername();
+    QString getFilename();
+    QString getFileURI();
     void setUsername(QString name);
+    void setFilename(QString filename);
+    void setFileURI(QString uri);
     void close();
     void write(const message& msg);    
 
 signals:
     void statusChanged(bool);
-    void formResult(QString result, QString title, QString msg);
+    void formResultSuccess(QString result);
+    void formResultFailure(QString result);
+    void opResultSuccess(QString result);
+    void opResultFailure(QString result);
+    void editorResultSuccess(QString result);
+    void editorResultFailure(QString result);
     void changeTextUsername(QString text);
+    void listFileResult(std::vector<File> files);
 
 private:
     boost::asio::io_context io_context_;
@@ -52,6 +62,8 @@ private:
     void closeConnection();
     bool status;
     QString username_;
+    QString filename_;
+    QString uri_;
 };
 
 #endif // MYCLIENT_H

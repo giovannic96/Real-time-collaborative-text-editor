@@ -8,11 +8,18 @@
 #include <QMessageBox>
 #include <QPrinter>         //FOR PRINTING THE PDF
 #include "infowindow.h"
+#include "menuwindow.h"
+
+using json = nlohmann::json;
 
 //CONSTRUCTOR
-EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Qt::CustomizeWindowHint), ui(new Ui::EditorWindow), textname(text){
+EditorWindow::EditorWindow(myClient* client, QWidget *parent):
+                            QMainWindow(parent, Qt::CustomizeWindowHint), ui(new Ui::EditorWindow),
+                            _client(client) {
     ui->setupUi(this);
-    ui->DocName->setText(text);
+    connect(_client, &myClient::editorResultSuccess, this, &EditorWindow::showPopupSuccess);
+    connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
+    ui->DocName->setText(_client->getFilename());
     ui->RealTextEdit->setFontPointSize(14);         //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
     QColor a = QColor(255,255,255,255);             //R, G, B, Alpha
     ui->RealTextEdit->setTextBackgroundColor(a);    //Force the TextEdit to have this color of background.
@@ -21,8 +28,9 @@ EditorWindow::EditorWindow(QString text, QWidget *parent): QMainWindow(parent, Q
 }
 
 //DESTRUCTOR
-EditorWindow::~EditorWindow(){
+EditorWindow::~EditorWindow() {
     delete ui;
+    //TODO: do I have to delete also client????
 }
 
 
@@ -238,11 +246,25 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
 /***********************************************************************************
 *                                TopLeftBar FUNCTION                               *
 ************************************************************************************/
-void EditorWindow::on_buttonExit_clicked(){
-    QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
+void EditorWindow::on_buttonExit_clicked() {
+    //Get data from the form
+    QString user = this->_client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+    QString uri = this->_client->getFileURI();
+    QByteArray ba_uri = uri.toLocal8Bit();
+    const char *c_uri = ba_uri.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUri(j, "LOGOUTURI_REQUEST", c_user, c_uri);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
 }
 
-void EditorWindow::on_buttonToIcon_clicked(){
+void EditorWindow::on_buttonToIcon_clicked() {
     this->setWindowState(Qt::WindowMinimized); //See Note 2 at the end
 }
 
@@ -291,7 +313,7 @@ void EditorWindow::on_pdfButton_clicked(){
           doc.setHtml(fileText);
           QPrinter file;
           file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName(textname+".pdf"); // better to use full path
+          file.setOutputFileName(_fileName+".pdf"); // better to use full path
           doc.print(&file); //REFERENCE DO NOT TOUCH IT!
           writeData << &file; //like CIN, but in a stream of text
           File.flush();
@@ -301,7 +323,7 @@ void EditorWindow::on_pdfButton_clicked(){
 
     //VERSION 2
     QString filename;
-    filename = textname;
+    filename = _client->getFilename();
     filename.append(".pdf");
 
     QFile File (filename);
@@ -332,15 +354,16 @@ void EditorWindow::on_pdfButton_clicked(){
     }
 }
 
+/* MAYBE WE HAVE TO DELETE THIS
 void EditorWindow::on_uriButton_clicked(){
     on_URIButton_clicked(); //See Function Below
 }
-
-
+*/
 
 /***********************************************************************************
 *                                 FileFrame FUNCTION                               *
 ************************************************************************************/
+/* MAYBE WE HAVE TO DELETE THIS
 void EditorWindow::on_newDocButton_clicked(){
     ui->FileFrame->setVisible(false);
     bool ok;
@@ -351,18 +374,18 @@ void EditorWindow::on_newDocButton_clicked(){
             //TODO controllo file database (nome e utente)
 
             //Get data from the form
-            /*QString user = ui->Username->text();
-            QByteArray ba_user = user.toLocal8Bit();
-            const char *c_user = ba_user.data();
-            QString filename = text;
-            QByteArray ba_filename = filename.toLocal8Bit();
-            const char *c_filename = ba_filename.data();
+            //QString user = ui->Username->text();
+            //QByteArray ba_user = user.toLocal8Bit();
+            //const char *c_user = ba_user.data();
+            //QString filename = text;
+            //QByteArray ba_filename = filename.toLocal8Bit();
+            //const char *c_filename = ba_filename.data();
             //Serialize data
-            json j;
-            jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
-            const char* req = j.dump().c_str();
+            //json j;
+            //jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
+            //const char* req = j.dump().c_str();
             //Send data (header and body)
-            sendRequestMsg(req);*/
+            //sendRequestMsg(req);
 
             //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
             EditorWindow *ew = new EditorWindow(text);
@@ -383,7 +406,9 @@ void EditorWindow::on_newDocButton_clicked(){
         }
 
 }
+*/
 
+/* MAYBE WE HAVE TO DELETE THIS
 void EditorWindow::on_URIButton_clicked(){
     ui->FileFrame->setVisible(false);
     bool ok;
@@ -398,13 +423,14 @@ void EditorWindow::on_URIButton_clicked(){
             messageBox.show();
         }
 }
+*/
 
 /*RENAME BUTTON v1 - "DEPRECATED FUNCTION --> SEE RENAME BUTTON v2"
 void EditorWindow::on_pushButton_3_clicked(){
     bool ok;
         QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                              tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
-                                             textname, &ok);
+                                             _fileName, &ok);
         if (ok && !newText.isEmpty() && newText.size()<=15){
             //TODO controllo file database (nome e utente)
             //TODO Inserire il file nel database
@@ -434,9 +460,9 @@ void EditorWindow::on_buttonRename_clicked(){
     ui->FileFrame->setVisible(false);
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
-                                         textname);
+                                         _client->getFilename());
     ui->DocName->setText(newText);  //Assign newText to the label
-    textname = newText;             //Assign newText to the variable
+    _client->setFilename(newText);             //Assign newText to the variable
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -475,7 +501,7 @@ void EditorWindow::on_actionFullscreen_triggered(){
 
 //NEW DOCUMENT ACTION   -->     CTRL+N
 void EditorWindow::on_actionNew_triggered(){
-    on_newDocButton_clicked();
+    //on_newDocButton_clicked();
 }
 
 //NEW ABOUT ACTION      -->     CTRL+I
@@ -584,4 +610,35 @@ void EditorWindow::mouseMoveEvent(QMouseEvent *evt){
        oldPos = evt->globalPos();
 }
 
-//DELETE THIS COMMENT - Made only for update version on GitHub.
+void EditorWindow::showPopupSuccess(QString result) {
+    if(result == "LOGOUTURI_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.information(nullptr, "LOGOUTURI SUCCESS", "Logouturi successfully completed.");
+        messageBox.setFixedSize(500,200);
+        this->close();
+        parentWidget()->show();
+        delete this;
+    }
+}
+
+void EditorWindow::showPopupFailure(QString result) {
+    if(result == "LOGOUTURI_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "LOGOUTURI FAILURE", "Error: Logouturi NOT completed!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else {
+        QMessageBox messageBox;
+        messageBox.information(nullptr, "GENERIC FAILURE", "Error: Something went wrong!");
+        messageBox.setFixedSize(500,200);
+    }
+}
+
+void EditorWindow::sendRequestMsg(std::string req) {
+    message msg;
+    msg.body_length(req.size());
+    std::memcpy(msg.body(), req.data(), msg.body_length());
+    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
+    msg.encode_header();
+    _client->write(msg);
+}

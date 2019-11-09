@@ -12,7 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
-dbService::DB_RESPONSE dbService::tryLogout(const std::string& user){
+dbService::DB_RESPONSE dbService::tryLogout(const std::string& user) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(user.data(), user.size());
 
@@ -39,7 +39,7 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user){
     }
 }
 
-dbService::DB_RESPONSE dbService::tryLogout(const std::string& user, const std::string& urifile){
+dbService::DB_RESPONSE dbService::tryLogout(const std::string& user, const std::string& urifile) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(user.data(), user.size());
     QString uri = QString::fromUtf8(urifile.data(), urifile.size());
@@ -179,7 +179,7 @@ dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::
     }
 }
 
-dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std::string& file_name) {
+dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std::string& file_name, const QString& uri) {
     QSqlDatabase db;
 
     QString username = QString::fromUtf8(user.data(), user.size());
@@ -197,7 +197,6 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
             if (query.next()) //username already exists
                 return NEWFILE_FAILED;
 
-            QString uri = generateURI(12);
             QString timestamp = getTimestamp();
             QSqlQuery query2(QSqlDatabase::database("MyConnect3"));
 
@@ -253,8 +252,6 @@ dbService::DB_RESPONSE dbService::tryListFile(const std::string& user, std::vect
                 std::string filenameDb = query.value(1).toString().toStdString();
                 std::string ownerDb = query.value(2).toString().toStdString();
                 std::string timestampDb = query.value(3).toString().toStdString();
-
-                std::cout<< "Riga nel db trovata: "<< uriDb << " " << filenameDb << " " << ownerDb << " " << timestampDb << std::endl;
 
                 File file = File{uriDb, filenameDb, ownerDb, timestampDb};
                 vectorFile.push_back(file);

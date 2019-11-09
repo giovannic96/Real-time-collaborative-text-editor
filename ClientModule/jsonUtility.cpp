@@ -122,3 +122,7 @@ void jsonUtility::from_json(const json &j, std::string &user, std::string &pass,
     pass = j.at("content").at("password").get<std::string>();
     email = j.at("content").at("email").get<std::string>();
 }
+
+void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
+    uri = j.at("content").at("uri").get<std::string>();
+}

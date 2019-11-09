@@ -6,30 +6,47 @@
 #include "editorwindow.h"
 #include "userprofile.h"
 #include "startwindow.h"
+#include <iostream>
+#include <QListWidgetItem>
 
-MenuWindow::MenuWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint),
-    ui(new Ui::MenuWindow), client(new myClient){
+MenuWindow::MenuWindow(myClient* client, QWidget *parent)
+    : QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint),
+    ui(new Ui::MenuWindow), _client(client) {
     ui->setupUi(this);
+    connect(_client, &myClient::opResultSuccess, this, &MenuWindow::showPopupSuccess);
+    connect(_client, &myClient::opResultFailure, this, &MenuWindow::showPopupFailure);
+    connect(_client, &myClient::listFileResult, this, &MenuWindow::showListFile);
+    SetImage();
+    this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
+    qRegisterMetaType<std::vector<File>>("std::vector<File>");
 }
 
 //DESTRUCTOR
-MenuWindow::~MenuWindow(){
+MenuWindow::~MenuWindow() {
     delete ui;
-    delete client;
+    delete _client;
 }
 
-//EXIT BUTTON
-void MenuWindow::on_exitButton_clicked(){
-    QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
+void MenuWindow::on_LogoutButton_clicked() {
+    //Get data from the form
+    QString user = _client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void MenuWindow::mousePressEvent(QMouseEvent *evt){
      oldPos = evt->globalPos();
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
     const QPoint delta = evt->globalPos() - oldPos;
     move(x()+delta.x(), y()+delta.y());
@@ -45,125 +62,266 @@ void MenuWindow::on_Username_clicked(){
 void MenuWindow::on_newDoc_clicked()
 {
     bool ok;
-        QString text = QInputDialog::getText(this, tr("Titolo documento"),
-                                             tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
-                                             "", &ok);
-        if (ok && !text.isEmpty() && text.size()<=15){
-            //TODO controllo file database (nome e utente)
+    QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                         tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
+                                         "", &ok);
+    if (ok && !text.isEmpty() && text.size()<=15){
+        //TODO controllo file database (nome e utente)
 
-            //Get data from the form
-            QString user = ui->Username->text();
-            QByteArray ba_user = user.toLocal8Bit();
-            const char *c_user = ba_user.data();
-            QString filename = text;
-            QByteArray ba_filename = filename.toLocal8Bit();
-            const char *c_filename = ba_filename.data();
+        //Get data from the form
+        QString user = _client->getUsername();
+        QByteArray ba_user = user.toLocal8Bit();
+        const char *c_user = ba_user.data();
+        QString filename = text;
+        QByteArray ba_filename = filename.toLocal8Bit();
+        const char *c_filename = ba_filename.data();
 
-            //Serialize data
-            json j;
-            jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
-            const char* req = j.dump().c_str();
+        //Serialize data
+        json j;
+        jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
+        const std::string req = j.dump();
 
-            //Send data (header and body)
-            sendRequestMsg(req);
+        //update client data
+        _client->setUsername(user);
+        _client->setFilename(filename);
 
-            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
-            EditorWindow *ew = new EditorWindow(text);
-            ew->show();
-            delete this;
-        }
-        else if (ok && !text.isEmpty() && text.size()>15){
-            QMessageBox messageBox;
-            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
-            messageBox.setFixedSize(600,400);
-            on_newDoc_clicked();
-        }
-        else if (ok && text.isEmpty()){
-            QMessageBox messageBox;
-            messageBox.critical(nullptr,"Errore","Inserire un nome!");
-            messageBox.setFixedSize(600,400);
-            on_newDoc_clicked();
-        }
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
+    else if (ok && !text.isEmpty() && text.size()>15){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+        messageBox.setFixedSize(600,400);
+        on_newDoc_clicked();
+    }
+    else if (ok && text.isEmpty()){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome!");
+        messageBox.setFixedSize(600,400);
+        on_newDoc_clicked();
+    }
 }
 
-void MenuWindow::on_openDoc_clicked()
+void MenuWindow::on_listFiles_clicked()
 {
-    bool ok;
-        QString text = QInputDialog::getText(this, tr("Titolo documento"),
-                                             tr("Inserisci il nome del documento da aprire:"), QLineEdit::Normal,
-                                             "", &ok);
-        if (ok && !text.isEmpty() && text.size()<=15){
-            //TODO controllo file database -> quali controlli?
-            QMessageBox messageBox;
-            messageBox.information(nullptr, "Apri documento", "Apertura in corso..");
-            messageBox.setFixedSize(600,400);
-            messageBox.show();
+    //Get data from the form
+    QString user = _client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
 
-            //Get data from the form
-            QString user = ui->Username->text();
-            QByteArray ba_user = user.toLocal8Bit();
-            const char *c_user = ba_user.data();
-            QString filename = text;
-            QByteArray ba_filename = filename.toLocal8Bit();
-            const char *c_filename = ba_filename.data();
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUser(j, "LISTFILE_REQUEST", c_user);
+    const std::string req = j.dump();
 
-            //Serialize data
-            json j;
-            jsonUtility::to_jsonFilename(j, "OPENFILE_REQUEST", c_user, c_filename);
-            const char* req = j.dump().c_str();
+    //update client data
+    _client->setUsername(user);
 
-            //Send data (header and body)
-            qDebug() << "Client is sending: START" << req << "END";
-            sendRequestMsg(req);
-
-            //TODO: receive (updated) file from server
-
-            //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
-            EditorWindow *ew = new EditorWindow(text);
-            ew->show();
-            delete this;
-        }
-        else if (ok && !text.isEmpty() && text.size()>15){
-            QMessageBox messageBox;
-            messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
-            messageBox.setFixedSize(600,400);
-            on_openDoc_clicked();
-        }
-        else if (ok && text.isEmpty()){
-            QMessageBox messageBox;
-            messageBox.critical(nullptr,"Errore","Inserire un nome!");
-            messageBox.setFixedSize(600,400);
-            on_openDoc_clicked();
-        }
+    //Send data (header and body)
+    sendRequestMsg(req);
 }
 
 void MenuWindow::on_uriDoc_clicked()
 {
     bool ok;
-        QString text = QInputDialog::getText(this, tr("Sei stato invitato?"),
-                                             tr("Inserisci una URI:"), QLineEdit::Normal,
-                                             "", &ok);
-        if (ok && !text.isEmpty()){
+    QString text = QInputDialog::getText(this, tr("Titolo documento"),
+                                         tr("Inserisci URI del documento:"), QLineEdit::Normal,
+                                         "", &ok);
+    if (ok && !text.isEmpty() && text.size()<=15){ //TODO: better controls
+        //TODO controllo file database (nome e utente)
 
-            QMessageBox messageBox;
-            messageBox.information(nullptr, "ATTENZIONE", "Ora si chiede troppo (da implementare)");
-            messageBox.setFixedSize(600,400);
-            messageBox.show();
-        }
+        //Get data from the form
+        QString user = _client->getUsername();
+        QByteArray ba_user = user.toLocal8Bit();
+        const char *c_user = ba_user.data();
+        QString uri = text;
+        QByteArray ba_uri = uri.toLocal8Bit();
+        const char *c_uri = ba_uri.data();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_jsonUri(j, "OPENWITHURI_REQUEST", c_user, c_uri);
+        const std::string req = j.dump();
+
+        //update client data
+        _client->setUsername(user);
+        _client->setFileURI(uri);
+
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
+    else if (ok && !text.isEmpty() && text.size()>15) {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+        messageBox.setFixedSize(600,400);
+        on_uriDoc_clicked();
+    }
+    else if (ok && text.isEmpty()){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome!");
+        messageBox.setFixedSize(600,400);
+        on_uriDoc_clicked();
+    }
 }
 
-void MenuWindow::on_LogoutButton_clicked()
+void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
-    StartWindow *s= new StartWindow();
-    s->show();
-    this->hide();
+    //TODO:
+    //PRENDERE URI DALL'ITEM
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("uri"),
+                                         tr("Inserisci uri del documento:"), QLineEdit::Normal,
+                                         "", &ok);
+    if (ok && !text.isEmpty() && text.size()<=15){
+        //TODO controllo file database -> quali controlli?
+        QMessageBox messageBox;
+        messageBox.information(nullptr, "Apri documento", "Apertura in corso..");
+        messageBox.setFixedSize(600,400);
+        messageBox.show();
+
+        //Get data from the form
+        QString user = _client->getUsername();
+        QByteArray ba_user = user.toLocal8Bit();
+        const char *c_user = ba_user.data();
+        QString uri = text; //TODO: get uri from db directly!!!!!!!
+        QByteArray ba_uri = uri.toLocal8Bit();
+        const char *c_uri = ba_uri.data();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_jsonUri(j, "OPENFILE_REQUEST", c_user, c_uri);
+        const std::string req = j.dump();
+
+        //update client data
+        _client->setUsername(user);
+        _client->setFileURI(uri);
+
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
+    else if (ok && !text.isEmpty() && text.size()>15){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+        messageBox.setFixedSize(600,400);
+        on_listWidget_itemDoubleClicked(item);
+    }
+    else if (ok && text.isEmpty()){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome!");
+        messageBox.setFixedSize(600,400);
+        on_listWidget_itemDoubleClicked(item);
+    }
 }
 
+void MenuWindow::showPopupSuccess(QString result) {
+    if(result == "LOGOUT_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.information(nullptr, "LOGOUT SUCCESS", "Logout successfully completed.");
+        messageBox.setFixedSize(500,200);
+        StartWindow *s = new StartWindow();
+        this->close();
+        s->show();
+        delete this;
+    } else if(result == "NEWFILE_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "NEWFILE SUCCESS", "Newfile successfully completed.");
+        messageBox.setFixedSize(500,200);
+        EditorWindow *ew = new EditorWindow(_client, this);
+        this->hide();
+        ew->show();
+    } else if(result == "OPENFILE_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "OPENFILE SUCCESS", "Openfile successfully completed.");
+        messageBox.setFixedSize(500,200);
+        EditorWindow *ew = new EditorWindow(_client, this);
+        this->hide();
+        ew->show();
+    } else if(result == "OPENWITHURI_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "OPENWITHURI SUCCESS", "Openwithuri successfully completed.");
+        messageBox.setFixedSize(500,200);
+        EditorWindow *ew = new EditorWindow(_client, this);
+        this->hide();
+        ew->show();
+    } else if(result == "LISTFILE_SUCCESS") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "LISTFILE SUCCESS", "Listfile successfully completed.");
+        messageBox.setFixedSize(500,200);
+        ui->stackedWidget->setCurrentIndex(1);
+    }
+}
 
-void MenuWindow::sendRequestMsg(const char* req) {
+void MenuWindow::showPopupFailure(QString result) {
+    if(result == "LOGOUT_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "LOGOUT FAILURE", "Error: Logout NOT completed!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else if(result == "NEWFILE_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "NEWFILE FAILURE", "Error: Newfile NOT completed!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else if(result == "OPENFILE_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "OPENFILE FAILURE", "Error: Openfile NOT completed!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window (MenuWindow(1))
+    } else if(result == "OPENWITHURI_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "OPENWITHURI FAILURE", "Error: Openwithuri NOT completed!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else if(result == "LISTFILE_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "LISTFILE FAILURE", "Error: Listfile NOT completed!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window (MenuWindow(1))
+    } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "LISTFILE FAILURE", "Error: Listfile NOT exist!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window (MenuWindow(1))
+    } else if(result == "RESPONSE_FAILURE") {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr, "RESPONSE FAILURE", "Error: Response NOT handled!");
+        messageBox.setFixedSize(500,200);
+        //Stay in the same window
+    } else {
+        QMessageBox messageBox;
+        messageBox.information(nullptr, "GENERIC FAILURE", "Error: Something went wrong!");
+        messageBox.setFixedSize(500,200);
+    }
+}
+
+void MenuWindow::showListFile(std::vector<File> files) {
+
+    qDebug() << "Sono in showListFile";
+
+    QString filename,owner,timestamp;
+    QList<QListWidgetItem*> fileItem;
+
+    foreach (File f, files) {
+        filename = QString::fromUtf8(f.getfilename().c_str());
+        owner = QString::fromUtf8(f.getowner().c_str());
+        timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+        fileItem.append(new QListWidgetItem(filename+"\t"+owner+"\t"+timestamp, ui->listWidget));
+    }
+}
+
+void MenuWindow::SetImage() {
+    QRect rect(0,0,58,58);
+    QRegion region(rect, QRegion::Ellipse);
+    qDebug() << region.boundingRect().size();
+    ui->logoutButton->setMask(region);
+    ui->backButton->setMask(region);
+}
+
+void MenuWindow::sendRequestMsg(std::string req) {
     message msg;
-    msg.body_length(std::strlen(req));
-    std::memcpy(msg.body(), req, msg.body_length());
+    msg.body_length(req.size());
+    std::memcpy(msg.body(), req.data(), msg.body_length());
+    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
     msg.encode_header();
-    client->write(msg);
+    _client->write(msg);
 }

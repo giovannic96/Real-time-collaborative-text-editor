@@ -7,7 +7,6 @@
 UserProfile::UserProfile(QString nome, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
     ui->setupUi(this);
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
-    SetRadiusBorder();
     SetImage();
     this->show();
 }
@@ -42,16 +41,6 @@ void UserProfile::on_UserImageButton_clicked(){
     QMessageBox msgBox;
     msgBox.setText("Cliccando qui apparirà la schermata per far cambiare l'immagine dell'utente.\n");
     msgBox.exec();
-}
-
-//SET RADIUS BORDER --> Called in constructor to make the window with round edges
-void UserProfile::SetRadiusBorder(){
-    const int radius = 21;
-
-    QPainterPath path;
-    path.addRoundedRect(this->rect(), radius, radius);
-    QRegion mask = QRegion (path.toFillPolygon().toPolygon());
-    this->setMask(mask);
 }
 
 void UserProfile::SetImage(){

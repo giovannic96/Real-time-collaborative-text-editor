@@ -2,6 +2,9 @@
 #define EDITORWINDOW_H
 
 #include <QMainWindow>
+#include "jsonUtility.h"
+#include "message.h"
+#include "myClient.h"
 
 namespace Ui {class EditorWindow;}
 
@@ -9,7 +12,7 @@ class EditorWindow : public QMainWindow{
     Q_OBJECT
 
 public:
-    EditorWindow(QString text, QWidget *parent = nullptr);
+    EditorWindow(myClient* client, QWidget *parent = nullptr);
     ~EditorWindow();
 
 private slots:
@@ -50,11 +53,11 @@ private slots:
     //TopRightBar Button
     void on_fileButton_clicked();
     void on_pdfButton_clicked();
-    void on_uriButton_clicked();
+    //void on_uriButton_clicked(); MAYBE WE HAVE TO DELETE THIS
 
     //FileFrame Button
-    void on_newDocButton_clicked();
-    void on_URIButton_clicked();  
+    //void on_newDocButton_clicked(); MAYBE WE HAVE TO DELETE THIS
+    //void on_URIButton_clicked(); MAYBE WE HAVE TO DELETE THIS
     void on_buttonRename_clicked();
     void on_aboutButton_clicked();
     void on_CloseButton_clicked();
@@ -81,12 +84,15 @@ private slots:
     void on_DebugWordRight_clicked();
     void on_DebugIns6Word_clicked();
 
+public slots:
+    void showPopupSuccess(QString result);
+    void showPopupFailure(QString result);
+
 private:
     Ui::EditorWindow *ui;
-    //For "DocName" QString
-    QString textname;
-    //For mouse related event
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
+    void sendRequestMsg(std::string req);
+    myClient *_client;
 
 protected:
     //Function for mouse related event

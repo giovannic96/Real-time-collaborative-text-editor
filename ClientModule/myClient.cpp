@@ -79,22 +79,52 @@ void myClient::do_read_body() {
                     QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
                     this->setUsername(name_qstring);
                     emit changeTextUsername(this->getUsername());
-                    emit formResult("LOGIN_SUCCESS", "Login Success", "Login successfully completed");
+                    emit formResultSuccess("LOGIN_SUCCESS");
                 } else {
                     qDebug() << "Wrong user or password" << endl;
-                    emit formResult("LOGIN_FAILURE", "Login Failed", "Login not completed: wrong user or password");
+                    emit formResultFailure("LOGIN_FAILURE");
                 }
             } else if(opJSON == "SIGNUP_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
 
                 if(db_responseJSON == "SIGNUP_OK") {
-                    qDebug() << "Signup success" << endl;
-                    emit formResult("SIGNUP_SUCCESS", "Signup Success", "Signup successfully completed");
+                    emit formResultSuccess("SIGNUP_SUCCESS");
                 } else {
-                    qDebug() << "Something went wrong" << endl;
-                    emit formResult("SIGNUP_FAILURE", "Signup Failed", "Signup not completed: something went wrong");
+                    emit formResultFailure("SIGNUP_FAILURE");
                 }
+            } else if(opJSON == "LOGOUT_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "LOGOUT_OK") {
+                    emit opResultSuccess("LOGOUT_SUCCESS");
+                } else {
+                    emit opResultFailure("LOGOUT_FAILURE");
+                }
+            } else if(opJSON == "LOGOUTURI_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "LOGOUTURI_OK") {
+                    emit editorResultSuccess("LOGOUTURI_SUCCESS");
+                } else {
+                    emit editorResultFailure("LOGOUTURI_FAILURE");
+                }
+            } else if(opJSON == "NEWFILE_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+
+                if(db_responseJSON == "NEWFILE_OK") {
+                    std::string uriJSON;
+                    jsonUtility::from_jsonUri(jdata_in, uriJSON); //get json value and put into JSON variables
+                    QString uriQString = QString::fromUtf8(uriJSON.data(), uriJSON.size());
+                    this->setFileURI(uriQString);
+                    emit opResultSuccess("NEWFILE_SUCCESS");
+                } else {
+                    emit opResultFailure("NEWFILE_FAILURE");
+                }
+
             } else if(opJSON == "OPENFILE_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
@@ -113,11 +143,9 @@ void myClient::do_read_body() {
 
                     //TODO: put these symbols into Editor correctly.
 
-                    qDebug() << "Openfile success" << endl;
-                    emit formResult("OPENFILE_SUCCESS", "Openfile Success", "Openfile successfully completed");
+                    emit opResultSuccess("OPENFILE_SUCCESS");
                 } else {
-                    qDebug() << "Something went wrong" << endl;
-                    emit formResult("OPENFILE_FAILURE", "Openfile Failed", "Openfile not completed: something went wrong");
+                    emit opResultFailure("OPENFILE_FAILURE");
                 }
 
             } else if(opJSON == "OPENWITHURI_RESPONSE") {
@@ -139,10 +167,10 @@ void myClient::do_read_body() {
                     //TODO: put these symbols into Editor correctly.
 
                     qDebug() << "OPENWITHURI success" << endl;
-                    emit formResult("OPENWITHURI_SUCCESS", "OPENWITHURI Success", "OPENWITHURI successfully completed");
+                    emit opResultSuccess("OPENWITHURI_SUCCESS");
                 } else {
                     qDebug() << "Something went wrong" << endl;
-                    emit formResult("OPENWITHURI_FAILURE", "OPENWITHURI Failed", "OPENWITHURI not completed: something went wrong");
+                    emit opResultFailure("OPENWITHURI_FAILURE");
                 }
 
             } else if(opJSON == "LISTFILE_RESPONSE") {
@@ -163,20 +191,22 @@ void myClient::do_read_body() {
                         delete f;
                     }
 
+                    emit listFileResult(files);
+
                     //TODO: put these files into UI correctly.
 
                     qDebug() << "Listfile success" << endl;
-                    emit formResult("LISTFILE_SUCCESS", "Listfile Success", "Listfile successfully completed");
+                    emit opResultSuccess("LISTFILE_SUCCESS");
                 } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
                     qDebug() << "Non ha nessuna lista di file" << endl;
-                    emit formResult("LISTFILE_FAILURE", "Listfile Failed", "Listfile not completed: list does not exist");
+                    emit opResultFailure("LISTFILE_FAILURE_LISTNOTEXIST");
                 } else {
                     qDebug() << "Something went wrong" << endl;
-                    emit formResult("LISTFILE_FAILURE", "Listfile Failed", "Listfile not completed: something went wrong");
+                    emit opResultFailure("LISTFILE_FAILURE");
                 }
             } else {
                 qDebug() << "Something went wrong" << endl;
-                emit formResult("RESPONSE_FAILURE", "Response Failed", "This response is not handled");
+                emit opResultFailure("RESPONSE_FAILURE");
             }
 
             //TODO: NEWFILE_RESPONSE
@@ -240,4 +270,24 @@ void myClient::setUsername(QString name) {
 
 QString myClient::getUsername() {
     return this->username_;
+}
+
+void getFileList(std::vector<File> files){
+    qDebug() << "Sono in getFileList";
+}
+
+void myClient::setFilename(QString filename) {
+    this->filename_ = filename;
+}
+
+QString myClient::getFilename() {
+    return this->filename_;
+}
+
+void myClient::setFileURI(QString uri) {
+    this->uri_ = uri;
+}
+
+QString myClient::getFileURI() {
+    return this->uri_;
 }

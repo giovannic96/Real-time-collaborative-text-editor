@@ -28,25 +28,19 @@ private slots:
     void on_LoginButton_clicked();
     void on_SignUpButton_clicked();
     void on_AccediButton_clicked();
-    void on_newDoc_clicked();
-    void on_openDoc_clicked();
-    void on_openWithURI_clicked();
-    void on_listFiles_clicked();
 
 public slots:
     void setStatus(bool newStatus);
     void labelChangeText(QString text);
-    void showFormPopup(QString result, QString title, QString msg);
+    void showPopupSuccess(QString result);
+    void showPopupFailure(QString result);
 
 private:
     Ui::StartWindow *ui;            //"ui" (user interface)
-    //For mouse related event
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
-    //For "version" QString
     VersionInfo version;
     QString qstr = version.getVersion();
-    //For client
-    myClient *client;
+    myClient *_client;
     void sendRequestMsg(std::string req);
 
 protected:

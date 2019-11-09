@@ -26,23 +26,98 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#centralwidget {border-image: url(:/image/startMinimal.png);}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="newDoc">
+   <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>112</y>
-      <width>251</width>
-      <height>281</height>
+      <x>0</x>
+      <y>0</y>
+      <width>652</width>
+      <height>800</height>
      </rect>
     </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#newDoc{
+    <widget class="QWidget" name="selectPage">
+     <property name="styleSheet">
+      <string notr="true">#selectPage{border-image: url(:/image/startMinimal.png);}</string>
+     </property>
+     <widget class="QPushButton" name="uriDoc">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>418</y>
+        <width>251</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#uriDoc{
+	background-color:transparent;
+	border: transparent;
+}
+
+#uriDoc:hover {
+    border: 5px solid #BFB054;
+	border-radius: 10px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>13</width>
+        <height>13</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Username">
+      <property name="geometry">
+       <rect>
+        <x>36</x>
+        <y>112</y>
+        <width>251</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#Username{
+	background-color:transparent;
+	border: transparent;
+}
+
+#Username:hover {
+    border: 5px solid #27754D;
+	border-radius: 10px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="newDoc">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>112</y>
+        <width>251</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#newDoc{
 	background-color:transparent;
 	border: transparent;
 }
@@ -52,16 +127,138 @@
 	border-radius: 10px;
 }
 </string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>13</width>
-      <height>13</height>
-     </size>
-    </property>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>13</width>
+        <height>13</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="LogoutButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>730</y>
+        <width>110</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#LogoutButton{
+	background-color:transparent;
+	border: transparent;
+}
+
+#LogoutButton:hover {
+    border: 5px solid #962333;
+	border-radius: 10px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>13</width>
+        <height>13</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="listFiles">
+      <property name="geometry">
+       <rect>
+        <x>36</x>
+        <y>418</y>
+        <width>251</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#listFiles{
+	background-color:transparent;
+	border: transparent
+}
+
+#listFiles:hover {
+    border: 5px solid #204177;
+	border-radius: 10px;
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>13</width>
+        <height>13</height>
+       </size>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="openDocPage">
+     <property name="styleSheet">
+      <string notr="true">#openDocPage{border-image: url(:/image/fileWindow.png);}</string>
+     </property>
+     <widget class="QPushButton" name="backButton">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>730</y>
+        <width>58</width>
+        <height>58</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="logoutButton">
+      <property name="geometry">
+       <rect>
+        <x>345</x>
+        <y>730</y>
+        <width>58</width>
+        <height>58</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="listWidget">
+      <property name="geometry">
+       <rect>
+        <x>41</x>
+        <y>220</y>
+        <width>571</width>
+        <height>481</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
@@ -87,135 +284,6 @@ background-repeat:no-repeat;
      <size>
       <width>25</width>
       <height>25</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="openDoc">
-    <property name="geometry">
-     <rect>
-      <x>36</x>
-      <y>418</y>
-      <width>251</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#openDoc{
-	background-color:transparent;
-	border: transparent
-}
-
-#openDoc:hover {
-    border: 5px solid #204177;
-	border-radius: 10px;
-}</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>13</width>
-      <height>13</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Username">
-    <property name="geometry">
-     <rect>
-      <x>36</x>
-      <y>112</y>
-      <width>251</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#Username{
-	background-color:transparent;
-	border: transparent;
-}
-
-#Username:hover {
-    border: 5px solid #27754D;
-	border-radius: 10px;
-}
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="uriDoc">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>418</y>
-      <width>251</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#uriDoc{
-	background-color:transparent;
-	border: transparent;
-}
-
-#uriDoc:hover {
-    border: 5px solid #BFB054;
-	border-radius: 10px;
-}
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>13</width>
-      <height>13</height>
-     </size>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="LogoutButton">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>730</y>
-      <width>110</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#LogoutButton{
-	background-color:transparent;
-	border: transparent;
-}
-
-#LogoutButton:hover {
-    border: 5px solid #962333;
-	border-radius: 10px;
-}
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>13</width>
-      <height>13</height>
      </size>
     </property>
    </widget>

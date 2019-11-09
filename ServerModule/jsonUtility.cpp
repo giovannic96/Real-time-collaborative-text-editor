@@ -74,6 +74,16 @@ void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const st
     };
 }
 
+void jsonUtility::to_json_newuri(json &j, const std::string &op, const std::string &resp, const std::string &uri) {
+    j = json{
+            {"operation", op},
+            {"content", {
+                  {"response", resp},
+                  {"uri", uri}
+            }}
+    };
+}
+
 void jsonUtility::to_json(json &j, const std::string &op,const std::string &user, const std::string &pass) {
     j = json{
         {"operation", op},

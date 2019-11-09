@@ -212,9 +212,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGOUT_OK)
-            db_res = "LOGOUT_OK";
+            db_res = "LOGOUTURI_OK";
         else if(resp == dbService::LOGOUT_FAILED)
-            db_res = "LOGOUT_FAILED";
+            db_res = "LOGOUTURI_FAILED";
         else if(resp == dbService::DB_ERROR)
             db_res = "DB_ERROR";
         else if(resp == dbService::QUERY_ERROR)
@@ -224,7 +224,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //TODO WRIITE FILE IN THE FILESYSTEM
         json j;
-        jsonUtility::to_json(j, "LOGOUT_RESPONSE", db_res);
+        jsonUtility::to_json(j, "LOGOUTURI_RESPONSE", db_res);
         const std::string response = j.dump();
         return response;
 
@@ -269,14 +269,21 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const char *db_res;
 
         //update tables on db
-        dbService::DB_RESPONSE resp = dbService::tryNewFile(userJSON, filenameJSON);
+        QString uri = dbService::generateURI(12);
+        dbService::DB_RESPONSE resp = dbService::tryNewFile(userJSON, filenameJSON, uri);
         QSqlDatabase::removeDatabase("MyConnect3");
 
         //create file on local filesystem
         boost::filesystem::ofstream(R"(..\Filesystem\)" + filenameJSON + ".txt");
 
-        if(resp == dbService::NEWFILE_OK)
+        if (resp == dbService::NEWFILE_OK) {
             db_res = "NEWFILE_OK";
+            //Serialize data
+            json j;
+            jsonUtility::to_json_newuri(j, "NEWFILE_RESPONSE", db_res, uri.toStdString()); //TODO: convert from Qtring to std string
+            const std::string response = j.dump();
+            return response;
+        }
         else if(resp == dbService::NEWFILE_FAILED)
             db_res = "NEWFILE_FAILED";
         else if(resp == dbService::DB_ERROR)
@@ -332,7 +339,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
 
-        //update tables on db -> TODO: function tryOpenFile
+        //update tables on db
         dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
         //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;

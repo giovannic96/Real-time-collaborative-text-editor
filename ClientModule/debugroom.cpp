@@ -26,13 +26,13 @@ void DebugRoom::on_UserProfileButton_clicked(){
 }
 
 void DebugRoom::on_EditorButton_clicked(){
-    EditorWindow *ew = new EditorWindow("NoTextForDebug");
-    ew->show();
+    //EditorWindow *ew = new EditorWindow("NoTextForDebug");
+    //ew->show();
 }
 
 void DebugRoom::on_MenuWindowButton_clicked(){
-    MenuWindow *mw=new MenuWindow();
-    mw->show();
+    //MenuWindow *mw=new MenuWindow();
+    //mw->show();
 }
 
 void DebugRoom::on_InfoWindowButton_clicked(){

@@ -23,6 +23,7 @@ public:
     static void to_json(json &j, const std::string &op, const std::string &resp);
     static void to_json_symbol(json &j, const symbol &symbol);
     static void to_json_file(json &j, const File &file);
+    static void to_json_newuri(json &j, const std::string &op, const std::string &resp, const std::string &uri);
     static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin);
     static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector);
     static void to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile);
