@@ -59,6 +59,14 @@ void MenuWindow::on_Username_clicked(){
     up->show();
 }
 
+void MenuWindow::on_exitButton_clicked() {
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MenuWindow::on_backButton_clicked() {
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
 void MenuWindow::on_newDoc_clicked()
 {
     bool ok;

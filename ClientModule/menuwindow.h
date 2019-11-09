@@ -21,6 +21,8 @@ private slots:
     void on_uriDoc_clicked();
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
     void on_listFiles_clicked();
+    void on_exitButton_clicked();
+    void on_backButton_clicked();
 
 public slots:
     void showPopupSuccess(QString result);
