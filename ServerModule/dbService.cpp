@@ -44,31 +44,21 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user, const std::
     QString username = QString::fromUtf8(user.data(), user.size());
     QString uri = QString::fromUtf8(urifile.data(), urifile.size());
 
-
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
     db.setDatabaseName("../Db/texteditor_users.sqlite");
+
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-        query.prepare(QString("UPDATE users SET isLogged=0 WHERE username= :username"));
+        query.prepare(QString("UPDATE permissions SET isOpen=0 WHERE iduser= :username and idfile = :uri"));
         query.bindValue(":username", username);
+        query.bindValue(":uri", uri);
 
         if(query.exec()) {
-            QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-            query.prepare(QString("UPDATE permissions SET isOpen=0 WHERE iduser= :username and idfile = :uri"));
-            query.bindValue(":username", username);
-            query.bindValue(":uri", uri);
-
-            if(query.exec()) {
-                std::cout << "LOGOUT with URI success" << std::endl;
-                db.close();
-                return LOGOUT_OK;
-            } else {
-                std::cout << "Error on UPDATE isOpen" << std::endl;
-                db.close();
-                return QUERY_ERROR;
-            }
+            std::cout << "LOGOUT with URI success" << std::endl;
+            db.close();
+            return LOGOUT_OK;
         } else {
-            std::cout << "Error on Update isLogged" << std::endl;
+            std::cout << "Error on UPDATE isOpen" << std::endl;
             db.close();
             return QUERY_ERROR;
         }
