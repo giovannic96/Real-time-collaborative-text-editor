@@ -35,6 +35,9 @@
       <height>641</height>
      </rect>
     </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
     <widget class="QWidget" name="loginPage">
      <property name="styleSheet">
       <string notr="true">#loginPage {border-image: url(:/image/accesso.png);}</string>
@@ -416,240 +419,6 @@ font-size: 18px;
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="menuPage">
-     <property name="styleSheet">
-      <string notr="true">#menuPage {border-image: url(:/image/start.png);}</string>
-     </property>
-     <widget class="QPushButton" name="LogoutButton">
-      <property name="geometry">
-       <rect>
-        <x>830</x>
-        <y>590</y>
-        <width>131</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777199</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>-1</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#LogoutButton{
-	color: rgb(255, 255, 255); 
-	background-color: rgb(20, 115, 255); 
-	font-size: 16px; 
-	border-radius: 20px; 
-	border: 3px solid rgb(28, 110, 164);
-}
-#LogoutButton:hover{
-	background-color: rgb(28, 110, 164);
-}
-#LogoutButton:pressed{
-	background-color: rgb(20, 78, 117);
-}</string>
-      </property>
-      <property name="text">
-       <string>Disconnettiti</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="newDoc">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>350</y>
-        <width>261</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#openEditor{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
-	background-color:transparent;
-	border: transparent;
-}
-#openEditor:hover{
-	text-decoration: underline;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Nuovo Documento</string>
-      </property>
-      <property name="icon">
-       <iconset resource="Risorse.qrc">
-        <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>13</width>
-        <height>13</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="Username">
-      <property name="geometry">
-       <rect>
-        <x>820</x>
-        <y>250</y>
-        <width>211</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#Username{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
-	background-color:transparent;
-	border: transparent;
-}
-#Username:hover{
-	text-decoration: underline;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>UsernameGoesHere</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="openDoc">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>400</y>
-        <width>261</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#openEditor{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
-	background-color:transparent;
-	border: transparent;
-}
-#openEditor:hover{
-	text-decoration: underline;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Apri Documento</string>
-      </property>
-      <property name="icon">
-       <iconset resource="Risorse.qrc">
-        <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>13</width>
-        <height>13</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="listFiles2">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>450</y>
-        <width>261</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#openEditor{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
-	background-color:transparent;
-	border: transparent;
-}
-#openEditor:hover{
-	text-decoration: underline;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Mostra file</string>
-      </property>
-      <property name="icon">
-       <iconset resource="Risorse.qrc">
-        <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>13</width>
-        <height>13</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="openWithURI">
-      <property name="geometry">
-       <rect>
-        <x>720</x>
-        <y>500</y>
-        <width>261</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#openEditor{
-	text-align: left;
-	color: #0000FF;
-	font-size: 20px;
-	background-color:transparent;
-	border: transparent;
-}
-#openEditor:hover{
-	text-decoration: underline;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Open with URI</string>
-      </property>
-      <property name="icon">
-       <iconset resource="Risorse.qrc">
-        <normaloff>:/image/397435-200.png</normaloff>:/image/397435-200.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>13</width>
-        <height>13</height>
-       </size>
-      </property>
-     </widget>
-    </widget>
    </widget>
    <widget class="QPushButton" name="exitButton">
     <property name="geometry">
@@ -710,16 +479,11 @@ background-repeat:no-repeat;
   <tabstop>LoginButton</tabstop>
   <tabstop>ForgotPasswordButton</tabstop>
   <tabstop>RegisterButton</tabstop>
-  <tabstop>LogoutButton</tabstop>
   <tabstop>SignUpButton</tabstop>
   <tabstop>AccediButton</tabstop>
   <tabstop>exitButton</tabstop>
   <tabstop>LoginAdmin</tabstop>
-  <tabstop>Username</tabstop>
-  <tabstop>newDoc</tabstop>
  </tabstops>
- <resources>
-  <include location="Risorse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
