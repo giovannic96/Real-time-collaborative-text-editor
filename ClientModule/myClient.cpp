@@ -10,9 +10,9 @@ myClient::myClient()
           resolver_(io_context_),
           socket_(io_context_),
           username_("") {
-    worker_= std::thread([&](){
-       io_context_.run(); //boost thread loop start
-    });
+            worker_= std::thread([&](){
+            io_context_.run(); //boost thread loop start
+          });
     do_connect();
 }
 

@@ -5,6 +5,12 @@
           Vedi branch FramelessOrNot per una soluzione migliore
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.7a - Canary 122E] - 2019/11/10 @ 20:30
+### Cambiamenti
+- BugFix --> Ora Grassetto/Corsivo/Sottolineato funzionano al primo click
+- Nell'editor, la disconnessione dell'utente è demandata ad una funzione standalone
+- Nel MenuWindow, la X in alto disconnette l'utente e poi chiude l'intera applicazione
+
 ## [v0.1.7a - Daily 122D] - 2019/11/10 @ 18:10
 ### Cambiamenti
 - BugFix --> Ora StartWindow parte correttamente dalla LoginPage

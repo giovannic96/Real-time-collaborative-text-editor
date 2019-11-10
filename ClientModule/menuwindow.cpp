@@ -28,7 +28,8 @@ MenuWindow::~MenuWindow() {
     delete _client;
 }
 
-void MenuWindow::on_LogoutButton_clicked() {
+//LOGOUT BUTTON
+void MenuWindow::on_LogoutButton_clicked(){
     //Get data from the form
     QString user = _client->getUsername();
     QByteArray ba_user = user.toLocal8Bit();
@@ -59,14 +60,19 @@ void MenuWindow::on_Username_clicked(){
     up->show();
 }
 
+//EXIT BUTTON
 void MenuWindow::on_exitButton_clicked() {
-    ui->stackedWidget->setCurrentIndex(0);
+    on_LogoutButton_clicked();  //Let disconnect the user
+                                //then the application can be closed
+    QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
 }
 
+//BACK BUTTON
 void MenuWindow::on_backButton_clicked() {
     ui->stackedWidget->setCurrentIndex(0);
 }
 
+//NEW DOCUMENT
 void MenuWindow::on_newDoc_clicked()
 {
     bool ok;

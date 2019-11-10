@@ -37,9 +37,9 @@ EditorWindow::~EditorWindow() {
 ************************************************************************************/
 void EditorWindow::on_buttonGrassetto_clicked(){
     if(ui->buttonGrassetto->isChecked()){
-        ui->RealTextEdit->setFontWeight(QFont::Bold);
+        ui->RealTextEdit->setFontWeight(QFont::Light);
     }else{
-         ui->RealTextEdit->setFontWeight(QFont::Light);
+         ui->RealTextEdit->setFontWeight(QFont::Bold);
          ui->buttonGrassetto->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -47,9 +47,9 @@ void EditorWindow::on_buttonGrassetto_clicked(){
 
 void EditorWindow::on_buttonCorsivo_clicked(){
     if(ui->buttonCorsivo->isChecked()){
-        ui->RealTextEdit->setFontItalic(true);
+        ui->RealTextEdit->setFontItalic(false);
     }else{
-         ui->RealTextEdit->setFontItalic(false);
+         ui->RealTextEdit->setFontItalic(true);
          ui->buttonCorsivo->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -57,9 +57,9 @@ void EditorWindow::on_buttonCorsivo_clicked(){
 
 void EditorWindow::on_buttonSottolineato_clicked(){
     if(ui->buttonSottolineato->isChecked()){
-        ui->RealTextEdit->setFontUnderline(true);
+        ui->RealTextEdit->setFontUnderline(false);
     }else{
-         ui->RealTextEdit->setFontUnderline(false);
+         ui->RealTextEdit->setFontUnderline(true);
          ui->buttonSottolineato->setCheckable(true);
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -245,22 +245,9 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
 *                                TopLeftBar FUNCTION                               *
 ************************************************************************************/
 void EditorWindow::on_buttonExit_clicked() {
-    //Get data from the form
-    QString user = this->_client->getUsername();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-    QString uri = this->_client->getFileURI();
-    QByteArray ba_uri = uri.toLocal8Bit();
-    const char *c_uri = ba_uri.data();
-
-    //Serialize data
-    json j;
-    jsonUtility::to_jsonUri(j, "LOGOUTURI_REQUEST", c_user, c_uri);
-    const std::string req = j.dump();
-
-    //Send data (header and body)
-    sendRequestMsg(req);
+    LogoutRequest();  //Return to MenuWindow (close only the current document)
 }
+
 
 void EditorWindow::on_buttonToIcon_clicked() {
     this->setWindowState(Qt::WindowMinimized); //See Note 2 at the end
@@ -471,9 +458,8 @@ void EditorWindow::on_aboutButton_clicked(){
 }
 
 void EditorWindow::on_CloseButton_clicked(){
-    QApplication::quit();   //I've used quit() instead exit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
+    LogoutRequest();          //Return to MenuWindow (close only the current document)
 }
-
 
 
 /***********************************************************************************
@@ -507,6 +493,30 @@ void EditorWindow::on_actionAbout_triggered(){
     on_aboutButton_clicked();
 }
 
+
+
+/***********************************************************************************
+*                                                                                  *
+*                              STANDALONE FUNCTION                                 *
+*                                                                                  *
+************************************************************************************/
+void EditorWindow::LogoutRequest(){
+    //Get data from the form
+    QString user = this->_client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+    QString uri = this->_client->getFileURI();
+    QByteArray ba_uri = uri.toLocal8Bit();
+    const char *c_uri = ba_uri.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUri(j, "LOGOUTURI_REQUEST", c_user, c_uri);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+}
 
 /***********************************************************************************
 *

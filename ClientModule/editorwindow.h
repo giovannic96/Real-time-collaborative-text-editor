@@ -71,6 +71,11 @@ private slots:
     void on_actionAbout_triggered();
 
     /************************************
+     *        STANDALONE FUNCTION       *
+     ************************************/
+    void LogoutRequest();
+
+    /************************************
      *           DEBUG FUNCTION         *
      ************************************/
     void on_buttonDebug_clicked();

@@ -4,12 +4,9 @@
 #include <QMainWindow>
 #include "versioninfo.h"
 
-namespace Ui {
-class DebugRoom;
-}
+namespace Ui {class DebugRoom;}
 
-class DebugRoom : public QMainWindow
-{
+class DebugRoom : public QMainWindow{
     Q_OBJECT
 
 public:
@@ -21,7 +18,6 @@ private slots:
     void on_UserProfileButton_clicked();
     void on_EditorButton_clicked();
     void on_MenuWindowButton_clicked();
-
     void on_InfoWindowButton_clicked();
 
 private:
