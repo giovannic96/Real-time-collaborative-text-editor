@@ -5,7 +5,10 @@
 
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.7a - Nightly 122B] - 2019/11/10 @ 04:10 - [Differences]
+## Last Release [v0.1.7a - Canary 122E] - 2019/11/10 @ 20:30 - [Differences]
+- The exitButton on top-right in the MenuWindow have now the function of close the entire application. The user is disconnected at the click of the button and then the application is closed - Close #16
+- Bold, Italic and Underline button work first time the user click on it - Fix #11
+- The disconnection of the user is now a standalone function in the EditorWindow
 ### The 0.1.7 version brought the following updates:
 - Buttor and function for justify the text
 - Close function in File menu
@@ -27,9 +30,9 @@ A special thanks to all of us. Ordered by Surname:
 # :memo: C.A.R.T.E 
 ## Cooperative Awesome Real-Time Text Editor
 
-[v0.1.7a - Canary 122B]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/91cb32242b9bdde15e4e5d6a4409bb563978ce20
+[v0.1.7a - Canary 122E]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/91cb32242b9bdde15e4e5d6a4409bb563978ce20
 [Giovanni Calà]: https://github.com/giovannic96/
 [Rinaldo Clemente]: https://github.com/rinaldoclemente
 [Enrico Mancuso]: https://github.com/HidroSaphire
 [Francesco Raitano]: https://github.com/fr2sinc
-[Differences]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/c8f7252da42066fbc491136e267b8e89eacfda54
+[Differences]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/b5d37b3f8e41190e897ddcbfb57a71b5004a6419
