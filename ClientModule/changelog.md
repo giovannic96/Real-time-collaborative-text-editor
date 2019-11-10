@@ -2,9 +2,19 @@
 
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
+          Vedi branch FramelessOrNot per una soluzione migliore
 - Rimuovere StartWindow (pagina 3)
-- Valutare di rendere StartWindow, UserProfile, InfoWindow e Menu Window cambiano da FramelessWindowHint a PopUp (dona l'ombreggiatura alla finestra)
 
+## [v0.1.7a - Nightly 122B] - 2019/11/10 @ 04:10
+### Cambiamenti
+- Piccole correzioni minori
+- Aggiornamento e correzione changelog
+- Test della connessione tra client e server
+
+## [v0.1.7a - Nightly 122A] - 2019/11/09 @ 00:10
+### Cambiamenti
+- Grosse correzioni per l'interfacciamento tra client e server
+- Merged build
 
 ## [v0.1.7a - Nightly 1229] - 2019/11/08 @ 03:10
 ### Cambiamenti

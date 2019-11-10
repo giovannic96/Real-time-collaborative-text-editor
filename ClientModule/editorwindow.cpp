@@ -13,9 +13,7 @@
 using json = nlohmann::json;
 
 //CONSTRUCTOR
-EditorWindow::EditorWindow(myClient* client, QWidget *parent):
-                            QMainWindow(parent, Qt::CustomizeWindowHint), ui(new Ui::EditorWindow),
-                            _client(client) {
+EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(parent, Qt::CustomizeWindowHint), ui(new Ui::EditorWindow), _client(client) {
     ui->setupUi(this);
     connect(_client, &myClient::editorResultSuccess, this, &EditorWindow::showPopupSuccess);
     connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
@@ -462,7 +460,7 @@ void EditorWindow::on_buttonRename_clicked(){
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          _client->getFilename());
     ui->DocName->setText(newText);  //Assign newText to the label
-    _client->setFilename(newText);             //Assign newText to the variable
+    _client->setFilename(newText);  //Assign newText to the variable
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
