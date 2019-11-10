@@ -20,6 +20,7 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
 {
     ui->setupUi(this);
     ui->version->setText(qstr);
+    ui->LoginUsernameForm->setFocus();
     setStatus(_client->getStatus());
     connect(_client, &myClient::statusChanged, this, &StartWindow::setStatus);
     connect(_client, &myClient::formResultSuccess, this, &StartWindow::showPopupSuccess);
@@ -172,4 +173,26 @@ void StartWindow::sendRequestMsg(std::string req) {
     msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
     msg.encode_header();
     _client->write(msg);
+}
+
+//FOR LOGIN PAGE
+void StartWindow::on_LoginPasswordForm_returnPressed(){
+    on_LoginButton_clicked();
+}
+
+void StartWindow::on_LoginUsernameForm_returnPressed(){
+    on_LoginButton_clicked();
+}
+
+//FOR REG PAGE
+void StartWindow::on_RegUsernameForm_returnPressed(){
+    on_SignUpButton_clicked();
+}
+
+void StartWindow::on_RegPasswordForm_returnPressed(){
+    on_SignUpButton_clicked();
+}
+
+void StartWindow::on_RegMailForm_returnPressed(){
+    on_SignUpButton_clicked();
 }

@@ -5,6 +5,15 @@
           Vedi branch FramelessOrNot per una soluzione migliore
 - Rimuovere StartWindow (pagina 3)
 
+## [v0.1.7a - Daily 122D] - 2019/11/10 @ 18:10
+### Cambiamenti
+- BugFix --> Ora StartWindow parte correttamente dalla LoginPage
+- BugFix --> All'apertura di StartWindow il focus della tastiera è sul campo "username"
+
+## [v0.1.7a - Daily 122C] - 2019/11/10 @ 15:15
+### Cambiamenti
+- BugFix --> I form della startwindow ora sono connessi al relativo pulsante accedi/registrati
+
 ## [v0.1.7a - Nightly 122B] - 2019/11/10 @ 04:10
 ### Cambiamenti
 - Piccole correzioni minori

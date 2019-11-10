@@ -28,6 +28,15 @@ private slots:
     void on_LoginButton_clicked();
     void on_SignUpButton_clicked();
     void on_AccediButton_clicked();
+    //FOR LOGIN PAGE
+    void on_LoginPasswordForm_returnPressed();
+    void on_LoginUsernameForm_returnPressed();
+    //FOR REG PAGE
+    void on_RegUsernameForm_returnPressed();
+
+    void on_RegPasswordForm_returnPressed();
+
+    void on_RegMailForm_returnPressed();
 
 public slots:
     void setStatus(bool newStatus);
