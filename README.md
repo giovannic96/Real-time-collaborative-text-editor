@@ -5,7 +5,7 @@
 
 Cooperative text editing system that allows one or more users to modify the content of a document simultaneously.
 
-## Last Release [v0.1.7a - Canary 1229] - 2019/11/08 @ 03:10 - [NO Differences]
+## Last Release [v0.1.7a - Nightly 122B] - 2019/11/10 @ 04:10 - [Differences]
 ### The 0.1.7 version brought the following updates:
 - Buttor and function for justify the text
 - Close function in File menu
@@ -27,9 +27,9 @@ A special thanks to all of us. Ordered by Surname:
 # :memo: C.A.R.T.E 
 ## Cooperative Awesome Real-Time Text Editor
 
-[v0.1.7a - Canary 1229]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/91cb32242b9bdde15e4e5d6a4409bb563978ce20
+[v0.1.7a - Canary 122B]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/91cb32242b9bdde15e4e5d6a4409bb563978ce20
 [Giovanni Calà]: https://github.com/giovannic96/
 [Rinaldo Clemente]: https://github.com/rinaldoclemente
 [Enrico Mancuso]: https://github.com/HidroSaphire
 [Francesco Raitano]: https://github.com/fr2sinc
-[Differences]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/180d5c1277e71bc8f110dc616b059495b76134db
+[Differences]: https://github.com/giovannic96/Real-time-collaborative-text-editor/commit/c8f7252da42066fbc491136e267b8e89eacfda54
