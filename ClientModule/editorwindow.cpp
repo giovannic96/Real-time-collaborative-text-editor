@@ -9,6 +9,7 @@
 #include <QPrinter>         //FOR PRINTING THE PDF
 #include "infowindow.h"
 #include "menuwindow.h"
+#include <QEvent>
 
 using json = nlohmann::json;
 
@@ -27,6 +28,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     showSymbols(_client->getVector());
     ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
     ui->FileFrame->setVisible(false);
+    ui->RealTextEdit->installEventFilter(this);
 }
 
 //DESTRUCTOR
@@ -35,23 +37,34 @@ EditorWindow::~EditorWindow() {
     //TODO: do I have to delete also client????
 }
 
-void EditorWindow::keyReleaseEvent(QKeyEvent *ev)
+bool EditorWindow::eventFilter(QObject *obj, QEvent *ev)
 {
-    qDebug() << "You Pressed Key " + ev->text();
-    //Get data
-    std::pair<int, char> tuple;
-    QTextCursor cursor = ui->RealTextEdit->textCursor();
-    int pos = cursor.position();
-    char c = ui->RealTextEdit->toPlainText().mid(pos-1, 1).toStdString().c_str()[0];
-    tuple = std::make_pair(pos-1, c);
+    if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
+        qDebug() << "You Pressed Key " + keyEvent->text();
+        int key = keyEvent->key();
 
-    //Serialize data
-    json j;
-    jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple);
-    const std::string req = j.dump();
+        if(key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) { //only ASCII characters
+            //Get data
+            std::pair<int, char> tuple;
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+            int pos = cursor.position();
+            char c = keyEvent->text().toStdString().c_str()[0];
+            qDebug() << "char: " << c;
+            tuple = std::make_pair(pos, c);
 
-    //Send data (header and body)
-    sendRequestMsg(req);
+            //Serialize data
+            json j;
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple);
+            const std::string req = j.dump();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+            return QObject::eventFilter(obj, ev);
+        }
+        return false; //or return QObject::eventFilter(obj, ev);
+    }
+    return false; //or return QObject::eventFilter(obj, ev);
 }
 
 /***********************************************************************************

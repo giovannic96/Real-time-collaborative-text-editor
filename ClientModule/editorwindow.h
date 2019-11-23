@@ -6,9 +6,10 @@
 #include "message.h"
 #include "myClient.h"
 
+class QEvent;
 namespace Ui {class EditorWindow;}
 
-class EditorWindow : public QMainWindow{
+class EditorWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -16,6 +17,7 @@ public:
     //COSTRUTTORE DI COPIA --> DECOMMENTA PER RENDERLA VIETATA, NON COPIABILE
     //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
+    bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
     //void on_pushButton_3_clicked(); --> Old Rename Function Deprecated
@@ -119,8 +121,7 @@ protected:
     //Function for mouse related event
     void mousePressEvent(QMouseEvent *evt);
     void mouseMoveEvent(QMouseEvent *evt);
-    void keyReleaseEvent(QKeyEvent *event);
-
+    //void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // EDITORWINDOW_H
