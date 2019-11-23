@@ -35,6 +35,17 @@ void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::s
     };
 }
 
+void jsonUtility::to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename) {
+    j = json{
+            {"operation", op},
+            {"content", {
+                    {"response", resp},
+                    {"filename", filename},
+                    {"symVector", symVector} //JSON vector
+            }}
+    };
+}
+
 void jsonUtility::to_json_file(json &j, const File &file) {
     j = json{
             {"idfile", file.getidfile()},
@@ -84,6 +95,17 @@ void jsonUtility::to_json_newuri(json &j, const std::string &op, const std::stri
     };
 }
 
+void jsonUtility::to_json_rename_file(json &j, const std::string &op, const std::string &resp, const std::string &filename) {
+    j = json{
+            {"operation", op},
+            {"content", {
+                {"response", resp},
+                {"filename", filename}
+            }}
+    };
+}
+
+
 void jsonUtility::to_json(json &j, const std::string &op,const std::string &user, const std::string &pass) {
     j = json{
         {"operation", op},
@@ -102,6 +124,13 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
               {"password", pass},
               {"email", email}
         }}
+    };
+}
+
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, char> &tuple) {
+    j = json{
+        {"operation", op},
+        {"tuple", tuple}
     };
 }
 
@@ -167,6 +196,7 @@ json jsonUtility::merge(const json &a, const json &b) {
 
 std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
 
+    /*
     //TODO: delete this initialization of symbols
     std::vector<int> v; //pos vector
     v.push_back(1);
@@ -178,6 +208,7 @@ std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
     symbols.push_back(s1);
     symbols.push_back(s2);
     symbols.push_back(s3);
+    */
 
     // Get jsons from symbols
     std::vector<json> jsons;
@@ -187,6 +218,15 @@ std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
         jsons.push_back(j);
     }
     return jsons;
+}
+
+std::vector<symbol> jsonUtility::fromJsonToSym(const std::vector<json>& jsons) {
+    // Get symbols from json
+    std::vector<symbol> symbols;
+    for (auto const &j: jsons) {
+       symbols.push_back(jsonUtility::from_json_symbol(j));
+    }
+    return symbols;
 }
 
 std::vector<json> jsonUtility::fromFileToJson(const std::vector<File>& files) {
@@ -199,4 +239,34 @@ std::vector<json> jsonUtility::fromFileToJson(const std::vector<File>& files) {
         jsons.push_back(j);
     }
     return jsons;
+}
+
+void jsonUtility::from_json_storedSymbols(const json& j, std::vector<json>& jsonSymbols) {
+    jsonSymbols = j.get<std::vector<json>>();
+}
+
+symbol jsonUtility::from_json_symbol(const json &j) {
+
+    //get symbol values from json
+    char letter = j.at("letter").get<char>();
+    std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
+    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
+    bool isBold = j.at("isBold").get<bool>();
+    bool isItalic = j.at("isItalic").get<bool>();
+
+    //now create the symbol
+    symbol s(letter, id, pos, isBold, isItalic);
+    return s;
+}
+
+void jsonUtility::from_json_insertion(const json &j, std::pair<int, char>& tuple) {
+    tuple = j.at("tuple").get<std::pair<int, char>>();
+}
+
+void jsonUtility::from_json_renameFile(const json &j, std::string &nameFile, std::string &urifile, std::string &username) {
+
+    nameFile = j.at("content").at("newNameFile").get<std::string>();
+    urifile = j.at("content").at("uri").get<std::string>();
+    username = j.at("content").at("username").get<std::string>();
+
 }

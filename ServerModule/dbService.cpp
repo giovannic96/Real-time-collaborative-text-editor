@@ -295,7 +295,6 @@ dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std
                 query2.bindValue(":uri", uri);
 
                 if(query2.exec()) {
-                    std::cout << "IsOpen update success" << std::endl;
                     db.close();
                     return OPENFILE_OK;
                 } else {
@@ -320,7 +319,7 @@ dbService::DB_RESPONSE dbService::tryOpenFile(const std::string& user, const std
     }
 }
 
-dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, const std::string& urifile) {
+dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, const std::string& urifile, std::string& filename) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(user.data(), user.size());
     QString uri = QString::fromUtf8(urifile.data(), urifile.size());
@@ -330,18 +329,18 @@ dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, co
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-        query.prepare(QString("SELECT idfile, iduser FROM  permissions  WHERE idfile= :uri and iduser = :username"));
+        query.prepare(QString("SELECT uri, filename, iduser FROM files F, permissions P  WHERE F.uri = P.idfile and P.idfile = :uri and P.iduser = :username"));
         query.bindValue(":username", username);
         query.bindValue(":uri", uri);
         if (query.exec()) {
             if (query.next()) {
+                filename = query.value(1).toString().toStdString();
                 QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
                 query2.prepare(QString("UPDATE permissions SET isOpen=1, isConfirmed=1 WHERE idfile= :uri and iduser= :username"));
                 query2.bindValue(":username", username);
                 query2.bindValue(":uri", uri);
 
                 if(query2.exec()) {
-                    std::cout << "IsConfirmed and IsOpen update success" << std::endl;
                     db.close();
                     return OPENWITHURI_OK;
                 } else {
@@ -395,4 +394,48 @@ QString dbService::getTimestamp() {
     QDateTime dt;
     dt.setTime_t(utcTime/1000);
     return dt.toString("yyyy-MM-dd hh:mm:ss");
+}
+
+dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, const std::string &urifile, const std::string &user) {
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(user.data(), user.size());
+    QString uri = QString::fromUtf8(urifile.data(), urifile.size());
+    QString namefile = QString::fromUtf8(newNameFile.data(), newNameFile.size());
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect3");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+    if (db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect3"));
+        query.prepare(QString("SELECT * FROM files WHERE filename = :filename and  owner = :username "));
+        query.bindValue(":username", username);
+        query.bindValue(":filename", namefile);
+
+        if (query.exec()) {
+            if (query.next()) {//filename already exists
+                db.close();
+                return RENAME_FAILED;
+            } else {
+
+                QSqlQuery query2(QSqlDatabase::database("MyConnect3"));
+                query2.prepare("UPDATE files SET filename = :filename WHERE uri = :uri AND owner = :owner");
+                query2.bindValue(":uri", uri);
+                query2.bindValue(":filename", namefile);
+                query2.bindValue(":owner", username);
+
+                if (query2.exec()) {
+                    db.close();
+                    return RENAME_OK;
+                } else {
+                    db.close();
+                    return QUERY_ERROR;
+                }
+            }
+        } else {
+            db.close();
+            return QUERY_ERROR;
+        }
+    }else {
+        QSqlError error = db.lastError();
+        return DB_ERROR;
+    }
 }

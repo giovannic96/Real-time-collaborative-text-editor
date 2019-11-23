@@ -14,13 +14,13 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#UserProfile{border-image: url(:/image/infoprofile.png);}</string>
+   <string notr="true"/>
   </property>
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>403</x>
-     <y>7</y>
+     <x>409</x>
+     <y>0</y>
      <width>29</width>
      <height>23</height>
     </rect>
@@ -29,8 +29,9 @@
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: Transparent;
-background-repeat:no-repeat;
+    <string notr="true">#exitButton{
+background: transparent;
+}
 </string>
    </property>
    <property name="text">
@@ -40,24 +41,22 @@ background-repeat:no-repeat;
   <widget class="QPushButton" name="UserImageButton">
    <property name="geometry">
     <rect>
-     <x>12</x>
-     <y>112</y>
-     <width>128</width>
-     <height>128</height>
+     <x>248</x>
+     <y>91</y>
+     <width>130</width>
+     <height>130</height>
     </rect>
    </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">#UserImageButton{
+background-color:transparent;
+}</string>
    </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="Risorse.qrc">
-     <normaloff>:/image/Immagine.png</normaloff>:/image/Immagine.png</iconset>
    </property>
    <property name="iconSize">
     <size>
@@ -69,15 +68,22 @@ background-repeat:no-repeat;
   <widget class="QLabel" name="Username">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>370</y>
-     <width>231</width>
+     <x>40</x>
+     <y>40</y>
+     <width>141</width>
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>20</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">color: #0000FF;
-font-size: 20px;</string>
+    <string notr="true">color:white;</string>
    </property>
    <property name="text">
     <string>Username</string>
@@ -86,21 +92,28 @@ font-size: 20px;</string>
   <widget class="QLabel" name="Mail">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>430</y>
-     <width>231</width>
+     <x>40</x>
+     <y>66</y>
+     <width>141</width>
      <height>31</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
    <property name="styleSheet">
-    <string notr="true">color: #0000FF;
-font-size: 20px;</string>
+    <string notr="true">color:white;</string>
    </property>
    <property name="text">
-    <string>Mail</string>
+    <string>username@mail.it</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QFrame" name="frameProfile">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -110,17 +123,23 @@ font-size: 20px;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-image: url(:/image/infoprofile.png);</string>
+    <string notr="true">#frameProfile{
+border-image: url(:/image/infoprofile.png);
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
    </property>
   </widget>
-  <zorder>widget</zorder>
+  <zorder>frameProfile</zorder>
   <zorder>exitButton</zorder>
   <zorder>UserImageButton</zorder>
   <zorder>Username</zorder>
   <zorder>Mail</zorder>
  </widget>
- <resources>
-  <include location="Risorse.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

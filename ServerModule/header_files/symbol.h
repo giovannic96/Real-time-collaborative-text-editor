@@ -18,6 +18,7 @@ private:
 
 public:
     symbol(char character, std::pair<int, int> id, std::vector<int> pos);
+    symbol(char character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic);
     std::vector<int> getPos() const;
     char getLetter() const;
     std::pair<int, int> getId() const;

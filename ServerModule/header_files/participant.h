@@ -23,13 +23,13 @@ private:
 public:
     virtual ~participant() {}
     virtual void deliver(const message& msg) = 0;
-    int getId();
+    int getId() const;
     msgInfo localInsert(int index, char value);
     msgInfo localErase(int index);
     void process(const msgInfo& m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
-
+    void setSiteId(int edId);
 };
 
 

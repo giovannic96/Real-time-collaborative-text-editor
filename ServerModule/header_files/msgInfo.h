@@ -14,13 +14,16 @@ private:
     int type; //0 = 'insertion'; 1 = 'removal'
     int editorId;
     symbol s;
+    int newIndex;
 
 public:
     msgInfo(int type, int editorId, symbol s);
+    msgInfo(int type, int editorId, symbol s, int newIndex);
     int getType() const;
     int getEditorId();
     symbol getSymbol() const;
-
+    int getNewIndex() const;
+    std::string toString();
 };
 
 

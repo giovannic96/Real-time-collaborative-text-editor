@@ -15,6 +15,7 @@ private:
     std::vector<int> _pos;
     bool _isBold;
     bool _isItalic;
+    //TODO ADD UNDERLINE
 
 public:
     symbol(char character, std::pair<int, int> id, std::vector<int> pos);

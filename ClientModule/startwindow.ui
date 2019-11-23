@@ -45,8 +45,8 @@
      <widget class="QPushButton" name="LoginAdmin">
       <property name="geometry">
        <rect>
-        <x>860</x>
-        <y>590</y>
+        <x>796</x>
+        <y>587</y>
         <width>201</width>
         <height>41</height>
        </rect>
@@ -184,38 +184,6 @@ background-image:url(:/image/registratiButton2.png)
       </property>
       <property name="text">
        <string/>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="ForgotPasswordButton">
-      <property name="geometry">
-       <rect>
-        <x>690</x>
-        <y>600</y>
-        <width>171</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">#ForgotPasswordButton {
-color: #505050;
-background-color: Transparent;
-background-repeat:no-repeat;
-}
-
-#ForgotPasswordButton:hover {
-color: #505050;
-background-color: Transparent;
-background-repeat:no-repeat;
-text-decoration: underline;
-}</string>
-      </property>
-      <property name="text">
-       <string>Password dimenticata?</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="LoginUsernameForm">
@@ -418,6 +386,54 @@ font-size: 18px;
        <string>Password</string>
       </property>
      </widget>
+     <widget class="QLabel" name="passERR">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>401</y>
+        <width>241</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #F5F5Dc</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;La password deve contenere almeno 6 caratteri&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="usernameERR">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>345</y>
+        <width>241</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #F5F5Dc</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Inserire un username&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mailERR">
+      <property name="geometry">
+       <rect>
+        <x>801</x>
+        <y>458</y>
+        <width>241</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #F5F5Dc</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Inserire una mail valida&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="exitButton">
@@ -477,7 +493,6 @@ background-repeat:no-repeat;
   <tabstop>LoginUsernameForm</tabstop>
   <tabstop>LoginPasswordForm</tabstop>
   <tabstop>LoginButton</tabstop>
-  <tabstop>ForgotPasswordButton</tabstop>
   <tabstop>RegisterButton</tabstop>
   <tabstop>SignUpButton</tabstop>
   <tabstop>AccediButton</tabstop>

@@ -14,6 +14,7 @@ class myServer {
 private:
     tcp::acceptor acceptor_;
     room room_;
+    int editorCounter_;
     void accept_connection();
 
 public:

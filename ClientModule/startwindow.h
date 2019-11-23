@@ -22,7 +22,6 @@ public:
 
 private slots:
     void on_exitButton_clicked();
-    void on_ForgotPasswordButton_clicked();
     void on_LoginAdmin_clicked();
     void on_RegisterButton_clicked();
     void on_LoginButton_clicked();
@@ -33,14 +32,15 @@ private slots:
     void on_LoginUsernameForm_returnPressed();
     //FOR REG PAGE
     void on_RegUsernameForm_returnPressed();
-
     void on_RegPasswordForm_returnPressed();
-
     void on_RegMailForm_returnPressed();
+    void on_RegPasswordForm_editingFinished();
+    void on_RegMailForm_editingFinished();
+
+    void on_RegUsernameForm_editingFinished();
 
 public slots:
     void setStatus(bool newStatus);
-    void labelChangeText(QString text);
     void showPopupSuccess(QString result);
     void showPopupFailure(QString result);
 
@@ -50,6 +50,7 @@ private:
     VersionInfo version;
     QString qstr = version.getVersion();
     myClient *_client;
+    bool regMat;
     void sendRequestMsg(std::string req);
 
 protected:

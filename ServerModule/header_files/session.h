@@ -26,16 +26,17 @@ private:
     void do_read_body();
     void do_write(); //for the editor
     void do_write(message m); //for single client
-    std::string handleRequests(const std::string& opJSON, const json& jdata_in);
+    std::string handleRequests(const std::string& opJSON, const json& jdata_in, int& edId);
     void sendMsg(const std::string& response);
-    void sendMsgAll(const std::string& response);
+    void sendMsgAll(const std::string& response, const int& edId); //send msg to all the clients except client with id 'edId'
     static message constructMsg(const std::string& response);
+    std::string currentFile;
 
 public:
     explicit session(tcp::socket socket, room& room);
-    void session_start();
+    void session_start(int editorId);
     void deliver(const message& msg);
-
+    std::string getCurrentFile();
 };
 
 #endif //SERVERMODULE_SESSION_H

@@ -26,9 +26,11 @@ using boost::asio::ip::tcp;
 using json = nlohmann::json;
 
 session::session(tcp::socket socket, room &room)
-                            : socket_(std::move(socket)), room_(room) {}
+                            : socket_(std::move(socket)), room_(room) {
+}
 
-void session::session_start() {
+void session::session_start(int editorId) {
+    shared_from_this()->setSiteId(editorId);
     room_.join(shared_from_this());
     do_read_header();
 }
@@ -65,6 +67,8 @@ void session::do_read_body()
                             [this, self](boost::system::error_code ec, std::size_t /*length*/) {
         if (!ec) {
             std::cout << "data:" << read_msg_.data() << "END" << std::endl;
+            read_msg_.data()[read_msg_.length()] = '\0'; //VERY IMPORTANT: this removes any possible letters after data
+
             std::string opJSON;
             json jdata_in;
             try {
@@ -73,9 +77,12 @@ void session::do_read_body()
             } catch (json::type_error& e) {
                 std::cerr << e.what() << '\n';
             }
-            const std::string response = this->handleRequests(opJSON, jdata_in);
-            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") //TODO: add other cases
-                this->sendMsgAll(response); //send data to all the participants in the room
+            int edId = shared_from_this()->getId();
+            const std::string response = this->handleRequests(opJSON, jdata_in, edId);
+            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") { //TODO: add other cases
+                std::cout << "Sent:" << response << "END" << std::endl;
+                this->sendMsgAll(response, edId); //send data to all the participants in the room except to this client
+            }
             else {
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsg(response); //send data only to this participant
@@ -125,9 +132,9 @@ void session::sendMsg(const std::string& response) {
     shared_from_this()->deliver(msg); //deliver msg only to the participant
 }
 
-void session::sendMsgAll(const std::string& response) {
+void session::sendMsgAll(const std::string& response, const int& edId) {
     message msg = constructMsg(response);
-    room_.deliver(msg); //deliver msg to all the clients
+    room_.deliverToAll(msg, edId); //deliver msg to all the clients except the client with id 'edId' (this client)
 }
 
 message session::constructMsg(const std::string& response) {
@@ -140,7 +147,7 @@ message session::constructMsg(const std::string& response) {
     return msg;
 }
 
-std::string session::handleRequests(const std::string& opJSON, const json& jdata_in) {
+std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId) {
     if(opJSON == "LOGIN_REQUEST") {
         std::string userJSON;
         std::string passJSON;
@@ -211,8 +218,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
-        if(resp == dbService::LOGOUT_OK)
+        if(resp == dbService::LOGOUT_OK) {
+            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
             db_res = "LOGOUTURI_OK";
+        }
         else if(resp == dbService::LOGOUT_FAILED)
             db_res = "LOGOUTURI_FAILED";
         else if(resp == dbService::DB_ERROR)
@@ -222,7 +231,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         else
             db_res = "DB_ERROR";
 
-        //TODO WRIITE FILE IN THE FILESYSTEM
         json j;
         jsonUtility::to_json(j, "LOGOUTURI_RESPONSE", db_res);
         const std::string response = j.dump();
@@ -274,13 +282,19 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect3");
 
         //create file on local filesystem
-        boost::filesystem::ofstream(R"(..\Filesystem\)" + filenameJSON + ".txt");
+        boost::filesystem::ofstream(R"(..\Filesystem\)" + uri.toStdString() + ".txt");
 
         if (resp == dbService::NEWFILE_OK) {
             db_res = "NEWFILE_OK";
+
+            //Update session data
+            this->currentFile = uri.toStdString();
+            std::cout << "current file: " << currentFile << std::endl;
+            room_.setEmptyMap(currentFile);
+
             //Serialize data
             json j;
-            jsonUtility::to_json_newuri(j, "NEWFILE_RESPONSE", db_res, uri.toStdString()); //TODO: convert from Qtring to std string
+            jsonUtility::to_json_newuri(j, "NEWFILE_RESPONSE", db_res, uri.toStdString());
             const std::string response = j.dump();
             return response;
         }
@@ -330,6 +344,35 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
+    } else if (opJSON == "RENAMEFILE_REQUEST") {
+        std::string newNameFileJson;
+        std::string uriJson;
+        std::string userJSON;
+        jsonUtility::from_json_renameFile(jdata_in, newNameFileJson, uriJson, userJSON); //get json value and put into JSON variables
+
+        //Get data from db
+        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
+        const char *db_res;
+
+
+        dbService::DB_RESPONSE resp = dbService::tryRenameFile(newNameFileJson, uriJson, userJSON);
+        QSqlDatabase::removeDatabase("MyConnect3");
+
+        if(resp == dbService::RENAME_OK)
+            db_res = "RENAME_OK";
+        else if(resp == dbService::RENAME_FAILED)
+            db_res = "RENAME_FAILED";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_rename_file(j, "RENAMEFILE_RESPONSE", db_res, newNameFileJson);
+        const std::string response = j.dump();
+        return response;
+
     } else if (opJSON == "OPENFILE_REQUEST") {
         std::string userJSON;
         std::string uriJSON;
@@ -345,9 +388,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
 
         if(resp == dbService::OPENFILE_OK) {
+            //Update session data
+            this->currentFile = uriJSON;
+
             //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
-            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", shared_from_this()->getSymbols());
-            //room_->editor_->getSymbols() = fileUtility::readFile(R"(C:\Users\giova\CLionProjects\Real time text editor\ServerModule\Filesystem\)" + filenameJSON + ".txt");
+            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
+            shared_from_this()->getSymbols() = room_.getSymbolMap(uriJSON);
+            //shared_from_this()->getSymbols() = fileUtility::readFile(R"(..\Filesystem\)" + uriJSON + ".txt");
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
             //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
@@ -358,7 +405,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
             const std::string response = j.dump();
             return response;
-    }
+        }
         else if(resp == dbService::OPENFILE_FAILED)
             db_res = "OPENFILE_FAILED";
         else if(resp == dbService::DB_ERROR)
@@ -377,6 +424,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
     } else if (opJSON == "OPENWITHURI_REQUEST") {
         std::string userJSON;
         std::string uriJSON;
+        std::string filenameJSON;
         jsonUtility::from_json_uri(jdata_in, userJSON, uriJSON); //get json value and put into JSON variables
 
         //Get data from db
@@ -384,14 +432,19 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const char *db_res;
 
         //update tables on db
-        dbService::DB_RESPONSE resp = dbService::tryOpenWithURIFile(userJSON, uriJSON);
+        dbService::DB_RESPONSE resp = dbService::tryOpenWithURIFile(userJSON, uriJSON, filenameJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
 
         if (resp == dbService::OPENWITHURI_OK) {
             db_res = "OPENWITHURI_OK";
+
+            //Update session data
+            this->currentFile = uriJSON;
+
+            //Serialize data
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
-            jsonUtility::to_json_symVector(j, "OPENWITHURI_RESPONSE", db_res, symVectorJSON);
+            jsonUtility::to_json_symVectorAndFilename(j, "OPENWITHURI_RESPONSE", db_res, symVectorJSON, filenameJSON);
             const std::string response = j.dump();
             return response;
         }
@@ -411,23 +464,35 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "INSERTION_REQUEST") {
-        /*
-        std::string tupleJSON;
+        std::pair<int, char> tupleJSON;
         jsonUtility::from_json_insertion(jdata_in, tupleJSON); //get json value and put into JSON variables
+        std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
 
-        msgInfo m = localInsert(tupleJSON[0], tupleJSON[1]);
+        //Construct msgInfo
+        msgInfo m = localInsert(tupleJSON.first, tupleJSON.second);
+        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+        //Update room symbols for this file
+        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+        //Dispatch message to all the clients
         room_.send(m);
         room_.dispatchMessages();
+        edId = m.getEditorId();
 
         //Serialize data
         json j;
-        jsonUtility::to_json(j, "INSERTION_RESPONSE", db_res);
+        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, char>(m.getNewIndex(), tupleJSON.second));
         const std::string response = j.dump();
         return response;
-        */
+
     } else { //editor functions
         room_.deliver(read_msg_); //deliver to all the participants
     }
+}
+
+std::string session::getCurrentFile() {
+    return this->currentFile;
 }
 
 #pragma clang diagnostic pop

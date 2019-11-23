@@ -23,12 +23,30 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, char> &tuple) {
+    j = json {
+        {"operation", op},
+        {"tuple", tuple}
+    };
+}
+
 void jsonUtility::to_jsonFilename(json &j, const std::string &op, const std::string &user, const std::string &filename) {
     j = json{
             {"operation", op},
             {"content", {
                 {"username", user},
                 {"filename", filename}
+            }}
+    };
+}
+
+void jsonUtility::to_jsonRenamefile(json &j, const std::string &op, const std::string &nameFile, const std::string &uri, const std::string &username) {
+    j = json{
+            {"operation", op},
+            {"content", {
+                {"newNameFile", nameFile},
+                {"uri", uri},
+                {"username", username}
             }}
     };
 }
@@ -74,6 +92,17 @@ void jsonUtility::from_json_resp(const json &j, std::string &resp) {
 void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
     jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
 }
+
+void jsonUtility::from_json_symbolsAndFilename(const json &j, std::vector<json>& jsonSymbols, std::string& filename) {
+    filename = j.at("content").at("filename").get<std::string>();
+    jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
+}
+
+void jsonUtility::from_json_rename_file(const json &j, std::string &resp, std::string& filename) {
+    filename = j.at("content").at("filename").get<std::string>();
+    resp = j.at("content").at("response").get<std::string>();
+}
+
 
 void jsonUtility::from_json_files(const json &j, std::vector<json>& jsonFiles) {
     jsonFiles = j.at("content").at("vectorFile").get<std::vector<json>>();
@@ -125,4 +154,8 @@ void jsonUtility::from_json(const json &j, std::string &user, std::string &pass,
 
 void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
     uri = j.at("content").at("uri").get<std::string>();
+}
+
+void jsonUtility::from_json_insertion(const json &j, std::pair<int, char>& tuple) {
+    tuple = j.at("tuple").get<std::pair<int, char>>();
 }

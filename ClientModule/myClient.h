@@ -29,11 +29,15 @@ public:
     QTcpSocket *tcpSocket;
     bool getStatus();
     QString getUsername();
+    QString getMail();
     QString getFilename();
     QString getFileURI();
+    std::vector<symbol> getVector();
     void setUsername(QString name);
+    void setMail(QString mail);
     void setFilename(QString filename);
     void setFileURI(QString uri);
+    void setVector(std::vector<symbol> symbols);
     void close();
     void write(const message& msg);    
 
@@ -43,10 +47,12 @@ signals:
     void formResultFailure(QString result);
     void opResultSuccess(QString result);
     void opResultFailure(QString result);
-    void editorResultSuccess(QString result);
+    void editorResultSuccess(QString result, std::string filename = "");
     void editorResultFailure(QString result);
     void changeTextUsername(QString text);
+    void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);
+    void insertSymbol(std::pair<int, char> tuple);
 
 private:
     boost::asio::io_context io_context_;
@@ -64,6 +70,8 @@ private:
     QString username_;
     QString filename_;
     QString uri_;
+    QString mail_;
+    std::vector<symbol> vector_;
 };
 
 #endif // MYCLIENT_H

@@ -12,7 +12,7 @@ class UserProfile : public QWidget{
     Q_OBJECT
 
 public:
-    explicit UserProfile(QString nome, QWidget *parent = nullptr);
+    explicit UserProfile(QString nome, QString mail, QWidget *parent = nullptr);
     ~UserProfile();
     void SetRadiusBorder();
     void SetImage();

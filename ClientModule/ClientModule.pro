@@ -27,7 +27,6 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 
 SOURCES += \
     File.cpp \
-    debugroom.cpp \
     editorwindow.cpp \
     infowindow.cpp \
     jsonUtility.cpp \
@@ -42,7 +41,6 @@ SOURCES += \
 
 HEADERS += \
     File.h \
-    debugroom.h \
     editorwindow.h \
     infowindow.h \
     json.hpp \
@@ -56,7 +54,6 @@ HEADERS += \
     versioninfo.h
 
 FORMS += \
-    debugroom.ui \
     editorwindow.ui \
     infowindow.ui \
     menuwindow.ui \

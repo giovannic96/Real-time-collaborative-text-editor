@@ -5,8 +5,9 @@
 #include <algorithm>
 #include <iostream>
 #include "header_files/participant.h"
+#include "header_files/session.h"
 
-int participant::getId() {
+int participant::getId() const {
     return _siteId;
 }
 
@@ -17,7 +18,6 @@ msgInfo participant::localInsert(int index, char value) /*noexcept(false)*/ {
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
-
     if(_symbols.empty()) {
         pos = {0};
         index = 0;
@@ -32,7 +32,7 @@ msgInfo participant::localInsert(int index, char value) /*noexcept(false)*/ {
     symbol s(value, std::make_pair(_siteId, ++_counter), pos);
     _symbols.insert(_symbols.begin() + index, s);
 
-    msgInfo m(0, getId(), s);
+    msgInfo m(0, getId(), s, index);
     return m;
 }
 
@@ -99,7 +99,7 @@ void participant::process(const msgInfo& m) {
         int symbols_index = 0, pos_index = 0;
         int my_index = _symbols.size();
 
-        for (auto s: _symbols) {
+        for (const auto& s: _symbols) {
             symbols_index++;
             int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
             if (retValue == -1)
@@ -134,4 +134,8 @@ std::string participant::to_string() {
     for(const auto& s: _symbols)
         my_string.push_back(s.getLetter());
     return my_string;
+}
+
+void participant::setSiteId(int edId) {
+    this->_siteId = edId;
 }

@@ -13,6 +13,8 @@ class EditorWindow : public QMainWindow{
 
 public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
+    //COSTRUTTORE DI COPIA --> DECOMMENTA PER RENDERLA VIETATA, NON COPIABILE
+    //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
 
 private slots:
@@ -38,12 +40,16 @@ private slots:
     void on_buttonIncolla_clicked();
     void on_buttonCopia_clicked();
 
+    //Button for highlight the text
+    void on_buttonSearch_clicked();
+
     //Button for modify font and size of text
     void on_fontDimensionBox_activated(int index);
     void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
     //RealTextEdit Function
     void on_RealTextEdit_cursorPositionChanged();
+    void on_RealTextEdit_textChanged();
 
     //TopLeftBar Button
     void on_buttonExit_clicked();
@@ -74,6 +80,13 @@ private slots:
      *        STANDALONE FUNCTION       *
      ************************************/
     void LogoutRequest();
+    void PaintItBlack();
+    void AlignSXButtonHandler();
+    void AlignCXButtonHandler();
+    void AlignDXButtonHandler();
+    void AlignJFXButtonHandler();
+    void AlignButtonStyleHandler();
+    void SmokinSexyShowtimeStyleHandler();
 
     /************************************
      *           DEBUG FUNCTION         *
@@ -88,10 +101,13 @@ private slots:
     void on_DebugWordLeft_clicked();
     void on_DebugWordRight_clicked();
     void on_DebugIns6Word_clicked();
+    void on_buttonDarkMode_clicked();
 
 public slots:
-    void showPopupSuccess(QString result);
+    void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
+    void showSymbol(std::pair<int, char> tuple);
+    void showSymbols(std::vector<symbol> symbols);
 
 private:
     Ui::EditorWindow *ui;
@@ -103,6 +119,7 @@ protected:
     //Function for mouse related event
     void mousePressEvent(QMouseEvent *evt);
     void mouseMoveEvent(QMouseEvent *evt);
+    void keyReleaseEvent(QKeyEvent *event);
 
 };
 

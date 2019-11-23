@@ -21,12 +21,16 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     ui->setupUi(this);
     ui->version->setText(qstr);
     ui->LoginUsernameForm->setFocus();
+    ui->usernameERR->hide();
+    ui->passERR->hide();
+    ui->mailERR->hide();
+
     setStatus(_client->getStatus());
     connect(_client, &myClient::statusChanged, this, &StartWindow::setStatus);
     connect(_client, &myClient::formResultSuccess, this, &StartWindow::showPopupSuccess);
-    connect(_client, &myClient::formResultFailure, this, &StartWindow::showPopupFailure);
-    connect(_client, &myClient::changeTextUsername, this, &StartWindow::labelChangeText);
+    connect(_client, &myClient::formResultFailure, this, &StartWindow::showPopupFailure);    
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
+
 }
 
 //DESTRUCTOR
@@ -71,31 +75,49 @@ void StartWindow::on_LoginButton_clicked(){
 
 //SIGNUP BUTTON
 void StartWindow::on_SignUpButton_clicked() {
-    //Get data from the form
-    QString user = ui->RegUsernameForm->text();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-    QString pass = ui->RegPasswordForm->text();
-    QByteArray ba_pass = pass.toLocal8Bit();
-    const char *c_pass = ba_pass.data();
-    QString email = ui->RegMailForm->text();
-    QByteArray ba_email = email.toLocal8Bit();
-    const char *c_email = ba_email.data();
 
-    //Serialize data
-    json j;
-    jsonUtility::to_json(j, "SIGNUP_REQUEST", c_user, c_pass, c_email);
-    const std::string req = j.dump();
+    if (ui->RegUsernameForm->text().isEmpty()){
+        ui->usernameERR->show();
+    }
+    else{
+        ui->usernameERR->hide();
 
-    //Send data (header and body)
-    sendRequestMsg(req);
-}
+        if (ui->RegPasswordForm->text().length() < 6){
+            ui->passERR->show();
+        }
+        else{
+            ui->passERR->hide();
 
-//FORGOT PASSWORD BUTTON
-void StartWindow::on_ForgotPasswordButton_clicked(){
-//    QMessageBox msgBox;
-//    msgBox.setText("Funzione non implementata"); //Todo --> Show popup to send email
-//    msgBox.exec();
+            QRegularExpression mailREX("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
+            regMat = mailREX.match(ui->RegMailForm->text()).hasMatch();
+
+            if (!regMat){
+                ui->mailERR->show();
+            }
+            else {
+                ui->mailERR->hide();
+
+                //Get data from the form
+                QString user = ui->RegUsernameForm->text();
+                QByteArray ba_user = user.toLocal8Bit();
+                const char *c_user = ba_user.data();
+                QString pass = ui->RegPasswordForm->text();
+                QByteArray ba_pass = pass.toLocal8Bit();
+                const char *c_pass = ba_pass.data();
+                QString email = ui->RegMailForm->text();
+                QByteArray ba_email = email.toLocal8Bit();
+                const char *c_email = ba_email.data();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json(j, "SIGNUP_REQUEST", c_user, c_pass, c_email);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+            }
+        }
+    }
 }
 
 //ADMIN LOGIN BUTTON --> Is for debugging, it will deleted when we reached a beta verision
@@ -116,7 +138,15 @@ void StartWindow::on_AccediButton_clicked() {
 }
 
 void StartWindow::on_exitButton_clicked() {
-    QApplication::exit(); //TODO: show warning popup!
+    QMessageBox::StandardButton reply;
+      reply = QMessageBox::question(this, "Uscita", "Vuoi uscire?",
+                                    QMessageBox::Yes|QMessageBox::No);
+      if (reply == QMessageBox::Yes) {
+        QApplication::exit();
+        qDebug() << "Yes was clicked";
+      } else {
+        qDebug() << "Yes was not clicked";
+      }
 }
 
 void StartWindow::setStatus(bool newStatus) {
@@ -126,10 +156,6 @@ void StartWindow::setStatus(bool newStatus) {
     else {
         ui->label_status->setText(tr("<font color=\"red\">DISCONNECTED</font>"));
     }
-}
-
-void StartWindow::labelChangeText(QString text) {
-    //ui->Username->setText(text);
 }
 
 void StartWindow::showPopupFailure(QString result) {
@@ -152,15 +178,12 @@ void StartWindow::showPopupFailure(QString result) {
 
 void StartWindow::showPopupSuccess(QString result) {
     if(result == "LOGIN_SUCCESS") {
-        QMessageBox messageBox;
-        messageBox.information(nullptr, "LOGIN SUCCESS", "Login successfully completed.");
-        messageBox.setFixedSize(500,200);
         MenuWindow *m = new MenuWindow(_client);
         this->close(); //this startWindow will be then created when user press Exit on menuWindow
         m->show();
     } else if(result == "SIGNUP_SUCCESS") {
         QMessageBox messageBox;
-        messageBox.critical(nullptr, "SIGNUP SUCCESS", "Signup successfully completed.");
+        messageBox.information(nullptr, "SIGNUP SUCCESS", "Registrazione effettuata correttamente.");
         messageBox.setFixedSize(500,200);
         ui->stackedWidget->setCurrentIndex(0);
     }
@@ -195,4 +218,34 @@ void StartWindow::on_RegPasswordForm_returnPressed(){
 
 void StartWindow::on_RegMailForm_returnPressed(){
     on_SignUpButton_clicked();
+}
+
+void StartWindow::on_RegPasswordForm_editingFinished()
+{
+    if (ui->RegPasswordForm->text().length() < 6){
+        ui->passERR->show();
+    }
+    else
+        ui->passERR->hide();
+}
+
+void StartWindow::on_RegUsernameForm_editingFinished()
+{
+    if (ui->RegUsernameForm->text().isEmpty()){
+        ui->usernameERR->show();
+    }
+    else
+        ui->usernameERR->hide();
+}
+
+void StartWindow::on_RegMailForm_editingFinished()
+{
+    QRegularExpression mailREX("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
+    regMat = mailREX.match(ui->RegMailForm->text()).hasMatch();
+
+    if (!regMat){
+        ui->mailERR->show();
+    }
+    else
+        ui->mailERR->hide();
 }

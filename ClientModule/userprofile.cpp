@@ -4,9 +4,10 @@
 #include <QDebug>
 
 //CONSTRUCTOR WITH PARAMETERS
-UserProfile::UserProfile(QString nome, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
+UserProfile::UserProfile(QString nome, QString mail, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
     ui->setupUi(this);
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
+    ui->Mail->setText(mail);     //Same way
     SetImage();
     this->show();
 }

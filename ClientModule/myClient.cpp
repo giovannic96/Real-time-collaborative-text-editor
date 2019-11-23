@@ -9,7 +9,9 @@ myClient::myClient()
         : work_(new boost::asio::io_context::work(io_context_)),
           resolver_(io_context_),
           socket_(io_context_),
-          username_("") {
+          username_(""),
+          mail_(""),
+          vector_() {
             worker_= std::thread([&](){
             io_context_.run(); //boost thread loop start
           });
@@ -59,26 +61,29 @@ void myClient::do_read_body() {
                             [this](boost::system::error_code ec, std::size_t /*length*/) {
         if (!ec) {
             qDebug() << "read msg:" << read_msg_.body() << endl;
+            read_msg_.data()[read_msg_.length()] = '\0';  //VERY IMPORTANT: this removes any possible letters after data
 
             std::string opJSON;
             json jdata_in = json::parse(read_msg_.body());
             try {
-                jsonUtility::from_json(jdata_in, opJSON); //get json value and put into JSON variables
+                jsonUtility::from_json(jdata_in, opJSON);
             } catch (json::type_error& e) {
                 std::cerr << e.what() << '\n';
             }
             std::cout << "opJSON is:" << opJSON << "END" << std::endl;
             if(opJSON == "LOGIN_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "LOGIN_OK") {
                     qDebug() << "Login success" << endl;
                     std::string db_usernameLoginJSON;
                     jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON);
                     QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
+
                     this->setUsername(name_qstring);
                     emit changeTextUsername(this->getUsername());
+                    emit changeTextMail(this->getMail());
                     emit formResultSuccess("LOGIN_SUCCESS");
                 } else {
                     qDebug() << "Wrong user or password" << endl;
@@ -86,7 +91,7 @@ void myClient::do_read_body() {
                 }
             } else if(opJSON == "SIGNUP_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "SIGNUP_OK") {
                     emit formResultSuccess("SIGNUP_SUCCESS");
@@ -95,7 +100,7 @@ void myClient::do_read_body() {
                 }
             } else if(opJSON == "LOGOUT_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "LOGOUT_OK") {
                     emit opResultSuccess("LOGOUT_SUCCESS");
@@ -104,7 +109,7 @@ void myClient::do_read_body() {
                 }
             } else if(opJSON == "LOGOUTURI_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "LOGOUTURI_OK") {
                     emit editorResultSuccess("LOGOUTURI_SUCCESS");
@@ -113,7 +118,7 @@ void myClient::do_read_body() {
                 }
             } else if(opJSON == "NEWFILE_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "NEWFILE_OK") {
                     std::string uriJSON;
@@ -127,7 +132,7 @@ void myClient::do_read_body() {
 
             } else if(opJSON == "OPENFILE_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "OPENFILE_OK") {
                     std::vector<json> jsonSymbols;
@@ -141,20 +146,33 @@ void myClient::do_read_body() {
                         delete s;
                     }
 
-                    //TODO: put these symbols into Editor correctly.
+                    //Update client data
+                    this->setVector(symbols);
 
                     emit opResultSuccess("OPENFILE_SUCCESS");
                 } else {
                     emit opResultFailure("OPENFILE_FAILURE");
                 }
 
+            } else if(opJSON == "RENAMEFILE_RESPONSE") {
+                std::string db_responseJSON;
+                std::string filenameJSON;
+                jsonUtility::from_json_rename_file(jdata_in, db_responseJSON, filenameJSON);
+
+                if(db_responseJSON == "RENAME_OK") {
+                    emit editorResultSuccess("RENAME_SUCCESS", filenameJSON.c_str());
+                } else {
+                    emit editorResultFailure("RENAME_FAILURE");
+                }
+
             } else if(opJSON == "OPENWITHURI_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "OPENWITHURI_OK") {
                     std::vector<json> jsonSymbols;
-                    jsonUtility::from_json_symbols(jdata_in, jsonSymbols);
+                    std::string filenameJSON;
+                    jsonUtility::from_json_symbolsAndFilename(jdata_in, jsonSymbols, filenameJSON);
 
                     std::vector<symbol> symbols;
                     for(const auto& j: jsonSymbols) {
@@ -164,7 +182,10 @@ void myClient::do_read_body() {
                         delete s;
                     }
 
-                    //TODO: put these symbols into Editor correctly.
+                    //Update client data
+                    this->setFilename(QString::fromStdString(filenameJSON));
+
+                    this->setVector(symbols);
 
                     qDebug() << "OPENWITHURI success" << endl;
                     emit opResultSuccess("OPENWITHURI_SUCCESS");
@@ -175,7 +196,7 @@ void myClient::do_read_body() {
 
             } else if(opJSON == "LISTFILE_RESPONSE") {
                 std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON); //get json value and put into JSON variables
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "LIST_EXIST") {
                     qDebug() << "La lista esiste" << endl;
@@ -193,8 +214,6 @@ void myClient::do_read_body() {
 
                     emit listFileResult(files);
 
-                    //TODO: put these files into UI correctly.
-
                     qDebug() << "Listfile success" << endl;
                     emit opResultSuccess("LISTFILE_SUCCESS");
                 } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
@@ -204,13 +223,14 @@ void myClient::do_read_body() {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("LISTFILE_FAILURE");
                 }
+            } else if(opJSON == "INSERTION_RESPONSE") {
+                std::pair<int, char> tupleJSON;
+                jsonUtility::from_json_insertion(jdata_in, tupleJSON);
+                emit insertSymbol(tupleJSON);
             } else {
                 qDebug() << "Something went wrong" << endl;
                 emit opResultFailure("RESPONSE_FAILURE");
             }
-
-            //TODO: NEWFILE_RESPONSE
-
             do_read_header(); //continue reading loop
         }
         else {
@@ -268,12 +288,24 @@ void myClient::setUsername(QString name) {
     this->username_ = name;
 }
 
+void myClient::setMail(QString mail) {
+    this->mail_ = mail;
+}
+
 QString myClient::getUsername() {
     return this->username_;
 }
 
-void getFileList(std::vector<File> files){
-    qDebug() << "Sono in getFileList";
+QString myClient::getMail() {
+    return this->mail_;
+}
+
+void myClient::setVector(std::vector<symbol> symbols){
+    this->vector_ = symbols;
+}
+
+std::vector<symbol> myClient::getVector(){
+    return this->vector_;
 }
 
 void myClient::setFilename(QString filename) {

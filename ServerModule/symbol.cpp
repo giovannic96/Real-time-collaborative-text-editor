@@ -9,6 +9,9 @@
 symbol::symbol(char character, std::pair<int, int> id, std::vector<int> pos)
                         : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(false), _isItalic(false) {}
 
+symbol::symbol(char character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic)
+    : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(isBold), _isItalic(isItalic) {}
+
 std::vector<int> symbol::getPos() const {
     return _pos;
 }

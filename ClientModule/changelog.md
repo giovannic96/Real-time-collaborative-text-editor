@@ -3,22 +3,186 @@
 ### TODO
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
-- Rimuovere StartWindow (pagina 3)
+
+## [v0.1.9a - Canary 1250] - 2019/11/22 @ 16:40
+### Cambiamenti
+- Corretto Risorse.qrc e altri file legati alle immagini.
+- Pulita cartella delle immagini
+
+## [v0.1.9a - Daily 124F] - 2019/11/21 @ 02:15
+### Aggiunto
+- Introdotta soluzione tampone alla stringa json passata con accenti. - La soluzione testata nella build 124D non funziona più dalla 124E
+- Ripristinata pagina 0 della startwindow
+- BugFix - Messaggio di errore rinominando il documento con lo stesso nome di un altro
+
+## [v0.1.9a - Daily 124E] - 2019/11/20 @ 14:20
+### Cambiamenti
+- Corretto il renaming del file dall'editor - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/20]
+
+## [v0.1.9a - Nightly 124D] - 2019/11/19 @ 18:40
+### Aggiunto
+- Aggiunti controlli per la validazione dei form - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/20]
+- Aggiunti stringhe sulla startwindow che appaiono nel caso in cui un form sia errato
+### Rimosso
+- Cancellato il database locale del client.
+
+## [v0.1.9a - Nightly 124C] - 2019/11/18 @ 22:30
+### Cambiamenti
+- Lunghezza filename del testo portata da 15 a 25 (in menuWindow).
+- Nella lista dei file, se la lunghezza è maggiore a 15, il filename viene troncato - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/33]
+
+## [v0.1.9a - Nightly 124B] - 2019/11/18 @ 20:00
+### Aggiunto
+- BugFix --> Le unzioni per settare i colori del testo e dello sfondo adesso sono corrette - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/36]
+
+## [v0.1.9a - Daily 124A] - 2019/11/18 @ 08:40
+### Cambiamenti
+- Fix della funzione di ricerca del testo  - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/34]
+
+## [v0.1.9a - Canary 1249] - 2019/11/18 @ 00:10
+### Aggiunto
+- Funzione standalone per impostare lo stile dei bottoni grassetto/corsivo/sottolineato
+- Funzione standalone per impostare lo stile dei bottoni di allineamento del testo
+- Quattro funzioni standalone per l'handling del comportamento dei bottoni di allineamento del testo
+- STEP 4 nella funzione del riposizionamento del cursore (set bottoni grassetto/corsivo/sottolineato a seconda della posizione del cursore)
+- STEP 5 nella funzione del riposizionamento del cursore (set bottoni di allineamento del testo a seconda della posizione del cursore)
+### Cambiamenti
+- Adesso i bottoni grassetto/corsivo/sottolineato, quelli per l'allineamento del testo e quello per la DarkMode sono di tipo "checked"
+- Riscritte totalmente le funzioni per grassetto/corsivo/sottolineato e quelle per l'allineamento del testo
+- Riscritta parte della funzione per la DarkMode
+
+## [v0.1.9a - Nightly 1248] - 2019/11/17 @ 03:00
+### Cambiamenti
+- Fix dell'inserimento del testo da parte di più client (multiclient)
+- Test su multiclient
+
+## [v0.1.9a - Daily 1247] - 2019/11/16 @ 20:00
+### Aggiunto
+- Aggiunte icone v2 per Grassetto, Corsivo e Sottolineato (DarkMode)
+### Cambiamenti
+- DarkMode migliorata
+
+## [v0.1.9a - Daily 1246] - 2019/11/16 @ 19:30
+### Rimosso
+- DebugRoom ufficilamente rimossa
+- BugFix generali
+
+## [v0.1.9a - Daily 1245] - 2019/11/16 @ 19:00
+### Cambiamenti
+- Aggiunte icone v2 per Grassetto, Corsivo e Sottolineato
+### Cambiamenti
+- Restyling grafico Editor
+
+## [v0.1.9a - Daily 1244] - 2019/11/16 @ 18:30
+### Aggiunto
+- Funzione per inviare al server la posizione corrente del cursore e del carattere inserito da tastiera
+- Funzione per ricevere dal server la tupla "carattere + posizione dove inserire"
+
+## [v0.1.9a - Daily 1243] - 2019/11/16 @ 17:30
+### Cambiamenti
+- Fix di vari messaggi di dialogo
+
+## [v0.1.9a - Daily 1242] - 2019/11/16 @ 16:30
+### Cambiamenti
+- BugFix --> Adesso cancellare tutto il testo nel texteditor non resetta il font e la sua dimensione a 0 - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29]
+- La X in MenuWindow chiude nuovamente l'applicazione
+### Deprecato
+- La DebugRoom "The Lobby" è stata disabilitata.
+
+## [v0.1.9a - Daily 1241] - 2019/11/16 @ 13:20
+### Aggiunto
+- Creata la funzione che legge il vettore dei simboli dal server
+
+## [v0.1.9a - Daily 1240] - 2019/11/15 @ 22:30
+### Cambiamenti
+- Fix bottone in MainWindow - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/28]
+
+## [v0.1.9a - Daily 1239] - 2019/11/15 @ 17:00
+### Cambiamenti
+- BugFix --> Adesso cliccare su un qualsiasi pulsante chiude il Menù File (FileFrame)
+- Migliorie alla DarkMode
+
+## [v0.1.9a - Nightly 1238] - 2019/11/14 @ 16:10
+### Cambiamenti
+- BugFix --> Fix bug minori sulla MenuWindow
+
+## [v0.1.9a - Daily 1237] - 2019/11/14 @ 15:00
+### Cambiamenti
+- BugFix --> Problemi con il titolo del testo risolti
+
+## [v0.1.9a - Daily 1236] - 2019/11/14 @ 14:00
+### Cambiamenti
+- BugFix --> La lista dei file degli utenti adesso non viene più ripetuta alla riapertura della pagina - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/18]
+
+## [v0.1.9a - Nightly 1235] - 2019/11/14 @ 02:45
+### Cambiamenti
+- BugFix --> La selezione di un testo formato da più font non rende più tutto il testo unificato - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/27]
+- BugFix --> Adesso il cambio di font senza aver selezionato del testo avviene con successo - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/10]
+- Fix --> Rimosso il bottone logout nella pagina openDocPage del MenuWindow - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/25]
+- Pulizia del codice dell'EditorWindow ed sistemati alcuni commenti
+- Pulizia Changelog e aggiunti link ad issues di github
+
+## [v0.1.9a - Daily 1234] - 2019/11/13 @ 13:15
+### Cambiamenti
+- Fix Socket - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/22]
+
+## [v0.1.9a - Canary 1233] - 2019/11/13 @ 02:15
+- Aggiornamento v0.1.8a --> v0.1.9a
+### Cambiamenti
+- BugFix --> Il cambio del font del testo selezionato non rende nero il colore di sfondo del testo (per il font del testo non selezionato c'è ancora lavoro da fare)
+- Aggiunte tutte le icone necessarie per la Dark Mode - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/23]
+- Adesso il testo ha il colore di sfondo di default (cosa molto importante)
+- Il fontSelectorBox è stato impostato a Times New Roman come il font di default (ma è da controllare bene).
+- Il fontSelectorBox si aggiorna a seconda della posizione del cursore senza alcun problema - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/24]
+- Aggiunto lo stile dinamico alla Dark Mode
+- Aggiunto la possibilità di ritornare alla Day Mode
+- Aggiunto lo stile dinamico alla Day Mode
+- Fix del cursore che si sposta nel testo
+
+## [v0.1.8a - Daily 1232] - 2019/11/12
+### Cambiamenti
+- Molti bug corretti nell'editor
+- Il font di default è stato cambiato in Times New Roman
+
+## [v0.1.8a - Daily 1231] - 2019/11/12 @ 18:15
+### Cambiamenti
+- Aggiornata interfaccia infoProfile
+- Aggiornato bottone back e logout in MenuWindow
+- Aggiornato testo "Cerca Documento"
+- Rimossi bordi smussati nella finestra UserProfile
+
+## [v0.1.8a - Canary 1230] - 2019/11/12 @ 00:15
+- Aggiornamento v0.1.7a --> v0.1.8a
+### Aggiunto
+- Bottone e Funzionalità per la ricerca del testo
+- Bottone (in menù di debug) per attivare la "Dark Mode"
+- Creata la funzione inversa di lambda1 per poter risalire all'indice data la dimensione del font
+- Funzione che al cambio della posizione del cursore aggiorna il Combobox della dimensione del font - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/9]
+- Funzione che al cambio della posizione del cursore mi informa del font utilizzato
+
+## [v0.1.7a - Nightly 122F] - 2019/11/11 @ 02:00
+### Aggiunto
+- La UserProfile mostra il vero nome dell'utente loggato
+### Cambiamenti
+- Debug Room "The Lobby" aggiornata alla versione v3.
+    Alcuni link sono stati disabilitati con un frame trasparente (it's a cool effect!)
+- BugFix --> Ripristinati bordi smussati nella finestra UserProfile - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/17]
+
 
 ## [v0.1.7a - Canary 122E] - 2019/11/10 @ 20:30
 ### Cambiamenti
-- BugFix --> Ora Grassetto/Corsivo/Sottolineato funzionano al primo click
+- BugFix --> Ora Grassetto/Corsivo/Sottolineato funzionano al primo click - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/11]
 - Nell'editor, la disconnessione dell'utente è demandata ad una funzione standalone
-- Nel MenuWindow, la X in alto disconnette l'utente e poi chiude l'intera applicazione
+- Nel MenuWindow, la X in alto disconnette l'utente e poi chiude l'intera applicazione - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/16]
 
 ## [v0.1.7a - Daily 122D] - 2019/11/10 @ 18:10
 ### Cambiamenti
-- BugFix --> Ora StartWindow parte correttamente dalla LoginPage
-- BugFix --> All'apertura di StartWindow il focus della tastiera è sul campo "username"
+- BugFix --> Ora StartWindow parte correttamente dalla LoginPage - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/21]
+- BugFix --> All'apertura di StartWindow il focus della tastiera è sul campo "username" - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/15]
 
 ## [v0.1.7a - Daily 122C] - 2019/11/10 @ 15:15
 ### Cambiamenti
-- BugFix --> I form della startwindow ora sono connessi al relativo pulsante accedi/registrati
+- BugFix --> I form della startwindow ora sono connessi al relativo pulsante accedi/registrati - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/7]
 
 ## [v0.1.7a - Nightly 122B] - 2019/11/10 @ 04:10
 ### Cambiamenti
@@ -50,6 +214,7 @@
 - altri fix minori
 
 ## [v0.1.7a - Canary 1225] - 2019/11/06 @ 4:30
+- Aggiornamento v0.1.6 --> v0.1.7
 ### Aggiunto
 - Bottone e funzione per giustificare il testo
 - Funzione di chiusura dell'editor nel menu File
