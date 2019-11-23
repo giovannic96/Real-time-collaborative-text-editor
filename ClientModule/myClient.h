@@ -53,6 +53,7 @@ signals:
     void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);
     void insertSymbol(std::pair<int, char> tuple);
+    void eraseSymbol(int index);
 
 private:
     boost::asio::io_context io_context_;

@@ -227,6 +227,10 @@ void myClient::do_read_body() {
                 std::pair<int, char> tupleJSON;
                 jsonUtility::from_json_insertion(jdata_in, tupleJSON);
                 emit insertSymbol(tupleJSON);
+            } else if(opJSON == "REMOVAL_RESPONSE") {
+                int indexJSON;
+                jsonUtility::from_json_removal(jdata_in, indexJSON);
+                emit eraseSymbol(indexJSON);
             } else {
                 qDebug() << "Something went wrong" << endl;
                 emit opResultFailure("RESPONSE_FAILURE");

@@ -34,6 +34,7 @@ public:
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
     static void to_json_insertion(json &j, const std::string &op, const std::pair<int, char> &tuple);
+    static void to_json_removal(json &j, const std::string &op, const int &index);
     static void from_json(const json& j, std::string& op);
     static void from_json_symbol(const json& j, symbol& symbol);
     static void from_json_filename(const json &j, std::string &user, std::string &filename);
@@ -45,6 +46,7 @@ public:
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);
     static void from_json_storedSymbols(const json& j, std::vector<json>& jsonSymbols);
     static void from_json_insertion(const json& j, std::pair<int, char>& tuple);
+    static void from_json_removal(const json& j, int& index);
 };
 
 

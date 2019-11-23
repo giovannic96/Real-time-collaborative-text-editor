@@ -30,6 +30,13 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::p
     };
 }
 
+void jsonUtility::to_json_removal(json &j, const std::string &op, const int &index) {
+    j = json {
+        {"operation", op},
+        {"index", index}
+    };
+}
+
 void jsonUtility::to_jsonFilename(json &j, const std::string &op, const std::string &user, const std::string &filename) {
     j = json{
             {"operation", op},
@@ -158,4 +165,8 @@ void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
 
 void jsonUtility::from_json_insertion(const json &j, std::pair<int, char>& tuple) {
     tuple = j.at("tuple").get<std::pair<int, char>>();
+}
+
+void jsonUtility::from_json_removal(const json &j, int& index) {
+    index = j.at("index").get<int>();
 }

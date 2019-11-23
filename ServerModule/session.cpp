@@ -478,11 +478,34 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Dispatch message to all the clients
         room_.send(m);
         room_.dispatchMessages();
-        edId = m.getEditorId();
+        edId = m.getEditorId(); //don't send this message to this editor
 
         //Serialize data
         json j;
         jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, char>(m.getNewIndex(), tupleJSON.second));
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "REMOVAL_REQUEST") {
+        int indexJSON;
+        jsonUtility::from_json_removal(jdata_in, indexJSON); //get json value and put into JSON variables
+        std::cout << "index received: " << std::to_string(indexJSON) << std::endl;
+
+        //Construct msgInfo
+        msgInfo m = localErase(indexJSON);
+        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+        //Update room symbols for this file
+        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+        //Dispatch message to all the clients
+        room_.send(m);
+        room_.dispatchMessages();
+        edId = m.getEditorId(); //don't send this message to this editor
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_removal(j, "REMOVAL_RESPONSE", indexJSON);
         const std::string response = j.dump();
         return response;
 

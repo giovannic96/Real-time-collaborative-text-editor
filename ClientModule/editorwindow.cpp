@@ -20,6 +20,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     connect(_client, &myClient::editorResultSuccess, this, &EditorWindow::showPopupSuccess);
     connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
     connect(_client, &myClient::insertSymbol, this, &EditorWindow::showSymbol);
+    connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     ui->DocName->setText(_client->getFilename());
     ui->RealTextEdit->setFontPointSize(14);         //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -40,11 +41,13 @@ EditorWindow::~EditorWindow() {
 bool EditorWindow::eventFilter(QObject *obj, QEvent *ev)
 {
     if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
+
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
 
         if(key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) { //only ASCII characters
+
             //Get data
             std::pair<int, char> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
@@ -61,6 +64,24 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev)
             //Send data (header and body)
             sendRequestMsg(req);
             return QObject::eventFilter(obj, ev);
+        }
+        else if(key == Qt::Key_Backspace) { //only Backspace
+
+            //Get data
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+            int pos = cursor.position();
+
+            if(pos > 0) {
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos-1);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            } else
+                return QObject::eventFilter(obj, ev);
         }
         return false; //or return QObject::eventFilter(obj, ev);
     }
@@ -1255,6 +1276,18 @@ void EditorWindow::showSymbol(std::pair<int, char> tuple) {
     cursor.setPosition(pos);
     cursor.insertText(static_cast<QString>(c));
     qDebug() << "Written in pos: " << pos << endl;
+    ui->FileFrame->setVisible(false);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::eraseSymbol(int index) {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    int oldPos = cursor.position();
+    cursor.setPosition(index);
+    //cursor.insertText(static_cast<QString>(c));
+    cursor.deleteChar();
+    cursor.setPosition(oldPos);
+    qDebug() << "Deleted char in pos: " << index << endl;
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }

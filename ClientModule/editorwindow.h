@@ -109,6 +109,7 @@ public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
     void showSymbol(std::pair<int, char> tuple);
+    void eraseSymbol(int index);
     void showSymbols(std::vector<symbol> symbols);
 
 private:

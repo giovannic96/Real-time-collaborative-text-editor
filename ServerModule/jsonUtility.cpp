@@ -134,6 +134,13 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::p
     };
 }
 
+void jsonUtility::to_json_removal(json &j, const std::string &op, const int &index) {
+    j = json{
+            {"operation", op},
+            {"index", index}
+    };
+}
+
 void jsonUtility::from_json(const json &j, std::string &op) {
     op = j.at("operation").get<std::string>();
 }
@@ -261,6 +268,10 @@ symbol jsonUtility::from_json_symbol(const json &j) {
 
 void jsonUtility::from_json_insertion(const json &j, std::pair<int, char>& tuple) {
     tuple = j.at("tuple").get<std::pair<int, char>>();
+}
+
+void jsonUtility::from_json_removal(const json &j, int& index) {
+    index = j.at("index").get<int>();
 }
 
 void jsonUtility::from_json_renameFile(const json &j, std::string &nameFile, std::string &urifile, std::string &username) {

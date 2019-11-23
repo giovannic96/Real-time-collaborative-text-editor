@@ -75,6 +75,10 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
 }
 
 msgInfo participant::localErase(int index) noexcept(false) {
+    if(index < 0 || index > _symbols.size()) {
+        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
+        //TODO: return null msgInfo or sthg similar
+    }
     symbol s = _symbols.at(index);
     _symbols.erase(_symbols.begin() + index);
     msgInfo m(1, getId(), s);
