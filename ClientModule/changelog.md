@@ -4,6 +4,16 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.9a - Daily 1258] - 2019/11/24 @ 18:00
+### Aggiunto
+- Funzione ad evento per richiamare gli shortcut delle action
+
+## [v0.1.9a - Daily 1257] - 2019/11/24 @ 17:40
+### Cambiamenti
+- Correzione del formato del PDF salvato tramite ripristino e modifica della funzione V1 - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/32]
+### Deprecato
+- Funzione per il savataggio del PDF v2
+
 ## [v0.1.9a - Daily 1256] - 2019/11/24 @ 14:30
 ### Cambiamenti
 - Correzione nel passaggio da json e viceversa di caratteri accentati - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/13]

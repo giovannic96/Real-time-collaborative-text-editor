@@ -18,7 +18,6 @@ public:
     //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
-
 private slots:
     //void on_pushButton_3_clicked(); --> Old Rename Function Deprecated
 
@@ -71,6 +70,11 @@ private slots:
     void on_CloseButton_clicked();
 
     /************************************
+     *               EVENT              *
+     ************************************/
+    void keyPressEvent(QKeyEvent *e);
+
+    /************************************
      *              ACTION              *
      ************************************/
     void on_actionFullscreen_triggered();
@@ -104,6 +108,8 @@ private slots:
     void on_DebugWordRight_clicked();
     void on_DebugIns6Word_clicked();
     void on_buttonDarkMode_clicked();
+
+    void on_actionExit_triggered();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");

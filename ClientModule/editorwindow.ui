@@ -1938,14 +1938,6 @@ border-left: 2px solid #404040;</string>
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionLoad">
-   <property name="text">
-    <string>Carica</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
-  </action>
   <action name="actionSave">
    <property name="icon">
     <iconset>
@@ -1973,6 +1965,14 @@ border-left: 2px solid #404040;</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
  </widget>
