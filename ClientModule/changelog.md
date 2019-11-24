@@ -4,6 +4,25 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.9a - Daily 1254] - 2019/11/24 @ 12:10 - MERGED
+### Cambiamenti
+- Merge manuale delle ultime build
+
+## [v0.1.9a - Nightly 1253] - 2019/11/23 @ 18:10
+### Aggiunto
+- Corrette funzionalità di debug
+
+## [v0.1.9a - Daily 1252] - 2019/11/23 @ 17:10
+### Cambiamenti
+- BugFix -> Corretto problema che si verificava quando si scriveva velocemente sull'editor
+
+## [v0.1.9a - Daily 1251] - 2019/11/22 @ 19:10
+### Cambiamenti
+- Di default, l'icona AlignSX è cliccata
+- Corretto Stylesheet bottoni
+- Modificata funzione del KeyReleaseEvent
+- Piccola correzione del qDebug
+
 ## [v0.1.9a - Canary 1250] - 2019/11/22 @ 16:40
 ### Cambiamenti
 - Corretto Risorse.qrc e altri file legati alle immagini.

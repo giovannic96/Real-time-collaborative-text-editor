@@ -865,16 +865,16 @@ void EditorWindow::PaintItBlack(){
         ui->buttonCorsivo->setIcon(v2I);
         ui->buttonSottolineato->setIcon(v2U);
         //SetCSS
-        ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}}");
-        ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}}");
-        ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}}");
-        ui->buttonDebug->setStyleSheet("    #buttonDebug{border:none;}              #buttonDebug:hover{border:1px solid #F00000;              border-radius: 3px;}}");
-        ui->buttonRedo->setStyleSheet("     #buttonRedo{border:none;}               #buttonRedo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}}");
-        ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}}");
-        ui->buttonBackgroundColor->setStyleSheet("#buttonBackgroundColor{border:none;}#buttonBackgroundColor:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
-        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}}");
+        ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
+        ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
+        ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}");
+        ui->buttonDebug->setStyleSheet("    #buttonDebug{border:none;}              #buttonDebug:hover{border:1px solid #F00000;              border-radius: 3px;}");
+        ui->buttonRedo->setStyleSheet("     #buttonRedo{border:none;}               #buttonRedo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
+        ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
+        ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
+        ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
+        ui->buttonBackgroundColor->setStyleSheet("#buttonBackgroundColor{border:none;}#buttonBackgroundColor:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
+        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
         //frame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #fileButton:hover{background-color: #ff9900;}");
         ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white; border-left: 2px solid #EFEFEF;}       #pdfButton:hover{background-color: #ff9900;}");
@@ -938,16 +938,16 @@ void EditorWindow::PaintItBlack(){
         ui->buttonCorsivo->setIcon(v2I);
         ui->buttonSottolineato->setIcon(v2U);
         //SetCSS
-        ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}}");
-        ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}}");
-        ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}}");
-        ui->buttonDebug->setStyleSheet("    #buttonDebug{border:none;}              #buttonDebug:hover{border:1px solid #F00000;              border-radius: 3px;}}");
-        ui->buttonRedo->setStyleSheet("     #buttonRedo{border:none;}               #buttonRedo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}}");
-        ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}}");
-        ui->buttonBackgroundColor->setStyleSheet("#buttonBackgroundColor{border:none;}#buttonBackgroundColor:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
-        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}}");
+        ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
+        ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
+        ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}");
+        ui->buttonDebug->setStyleSheet("    #buttonDebug{border:none;}              #buttonDebug:hover{border:1px solid #F00000;              border-radius: 3px;}");
+        ui->buttonRedo->setStyleSheet("     #buttonRedo{border:none;}               #buttonRedo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
+        ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
+        ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
+        ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
+        ui->buttonBackgroundColor->setStyleSheet("#buttonBackgroundColor{border:none;}#buttonBackgroundColor:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
+        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
         //frame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #fileButton:hover{background-color: #003cb3;}");
         ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white; border-left: 2px solid #EFEFEF;}             #pdfButton:hover{background-color: #003cb3;}");
@@ -1002,48 +1002,48 @@ void EditorWindow::AlignButtonStyleHandler(){
     if(ui->buttonDarkMode->isChecked()){
         //Alone in the Dark (change the value of background color)
         if(ui->buttonAlignCX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none; background-color:#AEAEAE}   #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none; background-color:#AEAEAE}   #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }else if(ui->buttonAlignSX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none; background-color:#AEAEAE}   #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none; background-color:#AEAEAE}   #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }else if(ui->buttonAlignDX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none; background-color:#AEAEAE}   #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none; background-color:#AEAEAE}   #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }else if(ui->buttonAlignJFX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none; background-color:#AEAEAE}  #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none; background-color:#AEAEAE}  #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }
     }else{
         //There is a house in New Orleans They call the Rising Sun And it's been the ruin of many a poor boy And God I know I'm one
         if(ui->buttonAlignCX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none; background-color:#AEAEAE}   #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none; background-color:#AEAEAE}   #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }else if(ui->buttonAlignSX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none; background-color:#AEAEAE}   #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none; background-color:#AEAEAE}   #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }else if(ui->buttonAlignDX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none; background-color:#AEAEAE}   #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none; background-color:#AEAEAE}   #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none;}                           #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }else if(ui->buttonAlignJFX->isChecked()){
-            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}}");
-            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none; background-color:#AEAEAE}  #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}}");
+            ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border:none;}                            #buttonAlignCX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border:none;}                            #buttonAlignSX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border:none;}                            #buttonAlignDX:hover{border:1px solid #b2b2b2;   border-radius: 3px;}");
+            ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border:none; background-color:#AEAEAE}  #buttonAlignJFX:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         }
     }
 }
@@ -1052,36 +1052,36 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
     if(ui->buttonDarkMode->isChecked()){
         //All the leaves are brown and the sky is gray I've been for a walk on a winter's day I'd be safe and warm if I was in L.A California dreamin' on such a winter's day
         if(ui->buttonGrassetto->isChecked()){
-            ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none; background-color:#AEAEAE}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+            ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none; background-color:#AEAEAE}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none;}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+             ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none;}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
         if(ui->buttonCorsivo->isChecked()){
-            ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none; background-color:#AEAEAE}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+            ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none; background-color:#AEAEAE}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none;}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+             ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none;}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
         if(ui->buttonSottolineato->isChecked()){
-            ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none; background-color:#AEAEAE}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+            ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none; background-color:#AEAEAE}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none;}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+             ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none;}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
     }else{
         //She came to me one morning, one lonely Sunday morning Her long hair flowing in the mid-winter wind I know not how she found me For in darkness I was walking
         if(ui->buttonGrassetto->isChecked()){
-            ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none; background-color:#AEAEAE}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+            ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none; background-color:#AEAEAE}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none;}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+             ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none;}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
         if(ui->buttonCorsivo->isChecked()){
-            ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none; background-color:#AEAEAE}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+            ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none; background-color:#AEAEAE}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none;}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+             ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none;}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
         if(ui->buttonSottolineato->isChecked()){
-            ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none; background-color:#AEAEAE}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+            ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none; background-color:#AEAEAE}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none;}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}}");
+             ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none;}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
     }
 }
@@ -1244,11 +1244,9 @@ void EditorWindow::sendRequestMsg(std::string req) {
 }
 
 void EditorWindow::showSymbols(std::vector<symbol> symbols) {
-    int i=0;
     char letter;
     QTextCursor c = ui->RealTextEdit->textCursor();
     foreach (symbol s, symbols) {
-        c.setPosition(i);
         letter = s.getLetter();
         QTextCharFormat oldFormat = c.charFormat();
         QTextCharFormat newFormat = oldFormat;
@@ -1259,13 +1257,12 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
             newFormat.setFontItalic(true);
         }
 
-        int pos = s.getPos()[i];
+        int pos = s.getPos().at(0);
         c.setPosition(pos);
         c.setCharFormat(newFormat);
         c.insertText(static_cast<QString>(letter));
         ui->RealTextEdit->setTextCursor(c);
         c.setCharFormat(oldFormat);
-        i++;
     }
 }
 

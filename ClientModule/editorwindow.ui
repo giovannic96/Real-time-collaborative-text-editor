@@ -621,6 +621,7 @@ border-left: 2px solid #404040;</string>
      <property name="styleSheet">
       <string notr="true">#buttonAlignSX{
 	border:none;
+	background-color:#AEAEAE
 }
 
 #buttonAlignSX:hover{
