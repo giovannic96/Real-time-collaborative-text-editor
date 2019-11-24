@@ -37,6 +37,14 @@ void jsonUtility::to_json_removal(json &j, const std::string &op, const int &ind
     };
 }
 
+void jsonUtility::to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex) {
+    j = json{
+            {"operation", op},
+            {"startIndex", startIndex},
+            {"endIndex", endIndex}
+    };
+}
+
 void jsonUtility::to_jsonFilename(json &j, const std::string &op, const std::string &user, const std::string &filename) {
     j = json{
             {"operation", op},
@@ -169,4 +177,9 @@ void jsonUtility::from_json_insertion(const json &j, std::pair<int, char>& tuple
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
     index = j.at("index").get<int>();
+}
+
+void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
+    startIndex = j.at("startIndex").get<int>();
+    endIndex = j.at("endIndex").get<int>();
 }

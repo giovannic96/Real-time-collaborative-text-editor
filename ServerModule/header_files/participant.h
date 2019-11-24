@@ -26,6 +26,7 @@ public:
     int getId() const;
     msgInfo localInsert(int index, char value);
     msgInfo localErase(int index);
+    msgInfo localErase(int startIndex, int endIndex);
     void process(const msgInfo& m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)

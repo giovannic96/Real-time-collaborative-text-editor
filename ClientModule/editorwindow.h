@@ -110,6 +110,7 @@ public slots:
     void showPopupFailure(QString result);
     void showSymbol(std::pair<int, char> tuple);
     void eraseSymbol(int index);
+    void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);
 
 private:

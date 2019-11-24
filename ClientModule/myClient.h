@@ -54,6 +54,7 @@ signals:
     void listFileResult(std::vector<File> files);
     void insertSymbol(std::pair<int, char> tuple);
     void eraseSymbol(int index);
+    void eraseSymbols(int startIndex, int endIndex);
 
 private:
     boost::asio::io_context io_context_;

@@ -79,7 +79,7 @@ void session::do_read_body()
             }
             int edId = shared_from_this()->getId();
             const std::string response = this->handleRequests(opJSON, jdata_in, edId);
-            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") { //TODO: add other cases
+            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST") { //TODO: add other cases
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsgAll(response, edId); //send data to all the participants in the room except to this client
             }
@@ -390,9 +390,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
             this->currentFile = uriJSON;
+            std::cout << "0ENTRATO" <<std::endl;
 
             //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
             fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
+            std::cout << "1ENTRATO" <<std::endl;
             shared_from_this()->getSymbols() = room_.getSymbolMap(uriJSON);
             //shared_from_this()->getSymbols() = fileUtility::readFile(R"(..\Filesystem\)" + uriJSON + ".txt");
 
@@ -506,6 +508,30 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_removal(j, "REMOVAL_RESPONSE", indexJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "REMOVALRANGE_REQUEST") {
+        int startIndexJSON;
+        int endIndexJSON;
+        jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON); //get json value and put into JSON variables
+        std::cout << "indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << std::endl;
+
+        //Construct msgInfo
+        msgInfo m = localErase(startIndexJSON, endIndexJSON);
+        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+        //Update room symbols for this file
+        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+        //Dispatch message to all the clients
+        room_.send(m);
+        room_.dispatchMessages();
+        edId = m.getEditorId(); //don't send this message to this editor
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_removal_range(j, "REMOVALRANGE_RESPONSE", startIndexJSON, endIndexJSON);
         const std::string response = j.dump();
         return response;
 

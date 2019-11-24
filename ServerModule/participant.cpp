@@ -85,6 +85,17 @@ msgInfo participant::localErase(int index) noexcept(false) {
     return m;
 }
 
+msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
+    if(startIndex >= endIndex || startIndex < 0 || endIndex > _symbols.size()) {
+        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
+        //TODO: return null msgInfo or sthg similar
+    }
+    symbol s = _symbols.at(startIndex); //TODO: useless
+    _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
+    msgInfo m(1, getId(), s);
+    return m;
+}
+
 int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
     if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
         return 1; //correct position found

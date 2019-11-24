@@ -21,6 +21,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
     connect(_client, &myClient::insertSymbol, this, &EditorWindow::showSymbol);
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
+    connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
     ui->DocName->setText(_client->getFilename().toLatin1()); //toLatin1 accept accented char
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -71,7 +72,21 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev)
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
 
-            if(pos > 0) {
+            if(cursor.hasSelection()) { //Remove range of characters selected
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            }
+            else if(pos > 0) { //Remove only one character
+
                 //Serialize data
                 json j;
                 jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos-1);
@@ -1270,6 +1285,16 @@ void EditorWindow::eraseSymbol(int index) {
     cursor.deleteChar();
     cursor.setPosition(oldPos);
     qDebug() << "Deleted char in pos: " << index << endl;
+    ui->FileFrame->setVisible(false);
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
+    QString plaintext = ui->RealTextEdit->toPlainText();
+    plaintext = plaintext.remove(startIndex, endIndex-startIndex);
+    ui->RealTextEdit->setPlainText(plaintext);
+
+    qDebug() << "Deleted char range from pos: " << startIndex << " to pos: " << endIndex << endl;
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }

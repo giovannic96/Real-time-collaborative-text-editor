@@ -231,6 +231,11 @@ void myClient::do_read_body() {
                 int indexJSON;
                 jsonUtility::from_json_removal(jdata_in, indexJSON);
                 emit eraseSymbol(indexJSON);
+            } else if(opJSON == "REMOVALRANGE_RESPONSE") {
+                int startIndexJSON;
+                int endIndexJSON;
+                jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
+                emit eraseSymbols(startIndexJSON, endIndexJSON);
             } else {
                 qDebug() << "Something went wrong" << endl;
                 emit opResultFailure("RESPONSE_FAILURE");
