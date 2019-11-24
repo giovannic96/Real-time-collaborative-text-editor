@@ -283,6 +283,7 @@ void EditorWindow::on_fontDimensionBox_activated(int index){
                 break;
         }
     }
+
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus();   //Return focus to textedit
 }
@@ -547,35 +548,40 @@ void EditorWindow::on_fileButton_clicked(){
 //FUNCTION FOR EXPORT TEXT INTO PDF
 void EditorWindow::on_pdfButton_clicked(){
 
-    /* VERSION 1 - DEPRECATED - TO RESTORE AND FIX SOME MINOR THING BECAUSE WE DISCUSSED
+    //VERSION 1 - TODO dopo salvataggio si sminchia il server con l'utente loggato
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
+    QString fileName = QFileDialog::getSaveFileName(this, "Esporta come PDF", ui->DocName->text(), "PDF File(*.pdf)");
+
+    if (fileName==nullptr){
+        return;
+    }
+
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-    //QString fileName = QFileDialog::getSaveFileName(this,"Salva il file in locale");
     QFile File (fileName);
     pathname = fileName;
-    if(!File.open(QFile::WriteOnly | QFile::Text)){
-    //Return if the user cancels or does something unexpected!
-    //I Don't like it, I suggest to change it with a try-catch statement?
-        return;
-    }else{
-          //Read the file
-          QTextStream writeData(&File);
-          QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
-          QTextDocument doc;
-          doc.setHtml(fileText);
-          QPrinter file;
-          file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName(_fileName+".pdf"); // better to use full path
-          doc.print(&file); //REFERENCE DO NOT TOUCH IT!
-          writeData << &file; //like CIN, but in a stream of text
-          File.flush();
-          File.close();
-    }
-    */
+
+    QTextStream writeData(&File);
+    QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
+    QTextDocument doc;
+    doc.setHtml(fileText);
+    QPrinter file(QPrinter::ScreenResolution);
+    file.setOutputFormat(QPrinter::PdfFormat);
+    file.setOutputFileName(fileName+".pdf"); // better to use full path
+    doc.print(&file); //REFERENCE DO NOT TOUCH IT!
+    writeData << &file; //like CIN, but in a stream of text
+    File.flush();
+    File.close();
+
+    ui->FileFrame->setVisible(false);
+    ui->RealTextEdit->setFocus();
+
+}
+
+
 
     //VERSION 2 - IS REALLY GOOD BUT v1 IS PREFERRED
+    /*
     QString filename;
     filename = _client->getFilename();
     filename.append(".pdf");
@@ -609,7 +615,8 @@ void EditorWindow::on_pdfButton_clicked(){
 
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus();
-}
+
+}*/
 
 /* MAYBE WE HAVE TO DELETE THIS <---------------------(HEY!!! I AGREE WITH YOU BROTHER! HidroSaphire)
 void EditorWindow::on_uriButton_clicked(){

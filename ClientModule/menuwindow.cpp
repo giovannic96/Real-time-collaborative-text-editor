@@ -102,7 +102,7 @@ void MenuWindow::on_backButton_clicked() {
 void MenuWindow::on_newDoc_clicked()
 {
     bool ok;
-    QString text = QInputDialog::getText(this, tr("Titolo documento"),
+    QString text = QInputDialog::getText((QWidget*)0, tr("Titolo documento"),
                                          tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
                                          "", &ok);
     if (ok && !text.isEmpty() && text.size()<=25){
