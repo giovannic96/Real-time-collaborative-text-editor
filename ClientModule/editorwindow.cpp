@@ -39,8 +39,7 @@ EditorWindow::~EditorWindow() {
     //TODO: do I have to delete also client????
 }
 
-bool EditorWindow::eventFilter(QObject *obj, QEvent *ev)
-{
+bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
     if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
 
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
@@ -102,6 +101,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev)
     }
     return false; //or return QObject::eventFilter(obj, ev);
 }
+
 
 /***********************************************************************************
 *                       BUTTON FOR CHANGE STYLE OF THE TEXT                        *
@@ -218,6 +218,7 @@ void EditorWindow::on_buttonAlignJFX_clicked(){
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
+
 /***********************************************************************************
 *                           BUTTON FOR MODIFY THE TEXT                             *
 ************************************************************************************/
@@ -264,6 +265,7 @@ void EditorWindow::on_buttonSearch_clicked(){
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
+
 
 /***********************************************************************************
 *                  BUTTON FOR MODIFY FONT AND SIZE OF THE TEXT                     *
@@ -394,6 +396,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
      ****************************************************************/
     //TODO --> c.position();
 
+
     /****************************************************************
      * STEP 2 - Get font size and update fontDimensionBox
      ****************************************************************/
@@ -510,6 +513,7 @@ void EditorWindow::on_RealTextEdit_textChanged() {
     */
 }
 
+
 /***********************************************************************************
 *                                TopLeftBar FUNCTION                               *
 ************************************************************************************/
@@ -542,6 +546,7 @@ void EditorWindow::on_buttonReduce_clicked(){
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
+
 /***********************************************************************************
 *                                TopRightBar FUNCTION                              *
 ************************************************************************************/
@@ -557,69 +562,36 @@ void EditorWindow::on_fileButton_clicked(){
 //FUNCTION FOR EXPORT TEXT INTO PDF
 void EditorWindow::on_pdfButton_clicked(){
 
-    /* VERSION 1 - DEPRECATED - TO RESTORE AND FIX SOME MINOR THING BECAUSE WE DISCUSSED
+    //VERSION 1
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocName->text(), "PDF File (*.pdf)");
+
+    if (fileName==nullptr){
+        return;
+    }
+
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-    //QString fileName = QFileDialog::getSaveFileName(this,"Salva il file in locale");
     QFile File (fileName);
     pathname = fileName;
-    if(!File.open(QFile::WriteOnly | QFile::Text)){
-    //Return if the user cancels or does something unexpected!
-    //I Don't like it, I suggest to change it with a try-catch statement?
-        return;
-    }else{
-          //Read the file
-          QTextStream writeData(&File);
-          QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
-          QTextDocument doc;
-          doc.setHtml(fileText);
-          QPrinter file;
-          file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName(_fileName+".pdf"); // better to use full path
-          doc.print(&file); //REFERENCE DO NOT TOUCH IT!
-          writeData << &file; //like CIN, but in a stream of text
-          File.flush();
-          File.close();
-    }
-    */
 
-    //VERSION 2 - IS REALLY GOOD BUT v1 IS PREFERRED
-    QString filename;
-    filename = _client->getFilename();
-    filename.append(".pdf");
-
-    QFile File (filename);
-    if(!File.open(QFile::WriteOnly | QFile::Text)){
-    //Return if the user cancels or does something unexpected!
-    //I Don't like it, I suggest to change it with a try-catch statement?
-        return;
-    }else{
-        //Read the file
-        QTextStream writeData(&File);
-        QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
-
-        QTextDocument doc;
-        doc.setHtml(fileText);
-        QPrinter file;
-        file.setOutputFormat(QPrinter::PdfFormat);
-        file.setOutputFileName(filename); // better to use full path
-        doc.print(&file); //REFERENCE DO NOT TOUCH IT!
-
-        writeData << &file; //like CIN, but in a stream of text
-        File.flush();
-        File.close();
-
-        QMessageBox messageBox;
-        messageBox.information(nullptr, filename+" salvato", "Il file "+filename+" è stato salvato!");
-        messageBox.setFixedSize(600,400);
-        messageBox.show();
-    }
+    QTextStream writeData(&File);
+    QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
+    QTextDocument doc;
+    doc.setHtml(fileText);
+    QPrinter file(QPrinter::ScreenResolution);
+    file.setOutputFormat(QPrinter::PdfFormat);
+    file.setOutputFileName(fileName+".pdf"); // better to use full path
+    doc.print(&file); //REFERENCE DO NOT TOUCH IT!
+    writeData << &file; //like CIN, but in a stream of text
+    File.flush();
+    File.close();
 
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus();
+
 }
+
 
 /* MAYBE WE HAVE TO DELETE THIS <---------------------(HEY!!! I AGREE WITH YOU BROTHER! HidroSaphire)
 void EditorWindow::on_uriButton_clicked(){
@@ -762,17 +734,45 @@ void EditorWindow::on_CloseButton_clicked(){
 }
 
 
+
+/***********************************************************************************
+*                                   EVENT HANDLER                                  *
+*                                                                                  *
+*     KeyPressEvent is my personal way for recall the Action function              *
+************************************************************************************/
+void EditorWindow::keyPressEvent(QKeyEvent *e){
+    //WORKING ON IT
+    if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+        qDebug()<<" CTRL + I";
+        on_actionAbout_triggered();
+    }else if((e->key() == Qt::Key_S) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+        qDebug()<<" CTRL + S";
+        on_actionSave_triggered();
+    }else if((e->key() == Qt::Key_F11) && Qt::ControlModifier){
+        qDebug()<<" CTRL + F11";
+        on_actionFullscreen_triggered();
+    }else if((e->key() == Qt::Key_E) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+        qDebug()<<" CTRL + E";
+        on_actionExit_triggered();
+    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+        qDebug()<<" CTRL + N - But the action is temporanely disabled";
+        on_actionNew_triggered();
+    }
+}
+
+
 /***********************************************************************************
 *                                       ACTION                                     *
 *                                                                                  *
 *     Action can be recallable with shortcut, but for now it doesn't work          *
 ************************************************************************************/
 
+//SAVE AS PDF ACTION     -->     CTRL+S
 void EditorWindow::on_actionSave_triggered(){
     on_pdfButton_clicked();
 }
 
-//FULLSCREEN ACTION     -->     CTRL+F11
+//FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered(){
     if(ui->actionFullscreen->isChecked()){
         this->setWindowState(Qt::WindowFullScreen);
@@ -784,17 +784,20 @@ void EditorWindow::on_actionFullscreen_triggered(){
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-//NEW DOCUMENT ACTION   -->     CTRL+N
+//NEW DOCUMENT ACTION    -->     CTRL+N
 void EditorWindow::on_actionNew_triggered(){
     //on_newDocButton_clicked();
 }
 
-//NEW ABOUT ACTION      -->     CTRL+I
+//ABOUT ACTION           -->     CTRL+I
 void EditorWindow::on_actionAbout_triggered(){
     on_aboutButton_clicked();
     ui->FileFrame->setVisible(false);
-}
 
+}//EXIT DOCUMENT ACTION  -->     CTRL+E
+void EditorWindow::on_actionExit_triggered(){
+     on_CloseButton_clicked();
+}
 
 
 /***********************************************************************************
