@@ -39,70 +39,6 @@ EditorWindow::~EditorWindow() {
     //TODO: do I have to delete also client????
 }
 
-bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
-    if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
-
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
-        qDebug() << "You Pressed Key " + keyEvent->text();
-        int key = keyEvent->key();
-
-        if(key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) { //only ASCII characters
-
-            //Get data
-            std::pair<int, char> tuple;
-            QTextCursor cursor = ui->RealTextEdit->textCursor();
-            int pos = cursor.position();
-            char c = keyEvent->text().toStdString().c_str()[0];
-            qDebug() << "char: " << c;
-            tuple = std::make_pair(pos, c);
-
-            //Serialize data
-            json j;
-            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple);
-            const std::string req = j.dump();
-
-            //Send data (header and body)
-            sendRequestMsg(req);
-            return QObject::eventFilter(obj, ev);
-        }
-        else if(key == Qt::Key_Backspace) { //only Backspace
-
-            //Get data
-            QTextCursor cursor = ui->RealTextEdit->textCursor();
-            int pos = cursor.position();
-
-            if(cursor.hasSelection()) { //Remove range of characters selected
-                int startIndex = cursor.selectionStart();
-                int endIndex = cursor.selectionEnd();
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
-                return QObject::eventFilter(obj, ev);
-            }
-            else if(pos > 0) { //Remove only one character
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos-1);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
-                return QObject::eventFilter(obj, ev);
-            } else
-                return QObject::eventFilter(obj, ev);
-        }
-        return false; //or return QObject::eventFilter(obj, ev);
-    }
-    return false; //or return QObject::eventFilter(obj, ev);
-}
-
-
 /***********************************************************************************
 *                       BUTTON FOR CHANGE STYLE OF THE TEXT                        *
 ************************************************************************************/
@@ -740,6 +676,69 @@ void EditorWindow::on_CloseButton_clicked(){
 *                                                                                  *
 *     KeyPressEvent is my personal way for recall the Action function              *
 ************************************************************************************/
+bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
+    if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
+
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
+        qDebug() << "You Pressed Key " + keyEvent->text();
+        int key = keyEvent->key();
+
+        if(key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) { //only ASCII characters
+
+            //Get data
+            std::pair<int, char> tuple;
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+            int pos = cursor.position();
+            char c = keyEvent->text().toStdString().c_str()[0];
+            qDebug() << "char: " << c;
+            tuple = std::make_pair(pos, c);
+
+            //Serialize data
+            json j;
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple);
+            const std::string req = j.dump();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+            return QObject::eventFilter(obj, ev);
+        }
+        else if(key == Qt::Key_Backspace) { //only Backspace
+
+            //Get data
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+            int pos = cursor.position();
+
+            if(cursor.hasSelection()) { //Remove range of characters selected
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            }
+            else if(pos > 0) { //Remove only one character
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos-1);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            } else
+                return QObject::eventFilter(obj, ev);
+        }
+        return false; //or return QObject::eventFilter(obj, ev);
+    }
+    return false; //or return QObject::eventFilter(obj, ev);
+}
+
 void EditorWindow::keyPressEvent(QKeyEvent *e){
     //WORKING ON IT
     if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier){

@@ -13,7 +13,7 @@ private:
     QString str;
 public:
     //CONSTRUCTOR WITHOUT PARAMETER (Default)
-    VersionInfo(): Major(0), Minor(1), Patch(9), ReleaseType("a"), BuildTypeAndNumber("Daily 1258"){
+    VersionInfo(): Major(0), Minor(1), Patch(9), ReleaseType("a"), BuildTypeAndNumber("Daily 1259"){
         str = "v"+QString::number(Major)+"."+QString::number(Minor)+"."+QString::number(Patch)+ReleaseType+" - "+BuildTypeAndNumber;
     }
 
