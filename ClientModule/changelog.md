@@ -4,6 +4,10 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.9a - Daily 1256] - 2019/11/24 @ 14:30
+### Cambiamenti
+- Correzione nel passaggio da json e viceversa di caratteri accentati - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/13]
+
 ## [v0.1.9a - Daily 1255] - 2019/11/24 @ 13:00
 ### Cambiamenti
 - Unificati messaggi d'errore - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/39]

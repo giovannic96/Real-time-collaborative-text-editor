@@ -21,8 +21,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
     connect(_client, &myClient::insertSymbol, this, &EditorWindow::showSymbol);
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
-    ui->DocName->setText(_client->getFilename());
-    ui->RealTextEdit->setFontPointSize(14);         //Force the TextEdit to have a value for the FontPointSize. Is necessary for get the default parameter of Point Size.
+    ui->DocName->setText(_client->getFilename().toLatin1()); //toLatin1 accept accented char
+    ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     //ui->RealTextEdit->document()->setDefaultFont(QFont("Times New Roman", 14));
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");

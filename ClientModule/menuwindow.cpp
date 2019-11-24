@@ -111,7 +111,10 @@ void MenuWindow::on_newDoc_clicked()
         QString user = _client->getUsername();
         QByteArray ba_user = user.toLocal8Bit();
         const char *c_user = ba_user.data();
-        QString filename = text.toUtf8(); //Is a temporary fix - Why don't work anymore?
+        QString filename = QLatin1String(text.toUtf8()); //è diventa A con dieresi e un altro simbolo. Facendo toLatin1 alla ricezione lo riconverto in è.
+        //QString filename = QLatin1String(text.toLatin1()); //crash
+        //QString filename = QString::fromUtf8(text.toLatin1()); //è diventa <?> però diventa ? nel filename
+        //QString filename = QLatin1String(text.toLocal8Bit()); //crash
         QByteArray ba_filename = filename.toLocal8Bit();
         const char *c_filename = ba_filename.data();
 
