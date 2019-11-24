@@ -4,6 +4,10 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.9a - Daily 1255] - 2019/11/24 @ 13:00
+### Cambiamenti
+- Unificati messaggi d'errore - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/39]
+
 ## [v0.1.9a - Daily 1254] - 2019/11/24 @ 12:10 - MERGED
 ### Cambiamenti
 - Merge manuale delle ultime build

@@ -160,19 +160,11 @@ void StartWindow::setStatus(bool newStatus) {
 
 void StartWindow::showPopupFailure(QString result) {
     if(result == "LOGIN_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "LOGIN FAILURE", "Error: Login NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+       QMessageBox::critical(this,"Errore", "Il login non è stato completato correttamente! Riprova!");                                 //Stay in the same window
     } else if(result == "SIGNUP_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "SIGNUP FAILURE", "Error: Signup NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+        QMessageBox::critical(this,"Errore", "La registrazione non è avvenuta correttamente! Riprova!");                                //Stay in the same window
     } else {
-        QMessageBox messageBox;
-        messageBox.information(nullptr, "GENERIC FAILURE", "Error: Something went wrong!");
-        messageBox.setFixedSize(500,200);
+        QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
 }
 
@@ -182,9 +174,7 @@ void StartWindow::showPopupSuccess(QString result) {
         this->close(); //this startWindow will be then created when user press Exit on menuWindow
         m->show();
     } else if(result == "SIGNUP_SUCCESS") {
-        QMessageBox messageBox;
-        messageBox.information(nullptr, "SIGNUP SUCCESS", "Registrazione effettuata correttamente.");
-        messageBox.setFixedSize(500,200);
+        QMessageBox::information(this,"Complimenti", "La registrazione è avvenuta correttamente!");
         ui->stackedWidget->setCurrentIndex(0);
     }
 }

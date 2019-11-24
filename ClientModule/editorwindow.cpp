@@ -244,7 +244,6 @@ void EditorWindow::on_buttonSearch_clicked(){
     QString findtext = QInputDialog::getText(this,"Ricerca","Inserisci testo da cercare:");
     ui->RealTextEdit->moveCursor(QTextCursor::Start);
     if(!ui->RealTextEdit->find(findtext,QTextDocument::FindWholeWords)){
-        //I've changed the QMessageBox (from "3 row", to ::information and it work again! Seriously?)
         QMessageBox::information(this,"Attenzione", "La ricerca non ha trovato alcun risultato!");
     }
     ui->FileFrame->setVisible(false);
@@ -277,9 +276,7 @@ void EditorWindow::on_fontDimensionBox_activated(int index){
                 ui->RealTextEdit->setFontPointSize(72);
                 break;
             default:
-                QMessageBox msgBox;
-                msgBox.setText("Come sei riuscito a leggere questo errore?\nContattami perchè dovrò implementare un try-catch!");
-                msgBox.exec();
+                QMessageBox::critical(this,"Errore", "Si è verificato un problema durante il cambio di dimensione del testo!");
                 break;
         }
     }
@@ -409,9 +406,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
                 ui->fontDimensionBox->setCurrentIndex(15);
                 break;
             default:
-                QMessageBox msgBox;
-                msgBox.setText("Hai letto questo messaggio?\nContattami perchè dovrò implementare un try-catch!");
-                msgBox.exec();
+                QMessageBox::critical(this,"Errore", "Si è verificato un problema durante l'aggiornamento della dimensione del testo!");
                 break;
         }
     }
@@ -730,16 +725,12 @@ void EditorWindow::on_buttonRename_clicked(){
         //Send data (header and body)
         sendRequestMsg(req);
     }
-    else if (ok && !newText.isEmpty() && newText.size()>15){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
-        messageBox.setFixedSize(600,400);
+    else if (ok && !newText.isEmpty() && newText.size()>25){
+        QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
         on_buttonRename_clicked();
     }
     else if (ok && newText.isEmpty()){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome!");
-        messageBox.setFixedSize(600,400);
+        QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_buttonRename_clicked();
     }
 }
@@ -1212,7 +1203,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         delete this;
     } else if (result == "RENAME_SUCCESS"){
         ui->DocName->setText(QString::fromStdString(filename));
-        _client->setFilename(QString::fromStdString(filename));  //Assign newText to the variable
+        _client->setFilename(QString::fromStdString(filename));      //Assign newText to the variable
         ui->FileFrame->setVisible(false);
         ui->RealTextEdit->setFocus(); //Return focus to textedit
     }
@@ -1220,17 +1211,11 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
 
 void EditorWindow::showPopupFailure(QString result) {
     if(result == "LOGOUTURI_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "LOGOUTURI FAILURE", "Error: LogoutURI NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+        QMessageBox::critical(this,"Errore", "LogoutURI non completata!");                                 //Stay in the same window
     } else if(result == "RENAME_FAILURE") {
-        QMessageBox::warning(this,"Impossibile rinominare", "Esiste già un file con questo nome!");
-        //Stay in the same window*/
+        QMessageBox::warning(this,"Impossibile rinominare", "Esiste già un file con questo nome!");        //Stay in the same window
     } else {
-        QMessageBox messageBox;
-        messageBox.information(nullptr, "GENERIC FAILURE", "Error: Something went wrong!");
-        messageBox.setFixedSize(500,200);
+        QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
 }
 
