@@ -543,10 +543,10 @@ void EditorWindow::on_fileButton_clicked(){
 //FUNCTION FOR EXPORT TEXT INTO PDF
 void EditorWindow::on_pdfButton_clicked(){
 
-    //VERSION 1 - TODO dopo salvataggio si sminchia il server con l'utente loggato
+    //VERSION 1
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName(this, "Esporta come PDF", ui->DocName->text(), "PDF File(*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocName->text(), "PDF File (*.pdf)");
 
     if (fileName==nullptr){
         return;
