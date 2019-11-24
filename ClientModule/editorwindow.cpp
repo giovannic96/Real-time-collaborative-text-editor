@@ -547,68 +547,34 @@ void EditorWindow::on_fileButton_clicked(){
 //FUNCTION FOR EXPORT TEXT INTO PDF
 void EditorWindow::on_pdfButton_clicked(){
 
-    /* VERSION 1 - DEPRECATED - TO RESTORE AND FIX SOME MINOR THING BECAUSE WE DISCUSSED
+    //VERSION 1
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Esporta come PDF", QString(), "*.pdf");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocName->text(), "PDF File (*.pdf)");
+
+    if (fileName==nullptr){
+        return;
+    }
+
     if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-    //QString fileName = QFileDialog::getSaveFileName(this,"Salva il file in locale");
     QFile File (fileName);
     pathname = fileName;
-    if(!File.open(QFile::WriteOnly | QFile::Text)){
-    //Return if the user cancels or does something unexpected!
-    //I Don't like it, I suggest to change it with a try-catch statement?
-        return;
-    }else{
-          //Read the file
-          QTextStream writeData(&File);
-          QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
-          QTextDocument doc;
-          doc.setHtml(fileText);
-          QPrinter file;
-          file.setOutputFormat(QPrinter::PdfFormat);
-          file.setOutputFileName(_fileName+".pdf"); // better to use full path
-          doc.print(&file); //REFERENCE DO NOT TOUCH IT!
-          writeData << &file; //like CIN, but in a stream of text
-          File.flush();
-          File.close();
-    }
-    */
 
-    //VERSION 2 - IS REALLY GOOD BUT v1 IS PREFERRED
-    QString filename;
-    filename = _client->getFilename();
-    filename.append(".pdf");
-
-    QFile File (filename);
-    if(!File.open(QFile::WriteOnly | QFile::Text)){
-    //Return if the user cancels or does something unexpected!
-    //I Don't like it, I suggest to change it with a try-catch statement?
-        return;
-    }else{
-        //Read the file
-        QTextStream writeData(&File);
-        QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
-
-        QTextDocument doc;
-        doc.setHtml(fileText);
-        QPrinter file;
-        file.setOutputFormat(QPrinter::PdfFormat);
-        file.setOutputFileName(filename); // better to use full path
-        doc.print(&file); //REFERENCE DO NOT TOUCH IT!
-
-        writeData << &file; //like CIN, but in a stream of text
-        File.flush();
-        File.close();
-
-        QMessageBox messageBox;
-        messageBox.information(nullptr, filename+" salvato", "Il file "+filename+" è stato salvato!");
-        messageBox.setFixedSize(600,400);
-        messageBox.show();
-    }
+    QTextStream writeData(&File);
+    QString fileText = ui->RealTextEdit->toHtml(); //HTML NO PLAINTEXT
+    QTextDocument doc;
+    doc.setHtml(fileText);
+    QPrinter file(QPrinter::ScreenResolution);
+    file.setOutputFormat(QPrinter::PdfFormat);
+    file.setOutputFileName(fileName+".pdf"); // better to use full path
+    doc.print(&file); //REFERENCE DO NOT TOUCH IT!
+    writeData << &file; //like CIN, but in a stream of text
+    File.flush();
+    File.close();
 
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->setFocus();
+
 }
 
 
