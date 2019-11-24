@@ -734,6 +734,38 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
             } else
                 return QObject::eventFilter(obj, ev);
         }
+        else if(key == Qt::Key_Delete) { //only "canc" button
+
+            //Get data
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+            int pos = cursor.position();
+
+            if(cursor.hasSelection()) { //Remove range of characters selected
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            }
+            else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) { //Remove only one character
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            } else
+                return QObject::eventFilter(obj, ev);
+        }
         return false; //or return QObject::eventFilter(obj, ev);
     }
     return false; //or return QObject::eventFilter(obj, ev);
