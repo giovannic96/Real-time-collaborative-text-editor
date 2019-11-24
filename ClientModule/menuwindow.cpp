@@ -111,7 +111,10 @@ void MenuWindow::on_newDoc_clicked()
         QString user = _client->getUsername();
         QByteArray ba_user = user.toLocal8Bit();
         const char *c_user = ba_user.data();
-        QString filename = text.toUtf8(); //Is a temporary fix - Why don't work anymore?
+        QString filename = QLatin1String(text.toUtf8()); //è diventa A con dieresi e un altro simbolo. Facendo toLatin1 alla ricezione lo riconverto in è.
+        //QString filename = QLatin1String(text.toLatin1()); //crash
+        //QString filename = QString::fromUtf8(text.toLatin1()); //è diventa <?> però diventa ? nel filename
+        //QString filename = QLatin1String(text.toLocal8Bit()); //crash
         QByteArray ba_filename = filename.toLocal8Bit();
         const char *c_filename = ba_filename.data();
 
@@ -128,15 +131,11 @@ void MenuWindow::on_newDoc_clicked()
         sendRequestMsg(req);
     }
     else if (ok && !text.isEmpty() && text.size()>25){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 25 caratteri!");
-        messageBox.setFixedSize(600,400);
+        QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!");
         on_newDoc_clicked();
     }
     else if (ok && text.isEmpty()){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome!");
-        messageBox.setFixedSize(600,400);
+        QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_newDoc_clicked();
     }
 }
@@ -190,15 +189,11 @@ void MenuWindow::on_uriDoc_clicked()
         sendRequestMsg(req);
     }
     else if (ok && !text.isEmpty() && text.size()>25) {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 25 caratteri!");
-        messageBox.setFixedSize(600,400);
+        QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
         on_uriDoc_clicked();
     }
     else if (ok && text.isEmpty()){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome!");
-        messageBox.setFixedSize(600,400);
+        QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_uriDoc_clicked();
     }
 }
@@ -254,44 +249,21 @@ void MenuWindow::showPopupSuccess(QString result) {
 
 void MenuWindow::showPopupFailure(QString result) {
     if(result == "LOGOUT_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "LOGOUT FAILURE", "Error: Logout NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+        QMessageBox::critical(this,"Errore", "LogoutURI non completata!");                                  //Stay in the same window
     } else if(result == "NEWFILE_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "NEWFILE FAILURE", "Error: Newfile NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Newfile non completata!");                                    //Stay in the same window
     } else if(result == "OPENFILE_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "OPENFILE FAILURE", "Error: Openfile NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "Openfile non completata!");                                   //Stay in the same window (MenuWindow(1))
     } else if(result == "OPENWITHURI_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "OPENWITHURI FAILURE", "Error: Openwithuri NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Openwithuri non completata!");                                //Stay in the same window
     } else if(result == "LISTFILE_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "LISTFILE FAILURE", "Error: Listfile NOT completed!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "Listfile non completata!");                                   //Stay in the same window (MenuWindow(1))
     } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "LISTFILE FAILURE", "Error: Listfile NOT exist!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window (MenuWindow(1))
+        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");                     //Stay in the same window (MenuWindow(1))
     } else if(result == "RESPONSE_FAILURE") {
-        QMessageBox messageBox;
-        messageBox.critical(nullptr, "RESPONSE FAILURE", "Error: Response NOT handled!");
-        messageBox.setFixedSize(500,200);
-        //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Risposta non gestita!\nErrore di tipo RESPONSE_FAILURE");
     } else {
-        QMessageBox messageBox;
-        messageBox.information(nullptr, "GENERIC FAILURE", "Error: Something went wrong!");
-        messageBox.setFixedSize(500,200);
+        QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
 }
 
