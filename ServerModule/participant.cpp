@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <utility>
 #include "header_files/participant.h"
 #include "header_files/session.h"
 
@@ -153,4 +154,8 @@ std::string participant::to_string() {
 
 void participant::setSiteId(int edId) {
     this->_siteId = edId;
+}
+
+void participant::setSymbols(std::vector<symbol> symbols) {
+    this->_symbols = std::move(symbols);
 }

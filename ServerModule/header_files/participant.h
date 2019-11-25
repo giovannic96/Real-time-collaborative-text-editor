@@ -30,6 +30,7 @@ public:
     void process(const msgInfo& m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
+    void setSymbols(std::vector<symbol> symbols);
     void setSiteId(int edId);
 };
 

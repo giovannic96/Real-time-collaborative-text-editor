@@ -219,7 +219,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGOUT_OK) {
-            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
+            //fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
+            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getMap().at(uriJSON));
             db_res = "LOGOUTURI_OK";
         }
         else if(resp == dbService::LOGOUT_FAILED)
@@ -290,7 +291,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             //Update session data
             this->currentFile = uri.toStdString();
             std::cout << "current file: " << currentFile << std::endl;
-            room_.setEmptyMap(currentFile);
+            room_.addEntryInMap(currentFile, std::vector<symbol>());
 
             //Serialize data
             json j;
@@ -326,8 +327,31 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
         QSqlDatabase::removeDatabase("MyConnect2");
 
-        if(resp == dbService::LIST_EXIST)
-        db_res = "LIST_EXIST";
+        if(resp == dbService::LIST_EXIST) {
+
+            //TODO: al posto di queste 4 righe fare cosi: se all interno del for non trovi una chiave nella roommap con quel valore...
+            //TODO: ... di f.getidfile(), allora creare una chiave con quell idfile e con vettore di simboli vuoto come valore, altri...
+            //TODO: ...menti non fare nulla, tieniti quelli che avevi in RAM.
+
+            if(room_.getMap().empty()) {
+                for (const auto &f: vectorFile)
+                    room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
+            } else {
+                for (const auto &f: vectorFile) {
+                    if (room_.getMap().count(f.getidfile()) <= 0) //key not exists
+                        room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
+                }
+            }
+
+            /*
+            std::map<std::string, std::vector<symbol>> initMap;
+            for(const auto& f: vectorFile)
+                initMap.emplace(f.getidfile(), std::vector<symbol>());
+            room_.setMap(initMap); //so that server has in RAM all the files (initially empty)
+            */
+
+            db_res = "LIST_EXIST";
+        }
         else if(resp == dbService::LIST_DOESNT_EXIST)
         db_res = "LIST_DOESNT_EXIST";
         else if(resp == dbService::DB_ERROR)
@@ -353,7 +377,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-
 
         dbService::DB_RESPONSE resp = dbService::tryRenameFile(newNameFileJson, uriJson, userJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
@@ -385,23 +408,21 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //update tables on db
         dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
-        //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
 
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
             this->currentFile = uriJSON;
-            std::cout << "0ENTRATO" <<std::endl;
-
-            //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
-            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
-            std::cout << "1ENTRATO" <<std::endl;
-            shared_from_this()->getSymbols() = room_.getSymbolMap(uriJSON);
-            //shared_from_this()->getSymbols() = fileUtility::readFile(R"(..\Filesystem\)" + uriJSON + ".txt");
+            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
             //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
 
-            db_res = "OPENFILE_OK";
+            if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
+                db_res = "OPENFILE_FILE_EMPTY";
+            else
+                db_res = "OPENFILE_OK";
+
+            //Serialize data
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
@@ -438,11 +459,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect3");
 
         if (resp == dbService::OPENWITHURI_OK) {
-            db_res = "OPENWITHURI_OK";
-
             //Update session data
             this->currentFile = uriJSON;
+            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
+            db_res = "OPENWITHURI_OK";
             //Serialize data
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
@@ -475,7 +496,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
-        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
         //Dispatch message to all the clients
         room_.send(m);
@@ -498,7 +519,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
-        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
         //Dispatch message to all the clients
         room_.send(m);
@@ -522,7 +543,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
-        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
         //Dispatch message to all the clients
         room_.send(m);

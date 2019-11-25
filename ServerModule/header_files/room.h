@@ -34,8 +34,9 @@ public:
     void send(const msgInfo& m);
     void dispatchMessages(); //dispatch to the participants
     std::map<std::string, std::vector<symbol>> getMap();
-    void setEmptyMap(const std::string& key);
-    void setMap(const std::string& key, const std::vector<symbol>& symbols);
+    void updateMap(const std::string& key, const std::vector<symbol>& symbols);
+    void addEntryInMap(const std::string& key, const std::vector<symbol>& symbols);
+    void setMap(const std::map<std::string, std::vector<symbol>>& m);
     std::vector<symbol> getSymbolMap(const std::string& filename);
 };
 

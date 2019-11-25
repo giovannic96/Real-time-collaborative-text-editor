@@ -26,7 +26,7 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user) {
         if(query.exec()) {
             std::cout << "LOGOUT without URI success" << std::endl;
             db.close();
-            return  LOGOUT_OK;
+            return LOGOUT_OK;
         } else {
             std::cout << "Error on SELECT" << std::endl;
             db.close();

@@ -17,7 +17,6 @@ void fileUtility::writeFile(const std::string& filename, const std::vector<symbo
     // Write json string on file
     std::ofstream outputFile(filename);
     if(outputFile.is_open()) {
-        //outputFile << j.dump().c_str(); //TODO: should I keep c_str() or only dump()??
         outputFile << j;
         outputFile.close();
         std::cout << "File " << filename << " written correctly" << std::endl;
@@ -32,6 +31,11 @@ std::vector<symbol> fileUtility::readFile(const std::string& filepath) {
     std::ifstream f(filepath);
     std::string str;
     if(f.is_open()) {
+        if(fileUtility::is_empty(f)) {
+            std::cout << "ENTRATOOOOOOOOOO";
+            return std::vector<symbol>();
+        }
+
         std::string line;
         while(getline(f, line)) {
             str.append(line);
@@ -46,4 +50,8 @@ std::vector<symbol> fileUtility::readFile(const std::string& filepath) {
     symbols = jsonUtility::fromJsonToSym(jsonSymbols);
 
     return symbols;
+}
+
+bool fileUtility::is_empty(std::ifstream& pFile) {
+    return pFile.peek() == std::ifstream::traits_type::eof();
 }

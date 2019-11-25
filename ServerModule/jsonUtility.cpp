@@ -209,10 +209,12 @@ json jsonUtility::merge(const json &a, const json &b) {
     return result.unflatten();
 }
 
-std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
+std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols) {
 
+    if(symbols.empty())
+        return json::array();
     /*
-    //TODO: delete this initialization of symbols
+    //TODO: delete later this initialization of symbols
     std::vector<int> v; //pos vector
     v.push_back(1);
     v.push_back(2);

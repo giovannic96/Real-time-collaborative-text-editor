@@ -1,4 +1,4 @@
-#include "myClient.h"
+﻿#include "myClient.h"
 #include <qtextcodec.h>
 #include <iostream>
 #include <QMessageBox>
@@ -124,7 +124,10 @@ void myClient::do_read_body() {
                     std::string uriJSON;
                     jsonUtility::from_jsonUri(jdata_in, uriJSON); //get json value and put into JSON variables
                     QString uriQString = QString::fromUtf8(uriJSON.data(), uriJSON.size());
+
+                    //Update client data
                     this->setFileURI(uriQString);
+                    this->setVector(std::vector<symbol>());
                     emit opResultSuccess("NEWFILE_SUCCESS");
                 } else {
                     emit opResultFailure("NEWFILE_FAILURE");
@@ -149,6 +152,11 @@ void myClient::do_read_body() {
                     //Update client data
                     this->setVector(symbols);
 
+                    emit opResultSuccess("OPENFILE_SUCCESS");
+                } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
+
+                    //Update client data
+                    this->setVector(std::vector<symbol>());
                     emit opResultSuccess("OPENFILE_SUCCESS");
                 } else {
                     emit opResultFailure("OPENFILE_FAILURE");

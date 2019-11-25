@@ -18,7 +18,7 @@ class jsonUtility {
 
 public:
     static json merge(const json &a, const json &b);
-    static std::vector<json> fromSymToJson(std::vector<symbol> symbols);
+    static std::vector<json> fromSymToJson(const std::vector<symbol>& symbols);
     static std::vector<symbol> fromJsonToSym(const std::vector<json>& jsons);
     static symbol from_json_symbol(const json& j);
     static std::vector<json> fromFileToJson(const std::vector<File>& files);
