@@ -4,6 +4,15 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.10a - Daily 1260] - 2019/11/26 @ 01:00
+### Aggiunta
+- Funzionalità di cancellazione della porzione del testo selezionato
+- Aggiunta funzionalità di cancellazione anche per il pulsante "canc"
+
+## [v0.1.9a - Daily 1259] - 2019/11/24 @ 18:10
+### Cambiamenti
+- Correzione di alcuni errori
+
 ## [v0.1.9a - Daily 1258] - 2019/11/24 @ 18:00
 ### Aggiunto
 - Funzione ad evento per richiamare gli shortcut delle action

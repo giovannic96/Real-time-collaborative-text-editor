@@ -771,6 +771,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
     return false; //or return QObject::eventFilter(obj, ev);
 }
 
+
 void EditorWindow::keyPressEvent(QKeyEvent *e){
     //WORKING ON IT
     if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier){
@@ -790,7 +791,6 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
         on_actionNew_triggered();
     }
 }
-
 
 /***********************************************************************************
 *                                       ACTION                                     *
