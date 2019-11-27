@@ -683,7 +683,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
 
-        if(key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) { //only ASCII characters
+        if((key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) || key == Qt::Key_Return) { //only ASCII characters and also "enter"
 
             //Get data
             std::pair<int, char> tuple;
