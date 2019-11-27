@@ -106,7 +106,6 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
                     }
                     else {
                         std::cout << "Already logged user" << std::endl;
-                        return LOGIN_OK; //TODO: remove this return!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         return ALREADY_LOGGED;
                     }
                 }
