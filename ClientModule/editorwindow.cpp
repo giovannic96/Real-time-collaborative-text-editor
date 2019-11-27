@@ -683,7 +683,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
 
-        if((key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) || key == Qt::Key_Return) { //only ASCII characters and also "enter"
+        if((key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) || key == Qt::Key_Return || key == Qt::Key_Egrave){ //only ASCII characters and also "enter"
 
             //Get data
             std::pair<int, char> tuple;
@@ -1277,8 +1277,9 @@ void EditorWindow::sendRequestMsg(std::string req) {
     _client->write(msg);
 }
 
+
 void EditorWindow::showSymbols(std::vector<symbol> symbols) {
-    char letter;
+    wchar_t letter;
     QTextCursor c = ui->RealTextEdit->textCursor();
     foreach (symbol s, symbols) {
         letter = s.getLetter();
@@ -1290,7 +1291,7 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
         if (s.isItalic()){
             newFormat.setFontItalic(true);
         }
-
+        qDebug()<<"LETTERA = "<<letter;
         int pos = s.getPos().at(0);
         c.setPosition(pos);
         c.setCharFormat(newFormat);
