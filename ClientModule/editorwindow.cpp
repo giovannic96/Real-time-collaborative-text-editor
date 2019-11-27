@@ -433,10 +433,10 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
 void EditorWindow::on_RealTextEdit_textChanged() {
     /*
     //Get data
-    std::pair<int, char> tuple;
+    std::pair<int, wchar_t> tuple;
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     int pos = cursor.position();
-    char c = ui->RealTextEdit->toPlainText().mid(pos-1, 1).toStdString().c_str()[0];
+    wchar_t c = ui->RealTextEdit->toPlainText().mid(pos-1, 1).toStdString().c_str()[0];
     tuple = std::make_pair(pos-1, c);
 
     //Serialize data
@@ -683,13 +683,15 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
 
-        if((key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) || key == Qt::Key_Return) { //only ASCII characters and also "enter"
+        if(!keyEvent->text().isEmpty()) {
 
+        //if((key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) || key == Qt::Key_Return || key == Qt::Key_Egrave) { //only ASCII characters and also "enter"
+        if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete)) {
             //Get data
-            std::pair<int, char> tuple;
+            std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
-            char c = keyEvent->text().toStdString().c_str()[0];
+            wchar_t c = keyEvent->text().toStdWString().c_str()[0];
             qDebug() << "char: " << c;
             tuple = std::make_pair(pos, c);
 
@@ -766,6 +768,8 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
             } else
                 return QObject::eventFilter(obj, ev);
         }
+        } else
+            return QObject::eventFilter(obj, ev);
         return false; //or return QObject::eventFilter(obj, ev);
     }
     return false; //or return QObject::eventFilter(obj, ev);
@@ -1278,7 +1282,7 @@ void EditorWindow::sendRequestMsg(std::string req) {
 }
 
 void EditorWindow::showSymbols(std::vector<symbol> symbols) {
-    char letter;
+    wchar_t letter;
     QTextCursor c = ui->RealTextEdit->textCursor();
     foreach (symbol s, symbols) {
         letter = s.getLetter();
@@ -1300,9 +1304,9 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
     }
 }
 
-void EditorWindow::showSymbol(std::pair<int, char> tuple) {
+void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple) {
     int pos = tuple.first;
-    char c = tuple.second;
+    wchar_t c = tuple.second;
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     cursor.setPosition(pos);
     cursor.insertText(static_cast<QString>(c));

@@ -471,7 +471,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "INSERTION_REQUEST") {
-        std::pair<int, char> tupleJSON;
+        std::pair<int, wchar_t> tupleJSON;
         jsonUtility::from_json_insertion(jdata_in, tupleJSON); //get json value and put into JSON variables
         std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
 
@@ -490,7 +490,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, char>(m.getNewIndex(), tupleJSON.second));
+        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second));
         const std::string response = j.dump();
         return response;
 

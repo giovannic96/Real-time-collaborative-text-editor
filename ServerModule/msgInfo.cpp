@@ -36,7 +36,7 @@ std::string msgInfo::toString() {
 
     //construct final string for msgInfo
     std::string str("Type:" + std::to_string(this->type) + " EditorID:" + std::to_string(this->editorId) +
-                    " Symbol - Letter: " + this->s.getLetter() + " Symbol - Pos: " + posToStr + " Symbol - Id: " +
+                    " Symbol - Letter: " + std::to_string(this->s.getLetter()) + " Symbol - Pos: " + posToStr + " Symbol - Id: " +
                     std::to_string(this->s.getId().first) + std::to_string(this->s.getId().second) + " New index: " +
                     std::to_string(this->newIndex));
     return str;

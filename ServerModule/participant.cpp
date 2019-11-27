@@ -12,7 +12,7 @@ int participant::getId() const {
     return _siteId;
 }
 
-msgInfo participant::localInsert(int index, char value) /*noexcept(false)*/ {
+msgInfo participant::localInsert(int index, wchar_t value) /*noexcept(false)*/ {
     std::vector<int> pos;
 
     if(index < 0 || index > _symbols.size()) {
@@ -37,7 +37,7 @@ msgInfo participant::localInsert(int index, char value) /*noexcept(false)*/ {
     return m;
 }
 
-std::vector<int> participant::generatePos(int index, char value) {
+std::vector<int> participant::generatePos(int index, wchar_t value) {
     const std::vector<int> posBefore = _symbols[index-1].getPos();
     const std::vector<int> posAfter = _symbols[index].getPos();
     return generatePosBetween(posBefore, posAfter);

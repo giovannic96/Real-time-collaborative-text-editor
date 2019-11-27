@@ -232,7 +232,7 @@ void myClient::do_read_body() {
                     emit opResultFailure("LISTFILE_FAILURE");
                 }
             } else if(opJSON == "INSERTION_RESPONSE") {
-                std::pair<int, char> tupleJSON;
+                std::pair<int, wchar_t> tupleJSON;
                 jsonUtility::from_json_insertion(jdata_in, tupleJSON);
                 emit insertSymbol(tupleJSON);
             } else if(opJSON == "REMOVAL_RESPONSE") {

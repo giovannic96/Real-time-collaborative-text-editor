@@ -52,7 +52,7 @@ signals:
     void changeTextUsername(QString text);
     void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);
-    void insertSymbol(std::pair<int, char> tuple);
+    void insertSymbol(std::pair<int, wchar_t> tuple);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
 

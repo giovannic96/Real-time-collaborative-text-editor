@@ -114,7 +114,7 @@ private slots:
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
-    void showSymbol(std::pair<int, char> tuple);
+    void showSymbol(std::pair<int, wchar_t> tuple);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);
