@@ -27,13 +27,13 @@ void room::deliver(const message &msg) {
             p->deliver(msg);
 }
 
-void room::deliverToAll(const message &msg, const int& edId) {
+void room::deliverToAll(const message &msg, const int& edId, const std::string& curFile) {
     recent_msgs_.push_back(msg);
     while (recent_msgs_.size() > max_recent_msgs)
         recent_msgs_.pop_front();
 
     for (const auto& p: participants_) {
-        if (p->getId() != edId) //don't send the message to the same client
+        if (p->getId() != edId && p->getCurrentFile() == curFile) //don't send the message to the same client and don't send to clients having other file opened
             p->deliver(msg);
     }
 }

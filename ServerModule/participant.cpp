@@ -145,6 +145,10 @@ std::vector<symbol> participant::getSymbols() {
     return _symbols;
 }
 
+std::string participant::getCurrentFile() {
+    return this->currentFile;
+}
+
 std::string participant::to_string() {
     std::string my_string;
     for(const auto& s: _symbols)
@@ -158,4 +162,8 @@ void participant::setSiteId(int edId) {
 
 void participant::setSymbols(std::vector<symbol> symbols) {
     this->_symbols = std::move(symbols);
+}
+
+void participant::setCurrentFile(std::string uri) {
+    this->currentFile = std::move(uri);
 }

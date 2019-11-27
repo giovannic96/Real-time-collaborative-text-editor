@@ -78,10 +78,11 @@ void session::do_read_body()
                 std::cerr << e.what() << '\n';
             }
             int edId = shared_from_this()->getId();
-            const std::string response = this->handleRequests(opJSON, jdata_in, edId);
+            std::string curFile = std::string();
+            const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile);
             if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST") { //TODO: add other cases
                 std::cout << "Sent:" << response << "END" << std::endl;
-                this->sendMsgAll(response, edId); //send data to all the participants in the room except to this client
+                this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
             }
             else {
                 std::cout << "Sent:" << response << "END" << std::endl;
@@ -132,9 +133,9 @@ void session::sendMsg(const std::string& response) {
     shared_from_this()->deliver(msg); //deliver msg only to the participant
 }
 
-void session::sendMsgAll(const std::string& response, const int& edId) {
+void session::sendMsgAll(const std::string& response, const int& edId, const std::string& curFile) {
     message msg = constructMsg(response);
-    room_.deliverToAll(msg, edId); //deliver msg to all the clients except the client with id 'edId' (this client)
+    room_.deliverToAll(msg, edId, curFile); //deliver msg to all the clients except the client with id 'edId' (this client)
 }
 
 message session::constructMsg(const std::string& response) {
@@ -142,12 +143,12 @@ message session::constructMsg(const std::string& response) {
     message msg;
     msg.body_length(response.size());
     std::memcpy(msg.body(), response.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
+    msg.body()[msg.body_length()] = '\0';
     msg.encode_header();
     return msg;
 }
 
-std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId) {
+std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile) {
     if(opJSON == "LOGIN_REQUEST") {
         std::string userJSON;
         std::string passJSON;
@@ -287,8 +288,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "NEWFILE_OK";
 
             //Update session data
-            this->currentFile = uri.toStdString();
-            room_.addEntryInMap(currentFile, std::vector<symbol>());
+            shared_from_this()->setCurrentFile(uri.toStdString());
+            room_.addEntryInMap(shared_from_this()->getCurrentFile(), std::vector<symbol>());
 
             //Serialize data
             json j;
@@ -394,7 +395,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
-            this->currentFile = uriJSON;
+            shared_from_this()->setCurrentFile(uriJSON);
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
@@ -443,7 +444,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         if (resp == dbService::OPENWITHURI_OK) {
             //Update session data
-            this->currentFile = uriJSON;
+            shared_from_this()->setCurrentFile(uriJSON);
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
             db_res = "OPENWITHURI_OK";
@@ -485,6 +486,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         room_.send(m);
         room_.dispatchMessages();
         edId = m.getEditorId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
@@ -508,6 +510,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         room_.send(m);
         room_.dispatchMessages();
         edId = m.getEditorId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
@@ -532,6 +535,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         room_.send(m);
         room_.dispatchMessages();
         edId = m.getEditorId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
@@ -542,10 +546,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
     } else { //editor functions
         room_.deliver(read_msg_); //deliver to all the participants
     }
-}
-
-std::string session::getCurrentFile() {
-    return this->currentFile;
 }
 
 #pragma clang diagnostic pop

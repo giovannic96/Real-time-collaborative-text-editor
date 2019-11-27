@@ -30,7 +30,7 @@ public:
     void join(const participant_ptr& participant);
     void leave(const participant_ptr& participant);
     void deliver(const message& msg); //deliver to the clients
-    void deliverToAll(const message& msg, const int& edId); //deliver to the clients except the client with id 'edId'
+    void deliverToAll(const message& msg, const int& edId, const std::string& curFile); //deliver to the clients except the client with id 'edId'
     void send(const msgInfo& m);
     void dispatchMessages(); //dispatch to the participants
     std::map<std::string, std::vector<symbol>> getMap();
