@@ -4,12 +4,21 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+
+## [v0.1.10a - Nightly 1262] - 2019/11/24 @ 23:48
+### Cambiamenti
+- BugFix -> Correzione dell'errore della visualizzazione errata delle lettere accentate nel titolo del documento all'apertura di un file esistente - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/48]
+
+## [v0.1.10a - Daily 1261] - 2019/11/27 @ 12:10
+### Cambiamenti
+- Correzione di alcuni errori
+
 ## [v0.1.10a - Daily 1260] - 2019/11/26 @ 01:00
 ### Aggiunta
 - Funzionalità di cancellazione della porzione del testo selezionato
 - Aggiunta funzionalità di cancellazione anche per il pulsante "canc"
 
-## [v0.1.9a - Daily 1259] - 2019/11/24 @ 18:10
+## [v0.1.9a - Nightly 1259] - 2019/11/24 @ 18:10
 ### Cambiamenti
 - Correzione di alcuni errori
 
