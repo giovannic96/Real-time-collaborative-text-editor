@@ -52,19 +52,12 @@ void room::dispatchMessages() {
 }
 
 std::vector<symbol> room::getSymbolMap(const std::string& filename) {
-    if(room_map_.empty()) { //server has nothing in RAM
+    if(room_map_.empty()) //server has nothing in RAM
         return std::vector<symbol>();
-    }
-    std::cout << "filaname è: " << filename << std::endl;
-    if(room_map_.at(filename).empty()) { //server has not in RAM the vector symbols for this filename
+    if(room_map_.at(filename).empty()) //server has not in RAM the vector symbols for this filename
         return fileUtility::readFile(R"(..\Filesystem\)" + filename + ".txt");
-    }
-    else { //server has already in RAM this vector symbols
+    else //server has already in RAM this vector symbols
         return room_map_.at(filename);
-    }
-
-    //TODO: il problema è che entra nel secondo if e lancia l eccezione in map.at. Ma perchè non c'è quella key???? Dovrebbe!
-
 }
 
 std::map<std::string, std::vector<symbol>> room::getMap() {

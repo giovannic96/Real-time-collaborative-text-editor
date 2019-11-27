@@ -31,10 +31,8 @@ std::vector<symbol> fileUtility::readFile(const std::string& filepath) {
     std::ifstream f(filepath);
     std::string str;
     if(f.is_open()) {
-        if(fileUtility::is_empty(f)) {
-            std::cout << "ENTRATOOOOOOOOOO";
+        if(fileUtility::is_empty(f))
             return std::vector<symbol>();
-        }
 
         std::string line;
         while(getline(f, line)) {

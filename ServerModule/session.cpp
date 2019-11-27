@@ -186,7 +186,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
 
-
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
@@ -219,7 +218,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGOUT_OK) {
-            //fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
             fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getMap().at(uriJSON));
             db_res = "LOGOUTURI_OK";
         }
@@ -290,7 +288,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
             //Update session data
             this->currentFile = uri.toStdString();
-            std::cout << "current file: " << currentFile << std::endl;
             room_.addEntryInMap(currentFile, std::vector<symbol>());
 
             //Serialize data
@@ -328,28 +325,14 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LIST_EXIST) {
-
-            //TODO: al posto di queste 4 righe fare cosi: se all interno del for non trovi una chiave nella roommap con quel valore...
-            //TODO: ... di f.getidfile(), allora creare una chiave con quell idfile e con vettore di simboli vuoto come valore, altri...
-            //TODO: ...menti non fare nulla, tieniti quelli che avevi in RAM.
-
             if(room_.getMap().empty()) {
                 for (const auto &f: vectorFile)
                     room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
             } else {
-                for (const auto &f: vectorFile) {
-                    if (room_.getMap().count(f.getidfile()) <= 0) //key not exists
+                for (const auto &f: vectorFile)
+                    if (room_. getMap().count(f.getidfile()) <= 0) //key not exists
                         room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
-                }
             }
-
-            /*
-            std::map<std::string, std::vector<symbol>> initMap;
-            for(const auto& f: vectorFile)
-                initMap.emplace(f.getidfile(), std::vector<symbol>());
-            room_.setMap(initMap); //so that server has in RAM all the files (initially empty)
-            */
-
             db_res = "LIST_EXIST";
         }
         else if(resp == dbService::LIST_DOESNT_EXIST)
