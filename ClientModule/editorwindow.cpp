@@ -28,7 +28,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     //ui->RealTextEdit->document()->setDefaultFont(QFont("Times New Roman", 14));
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbols(_client->getVector());
-    ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
+    //ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
     ui->FileFrame->setVisible(false);
     ui->RealTextEdit->installEventFilter(this);
 }
@@ -489,9 +489,14 @@ void EditorWindow::on_buttonReduce_clicked(){
 void EditorWindow::on_fileButton_clicked(){
     if(ui->fileButton->isChecked()){
         ui->FileFrame->setVisible(false);
+        ui->viewButton->show();
+        ui->fileButton->setText("File");
+
     }else{
          ui->FileFrame->setVisible(true);
          ui->fileButton->setCheckable(true);
+         ui->fileButton->setText("<");
+         ui->viewButton->hide();
     }
 }
 
@@ -865,13 +870,12 @@ void EditorWindow::PaintItBlack(){
 
         ui->frame->setStyleSheet("#frame{background-color: #cc6600;}");
         ui->FileFrame->setStyleSheet("#FileFrame{background-color: #cc6600;}");
-        ui->DebugFrame->setStyleSheet("#DebugFrame{background-color: #1a0d00}");
         ui->frame_3->setStyleSheet("#frame_3{background-color: #1a1a1a;}");
         ui->frame_2->setStyleSheet("#frame_2{background-color: #262626;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocName->setStyleSheet("#DocName{color: #ff8000;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoDEBUG, icoREDO, icoUNDO, icoMAGN, icoCOL, icoBCOL, icoSUN, icoICONA, v2B, v2I, v2U;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoDEBUG, icoREDO, icoUNDO, icoMAGN, icoCOL, icoSUN, icoICONA, v2B, v2I, v2U;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/DarkEditor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -884,7 +888,6 @@ void EditorWindow::PaintItBlack(){
         icoUNDO.addPixmap(QPixmap(":/image/DarkEditor/undo.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
         icoCOL.addPixmap(QPixmap(":/image/DarkEditor/paintbrush.png"),QIcon::Normal,QIcon::On);
-        icoBCOL.addPixmap(QPixmap(":/image/DarkEditor/highlighter.png"),QIcon::Normal,QIcon::On);
         icoSUN.addPixmap(QPixmap(":/image/DarkEditor/DarkSun.png"),QIcon::Normal,QIcon::On);
         icoICONA.addPixmap(QPixmap(":/image/DarkEditor/iconcina.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
@@ -902,7 +905,6 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
         ui->buttonColor->setIcon(icoCOL);
-        ui->buttonBackgroundColor->setIcon(icoBCOL);
         ui->buttonDarkMode->setIcon(icoSUN);
         ui->buttonIcona->setIcon(icoICONA);
         ui->buttonGrassetto->setIcon(v2B);
@@ -917,7 +919,6 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
-        ui->buttonBackgroundColor->setStyleSheet("#buttonBackgroundColor{border:none;}#buttonBackgroundColor:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
         //frame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #fileButton:hover{background-color: #ff9900;}");
@@ -938,13 +939,12 @@ void EditorWindow::PaintItBlack(){
 
         ui->frame->setStyleSheet("#frame{background-color: rgb(19, 29, 80)}");
         ui->FileFrame->setStyleSheet("#FileFrame{background-color: rgb(19, 29, 80);}");
-        ui->DebugFrame->setStyleSheet("#DebugFrame{background-color:rgb(100, 23, 23);}");
         ui->frame_3->setStyleSheet("#frame_3{background-color: #FFFFFF;}");
         ui->frame_2->setStyleSheet("#frame_2{background-color: #EFEFEF;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocName->setStyleSheet("#DocName{color: #505050;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoDEBUG, icoREDO, icoUNDO, icoMAGN, icoCOL, icoBCOL, icoSUN, icoICONA, v2B, v2I, v2U;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoDEBUG, icoREDO, icoUNDO, icoMAGN, icoCOL, icoSUN, icoICONA, v2B, v2I, v2U;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/Editor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/Editor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -957,7 +957,6 @@ void EditorWindow::PaintItBlack(){
         icoUNDO.addPixmap(QPixmap(":/image/Editor/undo.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
         icoCOL.addPixmap(QPixmap(":/image/Editor/paintbrush.png"),QIcon::Normal,QIcon::On);
-        icoBCOL.addPixmap(QPixmap(":/image/Editor/highlighter.png"),QIcon::Normal,QIcon::On);
         icoSUN.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
         icoICONA.addPixmap(QPixmap(":/image/Editor/iconcina.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
@@ -975,7 +974,6 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
         ui->buttonColor->setIcon(icoCOL);
-        ui->buttonBackgroundColor->setIcon(icoBCOL);
         ui->buttonDarkMode->setIcon(icoSUN);
         ui->buttonIcona->setIcon(icoICONA);
         ui->buttonGrassetto->setIcon(v2B);
@@ -990,7 +988,6 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
-        ui->buttonBackgroundColor->setStyleSheet("#buttonBackgroundColor{border:none;}#buttonBackgroundColor:hover{border:1px solid #b2b2b2;  border-radius: 3px;}");
         ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
         //frame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #fileButton:hover{background-color: #003cb3;}");
@@ -1146,16 +1143,6 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
 *                                                                        HidroSaphire
 *
 ***********************************************************************************/
-void EditorWindow::on_buttonDebug_clicked(){
-    if(ui->buttonDebug->isChecked()){
-        ui->DebugFrame->setVisible(false);
-    }else{
-         ui->DebugFrame->setVisible(true);
-         ui->buttonDebug->setCheckable(true);
-    }
-    ui->FileFrame->setVisible(false);
-    ui->RealTextEdit->setFocus();
-}
 
 void EditorWindow::on_DebugIns1_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();

@@ -4,6 +4,11 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+
+## [v0.1.10a - Vanilla 1265] - 2019/11/29 @ 18:00
+### Cambiamenti
+- Customizzazione Layout EditorWindow
+
 ## [v0.1.10a - Daily 1264] - 2019/11/29 @ 00:40
 ### Cambiamenti
 - BugFix -> Reupload - correzione dell'errore della visualizzazione errata delle lettere accentate nel titolo del documento all'apertura di un file esistente - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/48]

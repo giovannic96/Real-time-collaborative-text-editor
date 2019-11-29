@@ -97,7 +97,6 @@ private slots:
     /************************************
      *           DEBUG FUNCTION         *
      ************************************/
-    void on_buttonDebug_clicked();
     void on_DebugIns1_clicked();
     void on_DebugInsInit_clicked();
     void on_DebugDel1_clicked();
