@@ -507,7 +507,7 @@ void EditorWindow::on_pdfButton_clicked(){
         return;
     }
 
-    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+    //if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); } //Isn't necessary anymore
     QFile File (fileName);
     pathname = fileName;
 
@@ -517,9 +517,9 @@ void EditorWindow::on_pdfButton_clicked(){
     doc.setHtml(fileText);
     QPrinter file(QPrinter::ScreenResolution);
     file.setOutputFormat(QPrinter::PdfFormat);
-    file.setOutputFileName(fileName+".pdf"); // better to use full path
+    file.setOutputFileName(fileName); // better to use full path
     doc.print(&file); //REFERENCE DO NOT TOUCH IT!
-    writeData << &file; //like CIN, but in a stream of text
+    writeData << &file;
     File.flush();
     File.close();
 

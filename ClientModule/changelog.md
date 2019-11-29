@@ -4,8 +4,16 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.10a - Daily 1264] - 2019/11/29 @ 00:40
+### Cambiamenti
+- BugFix -> Reupload - correzione dell'errore della visualizzazione errata delle lettere accentate nel titolo del documento all'apertura di un file esistente - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/48]
+- BugFix -> Correzione della doppia estensione al salvataggio del pdf - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/54]
 
-## [v0.1.10a - Nightly 1262] - 2019/11/24 @ 23:48
+## [v0.1.10a - Canary 1263] - 2019/11/28 @ 00:40
+### Cambiamenti
+- BugFix -> Corretto il bug dei caratteri speciali
+
+## [v0.1.10a - Nightly 1262] - 2019/11/27 @ 23:48
 ### Cambiamenti
 - BugFix -> Correzione dell'errore della visualizzazione errata delle lettere accentate nel titolo del documento all'apertura di un file esistente - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/48]
 

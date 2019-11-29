@@ -198,6 +198,7 @@ void MenuWindow::on_uriDoc_clicked()
     }
 }
 
+//OPEN ONE DOCUMENT FROM A LIST OF USER'S DOC
 void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
     //Get data from the form
@@ -206,7 +207,9 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     const char *c_user = ba_user.data();
     std::vector<QString> uriAndFilename = item->data(Qt::UserRole).value<std::vector<QString>>();
     QString uri = uriAndFilename.at(0);
-    qDebug() << "URI: " << uri;
+    QString filename = uriAndFilename.at(1);
+    qDebug() << "Opening file: "<<filename<< " - with URI: " << uri;
+    filename = QLatin1String(filename.toUtf8());
     QByteArray ba_uri = uri.toLocal8Bit();
     const char *c_uri = ba_uri.data();
 
@@ -218,7 +221,7 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     //update client data
     _client->setUsername(user);
     _client->setFileURI(uri);
-    _client->setFilename(uriAndFilename.at(1));
+    _client->setFilename(filename);
 
     //Send data (header and body)
     sendRequestMsg(req);
