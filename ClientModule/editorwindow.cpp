@@ -1391,8 +1391,133 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
 *                                                                        HidroSaphire
 *
 ***********************************************************************************/
+/*
+void EditorWindow::on_DebugIns1_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(1);
+    c.insertText("Z");
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugInsInit_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(0);
+    c.insertText("A");
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
 
 
+void EditorWindow::on_DebugDel1_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(1);
+    c.deleteChar();
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugCursLeft_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::PreviousCharacter,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setTextCursor(c);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugCursRight_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setTextCursor(c);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugCursLeftAnchor_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,1);
+    ui->RealTextEdit->setTextCursor(c);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugWordLeft_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::WordLeft,QTextCursor::MoveAnchor,1);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugWordRight_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.movePosition(QTextCursor::WordRight,QTextCursor::MoveAnchor,1);
+    ui->RealTextEdit->setTextCursor(c);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+void EditorWindow::on_DebugIns6Word_clicked(){
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    c.setPosition(6);
+    c.insertText("HidroSaphire è il migliore");
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+*/
 
 void EditorWindow::on_buttonDarkMode_clicked(){
     PaintItBlack();
