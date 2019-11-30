@@ -16,6 +16,7 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent)
     connect(_client, &myClient::opResultSuccess, this, &MenuWindow::showPopupSuccess);
     connect(_client, &myClient::opResultFailure, this, &MenuWindow::showPopupFailure);
     connect(_client, &myClient::listFileResult, this, &MenuWindow::showListFile);
+    connect(_client, &myClient::backToMenuWindow,this, &MenuWindow::resumeWindow);
     SetImage();
     this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
@@ -236,9 +237,9 @@ void MenuWindow::showPopupSuccess(QString result) {
         this->hide();
         ew->show();
     } else if(result == "OPENFILE_SUCCESS") {
-        EditorWindow *ew = new EditorWindow(_client, this);
+        _ew = new EditorWindow(_client);
         this->hide();
-        ew->show();
+        _ew->showMaximized(); //later change to showMaximized
     } else if(result == "OPENWITHURI_SUCCESS") {
         EditorWindow *ew = new EditorWindow(_client, this);
         this->hide();
@@ -300,6 +301,10 @@ void MenuWindow::showListFile(std::vector<File> files) {
         item->setData(Qt::UserRole, var);
         fileItem.append(item);
     }
+}
+
+void MenuWindow::resumeWindow() {
+    this->show();
 }
 
 void MenuWindow::SetImage() {

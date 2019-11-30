@@ -1245,7 +1245,6 @@ void EditorWindow::mouseMoveEvent(QMouseEvent *evt){
 void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     if(result == "LOGOUTURI_SUCCESS") {
         this->close();
-        parentWidget()->show();
         delete this;
     } else if (result == "RENAME_SUCCESS"){
         ui->DocName->setText(QString::fromStdString(filename));

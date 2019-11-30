@@ -121,6 +121,7 @@ void myClient::do_read_body() {
 
                 if(db_responseJSON == "LOGOUTURI_OK") {
                     emit editorResultSuccess("LOGOUTURI_SUCCESS");
+                    emit backToMenuWindow();
                 } else {
                     emit editorResultFailure("LOGOUTURI_FAILURE");
                 }
