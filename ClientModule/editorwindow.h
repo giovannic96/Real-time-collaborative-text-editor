@@ -93,6 +93,8 @@ private slots:
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
     void SmokinSexyShowtimeStyleHandler();
+    void FileMenuHide();
+    void FileMenuShow();
 
     /************************************
      *           DEBUG FUNCTION         *
