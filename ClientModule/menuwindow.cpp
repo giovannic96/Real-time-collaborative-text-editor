@@ -63,6 +63,33 @@ void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
 
 //USERNAME BUTTON
 void MenuWindow::on_Username_clicked(){
+    //showListFile(_client->getVectorFile());
+    on_listFiles_clicked();
+    on_backButton_clicked();
+    QString filename, owner, timestamp;
+    QList<QListWidgetItem*> fileItem;
+    int Contafile=0;
+    int ContaFileOwner=0;
+
+    if(!_client->getVectorFile().empty()){
+        std::vector<File> files = _client->getVectorFile();
+        foreach (File f, files) {
+            filename  = QString::fromUtf8(f.getfilename().c_str());
+            owner     = QString::fromUtf8(f.getowner().c_str());
+            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+            Contafile++;
+            if(owner==_client->getUsername()){
+                ContaFileOwner++;
+            }
+        }
+    }else{
+        Contafile=0;
+        ContaFileOwner=0;
+    }
+
+    qDebug()<<"Ho un totale di "<< Contafile << "file";
+    qDebug()<<"Ho creato "<< ContaFileOwner << "file";
+
     UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail()); //with parameters
     up->show();
 }
@@ -198,6 +225,7 @@ void MenuWindow::on_uriDoc_clicked()
     }
 }
 
+//OPEN ONE DOCUMENT FROM A LIST OF USER'S DOC
 void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
     //Get data from the form
@@ -206,7 +234,9 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     const char *c_user = ba_user.data();
     std::vector<QString> uriAndFilename = item->data(Qt::UserRole).value<std::vector<QString>>();
     QString uri = uriAndFilename.at(0);
-    qDebug() << "URI: " << uri;
+    QString filename = uriAndFilename.at(1);
+    qDebug() << "Opening file: "<<filename<< " - with URI: " << uri;
+    filename = QLatin1String(filename.toUtf8());
     QByteArray ba_uri = uri.toLocal8Bit();
     const char *c_uri = ba_uri.data();
 
@@ -218,7 +248,7 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     //update client data
     _client->setUsername(user);
     _client->setFileURI(uri);
-    _client->setFilename(uriAndFilename.at(1));
+    _client->setFilename(filename);
 
     //Send data (header and body)
     sendRequestMsg(req);
@@ -295,6 +325,7 @@ void MenuWindow::showListFile(std::vector<File> files) {
         QVariant var;
         var.setValue(uriAndFilename);
         item->setData(Qt::UserRole, var);
+        _client->setVectorFile(files);
         fileItem.append(item);
     }
 }

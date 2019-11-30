@@ -32,12 +32,14 @@ public:
     QString getMail();
     QString getFilename();
     QString getFileURI();
+    std::vector<File> getVectorFile();
     std::vector<symbol> getVector();
     void setUsername(QString name);
     void setMail(QString mail);
     void setFilename(QString filename);
     void setFileURI(QString uri);
     void setVector(std::vector<symbol> symbols);
+    void setVectorFile(std::vector<File> fileVector);
     void close();
     void write(const message& msg);    
 
@@ -52,8 +54,9 @@ signals:
     void changeTextUsername(QString text);
     void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);
-    void insertSymbol(std::pair<int, char> tuple);
+    void insertSymbol(std::pair<int, wchar_t> tuple);
     void eraseSymbol(int index);
+    void eraseSymbols(int startIndex, int endIndex);
 
 private:
     boost::asio::io_context io_context_;
@@ -72,6 +75,7 @@ private:
     QString filename_;
     QString uri_;
     QString mail_;
+    std::vector<File> fileVector_;
     std::vector<symbol> vector_;
 };
 
