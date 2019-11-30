@@ -59,6 +59,7 @@ private slots:
 
     //TopRightBar Button
     void on_fileButton_clicked();
+    void on_viewButton_clicked();
     void on_pdfButton_clicked();
     //void on_uriButton_clicked(); MAYBE WE HAVE TO DELETE THIS
 
@@ -67,6 +68,9 @@ private slots:
     //void on_URIButton_clicked(); MAYBE WE HAVE TO DELETE THIS
     void on_buttonRename_clicked();
     void on_aboutButton_clicked();
+
+    //ViewFrame Button
+    void on_buttonDarkMode_clicked();
 
     /************************************
      *               EVENT              *
@@ -80,7 +84,7 @@ private slots:
     void on_actionSave_triggered();
     void on_actionNew_triggered();
     void on_actionAbout_triggered();
-
+    void on_actionExit_triggered();
     /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
@@ -99,19 +103,7 @@ private slots:
     /************************************
      *           DEBUG FUNCTION         *
      ************************************/
-    void on_DebugIns1_clicked();
-    void on_DebugInsInit_clicked();
-    void on_DebugDel1_clicked();
-    void on_DebugCursLeft_clicked();
-    void on_DebugCursRight_clicked();
-    void on_DebugCursLeftAnchor_clicked();
-    void on_DebugWordLeft_clicked();
-    void on_DebugWordRight_clicked();
-    void on_DebugIns6Word_clicked();
-    void on_buttonDarkMode_clicked();
-    void on_actionExit_triggered();
 
-    void on_viewButton_clicked();
 
 
 public slots:
