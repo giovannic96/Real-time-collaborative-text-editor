@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1087</width>
-    <height>728</height>
+    <height>780</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -39,7 +39,7 @@
     <item row="3" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QFrame" name="frame_2">
+       <widget class="QFrame" name="editorFrame">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -87,7 +87,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QFrame" name="frame_3">
+          <widget class="QFrame" name="DocumentFrame">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -702,8 +702,11 @@
              <property name="editable">
               <bool>false</bool>
              </property>
+             <property name="currentText">
+              <string>Times New Roman</string>
+             </property>
              <property name="currentIndex">
-              <number>-1</number>
+              <number>166</number>
              </property>
              <property name="insertPolicy">
               <enum>QComboBox::InsertAtTop</enum>
@@ -844,6 +847,46 @@
             </widget>
            </item>
            <item>
+            <widget class="QPushButton" name="buttonSearch">
+             <property name="font">
+              <font>
+               <pointsize>10</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>false</underline>
+               <strikeout>false</strikeout>
+              </font>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#buttonSearch{
+	border:none;
+}
+
+#buttonSearch:hover{
+	border:1px solid #b2b2b2;
+	border-radius: 3px;
+}
+</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="Risorse.qrc">
+               <normaloff>:/image/Editor/Magnifier.png</normaloff>:/image/Editor/Magnifier.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>30</width>
+               <height>30</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_3">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -873,7 +916,7 @@
             <number>20</number>
            </property>
            <property name="rightMargin">
-            <number>20</number>
+            <number>30</number>
            </property>
            <property name="bottomMargin">
             <number>20</number>
@@ -904,93 +947,13 @@ border-left: 2px solid #404040;</string>
            </item>
           </layout>
          </item>
-         <item>
-          <widget class="QPushButton" name="buttonDebug">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-             <underline>false</underline>
-             <strikeout>false</strikeout>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">#buttonDebug{
-	border:none;
-}
-
-#buttonDebug:hover{
-	border:1px solid #F00000;
-	border-radius: 3px;
-}
-</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="Risorse.qrc">
-             <normaloff>:/image/debugger-icon-16.jpg.png</normaloff>:/image/debugger-icon-16.jpg.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>30</width>
-             <height>30</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="buttonSearch">
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-             <underline>false</underline>
-             <strikeout>false</strikeout>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">#buttonSearch{
-	border:none;
-}
-
-#buttonSearch:hover{
-	border:1px solid #b2b2b2;
-	border-radius: 3px;
-}
-</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="Risorse.qrc">
-             <normaloff>:/image/Editor/Magnifier.png</normaloff>:/image/Editor/Magnifier.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>30</width>
-             <height>30</height>
-            </size>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
      </layout>
     </item>
     <item row="0" column="0">
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="MenuBarFrame">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -1210,6 +1173,9 @@ text-decoration:none;
             </property>
             <property name="text">
              <string>DarkMode</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
