@@ -67,7 +67,6 @@ private slots:
     //void on_URIButton_clicked(); MAYBE WE HAVE TO DELETE THIS
     void on_buttonRename_clicked();
     void on_aboutButton_clicked();
-    void on_CloseButton_clicked();
 
     /************************************
      *               EVENT              *
@@ -93,11 +92,13 @@ private slots:
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
     void SmokinSexyShowtimeStyleHandler();
+    void FadeInPrincipalBar();
+    void FadeInFileBar();
+    void FadeInViewBar();
 
     /************************************
      *           DEBUG FUNCTION         *
      ************************************/
-    void on_buttonDebug_clicked();
     void on_DebugIns1_clicked();
     void on_DebugInsInit_clicked();
     void on_DebugDel1_clicked();
@@ -108,14 +109,17 @@ private slots:
     void on_DebugWordRight_clicked();
     void on_DebugIns6Word_clicked();
     void on_buttonDarkMode_clicked();
-
     void on_actionExit_triggered();
+
+    void on_viewButton_clicked();
+
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
-    void showSymbol(std::pair<int, char> tuple);
+    void showSymbol(std::pair<int, wchar_t> tuple);
     void eraseSymbol(int index);
+    void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);
 
 private:
