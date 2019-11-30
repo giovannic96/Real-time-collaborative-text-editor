@@ -179,7 +179,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
-    } else if (opJSON == "LOGOUT_REQUEST") {
+    } else if (opJSON == "LOGOUT_REQUEST" || opJSON == "DISCONNECT_REQUEST") {
         std::string userJSON;
         jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
 
@@ -202,7 +202,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
 
         json j;
-        jsonUtility::to_json(j, "LOGOUT_RESPONSE", db_res);
+        jsonUtility::to_json(j, opJSON == "LOGOUT_REQUEST" ? "LOGOUT_RESPONSE" : "DISCONNECT_RESPONSE", db_res);
         const std::string response = j.dump();
         return response;
 

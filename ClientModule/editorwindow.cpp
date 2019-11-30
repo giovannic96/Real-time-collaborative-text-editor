@@ -36,7 +36,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
 //DESTRUCTOR
 EditorWindow::~EditorWindow() {
     delete ui;
-    //TODO: do I have to delete also client????
 }
 
 /***********************************************************************************
@@ -780,7 +779,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
     return false; //or return QObject::eventFilter(obj, ev);
 }
 
-
 void EditorWindow::keyPressEvent(QKeyEvent *e){
     //WORKING ON IT
     if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier){
@@ -1263,7 +1261,7 @@ void EditorWindow::sendRequestMsg(std::string req) {
     message msg;
     msg.body_length(req.size());
     std::memcpy(msg.body(), req.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
+    msg.body()[msg.body_length()] = '\0';
     msg.encode_header();
     _client->write(msg);
 }
@@ -1282,7 +1280,6 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
         if (s.isItalic()){
             newFormat.setFontItalic(true);
         }
-        qDebug()<<"LETTERA = "<<letter;
         int pos = s.getPos().at(0);
         c.setPosition(pos);
         c.setCharFormat(newFormat);
@@ -1307,7 +1304,6 @@ void EditorWindow::eraseSymbol(int index) {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     int oldPos = cursor.position();
     cursor.setPosition(index);
-    //cursor.insertText(static_cast<QString>(c));
     cursor.deleteChar();
     cursor.setPosition(oldPos);
     qDebug() << "Deleted char in pos: " << index << endl;

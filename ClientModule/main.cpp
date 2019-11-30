@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]){
 
-    qRegisterMetaType<std::pair<int,char>>("std::pair<int,char>");
+    qRegisterMetaType<std::pair<int,char>>("std::pair<int,wchar_t>");
     qRegisterMetaType<std::string>("std::string");
 
     //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

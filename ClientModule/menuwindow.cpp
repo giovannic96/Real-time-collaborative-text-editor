@@ -30,6 +30,7 @@ MenuWindow::~MenuWindow() {
 
 //LOGOUT BUTTON
 void MenuWindow::on_LogoutButton_clicked(){
+
     //Get data from the form
     QString user = _client->getUsername();
     QByteArray ba_user = user.toLocal8Bit();
@@ -39,15 +40,14 @@ void MenuWindow::on_LogoutButton_clicked(){
       reply = QMessageBox::question(this, "Uscita", "Vuoi disconnetterti?",
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
+
         //Serialize data
         json j;
-        jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
+        jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
         const std::string req = j.dump();
+
         //Send data (header and body)
         sendRequestMsg(req);
-      } else {
-        qDebug() << "Yes was not clicked";
       }
 }
 
@@ -71,10 +71,10 @@ void MenuWindow::on_Username_clicked(){
 void MenuWindow::on_exitButton_clicked() {
 
     QMessageBox::StandardButton reply;
-      reply = QMessageBox::question(this, "Uscita", "Sei sicuro di voler uscire?",
+    reply = QMessageBox::question(this, "Uscita", "Sei sicuro di voler uscire?",
                                     QMessageBox::Yes|QMessageBox::No);
-      if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
+    if (reply == QMessageBox::Yes) {
+
         //Get data from the form
         QString user = _client->getUsername();
         QByteArray ba_user = user.toLocal8Bit();
@@ -84,13 +84,10 @@ void MenuWindow::on_exitButton_clicked() {
         json j;
         jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
         const std::string req = j.dump();
+
         //Send data (header and body)
         sendRequestMsg(req);
-
-        QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
-      } else {
-        qDebug() << "Yes was not clicked";
-      }
+    }
 }
 
 //BACK BUTTON
@@ -228,11 +225,12 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 }
 
 void MenuWindow::showPopupSuccess(QString result) {
-    if(result == "LOGOUT_SUCCESS") {
+    if(result == "DISCONNECT_SUCCESS") {
         StartWindow *s = new StartWindow();
         this->close();
         s->show();
-        delete this;
+    } else if(result == "LOGOUT_SUCCESS") {
+        QApplication::exit();
     } else if(result == "NEWFILE_SUCCESS") {
         EditorWindow *ew = new EditorWindow(_client, this);
         this->hide();
@@ -252,17 +250,19 @@ void MenuWindow::showPopupSuccess(QString result) {
 
 void MenuWindow::showPopupFailure(QString result) {
     if(result == "LOGOUT_FAILURE") {
-        QMessageBox::critical(this,"Errore", "LogoutURI non completata!");                                  //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Logout non completato!");           //Stay in the same window
+    } else if(result == "DISCONNECT_FAILURE") {
+        QMessageBox::critical(this,"Errore", "Disconnect non completato!");       //Stay in the same window
     } else if(result == "NEWFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Newfile non completata!");                                    //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Newfile non completata!");          //Stay in the same window
     } else if(result == "OPENFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Openfile non completata!");                                   //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "Openfile non completata!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "OPENWITHURI_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Openwithuri non completata!");                                //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Openwithuri non completata!");      //Stay in the same window
     } else if(result == "LISTFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Listfile non completata!");                                   //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "Listfile non completata!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
-        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");                     //Stay in the same window (MenuWindow(1))
+        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");  //Stay in the same window (MenuWindow(1))
     } else if(result == "RESPONSE_FAILURE") {
         QMessageBox::critical(this,"Errore", "Risposta non gestita!\nErrore di tipo RESPONSE_FAILURE");
     } else {
