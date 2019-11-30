@@ -488,15 +488,11 @@ void EditorWindow::on_buttonReduce_clicked(){
 ************************************************************************************/
 void EditorWindow::on_fileButton_clicked(){
     if(ui->fileButton->isChecked()){
-        ui->FileFrame->setVisible(false);
-        ui->viewButton->show();
-        ui->fileButton->setText("File");
-
+        ui->fileButton->setChecked(true);
+        FileMenuHide();
     }else{
-         ui->FileFrame->setVisible(true);
-         ui->fileButton->setCheckable(true);
-         ui->fileButton->setText("<");
-         ui->viewButton->hide();
+        ui->fileButton->setChecked(false);
+        FileMenuShow();
     }
 }
 
@@ -868,10 +864,10 @@ void EditorWindow::PaintItBlack(){
         //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
         ui->buttonDarkMode->setChecked(true);
 
-        ui->frame->setStyleSheet("#frame{background-color: #cc6600;}");
+        ui->MenuBarFrame->setStyleSheet("#MenuBarFrame{background-color: #cc6600;}");
         ui->FileFrame->setStyleSheet("#FileFrame{background-color: #cc6600;}");
-        ui->frame_3->setStyleSheet("#frame_3{background-color: #1a1a1a;}");
-        ui->frame_2->setStyleSheet("#frame_2{background-color: #262626;}");
+        ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #1a1a1a;}");
+        ui->editorFrame->setStyleSheet("#editorFrame{background-color: #262626;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocName->setStyleSheet("#DocName{color: #ff8000;}");
 
@@ -910,7 +906,7 @@ void EditorWindow::PaintItBlack(){
         ui->buttonGrassetto->setIcon(v2B);
         ui->buttonCorsivo->setIcon(v2I);
         ui->buttonSottolineato->setIcon(v2U);
-        //SetCSS
+        //iconContainer CSS
         ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
         ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}");
@@ -920,27 +916,28 @@ void EditorWindow::PaintItBlack(){
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
         ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
-        //frame CSS
+        //MenuBarFrame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #fileButton:hover{background-color: #ff9900;}");
-        ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white; border-left: 2px solid #EFEFEF;}       #pdfButton:hover{background-color: #ff9900;}");
-        ui->uriButton->setStyleSheet("      #uriButton{border:none; color:white; border-left: 2px solid #EFEFEF;}       #uriButton:hover{background-color: #ff9900;}");
+        ui->viewButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #fileButton:hover{background-color: #ff9900;}");
+        ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white;}                                       #pdfButton:hover{background-color: #ff9900;}");
+        ui->uriButton->setStyleSheet("      #uriButton{border:none; color:white;}                                       #uriButton:hover{background-color: #ff9900;}");
         ui->buttonToIcon->setStyleSheet("   #buttonToIcon{color:white; border: transparent; background-color: transparent;}   #buttonToIcon:hover{background-color: #ff9900;}");
         ui->buttonReduce->setStyleSheet("   #buttonReduce{color:white; border: transparent; background-color: transparent;}   #buttonReduce:hover{background-color: #ff9900;}");
         //FileFrame CSS
-        ui->CloseButton->setStyleSheet("    #CloseButton{border:none; color:white;}     #CloseButton:hover{background-color: #ff9900;}");
-        ui->URIButton->setStyleSheet("      #URIButton{border:none; color:white;}       #URIButton:hover{background-color: #ff9900;}");
-        ui->aboutButton->setStyleSheet("    #aboutButton{border:none; color:white; border-top: 2px solid #EFEFEF;}      #aboutButton:hover{background-color: #ff9900;}");
-        ui->buttonRename->setStyleSheet("   #buttonRename{border:none; color:white;}    #buttonRename:hover{background-color: #ff9900;}");
-        ui->newDocButton->setStyleSheet("   #newDocButton{border:none; color:white;}    #newDocButton:hover{background-color: #ff9900;}");
+        ui->CloseButton->setStyleSheet("    #CloseButton{border:none; color:white;}         #CloseButton:hover{background-color: #ff9900;}");
+        ui->URIButton->setStyleSheet("      #URIButton{border:none; color:white;}           #URIButton:hover{background-color: #ff9900;}");
+        ui->aboutButton->setStyleSheet("    #aboutButton{border:none; color:white;}         #aboutButton:hover{background-color: #ff9900;}");
+        ui->buttonRename->setStyleSheet("   #buttonRename{border:none; color:white;}        #buttonRename:hover{background-color: #ff9900;}");
+        ui->newDocButton->setStyleSheet("   #newDocButton{border:none; color:white;}        #newDocButton:hover{background-color: #ff9900;}");
 
     }else{
         //How come no-one told me all throughout history the loneliest people were the ones who always spoke the truth
         ui->buttonDarkMode->setChecked(false);
 
-        ui->frame->setStyleSheet("#frame{background-color: rgb(19, 29, 80)}");
+        ui->MenuBarFrame->setStyleSheet("#MenuBarFrame{background-color: rgb(19, 29, 80)}");
         ui->FileFrame->setStyleSheet("#FileFrame{background-color: rgb(19, 29, 80);}");
-        ui->frame_3->setStyleSheet("#frame_3{background-color: #FFFFFF;}");
-        ui->frame_2->setStyleSheet("#frame_2{background-color: #EFEFEF;}");
+        ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #FFFFFF;}");
+        ui->editorFrame->setStyleSheet("#editorFrame{background-color: #EFEFEF;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocName->setStyleSheet("#DocName{color: #505050;}");
 
@@ -979,7 +976,7 @@ void EditorWindow::PaintItBlack(){
         ui->buttonGrassetto->setIcon(v2B);
         ui->buttonCorsivo->setIcon(v2I);
         ui->buttonSottolineato->setIcon(v2U);
-        //SetCSS
+        //iconContainer CSS
         ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
         ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}");
@@ -989,18 +986,19 @@ void EditorWindow::PaintItBlack(){
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
         ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
-        //frame CSS
+        //MenuBarFrame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #fileButton:hover{background-color: #003cb3;}");
-        ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white; border-left: 2px solid #EFEFEF;}             #pdfButton:hover{background-color: #003cb3;}");
-        ui->uriButton->setStyleSheet("      #uriButton{border:none; color:white; border-left: 2px solid #EFEFEF;}             #uriButton:hover{background-color: #003cb3;}");
+        ui->viewButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #fileButton:hover{background-color: #003cb3;}");
+        ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white;}                                             #pdfButton:hover{background-color: #003cb3;}");
+        ui->uriButton->setStyleSheet("      #uriButton{border:none; color:white;}                                             #uriButton:hover{background-color: #003cb3;}");
         ui->buttonToIcon->setStyleSheet("   #buttonToIcon{color:white; border: transparent; background-color: transparent;}   #buttonToIcon:hover{background-color: #003cb3;}");
         ui->buttonReduce->setStyleSheet("   #buttonReduce{color:white; border: transparent; background-color: transparent;}   #buttonReduce:hover{background-color: #003cb3;}");
         //FileFrame CSS
-        ui->CloseButton->setStyleSheet("    #CloseButton{border:none; color:white;}     #CloseButton:hover{background-color: #003cb3;}");
-        ui->URIButton->setStyleSheet("      #URIButton{border:none; color:white;}       #URIButton:hover{background-color: #003cb3;}");
-        ui->aboutButton->setStyleSheet("    #aboutButton{border:none; color:white; border-top: 2px solid #EFEFEF;}      #aboutButton:hover{background-color: #003cb3;}");
-        ui->buttonRename->setStyleSheet("   #buttonRename{border:none; color:white;}    #buttonRename:hover{background-color: #003cb3;}");
-        ui->newDocButton->setStyleSheet("   #newDocButton{border:none; color:white;}    #newDocButton:hover{background-color: #003cb3;}");
+        ui->CloseButton->setStyleSheet("    #CloseButton{border:none; color:white;}         #CloseButton:hover{background-color: #003cb3;}");
+        ui->URIButton->setStyleSheet("      #URIButton{border:none; color:white;}           #URIButton:hover{background-color: #003cb3;}");
+        ui->aboutButton->setStyleSheet("    #aboutButton{border:none; color:white;}         #aboutButton:hover{background-color: #003cb3;}");
+        ui->buttonRename->setStyleSheet("   #buttonRename{border:none; color:white;}        #buttonRename:hover{background-color: #003cb3;}");
+        ui->newDocButton->setStyleSheet("   #newDocButton{border:none; color:white;}        #newDocButton:hover{background-color: #003cb3;}");
 
     }
     //Set Other CSS
@@ -1127,6 +1125,18 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
     }
 }
 
+
+void EditorWindow::FileMenuHide(){
+    ui->FileFrame->setVisible(false);
+    ui->viewButton->show();
+    ui->fileButton->setText("File");
+}
+
+void EditorWindow::FileMenuShow(){
+    ui->FileFrame->setVisible(true);
+    ui->fileButton->setText("<");
+    ui->viewButton->hide();
+}
 
 /***********************************************************************************
 *

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
-    <height>728</height>
+    <width>818</width>
+    <height>783</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -37,9 +37,9 @@
      <number>0</number>
     </property>
     <item row="3" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="editorContainer">
       <item>
-       <widget class="QFrame" name="frame_2">
+       <widget class="QFrame" name="editorFrame">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -87,7 +87,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QFrame" name="frame_3">
+          <widget class="QFrame" name="DocumentFrame">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -169,7 +169,7 @@
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <layout class="QHBoxLayout" name="iconContainer">
            <property name="spacing">
             <number>5</number>
            </property>
@@ -859,7 +859,7 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <layout class="QHBoxLayout" name="textEditConteiner">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -1039,7 +1039,7 @@ border-left: 2px solid #404040;</string>
      </layout>
     </item>
     <item row="0" column="0">
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="MenuBarFrame">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -1144,6 +1144,9 @@ text-decoration:none;
          <property name="text">
           <string>File</string>
          </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -1175,6 +1178,9 @@ text-decoration:none;
          </property>
          <property name="text">
           <string>View</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

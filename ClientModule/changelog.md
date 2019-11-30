@@ -4,6 +4,9 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.10a - Daily 1266] - 2019/11/29 @ 11:30
+### Cambiamenti
+- Miglioramenti al Layout EditorWindow
 
 ## [v0.1.10a - Vanilla 1265] - 2019/11/29 @ 18:00
 ### Cambiamenti
