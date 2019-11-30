@@ -146,7 +146,7 @@ void EditorWindow::on_buttonAlignSX_clicked(){
 }
 
 void EditorWindow::on_buttonAlignJFX_clicked(){
-    ui->RealTextEdit->setAlignment(Qt::AlignJustify);   
+    ui->RealTextEdit->setAlignment(Qt::AlignJustify);
     AlignJFXButtonHandler();
     AlignButtonStyleHandler();
     ui->FileFrame->setVisible(false);
@@ -457,10 +457,7 @@ void EditorWindow::on_buttonExit_clicked() {
       reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
-        LogoutRequest();//Return to MenuWindow (close only the current document)
-      } else {
-        qDebug() << "Yes was not clicked";
+        LogoutRequest(); //Return to MenuWindow (close only the current document)
       }
 }
 
@@ -839,7 +836,8 @@ void EditorWindow::on_actionExit_triggered(){
 *                              STANDALONE FUNCTION                                 *
 *                                                                                  *
 ************************************************************************************/
-void EditorWindow::LogoutRequest(){
+void EditorWindow::LogoutRequest() {
+
     //Get data from the form
     QString user = this->_client->getUsername();
     QByteArray ba_user = user.toLocal8Bit();
