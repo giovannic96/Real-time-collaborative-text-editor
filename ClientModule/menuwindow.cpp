@@ -16,6 +16,7 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent)
     connect(_client, &myClient::opResultSuccess, this, &MenuWindow::showPopupSuccess);
     connect(_client, &myClient::opResultFailure, this, &MenuWindow::showPopupFailure);
     connect(_client, &myClient::listFileResult, this, &MenuWindow::showListFile);
+    connect(_client, &myClient::backToMenuWindow,this, &MenuWindow::resumeWindow);
     SetImage();
     this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
@@ -30,6 +31,7 @@ MenuWindow::~MenuWindow() {
 
 //LOGOUT BUTTON
 void MenuWindow::on_LogoutButton_clicked(){
+
     //Get data from the form
     QString user = _client->getUsername();
     QByteArray ba_user = user.toLocal8Bit();
@@ -39,15 +41,14 @@ void MenuWindow::on_LogoutButton_clicked(){
       reply = QMessageBox::question(this, "Uscita", "Vuoi disconnetterti?",
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
+
         //Serialize data
         json j;
-        jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
+        jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
         const std::string req = j.dump();
+
         //Send data (header and body)
         sendRequestMsg(req);
-      } else {
-        qDebug() << "Yes was not clicked";
       }
 }
 
@@ -63,6 +64,33 @@ void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
 
 //USERNAME BUTTON
 void MenuWindow::on_Username_clicked(){
+    //showListFile(_client->getVectorFile());
+    on_listFiles_clicked();
+    on_backButton_clicked();
+    QString filename, owner, timestamp;
+    QList<QListWidgetItem*> fileItem;
+    int Contafile=0;
+    int ContaFileOwner=0;
+
+    if(!_client->getVectorFile().empty()){
+        std::vector<File> files = _client->getVectorFile();
+        foreach (File f, files) {
+            filename  = QString::fromUtf8(f.getfilename().c_str());
+            owner     = QString::fromUtf8(f.getowner().c_str());
+            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+            Contafile++;
+            if(owner==_client->getUsername()){
+                ContaFileOwner++;
+            }
+        }
+    }else{
+        Contafile=0;
+        ContaFileOwner=0;
+    }
+
+    qDebug()<<"Ho un totale di "<< Contafile << "file";
+    qDebug()<<"Ho creato "<< ContaFileOwner << "file";
+
     UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail()); //with parameters
     up->show();
 }
@@ -71,10 +99,10 @@ void MenuWindow::on_Username_clicked(){
 void MenuWindow::on_exitButton_clicked() {
 
     QMessageBox::StandardButton reply;
-      reply = QMessageBox::question(this, "Uscita", "Sei sicuro di voler uscire?",
+    reply = QMessageBox::question(this, "Uscita", "Sei sicuro di voler uscire?",
                                     QMessageBox::Yes|QMessageBox::No);
-      if (reply == QMessageBox::Yes) {
-        qDebug() << "Yes was clicked";
+    if (reply == QMessageBox::Yes) {
+
         //Get data from the form
         QString user = _client->getUsername();
         QByteArray ba_user = user.toLocal8Bit();
@@ -84,13 +112,10 @@ void MenuWindow::on_exitButton_clicked() {
         json j;
         jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
         const std::string req = j.dump();
+
         //Send data (header and body)
         sendRequestMsg(req);
-
-        QApplication::exit();   //I've used exit() instead quit() or close() for this reason --> https://ux.stackexchange.com/questions/50893/do-we-exit-quit-or-close-an-application
-      } else {
-        qDebug() << "Yes was not clicked";
-      }
+    }
 }
 
 //BACK BUTTON
@@ -198,6 +223,7 @@ void MenuWindow::on_uriDoc_clicked()
     }
 }
 
+//OPEN ONE DOCUMENT FROM A LIST OF USER'S DOC
 void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
     //Get data from the form
@@ -206,7 +232,9 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     const char *c_user = ba_user.data();
     std::vector<QString> uriAndFilename = item->data(Qt::UserRole).value<std::vector<QString>>();
     QString uri = uriAndFilename.at(0);
-    qDebug() << "URI: " << uri;
+    QString filename = uriAndFilename.at(1);
+    qDebug() << "Opening file: "<<filename<< " - with URI: " << uri;
+    filename = QLatin1String(filename.toUtf8());
     QByteArray ba_uri = uri.toLocal8Bit();
     const char *c_uri = ba_uri.data();
 
@@ -218,26 +246,27 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
     //update client data
     _client->setUsername(user);
     _client->setFileURI(uri);
-    _client->setFilename(uriAndFilename.at(1));
+    _client->setFilename(filename);
 
     //Send data (header and body)
     sendRequestMsg(req);
 }
 
 void MenuWindow::showPopupSuccess(QString result) {
-    if(result == "LOGOUT_SUCCESS") {
+    if(result == "DISCONNECT_SUCCESS") {
         StartWindow *s = new StartWindow();
         this->close();
         s->show();
-        delete this;
+    } else if(result == "LOGOUT_SUCCESS") {
+        QApplication::exit();
     } else if(result == "NEWFILE_SUCCESS") {
         EditorWindow *ew = new EditorWindow(_client, this);
         this->hide();
         ew->show();
     } else if(result == "OPENFILE_SUCCESS") {
-        EditorWindow *ew = new EditorWindow(_client, this);
+        _ew = new EditorWindow(_client);
         this->hide();
-        ew->show();
+        _ew->showMaximized(); //later change to showMaximized
     } else if(result == "OPENWITHURI_SUCCESS") {
         EditorWindow *ew = new EditorWindow(_client, this);
         this->hide();
@@ -249,17 +278,19 @@ void MenuWindow::showPopupSuccess(QString result) {
 
 void MenuWindow::showPopupFailure(QString result) {
     if(result == "LOGOUT_FAILURE") {
-        QMessageBox::critical(this,"Errore", "LogoutURI non completata!");                                  //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Logout non completato!");           //Stay in the same window
+    } else if(result == "DISCONNECT_FAILURE") {
+        QMessageBox::critical(this,"Errore", "Disconnect non completato!");       //Stay in the same window
     } else if(result == "NEWFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Newfile non completata!");                                    //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Newfile non completata!");          //Stay in the same window
     } else if(result == "OPENFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Openfile non completata!");                                   //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "Openfile non completata!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "OPENWITHURI_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Openwithuri non completata!");                                //Stay in the same window
+        QMessageBox::critical(this,"Errore", "Openwithuri non completata!");      //Stay in the same window
     } else if(result == "LISTFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Listfile non completata!");                                   //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "Listfile non completata!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
-        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");                     //Stay in the same window (MenuWindow(1))
+        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");  //Stay in the same window (MenuWindow(1))
     } else if(result == "RESPONSE_FAILURE") {
         QMessageBox::critical(this,"Errore", "Risposta non gestita!\nErrore di tipo RESPONSE_FAILURE");
     } else {
@@ -295,8 +326,13 @@ void MenuWindow::showListFile(std::vector<File> files) {
         QVariant var;
         var.setValue(uriAndFilename);
         item->setData(Qt::UserRole, var);
+        _client->setVectorFile(files);
         fileItem.append(item);
     }
+}
+
+void MenuWindow::resumeWindow() {
+    this->show();
 }
 
 void MenuWindow::SetImage() {

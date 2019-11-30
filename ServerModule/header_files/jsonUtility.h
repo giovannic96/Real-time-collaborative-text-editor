@@ -18,7 +18,7 @@ class jsonUtility {
 
 public:
     static json merge(const json &a, const json &b);
-    static std::vector<json> fromSymToJson(std::vector<symbol> symbols);
+    static std::vector<json> fromSymToJson(const std::vector<symbol>& symbols);
     static std::vector<symbol> fromJsonToSym(const std::vector<json>& jsons);
     static symbol from_json_symbol(const json& j);
     static std::vector<json> fromFileToJson(const std::vector<File>& files);
@@ -33,8 +33,9 @@ public:
     static void to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
-    static void to_json_insertion(json &j, const std::string &op, const std::pair<int, char> &tuple);
+    static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple);
     static void to_json_removal(json &j, const std::string &op, const int &index);
+    static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
     static void from_json(const json& j, std::string& op);
     static void from_json_symbol(const json& j, symbol& symbol);
     static void from_json_filename(const json &j, std::string &user, std::string &filename);
@@ -45,8 +46,9 @@ public:
     static void from_json(const json& j, std::string& user, std::string& pass);
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);
     static void from_json_storedSymbols(const json& j, std::vector<json>& jsonSymbols);
-    static void from_json_insertion(const json& j, std::pair<int, char>& tuple);
+    static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple);
     static void from_json_removal(const json& j, int& index);
+    static void from_json_removal_range(const json& j, int& startIndex, int& endIndex);
 };
 
 

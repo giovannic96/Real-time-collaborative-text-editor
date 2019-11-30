@@ -1,4 +1,4 @@
-#include "myClient.h"
+﻿#include "myClient.h"
 #include <qtextcodec.h>
 #include <iostream>
 #include <QMessageBox>
@@ -11,6 +11,7 @@ myClient::myClient()
           socket_(io_context_),
           username_(""),
           mail_(""),
+          fileVector_(std::vector<File>()),
           vector_() {
             worker_= std::thread([&](){
             io_context_.run(); //boost thread loop start
@@ -70,7 +71,6 @@ void myClient::do_read_body() {
             } catch (json::type_error& e) {
                 std::cerr << e.what() << '\n';
             }
-            std::cout << "opJSON is:" << opJSON << "END" << std::endl;
             if(opJSON == "LOGIN_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -107,12 +107,22 @@ void myClient::do_read_body() {
                 } else {
                     emit opResultFailure("LOGOUT_FAILURE");
                 }
+            } else if(opJSON == "DISCONNECT_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+
+                if(db_responseJSON == "LOGOUT_OK") {
+                    emit opResultSuccess("DISCONNECT_SUCCESS");
+                } else {
+                    emit opResultFailure("DISCONNECT_FAILURE");
+                }
             } else if(opJSON == "LOGOUTURI_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "LOGOUTURI_OK") {
                     emit editorResultSuccess("LOGOUTURI_SUCCESS");
+                    emit backToMenuWindow();
                 } else {
                     emit editorResultFailure("LOGOUTURI_FAILURE");
                 }
@@ -124,7 +134,10 @@ void myClient::do_read_body() {
                     std::string uriJSON;
                     jsonUtility::from_jsonUri(jdata_in, uriJSON); //get json value and put into JSON variables
                     QString uriQString = QString::fromUtf8(uriJSON.data(), uriJSON.size());
+
+                    //Update client data
                     this->setFileURI(uriQString);
+                    this->setVector(std::vector<symbol>());
                     emit opResultSuccess("NEWFILE_SUCCESS");
                 } else {
                     emit opResultFailure("NEWFILE_FAILURE");
@@ -149,6 +162,11 @@ void myClient::do_read_body() {
                     //Update client data
                     this->setVector(symbols);
 
+                    emit opResultSuccess("OPENFILE_SUCCESS");
+                } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
+
+                    //Update client data
+                    this->setVector(std::vector<symbol>());
                     emit opResultSuccess("OPENFILE_SUCCESS");
                 } else {
                     emit opResultFailure("OPENFILE_FAILURE");
@@ -224,13 +242,18 @@ void myClient::do_read_body() {
                     emit opResultFailure("LISTFILE_FAILURE");
                 }
             } else if(opJSON == "INSERTION_RESPONSE") {
-                std::pair<int, char> tupleJSON;
+                std::pair<int, wchar_t> tupleJSON;
                 jsonUtility::from_json_insertion(jdata_in, tupleJSON);
                 emit insertSymbol(tupleJSON);
             } else if(opJSON == "REMOVAL_RESPONSE") {
                 int indexJSON;
                 jsonUtility::from_json_removal(jdata_in, indexJSON);
                 emit eraseSymbol(indexJSON);
+            } else if(opJSON == "REMOVALRANGE_RESPONSE") {
+                int startIndexJSON;
+                int endIndexJSON;
+                jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
+                emit eraseSymbols(startIndexJSON, endIndexJSON);
             } else {
                 qDebug() << "Something went wrong" << endl;
                 emit opResultFailure("RESPONSE_FAILURE");
@@ -306,6 +329,14 @@ QString myClient::getMail() {
 
 void myClient::setVector(std::vector<symbol> symbols){
     this->vector_ = symbols;
+}
+
+void myClient::setVectorFile(std::vector<File> files){
+    this->fileVector_ = files;
+}
+
+std::vector<File> myClient::getVectorFile(){
+    return this->fileVector_;
 }
 
 std::vector<symbol> myClient::getVector(){

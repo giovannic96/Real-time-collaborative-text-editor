@@ -34,7 +34,7 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
 }
 
 //DESTRUCTOR
-StartWindow::~StartWindow(){
+StartWindow::~StartWindow() {
     delete ui;
     delete _client;
 }
@@ -143,9 +143,6 @@ void StartWindow::on_exitButton_clicked() {
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
         QApplication::exit();
-        qDebug() << "Yes was clicked";
-      } else {
-        qDebug() << "Yes was not clicked";
       }
 }
 
@@ -158,6 +155,17 @@ void StartWindow::setStatus(bool newStatus) {
     }
 }
 
+void StartWindow::showPopupSuccess(QString result) {
+    if(result == "LOGIN_SUCCESS") {
+        MenuWindow *m = new MenuWindow(_client);
+        this->close(); //this startWindow will be then created (new) when user press Logout button on menuWindow
+        m->show();
+    } else if(result == "SIGNUP_SUCCESS") {
+        QMessageBox::information(this,"Complimenti", "La registrazione è avvenuta correttamente!");
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+}
+
 void StartWindow::showPopupFailure(QString result) {
     if(result == "LOGIN_FAILURE") {
        QMessageBox::critical(this,"Errore", "Il login non è stato completato correttamente! Riprova!");                                 //Stay in the same window
@@ -165,17 +173,6 @@ void StartWindow::showPopupFailure(QString result) {
         QMessageBox::critical(this,"Errore", "La registrazione non è avvenuta correttamente! Riprova!");                                //Stay in the same window
     } else {
         QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
-    }
-}
-
-void StartWindow::showPopupSuccess(QString result) {
-    if(result == "LOGIN_SUCCESS") {
-        MenuWindow *m = new MenuWindow(_client);
-        this->close(); //this startWindow will be then created when user press Exit on menuWindow
-        m->show();
-    } else if(result == "SIGNUP_SUCCESS") {
-        QMessageBox::information(this,"Complimenti", "La registrazione è avvenuta correttamente!");
-        ui->stackedWidget->setCurrentIndex(0);
     }
 }
 

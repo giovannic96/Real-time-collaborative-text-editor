@@ -26,7 +26,7 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user) {
         if(query.exec()) {
             std::cout << "LOGOUT without URI success" << std::endl;
             db.close();
-            return  LOGOUT_OK;
+            return LOGOUT_OK;
         } else {
             std::cout << "Error on SELECT" << std::endl;
             db.close();
@@ -106,7 +106,6 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
                     }
                     else {
                         std::cout << "Already logged user" << std::endl;
-                        return LOGIN_OK; //TODO: remove this return!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         return ALREADY_LOGGED;
                     }
                 }

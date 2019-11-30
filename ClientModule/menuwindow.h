@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include "editorwindow.h"
 #include "myClient.h"
 
 namespace Ui{class MenuWindow;}
@@ -28,11 +29,13 @@ public slots:
     void showPopupSuccess(QString result);
     void showPopupFailure(QString result);
     void showListFile(std::vector<File> files);
+    void resumeWindow();
 
 private:
     Ui::MenuWindow *ui;            //"ui" (user interface)
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
     myClient *_client;
+    EditorWindow *_ew;
     void sendRequestMsg(const std::string req);
     void SetImage();
 

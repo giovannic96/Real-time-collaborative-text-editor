@@ -4,6 +4,40 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.10a - Daily 1266] - 2019/11/29 @ 11:30
+### Cambiamenti
+- Miglioramenti al Layout EditorWindow
+
+## [v0.1.10a - Vanilla 1265] - 2019/11/29 @ 18:00
+### Cambiamenti
+- Customizzazione Layout EditorWindow
+
+## [v0.1.10a - Daily 1264] - 2019/11/29 @ 00:40
+### Cambiamenti
+- BugFix -> Reupload - correzione dell'errore della visualizzazione errata delle lettere accentate nel titolo del documento all'apertura di un file esistente - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/48]
+- BugFix -> Correzione della doppia estensione al salvataggio del pdf - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/54]
+
+## [v0.1.10a - Canary 1263] - 2019/11/28 @ 00:40
+### Cambiamenti
+- BugFix -> Corretto il bug dei caratteri speciali
+
+## [v0.1.10a - Nightly 1262] - 2019/11/27 @ 23:48
+### Cambiamenti
+- BugFix -> Correzione dell'errore della visualizzazione errata delle lettere accentate nel titolo del documento all'apertura di un file esistente - [https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/48]
+
+## [v0.1.10a - Daily 1261] - 2019/11/27 @ 12:10
+### Cambiamenti
+- Correzione di alcuni errori
+
+## [v0.1.10a - Daily 1260] - 2019/11/26 @ 01:00
+### Aggiunta
+- Funzionalità di cancellazione della porzione del testo selezionato
+- Aggiunta funzionalità di cancellazione anche per il pulsante "canc"
+
+## [v0.1.9a - Nightly 1259] - 2019/11/24 @ 18:10
+### Cambiamenti
+- Correzione di alcuni errori
+
 ## [v0.1.9a - Daily 1258] - 2019/11/24 @ 18:00
 ### Aggiunto
 - Funzione ad evento per richiamare gli shortcut delle action

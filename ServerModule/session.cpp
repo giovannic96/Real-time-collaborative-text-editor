@@ -78,10 +78,11 @@ void session::do_read_body()
                 std::cerr << e.what() << '\n';
             }
             int edId = shared_from_this()->getId();
-            const std::string response = this->handleRequests(opJSON, jdata_in, edId);
-            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST") { //TODO: add other cases
+            std::string curFile = std::string();
+            const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile);
+            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST") { //TODO: add other cases
                 std::cout << "Sent:" << response << "END" << std::endl;
-                this->sendMsgAll(response, edId); //send data to all the participants in the room except to this client
+                this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
             }
             else {
                 std::cout << "Sent:" << response << "END" << std::endl;
@@ -132,9 +133,9 @@ void session::sendMsg(const std::string& response) {
     shared_from_this()->deliver(msg); //deliver msg only to the participant
 }
 
-void session::sendMsgAll(const std::string& response, const int& edId) {
+void session::sendMsgAll(const std::string& response, const int& edId, const std::string& curFile) {
     message msg = constructMsg(response);
-    room_.deliverToAll(msg, edId); //deliver msg to all the clients except the client with id 'edId' (this client)
+    room_.deliverToAll(msg, edId, curFile); //deliver msg to all the clients except the client with id 'edId' (this client)
 }
 
 message session::constructMsg(const std::string& response) {
@@ -142,12 +143,12 @@ message session::constructMsg(const std::string& response) {
     message msg;
     msg.body_length(response.size());
     std::memcpy(msg.body(), response.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
+    msg.body()[msg.body_length()] = '\0';
     msg.encode_header();
     return msg;
 }
 
-std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId) {
+std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile) {
     if(opJSON == "LOGIN_REQUEST") {
         std::string userJSON;
         std::string passJSON;
@@ -178,14 +179,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
-    } else if (opJSON == "LOGOUT_REQUEST") {
+    } else if (opJSON == "LOGOUT_REQUEST" || opJSON == "DISCONNECT_REQUEST") {
         std::string userJSON;
         jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
 
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-
 
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
@@ -202,7 +202,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "DB_ERROR";
 
         json j;
-        jsonUtility::to_json(j, "LOGOUT_RESPONSE", db_res);
+        jsonUtility::to_json(j, opJSON == "LOGOUT_REQUEST" ? "LOGOUT_RESPONSE" : "DISCONNECT_RESPONSE", db_res);
         const std::string response = j.dump();
         return response;
 
@@ -219,7 +219,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGOUT_OK) {
-            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
+            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getMap().at(uriJSON));
             db_res = "LOGOUTURI_OK";
         }
         else if(resp == dbService::LOGOUT_FAILED)
@@ -288,9 +288,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             db_res = "NEWFILE_OK";
 
             //Update session data
-            this->currentFile = uri.toStdString();
-            std::cout << "current file: " << currentFile << std::endl;
-            room_.setEmptyMap(currentFile);
+            shared_from_this()->setCurrentFile(uri.toStdString());
+            room_.addEntryInMap(shared_from_this()->getCurrentFile(), std::vector<symbol>());
 
             //Serialize data
             json j;
@@ -326,8 +325,17 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
         QSqlDatabase::removeDatabase("MyConnect2");
 
-        if(resp == dbService::LIST_EXIST)
-        db_res = "LIST_EXIST";
+        if(resp == dbService::LIST_EXIST) {
+            if(room_.getMap().empty()) {
+                for (const auto &f: vectorFile)
+                    room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
+            } else {
+                for (const auto &f: vectorFile)
+                    if (room_. getMap().count(f.getidfile()) <= 0) //key not exists
+                        room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
+            }
+            db_res = "LIST_EXIST";
+        }
         else if(resp == dbService::LIST_DOESNT_EXIST)
         db_res = "LIST_DOESNT_EXIST";
         else if(resp == dbService::DB_ERROR)
@@ -353,7 +361,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-
 
         dbService::DB_RESPONSE resp = dbService::tryRenameFile(newNameFileJson, uriJson, userJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
@@ -385,21 +392,21 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //update tables on db
         dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
-        //dbService::DB_RESPONSE resp = dbService::OPENFILE_OK;
 
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
-            this->currentFile = uriJSON;
-
-            //update local file 'filenameJSON' in filesystem based on symbols that server has in memory
-            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getSymbolMap(uriJSON));
-            shared_from_this()->getSymbols() = room_.getSymbolMap(uriJSON);
-            //shared_from_this()->getSymbols() = fileUtility::readFile(R"(..\Filesystem\)" + uriJSON + ".txt");
+            shared_from_this()->setCurrentFile(uriJSON);
+            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
             //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
             //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
 
-            db_res = "OPENFILE_OK";
+            if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
+                db_res = "OPENFILE_FILE_EMPTY";
+            else
+                db_res = "OPENFILE_OK";
+
+            //Serialize data
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
@@ -436,11 +443,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect3");
 
         if (resp == dbService::OPENWITHURI_OK) {
-            db_res = "OPENWITHURI_OK";
-
             //Update session data
-            this->currentFile = uriJSON;
+            shared_from_this()->setCurrentFile(uriJSON);
+            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
+            db_res = "OPENWITHURI_OK";
             //Serialize data
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
@@ -464,7 +471,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "INSERTION_REQUEST") {
-        std::pair<int, char> tupleJSON;
+        std::pair<int, wchar_t> tupleJSON;
         jsonUtility::from_json_insertion(jdata_in, tupleJSON); //get json value and put into JSON variables
         std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
 
@@ -473,16 +480,17 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
-        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
         //Dispatch message to all the clients
         room_.send(m);
         room_.dispatchMessages();
         edId = m.getEditorId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
-        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, char>(m.getNewIndex(), tupleJSON.second));
+        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second));
         const std::string response = j.dump();
         return response;
 
@@ -496,12 +504,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
-        room_.setMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
         //Dispatch message to all the clients
         room_.send(m);
         room_.dispatchMessages();
         edId = m.getEditorId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
@@ -509,13 +518,34 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
+    } else if (opJSON == "REMOVALRANGE_REQUEST") {
+        int startIndexJSON;
+        int endIndexJSON;
+        jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON); //get json value and put into JSON variables
+        std::cout << "indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << std::endl;
+
+        //Construct msgInfo
+        msgInfo m = localErase(startIndexJSON, endIndexJSON);
+        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+        //Update room symbols for this file
+        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+        //Dispatch message to all the clients
+        room_.send(m);
+        room_.dispatchMessages();
+        edId = m.getEditorId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_removal_range(j, "REMOVALRANGE_RESPONSE", startIndexJSON, endIndexJSON);
+        const std::string response = j.dump();
+        return response;
+
     } else { //editor functions
         room_.deliver(read_msg_); //deliver to all the participants
     }
-}
-
-std::string session::getCurrentFile() {
-    return this->currentFile;
 }
 
 #pragma clang diagnostic pop
