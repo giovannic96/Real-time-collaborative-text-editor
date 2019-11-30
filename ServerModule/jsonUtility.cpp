@@ -127,7 +127,7 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, char> &tuple) {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple) {
     j = json{
         {"operation", op},
         {"tuple", tuple}
@@ -141,6 +141,14 @@ void jsonUtility::to_json_removal(json &j, const std::string &op, const int &ind
     };
 }
 
+void jsonUtility::to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex) {
+    j = json{
+            {"operation", op},
+            {"startIndex", startIndex},
+            {"endIndex", endIndex}
+    };
+}
+
 void jsonUtility::from_json(const json &j, std::string &op) {
     op = j.at("operation").get<std::string>();
 }
@@ -148,7 +156,7 @@ void jsonUtility::from_json(const json &j, std::string &op) {
 void jsonUtility::from_json_symbol(const json &j, symbol &s) {
 
     //get symbol values from json
-    char letter = j.at("letter").get<char>();
+    wchar_t letter = j.at("letter").get<wchar_t>();
     std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
     std::vector<int> pos = j.at("pos").get<std::vector<int>>();
     bool isBold = j.at("isBold").get<bool>();
@@ -201,10 +209,12 @@ json jsonUtility::merge(const json &a, const json &b) {
     return result.unflatten();
 }
 
-std::vector<json> jsonUtility::fromSymToJson(std::vector<symbol> symbols) {
+std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols) {
 
+    if(symbols.empty())
+        return json::array();
     /*
-    //TODO: delete this initialization of symbols
+    //TODO: delete later this initialization of symbols
     std::vector<int> v; //pos vector
     v.push_back(1);
     v.push_back(2);
@@ -255,7 +265,7 @@ void jsonUtility::from_json_storedSymbols(const json& j, std::vector<json>& json
 symbol jsonUtility::from_json_symbol(const json &j) {
 
     //get symbol values from json
-    char letter = j.at("letter").get<char>();
+    wchar_t letter = j.at("letter").get<wchar_t>();
     std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
     std::vector<int> pos = j.at("pos").get<std::vector<int>>();
     bool isBold = j.at("isBold").get<bool>();
@@ -266,12 +276,17 @@ symbol jsonUtility::from_json_symbol(const json &j) {
     return s;
 }
 
-void jsonUtility::from_json_insertion(const json &j, std::pair<int, char>& tuple) {
-    tuple = j.at("tuple").get<std::pair<int, char>>();
+void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple) {
+    tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
     index = j.at("index").get<int>();
+}
+
+void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
+    startIndex = j.at("startIndex").get<int>();
+    endIndex = j.at("endIndex").get<int>();
 }
 
 void jsonUtility::from_json_renameFile(const json &j, std::string &nameFile, std::string &urifile, std::string &username) {

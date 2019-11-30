@@ -6,17 +6,17 @@
 
 #include <utility>
 
-symbol::symbol(char character, std::pair<int, int> id, std::vector<int> pos)
+symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos)
                         : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(false), _isItalic(false) {}
 
-symbol::symbol(char character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic)
+symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic)
     : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(isBold), _isItalic(isItalic) {}
 
 std::vector<int> symbol::getPos() const {
     return _pos;
 }
 
-char symbol::getLetter() const {
+wchar_t symbol::getLetter() const {
     return _letter;
 }
 
@@ -40,7 +40,7 @@ void symbol::setItalic(bool val) {
     this->_isItalic = val;
 }
 
-void symbol::setLetter(char letter) {
+void symbol::setLetter(wchar_t letter) {
     this->_letter = letter;
 }
 

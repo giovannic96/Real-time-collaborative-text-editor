@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "header_files/room.h"
+#include "header_files/fileUtility.h"
 
 void room::join(const participant_ptr& participant) {
     participants_.insert(participant);
@@ -26,13 +27,13 @@ void room::deliver(const message &msg) {
             p->deliver(msg);
 }
 
-void room::deliverToAll(const message &msg, const int& edId) {
+void room::deliverToAll(const message &msg, const int& edId, const std::string& curFile) {
     recent_msgs_.push_back(msg);
     while (recent_msgs_.size() > max_recent_msgs)
         recent_msgs_.pop_front();
 
     for (const auto& p: participants_) {
-        if (p->getId() != edId) //don't send the message to the same client
+        if (p->getId() != edId && p->getCurrentFile() == curFile) //don't send the message to the same client and don't send to clients having other file opened
             p->deliver(msg);
     }
 }
@@ -51,21 +52,28 @@ void room::dispatchMessages() {
 }
 
 std::vector<symbol> room::getSymbolMap(const std::string& filename) {
-    return room_map_.empty() ? std::vector<symbol>() : room_map_.at(filename);
+    if(room_map_.empty()) //server has nothing in RAM
+        return std::vector<symbol>();
+    if(room_map_.at(filename).empty()) //server has not in RAM the vector symbols for this filename
+        return fileUtility::readFile(R"(..\Filesystem\)" + filename + ".txt");
+    else //server has already in RAM this vector symbols
+        return room_map_.at(filename);
 }
 
 std::map<std::string, std::vector<symbol>> room::getMap() {
     return this->room_map_;
 }
 
-void room::setEmptyMap(const std::string& key) {
-    std::map<std::string, std::vector<symbol>> m = {{ key, { } }};
+void room::updateMap(const std::string &key, const std::vector<symbol>& symbols) {
+    this->room_map_[key] = symbols; //overwrite symbols in that key(uri)
+}
+
+void room::setMap(const std::map<std::string, std::vector<symbol>>& m) {
     this->room_map_ = m;
 }
 
-void room::setMap(const std::string &key, const std::vector<symbol>& symbols) {
-    std::map<std::string, std::vector<symbol>> m = {{ key, symbols }};
-    this->room_map_ = m;
+void room::addEntryInMap(const std::string &key, const std::vector<symbol> &symbols) {
+    this->room_map_.emplace(key, symbols);
 }
 
 

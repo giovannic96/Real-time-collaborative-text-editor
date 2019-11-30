@@ -51,6 +51,7 @@ signals:
     void opResultFailure(QString result);
     void editorResultSuccess(QString result, std::string filename = "");
     void editorResultFailure(QString result);
+    void backToMenuWindow();
     void changeTextUsername(QString text);
     void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);

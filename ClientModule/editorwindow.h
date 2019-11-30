@@ -93,11 +93,12 @@ private slots:
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
     void SmokinSexyShowtimeStyleHandler();
+    void FileMenuHide();
+    void FileMenuShow();
 
     /************************************
      *           DEBUG FUNCTION         *
      ************************************/
-    void on_buttonDebug_clicked();
     void on_DebugIns1_clicked();
     void on_DebugInsInit_clicked();
     void on_DebugDel1_clicked();
@@ -114,8 +115,9 @@ private slots:
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
-    void showSymbol(std::pair<int, char> tuple);
+    void showSymbol(std::pair<int, wchar_t> tuple);
     void eraseSymbol(int index);
+    void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);
 
 private:

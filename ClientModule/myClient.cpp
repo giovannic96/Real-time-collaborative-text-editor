@@ -71,7 +71,6 @@ void myClient::do_read_body() {
             } catch (json::type_error& e) {
                 std::cerr << e.what() << '\n';
             }
-            std::cout << "opJSON is:" << opJSON << "END" << std::endl;
             if(opJSON == "LOGIN_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -108,12 +107,22 @@ void myClient::do_read_body() {
                 } else {
                     emit opResultFailure("LOGOUT_FAILURE");
                 }
+            } else if(opJSON == "DISCONNECT_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+
+                if(db_responseJSON == "LOGOUT_OK") {
+                    emit opResultSuccess("DISCONNECT_SUCCESS");
+                } else {
+                    emit opResultFailure("DISCONNECT_FAILURE");
+                }
             } else if(opJSON == "LOGOUTURI_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                 if(db_responseJSON == "LOGOUTURI_OK") {
                     emit editorResultSuccess("LOGOUTURI_SUCCESS");
+                    emit backToMenuWindow();
                 } else {
                     emit editorResultFailure("LOGOUTURI_FAILURE");
                 }
