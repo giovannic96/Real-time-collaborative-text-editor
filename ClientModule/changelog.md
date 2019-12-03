@@ -4,6 +4,16 @@
 - BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
           Vedi branch FramelessOrNot per una soluzione migliore
 
+## [v0.1.10a - Canary 1269] - 2019/12/03 @ 18:00
+### Aggiunto
+- Splashscreen
+### Cambiamenti
+- Miglioramenti e correzioni del Layout EditorWindow
+
+## [v0.1.10a - Daily 1268] - 2019/11/30 @ 17:00
+### Cambiamenti
+- Correzioni del Layout EditorWindow
+
 ## [v0.1.10a - Daily 1267] - 2019/11/29 @ 17:00
 ### Cambiamenti
 - Adattamento e miglioramenti del Layout EditorWindow
