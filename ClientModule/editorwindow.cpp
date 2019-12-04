@@ -6,6 +6,7 @@
 #include <QFileDialog>      //FOR OPEN SAVE WITH NAME LOCALLY
 #include <QTextStream>      //FOR SAVE THE FILE LOCALLY AND PDF CONVERSION
 #include <QMessageBox>
+#include <QGraphicsOpacityEffect>
 #include <QPrinter>         //FOR PRINTING THE PDF
 #include "infowindow.h"
 #include "menuwindow.h"
@@ -29,7 +30,13 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbols(_client->getVector());
     //ui->DebugFrame->setVisible(false);      //DELETE ME IN THE END
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->installEventFilter(this);
 }
 
@@ -50,7 +57,13 @@ void EditorWindow::on_buttonGrassetto_clicked(){
         ui->RealTextEdit->setFontWeight(QFont::Light);
     }
     SmokinSexyShowtimeStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -63,7 +76,14 @@ void EditorWindow::on_buttonCorsivo_clicked(){
         ui->RealTextEdit->setFontItalic(false);
     }
     SmokinSexyShowtimeStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -76,7 +96,14 @@ void EditorWindow::on_buttonSottolineato_clicked(){
         ui->RealTextEdit->setFontUnderline(false);
     }
     SmokinSexyShowtimeStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
+
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -94,7 +121,14 @@ void EditorWindow::on_buttonBackgroundColor_clicked(){
             ui->RealTextEdit->setTextBackgroundColor(txtColour);
         });
     //SAME FOR v1 AND v2
-    ui->FileFrame->setVisible(false);
+        if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+            FadeInPrincipalBar();
+        }
+        else{
+            ui->FileFrame->setVisible(false);
+            ui->ViewFrame->setVisible(false);
+        }
+
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -113,7 +147,14 @@ void EditorWindow::on_buttonColor_clicked(){
             ui->RealTextEdit->setTextColor(txtColour);
         });
     //SAME FOR v1 AND v2
-    ui->FileFrame->setVisible(false);
+        if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+            FadeInPrincipalBar();
+        }
+        else{
+            ui->FileFrame->setVisible(false);
+            ui->ViewFrame->setVisible(false);
+        }
+
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -125,7 +166,13 @@ void EditorWindow::on_buttonAlignDX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignRight);
     AlignDXButtonHandler();
     AlignButtonStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -133,7 +180,13 @@ void EditorWindow::on_buttonAlignCX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignCenter);
     AlignCXButtonHandler();
     AlignButtonStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -141,7 +194,13 @@ void EditorWindow::on_buttonAlignSX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignLeft);
     AlignSXButtonHandler();
     AlignButtonStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -149,7 +208,13 @@ void EditorWindow::on_buttonAlignJFX_clicked(){
     ui->RealTextEdit->setAlignment(Qt::AlignJustify);
     AlignJFXButtonHandler();
     AlignButtonStyleHandler();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -159,31 +224,61 @@ void EditorWindow::on_buttonAlignJFX_clicked(){
 ************************************************************************************/
 void EditorWindow::on_buttonUndo_clicked(){
     ui->RealTextEdit->undo();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonRedo_clicked(){
     ui->RealTextEdit->redo();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonTaglia_clicked(){
     ui->RealTextEdit->cut();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonIncolla_clicked(){
     ui->RealTextEdit->paste();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonCopia_clicked(){
     ui->RealTextEdit->copy();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -197,7 +292,13 @@ void EditorWindow::on_buttonSearch_clicked(){
     if(!ui->RealTextEdit->find(findtext,QTextDocument::FindWholeWords)){
         QMessageBox::information(this,"Attenzione", "La ricerca non ha trovato alcun risultato!");
     }
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -232,7 +333,13 @@ void EditorWindow::on_fontDimensionBox_activated(int index){
                 break;
         }
     }
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus();   //Return focus to textedit
 }
 
@@ -294,7 +401,13 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
     }
 
     //AT THE END
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -463,7 +576,13 @@ void EditorWindow::on_buttonExit_clicked() {
 
 
 void EditorWindow::on_buttonToIcon_clicked() {
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     this->setWindowState(Qt::WindowMinimized); //See Note 2 at the end
 }
 
@@ -474,7 +593,13 @@ void EditorWindow::on_buttonReduce_clicked(){
         this->setWindowState(Qt::WindowNoState); //See Note 1 at the end
         ui->buttonReduce->setCheckable(true);
     }
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -483,13 +608,104 @@ void EditorWindow::on_buttonReduce_clicked(){
 *                                TopRightBar FUNCTION                              *
 ************************************************************************************/
 void EditorWindow::on_fileButton_clicked(){
-    if(ui->fileButton->isChecked()){
-        ui->fileButton->setChecked(true);
-        FileMenuHide();
-    }else{
-        ui->fileButton->setChecked(false);
-        FileMenuShow();
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
     }
+    else{
+        FadeInFileBar();
+    }
+}
+
+void EditorWindow::on_viewButton_clicked()
+{
+        FadeInViewBar();
+}
+
+void EditorWindow::FadeInPrincipalBar(){
+    QGraphicsOpacityEffect * show_effect_FileButton = new QGraphicsOpacityEffect(ui->fileButton);
+    QPropertyAnimation* animationFileButton = new QPropertyAnimation(show_effect_FileButton, "opacity");
+    QGraphicsOpacityEffect * show_effect_ViewButton = new QGraphicsOpacityEffect(ui->viewButton);
+    QPropertyAnimation* animationViewButton = new QPropertyAnimation(show_effect_ViewButton, "opacity");
+    QGraphicsOpacityEffect * show_effect_AboutButton = new QGraphicsOpacityEffect(ui->aboutButton);
+    QPropertyAnimation* animationAboutButton = new QPropertyAnimation(show_effect_AboutButton, "opacity");
+
+    ui->fileButton->setGraphicsEffect(show_effect_FileButton);
+    ui->viewButton->setGraphicsEffect(show_effect_ViewButton);
+    ui->aboutButton->setGraphicsEffect(show_effect_AboutButton);
+
+    animationFileButton->setStartValue(0);
+    animationFileButton->setEndValue(1);
+    animationFileButton->setDuration(300);
+    animationViewButton->setStartValue(0);
+    animationViewButton->setEndValue(1);
+    animationViewButton->setDuration(300);
+    animationAboutButton->setStartValue(0);
+    animationAboutButton->setEndValue(1);
+    animationAboutButton->setDuration(300);
+    animationViewButton->start();
+    animationFileButton->start();
+    animationAboutButton->start();
+
+    ui->fileButton->setText("File");
+    ui->fileButton->setChecked(true);
+    ui->fileButton->show();
+    ui->aboutButton->show();
+    ui->viewButton->show();
+    ui->FileFrame->hide();
+    ui->ViewFrame->hide();
+}
+
+void EditorWindow::FadeInFileBar(){
+    QGraphicsOpacityEffect * show_effect_File = new QGraphicsOpacityEffect(ui->FileFrame);
+    QPropertyAnimation* animationFile = new QPropertyAnimation(show_effect_File, "opacity");
+    QGraphicsOpacityEffect * show_effect_FileButton = new QGraphicsOpacityEffect(ui->fileButton);
+    QPropertyAnimation* animationFileButton = new QPropertyAnimation(show_effect_FileButton, "opacity");
+
+    ui->FileFrame->setGraphicsEffect(show_effect_File);
+
+    animationFile->setStartValue(0);
+    animationFile->setEndValue(1);
+    animationFile->setDuration(300);
+    animationFileButton->setStartValue(0);
+    animationFileButton->setEndValue(1);
+    animationFileButton->setDuration(300);
+    animationFile->start();
+    animationFileButton->start();
+    ui->FileFrame->show();
+    ui->fileButton->show();
+
+    ui->fileButton->setCheckable(true);
+    ui->fileButton->setText("<");
+    ui->viewButton->hide();
+    ui->aboutButton->hide();
+
+}
+
+void EditorWindow::FadeInViewBar(){
+    QGraphicsOpacityEffect * show_effect_View = new QGraphicsOpacityEffect(ui->ViewFrame);
+    QPropertyAnimation* animationView = new QPropertyAnimation(show_effect_View, "opacity");
+    QGraphicsOpacityEffect * show_effect_ViewButton = new QGraphicsOpacityEffect(ui->viewButton);
+    QPropertyAnimation* animationViewButton = new QPropertyAnimation(show_effect_ViewButton, "opacity");
+
+    ui->ViewFrame->setGraphicsEffect(show_effect_View);
+
+    animationView->setStartValue(0);
+    animationView->setEndValue(1);
+    animationView->setDuration(300);
+    animationViewButton->setStartValue(0);
+    animationViewButton->setEndValue(1);
+    animationViewButton->setDuration(300);
+    animationView->start();
+    animationViewButton->start();
+    ui->ViewFrame->show();
+    ui->viewButton->show();
+
+    //ui->fileButton->setCheckable(true);
+    ui->fileButton->setText("<");
+    ui->fileButton->setChecked(true);
+    ui->viewButton->hide();
+    ui->aboutButton->hide();
+
 }
 
 //FUNCTION FOR EXPORT TEXT INTO PDF
@@ -520,7 +736,13 @@ void EditorWindow::on_pdfButton_clicked(){
     File.flush();
     File.close();
 
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus();
 
 }
@@ -534,7 +756,13 @@ void EditorWindow::on_uriButton_clicked() {
 ************************************************************************************/
 /* MAYBE WE HAVE TO DELETE THIS
 void EditorWindow::on_newDocButton_clicked(){
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     bool ok;
         QString text = QInputDialog::getText(this, tr("Titolo documento"),
                                              tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
@@ -579,7 +807,13 @@ void EditorWindow::on_newDocButton_clicked(){
 
 /* MAYBE WE HAVE TO DELETE THIS
 void EditorWindow::on_URIButton_clicked(){
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     bool ok;
         QString text = QInputDialog::getText(this, tr("Sei stato invitato?"),
                                              tr("Inserisci una URI:"), QLineEdit::Normal,
@@ -626,7 +860,13 @@ void EditorWindow::on_pushButton_3_clicked(){
 
 //RENAME BUTTON v2 - TODO APPLY CONTROL LIKE RENAME BUTTON v1
 void EditorWindow::on_buttonRename_clicked(){
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     bool ok;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
@@ -653,16 +893,17 @@ void EditorWindow::on_buttonRename_clicked(){
 }
 
 void EditorWindow::on_aboutButton_clicked(){
-    ui->FileFrame->setVisible(false);
     infoWindow *iw = new infoWindow(this);
     iw->show();
-    ui->FileFrame->setVisible(false);
-}
 
-void EditorWindow::on_CloseButton_clicked(){
-    LogoutRequest();          //Return to MenuWindow (close only the current document)
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
 }
-
 
 
 /***********************************************************************************
@@ -808,7 +1049,13 @@ void EditorWindow::on_actionFullscreen_triggered(){
         this->setWindowState(Qt::WindowNoState); //WindowNoState save the old position and the old size of the window
         ui->actionFullscreen->setCheckable(true);
     }
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -820,11 +1067,17 @@ void EditorWindow::on_actionNew_triggered(){
 //ABOUT ACTION           -->     CTRL+I
 void EditorWindow::on_actionAbout_triggered(){
     on_aboutButton_clicked();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
 
 }//EXIT DOCUMENT ACTION  -->     CTRL+E
 void EditorWindow::on_actionExit_triggered(){
-     on_CloseButton_clicked();
+    LogoutRequest();          //Return to MenuWindow (close only the current document)
 }
 
 
@@ -864,7 +1117,7 @@ void EditorWindow::PaintItBlack(){
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocName->setStyleSheet("#DocName{color: #ff8000;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoDEBUG, icoREDO, icoUNDO, icoMAGN, icoCOL, icoSUN, icoICONA, v2B, v2I, v2U;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, icoSUN, icoICONA, v2B, v2I, v2U;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/DarkEditor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -872,7 +1125,6 @@ void EditorWindow::PaintItBlack(){
         icoCPY.addPixmap(QPixmap(":/image/DarkEditor/copy.png"),QIcon::Normal,QIcon::On);
         icoCUT.addPixmap(QPixmap(":/image/DarkEditor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/DarkEditor/paste.png"),QIcon::Normal,QIcon::On);
-        icoDEBUG.addPixmap(QPixmap(":/image/DarkEditor/debugger-icon-16.jpg.png"),QIcon::Normal,QIcon::On);
         icoREDO.addPixmap(QPixmap(":/image/DarkEditor/redo.png"),QIcon::Normal,QIcon::On);
         icoUNDO.addPixmap(QPixmap(":/image/DarkEditor/undo.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
@@ -889,7 +1141,6 @@ void EditorWindow::PaintItBlack(){
         ui->buttonCopia->setIcon(icoCPY);
         ui->buttonTaglia->setIcon(icoCUT);
         ui->buttonIncolla->setIcon(icoPAS);
-        ui->buttonDebug->setIcon(icoDEBUG);
         ui->buttonRedo->setIcon(icoREDO);
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
@@ -903,21 +1154,21 @@ void EditorWindow::PaintItBlack(){
         ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
         ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}");
-        ui->buttonDebug->setStyleSheet("    #buttonDebug{border:none;}              #buttonDebug:hover{border:1px solid #F00000;              border-radius: 3px;}");
         ui->buttonRedo->setStyleSheet("     #buttonRedo{border:none;}               #buttonRedo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
         ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
-        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
         //MenuBarFrame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #fileButton:hover{background-color: #ff9900;}");
-        ui->viewButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #fileButton:hover{background-color: #ff9900;}");
+        ui->viewButton->setStyleSheet("     #viewButton{border:none; color:white; border-left: 2px solid #EFEFEF;}      #viewButton:hover{background-color: #ff9900;}");
         ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white;}                                       #pdfButton:hover{background-color: #ff9900;}");
         ui->uriButton->setStyleSheet("      #uriButton{border:none; color:white;}                                       #uriButton:hover{background-color: #ff9900;}");
         ui->buttonToIcon->setStyleSheet("   #buttonToIcon{color:white; border: transparent; background-color: transparent;}   #buttonToIcon:hover{background-color: #ff9900;}");
         ui->buttonReduce->setStyleSheet("   #buttonReduce{color:white; border: transparent; background-color: transparent;}   #buttonReduce:hover{background-color: #ff9900;}");
+        //ViewFrame CSS
+        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none; color:white;}      #buttonDarkMode:hover{background-color: #ff9900;}");
+        ui->buttonFullscreen->setStyleSheet("#buttonFullscreen{border:none; color:white;}   #buttonFullscreen:hover{background-color: #ff9900;}");
         //FileFrame CSS
-        ui->CloseButton->setStyleSheet("    #CloseButton{border:none; color:white;}         #CloseButton:hover{background-color: #ff9900;}");
         ui->URIButton->setStyleSheet("      #URIButton{border:none; color:white;}           #URIButton:hover{background-color: #ff9900;}");
         ui->aboutButton->setStyleSheet("    #aboutButton{border:none; color:white;}         #aboutButton:hover{background-color: #ff9900;}");
         ui->buttonRename->setStyleSheet("   #buttonRename{border:none; color:white;}        #buttonRename:hover{background-color: #ff9900;}");
@@ -934,7 +1185,7 @@ void EditorWindow::PaintItBlack(){
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocName->setStyleSheet("#DocName{color: #505050;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoDEBUG, icoREDO, icoUNDO, icoMAGN, icoCOL, icoSUN, icoICONA, v2B, v2I, v2U;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, icoSUN, icoICONA, v2B, v2I, v2U;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/Editor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/Editor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -942,7 +1193,6 @@ void EditorWindow::PaintItBlack(){
         icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
         icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
-        icoDEBUG.addPixmap(QPixmap(":/image/debugger-icon-16.jpg.png"),QIcon::Normal,QIcon::On);
         icoREDO.addPixmap(QPixmap(":/image/Editor/redo.png"),QIcon::Normal,QIcon::On);
         icoUNDO.addPixmap(QPixmap(":/image/Editor/undo.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
@@ -959,7 +1209,6 @@ void EditorWindow::PaintItBlack(){
         ui->buttonCopia->setIcon(icoCPY);
         ui->buttonTaglia->setIcon(icoCUT);
         ui->buttonIncolla->setIcon(icoPAS);
-        ui->buttonDebug->setIcon(icoDEBUG);
         ui->buttonRedo->setIcon(icoREDO);
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
@@ -973,21 +1222,21 @@ void EditorWindow::PaintItBlack(){
         ui->buttonCopia->setStyleSheet("    #buttonCopia{border:none;}              #buttonCopia:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
         ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border:none;}             #buttonTaglia:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border:none;}            #buttonIncolla:hover{border:1px solid #b2b2b2;            border-radius: 3px;}");
-        ui->buttonDebug->setStyleSheet("    #buttonDebug{border:none;}              #buttonDebug:hover{border:1px solid #F00000;              border-radius: 3px;}");
         ui->buttonRedo->setStyleSheet("     #buttonRedo{border:none;}               #buttonRedo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
         ui->buttonUndo->setStyleSheet("     #buttonUndo{border:none;}               #buttonUndo:hover{border:1px solid #b2b2b2;               border-radius: 3px;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border:none;}             #buttonSearch:hover{border:1px solid #b2b2b2;             border-radius: 3px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border:none;}              #buttonColor:hover{border:1px solid #b2b2b2;              border-radius: 3px;}");
-        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none;}           #buttonDarkMode:hover{border:1px solid #b2b2b2;           border-radius: 3px;}");
         //MenuBarFrame CSS
         ui->fileButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #fileButton:hover{background-color: #003cb3;}");
-        ui->viewButton->setStyleSheet("     #fileButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #fileButton:hover{background-color: #003cb3;}");
+        ui->viewButton->setStyleSheet("     #viewButton{border:none; color:white; border-left: 2px solid #EFEFEF;}            #viewButton:hover{background-color: #003cb3;}");
         ui->pdfButton->setStyleSheet("      #pdfButton{border:none; color:white;}                                             #pdfButton:hover{background-color: #003cb3;}");
         ui->uriButton->setStyleSheet("      #uriButton{border:none; color:white;}                                             #uriButton:hover{background-color: #003cb3;}");
         ui->buttonToIcon->setStyleSheet("   #buttonToIcon{color:white; border: transparent; background-color: transparent;}   #buttonToIcon:hover{background-color: #003cb3;}");
         ui->buttonReduce->setStyleSheet("   #buttonReduce{color:white; border: transparent; background-color: transparent;}   #buttonReduce:hover{background-color: #003cb3;}");
+        //ViewFrame CSS
+        ui->buttonDarkMode->setStyleSheet(" #buttonDarkMode{border:none; color:white;}      #buttonDarkMode:hover{background-color: #003cb3;}");
+        ui->buttonFullscreen->setStyleSheet("#buttonFullscreen{border:none; color:white;}   #buttonFullscreen:hover{background-color: #003cb3;}");
         //FileFrame CSS
-        ui->CloseButton->setStyleSheet("    #CloseButton{border:none; color:white;}         #CloseButton:hover{background-color: #003cb3;}");
         ui->URIButton->setStyleSheet("      #URIButton{border:none; color:white;}           #URIButton:hover{background-color: #003cb3;}");
         ui->aboutButton->setStyleSheet("    #aboutButton{border:none; color:white;}         #aboutButton:hover{background-color: #003cb3;}");
         ui->buttonRename->setStyleSheet("   #buttonRename{border:none; color:white;}        #buttonRename:hover{background-color: #003cb3;}");
@@ -998,7 +1247,13 @@ void EditorWindow::PaintItBlack(){
     AlignButtonStyleHandler();
     SmokinSexyShowtimeStyleHandler();
     //IN THE END
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1103,7 +1358,7 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
         if(ui->buttonGrassetto->isChecked()){
             ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none; background-color:#AEAEAE}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }else{
-             ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border:none;}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
+             ui->buttonCorsivo->setStyleSheet("#buttonGrassetto{border:none;}    #buttonGrassetto:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
         if(ui->buttonCorsivo->isChecked()){
             ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border:none; background-color:#AEAEAE}    #buttonCorsivo:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
@@ -1116,19 +1371,6 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
              ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border:none;}    #buttonSottolineato:hover{border:1px solid #b2b2b2; border-radius: 3px;}");
         }
     }
-}
-
-
-void EditorWindow::FileMenuHide(){
-    ui->FileFrame->setVisible(false);
-    ui->viewButton->show();
-    ui->fileButton->setText("File");
-}
-
-void EditorWindow::FileMenuShow(){
-    ui->FileFrame->setVisible(true);
-    ui->fileButton->setText("<");
-    ui->viewButton->hide();
 }
 
 /***********************************************************************************
@@ -1146,12 +1388,18 @@ void EditorWindow::FileMenuShow(){
 *                                                                        HidroSaphire
 *
 ***********************************************************************************/
-
+/*
 void EditorWindow::on_DebugIns1_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.setPosition(1);
     c.insertText("Z");
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1159,7 +1407,13 @@ void EditorWindow::on_DebugInsInit_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.setPosition(0);
     c.insertText("A");
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1168,7 +1422,13 @@ void EditorWindow::on_DebugDel1_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.setPosition(1);
     c.deleteChar();
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1176,7 +1436,13 @@ void EditorWindow::on_DebugCursLeft_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.movePosition(QTextCursor::PreviousCharacter,QTextCursor::MoveAnchor,1);
     ui->RealTextEdit->setTextCursor(c);
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1184,7 +1450,13 @@ void EditorWindow::on_DebugCursRight_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,1);
     ui->RealTextEdit->setTextCursor(c);
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1192,14 +1464,26 @@ void EditorWindow::on_DebugCursLeftAnchor_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,1);
     ui->RealTextEdit->setTextCursor(c);
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_DebugWordLeft_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.movePosition(QTextCursor::WordLeft,QTextCursor::MoveAnchor,1);
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1207,7 +1491,13 @@ void EditorWindow::on_DebugWordRight_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.movePosition(QTextCursor::WordRight,QTextCursor::MoveAnchor,1);
     ui->RealTextEdit->setTextCursor(c);
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1215,10 +1505,16 @@ void EditorWindow::on_DebugIns6Word_clicked(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     c.setPosition(6);
     c.insertText("HidroSaphire è il migliore");
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
-
+*/
 
 void EditorWindow::on_buttonDarkMode_clicked(){
     PaintItBlack();
@@ -1246,7 +1542,13 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     } else if (result == "RENAME_SUCCESS"){
         ui->DocName->setText(QString::fromStdString(filename));
         _client->setFilename(QString::fromStdString(filename));      //Assign newText to the variable
-        ui->FileFrame->setVisible(false);
+        if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+            FadeInPrincipalBar();
+        }
+        else{
+            ui->FileFrame->setVisible(false);
+            ui->ViewFrame->setVisible(false);
+        }
         ui->RealTextEdit->setFocus(); //Return focus to textedit
     }
 }
@@ -1300,7 +1602,13 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple) {
     cursor.setPosition(pos);
     cursor.insertText(static_cast<QString>(c));
     qDebug() << "Written in pos: " << pos << endl;
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1311,7 +1619,13 @@ void EditorWindow::eraseSymbol(int index) {
     cursor.deleteChar();
     cursor.setPosition(oldPos);
     qDebug() << "Deleted char in pos: " << index << endl;
-    ui->FileFrame->setVisible(false);
+    if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
+        FadeInPrincipalBar();
+    }
+    else{
+        ui->FileFrame->setVisible(false);
+        ui->ViewFrame->setVisible(false);
+    }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1322,5 +1636,7 @@ void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
 
     qDebug() << "Deleted char range from pos: " << startIndex << " to pos: " << endIndex << endl;
     ui->FileFrame->setVisible(false);
+    ui->fileButton->setText("File");
+    ui->ViewFrame->setVisible(false);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }

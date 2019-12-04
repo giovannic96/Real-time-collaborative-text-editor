@@ -10,6 +10,7 @@ myClient::myClient()
           socket_(io_context_),
           username_(""),
           mail_(""),
+          fileVector_(std::vector<File>()),
           vector_() {
             worker_= std::thread([&](){
             io_context_.run(); //boost thread loop start
@@ -327,6 +328,14 @@ QString myClient::getMail() {
 
 void myClient::setVector(std::vector<symbol> symbols){
     this->vector_ = symbols;
+}
+
+void myClient::setVectorFile(std::vector<File> files){
+    this->fileVector_ = files;
+}
+
+std::vector<File> myClient::getVectorFile(){
+    return this->fileVector_;
 }
 
 std::vector<symbol> myClient::getVector(){

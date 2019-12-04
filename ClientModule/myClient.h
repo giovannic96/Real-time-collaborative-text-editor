@@ -32,12 +32,14 @@ public:
     QString getMail();
     QString getFilename();
     QString getFileURI();
+    std::vector<File> getVectorFile();
     std::vector<symbol> getVector();
     void setUsername(QString name);
     void setMail(QString mail);
     void setFilename(QString filename);
     void setFileURI(QString uri);
     void setVector(std::vector<symbol> symbols);
+    void setVectorFile(std::vector<File> fileVector);
     void close();
     void write(const message& msg);    
 
@@ -74,6 +76,7 @@ private:
     QString filename_;
     QString uri_;
     QString mail_;
+    std::vector<File> fileVector_;
     std::vector<symbol> vector_;
 };
 

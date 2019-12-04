@@ -64,6 +64,33 @@ void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
 
 //USERNAME BUTTON
 void MenuWindow::on_Username_clicked(){
+    //showListFile(_client->getVectorFile());
+    on_listFiles_clicked();
+    on_backButton_clicked();
+    QString filename, owner, timestamp;
+    QList<QListWidgetItem*> fileItem;
+    int Contafile=0;
+    int ContaFileOwner=0;
+
+    if(!_client->getVectorFile().empty()){
+        std::vector<File> files = _client->getVectorFile();
+        foreach (File f, files) {
+            filename  = QString::fromUtf8(f.getfilename().c_str());
+            owner     = QString::fromUtf8(f.getowner().c_str());
+            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+            Contafile++;
+            if(owner==_client->getUsername()){
+                ContaFileOwner++;
+            }
+        }
+    }else{
+        Contafile=0;
+        ContaFileOwner=0;
+    }
+
+    qDebug()<<"Ho un totale di "<< Contafile << "file";
+    qDebug()<<"Ho creato "<< ContaFileOwner << "file";
+
     UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail()); //with parameters
     up->show();
 }
@@ -299,6 +326,7 @@ void MenuWindow::showListFile(std::vector<File> files) {
         QVariant var;
         var.setValue(uriAndFilename);
         item->setData(Qt::UserRole, var);
+        _client->setVectorFile(files);
         fileItem.append(item);
     }
 }
@@ -308,7 +336,7 @@ void MenuWindow::resumeWindow() {
 }
 
 void MenuWindow::SetImage() {
-    QRect rect(0,0,64,64);
+    QRect rect(0,0,60,60);
     QRegion region(rect, QRegion::Ellipse);
     qDebug() << region.boundingRect().size();
     ui->backButton->setMask(region);

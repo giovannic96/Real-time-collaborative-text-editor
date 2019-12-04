@@ -6,21 +6,21 @@
 2. Order it as first one
 
 ## 2) Folder setup
-1. Extract downloaded boost source, e.g. `C:\Program Files\boost_1_66_0`.
-2. Create a folder for Boost.Build installation, e.g. `C:\Program Files\boost-build`.
-2. Create a folder within for building, i.e. `C:\Program Files\boost_1_66_0\build`.
-3. Create a folder for installation, e.g. `C:\Program Files\boost`.
+1. Extract downloaded boost source, e.g. `C:\Program Files\boost_1_66_0`
+2. Create a folder for Boost.Build installation, e.g. `C:\Program Files\boost-build`
+2. Create a folder within for building, i.e. `C:\Program Files\boost_1_66_0\build`
+3. Create a folder for installation, e.g. `C:\Program Files\boost`
 
 
 ## 3) Boost.Build setup
-1. Open Command Prompt and navigate to `C:\Program Files\boost_1_66_0\tools\build`.
+1. Open Command Prompt AS ADMINISTRATOR and navigate to `C:\Program Files\boost_1_66_0\tools\build`
 2. Run `bootstrap.bat gcc`.
-3. Run `b2 install --prefix="C:\Program Files\boost-build"`.
-4. Add `C:\Program Files\boost-build\bin` to Windows PATH (environment variables).
+3. Run `b2 install --prefix="C:\Program Files\boost-build"`
+4. Add `C:\Program Files\boost-build\bin` to Windows PATH (environment variables)
 
 ## 4) Boost building
-1. Open Command Prompt and navigate to `C:\Program Files\boost_1_66_0`.
-2. Run `bootstrap.bat gcc`.
+1. Open Command Prompt AS ADMINISTRATOR and navigate to `C:\Program Files\boost_1_66_0`
+2. Run `bootstrap.bat gcc`
 3. Run
 ```
 b2 --build-dir="C:\Program Files\boost_1_66_0\build" --prefix="C:\Program Files\boost" toolset=gcc install
