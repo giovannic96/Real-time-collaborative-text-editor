@@ -23,7 +23,13 @@
 2. Run `bootstrap.bat gcc`
 3. Run
 ```
-b2 --build-dir="C:\Program Files\boost_1_66_0\build" --prefix="C:\Program Files\boost" toolset=gcc install
+b2 --build-dir="C:\Program Files\boost_1_66_0\build" --prefix="C:\Program Files\boost" toolset=gcc install 
+```
+
+## 4b) In case of error
+If the folders "include" and "lib" aren't generated, try instead
+```
+b2 --build-dir="C:\Program Files\boost_1_66_0\build" --prefix="C:\Program Files\boost" --address-model=64 --architecture=x86 toolset=gcc install 
 ```
 
 ## 5) Project setup (for Qt Creator)
