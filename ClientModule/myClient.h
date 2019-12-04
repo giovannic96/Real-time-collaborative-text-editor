@@ -3,7 +3,6 @@
 
 #include <boost/asio.hpp>
 #include <QString>
-#include <QTcpSocket>
 #include <QDataStream>
 #include <QTimer>
 #include <thread>
@@ -13,6 +12,8 @@
 #include "jsonUtility.h"
 #include "symbol.h"
 #include "File.h"
+#include <QDebug>
+#include <iostream>
 
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;
@@ -26,7 +27,6 @@ public:
     virtual ~myClient();
     void do_connect();
 
-    QTcpSocket *tcpSocket;
     bool getStatus();
     QString getUsername();
     QString getMail();

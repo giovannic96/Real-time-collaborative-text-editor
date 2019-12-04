@@ -1,4 +1,4 @@
-QT       += core gui network sql printsupport
+QT       += core gui sql printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -74,6 +74,7 @@ DISTFILES += \
     Db/texteditor_users.sqlite \
     changelog.md
 
+# Boost library
 win32 {
     INCLUDEPATH += C:/Boost/include/boost-1_66
     LIBS += -LC:/Boost/lib \

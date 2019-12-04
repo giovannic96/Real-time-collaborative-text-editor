@@ -525,12 +525,9 @@ void EditorWindow::on_pdfButton_clicked(){
 
 }
 
+void EditorWindow::on_uriButton_clicked() {
 
-/* MAYBE WE HAVE TO DELETE THIS <---------------------(HEY!!! I AGREE WITH YOU BROTHER! HidroSaphire)
-void EditorWindow::on_uriButton_clicked(){
-    on_URIButton_clicked(); //See Function Below
 }
-*/
 
 /***********************************************************************************
 *                                 FileFrame FUNCTION                               *

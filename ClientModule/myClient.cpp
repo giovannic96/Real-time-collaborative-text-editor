@@ -1,6 +1,5 @@
 ﻿#include "myClient.h"
 #include <qtextcodec.h>
-#include <iostream>
 #include <QMessageBox>
 
 typedef std::deque<message> message_queue;
@@ -33,7 +32,7 @@ void myClient::do_connect() {
            emit statusChanged(status);
            do_read_header();
        } else {
-           qDebug() << ec.message().c_str() << endl;
+           qDebug() << ec.message().c_str();
            status = false;
            emit statusChanged(status);
        }

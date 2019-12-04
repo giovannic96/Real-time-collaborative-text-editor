@@ -60,7 +60,7 @@ private slots:
     //TopRightBar Button
     void on_fileButton_clicked();
     void on_pdfButton_clicked();
-    //void on_uriButton_clicked(); MAYBE WE HAVE TO DELETE THIS
+    void on_uriButton_clicked();
 
     //FileFrame Button
     //void on_newDocButton_clicked(); MAYBE WE HAVE TO DELETE THIS

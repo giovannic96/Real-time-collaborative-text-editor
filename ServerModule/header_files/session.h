@@ -8,8 +8,11 @@
 #include "json.hpp"
 #include "dbService.h"
 #include <boost/asio.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
 #include "message.h"
 #include "room.h"
+#include "email.h"
 
 using boost::asio::ip::tcp;
 using json = nlohmann::json;

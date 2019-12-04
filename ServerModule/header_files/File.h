@@ -4,7 +4,6 @@
 #ifndef SERVERMODULE_FILE_H
 #define SERVERMODULE_FILE_H
 
-
 class File {
 private:
     std::string _idfile;

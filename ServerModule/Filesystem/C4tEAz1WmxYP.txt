@@ -1,1 +1,1 @@
-[{"id":[2,1],"isBold":false,"isItalic":false,"letter":109,"pos":[0]},{"id":[2,2],"isBold":false,"isItalic":false,"letter":101,"pos":[1]},{"id":[2,3],"isBold":false,"isItalic":false,"letter":114,"pos":[2]},{"id":[2,4],"isBold":false,"isItalic":false,"letter":100,"pos":[3]},{"id":[2,5],"isBold":false,"isItalic":false,"letter":97,"pos":[4]},{"id":[2,6],"isBold":false,"isItalic":false,"letter":232,"pos":[5]}]
+[]
