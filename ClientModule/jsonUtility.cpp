@@ -76,6 +76,15 @@ void jsonUtility::to_jsonUri(json &j, const std::string &op, const std::string &
     };
 }
 
+void jsonUtility::to_json_inviteURI(json &j, const std::string &op, const std::string &invited, const std::string &applicant, const std::string &uri) {
+    j = json{
+            {"operation", op},
+            {"invited", invited},
+            {"applicant", applicant},
+            {"uri", uri}
+    };
+}
+
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &user, const std::string &pass, const std::string &email) {
     j = json{
             {"operation", op},
@@ -98,6 +107,10 @@ void jsonUtility::to_jsonUser(json &j, const std::string &op, const std::string 
 
 void jsonUtility::from_json(const json &j, std::string &op) {
     op = j.at("operation").get<std::string>();
+}
+
+void jsonUtility::from_json_inviteURI(const json &j, std::string &op) {
+    op = j.at("content").at("response").get<std::string>();
 }
 
 void jsonUtility::from_json_resp(const json &j, std::string &resp) {

@@ -747,11 +747,51 @@ void EditorWindow::on_pdfButton_clicked(){
 
 }
 
-
 void EditorWindow::on_uriButton_clicked() {
+    bool ok;
+    QString text = QInputDialog::getText(this, tr("Invito a collaborare"),
+                                         tr("Inserisci username del nuovo partecipante:"), QLineEdit::Normal,
+                                         "", &ok);
+    if (ok && !text.isEmpty() && text.size()<=15) {
+        //Get data
+        QString invited = text;
+        QByteArray ba_invited = invited.toLocal8Bit();
+        const char *c_invited = ba_invited.data();
+        QString applicant = this->_client->getUsername();
+        QByteArray ba_applicant = applicant.toLocal8Bit();
+        const char *c_applicant = ba_applicant.data();
+        QString uri = this->_client->getFileURI();
+        QByteArray ba_uri = uri.toLocal8Bit();
+        const char *c_uri = ba_uri.data();
 
+        if(invited == applicant) {
+            QMessageBox messageBox;
+            messageBox.critical(nullptr,"Errore","Non puoi invitare te stesso!");
+            messageBox.setFixedSize(600,400);
+            on_uriButton_clicked();
+        } else {
+            //Serialize data
+            json j;
+            jsonUtility::to_json_inviteURI(j, "INVITE_URI_REQUEST", c_invited, c_applicant, c_uri);
+            const std::string req = j.dump();
+
+            //Send data (header and body)
+            sendRequestMsg(req);
+        }
+    }
+    else if (ok && !text.isEmpty() && text.size()>15) {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
+        messageBox.setFixedSize(600,400);
+        on_uriButton_clicked();
+    }
+    else if (ok && text.isEmpty()) {
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Errore","Inserire un nome!");
+        messageBox.setFixedSize(600,400);
+        on_uriButton_clicked();
+    }
 }
-
 
 /***********************************************************************************
 *                                 FileFrame FUNCTION                               *
@@ -1541,7 +1581,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     if(result == "LOGOUTURI_SUCCESS") {
         this->close();
         delete this;
-    } else if (result == "RENAME_SUCCESS"){
+    } else if (result == "RENAME_SUCCESS") {
         ui->DocName->setText(QString::fromStdString(filename));
         _client->setFilename(QString::fromStdString(filename));      //Assign newText to the variable
         if (ui->FileFrame->isVisible()||ui->ViewFrame->isVisible()){
@@ -1552,6 +1592,8 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
             ui->ViewFrame->setVisible(false);
         }
         ui->RealTextEdit->setFocus(); //Return focus to textedit
+    } else if(result == "INVITE_URI_SUCCESS") {
+        QMessageBox::warning(this,"Invito effettuato con successo", "Il tuo invito a collaborare è stato correttamente eseguito.");
     }
 }
 
@@ -1560,6 +1602,16 @@ void EditorWindow::showPopupFailure(QString result) {
         QMessageBox::critical(this,"Errore", "LogoutURI non completata!");                                 //Stay in the same window
     } else if(result == "RENAME_FAILURE") {
         QMessageBox::warning(this,"Impossibile rinominare", "Esiste già un file con questo nome!");        //Stay in the same window
+    } else if(result == "SEND_EMAIL_FAILED") {
+        QMessageBox::warning(this,"Impossibile invitare un amico", "Non è stato possibile inviare l'email. Riprovare più tardi");        //Stay in the same window
+    } else if(result == "INVITE_URI_FAILURE") {
+        QMessageBox::warning(this,"Impossibile invitare un amico", "Non è stato possibile effettuare l'invito. Riprovare");        //Stay in the same window
+    } else if(result == "ALREADY_PARTECIPANT") {
+        QMessageBox::warning(this,"Impossibile invitare un amico", "L'utente è già un partecipante di questo file");        //Stay in the same window
+    } else if(result == "APPLICANT_NOT_EXIST") {
+        QMessageBox::warning(this,"Impossibile invitare un amico", "L'utente che hai inserito non esiste.");        //Stay in the same window
+    } else if(result == "SAME_USER") {
+        QMessageBox::warning(this,"Impossibile invitare un amico", "Non puoi invitare te stesso!");        //Stay in the same window
     } else {
         QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
