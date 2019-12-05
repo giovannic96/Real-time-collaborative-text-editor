@@ -364,6 +364,37 @@ dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, co
     }
 }
 
+dbService::DB_RESPONSE dbService::tryGetEmail(const std::string &invited, std::string &email_invited) {
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(invited.data(), invited.size());
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("SELECT email FROM users WHERE username= :username LIMIT 1"));
+        query.bindValue(":username", username);
+        if (query.exec()) {
+            if (query.next()) { //user exists
+                email_invited = query.value(0).toString().toStdString();
+                db.close();
+                return GET_EMAIL_OK;
+            } else {
+                db.close();
+                return INVITED_NOT_EXIST;
+            }
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
+
 dbService::DB_RESPONSE dbService::tryAddFriend(const std::string &invited, const std::string &urifile) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(invited.data(), invited.size());
@@ -374,19 +405,28 @@ dbService::DB_RESPONSE dbService::tryAddFriend(const std::string &invited, const
 
     if(db.open()) {
         QSqlQuery query(QSqlDatabase::database("MyConnect2"));
-        query.prepare(QString("SELECT username FROM users WHERE username= :username"));
+        query.prepare(QString("SELECT COUNT(*) FROM users WHERE username= :username LIMIT 1"));
         query.bindValue(":username", username);
-        if (!query.exec()) {
+        if (query.exec()) {
+            query.first();
+            int num_rows = query.value(0).toInt();
+            if(num_rows == 0) {
+                db.close();
+                std::cout << "Applicant doesn't exist" << std::endl;
+                return INVITED_NOT_EXIST;
+            }
+        } else {
+            std::cout << "Error on SELECT COUNT" << std::endl;
             db.close();
-            std::cout << "Applicant doesn't exist" << std::endl;
-            return APPLICANT_NOT_EXIST;
+            return QUERY_ERROR;
         }
 
-        query.prepare(QString("SELECT idfile, iduser FROM  permission WHERE idfile= :uri and iduser= :username"));
-        query.bindValue(":username", username);
-        query.bindValue(":uri", uri);
-        if (query.exec()) {
-            if (query.next()) {//user is already partecipant of the file
+        QSqlQuery query3(QSqlDatabase::database("MyConnect2"));
+        query3.prepare(QString("SELECT idfile, iduser FROM permissions WHERE idfile= :uri and iduser= :username"));
+        query3.bindValue(":username", username);
+        query3.bindValue(":uri", uri);
+        if (query3.exec()) {
+            if (query3.next()) { //user is already partecipant of the file
                 std::cout << "User already partecipant of the file" << std::endl;
                 db.close();
                 return ALREADY_PARTECIPANT;

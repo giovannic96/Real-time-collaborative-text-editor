@@ -4,7 +4,9 @@
 
 #include "header_files/email.h"
 
-bool email::sendEmail() {
+#include <utility>
+
+bool email::sendEmail(const std::string& email, const std::string& uri) {
     CURL *curl;
     CURLcode res = CURLE_OK;
     struct curl_slist *recipients = nullptr;
@@ -22,8 +24,10 @@ bool email::sendEmail() {
         curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
         curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
 
+        payload_text[3] = uri.c_str();
         //Destination email address
-        recipients = curl_slist_append(recipients, "giorinenrfra@gmail.com");
+        //recipients = curl_slist_append(recipients, "giorinenrfra@gmail.com");
+        recipients = curl_slist_append(recipients, email.c_str());
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
         curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
         curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);

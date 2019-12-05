@@ -248,8 +248,8 @@ void myClient::do_read_body() {
                     emit editorResultSuccess("INVITE_URI_SUCCESS");
                 } else if(db_responseJSON == "ALREADY_PARTECIPANT") {
                     emit editorResultFailure("ALREADY_PARTECIPANT");
-                } else if(db_responseJSON == "APPLICANT_NOT_EXIST") {
-                    emit editorResultFailure("APPLICANT_NOT_EXIST");
+                } else if(db_responseJSON == "INVITED_NOT_EXIST") {
+                    emit editorResultFailure("INVITED_NOT_EXIST");
                 } else if(db_responseJSON == "SAME_USER") {
                     emit editorResultFailure("SAME_USER");
                 } else if(db_responseJSON == "SEND_EMAIL_FAILED") {

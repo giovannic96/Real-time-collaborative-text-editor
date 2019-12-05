@@ -30,7 +30,7 @@ struct upload_status {
 
 class email {
     public:
-        static bool sendEmail();
+        static bool sendEmail(const std::string& email, const std::string& uri);
     private:
         static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
 };

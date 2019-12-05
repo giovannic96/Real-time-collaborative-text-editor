@@ -1608,7 +1608,7 @@ void EditorWindow::showPopupFailure(QString result) {
         QMessageBox::warning(this,"Impossibile invitare un amico", "Non è stato possibile effettuare l'invito. Riprovare");        //Stay in the same window
     } else if(result == "ALREADY_PARTECIPANT") {
         QMessageBox::warning(this,"Impossibile invitare un amico", "L'utente è già un partecipante di questo file");        //Stay in the same window
-    } else if(result == "APPLICANT_NOT_EXIST") {
+    } else if(result == "INVITED_NOT_EXIST") {
         QMessageBox::warning(this,"Impossibile invitare un amico", "L'utente che hai inserito non esiste.");        //Stay in the same window
     } else if(result == "SAME_USER") {
         QMessageBox::warning(this,"Impossibile invitare un amico", "Non puoi invitare te stesso!");        //Stay in the same window
