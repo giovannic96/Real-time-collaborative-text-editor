@@ -22,12 +22,14 @@ public:
     static void to_jsonRenamefile(json& j, const std::string& op, const std::string& nameFile, const std::string& uri, const std::string& username);
     static void to_jsonFilename(json& j, const std::string& op, const std::string& user, const std::string& filename);
     static void to_jsonUri(json& j, const std::string& op, const std::string& user, const std::string& uri);
+    static void to_json_inviteURI(json& j, const std::string& op, const std::string& invited, const std::string& applicant, const std::string& uri);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
     static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple);
     static void to_json_removal(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
     static void to_jsonUser(json &j, const std::string &op, const std::string &user);
     static void from_json(const json& j, std::string& op);
+    static void from_json_inviteURI(const json& j, std::string& op);
     static void from_json_rename_file(const json &j, std::string &resp, std::string& filename);
     static void from_json_resp(const json &j, std::string &resp);
     static void from_json_symbols(const json &j, std::vector<json> &jsonSymbols);

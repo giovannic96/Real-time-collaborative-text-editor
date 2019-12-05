@@ -240,6 +240,23 @@ void myClient::do_read_body() {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("LISTFILE_FAILURE");
                 }
+            } else if(opJSON == "INVITE_URI_RESPONSE") {
+                std::string db_responseJSON;
+                jsonUtility::from_json_inviteURI(jdata_in, db_responseJSON);
+
+                if(db_responseJSON == "INVITE_URI_SUCCESS") {
+                    emit editorResultSuccess("INVITE_URI_SUCCESS");
+                } else if(db_responseJSON == "ALREADY_PARTECIPANT") {
+                    emit editorResultFailure("ALREADY_PARTECIPANT");
+                } else if(db_responseJSON == "APPLICANT_NOT_EXIST") {
+                    emit editorResultFailure("APPLICANT_NOT_EXIST");
+                } else if(db_responseJSON == "SAME_USER") {
+                    emit editorResultFailure("SAME_USER");
+                } else if(db_responseJSON == "SEND_EMAIL_FAILED") {
+                    emit editorResultFailure("SEND_EMAIL_FAILED");
+                } else {
+                    emit editorResultFailure("INVITE_URI_FAILURE");
+                }
             } else if(opJSON == "INSERTION_RESPONSE") {
                 std::pair<int, wchar_t> tupleJSON;
                 jsonUtility::from_json_insertion(jdata_in, tupleJSON);
