@@ -336,7 +336,7 @@ void MenuWindow::resumeWindow() {
 }
 
 void MenuWindow::SetImage() {
-    QRect rect(0,0,60,60);
+    QRect rect(0,0,64,64);
     QRegion region(rect, QRegion::Ellipse);
     qDebug() << region.boundingRect().size();
     ui->backButton->setMask(region);

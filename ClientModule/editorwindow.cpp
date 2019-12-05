@@ -747,9 +747,11 @@ void EditorWindow::on_pdfButton_clicked(){
 
 }
 
+
 void EditorWindow::on_uriButton_clicked() {
 
 }
+
 
 /***********************************************************************************
 *                                 FileFrame FUNCTION                               *
