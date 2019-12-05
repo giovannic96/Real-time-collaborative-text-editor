@@ -178,6 +178,11 @@ void jsonUtility::from_json(const json &j, std::string &user, std::string &pass)
     user = j.at("content").at("username").get<std::string>();
     pass = j.at("content").at("password").get<std::string>();
 }
+void jsonUtility::from_json_inviteURI(const json &j, std::string &invited, std::string &applicant, std::string &uri) {
+    invited = j.at("invited").get<std::string>();
+    applicant = j.at("applicant").get<std::string>();
+    uri = j.at("uri").get<std::string>();
+}
 
 void jsonUtility::from_json_filename(const json &j, std::string &user, std::string &filename) {
     user = j.at("content").at("username").get<std::string>();

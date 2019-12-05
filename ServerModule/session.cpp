@@ -468,45 +468,46 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "INVITE_URI_REQUEST") {
-        /*
         // Send email
         if(email::sendEmail()) {
-            std::string userJSON;
-            jsonUtility::from_json_confirmURI(jdata_in, userJSON); //get json value and put into JSON variables
+            std::string invitedJSON;
+            std::string applicantJSON;
+            std::string uriJSON;
+            jsonUtility::from_json_inviteURI(jdata_in, invitedJSON, applicantJSON, uriJSON); //get json value and put into JSON variables
 
-            //Get data from db
-            //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
             const char *db_res;
-            dbService::DB_RESPONSE resp = dbService::tryConfirmURI(userJSON);
-            QSqlDatabase::removeDatabase("MyConnect2");
+            if(invitedJSON == applicantJSON){
+                db_res = "SAME_USER";
+            } else {
+                dbService::DB_RESPONSE resp = dbService::tryAddFriend(invitedJSON, uriJSON);
+                QSqlDatabase::removeDatabase("MyConnect2");
 
-            // TODO: franz change these according to the db responses
-            if(resp == dbService::LOGIN_OK)
-                db_res = "LOGIN_OK";
-            else if(resp == dbService::LOGIN_FAILED)
-                db_res = "LOGIN_FAILED";
-            else if(resp == dbService::DB_ERROR)
-                db_res = "DB_ERROR";
-            else if(resp == dbService::QUERY_ERROR)
-                db_res = "QUERY_ERROR";
-            else if(resp == dbService::ALREADY_LOGGED)
-                db_res = "ALREADY_LOGGED_ERROR";
-            else
-                db_res = "DB_ERROR";
-
+                if(resp == dbService::ALREADY_PARTECIPANT)
+                    db_res = "ALREADY_PARTECIPANT";
+                else if(resp == dbService::INVITE_URI_SUCCESS)
+                    db_res = "INVITE_URI_SUCCESS";
+                else if(resp == dbService::INVITE_URI_FAILED)
+                    db_res = "INVITE_URI_FAILED";
+                else if(resp == dbService::QUERY_ERROR)
+                    db_res = "QUERY_ERROR";
+                else if(resp == dbService::APPLICANT_NOT_EXIST)
+                    db_res = "APPLICANT_NOT_EXIST";
+                else
+                    db_res = "DB_ERROR";
+            }
             json j;
-            jsonUtility::to_json_confirm_uri(j, "CONFIRM_URI_RESPONSE", db_res, userJSON);
+            jsonUtility::to_json(j, "INVITE_URI_RESPONSE", db_res);
             const std::string response = j.dump();
             return response;
         }
         else {
             const char *db_res = "SEND_EMAIL_FAILED";
             json j;
-            jsonUtility::to_json_confirm_uri(j, "CONFIRM_URI_RESPONSE", db_res);
+            jsonUtility::to_json(j, "INVITE_URI_RESPONSE", db_res);
             const std::string response = j.dump();
             return response;
         }
-        */
+
     } else if (opJSON == "INSERTION_REQUEST") {
         std::pair<int, wchar_t> tupleJSON;
         jsonUtility::from_json_insertion(jdata_in, tupleJSON); //get json value and put into JSON variables

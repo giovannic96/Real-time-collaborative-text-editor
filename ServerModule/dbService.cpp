@@ -364,6 +364,61 @@ dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, co
     }
 }
 
+dbService::DB_RESPONSE dbService::tryAddFriend(const std::string &invited, const std::string &urifile) {
+    QSqlDatabase db;
+    QString username = QString::fromUtf8(invited.data(), invited.size());
+    QString uri = QString::fromUtf8(urifile.data(), urifile.size());
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("SELECT username FROM users WHERE username= :username"));
+        query.bindValue(":username", username);
+        if (!query.exec()) {
+            db.close();
+            std::cout << "Applicant doesn't exist" << std::endl;
+            return APPLICANT_NOT_EXIST;
+        }
+
+        query.prepare(QString("SELECT idfile, iduser FROM  permission WHERE idfile= :uri and iduser= :username"));
+        query.bindValue(":username", username);
+        query.bindValue(":uri", uri);
+        if (query.exec()) {
+            if (query.next()) {//user is already partecipant of the file
+                std::cout << "User already partecipant of the file" << std::endl;
+                db.close();
+                return ALREADY_PARTECIPANT;
+
+            } else {
+
+                QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
+                query2.prepare(QString("INSERT INTO permissions (idfile, iduser, isOwner, isOpen, isConfirmed) VALUES (:uri, :username, 0, 0, 0);"));
+                query2.bindValue(":username", username);
+                query2.bindValue(":uri", uri);
+
+                if(query2.exec()) {
+                    db.close();
+                    return INVITE_URI_SUCCESS;
+                } else {
+                    std::cout << "Error Insert" << std::endl;
+                    db.close();
+                    return INVITE_URI_FAILED;
+                }
+            }
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
+
 inline const char* dbService::enumToStr(dbService::DB_RESPONSE db_resp) {
     switch (db_resp) {
         case dbService::LOGIN_OK:       return "LOGIN_OK";
@@ -438,3 +493,5 @@ dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, 
         return DB_ERROR;
     }
 }
+
+

@@ -49,6 +49,8 @@ public:
     static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple);
     static void from_json_removal(const json& j, int& index);
     static void from_json_removal_range(const json& j, int& startIndex, int& endIndex);
+    static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
+
 };
 
 
