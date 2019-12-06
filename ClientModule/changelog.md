@@ -1,8 +1,13 @@
-# Changelog ClientModule
+# Changelog v0.1 of ClientModule
 
-### TODO
-- BUG --> Ridimensionamento finestre/bottoni al cambio di DPI -> HALF FIXED
-          Vedi branch FramelessOrNot per una soluzione migliore
+# This Changelog will no longer be updated
+
+## [v0.1.10a - Recovery 1268] - Last Version of v0.1
+### Aggiunto
+- Aggiunto "Invita tramite URI"
+- Aggiunto Uri nella mail
+### Cambiamenti
+- Riadattamento Layout EditorWindow
 
 ## [v0.1.10a - Daily 1267] - 2019/11/29 @ 17:00
 ### Cambiamenti
@@ -34,7 +39,7 @@
 - Correzione di alcuni errori
 
 ## [v0.1.10a - Daily 1260] - 2019/11/26 @ 01:00
-### Aggiunta
+### Aggiunto
 - Funzionalità di cancellazione della porzione del testo selezionato
 - Aggiunta funzionalità di cancellazione anche per il pulsante "canc"
 
