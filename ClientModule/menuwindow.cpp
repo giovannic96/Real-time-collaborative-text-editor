@@ -27,6 +27,7 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent)
 MenuWindow::~MenuWindow() {
     delete ui;
     delete _client;
+    delete _ew;
 }
 
 //LOGOUT BUTTON
@@ -260,17 +261,17 @@ void MenuWindow::showPopupSuccess(QString result) {
     } else if(result == "LOGOUT_SUCCESS") {
         QApplication::exit();
     } else if(result == "NEWFILE_SUCCESS") {
-        EditorWindow *ew = new EditorWindow(_client, this);
+        _ew = new EditorWindow(_client);
         this->hide();
-        ew->show();
+        _ew->show(); //TODO: change to showMaximized later
     } else if(result == "OPENFILE_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
-        _ew->showMaximized(); //later change to showMaximized
+        _ew->show(); //TODO: change to showMaximized later
     } else if(result == "OPENWITHURI_SUCCESS") {
-        EditorWindow *ew = new EditorWindow(_client, this);
+        _ew = new EditorWindow(_client);
         this->hide();
-        ew->show();
+        _ew->show(); //TODO: change to showMaximized later
     } else if(result == "LISTFILE_SUCCESS") {
         ui->stackedWidget->setCurrentIndex(1);
     }
