@@ -24,9 +24,13 @@ bool email::sendEmail(const std::string& email, const std::string& uri) {
         curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
         curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
 
+        //set Receiver
+        std::string conc = "To: " + email + "\r\n";
+        payload_text[0] = conc.c_str();
+
         //set URI to send
         std::string msgURI = "Sei stato invitato a collaborare su un documento. Inserisci questo URI per modificare il file: " + uri;
-        payload_text[3] = msgURI.c_str();
+        payload_text[4] = msgURI.c_str();
 
         //Destination email address
         //recipients = curl_slist_append(recipients, "giorinenrfra@gmail.com");

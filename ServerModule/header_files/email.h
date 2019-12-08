@@ -14,7 +14,7 @@
 
 static const char *payload_text[] = {
         //"Date: Mon, 29 Nov 2010 21:54:29 +1100\r\n", //this will be substituted with the current date
-        //"To: invited_email@gmail.com\r\n", //this will be substituted with the correct email
+        "To: \r\n", //this will be substituted with the correct email
         "From: Carte Editor\r\n",
         //"Message-ID: <dcd7cb36-11db-487a-9f3a-e652a9458efk@" "rfcpedant.example.org>\r\n",//leave this line commented because the
         "Subject: Sei stato invitato a collaborare\r\n",
