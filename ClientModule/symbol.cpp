@@ -9,6 +9,9 @@
 symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos)
                         : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(false), _isItalic(false) {}
 
+symbol::symbol(wchar_t character)
+                        : _letter(character), _isBold(false), _isItalic(false) {}
+
 std::vector<int> symbol::getPos() const {
     return _pos;
 }

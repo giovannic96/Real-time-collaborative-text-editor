@@ -23,6 +23,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent):
     connect(_client, &myClient::insertSymbol, this, &EditorWindow::showSymbol);
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
+    connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
     ui->DocName->setText(_client->getFilename().toLatin1()); //toLatin1 accept accented char
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -959,11 +960,85 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
+        Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
+        QList<Qt::Key> modifiersList;
 
         if(!keyEvent->text().isEmpty()) { //to ignore chars like "CAPS_LOCK", "SHIFT", "CTRL", etc...
 
-        //if((key >= Qt::Key_Space && key <= Qt::Key_AsciiTilde) || key == Qt::Key_Return || key == Qt::Key_Egrave) { //only ASCII characters and also "enter"
-        if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete)) {
+        if (keyEvent->matches(QKeySequence::Cut)) { //CTRL-X
+            //Get data
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+
+            if(cursor.hasSelection()) { //Remove range of characters selected
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            }
+            else
+                return QObject::eventFilter(obj, ev);
+        }
+        else if (keyEvent->matches(QKeySequence::Paste)) { //CTRL-V
+            //Get data
+            const QClipboard *clipboard = QApplication::clipboard();
+            const QMimeData *mimeData = clipboard->mimeData();
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
+            int pos = cursor.position();
+
+            if(mimeData->hasText()) { //TODO: handle the formatted case (some char can have bold and other not -> we have to handle this)
+                                      //TODO: and if mimeData has Images or html??? -> handle this case
+                //Get data
+                int numChars = mimeData->text().size(); //number of chars = number of iterations
+                std::wstring str_to_paste = mimeData->text().toStdWString();
+                std::vector<symbol_formatting> formattingSymbols; //bold, italic. TODO: underlined
+                int index;
+                wchar_t c;
+                std::array<bool, 2> formattingTypes;
+
+                for(int i=0; i<numChars; i++) {
+                    c = str_to_paste.c_str()[0]; //get wchar
+                    qDebug() << "char: " << c;
+                    str_to_paste.erase(0,1); //remove first wchar
+                    index = pos++; //get index
+                    formattingTypes = {false, false}; //TODO: handle this correctly
+                    symbol_formatting s(index, c, formattingTypes);
+                    formattingSymbols.push_back(s);
+                }
+                /*
+                for(int i=0; i<numChars; i++) {
+                    std::pair<int, wchar_t> tuple;
+                    wchar_t c = str_to_paste.c_str()[0]; //get wchar
+                    qDebug() << "char: " << c;
+                    str_to_paste.erase(0,1); //remove first wchar
+                    tuple = std::make_pair(pos++, c); //generate tuple for that wchar
+                    tuples.push_back(tuple); //insert tuple in tuples
+                }*/
+
+                //Serialize data
+                json j;
+                std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(formattingSymbols);
+                jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+                return QObject::eventFilter(obj, ev);
+            } else {
+                qDebug() << "Cannot paste this." << endl;
+                return QObject::eventFilter(obj, ev);
+            }
+        }
+        else if(modifiers & Qt::ControlModifier) { //ignore other CTRL combinations
+            return QObject::eventFilter(obj, ev);
+        }
+        else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete)) {
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
@@ -1626,7 +1701,6 @@ void EditorWindow::sendRequestMsg(std::string req) {
     _client->write(msg);
 }
 
-
 void EditorWindow::showSymbols(std::vector<symbol> symbols) {
     wchar_t letter;
     QTextCursor c = ui->RealTextEdit->textCursor();
@@ -1641,6 +1715,29 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
             newFormat.setFontItalic(true);
         }
         int pos = s.getPos().at(0);
+        c.setPosition(pos);
+        c.setCharFormat(newFormat);
+        c.insertText(static_cast<QString>(letter));
+        ui->RealTextEdit->setTextCursor(c);
+        c.setCharFormat(oldFormat);
+    }
+}
+
+void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
+    wchar_t letter;
+    int index = firstIndex;
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    foreach (symbol s, symbols) {
+        letter = s.getLetter();
+        QTextCharFormat oldFormat = c.charFormat();
+        QTextCharFormat newFormat = oldFormat;
+        if (s.isBold()){
+            newFormat.setFontWeight(QFont::Bold);
+        }
+        if (s.isItalic()){
+            newFormat.setFontItalic(true);
+        }
+        int pos = index++;
         c.setPosition(pos);
         c.setCharFormat(newFormat);
         c.insertText(static_cast<QString>(letter));

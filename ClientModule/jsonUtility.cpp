@@ -105,6 +105,14 @@ void jsonUtility::to_jsonUser(json &j, const std::string &op, const std::string 
     };
 }
 
+void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector) {
+    j = json{
+            {"operation", op},
+            {"formattingSymVector", symVector} //JSON vector
+    };
+}
+
+
 void jsonUtility::from_json(const json &j, std::string &op) {
     op = j.at("operation").get<std::string>();
 }
@@ -117,13 +125,22 @@ void jsonUtility::from_json_resp(const json &j, std::string &resp) {
     resp = j.at("content").at("response").get<std::string>();
 }
 
-void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
-    jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
+void jsonUtility::from_json_formatting_symbols(const json &j, std::vector<json>& jsonSymbols) {
+    jsonSymbols = j.at("formattingSymVector").get<std::vector<json>>();
 }
 
 void jsonUtility::from_json_symbolsAndFilename(const json &j, std::vector<json>& jsonSymbols, std::string& filename) {
     filename = j.at("content").at("filename").get<std::string>();
     jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
+}
+
+void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
+    jsonSymbols = j.at("symbols").get<std::vector<json>>();
+}
+
+void jsonUtility::from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols) {
+    firstIndex = j.at("firstIndexRange").get<int>();
+    jsonSymbols = j.at("symbols").get<std::vector<json>>();
 }
 
 void jsonUtility::from_json_rename_file(const json &j, std::string &resp, std::string& filename) {
@@ -149,6 +166,18 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
     symbol *s = new symbol(letter, id, pos);
     s->setBold(isBold);
     s->setItalic(isItalic);
+    return s;
+}
+
+symbol_formatting* jsonUtility::from_json_formatting_symbol(const json &j) {
+
+    //get symbol values from json
+    int index = j.at("index").get<int>();
+    wchar_t letter = j.at("letter").get<wchar_t>();
+    std::array<bool,2> formattingTypes = j.at("formattingTypes").get<std::array<bool,2>>();
+
+    //now create the symbol
+    symbol_formatting *s = new symbol_formatting(index, letter, formattingTypes);
     return s;
 }
 
@@ -195,4 +224,26 @@ void jsonUtility::from_json_removal(const json &j, int& index) {
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
     startIndex = j.at("startIndex").get<int>();
     endIndex = j.at("endIndex").get<int>();
+}
+
+void jsonUtility::to_json_FormattingSymbol(json &j, const symbol_formatting &symbol) {
+    j = json{
+            {"index", symbol.getIndex()},
+            {"letter", symbol.getLetter()},
+            {"formattingTypes", symbol.getFormattingTypes()},
+    };
+}
+
+std::vector<json> jsonUtility::fromFormattingSymToJson(const std::vector<symbol_formatting>& symbols) {
+    if(symbols.empty())
+        return json::array();
+
+    // Get jsons from symbols
+    std::vector<json> jsons;
+    for (auto const &sym: symbols) {
+        json j;
+        jsonUtility::to_json_FormattingSymbol(j, sym); //convert sym into json
+        jsons.push_back(j);
+    }
+    return jsons;
 }

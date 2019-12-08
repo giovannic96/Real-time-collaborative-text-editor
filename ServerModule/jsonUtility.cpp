@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "header_files/jsonUtility.h"
+#include "header_files/symbol_formatting.h"
 #include <iomanip>
 
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
@@ -56,15 +57,6 @@ void jsonUtility::to_json_file(json &j, const File &file) {
 }
 
 void jsonUtility::to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile) {
-
-    //DEBUG
-    //std::vector<File> vfile;
-    //vfile.emplace_back(File{"cipolla", "patate", "meloni", "angurie"});
-    //vfile.emplace_back(File{ "capre", "mucche", "meloni", "angurie" });
-
-    //json local = vectorFile;
-    //std::cout << std::setw(2) << jlocal << std::endl;
-
     j = json{
             {"operation", op},
             {"content", {
@@ -72,7 +64,6 @@ void jsonUtility::to_json_fileVector(json &j, const std::string &op, const std::
                   {"vectorFile", vectorFile} //JSON vector
             }}
     };
-    //std::cout << std::setw(2) << j << std::endl;
 }
 
 void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin) {
@@ -149,25 +140,16 @@ void jsonUtility::to_json_removal_range(json &j, const std::string &op, const in
     };
 }
 
-void jsonUtility::from_json(const json &j, std::string &op) {
-    op = j.at("operation").get<std::string>();
+void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const int &firstIndexRange, const std::vector<json> &symbols) {
+    j = json{
+            {"operation", op},
+            {"firstIndexRange", firstIndexRange},
+            {"symbols", symbols}
+    };
 }
 
-void jsonUtility::from_json_symbol(const json &j, symbol &s) {
-
-    //get symbol values from json
-    wchar_t letter = j.at("letter").get<wchar_t>();
-    std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
-    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
-    bool isBold = j.at("isBold").get<bool>();
-    bool isItalic = j.at("isItalic").get<bool>();
-
-    //now create the symbol
-    s.setLetter(letter);
-    s.setId(id);
-    s.setPos(pos);
-    s.setBold(isBold);
-    s.setItalic(isItalic);
+void jsonUtility::from_json(const json &j, std::string &op) {
+    op = j.at("operation").get<std::string>();
 }
 
 void jsonUtility::from_json_resp(const json &j, std::string &resp) {
@@ -251,8 +233,16 @@ std::vector<symbol> jsonUtility::fromJsonToSym(const std::vector<json>& jsons) {
     return symbols;
 }
 
-std::vector<json> jsonUtility::fromFileToJson(const std::vector<File>& files) {
+std::vector<symbol_formatting> jsonUtility::fromJsonToFormattingSym(const std::vector<json>& jsons) {
+    // Get formatting symbols from json
+    std::vector<symbol_formatting> symbols;
+    for (auto const &j: jsons) {
+        symbols.push_back(jsonUtility::from_json_formatting_symbol(j));
+    }
+    return symbols;
+}
 
+std::vector<json> jsonUtility::fromFileToJson(const std::vector<File>& files) {
     // Get jsons from symbols
     std::vector<json> jsons;
     for (auto const &f: files) {
@@ -268,7 +258,6 @@ void jsonUtility::from_json_storedSymbols(const json& j, std::vector<json>& json
 }
 
 symbol jsonUtility::from_json_symbol(const json &j) {
-
     //get symbol values from json
     wchar_t letter = j.at("letter").get<wchar_t>();
     std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
@@ -278,6 +267,18 @@ symbol jsonUtility::from_json_symbol(const json &j) {
 
     //now create the symbol
     symbol s(letter, id, pos, isBold, isItalic);
+    return s;
+}
+
+symbol_formatting jsonUtility::from_json_formatting_symbol(const json &j) {
+
+    //get symbol values from json
+    int index = j.at("index").get<int>();
+    wchar_t letter = j.at("letter").get<wchar_t>();
+    std::array<bool,2> formattingTypes = j.at("formattingTypes").get<std::array<bool,2>>();
+
+    //now create the symbol
+    symbol_formatting s(index, letter, formattingTypes);
     return s;
 }
 
@@ -294,10 +295,12 @@ void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& e
     endIndex = j.at("endIndex").get<int>();
 }
 
-void jsonUtility::from_json_renameFile(const json &j, std::string &nameFile, std::string &urifile, std::string &username) {
+void jsonUtility::from_json_insertion_range(const json &j, std::vector<json>& symbols) {
+    symbols = j.at("formattingSymVector").get<std::vector<json>>();
+}
 
+void jsonUtility::from_json_renameFile(const json &j, std::string &nameFile, std::string &urifile, std::string &username) {
     nameFile = j.at("content").at("newNameFile").get<std::string>();
     urifile = j.at("content").at("uri").get<std::string>();
     username = j.at("content").at("username").get<std::string>();
-
 }

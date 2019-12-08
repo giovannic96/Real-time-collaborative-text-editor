@@ -100,21 +100,6 @@ private slots:
     void FadeInFileBar();
     void FadeInViewBar();
 
-    /************************************
-     *           DEBUG FUNCTION         *
-     ************************************/
-    //void on_DebugIns1_clicked();
-    //void on_DebugInsInit_clicked();
-    //void on_DebugDel1_clicked();
-    //void on_DebugCursLeft_clicked();
-    //void on_DebugCursRight_clicked();
-    //void on_DebugCursLeftAnchor_clicked();
-    //void on_DebugWordLeft_clicked();
-    //void on_DebugWordRight_clicked();
-    //void on_DebugIns6Word_clicked();
-
-
-
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
@@ -122,6 +107,7 @@ public slots:
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);
+    void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
 
 private:
     Ui::EditorWindow *ui;

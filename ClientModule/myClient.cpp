@@ -201,16 +201,18 @@ void myClient::do_read_body() {
 
                     //Update client data
                     this->setFilename(QString::fromStdString(filenameJSON));
-
                     this->setVector(symbols);
 
                     qDebug() << "OPENWITHURI success" << endl;
                     emit opResultSuccess("OPENWITHURI_SUCCESS");
+                } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
+                    //Update client data
+                    this->setVector(std::vector<symbol>());
+                    emit opResultSuccess("OPENFILE_SUCCESS");
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("OPENWITHURI_FAILURE");
                 }
-
             } else if(opJSON == "LISTFILE_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -261,6 +263,20 @@ void myClient::do_read_body() {
                 std::pair<int, wchar_t> tupleJSON;
                 jsonUtility::from_json_insertion(jdata_in, tupleJSON);
                 emit insertSymbol(tupleJSON);
+            } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
+                int firstIndex;
+                std::vector<json> jsonSymbols;
+                jsonUtility::from_json_insertion_range(jdata_in, firstIndex, jsonSymbols);
+                std::vector<symbol> symbols;
+
+                //generate symbols vector from json vector
+                for(const auto& j: jsonSymbols) {
+                    symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
+                    s = jsonUtility::from_json_symbol(j);
+                    symbols.push_back(*s);
+                    delete s;
+                }
+                emit insertSymbols(firstIndex, symbols);
             } else if(opJSON == "REMOVAL_RESPONSE") {
                 int indexJSON;
                 jsonUtility::from_json_removal(jdata_in, indexJSON);

@@ -11,6 +11,7 @@
 #include <deque>
 #include "jsonUtility.h"
 #include "symbol.h"
+#include "symbol_formatting.h"
 #include "File.h"
 #include <QDebug>
 #include <iostream>
@@ -56,6 +57,7 @@ signals:
     void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);
     void insertSymbol(std::pair<int, wchar_t> tuple);
+    void insertSymbols(int firstIndex, std::vector<symbol> symbols);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
 

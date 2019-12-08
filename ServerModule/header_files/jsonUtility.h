@@ -7,6 +7,7 @@
 
 #include "json.hpp"
 #include "symbol.h"
+#include "symbol_formatting.h"
 #include "File.h"
 
 using nlohmann::json;
@@ -20,7 +21,9 @@ public:
     static json merge(const json &a, const json &b);
     static std::vector<json> fromSymToJson(const std::vector<symbol>& symbols);
     static std::vector<symbol> fromJsonToSym(const std::vector<json>& jsons);
+    static std::vector<symbol_formatting> fromJsonToFormattingSym(const std::vector<json>& jsons);
     static symbol from_json_symbol(const json& j);
+    static symbol_formatting from_json_formatting_symbol(const json &j);
     static std::vector<json> fromFileToJson(const std::vector<File>& files);
     static void to_json(json &j, const std::string &op, const std::string &resp);
     static void to_json_symbol(json &j, const symbol &symbol);
@@ -36,8 +39,8 @@ public:
     static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple);
     static void to_json_removal(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
+    static void to_json_insertion_range(json &j, const std::string &op, const int &firstIndex, const std::vector<json> &symbolsJSONS);
     static void from_json(const json& j, std::string& op);
-    static void from_json_symbol(const json& j, symbol& symbol);
     static void from_json_filename(const json &j, std::string &user, std::string &filename);
     static void from_json_renameFile(const json& j, std::string& nameFile, std::string& uri, std::string& username);
     static void from_json_uri(const json &j, std::string &user, std::string &uri);
@@ -49,6 +52,7 @@ public:
     static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple);
     static void from_json_removal(const json& j, int& index);
     static void from_json_removal_range(const json& j, int& startIndex, int& endIndex);
+    static void from_json_insertion_range(const json &j, std::vector<json>& symbols);
     static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
 
 };

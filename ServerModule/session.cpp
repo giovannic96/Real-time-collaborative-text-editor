@@ -15,6 +15,7 @@
 #include "header_files/dbService.h"
 #include "header_files/fileUtility.h"
 #include "header_files/File.h"
+#include "header_files/symbol_formatting.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
@@ -77,7 +78,7 @@ void session::do_read_body()
             int edId = shared_from_this()->getId();
             std::string curFile = std::string();
             const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile);
-            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST") { //TODO: add other cases
+            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST") {
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
             }
@@ -444,7 +445,14 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             shared_from_this()->setCurrentFile(uriJSON);
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
-            db_res = "OPENWITHURI_OK";
+            //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
+            //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
+
+            if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
+                db_res = "OPENFILE_FILE_EMPTY";
+            else
+                db_res = "OPENWITHURI_OK";
+
             //Serialize data
             json j;
             std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
@@ -578,7 +586,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         int startIndexJSON;
         int endIndexJSON;
         jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON); //get json value and put into JSON variables
-        std::cout << "indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << std::endl;
+        std::cout << "[REMOVALRANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << std::endl;
 
         //Construct msgInfo
         msgInfo m = localErase(startIndexJSON, endIndexJSON);
@@ -596,6 +604,45 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_removal_range(j, "REMOVALRANGE_RESPONSE", startIndexJSON, endIndexJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "INSERTIONRANGE_REQUEST") {
+        std::vector<json> formattingSymbolsJSON;
+        jsonUtility::from_json_insertion_range(jdata_in, formattingSymbolsJSON);
+        std::vector<symbol_formatting> formattingSymbols = jsonUtility::fromJsonToFormattingSym(formattingSymbolsJSON);
+        int firstIndexRange = 0;
+        bool firstTime = true;
+        std::vector<symbol> symbols;
+
+        for(symbol_formatting sf: formattingSymbols) {
+            //Construct msgInfo
+            msgInfo m = localInsert(sf.getIndex(), sf.getLetter()); //TODO: add formatting
+            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+            symbols.push_back(m.getSymbol());
+
+            //Save first index
+            if(firstTime) {
+                firstIndexRange = m.getNewIndex();
+                edId = m.getEditorId(); //don't send this message to this editor
+                firstTime = false;
+            }
+
+            //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            //Dispatch message to all the clients TODO: maybe dispatch outside for loop
+            room_.send(m);
+            room_.dispatchMessages();
+        }
+
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+
+        //Serialize data
+        json j;
+        std::vector<json> symbolsJSON = jsonUtility::fromSymToJson(symbols);
+        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_RESPONSE", firstIndexRange, symbolsJSON);
         const std::string response = j.dump();
         return response;
 
