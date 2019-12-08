@@ -135,7 +135,7 @@ void jsonUtility::from_json_symbolsAndFilename(const json &j, std::vector<json>&
 }
 
 void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
-    jsonSymbols = j.at("symbols").get<std::vector<json>>();
+    jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
 }
 
 void jsonUtility::from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols) {
