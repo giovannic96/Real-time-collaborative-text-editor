@@ -304,6 +304,7 @@ void MenuWindow::showListFile(std::vector<File> files) {
     qDebug() << "Sono in showListFile";
 
     QString filename, owner, timestamp;
+    int littlechar=0;
     QString itemString;
     QList<QListWidgetItem*> fileItem;
 
@@ -316,7 +317,12 @@ void MenuWindow::showListFile(std::vector<File> files) {
         if(filename.length()>=15){
             filename.resize(14);
             filename=filename+"...";
-            itemString = filename+"\t"+owner+"\t"+timestamp;
+            littlechar = filename.count('i') + filename.count('1') + filename.count("j");
+            if(littlechar>=7){
+                itemString = filename+"\t\t"+owner+"\t"+timestamp;
+            }else{
+                itemString = filename+"\t"+owner+"\t"+timestamp;
+            }
         }else{
             itemString = filename+"\t\t"+owner+"\t"+timestamp;
         }
