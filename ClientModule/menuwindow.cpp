@@ -30,8 +30,33 @@ MenuWindow::~MenuWindow() {
     delete _ew;
 }
 
+//CHECK HOW THIS WINDOW IS CLOSED
+void MenuWindow::closeEvent(QCloseEvent * event){
+    if(Logout==false){
+        //If isn't a simple logout, but a forced close then disconnect the user
+        RapidUserLogout();
+        qDebug()<<"FORCED CLOSE - USER " << _client->getUsername() <<"DISCONNECT";
+    }
+}
+
+void MenuWindow::RapidUserLogout(){
+    //Get data from the form
+    QString user = _client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
+    const std::string req = j.dump();
+
+    sendRequestMsg(req);    //Send data (header and body)
+}
+
 //LOGOUT BUTTON
 void MenuWindow::on_LogoutButton_clicked(){
+
+    Logout=true;    //set simple logout true
 
     //Get data from the form
     QString user = _client->getUsername();
@@ -41,8 +66,7 @@ void MenuWindow::on_LogoutButton_clicked(){
     QMessageBox::StandardButton reply;
       reply = QMessageBox::question(this, "Uscita", "Vuoi disconnetterti?",
                                     QMessageBox::Yes|QMessageBox::No);
-      if (reply == QMessageBox::Yes) {
-
+    if (reply == QMessageBox::Yes) {
         //Serialize data
         json j;
         jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
@@ -50,7 +74,7 @@ void MenuWindow::on_LogoutButton_clicked(){
 
         //Send data (header and body)
         sendRequestMsg(req);
-      }
+    }
 }
 
 void MenuWindow::mousePressEvent(QMouseEvent *evt){
