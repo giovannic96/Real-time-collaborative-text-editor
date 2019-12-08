@@ -1147,6 +1147,25 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
     }
 }
 
+//CHECK HOW THIS WINDOW IS CLOSED
+void EditorWindow::closeEvent(QCloseEvent * event){
+    if(BruteClose==true){
+        //If is a forced close then disconnect the user
+        //Get data from the form
+        QString user = _client->getUsername();
+        QByteArray ba_user = user.toLocal8Bit();
+        const char *c_user = ba_user.data();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
+        const std::string req = j.dump();
+
+        sendRequestMsg(req);    //Send data (header and body)
+        qDebug()<<"FORCED CLOSE - USER " << _client->getUsername() <<"DISCONNECT";
+    }
+}
+
 /***********************************************************************************
 *                                       ACTION                                     *
 *                                                                                  *
@@ -1204,6 +1223,8 @@ void EditorWindow::on_actionExit_triggered(){
 *                                                                                  *
 ************************************************************************************/
 void EditorWindow::LogoutRequest() {
+
+    BruteClose=false;
 
     //Get data from the form
     QString user = this->_client->getUsername();
@@ -1489,6 +1510,8 @@ void EditorWindow::SmokinSexyShowtimeStyleHandler(){
         }
     }
 }
+
+
 
 /***********************************************************************************
 *

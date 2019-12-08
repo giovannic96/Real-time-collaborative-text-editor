@@ -24,6 +24,8 @@ private slots:
     void on_listFiles_clicked();
     void on_exitButton_clicked();
     void on_backButton_clicked();
+    void closeEvent(QCloseEvent * event);
+    void RapidUserLogout();
 
 public slots:
     void showPopupSuccess(QString result);
@@ -38,6 +40,7 @@ private:
     EditorWindow *_ew;
     void sendRequestMsg(const std::string req);
     void SetImage();
+    bool Logout = false;
 
 protected:
     //Function for mouse related event

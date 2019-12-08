@@ -76,7 +76,7 @@ private slots:
      *               EVENT              *
      ************************************/
     void keyPressEvent(QKeyEvent *e);
-
+    void closeEvent(QCloseEvent * event);
     /************************************
      *              ACTION              *
      ************************************/
@@ -114,6 +114,7 @@ private:
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
     void sendRequestMsg(std::string req);
     myClient *_client;
+    bool BruteClose=true;
 
 protected:
     //Function for mouse related event
