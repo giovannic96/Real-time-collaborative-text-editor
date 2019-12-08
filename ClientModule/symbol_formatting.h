@@ -8,6 +8,8 @@
 #include <vector>
 #include <array>
 
+/* This class is like a "fake" symbol, that is created by the client and sent to the server, that creates a real symbol from it,
+ * sending it to the client. */
 class symbol_formatting {
 
 private:
