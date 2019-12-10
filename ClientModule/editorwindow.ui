@@ -36,629 +36,7 @@
     <property name="spacing">
      <number>0</number>
     </property>
-    <item row="0" column="0">
-     <widget class="QFrame" name="MenuBarFrame">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>53</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>53</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color:rgb(19, 29, 80)</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="buttonIcona">
-         <property name="minimumSize">
-          <size>
-           <width>71</width>
-           <height>31</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-           <underline>false</underline>
-           <strikeout>false</strikeout>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border-radius:0.15em;
-text-decoration:none;
-</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="Risorse.qrc">
-           <normaloff>:/image/Editor/iconcina.png</normaloff>:/image/Editor/iconcina.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>38</width>
-           <height>38</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="fileButton">
-         <property name="minimumSize">
-          <size>
-           <width>75</width>
-           <height>31</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#fileButton{
-	border:none;
-	color:white;
-	border-left: 2px solid #EFEFEF;
-}
-
-#fileButton:hover{
-	background-color: #003cb3;
-}</string>
-         </property>
-         <property name="text">
-          <string>File</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="viewButton">
-         <property name="minimumSize">
-          <size>
-           <width>75</width>
-           <height>31</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#viewButton{
-	border:none;
-	color:white;
-	border-left: 2px solid #EFEFEF;
-}
-
-#viewButton:hover{
-	background-color: #003cb3;
-}</string>
-         </property>
-         <property name="text">
-          <string>View</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="aboutButton">
-         <property name="minimumSize">
-          <size>
-           <width>40</width>
-           <height>31</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">#aboutButton{
-	border:none;
-	color:white;
-	border-left: 2px solid #EFEFEF;
-}
-
-#aboutButton:hover{
-	background-color: #003cb3;
-}</string>
-         </property>
-         <property name="text">
-          <string>?</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="ViewFrame">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="buttonDarkMode">
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#buttonDarkMode{
-	border:none;
-	color:white;
-}
-
-#buttonDarkMode:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>DarkMode</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonFullscreen">
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#buttonFullscreen{
-	border:none;
-	color:white;
-}
-
-#buttonFullscreen:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>Fullscreen</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QFrame" name="FileFrame">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>500</width>
-           <height>53</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>500</width>
-           <height>225</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color:rgb(19, 29, 80)</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <property name="spacing">
-           <number>6</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="uriButton">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#uriButton{
-	border:none;
-	color:white;
-}
-
-#uriButton:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>Invita URI</string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>27</width>
-              <height>27</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonRename">
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#buttonRename{
-	border:none;
-	color:white;
-}
-
-#buttonRename:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>Rinomina</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pdfButton">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#pdfButton{
-	border:none;
-	color:white;
-}
-
-#pdfButton:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>PDF</string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>27</width>
-              <height>27</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="URIButton">
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#URIButton{
-	border:none;
-	color:white;
-}
-
-#URIButton:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>Apri URI</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="newDocButton">
-            <property name="font">
-             <font>
-              <family>Calibri</family>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">#newDocButton{
-	border:none;
-	color:white;
-}
-
-#newDocButton:hover{
-	background-color: #003cb3;
-}</string>
-            </property>
-            <property name="text">
-             <string>New Doc</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>208</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>11</number>
-           </property>
-           <item>
-            <widget class="QPushButton" name="buttonToIcon">
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Leelawadee UI</family>
-               <pointsize>18</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>ArrowCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">#buttonToIcon{
-	color:white;
-	border: transparent;
-	background-color: transparent;
-}
-#buttonToIcon:hover{
-	background-color: #003cb3;
-}</string>
-             </property>
-             <property name="text">
-              <string>-</string>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>38</width>
-               <height>28</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="buttonReduce">
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>ArrowCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">#buttonReduce{
-	color:white;
-	border: transparent;
-	background-color: transparent;
-}
-#buttonReduce:hover{
-	background-color: #003cb3;
-}</string>
-             </property>
-             <property name="text">
-              <string>□</string>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>37</width>
-               <height>58</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="buttonExit">
-             <property name="minimumSize">
-              <size>
-               <width>30</width>
-               <height>20</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>12</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="cursor">
-              <cursorShape>ArrowCursor</cursorShape>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">#buttonExit{
-	color: white;
-	border: transparent;
-	background-color: transparent;
-}
-#buttonExit:hover{
-	background-color: red;
-}</string>
-             </property>
-             <property name="text">
-              <string>X</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Maximum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>39</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="3" column="0">
+    <item row="2" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QFrame" name="editorFrame">
@@ -1942,6 +1320,42 @@ border-left: 2px solid #505050;</string>
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>960</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionInvita_tramite_URI"/>
+    <addaction name="actionEsporta_come_PDF"/>
+    <addaction name="actionRinomina"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuVisualizza">
+    <property name="title">
+     <string>Visualizza</string>
+    </property>
+    <addaction name="actionFullscreen"/>
+    <addaction name="actionDark_Mode"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuVisualizza"/>
+   <addaction name="menuAbout"/>
+  </widget>
   <action name="actionNew">
    <property name="text">
     <string>Nuovo Documento</string>
@@ -1965,7 +1379,10 @@ border-left: 2px solid #505050;</string>
   </action>
   <action name="actionFullscreen">
    <property name="text">
-    <string>Fullscreen</string>
+    <string>Schermo Intero</string>
+   </property>
+   <property name="toolTip">
+    <string>Schermo Intero</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F11</string>
@@ -1985,6 +1402,38 @@ border-left: 2px solid #505050;</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionInvita_tramite_URI">
+   <property name="text">
+    <string>Invita tramite URI</string>
+   </property>
+  </action>
+  <action name="actionEsporta_come_PDF">
+   <property name="text">
+    <string>Esporta come PDF</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionRinomina">
+   <property name="text">
+    <string>Rinomina</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionDark_Mode">
+   <property name="text">
+    <string>Modalità Notte</string>
+   </property>
+   <property name="toolTip">
+    <string>Modalità Notte</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
