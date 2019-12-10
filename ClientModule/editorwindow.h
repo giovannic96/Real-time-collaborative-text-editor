@@ -58,7 +58,6 @@ private slots:
     //void on_buttonReduce_clicked();
 
     //ViewFrame Button
-    void on_buttonDarkMode_clicked();
 
     /************************************
      *               EVENT              *
@@ -69,7 +68,6 @@ private slots:
      *              ACTION              *
      ************************************/
     void on_actionFullscreen_triggered();
-    void on_actionSave_triggered();
     void on_actionNew_triggered();
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
@@ -88,9 +86,6 @@ private slots:
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
     void SmokinSexyShowtimeStyleHandler();
-    void FadeInPrincipalBar();
-    void FadeInFileBar();
-    void FadeInViewBar();
 
 
 public slots:
