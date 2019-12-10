@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>960</width>
-    <height>400</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -385,9 +385,8 @@
 }
 
 #buttonGrassetto:hover{
-	background-color: #404040;
-	border-radius: #404040;
-	border-radius: 3px;
+	background-color: #404040; 
+	border-radius: 3px #404040;
 }
 </string>
                 </property>
@@ -1378,6 +1377,9 @@ border-left: 2px solid #505050;</string>
    </property>
   </action>
   <action name="actionFullscreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Schermo Intero</string>
    </property>
@@ -1426,6 +1428,9 @@ border-left: 2px solid #505050;</string>
    </property>
   </action>
   <action name="actionDark_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Modalità Notte</string>
    </property>
