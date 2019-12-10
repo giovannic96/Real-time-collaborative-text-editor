@@ -52,22 +52,10 @@ private slots:
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_textChanged();
 
-    //TopLeftBar Button
-    void on_buttonExit_clicked();
-    void on_buttonToIcon_clicked();
-    void on_buttonReduce_clicked();
-
-    //TopRightBar Button
-    void on_fileButton_clicked();
-    void on_viewButton_clicked();
-    void on_pdfButton_clicked();
-    void on_uriButton_clicked();
-
-    //FileFrame Button
-    //void on_newDocButton_clicked(); MAYBE WE HAVE TO DELETE THIS
-    //void on_URIButton_clicked(); MAYBE WE HAVE TO DELETE THIS
-    void on_buttonRename_clicked();
-    void on_aboutButton_clicked();
+    //OLD TopLeftBar Button
+    //void on_buttonExit_clicked();
+    //void on_buttonToIcon_clicked();
+    //void on_buttonReduce_clicked();
 
     //ViewFrame Button
     void on_buttonDarkMode_clicked();
@@ -85,6 +73,10 @@ private slots:
     void on_actionNew_triggered();
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
+    void on_actionRinomina_triggered();
+    void on_actionEsporta_come_PDF_triggered();
+    void on_actionInvita_tramite_URI_triggered();
+    void on_actionDark_Mode_triggered();
     /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
@@ -99,6 +91,7 @@ private slots:
     void FadeInPrincipalBar();
     void FadeInFileBar();
     void FadeInViewBar();
+
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
@@ -116,11 +109,6 @@ private:
     myClient *_client;
     bool BruteClose=true;
 
-protected:
-    //Function for mouse related event
-    void mousePressEvent(QMouseEvent *evt);
-    void mouseMoveEvent(QMouseEvent *evt);
-    //void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // EDITORWINDOW_H
