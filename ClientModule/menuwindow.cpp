@@ -287,15 +287,15 @@ void MenuWindow::showPopupSuccess(QString result) {
     } else if(result == "NEWFILE_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
-        _ew->show(); //TODO: change to showMaximized later
+        _ew->showMaximized();
     } else if(result == "OPENFILE_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
-        _ew->show(); //TODO: change to showMaximized later
+        _ew->showMaximized();
     } else if(result == "OPENWITHURI_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
-        _ew->show(); //TODO: change to showMaximized later
+        _ew->showMaximized();
     } else if(result == "LISTFILE_SUCCESS") {
         ui->stackedWidget->setCurrentIndex(1);
     }
