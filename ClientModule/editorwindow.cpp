@@ -23,13 +23,15 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
-    ui->DocName->setText(_client->getFilename().toLatin1()); //toLatin1 accept accented char
+    ui->DocName->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     //ui->RealTextEdit->document()->setDefaultFont(QFont("Times New Roman", 14));
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbols(_client->getVector());
     ui->RealTextEdit->installEventFilter(this);
+    textOnTitleBar = "C.A.R.T.E.          -          " + docName;
+    this->setWindowTitle(textOnTitleBar);
 }
 
 //DESTRUCTOR
@@ -823,6 +825,8 @@ void EditorWindow::on_actionRinomina_triggered(){
         QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_actionRinomina_triggered();
     }
+    textOnTitleBar = "C.A.R.T.E.          -          " + newText;
+    this->setWindowTitle(textOnTitleBar);
 }
 
 //EXPORT AS PDF ACTION  --> CTRL + S

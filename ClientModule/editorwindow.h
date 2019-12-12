@@ -99,9 +99,10 @@ public slots:
 
 private:
     Ui::EditorWindow *ui;
-    QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
     void sendRequestMsg(std::string req);
     myClient *_client;
+    QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented char
+    QString textOnTitleBar;
     bool BruteClose=true;
 
 };
