@@ -339,13 +339,14 @@ void MenuWindow::showListFile(std::vector<File> files) {
         timestamp = QString::fromUtf8(f.gettimestamp().c_str());
         QListWidgetItem* item;
         if(filename.length()>=15){
-            filename.resize(14);
-            filename=filename+"...";
-            littlechar = filename.count('i') + filename.count('1') + filename.count("j");
+            QString truncatedFilename = filename;
+            truncatedFilename.resize(14);
+            truncatedFilename=truncatedFilename+"...";
+            littlechar = truncatedFilename.count('i') + truncatedFilename.count('1') + truncatedFilename.count("j");
             if(littlechar>=7){
-                itemString = filename+"\t\t"+owner+"\t"+timestamp;
+                itemString = truncatedFilename+"\t\t"+owner+"\t"+timestamp;
             }else{
-                itemString = filename+"\t"+owner+"\t"+timestamp;
+                itemString = truncatedFilename+"\t"+owner+"\t"+timestamp;
             }
         }else{
             itemString = filename+"\t\t"+owner+"\t"+timestamp;
