@@ -19,7 +19,6 @@ public:
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
 private slots:
-    //void on_pushButton_3_clicked(); --> Old Rename Function Deprecated
 
     //Button for change style of the text
     void on_buttonGrassetto_clicked();
