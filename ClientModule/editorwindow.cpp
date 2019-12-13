@@ -734,29 +734,17 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
 //CHECK HOW THIS WINDOW IS CLOSED   -   IS AN OVERRIDE OF A ORIGINAL CLOSE EVENT
 void EditorWindow::closeEvent(QCloseEvent * event){
 
+    //If is a forced close then, ask the user if he really wants to close the document
     if(BruteClose==true){
-        //If is a forced close then disconnect the user
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
                                       QMessageBox::Yes|QMessageBox::No);
         if (reply == QMessageBox::Yes) {
-
-        //Get data from the form
-        QString user = _client->getUsername();
-        QByteArray ba_user = user.toLocal8Bit();
-        const char *c_user = ba_user.data();
-
-        //Serialize data
-        json j;
-        jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
-        const std::string req = j.dump();
-
-        sendRequestMsg(req);    //Send data (header and body)
-        qDebug()<<"FORCED CLOSE -> USER " << _client->getUsername() <<"DISCONNECTED";
-        }else{
-            event->ignore();    //IGNORE FORCED EXIT EVENT
+            event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a LogoutRequest();
+            LogoutRequest();    //By ignoring the closing event, the LogoutRequest() brings me back to the menuWindow.
+         }else{
+            event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
         }
-
     }
 }
 
