@@ -365,6 +365,7 @@ void MenuWindow::showListFile(std::vector<File> files) {
 
 void MenuWindow::resumeWindow() {
     this->show();
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MenuWindow::SetImage() {

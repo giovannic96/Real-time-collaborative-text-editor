@@ -77,12 +77,13 @@ void session::do_read_body()
             }
             int edId = shared_from_this()->getId();
             std::string curFile = std::string();
-            const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile);
+            bool onlyToThisEditor = false;
+            const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
             if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST") {
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
             }
-            else if(opJSON == "RENAMEFILE_REQUEST") {
+            else if(opJSON == "RENAMEFILE_REQUEST" && !onlyToThisEditor) {
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
             }
@@ -150,7 +151,7 @@ message session::constructMsg(const std::string& response) {
     return msg;
 }
 
-std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile) {
+std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile, bool& onlyToThisEditor) {
     if(opJSON == "LOGIN_REQUEST") {
         std::string userJSON;
         std::string passJSON;
@@ -366,13 +367,14 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         dbService::DB_RESPONSE resp = dbService::tryRenameFile(newNameFileJson, uriJson, userJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
-        if (resp == dbService::RENAME_OK) {
-            curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+        if (resp == dbService::RENAME_OK)
             db_res = "RENAME_OK";
-        }
-        else if(resp == dbService::RENAME_FAILED)
+        else if(resp == dbService::RENAME_FAILED) {
             db_res = "RENAME_FAILED";
+            onlyToThisEditor = true; //the error message popup must appear only to who made the request
+        }
         else if(resp == dbService::QUERY_ERROR)
             db_res = "QUERY_ERROR";
         else
