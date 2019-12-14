@@ -30,7 +30,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbols(_client->getVector());
     ui->RealTextEdit->installEventFilter(this);
-    textOnTitleBar = "C.A.R.T.E.          -          " + docName;
+    textOnTitleBar = "C.A.R.T.E. - " + docName;
     this->setWindowTitle(textOnTitleBar);
 }
 
@@ -795,7 +795,7 @@ void EditorWindow::on_actionRinomina_triggered(){
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          _client->getFilename(), &ok);
 
-    if (ok && !newText.isEmpty() && newText.size()<=15) {
+    if (ok && !newText.isEmpty() && newText.size()<=25) {
 
         //Serialize data
         json j;
@@ -813,7 +813,7 @@ void EditorWindow::on_actionRinomina_triggered(){
         QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_actionRinomina_triggered();
     }
-    textOnTitleBar = "C.A.R.T.E.          -          " + newText;
+    textOnTitleBar = "C.A.R.T.E. - " + newText;
     this->setWindowTitle(textOnTitleBar);
 }
 
