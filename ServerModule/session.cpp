@@ -82,6 +82,10 @@ void session::do_read_body()
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
             }
+            else if(opJSON == "RENAMEFILE_REQUEST") {
+                std::cout << "Sent:" << response << "END" << std::endl;
+                this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
+            }
             else {
                 std::cout << "Sent:" << response << "END" << std::endl;
                 this->sendMsg(response); //send data only to this participant
@@ -131,9 +135,9 @@ void session::sendMsg(const std::string& response) {
     shared_from_this()->deliver(msg); //deliver msg only to the participant
 }
 
-void session::sendMsgAll(const std::string& response, const int& edId, const std::string& curFile) {
+void session::sendMsgAll(const std::string& response, const int& edId, const std::string& curFile, bool includeThisEditor) {
     message msg = constructMsg(response);
-    room_.deliverToAll(msg, edId, curFile); //deliver msg to all the clients except the client with id 'edId' (this client)
+    room_.deliverToAll(msg, edId, curFile, includeThisEditor); //deliver msg to all the clients except the client with id 'edId' (this client)
 }
 
 message session::constructMsg(const std::string& response) {
@@ -354,7 +358,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string newNameFileJson;
         std::string uriJson;
         std::string userJSON;
-        jsonUtility::from_json_renameFile(jdata_in, newNameFileJson, uriJson, userJSON); //get json value and put into JSON variables
+        jsonUtility::from_json_renameFile(jdata_in, newNameFileJson, uriJson,userJSON);
 
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
@@ -363,8 +367,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryRenameFile(newNameFileJson, uriJson, userJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
 
-        if(resp == dbService::RENAME_OK)
+        if (resp == dbService::RENAME_OK) {
+            curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
             db_res = "RENAME_OK";
+        }
         else if(resp == dbService::RENAME_FAILED)
             db_res = "RENAME_FAILED";
         else if(resp == dbService::QUERY_ERROR)
