@@ -568,7 +568,23 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
             const QClipboard *clipboard = QApplication::clipboard();
             const QMimeData *mimeData = clipboard->mimeData();
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            int pos = cursor.position();
+            int pos;
+
+            if(cursor.hasSelection()) { //Remove range of characters selected
+                pos = cursor.selectionStart();
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+            } else {
+                pos = cursor.position();
+            }
 
             if(mimeData->hasText()) { //TODO: handle the formatted case (some char can have bold and other not -> we have to handle this)
                                       //TODO: and if mimeData has Images or html??? -> handle this case
@@ -589,15 +605,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
                     symbol_formatting s(index, c, formattingTypes);
                     formattingSymbols.push_back(s);
                 }
-                /*
-                for(int i=0; i<numChars; i++) {
-                    std::pair<int, wchar_t> tuple;
-                    wchar_t c = str_to_paste.c_str()[0]; //get wchar
-                    qDebug() << "char: " << c;
-                    str_to_paste.erase(0,1); //remove first wchar
-                    tuple = std::make_pair(pos++, c); //generate tuple for that wchar
-                    tuples.push_back(tuple); //insert tuple in tuples
-                }*/
 
                 //Serialize data
                 json j;
