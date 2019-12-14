@@ -495,13 +495,34 @@ dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, 
     QString username = QString::fromUtf8(user.data(), user.size());
     QString uri = QString::fromUtf8(urifile.data(), urifile.size());
     QString namefile = QString::fromUtf8(newNameFile.data(), newNameFile.size());
+    QString owner;
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect3");
     db.setDatabaseName("../Db/texteditor_users.sqlite");
+
     if (db.open()) {
+
+        //get the name of the owner of the uri requested from the db
+        QSqlQuery query3(QSqlDatabase::database("MyConnect3"));
+        query3.prepare(QString("SELECT * FROM files WHERE uri = :uri"));
+        query3.bindValue(":uri", uri);
+
+        if (query3.exec()) {
+            if (query3.next()) {
+                owner = query3.value(2).toString();
+                //std::cout << "Questo è il proprietario: " << owner.toStdString() << std::endl;//debug
+            } else {
+                db.close();
+                return QUERY_ERROR;
+            }
+        } else {
+            db.close();
+            return QUERY_ERROR;
+        }
+
         QSqlQuery query(QSqlDatabase::database("MyConnect3"));
         query.prepare(QString("SELECT * FROM files WHERE filename = :filename and  owner = :username "));
-        query.bindValue(":username", username);
+        query.bindValue(":username", owner);
         query.bindValue(":filename", namefile);
 
         if (query.exec()) {
@@ -509,12 +530,11 @@ dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, 
                 db.close();
                 return RENAME_FAILED;
             } else {
-
                 QSqlQuery query2(QSqlDatabase::database("MyConnect3"));
-                query2.prepare("UPDATE files SET filename = :filename WHERE uri = :uri AND owner = :owner");
+                query2.prepare("UPDATE files SET filename = :filename WHERE uri = :uri and owner = :username ");
                 query2.bindValue(":uri", uri);
                 query2.bindValue(":filename", namefile);
-                query2.bindValue(":owner", username);
+                query2.bindValue(":username", owner);
 
                 if (query2.exec()) {
                     db.close();

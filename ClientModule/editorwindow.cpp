@@ -795,7 +795,7 @@ void EditorWindow::on_actionRinomina_triggered(){
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          _client->getFilename(), &ok);
 
-    if (ok && !newText.isEmpty() && newText.size()<=15) {
+    if (ok && !newText.isEmpty() && newText.size()<=25) {
 
         //Serialize data
         json j;
