@@ -206,7 +206,11 @@ void myClient::do_read_body() {
                     qDebug() << "OPENWITHURI success" << endl;
                     emit opResultSuccess("OPENWITHURI_SUCCESS");
                 } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
+                    std::string filenameJSON;
+                    jsonUtility::from_json_filename(jdata_in, filenameJSON);
+
                     //Update client data
+                    this->setFilename(QString::fromStdString(filenameJSON));
                     this->setVector(std::vector<symbol>());
                     emit opResultSuccess("OPENFILE_SUCCESS");
                 } else {

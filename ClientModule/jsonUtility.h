@@ -38,6 +38,7 @@ public:
     static void from_json_symbols(const json &j, std::vector<json> &jsonSymbols);
     static void from_json_formatting_symbols(const json &j, std::vector<json>& jsonSymbols);
     static void from_json_symbolsAndFilename(const json &j, std::vector<json> &jsonSymbols, std::string& filename);
+    static void from_json_filename(const json &j, std::string& filename);
     static void from_json_files(const json &j, std::vector<json> &jsonFiles);
     static File* from_json_file(const json &j);
     static symbol* from_json_symbol(const json &j);

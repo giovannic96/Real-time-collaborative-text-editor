@@ -134,6 +134,10 @@ void jsonUtility::from_json_symbolsAndFilename(const json &j, std::vector<json>&
     jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
 }
 
+void jsonUtility::from_json_filename(const json &j, std::string& filename) {
+    filename = j.at("content").at("filename").get<std::string>();
+}
+
 void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
     jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
 }

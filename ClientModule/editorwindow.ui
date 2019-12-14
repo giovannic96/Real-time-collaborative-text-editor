@@ -1325,7 +1325,7 @@ border-left: 2px solid #505050;</string>
      <x>0</x>
      <y>0</y>
      <width>960</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
