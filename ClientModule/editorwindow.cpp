@@ -23,6 +23,27 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
+
+    //PROVA LIST WIDGET UTENTI //TODO CREARE FUNZIONE DINAMICA
+    ui->listWidget->setStyleSheet(
+      "QListWidget::item {"
+         "border-color:#e0e0e0;"
+      "}");
+
+    QString itemString;
+    QList<QListWidgetItem*> fileItem;
+    QListWidgetItem* item;
+    QListWidgetItem* item2;
+
+    item = new QListWidgetItem(itemString, ui->listWidget);
+    item2 = new QListWidgetItem(itemString, ui->listWidget);
+
+    item->setText("Genitore Uno");
+    fileItem.append(item);
+    item2->setText("Genitore Due");
+    fileItem.append(item2);
+    //FINE PROVA
+
     ui->DocName->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");

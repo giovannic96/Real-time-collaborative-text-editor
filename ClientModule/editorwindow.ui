@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
-    <height>700</height>
+    <width>1063</width>
+    <height>656</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -120,7 +120,7 @@
              <number>0</number>
             </property>
             <property name="leftMargin">
-             <number>70</number>
+             <number>40</number>
             </property>
             <property name="topMargin">
              <number>0</number>
@@ -164,6 +164,164 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonUndo">
+              <property name="minimumSize">
+               <size>
+                <width>34</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>34</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#buttonUndo{
+	border:none;
+	background: red;
+}
+
+#buttonUndo:hover{
+	background-color: #99C1C3;
+}
+</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="Risorse.qrc">
+                <normaloff>:/image/Editor/undo.png</normaloff>:/image/Editor/undo.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonColor">
+              <property name="minimumSize">
+               <size>
+                <width>34</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>34</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#buttonColor{
+	border:none;
+	background: red;
+}
+
+#buttonColor:hover{
+	background-color: #404040;
+	border-radius: #404040;
+	border-radius: 3px;
+}
+</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="Risorse.qrc">
+                <normaloff>:/image/Editor/paintbrush.png</normaloff>:/image/Editor/paintbrush.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonRedo">
+              <property name="minimumSize">
+               <size>
+                <width>34</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>34</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">#buttonRedo{
+	border:none;
+	background: red;
+}
+
+#buttonRedo:hover{
+	background-color: #99C1C3;
+}
+</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="Risorse.qrc">
+                <normaloff>:/image/Editor/redo.png</normaloff>:/image/Editor/redo.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -213,7 +371,7 @@
                <enum>QLayout::SetMaximumSize</enum>
               </property>
               <property name="leftMargin">
-               <number>67</number>
+               <number>33</number>
               </property>
               <property name="topMargin">
                <number>5</number>
@@ -933,60 +1091,6 @@
                </layout>
               </item>
               <item>
-               <widget class="QPushButton" name="buttonColor">
-                <property name="minimumSize">
-                 <size>
-                  <width>34</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>34</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>10</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                  <underline>false</underline>
-                  <strikeout>false</strikeout>
-                 </font>
-                </property>
-                <property name="cursor">
-                 <cursorShape>PointingHandCursor</cursorShape>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">#buttonColor{
-	border:none;
-	background: red;
-}
-
-#buttonColor:hover{
-	background-color: #404040;
-	border-radius: #404040;
-	border-radius: 3px;
-}
-</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="Risorse.qrc">
-                  <normaloff>:/image/Editor/paintbrush.png</normaloff>:/image/Editor/paintbrush.png</iconset>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>30</width>
-                  <height>30</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QPushButton" name="buttonSearch">
                 <property name="minimumSize">
                  <size>
@@ -1017,14 +1121,11 @@
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#buttonSearch{
-	border:none;
-	background: red;
+	border-radius: 4px;
 }
 
-#buttonSearch:hover{
-	background-color: #404040;
-	border-radius: #404040;
-	border-radius: 3px;
+#buttoNSearch:hover{
+	background-color: lightgrey;
 }
 </string>
                 </property>
@@ -1044,128 +1145,41 @@
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QPushButton" name="buttonUndo">
-                  <property name="minimumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                    <underline>false</underline>
-                    <strikeout>false</strikeout>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">#buttonUndo{
-	border:none;
-	background: red;
-}
-
-#buttonUndo:hover{
-	background-color: #99C1C3;
-}
-</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="Risorse.qrc">
-                    <normaloff>:/image/Editor/undo.png</normaloff>:/image/Editor/undo.png</iconset>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="buttonRedo">
-                  <property name="minimumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                    <underline>false</underline>
-                    <strikeout>false</strikeout>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">#buttonRedo{
-	border:none;
-	background: red;
-}
-
-#buttonRedo:hover{
-	background-color: #99C1C3;
-}
-</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="Risorse.qrc">
-                    <normaloff>:/image/Editor/redo.png</normaloff>:/image/Editor/redo.png</iconset>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_3">
+               <spacer name="horizontalSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>0</width>
+                  <width>40</width>
                   <height>20</height>
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>16</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="text">
+                 <string>COLLABORATORI</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -1173,21 +1187,21 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
            <property name="spacing">
-            <number>0</number>
+            <number>40</number>
            </property>
            <property name="sizeConstraint">
             <enum>QLayout::SetNoConstraint</enum>
            </property>
            <property name="leftMargin">
-            <number>72</number>
+            <number>42</number>
            </property>
            <property name="topMargin">
             <number>5</number>
            </property>
            <property name="rightMargin">
-            <number>30</number>
+            <number>20</number>
            </property>
            <property name="bottomMargin">
             <number>20</number>
@@ -1202,8 +1216,8 @@
              </property>
              <property name="minimumSize">
               <size>
-               <width>690</width>
-               <height>24</height>
+               <width>500</width>
+               <height>0</height>
               </size>
              </property>
              <property name="font">
@@ -1222,6 +1236,36 @@ border-left: 2px solid #505050;</string>
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QListWidget" name="listWidget">
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>14</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border:none;
+background: #f3f3f3;
+
+</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -1236,7 +1280,7 @@ border-left: 2px solid #505050;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>960</width>
+     <width>1063</width>
      <height>21</height>
     </rect>
    </property>
