@@ -149,6 +149,10 @@ std::string participant::getCurrentFile() {
     return this->currentFile;
 }
 
+std::string participant::getUsername() {
+    return this->username;
+}
+
 std::string participant::to_string() {
     std::string my_string;
     for(const auto& s: _symbols)
@@ -166,4 +170,8 @@ void participant::setSymbols(std::vector<symbol> symbols) {
 
 void participant::setCurrentFile(std::string uri) {
     this->currentFile = std::move(uri);
+}
+
+void participant::setUsername(std::string userName) {
+    this->username = std::move(userName);
 }

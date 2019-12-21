@@ -68,8 +68,8 @@ void myClient::do_read_body() {
 
             std::string opJSON;
             try{
-                json jdata_in = json::parse(read_msg_.body());            
-                jsonUtility::from_json(jdata_in, opJSON);             
+                json jdata_in = json::parse(read_msg_.body());
+                jsonUtility::from_json(jdata_in, opJSON);
 
                 if(opJSON == "LOGIN_RESPONSE") {
                     std::string db_responseJSON;
@@ -319,9 +319,7 @@ void myClient::do_read_body() {
 
             } catch (json::exception& e){
                 // output exception information
-                         std::cerr << "message: " << e.what() << '\n'
-                                   << "exception id: " << e.id << std::endl;
-                //SHOW ERROR
+                         std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
                 emitMsgInCorrectWindow();
                 do_read_header();
             }
@@ -335,11 +333,6 @@ void myClient::do_read_body() {
 }
 
 void myClient::emitMsgInCorrectWindow(){
-    /*
-    qDebug()<< windowList.front();
-    qDebug()<<"Window: "<< fw->objectName();
-    QString windowName = fw->objectName();
-    */
     emit jsonMsgFailure("StartWindow","Si è verificato un errore nel parsing del json.");
 }
 

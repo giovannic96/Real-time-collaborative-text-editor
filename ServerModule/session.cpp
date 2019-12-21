@@ -52,6 +52,12 @@ void session::do_read_header()
             do_read_body();
         }
         else {
+            //Disconnect user and leave the room
+            if(!shared_from_this()->getUsername().empty()) { //it can be empty at the beginning (if a crash happens)
+                dbService::tryLogout(shared_from_this()->getUsername());
+                QSqlDatabase::removeDatabase("MyConnect2");
+                //TODO: handle response from db
+            }
             room_.leave(shared_from_this());
         }
     });
@@ -72,28 +78,36 @@ void session::do_read_body()
             try {
                 jdata_in = json::parse(read_msg_.body());
                 jsonUtility::from_json(jdata_in, opJSON); //get json value and put into JSON variables
-            } catch (json::type_error& e) {
-                std::cerr << e.what() << '\n';
+
+                int edId = shared_from_this()->getId();
+                std::string curFile = std::string();
+                bool onlyToThisEditor = false;
+                const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
+                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST") {
+                    std::cout << "Sent:" << response << "END" << std::endl;
+                    this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
+                }
+                else if(opJSON == "RENAMEFILE_REQUEST" && !onlyToThisEditor) {
+                    std::cout << "Sent:" << response << "END" << std::endl;
+                    this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
+                }
+                else {
+                    std::cout << "Sent:" << response << "END" << std::endl;
+                    this->sendMsg(response); //send data only to this participant
+                }
+                do_read_header(); //continue reading loop
+            } catch (json::exception& e) {
+                std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
+                do_read_header();
             }
-            int edId = shared_from_this()->getId();
-            std::string curFile = std::string();
-            bool onlyToThisEditor = false;
-            const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
-            if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST") {
-                std::cout << "Sent:" << response << "END" << std::endl;
-                this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
-            }
-            else if(opJSON == "RENAMEFILE_REQUEST" && !onlyToThisEditor) {
-                std::cout << "Sent:" << response << "END" << std::endl;
-                this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
-            }
-            else {
-                std::cout << "Sent:" << response << "END" << std::endl;
-                this->sendMsg(response); //send data only to this participant
-            }
-            do_read_header(); //continue reading loop
         }
         else {
+            //Disconnect user and leave the room
+            if(!shared_from_this()->getUsername().empty()) { //it can be empty at the beginning (if a crash happens)
+                dbService::tryLogout(shared_from_this()->getUsername());
+                QSqlDatabase::removeDatabase("MyConnect2");
+                //TODO: handle response from db
+            }
             room_.leave(shared_from_this());
         }
     });
@@ -111,21 +125,12 @@ void session::do_write() {
              }
          }
          else {
-             room_.leave(shared_from_this());
-         }
-     });
-}
-
-void session::do_write(message m) {
-    std::cout << "sending:" << m.data() << "END" << std::endl;
-    auto self(shared_from_this());
-    boost::asio::async_write(socket_,
-                             boost::asio::buffer(m.data(), m.length()),
-                             [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-         if (!ec) {
-            //do nothing
-         }
-         else {
+             //Disconnect user and leave the room
+             if(!shared_from_this()->getUsername().empty()) { //it can be empty at the beginning (if a crash happens)
+                 dbService::tryLogout(shared_from_this()->getUsername());
+                 QSqlDatabase::removeDatabase("MyConnect2");
+                 //TODO: handle response from db
+             }
              room_.leave(shared_from_this());
          }
      });
@@ -163,8 +168,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
-        if(resp == dbService::LOGIN_OK)
+        if(resp == dbService::LOGIN_OK) {
+            shared_from_this()->setUsername(userJSON);
             db_res = "LOGIN_OK";
+        }
         else if(resp == dbService::LOGIN_FAILED)
             db_res = "LOGIN_FAILED";
         else if(resp == dbService::DB_ERROR)

@@ -28,7 +28,6 @@ private:
     void do_read_header();
     void do_read_body();
     void do_write(); //for the editor
-    void do_write(message m); //for single client
     std::string handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile, bool& onlyToThisEditor);
     void sendMsg(const std::string& response);
     void sendMsgAll(const std::string& response, const int& edId, const std::string& curFile, bool includeThisEditor=false); //send msg to all the clients except client with id 'edId' having the curFile opened

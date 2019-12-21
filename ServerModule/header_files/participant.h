@@ -15,6 +15,7 @@ class participant {
 private:
     int _siteId;
     std::string currentFile;
+    std::string username;
     std::vector<symbol> _symbols;
     int _counter = 0;
     std::vector<int> generatePos(int index, wchar_t value);
@@ -33,8 +34,10 @@ public:
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
     void setSymbols(std::vector<symbol> symbols);
     void setCurrentFile(std::string uri);
+    void setUsername(std::string userName);
     void setSiteId(int edId);
     std::string getCurrentFile();
+    std::string getUsername();
 };
 
 

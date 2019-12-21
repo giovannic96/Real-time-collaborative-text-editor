@@ -178,8 +178,10 @@ void StartWindow::showPopupFailure(QString result) {
 }
 
 void StartWindow::showJsonPopupFailure(QString windowName,QString msg) {
-    if(windowName == "StartWindow")
-        QMessageBox::critical(this,"Errore", msg);
+    if(windowName == "StartWindow") {
+        QMessageBox::critical(this, "Errore", msg);
+        QApplication::exit();
+    }
 }
 
 void StartWindow::sendRequestMsg(std::string req) {

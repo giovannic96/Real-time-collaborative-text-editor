@@ -15,6 +15,7 @@ void room::join(const participant_ptr& participant) {
 
 void room::leave(const participant_ptr& participant) {
     participants_.erase(participant);
+
     std::cout << "participant leaved the room" << std::endl;
 }
 

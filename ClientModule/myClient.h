@@ -43,7 +43,7 @@ public:
     void setVector(std::vector<symbol> symbols);
     void setVectorFile(std::vector<File> fileVector);
     void close();
-    void write(const message& msg);    
+    void write(const message& msg);
 
 signals:
     void statusChanged(bool);
