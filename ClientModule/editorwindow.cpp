@@ -22,8 +22,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::insertSymbol, this, &EditorWindow::showSymbol);
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
-    connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
-    connect(_client, &myClient::jsonMsgFailure, this, &EditorWindow::showJsonPopupFailure);
+    connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
 
     //PROVA LIST WIDGET UTENTI //TODO CREARE FUNZIONE DINAMICA
     ui->listWidget->setStyleSheet(
@@ -1244,10 +1243,6 @@ void EditorWindow::showPopupFailure(QString result) {
     }
 }
 
-void EditorWindow::showJsonPopupFailure(QString windowName,QString msg) {
-    if(windowName == "EditorWindow")
-        QMessageBox::critical(this,"Errore", msg);
-}
 
 void EditorWindow::sendRequestMsg(std::string req) {
     message msg;

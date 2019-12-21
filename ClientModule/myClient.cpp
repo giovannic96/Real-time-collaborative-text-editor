@@ -71,90 +71,227 @@ void myClient::do_read_body() {
                 json jdata_in = json::parse(read_msg_.body());            
                 jsonUtility::from_json(jdata_in, opJSON);             
 
-            if(opJSON == "LOGIN_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                if(opJSON == "LOGIN_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "LOGIN_OK") {
-                    qDebug() << "Login success" << endl;
-                    std::string db_usernameLoginJSON;
-                    jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON);
-                    QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
+                    if(db_responseJSON == "LOGIN_OK") {
+                        qDebug() << "Login success" << endl;
+                        std::string db_usernameLoginJSON;
+                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON);
+                        QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
 
-                    this->setUsername(name_qstring);
-                    emit changeTextUsername(this->getUsername());
-                    emit changeTextMail(this->getMail());
-                    emit formResultSuccess("LOGIN_SUCCESS");
-                } else {
-                    qDebug() << "Wrong user or password" << endl;
-                    emit formResultFailure("LOGIN_FAILURE");
-                }
-            } else if(opJSON == "SIGNUP_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                        this->setUsername(name_qstring);
+                        emit changeTextUsername(this->getUsername());
+                        emit changeTextMail(this->getMail());
+                        emit formResultSuccess("LOGIN_SUCCESS");
+                    } else {
+                        qDebug() << "Wrong user or password" << endl;
+                        emit formResultFailure("LOGIN_FAILURE");
+                    }
+                } else if(opJSON == "SIGNUP_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "SIGNUP_OK") {
-                    emit formResultSuccess("SIGNUP_SUCCESS");
-                } else {
-                    emit formResultFailure("SIGNUP_FAILURE");
-                }
-            } else if(opJSON == "LOGOUT_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                    if(db_responseJSON == "SIGNUP_OK") {
+                        emit formResultSuccess("SIGNUP_SUCCESS");
+                    } else {
+                        emit formResultFailure("SIGNUP_FAILURE");
+                    }
+                } else if(opJSON == "LOGOUT_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "LOGOUT_OK") {
-                    emit opResultSuccess("LOGOUT_SUCCESS");
-                } else {
-                    emit opResultFailure("LOGOUT_FAILURE");
-                }
-            } else if(opJSON == "DISCONNECT_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                    if(db_responseJSON == "LOGOUT_OK") {
+                        emit opResultSuccess("LOGOUT_SUCCESS");
+                    } else {
+                        emit opResultFailure("LOGOUT_FAILURE");
+                    }
+                } else if(opJSON == "DISCONNECT_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "LOGOUT_OK") {
-                    emit opResultSuccess("DISCONNECT_SUCCESS");
-                } else {
-                    emit opResultFailure("DISCONNECT_FAILURE");
-                }
-            } else if(opJSON == "LOGOUTURI_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                    if(db_responseJSON == "LOGOUT_OK") {
+                        emit opResultSuccess("DISCONNECT_SUCCESS");
+                    } else {
+                        emit opResultFailure("DISCONNECT_FAILURE");
+                    }
+                } else if(opJSON == "LOGOUTURI_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "LOGOUTURI_OK") {
-                    emit editorResultSuccess("LOGOUTURI_SUCCESS");
-                    emit backToMenuWindow();
-                } else {
-                    emit editorResultFailure("LOGOUTURI_FAILURE");
-                }
-            } else if(opJSON == "NEWFILE_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                    if(db_responseJSON == "LOGOUTURI_OK") {
+                        emit editorResultSuccess("LOGOUTURI_SUCCESS");
+                        emit backToMenuWindow();
+                    } else {
+                        emit editorResultFailure("LOGOUTURI_FAILURE");
+                    }
+                } else if(opJSON == "NEWFILE_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "NEWFILE_OK") {
-                    std::string uriJSON;
-                    jsonUtility::from_jsonUri(jdata_in, uriJSON); //get json value and put into JSON variables
-                    QString uriQString = QString::fromUtf8(uriJSON.data(), uriJSON.size());
+                    if(db_responseJSON == "NEWFILE_OK") {
+                        std::string uriJSON;
+                        jsonUtility::from_jsonUri(jdata_in, uriJSON); //get json value and put into JSON variables
+                        QString uriQString = QString::fromUtf8(uriJSON.data(), uriJSON.size());
 
-                    //Update client data
-                    this->setFileURI(uriQString);
-                    this->setVector(std::vector<symbol>());
-                    emit opResultSuccess("NEWFILE_SUCCESS");
-                } else {
-                    emit opResultFailure("NEWFILE_FAILURE");
-                }
+                        //Update client data
+                        this->setFileURI(uriQString);
+                        this->setVector(std::vector<symbol>());
+                        emit opResultSuccess("NEWFILE_SUCCESS");
+                    } else {
+                        emit opResultFailure("NEWFILE_FAILURE");
+                    }
 
-            } else if(opJSON == "OPENFILE_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+                } else if(opJSON == "OPENFILE_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                if(db_responseJSON == "OPENFILE_OK") {
+                    if(db_responseJSON == "OPENFILE_OK") {
+                        std::vector<json> jsonSymbols;
+                        jsonUtility::from_json_symbols(jdata_in, jsonSymbols);
+
+                        std::vector<symbol> symbols;
+                        for(const auto& j: jsonSymbols) {
+                            symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
+
+                            s = jsonUtility::from_json_symbol(j);
+                            if(s==nullptr){
+                                //SHOW ERROR
+                                emitMsgInCorrectWindow();
+                                do_read_header();
+                            }
+                            symbols.push_back(*s);
+                            delete s;
+                        }
+
+                        //Update client data
+                        this->setVector(symbols);
+
+                        emit opResultSuccess("OPENFILE_SUCCESS");
+                    } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
+
+                        //Update client data
+                        this->setVector(std::vector<symbol>());
+                        emit opResultSuccess("OPENFILE_SUCCESS");
+                    } else {
+                        emit opResultFailure("OPENFILE_FAILURE");
+                    }
+
+                } else if(opJSON == "RENAMEFILE_RESPONSE") {
+                    std::string db_responseJSON;
+                    std::string filenameJSON;
+                    jsonUtility::from_json_rename_file(jdata_in, db_responseJSON, filenameJSON);
+
+                    if(db_responseJSON == "RENAME_OK") {
+                        emit editorResultSuccess("RENAME_SUCCESS", filenameJSON.c_str());
+                    } else {
+                        emit editorResultFailure("RENAME_FAILURE");
+                    }
+
+                } else if(opJSON == "OPENWITHURI_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+
+                    if(db_responseJSON == "OPENWITHURI_OK") {
+                        std::vector<json> jsonSymbols;
+                        std::string filenameJSON;
+                        jsonUtility::from_json_symbolsAndFilename(jdata_in, jsonSymbols, filenameJSON);
+
+                        std::vector<symbol> symbols;
+                        for(const auto& j: jsonSymbols) {
+                            symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
+                            s = jsonUtility::from_json_symbol(j);
+                            if(s==nullptr){
+                                //SHOW ERROR
+                                emitMsgInCorrectWindow();
+                                do_read_header();
+                            }
+                            symbols.push_back(*s);
+                            delete s;
+                        }
+
+                        //Update client data
+                        this->setFilename(QString::fromStdString(filenameJSON));
+                        this->setVector(symbols);
+
+                        qDebug() << "OPENWITHURI success" << endl;
+                        emit opResultSuccess("OPENWITHURI_SUCCESS");
+                    } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
+                        std::string filenameJSON;
+                        jsonUtility::from_json_filename(jdata_in, filenameJSON);
+
+                        //Update client data
+                        this->setFilename(QString::fromStdString(filenameJSON));
+                        this->setVector(std::vector<symbol>());
+                        emit opResultSuccess("OPENFILE_SUCCESS");
+                    } else {
+                        qDebug() << "Something went wrong" << endl;
+                        emit opResultFailure("OPENWITHURI_FAILURE");
+                    }
+                } else if(opJSON == "LISTFILE_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_responseJSON);
+
+                    if(db_responseJSON == "LIST_EXIST") {
+                        qDebug() << "La lista esiste" << endl;
+
+                        std::vector<json> jsonFiles;
+                        jsonUtility::from_json_files(jdata_in, jsonFiles);
+
+                        std::vector<File> files;
+                        for(const auto& j: jsonFiles) {
+                            File *f = nullptr; //do not remember to delete it! (keyword 'delete')
+                            f = jsonUtility::from_json_file(j);
+                            if(f==nullptr){
+                                //SHOW ERROR
+                                emitMsgInCorrectWindow();
+                                do_read_header();
+                            }
+                            files.push_back(*f);
+                            delete f;
+                        }
+                        emit listFileResult(files);
+
+                        qDebug() << "Listfile success" << endl;
+                        emit opResultSuccess("LISTFILE_SUCCESS");
+                    } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
+                        qDebug() << "Non ha nessuna lista di file" << endl;
+                        emit opResultFailure("LISTFILE_FAILURE_LISTNOTEXIST");
+                    } else {
+                        qDebug() << "Something went wrong" << endl;
+                        emit opResultFailure("LISTFILE_FAILURE");
+                    }
+                } else if(opJSON == "INVITE_URI_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_inviteURI(jdata_in, db_responseJSON);
+
+                    if(db_responseJSON == "INVITE_URI_SUCCESS") {
+                        emit editorResultSuccess("INVITE_URI_SUCCESS");
+                    } else if(db_responseJSON == "ALREADY_PARTECIPANT") {
+                        emit editorResultFailure("ALREADY_PARTECIPANT");
+                    } else if(db_responseJSON == "INVITED_NOT_EXIST") {
+                        emit editorResultFailure("INVITED_NOT_EXIST");
+                    } else if(db_responseJSON == "SAME_USER") {
+                        emit editorResultFailure("SAME_USER");
+                    } else if(db_responseJSON == "SEND_EMAIL_FAILED") {
+                        emit editorResultFailure("SEND_EMAIL_FAILED");
+                    } else {
+                        emit editorResultFailure("INVITE_URI_FAILURE");
+                    }
+                } else if(opJSON == "INSERTION_RESPONSE") {
+                    std::pair<int, wchar_t> tupleJSON;
+                    jsonUtility::from_json_insertion(jdata_in, tupleJSON);
+                    emit insertSymbol(tupleJSON);
+                } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
+                    int firstIndex;
                     std::vector<json> jsonSymbols;
-                    jsonUtility::from_json_symbols(jdata_in, jsonSymbols);
-
+                    jsonUtility::from_json_insertion_range(jdata_in, firstIndex, jsonSymbols);
                     std::vector<symbol> symbols;
+
+                    //generate symbols vector from json vector
                     for(const auto& j: jsonSymbols) {
                         symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
-
                         s = jsonUtility::from_json_symbol(j);
                         if(s==nullptr){
                             //SHOW ERROR
@@ -164,159 +301,21 @@ void myClient::do_read_body() {
                         symbols.push_back(*s);
                         delete s;
                     }
-
-                    //Update client data
-                    this->setVector(symbols);
-
-                    emit opResultSuccess("OPENFILE_SUCCESS");
-                } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
-
-                    //Update client data
-                    this->setVector(std::vector<symbol>());
-                    emit opResultSuccess("OPENFILE_SUCCESS");
-                } else {
-                    emit opResultFailure("OPENFILE_FAILURE");
-                }
-
-            } else if(opJSON == "RENAMEFILE_RESPONSE") {
-                std::string db_responseJSON;
-                std::string filenameJSON;
-                jsonUtility::from_json_rename_file(jdata_in, db_responseJSON, filenameJSON);
-
-                if(db_responseJSON == "RENAME_OK") {
-                    emit editorResultSuccess("RENAME_SUCCESS", filenameJSON.c_str());
-                } else {
-                    emit editorResultFailure("RENAME_FAILURE");
-                }
-
-            } else if(opJSON == "OPENWITHURI_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
-
-                if(db_responseJSON == "OPENWITHURI_OK") {
-                    std::vector<json> jsonSymbols;
-                    std::string filenameJSON;
-                    jsonUtility::from_json_symbolsAndFilename(jdata_in, jsonSymbols, filenameJSON);
-
-                    std::vector<symbol> symbols;
-                    for(const auto& j: jsonSymbols) {
-                        symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
-                        s = jsonUtility::from_json_symbol(j);
-                        if(s==nullptr){
-                            //SHOW ERROR
-                            emitMsgInCorrectWindow();
-                            do_read_header();
-                        }
-                        symbols.push_back(*s);
-                        delete s;
-                    }
-
-                    //Update client data
-                    this->setFilename(QString::fromStdString(filenameJSON));
-                    this->setVector(symbols);
-
-                    qDebug() << "OPENWITHURI success" << endl;
-                    emit opResultSuccess("OPENWITHURI_SUCCESS");
-                } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
-                    std::string filenameJSON;
-                    jsonUtility::from_json_filename(jdata_in, filenameJSON);
-
-                    //Update client data
-                    this->setFilename(QString::fromStdString(filenameJSON));
-                    this->setVector(std::vector<symbol>());
-                    emit opResultSuccess("OPENFILE_SUCCESS");
+                    emit insertSymbols(firstIndex, symbols);
+                } else if(opJSON == "REMOVAL_RESPONSE") {
+                    int indexJSON;
+                    jsonUtility::from_json_removal(jdata_in, indexJSON);
+                    emit eraseSymbol(indexJSON);
+                } else if(opJSON == "REMOVALRANGE_RESPONSE") {
+                    int startIndexJSON;
+                    int endIndexJSON;
+                    jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
+                    emit eraseSymbols(startIndexJSON, endIndexJSON);
                 } else {
                     qDebug() << "Something went wrong" << endl;
-                    emit opResultFailure("OPENWITHURI_FAILURE");
+                    emit opResultFailure("RESPONSE_FAILURE");
                 }
-            } else if(opJSON == "LISTFILE_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_resp(jdata_in, db_responseJSON);
-
-                if(db_responseJSON == "LIST_EXIST") {
-                    qDebug() << "La lista esiste" << endl;
-
-                    std::vector<json> jsonFiles;
-                    jsonUtility::from_json_files(jdata_in, jsonFiles);
-
-                    std::vector<File> files;
-                    for(const auto& j: jsonFiles) {
-                        File *f = nullptr; //do not remember to delete it! (keyword 'delete')
-                        f = jsonUtility::from_json_file(j);
-                        if(f==nullptr){
-                            //SHOW ERROR
-                            emitMsgInCorrectWindow();
-                            do_read_header();
-                        }
-                        files.push_back(*f);
-                        delete f;
-                    }
-
-                    emit listFileResult(files);
-
-                    qDebug() << "Listfile success" << endl;
-                    emit opResultSuccess("LISTFILE_SUCCESS");
-                } else if (db_responseJSON == "LIST_DOESNT_EXIST"){
-                    qDebug() << "Non ha nessuna lista di file" << endl;
-                    emit opResultFailure("LISTFILE_FAILURE_LISTNOTEXIST");
-                } else {
-                    qDebug() << "Something went wrong" << endl;
-                    emit opResultFailure("LISTFILE_FAILURE");
-                }
-            } else if(opJSON == "INVITE_URI_RESPONSE") {
-                std::string db_responseJSON;
-                jsonUtility::from_json_inviteURI(jdata_in, db_responseJSON);
-
-                if(db_responseJSON == "INVITE_URI_SUCCESS") {
-                    emit editorResultSuccess("INVITE_URI_SUCCESS");
-                } else if(db_responseJSON == "ALREADY_PARTECIPANT") {
-                    emit editorResultFailure("ALREADY_PARTECIPANT");
-                } else if(db_responseJSON == "INVITED_NOT_EXIST") {
-                    emit editorResultFailure("INVITED_NOT_EXIST");
-                } else if(db_responseJSON == "SAME_USER") {
-                    emit editorResultFailure("SAME_USER");
-                } else if(db_responseJSON == "SEND_EMAIL_FAILED") {
-                    emit editorResultFailure("SEND_EMAIL_FAILED");
-                } else {
-                    emit editorResultFailure("INVITE_URI_FAILURE");
-                }
-            } else if(opJSON == "INSERTION_RESPONSE") {
-                std::pair<int, wchar_t> tupleJSON;
-                jsonUtility::from_json_insertion(jdata_in, tupleJSON);
-                emit insertSymbol(tupleJSON);
-            } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
-                int firstIndex;
-                std::vector<json> jsonSymbols;
-                jsonUtility::from_json_insertion_range(jdata_in, firstIndex, jsonSymbols);
-                std::vector<symbol> symbols;
-
-                //generate symbols vector from json vector
-                for(const auto& j: jsonSymbols) {
-                    symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
-                    s = jsonUtility::from_json_symbol(j);
-                    if(s==nullptr){
-                        //SHOW ERROR
-                        emitMsgInCorrectWindow();
-                        do_read_header();
-                    }
-                    symbols.push_back(*s);
-                    delete s;
-                }
-                emit insertSymbols(firstIndex, symbols);
-            } else if(opJSON == "REMOVAL_RESPONSE") {
-                int indexJSON;
-                jsonUtility::from_json_removal(jdata_in, indexJSON);
-                emit eraseSymbol(indexJSON);
-            } else if(opJSON == "REMOVALRANGE_RESPONSE") {
-                int startIndexJSON;
-                int endIndexJSON;
-                jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
-                emit eraseSymbols(startIndexJSON, endIndexJSON);
-            } else {
-                qDebug() << "Something went wrong" << endl;
-                emit opResultFailure("RESPONSE_FAILURE");
-            }
-            do_read_header(); //continue reading loop
+                do_read_header(); //continue reading loop
 
             } catch (json::exception& e){
                 // output exception information
@@ -327,7 +326,6 @@ void myClient::do_read_body() {
                 do_read_header();
             }
         }
-
         else {
             qDebug() << ec.message().c_str() << endl;
             closeConnection();
@@ -337,14 +335,12 @@ void myClient::do_read_body() {
 }
 
 void myClient::emitMsgInCorrectWindow(){
-    QWindowList windowList = QApplication::topLevelWindows();
+    /*
     qDebug()<< windowList.front();
-    /*qDebug()<<"Window: "<< fw->objectName();
-    QString windowName = fw->objectName();*/
-    emit jsonMsgFailure(windowName,"Si è verificato un errore nel parsing del json.");*/
-    /*qDebug()<<"Window: Cipolla";
-    emit jsonMsgFailure("Patate","Si è verificato un errore nel parsing del json.");*/
-
+    qDebug()<<"Window: "<< fw->objectName();
+    QString windowName = fw->objectName();
+    */
+    emit jsonMsgFailure("StartWindow","Si è verificato un errore nel parsing del json.");
 }
 
 void myClient::do_write() {

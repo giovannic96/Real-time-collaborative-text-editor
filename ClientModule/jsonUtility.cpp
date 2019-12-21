@@ -243,7 +243,7 @@ void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
 }
 
 void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple) {
-    tuple = j.at("tuplez").get<std::pair<int, wchar_t>>();
+    tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
