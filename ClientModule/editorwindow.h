@@ -95,6 +95,7 @@ public slots:
     void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
+    void showJsonPopupFailure(QString windowName, QString msg);
 
 private:
     Ui::EditorWindow *ui;

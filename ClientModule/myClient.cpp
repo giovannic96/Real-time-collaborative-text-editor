@@ -1,6 +1,7 @@
 ﻿#include "myClient.h"
 #include <qtextcodec.h>
 #include <QMessageBox>
+#include <QtWidgets/QApplication>
 
 typedef std::deque<message> message_queue;
 
@@ -59,17 +60,17 @@ void myClient::do_read_body() {
     boost::asio::async_read(socket_,
                             boost::asio::buffer(read_msg_.body(), read_msg_.body_length()),
                             [this](boost::system::error_code ec, std::size_t /*length*/) {
+
         if (!ec) {
+            qDebug() << "Lunghezza messaggio"<<read_msg_.length();
             qDebug() << "read msg:" << read_msg_.body() << endl;
             read_msg_.data()[read_msg_.length()] = '\0';  //VERY IMPORTANT: this removes any possible letters after data
 
             std::string opJSON;
-            json jdata_in = json::parse(read_msg_.body());
-            try {
-                jsonUtility::from_json(jdata_in, opJSON);
-            } catch (json::type_error& e) {
-                std::cerr << e.what() << '\n';
-            }
+            try{
+                json jdata_in = json::parse(read_msg_.body());            
+                jsonUtility::from_json(jdata_in, opJSON);             
+
             if(opJSON == "LOGIN_RESPONSE") {
                 std::string db_responseJSON;
                 jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -153,7 +154,13 @@ void myClient::do_read_body() {
                     std::vector<symbol> symbols;
                     for(const auto& j: jsonSymbols) {
                         symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
+
                         s = jsonUtility::from_json_symbol(j);
+                        if(s==nullptr){
+                            //SHOW ERROR
+                            emitMsgInCorrectWindow();
+                            do_read_header();
+                        }
                         symbols.push_back(*s);
                         delete s;
                     }
@@ -195,6 +202,11 @@ void myClient::do_read_body() {
                     for(const auto& j: jsonSymbols) {
                         symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
                         s = jsonUtility::from_json_symbol(j);
+                        if(s==nullptr){
+                            //SHOW ERROR
+                            emitMsgInCorrectWindow();
+                            do_read_header();
+                        }
                         symbols.push_back(*s);
                         delete s;
                     }
@@ -231,6 +243,11 @@ void myClient::do_read_body() {
                     for(const auto& j: jsonFiles) {
                         File *f = nullptr; //do not remember to delete it! (keyword 'delete')
                         f = jsonUtility::from_json_file(j);
+                        if(f==nullptr){
+                            //SHOW ERROR
+                            emitMsgInCorrectWindow();
+                            do_read_header();
+                        }
                         files.push_back(*f);
                         delete f;
                     }
@@ -277,6 +294,11 @@ void myClient::do_read_body() {
                 for(const auto& j: jsonSymbols) {
                     symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
                     s = jsonUtility::from_json_symbol(j);
+                    if(s==nullptr){
+                        //SHOW ERROR
+                        emitMsgInCorrectWindow();
+                        do_read_header();
+                    }
                     symbols.push_back(*s);
                     delete s;
                 }
@@ -295,12 +317,34 @@ void myClient::do_read_body() {
                 emit opResultFailure("RESPONSE_FAILURE");
             }
             do_read_header(); //continue reading loop
+
+            } catch (json::exception& e){
+                // output exception information
+                         std::cerr << "message: " << e.what() << '\n'
+                                   << "exception id: " << e.id << std::endl;
+                //SHOW ERROR
+                emitMsgInCorrectWindow();
+                do_read_header();
+            }
         }
+
         else {
             qDebug() << ec.message().c_str() << endl;
             closeConnection();
         }
     });
+
+}
+
+void myClient::emitMsgInCorrectWindow(){
+    QWindowList windowList = QApplication::topLevelWindows();
+    qDebug()<< windowList.front();
+    /*qDebug()<<"Window: "<< fw->objectName();
+    QString windowName = fw->objectName();*/
+    emit jsonMsgFailure(windowName,"Si è verificato un errore nel parsing del json.");*/
+    /*qDebug()<<"Window: Cipolla";
+    emit jsonMsgFailure("Patate","Si è verificato un errore nel parsing del json.");*/
+
 }
 
 void myClient::do_write() {

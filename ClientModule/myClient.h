@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <iostream>
 
+
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;
 
@@ -60,6 +61,7 @@ signals:
     void insertSymbols(int firstIndex, std::vector<symbol> symbols);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
+    void jsonMsgFailure(QString windowName, QString msg);
 
 private:
     boost::asio::io_context io_context_;
@@ -73,6 +75,7 @@ private:
     void do_read_body();
     void do_write();
     void closeConnection();
+    void emitMsgInCorrectWindow();
     bool status;
     QString username_;
     QString filename_;

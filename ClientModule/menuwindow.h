@@ -31,6 +31,7 @@ public slots:
     void showPopupSuccess(QString result);
     void showPopupFailure(QString result);
     void showListFile(std::vector<File> files);
+    void showJsonPopupFailure(QString windowName,QString msg);
     void resumeWindow();
 
 private:

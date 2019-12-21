@@ -4,7 +4,7 @@
 
 #ifndef SERVERMODULE_JSONUTILITY_H
 #define SERVERMODULE_JSONUTILITY_H
-
+#include <iostream>
 #include "json.hpp"
 #include "symbol.h"
 #include "symbol_formatting.h"

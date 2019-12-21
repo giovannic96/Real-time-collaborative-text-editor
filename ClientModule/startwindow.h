@@ -39,10 +39,12 @@ private slots:
 
     void on_RegUsernameForm_editingFinished();
 
+
 public slots:
     void setStatus(bool newStatus);
     void showPopupSuccess(QString result);
     void showPopupFailure(QString result);
+    void showJsonPopupFailure(QString windowName,QString msg);
 
 private:
     Ui::StartWindow *ui;            //"ui" (user interface)

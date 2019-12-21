@@ -17,6 +17,7 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent)
     connect(_client, &myClient::opResultFailure, this, &MenuWindow::showPopupFailure);
     connect(_client, &myClient::listFileResult, this, &MenuWindow::showListFile);
     connect(_client, &myClient::backToMenuWindow,this, &MenuWindow::resumeWindow);
+    connect(_client, &myClient::jsonMsgFailure,this, &MenuWindow::showJsonPopupFailure);
     SetImage();
     this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
@@ -321,6 +322,11 @@ void MenuWindow::showPopupFailure(QString result) {
     } else {
         QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
+}
+
+void MenuWindow::showJsonPopupFailure(QString windowName,QString msg) {
+    if(windowName == "MenuWindow")
+        QMessageBox::critical(this,"Errore", msg);
 }
 
 void MenuWindow::showListFile(std::vector<File> files) {

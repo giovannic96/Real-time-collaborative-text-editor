@@ -4,6 +4,7 @@
 
 #include "jsonUtility.h"
 
+
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
     j = json{
             {"operation", op},
@@ -158,13 +159,26 @@ void jsonUtility::from_json_files(const json &j, std::vector<json>& jsonFiles) {
 }
 
 symbol* jsonUtility::from_json_symbol(const json &j) {
+    wchar_t letter;
+    bool isBold;
+    bool isItalic;
+    std::pair<int,int> id;
+    std::vector<int> pos;
 
-    //get symbol values from json
-    wchar_t letter = j.at("letter").get<wchar_t>();
-    std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
-    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
-    bool isBold = j.at("isBold").get<bool>();
-    bool isItalic = j.at("isItalic").get<bool>();
+    try {
+        //get symbol values from json
+        letter = j.at("letter").get<wchar_t>();
+        id = j.at("id").get<std::pair<int, int>>();
+        pos = j.at("pos").get<std::vector<int>>();
+        isBold = j.at("isBold").get<bool>();
+        isItalic = j.at("isItalic").get<bool>();
+
+    } catch (json::exception& e) {
+        // output exception information
+        std::cerr << "message: " << e.what() << '\n'
+                           << "exception id: " << e.id << std::endl;
+        return nullptr;
+    }
 
     //now create the symbol
     symbol *s = new symbol(letter, id, pos);
@@ -186,13 +200,24 @@ symbol_formatting* jsonUtility::from_json_formatting_symbol(const json &j) {
 }
 
 File* jsonUtility::from_json_file(const json &j) {
+    std::string idfile;
+    std::string filename;
+    std::string owner;
+    std::string timestamp;
 
-    //get symbol values from json
-    std::string idfile = j.at("idfile").get<std::string>();
-    std::string filename = j.at("filename").get<std::string>();
-    std::string owner = j.at("owner").get<std::string>();
-    std::string timestamp = j.at("timestamp").get<std::string>();
+    try {
+        //get symbol values from json
+        idfile = j.at("idfile").get<std::string>();
+        filename = j.at("filename").get<std::string>();
+        owner = j.at("owner").get<std::string>();
+        timestamp = j.at("timestamp").get<std::string>();
 
+    } catch (json::exception& e) {
+        // output exception information
+        std::cerr << "message: " << e.what() << '\n'
+                           << "exception id: " << e.id << std::endl;
+        return nullptr;
+    }
     //now create the file
     File *f = new File(idfile, filename, owner, timestamp);
     return f;
@@ -218,7 +243,7 @@ void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
 }
 
 void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple) {
-    tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
+    tuple = j.at("tuplez").get<std::pair<int, wchar_t>>();
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {

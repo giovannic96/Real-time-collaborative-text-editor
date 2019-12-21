@@ -28,7 +28,8 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     setStatus(_client->getStatus());
     connect(_client, &myClient::statusChanged, this, &StartWindow::setStatus);
     connect(_client, &myClient::formResultSuccess, this, &StartWindow::showPopupSuccess);
-    connect(_client, &myClient::formResultFailure, this, &StartWindow::showPopupFailure);    
+    connect(_client, &myClient::formResultFailure, this, &StartWindow::showPopupFailure);
+    connect(_client, &myClient::jsonMsgFailure, this, &StartWindow::showJsonPopupFailure);
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
 
 }
@@ -174,6 +175,11 @@ void StartWindow::showPopupFailure(QString result) {
     } else {
         QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
+}
+
+void StartWindow::showJsonPopupFailure(QString windowName,QString msg) {
+    if(windowName == "StartWindow")
+        QMessageBox::critical(this,"Errore", msg);
 }
 
 void StartWindow::sendRequestMsg(std::string req) {
