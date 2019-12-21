@@ -89,7 +89,7 @@ void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
 
 //USERNAME BUTTON
 void MenuWindow::on_Username_clicked(){
-    //showListFile(_client->getVectorFile());
+    profile = true;
     on_listFiles_clicked();
     on_backButton_clicked();
     QString filename, owner, timestamp;
@@ -116,7 +116,7 @@ void MenuWindow::on_Username_clicked(){
     qDebug()<<"Ho un totale di "<< Contafile << "file";
     qDebug()<<"Ho creato "<< ContaFileOwner << "file";
 
-    UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail()); //with parameters
+    UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
     up->show();
 }
 
@@ -297,7 +297,13 @@ void MenuWindow::showPopupSuccess(QString result) {
         this->hide();
         _ew->showMaximized();
     } else if(result == "LISTFILE_SUCCESS") {
-        ui->stackedWidget->setCurrentIndex(1);
+        if(profile){
+           profile = false;
+
+        }
+        else{
+          ui->stackedWidget->setCurrentIndex(1);
+        }
     }
 }
 
@@ -324,8 +330,6 @@ void MenuWindow::showPopupFailure(QString result) {
 }
 
 void MenuWindow::showListFile(std::vector<File> files) {
-
-    qDebug() << "Sono in showListFile";
 
     QString filename, owner, timestamp;
     int littlechar=0;

@@ -4,10 +4,18 @@
 #include <QDebug>
 
 //CONSTRUCTOR WITH PARAMETERS
-UserProfile::UserProfile(QString nome, QString mail, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
+UserProfile::UserProfile(QString nome, QString mail,int files, int myFiles, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
     ui->setupUi(this);
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
     ui->Mail->setText(mail);     //Same way
+
+    QString sFiles = QString::number(files);
+    QString sMyFiles = QString::number(myFiles);
+    QString sTotFiles = QString::number(files+myFiles);
+
+    ui->myFile->setText(sMyFiles);
+    ui->totFile->setText(sFiles);
+    ui->otherFile->setText(sTotFiles);
     SetImage();
     this->show();
 }
