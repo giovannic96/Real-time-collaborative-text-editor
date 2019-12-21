@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>997</width>
+    <width>1000</width>
     <height>656</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>960</width>
+    <width>1000</width>
     <height>400</height>
    </size>
   </property>
@@ -398,6 +398,115 @@
                </layout>
               </item>
               <item>
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="buttonUndo">
+                  <property name="minimumSize">
+                   <size>
+                    <width>34</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>34</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                    <underline>false</underline>
+                    <strikeout>false</strikeout>
+                   </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">#buttonUndo{
+	border-radius: 4px;
+}
+
+#buttonUndo:hover{
+	background-color: lightgrey;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="Risorse.qrc">
+                    <normaloff>:/image/Editor/undo.png</normaloff>:/image/Editor/undo.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="buttonRedo">
+                  <property name="minimumSize">
+                   <size>
+                    <width>34</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>34</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                    <underline>false</underline>
+                    <strikeout>false</strikeout>
+                   </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">#buttonRedo{
+	border-radius: 4px;
+}
+
+#buttonRedo:hover{
+	background-color: lightgrey;
+}
+</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="Risorse.qrc">
+                    <normaloff>:/image/Editor/redo.png</normaloff>:/image/Editor/redo.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>30</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_9">
                 <property name="spacing">
                  <number>3</number>
@@ -406,7 +515,7 @@
                  <widget class="QFontComboBox" name="fontSelectorBox">
                   <property name="minimumSize">
                    <size>
-                    <width>220</width>
+                    <width>120</width>
                     <height>22</height>
                    </size>
                   </property>
@@ -974,7 +1083,7 @@
 	border-radius: 4px;
 }
 
-#buttoNSearch:hover{
+#buttonSearch:hover{
 	background-color: lightgrey;
 }
 </string>
@@ -985,108 +1094,6 @@
                   <property name="icon">
                    <iconset resource="Risorse.qrc">
                     <normaloff>:/image/Editor/Magnifier.png</normaloff>:/image/Editor/Magnifier.png</iconset>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="buttonUndo">
-                  <property name="minimumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                    <underline>false</underline>
-                    <strikeout>false</strikeout>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">#buttonUndo{
-	border:none;
-}
-
-#buttonUndo:hover{
-	background-color: #99C1C3;
-}
-</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="Risorse.qrc">
-                    <normaloff>:/image/Editor/undo.png</normaloff>:/image/Editor/undo.png</iconset>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>30</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="buttonRedo">
-                  <property name="minimumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>34</width>
-                    <height>30</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                    <underline>false</underline>
-                    <strikeout>false</strikeout>
-                   </font>
-                  </property>
-                  <property name="cursor">
-                   <cursorShape>PointingHandCursor</cursorShape>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">#buttonRedo{
-	border:none;
-}
-
-#buttonRedo:hover{
-	background-color: #99C1C3;
-}
-</string>
-                  </property>
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset resource="Risorse.qrc">
-                    <normaloff>:/image/Editor/redo.png</normaloff>:/image/Editor/redo.png</iconset>
                   </property>
                   <property name="iconSize">
                    <size>
@@ -1124,13 +1131,11 @@
                   </property>
                   <property name="styleSheet">
                    <string notr="true">#buttonColor{
-	border:none;
+	border-radius: 4px;
 }
 
 #buttonColor:hover{
-	background-color: #404040;
-	border-radius: #404040;
-	border-radius: 3px;
+	background-color: lightgrey;
 }
 </string>
                   </property>
@@ -1287,7 +1292,7 @@ background: #f3f3f3;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>997</width>
+     <width>1000</width>
      <height>21</height>
     </rect>
    </property>

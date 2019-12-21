@@ -42,6 +42,7 @@ private:
     void sendRequestMsg(const std::string req);
     void SetImage();
     bool Logout = false;
+    bool profile = false;
 
 protected:
     //Function for mouse related event
