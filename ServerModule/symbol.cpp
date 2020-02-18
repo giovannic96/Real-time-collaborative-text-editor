@@ -9,8 +9,8 @@
 symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos)
                         : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(false), _isItalic(false) {}
 
-symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic)
-    : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(isBold), _isItalic(isItalic) {}
+symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic, std::string fontFamily)
+    : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(isBold), _isItalic(isItalic), _fontFamily(std::move(fontFamily)) {}
 
 std::vector<int> symbol::getPos() const {
     return _pos;
@@ -22,6 +22,10 @@ wchar_t symbol::getLetter() const {
 
 std::pair<int, int> symbol::getId() const {
     return _id;
+}
+
+std::string symbol::getFontFamily() const {
+    return _fontFamily;
 }
 
 bool symbol::isBold() const {
@@ -50,4 +54,8 @@ void symbol::setId(std::pair<int, int> id) {
 
 void symbol::setPos(std::vector<int> pos) {
     this->_pos = std::move(pos);
+}
+
+void symbol::setFontFamily(std::string fontFamily) {
+    this->_fontFamily = std::move(fontFamily);
 }

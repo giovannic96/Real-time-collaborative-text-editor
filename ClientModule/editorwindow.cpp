@@ -270,14 +270,12 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
         underl = true;
     }
 
-
-    //SET THE NEW FAMILY OF THE FONT (Spent a lot of time for this...)
+    //SET THE NEW FAMILY OF THE FONT
     QTextCharFormat format;
     format.setFont(f);
     QFontInfo infof(f);
     QString family = infof.family();
     ui->RealTextEdit->setFontFamily(family);
-
 
     //RESTORE PREVIOUS PROPRIETY OF TEXT
     ui->RealTextEdit->setFontPointSize(fontPointSize);
@@ -616,6 +614,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
                 int index;
                 wchar_t c;
                 std::array<bool, 2> formattingTypes;
+                std::string fontFamily;
 
                 for(int i=0; i<numChars; i++) {
                     c = str_to_paste.c_str()[0]; //get wchar
@@ -623,7 +622,13 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
                     str_to_paste.erase(0,1); //remove first wchar
                     index = pos++; //get index
                     formattingTypes = {false, false}; //TODO: handle this correctly
-                    symbol_formatting s(index, c, formattingTypes);
+
+                    //Get the Font and estract the Family from it
+                    QFont f = ui->RealTextEdit->fontFamily();
+                    QFontInfo infof(f);
+                    fontFamily = infof.family().toStdString();
+
+                    symbol_formatting s(index, c, formattingTypes, fontFamily);
                     formattingSymbols.push_back(s);
                 }
 
@@ -655,7 +660,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
 
             //Serialize data
             json j;
-            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple);
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple, getCurrentFontFamily());
             const std::string req = j.dump();
 
             //Send data (header and body)
@@ -1266,6 +1271,7 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
         if (s.isItalic()){
             newFormat.setFontItalic(true);
         }
+        newFormat.setFontFamily(QString::fromStdString(s.getFontFamily()));
         int pos = s.getPos().at(0);
         c.setPosition(pos);
         c.setCharFormat(newFormat);
@@ -1289,6 +1295,7 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         if (s.isItalic()){
             newFormat.setFontItalic(true);
         }
+        newFormat.setFontFamily(QString::fromStdString(s.getFontFamily()));
         int pos = index++;
         c.setPosition(pos);
         c.setCharFormat(newFormat);
@@ -1298,11 +1305,14 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     }
 }
 
-void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple) {
+void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, std::string fontFamily) {
     int pos = tuple.first;
     wchar_t c = tuple.second;
+    QTextCharFormat format;
+    format.setFontFamily(QString::fromStdString(fontFamily));
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     cursor.setPosition(pos);
+    cursor.mergeCharFormat(format); //format the char
     cursor.insertText(static_cast<QString>(c));
     qDebug() << "Written in pos: " << pos << endl;
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -1325,4 +1335,11 @@ void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
 
     qDebug() << "Deleted char range from pos: " << startIndex << " to pos: " << endIndex << endl;
     ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+std::string EditorWindow::getCurrentFontFamily() {
+    //Get the Font and estract the Family from it
+    QFont f = ui->RealTextEdit->fontFamily();
+    QFontInfo infof(f);
+    return infof.family().toStdString();
 }

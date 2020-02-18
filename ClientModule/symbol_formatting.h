@@ -15,13 +15,15 @@ class symbol_formatting {
 private:
     int _index;
     wchar_t _letter;
-    std::array<bool, 2> _formattingTypes;
+    std::array<bool, 2> _formattingTypes; //ex. bold, italic, ecc.
+    std::string _fontFamily;
 
 public:
-    symbol_formatting(int index, wchar_t letter, std::array<bool, 2> formattingTypes);
+    symbol_formatting(int index, wchar_t letter, std::array<bool, 2> formattingTypes, std::string fontFamily);
     int getIndex() const;
     wchar_t getLetter() const;
     std::array<bool, 2> getFormattingTypes() const;
+    std::string getFontFamily() const;
 };
 
 

@@ -24,6 +24,10 @@ std::pair<int, int> symbol::getId() const {
     return _id;
 }
 
+std::string symbol::getFontFamily() const {
+    return _fontFamily;
+}
+
 bool symbol::isBold() const {
     return _isBold;
 }
@@ -50,4 +54,8 @@ void symbol::setId(std::pair<int, int> id) {
 
 void symbol::setPos(std::vector<int> pos) {
     this->_pos = std::move(pos);
+}
+
+void symbol::setFontFamily(std::string fontFamily) {
+    this->_fontFamily = std::move(fontFamily);
 }

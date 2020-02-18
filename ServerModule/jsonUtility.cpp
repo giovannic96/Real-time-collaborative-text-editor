@@ -23,6 +23,7 @@ void jsonUtility::to_json_symbol(json &j, const symbol &symbol) {
             {"pos", symbol.getPos()}, //std::vector<int>
             {"isBold", symbol.isBold()},
             {"isItalic", symbol.isItalic()},
+            {"fontFamily", symbol.getFontFamily()}
     };
 }
 
@@ -118,10 +119,11 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple) {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const std::string &fontFamily) {
     j = json{
         {"operation", op},
-        {"tuple", tuple}
+        {"tuple", tuple},
+        {"fontFamily", fontFamily}
     };
 }
 
@@ -217,6 +219,7 @@ std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols)
     // Get jsons from symbols
     std::vector<json> jsons;
     for (auto const &sym: symbols) {
+        std::cout << "------------------ENTRATO" << std::endl;
         json j;
         jsonUtility::to_json_symbol(j, sym); //convert sym into json
         jsons.push_back(j);
@@ -264,9 +267,10 @@ symbol jsonUtility::from_json_symbol(const json &j) {
     std::vector<int> pos = j.at("pos").get<std::vector<int>>();
     bool isBold = j.at("isBold").get<bool>();
     bool isItalic = j.at("isItalic").get<bool>();
+    std::string fontFamily = j.at("fontFamily").get<std::string>();
 
     //now create the symbol
-    symbol s(letter, id, pos, isBold, isItalic);
+    symbol s(letter, id, pos, isBold, isItalic, fontFamily);
     return s;
 }
 
@@ -276,14 +280,16 @@ symbol_formatting jsonUtility::from_json_formatting_symbol(const json &j) {
     int index = j.at("index").get<int>();
     wchar_t letter = j.at("letter").get<wchar_t>();
     std::array<bool,2> formattingTypes = j.at("formattingTypes").get<std::array<bool,2>>();
+    std::string fontFamily = j.at("fontFamily").get<std::string>();
 
     //now create the symbol
-    symbol_formatting s(index, letter, formattingTypes);
+    symbol_formatting s(index, letter, formattingTypes, fontFamily);
     return s;
 }
 
-void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple) {
+void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, std::string& fontFamily) {
     tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
+    fontFamily = j.at("fontFamily").get<std::string>();
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {

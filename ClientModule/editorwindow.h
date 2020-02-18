@@ -18,6 +18,8 @@ public:
     //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
+    std::string getCurrentFontFamily();
+
 private slots:
 
     //Button for change style of the text
@@ -90,7 +92,7 @@ private slots:
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
-    void showSymbol(std::pair<int, wchar_t> tuple);
+    void showSymbol(std::pair<int, wchar_t> tuple, std::string fontFamily);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);

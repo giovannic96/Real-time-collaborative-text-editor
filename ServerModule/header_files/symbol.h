@@ -6,6 +6,7 @@
 #define SERVERMODULE_SYMBOL_H
 
 #include <vector>
+#include <string>
 
 class symbol {
 
@@ -15,13 +16,15 @@ private:
     std::vector<int> _pos;
     bool _isBold;
     bool _isItalic;
+    std::string _fontFamily;
 
 public:
     symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos);
-    symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic);
+    symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic, std::string fontFamily);
     std::vector<int> getPos() const;
     wchar_t getLetter() const;
     std::pair<int, int> getId() const;
+    std::string getFontFamily() const;
     bool isBold() const;
     bool isItalic() const;
     void setBold(bool val);
@@ -29,6 +32,7 @@ public:
     void setLetter(wchar_t letter);
     void setId(std::pair<int,int> id);
     void setPos(std::vector<int> pos);
+    void setFontFamily(std::string fontFamily);
 };
 
 

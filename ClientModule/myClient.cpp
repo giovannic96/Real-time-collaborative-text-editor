@@ -281,8 +281,9 @@ void myClient::do_read_body() {
                     }
                 } else if(opJSON == "INSERTION_RESPONSE") {
                     std::pair<int, wchar_t> tupleJSON;
-                    jsonUtility::from_json_insertion(jdata_in, tupleJSON);
-                    emit insertSymbol(tupleJSON);
+                    std::string fontFamilyJSON;
+                    jsonUtility::from_json_insertion(jdata_in, tupleJSON, fontFamilyJSON);
+                    emit insertSymbol(tupleJSON, fontFamilyJSON);
                 } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
                     int firstIndex;
                     std::vector<json> jsonSymbols;

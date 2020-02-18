@@ -12,7 +12,7 @@ int participant::getId() const {
     return _siteId;
 }
 
-msgInfo participant::localInsert(int index, wchar_t value) /*noexcept(false)*/ {
+msgInfo participant::localInsert(int index, wchar_t value, std::string fontFamily) /*noexcept(false)*/ {
     std::vector<int> pos;
 
     if(index < 0 || index > _symbols.size()) {
@@ -30,7 +30,8 @@ msgInfo participant::localInsert(int index, wchar_t value) /*noexcept(false)*/ {
     } else
         pos = generatePos(index, value);
 
-    symbol s(value, std::make_pair(_siteId, ++_counter), pos);
+    symbol s(value, std::make_pair(_siteId, ++_counter), pos); //TODO: add formatting
+    s.setFontFamily(std::move(fontFamily));
     _symbols.insert(_symbols.begin() + index, s);
 
     msgInfo m(0, getId(), s, index);

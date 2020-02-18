@@ -57,7 +57,7 @@ signals:
     void changeTextUsername(QString text);
     void changeTextMail(QString mail);
     void listFileResult(std::vector<File> files);
-    void insertSymbol(std::pair<int, wchar_t> tuple);
+    void insertSymbol(std::pair<int, wchar_t> tuple, std::string fontFamily);
     void insertSymbols(int firstIndex, std::vector<symbol> symbols);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);

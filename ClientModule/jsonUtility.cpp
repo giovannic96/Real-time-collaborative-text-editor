@@ -24,12 +24,14 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple) {
-    j = json {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const std::string &fontFamily) {
+    j = json{
         {"operation", op},
-        {"tuple", tuple}
+        {"tuple", tuple},
+        {"fontFamily", fontFamily}
     };
 }
+
 
 void jsonUtility::to_json_removal(json &j, const std::string &op, const int &index) {
     j = json {
@@ -162,6 +164,7 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
     wchar_t letter;
     bool isBold;
     bool isItalic;
+    std::string fontFamily;
     std::pair<int,int> id;
     std::vector<int> pos;
 
@@ -172,7 +175,7 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
         pos = j.at("pos").get<std::vector<int>>();
         isBold = j.at("isBold").get<bool>();
         isItalic = j.at("isItalic").get<bool>();
-
+        fontFamily = j.at("fontFamily").get<std::string>();
     } catch (json::exception& e) {
         // output exception information
         std::cerr << "message: " << e.what() << '\n'
@@ -184,6 +187,7 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
     symbol *s = new symbol(letter, id, pos);
     s->setBold(isBold);
     s->setItalic(isItalic);
+    s->setFontFamily(fontFamily);
     return s;
 }
 
@@ -193,9 +197,10 @@ symbol_formatting* jsonUtility::from_json_formatting_symbol(const json &j) {
     int index = j.at("index").get<int>();
     wchar_t letter = j.at("letter").get<wchar_t>();
     std::array<bool,2> formattingTypes = j.at("formattingTypes").get<std::array<bool,2>>();
+    std::string fontFamily = j.at("fontFamily").get<std::string>();
 
     //now create the symbol
-    symbol_formatting *s = new symbol_formatting(index, letter, formattingTypes);
+    symbol_formatting *s = new symbol_formatting(index, letter, formattingTypes, fontFamily);
     return s;
 }
 
@@ -242,8 +247,9 @@ void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
     uri = j.at("content").at("uri").get<std::string>();
 }
 
-void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple) {
+void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, std::string& fontFamily) {
     tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
+    fontFamily = j.at("fontFamily").get<std::string>();
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
@@ -260,6 +266,7 @@ void jsonUtility::to_json_FormattingSymbol(json &j, const symbol_formatting &sym
             {"index", symbol.getIndex()},
             {"letter", symbol.getLetter()},
             {"formattingTypes", symbol.getFormattingTypes()},
+            {"fontFamily", symbol.getFontFamily()}
     };
 }
 

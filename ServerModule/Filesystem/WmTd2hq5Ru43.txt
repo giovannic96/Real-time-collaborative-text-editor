@@ -1,1 +1,0 @@
-[{"id":[1,1],"isBold":false,"isItalic":false,"letter":107,"pos":[0]},{"id":[1,1],"isBold":false,"isItalic":false,"letter":106,"pos":[1]},{"id":[1,1],"isBold":false,"isItalic":false,"letter":107,"pos":[2]},{"id":[1,2],"isBold":false,"isItalic":false,"letter":99,"pos":[3]}]

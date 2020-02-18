@@ -230,6 +230,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         if(resp == dbService::LOGOUT_OK) {
             fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getMap().at(uriJSON));
+            shared_from_this()->setSymbols(std::vector<symbol>());
             db_res = "LOGOUTURI_OK";
         }
         else if(resp == dbService::LOGOUT_FAILED)
@@ -551,11 +552,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
     } else if (opJSON == "INSERTION_REQUEST") {
         std::pair<int, wchar_t> tupleJSON;
-        jsonUtility::from_json_insertion(jdata_in, tupleJSON); //get json value and put into JSON variables
+        std::string fontFamilyJSON;
+        jsonUtility::from_json_insertion(jdata_in, tupleJSON, fontFamilyJSON); //get json value and put into JSON variables
         std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
+        std::cout << "fontFamily received: " << fontFamilyJSON << std::endl;
 
         //Construct msgInfo
-        msgInfo m = localInsert(tupleJSON.first, tupleJSON.second);
+        msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, fontFamilyJSON);
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
@@ -569,7 +572,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second));
+        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second), fontFamilyJSON);
         const std::string response = j.dump();
         return response;
 
@@ -630,9 +633,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         bool firstTime = true;
         std::vector<symbol> symbols;
 
-        for(symbol_formatting sf: formattingSymbols) {
+        for(const symbol_formatting& sf: formattingSymbols) {
             //Construct msgInfo
-            msgInfo m = localInsert(sf.getIndex(), sf.getLetter()); //TODO: add formatting
+            msgInfo m = localInsert(sf.getIndex(), sf.getLetter(), sf.getFontFamily()); //TODO: add formatting
             std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             symbols.push_back(m.getSymbol());

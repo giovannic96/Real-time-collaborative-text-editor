@@ -26,7 +26,7 @@ public:
     virtual ~participant() {}
     virtual void deliver(const message& msg) = 0;
     int getId() const;
-    msgInfo localInsert(int index, wchar_t value);
+    msgInfo localInsert(int index, wchar_t value, std::string fontFamily);
     msgInfo localErase(int index);
     msgInfo localErase(int startIndex, int endIndex);
     void process(const msgInfo& m);
