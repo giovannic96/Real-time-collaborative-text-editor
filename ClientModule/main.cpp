@@ -6,6 +6,7 @@ int main(int argc, char *argv[]){
 
     qRegisterMetaType<std::pair<int,wchar_t>>("std::pair<int,wchar_t>");
     qRegisterMetaType<std::string>("std::string");
+    qRegisterMetaType<symbolStyle>("symbolStyle");
 
     /*
      * FOLLOWING COMMENTED LINE IS FOR DPI SCALING -> IT DOESN'T WORK FOR ME. Check yourself with your monitor

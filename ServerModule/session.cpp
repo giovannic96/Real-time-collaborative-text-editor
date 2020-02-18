@@ -15,7 +15,7 @@
 #include "header_files/dbService.h"
 #include "header_files/fileUtility.h"
 #include "header_files/File.h"
-#include "header_files/symbol_formatting.h"
+#include "header_files/symbolInfo.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"
@@ -247,7 +247,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
-    } else if (opJSON == "SIGNUP_REQUEST"){
+    } else if (opJSON == "SIGNUP_REQUEST") {
         std::string userJSON;
         std::string passJSON;
         std::string emailJSON;
@@ -552,13 +552,12 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
     } else if (opJSON == "INSERTION_REQUEST") {
         std::pair<int, wchar_t> tupleJSON;
-        std::string fontFamilyJSON;
-        jsonUtility::from_json_insertion(jdata_in, tupleJSON, fontFamilyJSON); //get json value and put into JSON variables
+        symbolStyle styleJSON;
+        jsonUtility::from_json_insertion(jdata_in, tupleJSON, styleJSON); //get json value and put into JSON variables
         std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
-        std::cout << "fontFamily received: " << fontFamilyJSON << std::endl;
 
         //Construct msgInfo
-        msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, fontFamilyJSON);
+        msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, styleJSON);
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
@@ -572,7 +571,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second), fontFamilyJSON);
+        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second), styleJSON);
         const std::string response = j.dump();
         return response;
 
@@ -628,14 +627,14 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
     } else if (opJSON == "INSERTIONRANGE_REQUEST") {
         std::vector<json> formattingSymbolsJSON;
         jsonUtility::from_json_insertion_range(jdata_in, formattingSymbolsJSON);
-        std::vector<symbol_formatting> formattingSymbols = jsonUtility::fromJsonToFormattingSym(formattingSymbolsJSON);
+        std::vector<symbolInfo> formattingSymbols = jsonUtility::fromJsonToFormattingSym(formattingSymbolsJSON);
         int firstIndexRange = 0;
         bool firstTime = true;
         std::vector<symbol> symbols;
 
-        for(const symbol_formatting& sf: formattingSymbols) {
+        for(const symbolInfo& sf: formattingSymbols) {
             //Construct msgInfo
-            msgInfo m = localInsert(sf.getIndex(), sf.getLetter(), sf.getFontFamily()); //TODO: add formatting
+            msgInfo m = localInsert(sf.getIndex(), sf.getLetter(), sf.getStyle());
             std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             symbols.push_back(m.getSymbol());

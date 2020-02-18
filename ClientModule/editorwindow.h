@@ -14,11 +14,10 @@ class EditorWindow : public QMainWindow {
 
 public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
-    //COSTRUTTORE DI COPIA --> DECOMMENTA PER RENDERLA VIETATA, NON COPIABILE
     //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
-    std::string getCurrentFontFamily();
+    symbolStyle getCurCharStyle();
 
 private slots:
 
@@ -92,7 +91,7 @@ private slots:
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
-    void showSymbol(std::pair<int, wchar_t> tuple, std::string fontFamily);
+    void showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void showSymbols(std::vector<symbol> symbols);

@@ -36,7 +36,8 @@ SOURCES += \
     myClient.cpp \
     startwindow.cpp \
     symbol.cpp \
-    symbol_formatting.cpp \
+    symbolInfo.cpp \
+    symbolStyle.cpp \
     userprofile.cpp \
     versioninfo.cpp
 
@@ -51,7 +52,8 @@ HEADERS += \
     myClient.h \
     startwindow.h \
     symbol.h \
-    symbol_formatting.h \
+    symbolInfo.h \
+    symbolStyle.h \
     userprofile.h \
     versioninfo.h
 

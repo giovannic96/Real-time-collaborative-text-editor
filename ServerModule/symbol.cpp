@@ -3,14 +3,13 @@
 //
 
 #include "header_files/symbol.h"
-
 #include <utility>
 
 symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos)
-                        : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(false), _isItalic(false) {}
+    : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _style() {}
 
-symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, bool isBold, bool isItalic, std::string fontFamily)
-    : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _isBold(isBold), _isItalic(isItalic), _fontFamily(std::move(fontFamily)) {}
+symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, symbolStyle style)
+    : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _style(std::move(style)) {}
 
 std::vector<int> symbol::getPos() const {
     return _pos;
@@ -24,24 +23,8 @@ std::pair<int, int> symbol::getId() const {
     return _id;
 }
 
-std::string symbol::getFontFamily() const {
-    return _fontFamily;
-}
-
-bool symbol::isBold() const {
-    return _isBold;
-}
-
-bool symbol::isItalic() const {
-    return _isItalic;
-}
-
-void symbol::setBold(bool val) {
-    this->_isBold = val;
-}
-
-void symbol::setItalic(bool val) {
-    this->_isItalic = val;
+symbolStyle symbol::getStyle() const {
+    return _style;
 }
 
 void symbol::setLetter(wchar_t letter) {
@@ -56,6 +39,8 @@ void symbol::setPos(std::vector<int> pos) {
     this->_pos = std::move(pos);
 }
 
-void symbol::setFontFamily(std::string fontFamily) {
-    this->_fontFamily = std::move(fontFamily);
+void symbol::setStyle(symbolStyle style) {
+    this->_style = std::move(style);
 }
+
+

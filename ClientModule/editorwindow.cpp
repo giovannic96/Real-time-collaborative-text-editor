@@ -69,13 +69,13 @@ void EditorWindow::on_buttonGrassetto_clicked(){
         ui->RealTextEdit->setFontWeight(QFont::Bold);
     }else{
         ui->buttonGrassetto->setChecked(false);
-        ui->RealTextEdit->setFontWeight(QFont::Light);
+        ui->RealTextEdit->setFontWeight(QFont::Normal);
     }
     SmokinSexyShowtimeStyleHandler();
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::on_buttonCorsivo_clicked(){
+void EditorWindow::on_buttonCorsivo_clicked() {
     if(ui->buttonCorsivo->isChecked()){
         ui->buttonCorsivo->setChecked(true);
         ui->RealTextEdit->setFontItalic(true);
@@ -426,10 +426,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
         AlignJFXButtonHandler();
     }
     AlignButtonStyleHandler();
-
-
-    //int debugAntiLambda1 = static_cast<int>(antilambda1(fontPointSize)); --> THIS MAKE SERVER CRASH SO LOUDLY THAT MY NEIGHBORS CALLED THE COPS!
-    qDebug() << "Font = "<< infof.family() << " - Size = "<< fontPointSize;  //<< "il cui indice è " << antilambda1(intFontPointSize);
 }
 
 void EditorWindow::on_RealTextEdit_textChanged() {
@@ -610,25 +606,18 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
                 //Get data
                 int numChars = mimeData->text().size(); //number of chars = number of iterations
                 std::wstring str_to_paste = mimeData->text().toStdWString();
-                std::vector<symbol_formatting> formattingSymbols; //bold, italic. TODO: underlined
+                std::vector<symbolInfo> formattingSymbols; //bold, italic. TODO: underlined
                 int index;
                 wchar_t c;
-                std::array<bool, 2> formattingTypes;
-                std::string fontFamily;
+                symbolStyle charStyle;
 
                 for(int i=0; i<numChars; i++) {
                     c = str_to_paste.c_str()[0]; //get wchar
                     qDebug() << "char: " << c;
                     str_to_paste.erase(0,1); //remove first wchar
                     index = pos++; //get index
-                    formattingTypes = {false, false}; //TODO: handle this correctly
-
-                    //Get the Font and estract the Family from it
-                    QFont f = ui->RealTextEdit->fontFamily();
-                    QFontInfo infof(f);
-                    fontFamily = infof.family().toStdString();
-
-                    symbol_formatting s(index, c, formattingTypes, fontFamily);
+                    charStyle = getCurCharStyle();
+                    symbolInfo s(index, c, charStyle);
                     formattingSymbols.push_back(s);
                 }
 
@@ -660,7 +649,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
 
             //Serialize data
             json j;
-            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple, getCurrentFontFamily());
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple, getCurCharStyle());
             const std::string req = j.dump();
 
             //Send data (header and body)
@@ -1113,20 +1102,26 @@ void EditorWindow::AlignButtonStyleHandler(){
 }
 
 void EditorWindow::SmokinSexyShowtimeStyleHandler(){
-    if(ui->buttonGrassetto->isChecked()){
+    if(ui->buttonGrassetto->isChecked()) {
         ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{background-color:#AEAEAE; border-radius:4px;}");
-    }else{
+        //ui->RealTextEdit->setFontWeight(QFont::Bold);
+    } else {
          ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
+         //ui->RealTextEdit->setFontWeight(QFont::Normal);
     }
-    if(ui->buttonCorsivo->isChecked()){
+    if(ui->buttonCorsivo->isChecked()) {
         ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{background-color:#AEAEAE; border-radius:4px;}");
-    }else{
+        //ui->RealTextEdit->setFontItalic(true);
+    } else {
          ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border-radius:4px}    #buttonCorsivo:hover{background-color: lightgrey;}");
+         //ui->RealTextEdit->setFontItalic(false);
     }
-    if(ui->buttonSottolineato->isChecked()){
+    if(ui->buttonSottolineato->isChecked()) {
         ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{background-color:#AEAEAE; border-radius:4px;}");
-    }else{
+        //ui->RealTextEdit->setFontUnderline(true);
+    } else {
          ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border-radius:4px}    #buttonSottolineato:hover{background-color: lightgrey;}");
+         //ui->RealTextEdit->setFontUnderline(false);
     }
 }
 
@@ -1265,13 +1260,16 @@ void EditorWindow::showSymbols(std::vector<symbol> symbols) {
         letter = s.getLetter();
         QTextCharFormat oldFormat = c.charFormat();
         QTextCharFormat newFormat = oldFormat;
-        if (s.isBold()){
+        if (s.getStyle().isBold())
             newFormat.setFontWeight(QFont::Bold);
-        }
-        if (s.isItalic()){
+        else
+            newFormat.setFontWeight(QFont::Normal);
+        if (s.getStyle().isItalic())
             newFormat.setFontItalic(true);
-        }
-        newFormat.setFontFamily(QString::fromStdString(s.getFontFamily()));
+        if (s.getStyle().isUnderlined())
+            newFormat.setFontUnderline(true);
+        newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
+        newFormat.setFontPointSize(s.getStyle().getFontSize());
         int pos = s.getPos().at(0);
         c.setPosition(pos);
         c.setCharFormat(newFormat);
@@ -1289,13 +1287,16 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         letter = s.getLetter();
         QTextCharFormat oldFormat = c.charFormat();
         QTextCharFormat newFormat = oldFormat;
-        if (s.isBold()){
+        if (s.getStyle().isBold())
             newFormat.setFontWeight(QFont::Bold);
-        }
-        if (s.isItalic()){
+        else
+            newFormat.setFontWeight(QFont::Normal);
+        if (s.getStyle().isItalic())
             newFormat.setFontItalic(true);
-        }
-        newFormat.setFontFamily(QString::fromStdString(s.getFontFamily()));
+        if (s.getStyle().isUnderlined())
+            newFormat.setFontUnderline(true);
+        newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
+        newFormat.setFontPointSize(s.getStyle().getFontSize());
         int pos = index++;
         c.setPosition(pos);
         c.setCharFormat(newFormat);
@@ -1305,11 +1306,18 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     }
 }
 
-void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, std::string fontFamily) {
+void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) {
     int pos = tuple.first;
     wchar_t c = tuple.second;
     QTextCharFormat format;
-    format.setFontFamily(QString::fromStdString(fontFamily));
+    if(style.isBold())
+        format.setFontWeight(QFont::Bold);
+    else
+        format.setFontWeight(QFont::Normal);
+    format.setFontItalic(style.isItalic());
+    format.setFontUnderline(style.isUnderlined());
+    format.setFontFamily(QString::fromStdString(style.getFontFamily()));
+    format.setFontPointSize(style.getFontSize());
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     cursor.setPosition(pos);
     cursor.mergeCharFormat(format); //format the char
@@ -1328,18 +1336,26 @@ void EditorWindow::eraseSymbol(int index) {
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
+void EditorWindow::eraseSymbols(int startIndex, int endIndex) {    
+
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    while(endIndex > startIndex) {
+        cursor.setPosition(--endIndex);
+        cursor.deleteChar();
+    }
+
+    /*
     QString plaintext = ui->RealTextEdit->toPlainText();
     plaintext = plaintext.remove(startIndex, endIndex-startIndex);
     ui->RealTextEdit->setPlainText(plaintext);
+    */
 
     qDebug() << "Deleted char range from pos: " << startIndex << " to pos: " << endIndex << endl;
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-std::string EditorWindow::getCurrentFontFamily() {
-    //Get the Font and estract the Family from it
-    QFont f = ui->RealTextEdit->fontFamily();
-    QFontInfo infof(f);
-    return infof.family().toStdString();
+symbolStyle EditorWindow::getCurCharStyle() {
+    bool isBold = ui->RealTextEdit->fontWeight()==QFont::Bold;
+    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->RealTextEdit->fontFamily().toStdString(), ui->RealTextEdit->font().pointSize()};
+    return style;
 }
