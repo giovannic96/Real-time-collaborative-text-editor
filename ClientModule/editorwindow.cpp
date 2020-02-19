@@ -49,7 +49,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->RealTextEdit->setFontFamily("Times New Roman");
     //ui->RealTextEdit->document()->setDefaultFont(QFont("Times New Roman", 14));
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
-    showSymbols(_client->getVector());
+    showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
     textOnTitleBar = "C.A.R.T.E. - " + docName;
     this->setWindowTitle(textOnTitleBar);
@@ -601,12 +601,12 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
                 pos = cursor.position();
             }
 
-            if(mimeData->hasText()) { //TODO: handle the formatted case (some char can have bold and other not -> we have to handle this)
-                                      //TODO: and if mimeData has Images or html??? -> handle this case
+            if(mimeData->hasText()) { //TODO: and if mimeData has Images or html??? -> handle this case
                 //Get data
                 int numChars = mimeData->text().size(); //number of chars = number of iterations
                 std::wstring str_to_paste = mimeData->text().toStdWString();
-                std::vector<symbolInfo> formattingSymbols; //bold, italic. TODO: underlined
+                QVector<QVector<QString>> styles = getStylesFromHTML(mimeData->html());
+                std::vector<symbolInfo> infoSymbols;
                 int index;
                 wchar_t c;
                 symbolStyle charStyle;
@@ -616,14 +616,17 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
                     qDebug() << "char: " << c;
                     str_to_paste.erase(0,1); //remove first wchar
                     index = pos++; //get index
-                    charStyle = getCurCharStyle();
+                    if(c <= 32 || c > 126) //special characters has no style (LF, CR, ESC, SP, ecc.)
+                        charStyle = symbolStyle(false, false, false, "Times New Roman", 14);
+                    else
+                        charStyle = getStyleFromHTMLStyles(styles); //get the style
                     symbolInfo s(index, c, charStyle);
-                    formattingSymbols.push_back(s);
+                    infoSymbols.push_back(s);
                 }
 
                 //Serialize data
                 json j;
-                std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(formattingSymbols);
+                std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(infoSymbols);
                 jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
                 const std::string req = j.dump();
 
@@ -1253,32 +1256,6 @@ void EditorWindow::sendRequestMsg(std::string req) {
     _client->write(msg);
 }
 
-void EditorWindow::showSymbols(std::vector<symbol> symbols) {
-    wchar_t letter;
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    foreach (symbol s, symbols) {
-        letter = s.getLetter();
-        QTextCharFormat oldFormat = c.charFormat();
-        QTextCharFormat newFormat = oldFormat;
-        if (s.getStyle().isBold())
-            newFormat.setFontWeight(QFont::Bold);
-        else
-            newFormat.setFontWeight(QFont::Normal);
-        if (s.getStyle().isItalic())
-            newFormat.setFontItalic(true);
-        if (s.getStyle().isUnderlined())
-            newFormat.setFontUnderline(true);
-        newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
-        newFormat.setFontPointSize(s.getStyle().getFontSize());
-        int pos = s.getPos().at(0);
-        c.setPosition(pos);
-        c.setCharFormat(newFormat);
-        c.insertText(static_cast<QString>(letter));
-        ui->RealTextEdit->setTextCursor(c);
-        c.setCharFormat(oldFormat);
-    }
-}
-
 void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     wchar_t letter;
     int index = firstIndex;
@@ -1293,8 +1270,12 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
             newFormat.setFontWeight(QFont::Normal);
         if (s.getStyle().isItalic())
             newFormat.setFontItalic(true);
+        else
+            newFormat.setFontItalic(false);
         if (s.getStyle().isUnderlined())
             newFormat.setFontUnderline(true);
+        else
+            newFormat.setFontUnderline(false);
         newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
         newFormat.setFontPointSize(s.getStyle().getFontSize());
         int pos = index++;
@@ -1358,4 +1339,57 @@ symbolStyle EditorWindow::getCurCharStyle() {
     bool isBold = ui->RealTextEdit->fontWeight()==QFont::Bold;
     symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->RealTextEdit->fontFamily().toStdString(), ui->RealTextEdit->font().pointSize()};
     return style;
+}
+
+symbolStyle EditorWindow::getStyleFromHTMLStyles(QVector<QVector<QString>>& styles) {
+    //Ex. QVector(QVector("Times New Roman", "14", "", "italic", "underline", "2"), QVector("Times New Roman", "14", "600", "", "", "1"))
+    //I consider always the first element (vector) of the 'styles' vector of vector
+    bool isBold = styles.at(0).at(2) != "" && styles.at(0).at(2) == "600";
+    bool isItalic = styles.at(0).at(3) != "" && styles.at(0).at(3) == "italic";
+    bool isUnderlined = styles.at(0).at(4) != "" && styles.at(0).at(4) == "underline";
+    std::string fontFamily = styles.at(0).at(0).toStdString();
+    int fontSize = styles.at(0).at(1).toInt();
+
+    symbolStyle style = {isBold, isItalic, isUnderlined, fontFamily, fontSize}; //create the style for the current char
+    if(styles.at(0).at(5).toInt() > 1)
+        styles[0][5] = QString::number(styles.at(0).at(5).toInt() - 1); //decrease the number of chars having same style
+    else {
+        styles.pop_front(); //remove the style from the vector -> i.e. all chars with that style has been handled
+    }
+    return style;
+}
+
+QVector<QVector<QString>> EditorWindow::getStylesFromHTML(QString htmlText) {
+    /* STEP 1 - From HTML To list containing only the essential info -> i.e. normalize HTML text */
+    QRegExp rx("<span ([^<]+)</span>");
+    QStringList list;
+    int pos = 0;
+
+    while((pos = rx.indexIn(htmlText, pos)) != -1) {
+        list << rx.cap(1);
+        pos += rx.matchedLength();
+    }
+
+    /* STEP 2 - From list of essential info To list of list containing only the value of the essential info -> normalize previous list */
+    QVector<QVector<QString>> finalVector;
+    QRegularExpression fontFamilyRegex("font-family:'(.+?)';");
+    QRegularExpression fontSizeRegex("font-size:(.+?)pt;");
+    QRegularExpression fontWeightRegex("font-weight:(.+?);");
+    QRegularExpression fontStyleRegex("font-style:(.+?);");
+    QRegularExpression textDecorationRegex("text-decoration: (.+?);");
+
+    foreach (QString s, list) {
+        qDebug() << s;
+        int numChars = s.mid(s.indexOf('>')).length()-1;
+        QVector<QString> styleVector;
+        styleVector.push_back(fontFamilyRegex.match(s).captured(1));
+        styleVector.push_back(fontSizeRegex.match(s).captured(1));
+        styleVector.push_back(fontWeightRegex.match(s).captured(1));
+        styleVector.push_back(fontStyleRegex.match(s).captured(1));
+        styleVector.push_back(textDecorationRegex.match(s).captured(1));
+        styleVector.push_back(QString::number(numChars));
+        finalVector.push_back(styleVector);
+    }
+    qDebug() << "FINAL VECTOR: " << finalVector << endl;
+    return finalVector;
 }

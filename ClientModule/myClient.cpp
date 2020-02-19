@@ -234,8 +234,6 @@ void myClient::do_read_body() {
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                     if(db_responseJSON == "LIST_EXIST") {
-                        qDebug() << "La lista esiste" << endl;
-
                         std::vector<json> jsonFiles;
                         jsonUtility::from_json_files(jdata_in, jsonFiles);
 

@@ -17,7 +17,6 @@ public:
     //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
-    symbolStyle getCurCharStyle();
 
 private slots:
 
@@ -87,14 +86,12 @@ private slots:
     void AlignButtonStyleHandler();
     void SmokinSexyShowtimeStyleHandler();
 
-
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
     void showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
-    void showSymbols(std::vector<symbol> symbols);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
 
 private:
@@ -104,7 +101,9 @@ private:
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented char
     QString textOnTitleBar;
     bool BruteClose=true;
-
+    symbolStyle getCurCharStyle();
+    symbolStyle getStyleFromHTMLStyles(QVector<QVector<QString>>& styles);
+    QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
 };
 
 #endif // EDITORWINDOW_H

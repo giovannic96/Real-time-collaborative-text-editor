@@ -11,7 +11,6 @@
 using json = nlohmann::json;
 
 void fileUtility::writeFile(const std::string& filename, const std::vector<symbol>& symbols) {
-
     json j = jsonUtility::fromSymToJson(symbols);
 
     // Write json string on file
