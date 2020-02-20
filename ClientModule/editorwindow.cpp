@@ -581,7 +581,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
 
                 //Serialize data
                 json j;
-                jsonUtility::to_json_removal_range(j, "GE_REQUEST", startIndex, endIndex);
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
                 const std::string req = j.dump();
 
                 //Send data (header and body)
