@@ -2,12 +2,12 @@
 #include "ui_editorwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
-#include <QColorDialog>     //FOR OPEN COLOR PALETTE
-#include <QFileDialog>      //FOR OPEN SAVE WITH NAME LOCALLY
-#include <QTextStream>      //FOR SAVE THE FILE LOCALLY AND PDF CONVERSION
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QTextStream>
 #include <QMessageBox>
-#include <QGraphicsOpacityEffect>   //<-- REMOVE IT
-#include <QPrinter>         //FOR PRINTING THE PDF
+#include <QGraphicsOpacityEffect>
+#include <QPrinter>
 #include "infowindow.h"
 #include "menuwindow.h"
 #include <QEvent>
@@ -25,7 +25,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::formatSymbols, this, &EditorWindow::formatSymbols);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
 
-    //PROVA LIST WIDGET UTENTI //TODO CREARE FUNZIONE DINAMICA
     ui->listWidget->setStyleSheet(
       "QListWidget::item {"
          "border-color:#e0e0e0;"
@@ -64,50 +63,50 @@ EditorWindow::~EditorWindow() {
 /***********************************************************************************
 *                       BUTTON FOR CHANGING THE STYLE OF THE TEXT                  *
 ************************************************************************************/
-void EditorWindow::on_buttonGrassetto_clicked() {
+void EditorWindow::on_buttonBold_clicked() {
     int format = FORMAT_UNKNOWN;
-    if(ui->buttonGrassetto->isChecked()) {
-        ui->buttonGrassetto->setChecked(true);
+    if(ui->buttonBold->isChecked()) {
+        ui->buttonBold->setChecked(true);
         ui->RealTextEdit->setFontWeight(QFont::Bold);
         format = MAKE_BOLD;
     } else {
-        ui->buttonGrassetto->setChecked(false);
+        ui->buttonBold->setChecked(false);
         ui->RealTextEdit->setFontWeight(QFont::Normal);
         format = UNMAKE_BOLD;
     }
-    SmokinSexyShowtimeStyleHandler();
+    refreshFormatButtons();
     sendFormatRequest(format);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::on_buttonCorsivo_clicked() {
+void EditorWindow::on_buttonItalic_clicked() {
     int format = FORMAT_UNKNOWN;
-    if(ui->buttonCorsivo->isChecked()) {
-        ui->buttonCorsivo->setChecked(true);
+    if(ui->buttonItalic->isChecked()) {
+        ui->buttonItalic->setChecked(true);
         ui->RealTextEdit->setFontItalic(true);
         format = MAKE_ITALIC;
     } else {
-        ui->buttonCorsivo->setChecked(false);
+        ui->buttonItalic->setChecked(false);
         ui->RealTextEdit->setFontItalic(false);
         format = UNMAKE_ITALIC;
     }
-    SmokinSexyShowtimeStyleHandler();
+    refreshFormatButtons();
     sendFormatRequest(format);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::on_buttonSottolineato_clicked() {
+void EditorWindow::on_buttonUnderline_clicked() {
     int format = FORMAT_UNKNOWN;
-    if(ui->buttonSottolineato->isChecked()) {
-        ui->buttonSottolineato->setChecked(true);
+    if(ui->buttonUnderline->isChecked()) {
+        ui->buttonUnderline->setChecked(true);
         ui->RealTextEdit->setFontUnderline(true);
         format = MAKE_UNDERLINE;
     } else {
-        ui->buttonSottolineato->setChecked(false);
+        ui->buttonUnderline->setChecked(false);
         ui->RealTextEdit->setFontUnderline(false);
         format = UNMAKE_UNDERLINE;
     }
-    SmokinSexyShowtimeStyleHandler();
+    refreshFormatButtons();
     sendFormatRequest(format);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
@@ -317,9 +316,21 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
 /***********************************************************************************
 *                              RealTextEdit FUNCTION                               *
 ************************************************************************************/
+void EditorWindow::on_RealTextEdit_selectionChanged() {
+    /*
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    if(c.hasSelection()) {
+        std::vector<bool> buttonChecks = calculateButtonChecks(c);
+        ui->buttonBold->setChecked(buttonChecks.at(0));
+        ui->buttonItalic->setChecked(buttonChecks.at(1));
+        ui->buttonUnderline->setChecked(buttonChecks.at(2));
+    }
+    refreshFormatButtons();
+    */
+}
+
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
 
-    //CATCH CURSOR
     QTextCursor c = ui->RealTextEdit->textCursor();
 
     /****************************************************************
@@ -380,7 +391,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         }
     }
 
-
     /****************************************************************
      * STEP 3 - Get font family and update fontSelectorBox
      ****************************************************************/
@@ -408,23 +418,29 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     /****************************************************************
      * STEP 4 - If Bold/Italic/Underline, set button to clicked
      ****************************************************************/
-    if(ui->RealTextEdit->fontWeight()>50){
-        ui->buttonGrassetto->setChecked(true);
-    }else{
-        ui->buttonGrassetto->setChecked(false);
+    if(!c.hasSelection()) {
+        if(ui->RealTextEdit->fontWeight() == QFont::Bold) {
+            ui->buttonBold->setChecked(true);
+        } else {
+            ui->buttonBold->setChecked(false);
+        }
+        if(ui->RealTextEdit->fontItalic()) {
+            ui->buttonItalic->setChecked(true);
+        } else {
+            ui->buttonItalic->setChecked(false);
+        }
+        if(ui->RealTextEdit->fontUnderline()) {
+            ui->buttonUnderline->setChecked(true);
+        } else {
+            ui->buttonUnderline->setChecked(false);
+        }
+    } else {
+        std::vector<bool> buttonChecks = calculateButtonChecks(c);
+        ui->buttonBold->setChecked(buttonChecks.at(0));
+        ui->buttonItalic->setChecked(buttonChecks.at(1));
+        ui->buttonUnderline->setChecked(buttonChecks.at(2));
     }
-    if(ui->RealTextEdit->fontItalic()){
-        ui->buttonCorsivo->setChecked(true);
-    }else{
-        ui->buttonCorsivo->setChecked(false);
-    }
-    if(ui->RealTextEdit->fontUnderline()){
-        ui->buttonSottolineato->setChecked(true);
-    }else{
-        ui->buttonSottolineato->setChecked(false);
-    }
-    SmokinSexyShowtimeStyleHandler();
-
+    refreshFormatButtons();
 
     /****************************************************************
      * STEP 5 - If text is aligned, set alignment button to clicked
@@ -440,26 +456,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     }
     AlignButtonStyleHandler();
 }
-
-void EditorWindow::on_RealTextEdit_textChanged() {
-    /*
-    //Get data
-    std::pair<int, wchar_t> tuple;
-    QTextCursor cursor = ui->RealTextEdit->textCursor();
-    int pos = cursor.position();
-    wchar_t c = ui->RealTextEdit->toPlainText().mid(pos-1, 1).toStdString().c_str()[0];
-    tuple = std::make_pair(pos-1, c);
-
-    //Serialize data
-    json j;
-    jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple);
-    const std::string req = j.dump();
-
-    //Send data (header and body)
-    sendRequestMsg(req);
-    */
-}
-
 
 /***********************************************************************************
 *                            OLD TopLeftBar FUNCTION                               *
@@ -999,9 +995,9 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
         ui->buttonColor->setIcon(icoCOL);
-        ui->buttonGrassetto->setIcon(v2B);
-        ui->buttonCorsivo->setIcon(v2I);
-        ui->buttonSottolineato->setIcon(v2U);
+        ui->buttonBold->setIcon(v2B);
+        ui->buttonItalic->setIcon(v2I);
+        ui->buttonUnderline->setIcon(v2U);
         //iconContainer CSS
         ui->buttonCopia->setStyleSheet("    #buttonCopia{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonTaglia->setStyleSheet("   #buttonTaglia{background-color:#AEAEAE; border-radius:4px;}");
@@ -1046,21 +1042,21 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
         ui->buttonColor->setIcon(icoCOL);
-        ui->buttonGrassetto->setIcon(v2B);
-        ui->buttonCorsivo->setIcon(v2I);
-        ui->buttonSottolineato->setIcon(v2U);
+        ui->buttonBold->setIcon(v2B);
+        ui->buttonItalic->setIcon(v2I);
+        ui->buttonUnderline->setIcon(v2U);
         //iconContainer CSS
         ui->buttonCopia->setStyleSheet("    #buttonCopia{border-radius:4px}    #buttonCopia:hover{background-color: lightgrey;}");
         ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border-radius:4px}    #buttonTaglia:hover{background-color: lightgrey;}");
         ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border-radius:4px}    #buttonIncolla:hover{background-color: lightgrey;}");
-        ui->buttonRedo->setStyleSheet("     #buttonRedo{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
-        ui->buttonUndo->setStyleSheet("     #buttonUndo{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
+        ui->buttonRedo->setStyleSheet("     #buttonRedo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonUndo->setStyleSheet("     #buttonUndo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
     }
     //Set Other CSS
     AlignButtonStyleHandler();
-    SmokinSexyShowtimeStyleHandler();
+    refreshFormatButtons();
     //IN THE END
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
@@ -1117,22 +1113,21 @@ void EditorWindow::AlignButtonStyleHandler(){
     }
 }
 
-void EditorWindow::SmokinSexyShowtimeStyleHandler() {
-
-    if(ui->buttonGrassetto->isChecked()) {
-        ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{background-color:#AEAEAE; border-radius:4px;}");
+void EditorWindow::refreshFormatButtons() {
+    if(ui->buttonBold->isChecked()) {
+        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AEAEAE; border-radius:4px;}");
     } else {
-        ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
     }
-    if(ui->buttonCorsivo->isChecked()) {
-        ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{background-color:#AEAEAE; border-radius:4px;}");
+    if(ui->buttonItalic->isChecked()) {
+        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AEAEAE; border-radius:4px;}");
     } else {
-        ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border-radius:4px}    #buttonCorsivo:hover{background-color: lightgrey;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: lightgrey;}");
     }
-    if(ui->buttonSottolineato->isChecked()) {
-        ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{background-color:#AEAEAE; border-radius:4px;}");
+    if(ui->buttonUnderline->isChecked()) {
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AEAEAE; border-radius:4px;}");
     } else {
-        ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border-radius:4px}    #buttonSottolineato:hover{background-color: lightgrey;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: lightgrey;}");
     }
 }
 
@@ -1434,4 +1429,40 @@ void EditorWindow::sendFormatRequest(int format) {
         //Send data (header and body)
         sendRequestMsg(req);
     }
+}
+
+std::vector<bool> EditorWindow::calculateButtonChecks(QTextCursor& c) {
+    int startIndex = c.selectionStart();
+    int endIndex = c.selectionEnd();
+    qDebug() << "startIndex: "<< startIndex << "endIndex: " << endIndex << endl;
+    bool checkBold = false, checkItalic = false, checkUnderline = false,  uncheckAll = false;
+    std::vector<std::vector<bool>> formatVectors; //vector for all chars in cursor selection
+    std::vector<bool> vec(3); //vector for current char -> containing 3 values: isBold, isItalic, isUnderline
+    int oldPos = c.position();
+
+    while(endIndex > startIndex) { //loop over the cursor selection
+        c.setPosition(endIndex--);
+        vec = {c.charFormat().fontWeight()==QFont::Bold, c.charFormat().fontItalic(), c.charFormat().fontUnderline()};
+        qDebug() << vec.at(0) << " " << vec.at(1) << " " << vec.at(2) << endl;
+        if(std::all_of(vec.begin(), vec.end(), [](bool val){return val == false;})) { //if all formats are false -> uncheckAll buttons and exit
+            uncheckAll = true;
+            break;
+        }
+        formatVectors.push_back(vec);
+    }
+    c.setPosition(oldPos);
+    if(!uncheckAll) { //detect what format button has to be checked
+        checkBold = formatVectors.at(0).at(0);
+        checkItalic = formatVectors.at(0).at(1);
+        checkUnderline = formatVectors.at(0).at(2);
+        for(const std::vector<bool>& v : formatVectors) {
+            if(!checkBold && !checkItalic && !checkUnderline)
+                break;
+            if(checkBold) checkBold = v.at(0);
+            if(checkItalic) checkItalic = v.at(1);
+            if(checkUnderline) checkUnderline = v.at(2);
+        }
+    }
+    qDebug() << "Final: " << checkBold << " " << checkItalic << " " << checkUnderline << endl;
+    return {checkBold, checkItalic, checkUnderline};
 }

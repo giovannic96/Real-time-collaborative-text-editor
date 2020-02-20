@@ -230,7 +230,7 @@
                  <number>1</number>
                 </property>
                 <item>
-                 <widget class="QPushButton" name="buttonGrassetto">
+                 <widget class="QPushButton" name="buttonBold">
                   <property name="minimumSize">
                    <size>
                     <width>34</width>
@@ -257,11 +257,11 @@
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#buttonGrassetto{
+                   <string notr="true">#buttonBold {
 	border-radius: 4px;
 }
 
-#buttonGrassetto:hover{
+#buttonBold:hover {
 	background-color: lightgrey;
 }
 </string>
@@ -285,7 +285,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="buttonCorsivo">
+                 <widget class="QPushButton" name="buttonItalic">
                   <property name="minimumSize">
                    <size>
                     <width>34</width>
@@ -313,11 +313,11 @@
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#buttonCorsivo{
+                   <string notr="true">#buttonItalic {
 	border-radius: 4px;
 }
 
-#buttonCorsivo:hover{
+#buttonItalic:hover {
 	background-color: lightgrey;
 }
 </string>
@@ -341,7 +341,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="buttonSottolineato">
+                 <widget class="QPushButton" name="buttonUnderline">
                   <property name="minimumSize">
                    <size>
                     <width>34</width>
@@ -368,11 +368,11 @@
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#buttonSottolineato{
+                   <string notr="true">#buttonUnderline {
 	border-radius: 4px;
 }
 
-#buttonSottolineato:hover{
+#buttonUnderline:hover {
 	background-color: lightgrey;
 }
 </string>
@@ -1293,7 +1293,7 @@ background: #f3f3f3;
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

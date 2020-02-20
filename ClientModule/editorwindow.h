@@ -2,6 +2,7 @@
 #define EDITORWINDOW_H
 
 #include <QMainWindow>
+#include <QTextCursor>
 #include "jsonUtility.h"
 #include "message.h"
 #include "myClient.h"
@@ -21,9 +22,9 @@ public:
 private slots:
 
     //Button for change style of the text
-    void on_buttonGrassetto_clicked();
-    void on_buttonCorsivo_clicked();
-    void on_buttonSottolineato_clicked();
+    void on_buttonBold_clicked();
+    void on_buttonItalic_clicked();
+    void on_buttonUnderline_clicked();
     void on_buttonColor_clicked();
     void on_buttonBackgroundColor_clicked();
 
@@ -49,7 +50,7 @@ private slots:
 
     //RealTextEdit Function
     void on_RealTextEdit_cursorPositionChanged();
-    void on_RealTextEdit_textChanged();
+    void on_RealTextEdit_selectionChanged();
 
     //OLD TopLeftBar Button
     //void on_buttonExit_clicked();
@@ -84,7 +85,7 @@ private slots:
     void AlignDXButtonHandler();
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
-    void SmokinSexyShowtimeStyleHandler();
+    void refreshFormatButtons();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
@@ -105,6 +106,7 @@ private:
     symbolStyle getCurCharStyle();
     symbolStyle getStyleFromHTMLStyles(QVector<QVector<QString>>& styles);
     QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
+    std::vector<bool> calculateButtonChecks(QTextCursor& c);
     void sendFormatRequest(int format);
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6};
 
