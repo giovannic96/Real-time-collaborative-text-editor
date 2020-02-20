@@ -22,6 +22,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::insertSymbol, this, &EditorWindow::showSymbol);
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
+    connect(_client, &myClient::formatSymbols, this, &EditorWindow::formatSymbols);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
 
     //PROVA LIST WIDGET UTENTI //TODO CREARE FUNZIONE DINAMICA
@@ -61,41 +62,53 @@ EditorWindow::~EditorWindow() {
 }
 
 /***********************************************************************************
-*                       BUTTON FOR CHANGE STYLE OF THE TEXT                        *
+*                       BUTTON FOR CHANGING THE STYLE OF THE TEXT                  *
 ************************************************************************************/
-void EditorWindow::on_buttonGrassetto_clicked(){
-    if(ui->buttonGrassetto->isChecked()){
+void EditorWindow::on_buttonGrassetto_clicked() {
+    int format = FORMAT_UNKNOWN;
+    if(ui->buttonGrassetto->isChecked()) {
         ui->buttonGrassetto->setChecked(true);
         ui->RealTextEdit->setFontWeight(QFont::Bold);
-    }else{
+        format = MAKE_BOLD;
+    } else {
         ui->buttonGrassetto->setChecked(false);
         ui->RealTextEdit->setFontWeight(QFont::Normal);
+        format = UNMAKE_BOLD;
     }
     SmokinSexyShowtimeStyleHandler();
+    sendFormatRequest(format);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 void EditorWindow::on_buttonCorsivo_clicked() {
-    if(ui->buttonCorsivo->isChecked()){
+    int format = FORMAT_UNKNOWN;
+    if(ui->buttonCorsivo->isChecked()) {
         ui->buttonCorsivo->setChecked(true);
         ui->RealTextEdit->setFontItalic(true);
-    }else{
+        format = MAKE_ITALIC;
+    } else {
         ui->buttonCorsivo->setChecked(false);
         ui->RealTextEdit->setFontItalic(false);
+        format = UNMAKE_ITALIC;
     }
     SmokinSexyShowtimeStyleHandler();
+    sendFormatRequest(format);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::on_buttonSottolineato_clicked(){
-    if(ui->buttonSottolineato->isChecked()){
+void EditorWindow::on_buttonSottolineato_clicked() {
+    int format = FORMAT_UNKNOWN;
+    if(ui->buttonSottolineato->isChecked()) {
         ui->buttonSottolineato->setChecked(true);
         ui->RealTextEdit->setFontUnderline(true);
-    }else{
+        format = MAKE_UNDERLINE;
+    } else {
         ui->buttonSottolineato->setChecked(false);
         ui->RealTextEdit->setFontUnderline(false);
+        format = UNMAKE_UNDERLINE;
     }
     SmokinSexyShowtimeStyleHandler();
+    sendFormatRequest(format);
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -304,7 +317,7 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
 /***********************************************************************************
 *                              RealTextEdit FUNCTION                               *
 ************************************************************************************/
-void EditorWindow::on_RealTextEdit_cursorPositionChanged(){
+void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
 
     //CATCH CURSOR
     QTextCursor c = ui->RealTextEdit->textCursor();
@@ -568,7 +581,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
 
                 //Serialize data
                 json j;
-                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                jsonUtility::to_json_removal_range(j, "GE_REQUEST", startIndex, endIndex);
                 const std::string req = j.dump();
 
                 //Send data (header and body)
@@ -1104,31 +1117,24 @@ void EditorWindow::AlignButtonStyleHandler(){
     }
 }
 
-void EditorWindow::SmokinSexyShowtimeStyleHandler(){
+void EditorWindow::SmokinSexyShowtimeStyleHandler() {
+
     if(ui->buttonGrassetto->isChecked()) {
         ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{background-color:#AEAEAE; border-radius:4px;}");
-        //ui->RealTextEdit->setFontWeight(QFont::Bold);
     } else {
-         ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
-         //ui->RealTextEdit->setFontWeight(QFont::Normal);
+        ui->buttonGrassetto->setStyleSheet("#buttonGrassetto{border-radius:4px}    #buttonGrassetto:hover{background-color: lightgrey;}");
     }
     if(ui->buttonCorsivo->isChecked()) {
         ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{background-color:#AEAEAE; border-radius:4px;}");
-        //ui->RealTextEdit->setFontItalic(true);
     } else {
-         ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border-radius:4px}    #buttonCorsivo:hover{background-color: lightgrey;}");
-         //ui->RealTextEdit->setFontItalic(false);
+        ui->buttonCorsivo->setStyleSheet("#buttonCorsivo{border-radius:4px}    #buttonCorsivo:hover{background-color: lightgrey;}");
     }
     if(ui->buttonSottolineato->isChecked()) {
         ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{background-color:#AEAEAE; border-radius:4px;}");
-        //ui->RealTextEdit->setFontUnderline(true);
     } else {
-         ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border-radius:4px}    #buttonSottolineato:hover{background-color: lightgrey;}");
-         //ui->RealTextEdit->setFontUnderline(false);
+        ui->buttonSottolineato->setStyleSheet("#buttonSottolineato{border-radius:4px}    #buttonSottolineato:hover{background-color: lightgrey;}");
     }
 }
-
-
 
 /***********************************************************************************
 *
@@ -1325,13 +1331,33 @@ void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
         cursor.deleteChar();
     }
 
-    /*
-    QString plaintext = ui->RealTextEdit->toPlainText();
-    plaintext = plaintext.remove(startIndex, endIndex-startIndex);
-    ui->RealTextEdit->setPlainText(plaintext);
-    */
+    qDebug() << "Deleted char range" << endl;
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
 
-    qDebug() << "Deleted char range from pos: " << startIndex << " to pos: " << endIndex << endl;
+void EditorWindow::formatSymbols(int startIndex, int endIndex, int format) {
+
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    QTextCharFormat newFormat;
+
+    while(endIndex > startIndex) {
+        cursor.setPosition(--endIndex);
+        cursor.setPosition(endIndex+1, QTextCursor::KeepAnchor); //to select the char to be updated
+        if(format == MAKE_BOLD)
+            newFormat.setFontWeight(QFont::Bold);
+        else if(format == MAKE_ITALIC)
+            newFormat.setFontItalic(true);
+        else if(format == MAKE_UNDERLINE)
+            newFormat.setFontUnderline(true);
+        else if(format == UNMAKE_BOLD)
+            newFormat.setFontWeight(QFont::Normal);
+        else if(format == UNMAKE_ITALIC)
+            newFormat.setFontItalic(false);
+        else if(format == UNMAKE_UNDERLINE)
+            newFormat.setFontUnderline(false);
+        cursor.mergeCharFormat(newFormat);
+    }
+    qDebug() << "Formatted char range" << endl;
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
@@ -1392,4 +1418,20 @@ QVector<QVector<QString>> EditorWindow::getStylesFromHTML(QString htmlText) {
     }
     qDebug() << "FINAL VECTOR: " << finalVector << endl;
     return finalVector;
+}
+
+void EditorWindow::sendFormatRequest(int format) {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    if(cursor.hasSelection()) {
+        int startIndex = cursor.selectionStart();
+        int endIndex = cursor.selectionEnd();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_format_range(j, "FORMAT_RANGE_REQUEST", startIndex, endIndex, format);
+        const std::string req = j.dump();
+
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
 }

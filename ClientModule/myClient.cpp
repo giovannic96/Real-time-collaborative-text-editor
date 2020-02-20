@@ -310,6 +310,12 @@ void myClient::do_read_body() {
                     int endIndexJSON;
                     jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
                     emit eraseSymbols(startIndexJSON, endIndexJSON);
+                } else if(opJSON == "FORMAT_RANGE_RESPONSE") {
+                    int startIndexJSON;
+                    int endIndexJSON;
+                    int formatJSON;
+                    jsonUtility::from_json_format_range(jdata_in, startIndexJSON, endIndexJSON, formatJSON);
+                    emit formatSymbols(startIndexJSON, endIndexJSON, formatJSON);
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");

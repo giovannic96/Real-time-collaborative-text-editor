@@ -46,7 +46,6 @@ std::vector<int> participant::generatePos(int index, wchar_t value) {
 std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos) {
     int id1 = pos1.at(0);
     int id2 = pos2.at(0);
-    //newPos.push_back(id1);  //PRIMA ERA MESSO QUA, ADESSO L'HO MESSO DENTRO GLI IF, TRANNE NEL SECONDO IF
 
     if(id2 - id1 == 0) {
         newPos.push_back(id1);
@@ -59,7 +58,7 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
             return generatePosBetween(pos1, pos2, newPos);
     }
     else if(id2 - id1 > 1) {
-        newPos.push_back(pos1.front()+1); //PRIMA ERA newpos.pushback(0);
+        newPos.push_back(pos1.front()+1);
         return newPos;
     }
     else if(id2 - id1 == 1) {
@@ -91,9 +90,35 @@ msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
-    symbol s = _symbols.at(startIndex); //TODO: useless
+    symbol s = _symbols.at(startIndex); //TODO: wrong
     _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
     msgInfo m(1, getId(), s);
+    return m;
+}
+
+msgInfo participant::localFormat(int startIndex, int format) noexcept(false) {
+    if(startIndex < 0 || startIndex > _symbols.size()) {
+        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
+        //TODO: return null msgInfo or sthg similar
+    }
+    symbol s = _symbols.at(startIndex);
+    symbolStyle newStyle;
+    if(format == MAKE_BOLD)
+        newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize()};
+    else if(format == MAKE_ITALIC)
+        newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+    else if(format == MAKE_UNDERLINE)
+        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+    else if(format == UNMAKE_BOLD)
+        newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+    else if(format == UNMAKE_ITALIC)
+        newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+    else if(format == UNMAKE_UNDERLINE)
+        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+    else
+        newStyle = s.getStyle();
+    _symbols.at(startIndex).setStyle(newStyle);
+    msgInfo m(2, getId(), s, format); //in this case 'format' (4th param) represents the format type, not the newIndex -> 0: Bold, 1: Italic, 2: Underline
     return m;
 }
 
@@ -127,7 +152,8 @@ void participant::process(const msgInfo& m) {
         }
         _symbols.insert(_symbols.begin() + my_index, m.getSymbol());
     }
-    else { /* Removal */
+    /* Removal */
+    else if (m.getType() == 1) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](symbol i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
@@ -138,6 +164,37 @@ void participant::process(const msgInfo& m) {
 
         if(_symbols.at(index).getId() == m.getSymbol().getId())
             _symbols.erase(_symbols.begin() + index);
+    }
+    /* Format */
+    else {
+        std::vector<int> fractionalPos = m.getSymbol().getPos();
+        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](symbol i) {return i.getPos() == fractionalPos;});
+        if (it == _symbols.end()) {
+            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            return;
+        }
+        int index = it - _symbols.begin();
+
+        if(_symbols.at(index).getId() == m.getSymbol().getId()) {
+            symbol s = _symbols[index];
+            symbolStyle newStyle;
+            //in this case 'newIndex' of msgInfo represents the format type -> 0: Bold, 1: Italic, 2: Underline, 3: Unbold
+            if(m.getNewIndex() == MAKE_BOLD)
+                newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+            else if(m.getNewIndex() == MAKE_ITALIC)
+                newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+            else if(m.getNewIndex() == MAKE_UNDERLINE)
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+            else if(m.getNewIndex() == UNMAKE_BOLD)
+                newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+            else if(m.getNewIndex() == UNMAKE_ITALIC)
+                newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+            else if(m.getNewIndex() == UNMAKE_UNDERLINE)
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+            else
+                newStyle = s.getStyle();
+            _symbols[index].setStyle(newStyle);
+        }
     }
 }
 

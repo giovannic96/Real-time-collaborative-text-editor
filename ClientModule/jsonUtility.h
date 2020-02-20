@@ -28,6 +28,7 @@ public:
     static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style);
     static void to_json_removal(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
+    static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
     static void to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector);
     static void to_json_FormattingSymbol(json &j, const symbolInfo &symbol);
     static void to_jsonUser(json &j, const std::string &op, const std::string &user);
@@ -51,6 +52,7 @@ public:
     static void from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols);
     static void from_json_removal(const json &j, int& index);
     static void from_json_removal_range(const json &j, int& startIndex, int& endIndex);
+    static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);
     static std::vector<json> fromFormattingSymToJson(const std::vector<symbolInfo>& symbols);
 };
 

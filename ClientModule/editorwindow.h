@@ -92,6 +92,7 @@ public slots:
     void showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
+    void formatSymbols(int startIndex, int endIndex, int format);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
 
 private:
@@ -104,6 +105,9 @@ private:
     symbolStyle getCurCharStyle();
     symbolStyle getStyleFromHTMLStyles(QVector<QVector<QString>>& styles);
     QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
+    void sendFormatRequest(int format);
+    enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6};
+
 };
 
 #endif // EDITORWINDOW_H

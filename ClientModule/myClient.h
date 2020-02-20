@@ -61,6 +61,7 @@ signals:
     void insertSymbols(int firstIndex, std::vector<symbol> symbols);
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
+    void formatSymbols(int startIndex, int endIndex, int format);
     void jsonMsgFailure(QString windowName, QString msg);
 
 private:

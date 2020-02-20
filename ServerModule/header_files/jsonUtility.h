@@ -39,6 +39,7 @@ public:
     static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style);
     static void to_json_removal(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
+    static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
     static void to_json_insertion_range(json &j, const std::string &op, const int &firstIndex, const std::vector<json> &symbolsJSONS);
     static void from_json(const json& j, std::string& op);
     static void from_json_filename(const json &j, std::string &user, std::string &filename);
@@ -52,6 +53,7 @@ public:
     static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple, symbolStyle& style);
     static void from_json_removal(const json& j, int& index);
     static void from_json_removal_range(const json& j, int& startIndex, int& endIndex);
+    static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);
     static void from_json_insertion_range(const json &j, std::vector<json>& symbols);
     static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
 

@@ -148,6 +148,15 @@ void jsonUtility::to_json_removal_range(json &j, const std::string &op, const in
     };
 }
 
+void jsonUtility::to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format) {
+    j = json{
+            {"operation", op},
+            {"startIndex", startIndex},
+            {"endIndex", endIndex},
+            {"format", format}
+    };
+}
+
 void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const int &firstIndexRange, const std::vector<json> &symbols) {
     j = json{
             {"operation", op},
@@ -208,19 +217,6 @@ std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols)
 
     if(symbols.empty())
         return json::array();
-    /*
-    //TODO: delete later this initialization of symbols
-    std::vector<int> v; //pos vector
-    v.push_back(1);
-    v.push_back(2);
-    v.push_back(3);
-    symbol s1('C', std::make_pair(0,1), v);
-    symbol s2('I', std::make_pair(0,2), v);
-    symbol s3('A', std::make_pair(1,1), v);
-    symbols.push_back(s1);
-    symbols.push_back(s2);
-    symbols.push_back(s3);
-    */
 
     // Get jsons from symbols
     std::vector<json> jsons;
@@ -304,6 +300,12 @@ void jsonUtility::from_json_removal(const json &j, int& index) {
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
     startIndex = j.at("startIndex").get<int>();
     endIndex = j.at("endIndex").get<int>();
+}
+
+void jsonUtility::from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format) {
+    startIndex = j.at("startIndex").get<int>();
+    endIndex = j.at("endIndex").get<int>();
+    format = j.at("format").get<int>();
 }
 
 void jsonUtility::from_json_insertion_range(const json &j, std::vector<json>& symbols) {

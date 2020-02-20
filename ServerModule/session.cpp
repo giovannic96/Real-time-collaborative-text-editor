@@ -83,7 +83,7 @@ void session::do_read_body()
                 std::string curFile = std::string();
                 bool onlyToThisEditor = false;
                 const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
-                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST") {
+                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST") {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
                 }
@@ -602,25 +602,69 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
     } else if (opJSON == "REMOVALRANGE_REQUEST") {
         int startIndexJSON;
         int endIndexJSON;
+        bool firstTime = true;
         jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON); //get json value and put into JSON variables
         std::cout << "[REMOVALRANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << std::endl;
 
-        //Construct msgInfo
-        msgInfo m = localErase(startIndexJSON, endIndexJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        int counter = endIndexJSON;
+        while(counter-- > startIndexJSON) {
+            //Construct msgInfo
+            msgInfo m = localErase(startIndexJSON);
+            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
-        //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+            if(firstTime) {
+                edId = m.getEditorId(); //don't send this message to this editor
+                firstTime = false;
+            }
 
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-        edId = m.getEditorId(); //don't send this message to this editor
+            //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            //Dispatch message to all the clients TODO: maybe dispatch outside for loop
+            room_.send(m);
+            room_.dispatchMessages();
+        }
+
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
         jsonUtility::to_json_removal_range(j, "REMOVALRANGE_RESPONSE", startIndexJSON, endIndexJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "FORMAT_RANGE_REQUEST") {
+        int startIndexJSON;
+        int endIndexJSON;
+        int formatJSON;
+        bool firstTime = true;
+        jsonUtility::from_json_format_range(jdata_in, startIndexJSON, endIndexJSON, formatJSON); //get json value and put into JSON variables
+        std::cout << "[FORMAT_RANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " format: " << std::to_string(formatJSON) << std::endl;
+
+        int counter = startIndexJSON;
+        while(counter < endIndexJSON) {
+            //Construct msgInfo
+            msgInfo m = localFormat(counter++, formatJSON);
+            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+            if(firstTime) {
+                edId = m.getEditorId(); //don't send this message to this editor
+                firstTime = false;
+            }
+
+            //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            //Dispatch message to all the clients
+            room_.send(m);
+            room_.dispatchMessages();
+        }
+
+        curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_format_range(j, "FORMAT_RANGE_RESPONSE", startIndexJSON, endIndexJSON, formatJSON);
         const std::string response = j.dump();
         return response;
 
@@ -632,9 +676,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         bool firstTime = true;
         std::vector<symbol> symbols;
 
-        for(const symbolInfo& sf: formattingSymbols) {
+        for(const symbolInfo& sym: formattingSymbols) {
             //Construct msgInfo
-            msgInfo m = localInsert(sf.getIndex(), sf.getLetter(), sf.getStyle());
+            msgInfo m = localInsert(sym.getIndex(), sym.getLetter(), sym.getStyle());
             std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             symbols.push_back(m.getSymbol());
