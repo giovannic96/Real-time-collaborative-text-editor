@@ -1170,7 +1170,17 @@
                </spacer>
               </item>
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QPushButton" name="buttonCollab">
+                <property name="text">
+                 <string>Show -&gt;</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="labelCollab">
                 <property name="minimumSize">
                  <size>
                   <width>150</width>
@@ -1293,7 +1303,7 @@ background: #f3f3f3;
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1312,6 +1322,7 @@ background: #f3f3f3;
     </property>
     <addaction name="actionFullscreen"/>
     <addaction name="actionDark_Mode"/>
+    <addaction name="actionCollaboratori"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -1407,6 +1418,14 @@ background: #f3f3f3;
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionCollaboratori">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Collaboratori</string>
    </property>
   </action>
  </widget>

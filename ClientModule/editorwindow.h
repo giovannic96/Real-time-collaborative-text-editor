@@ -52,18 +52,15 @@ private slots:
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_selectionChanged();
 
-    //OLD TopLeftBar Button
-    //void on_buttonExit_clicked();
-    //void on_buttonToIcon_clicked();
-    //void on_buttonReduce_clicked();
-
-    //ViewFrame Button
+    //Button for Collaborators
+    void on_buttonCollab_clicked();
 
     /************************************
      *               EVENT              *
      ************************************/
     void keyPressEvent(QKeyEvent *e);
     void closeEvent(QCloseEvent * event);
+
     /************************************
      *              ACTION              *
      ************************************/
@@ -75,6 +72,7 @@ private slots:
     void on_actionEsporta_come_PDF_triggered();
     void on_actionInvita_tramite_URI_triggered();
     void on_actionDark_Mode_triggered();
+
     /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
@@ -86,6 +84,9 @@ private slots:
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
     void refreshFormatButtons();
+
+
+    void on_actionCollaboratori_triggered();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
