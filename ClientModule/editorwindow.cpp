@@ -44,6 +44,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     fileItem.append(item2);
     //FINE PROVA
 
+    ui->listWidget->hide();
+    ui->labelCollab->hide();
     ui->DocName->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -312,6 +314,26 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
     //AT THE END
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
+
+
+/***********************************************************************************
+*                            BUTTON FOR COLLABORATORS                              *
+************************************************************************************/
+void EditorWindow::on_buttonCollab_clicked(){
+    if(ui->buttonCollab->isChecked()) {
+        ui->buttonCollab->setChecked(true);
+        ui->actionCollaboratori->setChecked(true);
+        ui->listWidget->show();
+        ui->labelCollab->show();
+    } else {
+        ui->buttonCollab->setChecked(false);
+        ui->actionCollaboratori->setChecked(false);
+        ui->listWidget->hide();
+        ui->labelCollab->hide();
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
 
 /***********************************************************************************
 *                              RealTextEdit FUNCTION                               *
@@ -741,25 +763,25 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
 
 void EditorWindow::keyPressEvent(QKeyEvent *e){
     //WORKING ON IT
-    if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + I";
         on_actionAbout_triggered();
-    }else if((e->key() == Qt::Key_S) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
         on_actionEsporta_come_PDF_triggered();
-    }else if((e->key() == Qt::Key_F11) && Qt::ControlModifier){
+    }else if((e->key() == Qt::Key_F11) && (e->modifiers() == Qt::ControlModifier)){
         qDebug()<<" CTRL + F11";
         on_actionFullscreen_triggered();
-    }else if((e->key() == Qt::Key_E) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    }else if((e->key() == Qt::Key_E) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + E";
         on_actionExit_triggered();
-    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    }else if((e->key() == Qt::Key_N) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + N - But the action is temporanely disabled";
         on_actionNew_triggered();
-    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    }else if((e->key() == Qt::Key_R) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + R";
         on_actionRinomina_triggered();
-    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    }else if((e->key() == Qt::Key_D) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + D";
         on_actionDark_Mode_triggered();
     }
@@ -932,6 +954,22 @@ void EditorWindow::on_actionDark_Mode_triggered(){
     PaintItBlack();
 }
 
+//COLLABORATOR TRIGGERED
+void EditorWindow::on_actionCollaboratori_triggered(){
+    if(ui->actionCollaboratori->isChecked()) {
+        ui->buttonCollab->setChecked(true);
+        ui->actionCollaboratori->setChecked(true);
+        ui->listWidget->show();
+        ui->labelCollab->show();
+    } else {
+        ui->buttonCollab->setChecked(false);
+        ui->actionCollaboratori->setChecked(false);
+        ui->listWidget->hide();
+        ui->labelCollab->hide();
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+
+}
 
 /***********************************************************************************
 *                                                                                  *
