@@ -789,17 +789,23 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
 
 //CHECK HOW THIS WINDOW IS CLOSED   -   IS AN OVERRIDE OF A ORIGINAL CLOSE EVENT
 void EditorWindow::closeEvent(QCloseEvent * event){
-
-    //If is a forced close then, ask the user if he really wants to close the document
-    if(BruteClose==true){
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
-                                      QMessageBox::Yes|QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a LogoutRequest();
-            LogoutRequest();    //By ignoring the closing event, the LogoutRequest() brings me back to the menuWindow.
-         }else{
+    bool StayInThisWindow = true;
+    if(_client->getStatus()==false){
+        StayInThisWindow = ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus();
+        if(StayInThisWindow==true){
             event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+        }
+    }else{
+        //If is a forced close then, ask the user if he really wants to close the document
+        if(BruteClose==true){
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?", QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a LogoutRequest();
+                LogoutRequest();    //By ignoring the closing event, the LogoutRequest() brings me back to the menuWindow.
+             }else{
+                event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+            }
         }
     }
 }
@@ -846,13 +852,12 @@ void EditorWindow::on_actionExit_triggered(){
 
 //RENAME ACTION         -->     CTRL+R
 void EditorWindow::on_actionRinomina_triggered(){
-    bool ok;
+    bool ok, StayInThisWindow;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
                                          _client->getFilename(), &ok);
 
     if (ok && !newText.isEmpty() && newText.size()<=25) {
-
         //Serialize data
         json j;
         jsonUtility::to_jsonRenamefile(j, "RENAMEFILE_REQUEST", newText.toStdString(), _client->getFileURI().toStdString(), _client->getUsername().toStdString());
@@ -860,17 +865,20 @@ void EditorWindow::on_actionRinomina_triggered(){
 
         //Send data (header and body)
         sendRequestMsg(req);
-    }
-    else if (ok && !newText.isEmpty() && newText.size()>25){
+    }else if (ok && !newText.isEmpty() && newText.size()>25){
         QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
         on_actionRinomina_triggered();
-    }
-    else if (ok && newText.isEmpty()){
+    }else if (ok && newText.isEmpty()){
         QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_actionRinomina_triggered();
     }
-    textOnTitleBar = "C.A.R.T.E. - " + newText;
-    this->setWindowTitle(textOnTitleBar);
+
+    if(_client->getStatus()==false){
+        StayInThisWindow = ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus();
+    }else{
+        textOnTitleBar = "C.A.R.T.E. - " + newText;
+        this->setWindowTitle(textOnTitleBar);
+    }
 }
 
 //EXPORT AS PDF ACTION  --> CTRL + S
@@ -1503,4 +1511,18 @@ std::vector<bool> EditorWindow::calculateButtonChecks(QTextCursor& c) {
     }
     qDebug() << "Final: " << checkBold << " " << checkItalic << " " << checkUnderline << endl;
     return {checkBold, checkItalic, checkUnderline};
+}
+
+bool EditorWindow::ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus(){
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
+                                                        "Le ultime modifiche al documento potrebbero non essere state salvate\n"
+                                                        "\n"
+                                                        "Vuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        QApplication::exit(-1000);
+    }else if(reply == QMessageBox::No){
+        BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
+    }
+    return true;
 }
