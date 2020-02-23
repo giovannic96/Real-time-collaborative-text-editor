@@ -54,68 +54,75 @@ void StartWindow::mouseMoveEvent(QMouseEvent *evt){
 
 //LOGIN BUTTON
 void StartWindow::on_LoginButton_clicked(){
-    //Get data from the form
-    QString user = ui->LoginUsernameForm->text();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-    QString pass = ui->LoginPasswordForm->text();
-    QByteArray ba_pass = pass.toLocal8Bit();
-    const char *c_pass = ba_pass.data();
+    if(_client->getStatus()==false){
+        QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
+                                                        "Riprova più tardi");
+    }else{
+        //Get data from the form
+        QString user = ui->LoginUsernameForm->text();
+        QByteArray ba_user = user.toLocal8Bit();
+        const char *c_user = ba_user.data();
+        QString pass = ui->LoginPasswordForm->text();
+        QByteArray ba_pass = pass.toLocal8Bit();
+        const char *c_pass = ba_pass.data();
 
-    //update client data
-    _client->setUsername(user);
+        //update client data
+        _client->setUsername(user);
 
-    //Serialize data
-    json j;
-    jsonUtility::to_json(j, "LOGIN_REQUEST", c_user, c_pass);
-    const std::string req = j.dump();
+        //Serialize data
+        json j;
+        jsonUtility::to_json(j, "LOGIN_REQUEST", c_user, c_pass);
+        const std::string req = j.dump();
 
-    //Send data (header and body)
-    sendRequestMsg(req);
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
 }
 
 //SIGNUP BUTTON
 void StartWindow::on_SignUpButton_clicked() {
 
-    if (ui->RegUsernameForm->text().isEmpty()){
-        ui->usernameERR->show();
-    }
-    else{
-        ui->usernameERR->hide();
+    if(_client->getStatus()==false){
+        QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
+                                                        "Riprova più tardi");
+    }else{
+        if (ui->RegUsernameForm->text().isEmpty()){
+            ui->usernameERR->show();
+        }else{
+            ui->usernameERR->hide();
 
-        if (ui->RegPasswordForm->text().length() < 6){
-            ui->passERR->show();
-        }
-        else{
-            ui->passERR->hide();
+            if (ui->RegPasswordForm->text().length() < 6){
+                ui->passERR->show();
+            }else{
+                ui->passERR->hide();
 
-            QRegularExpression mailREX("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
-            regMat = mailREX.match(ui->RegMailForm->text()).hasMatch();
+                QRegularExpression mailREX("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
+                regMat = mailREX.match(ui->RegMailForm->text()).hasMatch();
 
-            if (!regMat){
-                ui->mailERR->show();
-            }
-            else {
-                ui->mailERR->hide();
+                if (!regMat){
+                    ui->mailERR->show();
+                }else{
+                    ui->mailERR->hide();
 
-                //Get data from the form
-                QString user = ui->RegUsernameForm->text();
-                QByteArray ba_user = user.toLocal8Bit();
-                const char *c_user = ba_user.data();
-                QString pass = ui->RegPasswordForm->text();
-                QByteArray ba_pass = pass.toLocal8Bit();
-                const char *c_pass = ba_pass.data();
-                QString email = ui->RegMailForm->text();
-                QByteArray ba_email = email.toLocal8Bit();
-                const char *c_email = ba_email.data();
+                    //Get data from the form
+                    QString user = ui->RegUsernameForm->text();
+                    QByteArray ba_user = user.toLocal8Bit();
+                    const char *c_user = ba_user.data();
+                    QString pass = ui->RegPasswordForm->text();
+                    QByteArray ba_pass = pass.toLocal8Bit();
+                    const char *c_pass = ba_pass.data();
+                    QString email = ui->RegMailForm->text();
+                    QByteArray ba_email = email.toLocal8Bit();
+                    const char *c_email = ba_email.data();
 
-                //Serialize data
-                json j;
-                jsonUtility::to_json(j, "SIGNUP_REQUEST", c_user, c_pass, c_email);
-                const std::string req = j.dump();
+                    //Serialize data
+                    json j;
+                    jsonUtility::to_json(j, "SIGNUP_REQUEST", c_user, c_pass, c_email);
+                    const std::string req = j.dump();
 
-                //Send data (header and body)
-                sendRequestMsg(req);
+                    //Send data (header and body)
+                    sendRequestMsg(req);
+                }
             }
         }
     }
