@@ -322,12 +322,12 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
 void EditorWindow::on_buttonCollab_clicked(){
     if(ui->buttonCollab->isChecked()) {
         ui->buttonCollab->setChecked(true);
-        ui->actionCollaboratori->setChecked(true);
+        ui->actionCollaboratori->setText("Nascondi Collaboratori");
         ui->listWidget->show();
         ui->labelCollab->show();
     } else {
         ui->buttonCollab->setChecked(false);
-        ui->actionCollaboratori->setChecked(false);
+        ui->actionCollaboratori->setText("Mostra Collaboratori");
         ui->listWidget->hide();
         ui->labelCollab->hide();
     }
@@ -761,10 +761,13 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
     return false; //or return QObject::eventFilter(obj, ev);
 }
 
+  //******************//
+ // Shortcut Handler //
+//******************//
 void EditorWindow::keyPressEvent(QKeyEvent *e){
     //WORKING ON IT
-    if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + I";
+    if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier)  && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + Shift + I";
         on_actionAbout_triggered();
     }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
@@ -772,8 +775,8 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
     }else if((e->key() == Qt::Key_F11) && (e->modifiers() == Qt::ControlModifier)){
         qDebug()<<" CTRL + F11";
         on_actionFullscreen_triggered();
-    }else if((e->key() == Qt::Key_E) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + E";
+    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + Q";
         on_actionExit_triggered();
     }else if((e->key() == Qt::Key_N) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + N - But the action is temporanely disabled";
@@ -784,10 +787,21 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
     }else if((e->key() == Qt::Key_D) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + D";
         on_actionDark_Mode_triggered();
+    }else if((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + I";
+        ui->buttonItalic->click();
+    }else if((e->key() == Qt::Key_B) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + B";
+        ui->buttonBold->click();
+    }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + S";
+        ui->buttonUnderline->click();
     }
 }
 
-//CHECK HOW THIS WINDOW IS CLOSED   -   IS AN OVERRIDE OF A ORIGINAL CLOSE EVENT
+//***********************//
+// Close Editor Handler // - Is an override of oriignal closeEvent. Check if Editor is close normally or forced (like ALT+F4)
+//*********************//
 void EditorWindow::closeEvent(QCloseEvent * event){
     bool StayInThisWindow = true;
     if(_client->getStatus()==false){
@@ -818,13 +832,14 @@ void EditorWindow::closeEvent(QCloseEvent * event){
 
 //FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered(){
-    //WORKING ON - I KNOW THAT IT DOESN'T WORK AT 100%
-    if(ui->actionFullscreen->isChecked()){
-        ui->actionFullscreen->setChecked(true);
+   if(SchermoIntero==false){
+        SchermoIntero=true;
+        ui->actionFullscreen->setText("Modalità Finestra");
         this->setWindowState(Qt::WindowFullScreen);
-    }else{
+    }else if(SchermoIntero==true){
+        SchermoIntero=false;
         this->setWindowState(Qt::WindowNoState); //WindowNoState save the old position and the old size of the window
-        ui->actionFullscreen->setChecked(false);
+        ui->actionFullscreen->setText("Schermo Intero");
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
@@ -834,13 +849,13 @@ void EditorWindow::on_actionNew_triggered(){
     //on_newDocButton_clicked();
 }
 
-//ABOUT ACTION           -->     CTRL+I
+//ABOUT ACTION           -->     CTRL+Shift+I
 void EditorWindow::on_actionAbout_triggered(){
     infoWindow *iw = new infoWindow(this);
     iw->show();
 }
 
-//EXIT DOCUMENT ACTION  -->     CTRL+E
+//EXIT DOCUMENT ACTION  -->     CTRL+Q
 void EditorWindow::on_actionExit_triggered(){
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
@@ -964,20 +979,29 @@ void EditorWindow::on_actionDark_Mode_triggered(){
 
 //COLLABORATOR TRIGGERED
 void EditorWindow::on_actionCollaboratori_triggered(){
-    if(ui->actionCollaboratori->isChecked()) {
-        ui->buttonCollab->setChecked(true);
-        ui->actionCollaboratori->setChecked(true);
-        ui->listWidget->show();
-        ui->labelCollab->show();
-    } else {
-        ui->buttonCollab->setChecked(false);
-        ui->actionCollaboratori->setChecked(false);
-        ui->listWidget->hide();
-        ui->labelCollab->hide();
-    }
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-
+    ui->buttonCollab->click();
 }
+
+//GRASSETTO TRIGGERED       -->     CTRL + B
+void EditorWindow::on_actionGrassetto_triggered(){
+    ui->buttonBold->click();
+}
+
+//CORSIVO TRIGGERED         -->     CTRL + I
+void EditorWindow::on_actionCorsivo_triggered(){
+    ui->buttonItalic->click();
+}
+
+//SOTTOLINEATO TRIGGERED    -->     CTRL + U
+void EditorWindow::on_actionSottolineato_triggered(){
+    ui->buttonUnderline->click();
+}
+
+//ESCI TRIGGERED
+void EditorWindow::on_actionEsci_triggered(){
+    QMessageBox::information(this,"Attenzione", "IMPLEMENTARE EXIT da TUTTO IL PROGRAMMA IN MODO CORRETTO - Lo farà Hidro!");
+}
+
 
 /***********************************************************************************
 *                                                                                  *
@@ -1006,16 +1030,17 @@ void EditorWindow::LogoutRequest() {
 }
 
 void EditorWindow::PaintItBlack(){
-    if(ui->actionDark_Mode->isChecked()){
+    if(DarkMode==false){
+
         //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
-        ui->actionDark_Mode->setChecked(true);
+        DarkMode=true;
 
         ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #1a1a1a;}");
         ui->editorFrame->setStyleSheet("#editorFrame{background-color: #262626;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocName->setStyleSheet("#DocName{color: #ff8000;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, v2B, v2I, v2U;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/DarkEditor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -1053,16 +1078,23 @@ void EditorWindow::PaintItBlack(){
         ui->buttonSearch->setStyleSheet("   #buttonSearch{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{background-color:#AEAEAE; border-radius:4px;}");
 
-    }else{
-        //How come no-one told me all throughout history the loneliest people were the ones who always spoke the truth
-        ui->actionDark_Mode->setChecked(false);
+        //Menu Modify
+        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
+        ui->actionDark_Mode->setText("Modalità Giorno");
+        ui->actionDark_Mode->setIcon(menuIcon);
 
+    }else if(DarkMode==true){
+
+        //How come no-one told me all throughout history the loneliest people were the ones who always spoke the truth
+        DarkMode=false;
+
+        ui->actionDark_Mode->setText("Modalità Notte");
         ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #FFFFFF;}");
         ui->editorFrame->setStyleSheet("#editorFrame{background-color: #EFEFEF;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocName->setStyleSheet("#DocName{color: #505050;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, v2B, v2I, v2U;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/Editor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/Editor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -1099,6 +1131,11 @@ void EditorWindow::PaintItBlack(){
         ui->buttonUndo->setStyleSheet("     #buttonUndo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+
+        //Menu Modify
+        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
+        ui->actionDark_Mode->setText("Modalità Notte");
+        ui->actionDark_Mode->setIcon(menuIcon);
     }
     //Set Other CSS
     AlignButtonStyleHandler();
@@ -1526,3 +1563,5 @@ bool EditorWindow::ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAn
     }
     return true;
 }
+
+
