@@ -60,6 +60,24 @@ void jsonUtility::to_json_format_range(json &j, const std::string &op, const int
     };
 }
 
+void jsonUtility::to_json_fontsize_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &fontSize) {
+    j = json{
+            {"operation", op},
+            {"startIndex", startIndex},
+            {"endIndex", endIndex},
+            {"fontSize", fontSize}
+    };
+}
+
+void jsonUtility::to_json_fontfamily_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const std::string &fontFamily) {
+    j = json{
+            {"operation", op},
+            {"startIndex", startIndex},
+            {"endIndex", endIndex},
+            {"fontFamily", fontFamily}
+    };
+}
+
 void jsonUtility::to_jsonFilename(json &j, const std::string &op, const std::string &user, const std::string &filename) {
     j = json{
             {"operation", op},
@@ -272,6 +290,18 @@ void jsonUtility::from_json_format_range(const json &j, int& startIndex, int& en
     startIndex = j.at("startIndex").get<int>();
     endIndex = j.at("endIndex").get<int>();
     format = j.at("format").get<int>();
+}
+
+void jsonUtility::from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize) {
+    startIndex = j.at("startIndex").get<int>();
+    endIndex = j.at("endIndex").get<int>();
+    fontSize = j.at("fontSize").get<int>();
+}
+
+void jsonUtility::from_json_fontfamily_change(const json &j, int& startIndex, int& endIndex, std::string& fontFamily) {
+    startIndex = j.at("startIndex").get<int>();
+    endIndex = j.at("endIndex").get<int>();
+    fontFamily = j.at("fontFamily").get<std::string>();
 }
 
 void jsonUtility::to_json_FormattingSymbol(json &j, const symbolInfo &symbol) {

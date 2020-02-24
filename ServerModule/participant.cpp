@@ -122,6 +122,19 @@ msgInfo participant::localFormat(int startIndex, int format) noexcept(false) {
     return m;
 }
 
+msgInfo participant::localFontSizeChange(int startIndex, int fontSize) noexcept(false) {
+    if(startIndex < 0 || startIndex > _symbols.size()) {
+        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
+        //TODO: return null msgInfo or sthg similar
+    }
+    symbol s = _symbols.at(startIndex);
+    symbolStyle newStyle;
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), fontSize };
+    _symbols.at(startIndex).setStyle(newStyle);
+    msgInfo m(3, getId(), s, fontSize); //in this case 'fontSize' (4th param) represents the fontSize, not the newIndex
+    return m;
+}
+
 int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
     if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
         return 1; //correct position found
@@ -155,7 +168,7 @@ void participant::process(const msgInfo& m) {
     /* Removal */
     else if (m.getType() == 1) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
-        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](symbol i) {return i.getPos() == fractionalPos;});
+        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
             std::cout << "Symbol not found."; //TODO: throw NotFoundException();
             return;
@@ -166,9 +179,9 @@ void participant::process(const msgInfo& m) {
             _symbols.erase(_symbols.begin() + index);
     }
     /* Format */
-    else {
+    else if(m.getType() == 2) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
-        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](symbol i) {return i.getPos() == fractionalPos;});
+        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
             std::cout << "Symbol not found."; //TODO: throw NotFoundException();
             return;
@@ -193,6 +206,24 @@ void participant::process(const msgInfo& m) {
                 newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
             else
                 newStyle = s.getStyle();
+            _symbols[index].setStyle(newStyle);
+        }
+    }
+    /* Font size change */
+    else if(m.getType() == 3) {
+        std::vector<int> fractionalPos = m.getSymbol().getPos();
+        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
+        if (it == _symbols.end()) {
+            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            return;
+        }
+        int index = it - _symbols.begin();
+
+        if(_symbols.at(index).getId() == m.getSymbol().getId()) {
+            symbol s = _symbols[index];
+            symbolStyle newStyle;
+            //in this case 'newIndex' of msgInfo represents the fontSize
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), m.getNewIndex() };
             _symbols[index].setStyle(newStyle);
         }
     }

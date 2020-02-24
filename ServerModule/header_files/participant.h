@@ -31,6 +31,7 @@ public:
     msgInfo localErase(int index);
     msgInfo localErase(int startIndex, int endIndex); //TODO: not used (maybe it's not needed)
     msgInfo localFormat(int startIndex, int format);
+    msgInfo localFontSizeChange(int startIndex, int fontSize);
     void process(const msgInfo& m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)

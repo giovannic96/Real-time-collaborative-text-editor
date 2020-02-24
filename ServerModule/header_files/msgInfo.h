@@ -11,10 +11,10 @@
 class msgInfo {
 
 private:
-    int type; //0 = 'insertion'; 1 = 'removal'; 2 = 'format'
+    int type; //0 = 'insertion'; 1 = 'removal'; 2 = 'format'; 3 = 'font_size'
     int editorId;
     symbol s;
-    int newIndex; //this param will assume the meaning of 'format' if we're using type 2
+    int newIndex; //this param will assume the meaning of 'format' if we're using type 2 or 'font_size' if we're using type 3
 
 public:
     msgInfo(int type, int editorId, symbol s);

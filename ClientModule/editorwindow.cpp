@@ -14,7 +14,6 @@
 
 using json = nlohmann::json;
 
-//CONSTRUCTOR
 EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), _client(client) {
     ui->setupUi(this);
     connect(_client, &myClient::editorResultSuccess, this, &EditorWindow::showPopupSuccess);
@@ -23,7 +22,10 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::eraseSymbol, this, &EditorWindow::eraseSymbol);
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
     connect(_client, &myClient::formatSymbols, this, &EditorWindow::formatSymbols);
+    connect(_client, &myClient::changeFontSize, this, &EditorWindow::changeFontSize);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
+    connect(ui->fontDimensionBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
+    connect(ui->fontDimensionBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
 
     ui->listWidget->setStyleSheet(
       "QListWidget::item {"
@@ -34,19 +36,22 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     QList<QListWidgetItem*> fileItem;
     QListWidgetItem* item;
     QListWidgetItem* item2;
+    QRegularExpressionValidator* fontSizeValidator;
 
     item = new QListWidgetItem(itemString, ui->listWidget);
     item2 = new QListWidgetItem(itemString, ui->listWidget);
+    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
     item->setText("Genitore Uno");
     fileItem.append(item);
     item2->setText("Genitore Due");
     fileItem.append(item2);
-    //FINE PROVA
 
+    ui->fontDimensionBox->lineEdit()->setValidator(fontSizeValidator);
     ui->DocName->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
+    ui->fontSelectorBox->setCurrentText(ui->RealTextEdit->currentFont().family());
     //ui->RealTextEdit->document()->setDefaultFont(QFont("Times New Roman", 14));
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbolsAt(0, _client->getVector());
@@ -55,13 +60,12 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     this->setWindowTitle(textOnTitleBar);
 }
 
-//DESTRUCTOR
 EditorWindow::~EditorWindow() {
     delete ui;
 }
 
 /***********************************************************************************
-*                       BUTTON FOR CHANGING THE STYLE OF THE TEXT                  *
+*                               TEXT STYLE BUTTONS                                 *
 ************************************************************************************/
 void EditorWindow::on_buttonBold_clicked() {
     int format = FORMAT_UNKNOWN;
@@ -76,7 +80,7 @@ void EditorWindow::on_buttonBold_clicked() {
     }
     refreshFormatButtons();
     sendFormatRequest(format);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
 void EditorWindow::on_buttonItalic_clicked() {
@@ -92,7 +96,7 @@ void EditorWindow::on_buttonItalic_clicked() {
     }
     refreshFormatButtons();
     sendFormatRequest(format);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
 void EditorWindow::on_buttonUnderline_clicked() {
@@ -108,10 +112,10 @@ void EditorWindow::on_buttonUnderline_clicked() {
     }
     refreshFormatButtons();
     sendFormatRequest(format);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonBackgroundColor_clicked(){
+void EditorWindow::on_buttonBackgroundColor_clicked() {
     //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
         /*
         QColor backColour = QColorDialog::getColor();
@@ -124,12 +128,11 @@ void EditorWindow::on_buttonBackgroundColor_clicked(){
             QColor txtColour = dialog->currentColor();
             ui->RealTextEdit->setTextBackgroundColor(txtColour);
         });
-    //SAME FOR v1 AND v2
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 
-void EditorWindow::on_buttonColor_clicked(){
+void EditorWindow::on_buttonColor_clicked() {
     //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
     /*
         QColor txtColour = QColorDialog::getColor();
@@ -142,120 +145,103 @@ void EditorWindow::on_buttonColor_clicked(){
             QColor txtColour = dialog->currentColor();
             ui->RealTextEdit->setTextColor(txtColour);
         });
-    //SAME FOR v1 AND v2
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-
 /***********************************************************************************
-*                            BUTTON FOR ALIGN THE TEXT                             *
+*                            TEXT ALIGNMENT BUTTONS                                *
 ************************************************************************************/
-void EditorWindow::on_buttonAlignDX_clicked(){
+void EditorWindow::on_buttonAlignDX_clicked() {
     ui->RealTextEdit->setAlignment(Qt::AlignRight);
     AlignDXButtonHandler();
     AlignButtonStyleHandler();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonAlignCX_clicked(){
+void EditorWindow::on_buttonAlignCX_clicked() {
     ui->RealTextEdit->setAlignment(Qt::AlignCenter);
     AlignCXButtonHandler();
     AlignButtonStyleHandler();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonAlignSX_clicked(){
+void EditorWindow::on_buttonAlignSX_clicked() {
     ui->RealTextEdit->setAlignment(Qt::AlignLeft);
     AlignSXButtonHandler();
     AlignButtonStyleHandler();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonAlignJFX_clicked(){
+void EditorWindow::on_buttonAlignJFX_clicked() {
     ui->RealTextEdit->setAlignment(Qt::AlignJustify);
     AlignJFXButtonHandler();
     AlignButtonStyleHandler();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
 
 /***********************************************************************************
-*                           BUTTON FOR MODIFY THE TEXT                             *
+*                           TEXT EDITING BUTTONS                                   *
 ************************************************************************************/
-void EditorWindow::on_buttonUndo_clicked(){
+void EditorWindow::on_buttonUndo_clicked() {
     ui->RealTextEdit->undo();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonRedo_clicked(){
+void EditorWindow::on_buttonRedo_clicked() {
     ui->RealTextEdit->redo();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonTaglia_clicked(){
+void EditorWindow::on_buttonTaglia_clicked() {
     ui->RealTextEdit->cut();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonIncolla_clicked(){
+void EditorWindow::on_buttonIncolla_clicked() {
     ui->RealTextEdit->paste();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonCopia_clicked(){
+void EditorWindow::on_buttonCopia_clicked() {
     ui->RealTextEdit->copy();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
-
 /***********************************************************************************
-*                         BUTTON FOR HIGHLIGHT THE TEXT                            *
+*                         TEXT HIGHLIGHTING BUTTON                                 *
 ************************************************************************************/
-void EditorWindow::on_buttonSearch_clicked(){
-    QString findtext = QInputDialog::getText(this,"Ricerca","Inserisci testo da cercare:");
+void EditorWindow::on_buttonSearch_clicked() {
+    QString findtext = QInputDialog::getText(this, "Search", "Insert text to search: ");
     ui->RealTextEdit->moveCursor(QTextCursor::Start);
-    if(!ui->RealTextEdit->find(findtext,QTextDocument::FindWholeWords)){
-        QMessageBox::information(this,"Attenzione", "La ricerca non ha trovato alcun risultato!");
+    if(!ui->RealTextEdit->find(findtext,QTextDocument::FindWholeWords)) {
+        QMessageBox::information(this, "Warning", "No result found!");
     }
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
-
 
 /***********************************************************************************
-*                  BUTTON FOR MODIFY FONT AND SIZE OF THE TEXT                     *
+*                            FONT SIZE COMBOBOX                                    *
 ************************************************************************************/
-void EditorWindow::on_fontDimensionBox_activated(int index){
-
-    auto lambda1 = [] (int index) {return (index*2)+2;}; //Lambda Function
-    //index 0 = 2, index 1 = 4, index 2 = 6, index 3 = 8...
-
-    if (index<=11){
-        ui->RealTextEdit->setFontPointSize(lambda1(index));
-    }else{
-        //After index 11, the formula applied in the lambda function is not respected anymore
-        switch(index){
-            case 12:
-                ui->RealTextEdit->setFontPointSize(28);
-                break;
-            case 13:
-                ui->RealTextEdit->setFontPointSize(32);
-                break;
-            case 14:
-                ui->RealTextEdit->setFontPointSize(48);
-                break;
-            case 15:
-                ui->RealTextEdit->setFontPointSize(72);
-                break;
-            default:
-                QMessageBox::critical(this,"Errore", "Si è verificato un problema durante il cambio di dimensione del testo!");
-                break;
-        }
-    }
-    ui->RealTextEdit->setFocus();   //Return focus to textedit
+void EditorWindow::on_fontDimensionBox_currentIndexChanged(int index) {
+    int fontSize = ui->fontDimensionBox->currentText().toInt(); //get fontSize from text of item selected
+    ui->RealTextEdit->setFontPointSize(fontSize);
+    changedCurIndex = true;
+    sendFontChangeRequest(fontSize);
+    ui->RealTextEdit->setFocus();
 }
 
-//TODO 3: Watch the situation of have a text made of different dimension, what's happend??
-void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
+void EditorWindow::on_fontDimensionBox_activated(int index) {
+    if(!changedCurIndex)
+        setCurPointSize = true;
+    changedCurIndex = false;
+}
+
+/***********************************************************************************
+*                            FONT FAMILY COMBOBOX                                  *
+************************************************************************************/
+//TODO: Handle the situation where we have a text made of different size
+void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f) {
 
     double fontPointSize;
     bool bold = false;
@@ -263,70 +249,60 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f){
     bool underl = false;
     QColor textcolor;
     QColor backcolor;
-
-    //CATCH CURSOR
     QTextCursor c = ui->RealTextEdit->textCursor();
 
-    //SAVE PREVIOUS PROPRIETY OF TEXT
+    //Restore previous property of text
     fontPointSize = ui->RealTextEdit->fontPointSize();
     textcolor = ui->RealTextEdit->textColor();
     backcolor = ui->RealTextEdit->textBackgroundColor();
-    qDebug() << "Il colore del testo selezionato era " << backcolor;
-    if(ui->RealTextEdit->fontWeight()>50){
+    qDebug() << "Previous selected color: " << backcolor;
+    if(ui->RealTextEdit->fontWeight()>50) {
         bold=true;
     }
-    if(ui->RealTextEdit->fontItalic()){
+    if(ui->RealTextEdit->fontItalic()) {
         italic = true;
     }
-    if(ui->RealTextEdit->fontUnderline()){
+    if(ui->RealTextEdit->fontUnderline()) {
         underl = true;
     }
 
-    //SET THE NEW FAMILY OF THE FONT
+    //Set new FontFamily
     QTextCharFormat format;
     format.setFont(f);
     QFontInfo infof(f);
     QString family = infof.family();
     ui->RealTextEdit->setFontFamily(family);
 
-    //RESTORE PREVIOUS PROPRIETY OF TEXT
+    //Restore previous property of text
     ui->RealTextEdit->setFontPointSize(fontPointSize);
     ui->RealTextEdit->setTextColor(textcolor);
-    if(bold==true){
+    if(bold==true) {
         ui->RealTextEdit->setFontWeight(QFont::Bold);
     }
-    if(italic==true){
+    if(italic==true) {
         ui->RealTextEdit->setFontItalic(true);
     }
-    if(underl==true){
+    if(underl==true) {
         ui->RealTextEdit->setFontUnderline(true);
     }
 
-    //CHECK IF BACKGROUND COLOR IS THE DEFAULT ONE OR NOT <-- THIS IS MUCH IMPORTANT, I SPENT MORE THAN A WEEK FOR THAT!!!!
-    if(backcolor!=(QColor(0,0,0,255))){ //The QColor is default trasparent (r=0,g=0,b=0,a=255) that in Qt ARGB is (1,0,0,0).
+    //Check if background color is the default one or not
+    if(backcolor!=(QColor(0,0,0,255))) { //The QColor is default trasparent (r=0,g=0,b=0,a=255) that in Qt ARGB is (1,0,0,0).
         //If backcolor is == (0,0,0,255) and i set another background color, then the background will be black.
-        qDebug() << "Ho settato il colore di sfondo del testo";
         ui->RealTextEdit->setTextBackgroundColor(backcolor);
     }
 
-    //AT THE END
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 /***********************************************************************************
-*                              RealTextEdit FUNCTION                               *
+*                              RealTextEdit FUNCTIONS                              *
 ************************************************************************************/
 void EditorWindow::on_RealTextEdit_selectionChanged() {
-    /*
     QTextCursor c = ui->RealTextEdit->textCursor();
-    if(c.hasSelection()) {
-        std::vector<bool> buttonChecks = calculateButtonChecks(c);
-        ui->buttonBold->setChecked(buttonChecks.at(0));
-        ui->buttonItalic->setChecked(buttonChecks.at(1));
-        ui->buttonUnderline->setChecked(buttonChecks.at(2));
+    if(!c.hasSelection()) {
+        ui->fontDimensionBox->setCurrentText(QString::number(c.charFormat().fontPointSize()));
     }
-    refreshFormatButtons();
-    */
 }
 
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
@@ -334,15 +310,15 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
 
     /****************************************************************
-     * STEP 0 - Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
+     * Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
      * https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
      ****************************************************************/
-    if(ui->RealTextEdit->fontPointSize()<=0){
+    if(ui->RealTextEdit->fontPointSize()<=0) {
         /*
         If I'm in the first position and press CANC or BACKSPACE, the font index and the size of font became 0 (QT Known bug 29393)
         This is my personal solution: if fontPointSize became less or equal than 0, then I restore the previous selected font and dimension
         KNOWN BUG
-        1) If the user press "CTRL+A and after CANC", the first char is in default font/dimension (Time New Romans - 14)
+        1) If the user press "CTRL+A and after CANC", the first char is in default font/dimension (Times New Roman - 14)
         2) If the user press "Arrow Up" and the RealTextEdit is fully empty, the first char is in default font/dimension (Time New Romans - 14)
         */
         int dimensionFromOtherSide = (ui->fontDimensionBox->currentText()).toInt();
@@ -352,54 +328,14 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         qDebug()<<"Il Cursore è sicuramente in posizione iniziale";
     }
 
-
     /****************************************************************
-     * STEP 1 - Send information of location of the cursor to the server
+     *                      TEXT FONT FAMILY                        *
      ****************************************************************/
-    //TODO --> c.position();
-
-
-    /****************************************************************
-     * STEP 2 - Get font size and update fontDimensionBox
-     ****************************************************************/
-    double fontPointSize = ui->RealTextEdit->fontPointSize();
-    int intFontPointSize = static_cast<int>(fontPointSize);
-
-    //QString textFontPointSize = QString::number(fontPointSize);
-    auto antilambda1 = [] (int intFontPointSize){return (intFontPointSize/2)-1;}; //Inversed Lambda1 Function
-
-    if (intFontPointSize<=26){
-        ui->fontDimensionBox->setCurrentIndex(antilambda1(intFontPointSize));
-    }else{
-        //After FontDimensionSize 24, the formula applied in the antilambda1 function is not respected anymore
-        switch(intFontPointSize){
-            case 28:
-                ui->fontDimensionBox->setCurrentIndex(12);
-                break;
-            case 32:
-                ui->fontDimensionBox->setCurrentIndex(13);
-                break;
-            case 48:
-                ui->fontDimensionBox->setCurrentIndex(14);
-                break;
-            case 72:
-                ui->fontDimensionBox->setCurrentIndex(15);
-                break;
-            default:
-                QMessageBox::critical(this,"Errore", "Si è verificato un problema durante l'aggiornamento della dimensione del testo!");
-                break;
-        }
-    }
-
-    /****************************************************************
-     * STEP 3 - Get font family and update fontSelectorBox
-     ****************************************************************/
-    //Get the Font and estract the Family from it
     QFont f = ui->RealTextEdit->fontFamily();
     QFontInfo infof(f);
     QString family = infof.family();
 
-    if(!c.hasSelection()){
+    if(!c.hasSelection()) {
         /*
          * Is important that the cursor hasn't selection. If i have "AAAAABBB" text on the document,
          * where A is a char written with font1 and B is char written with font 2, and I start a selection
@@ -414,26 +350,40 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         ui->fontSelectorBox->setCurrentFont(family);
     }
 
-
     /****************************************************************
-     * STEP 4 - If Bold/Italic/Underline, set button to clicked
+     *                      TEXT FONT SIZE                          *
      ****************************************************************/
     if(!c.hasSelection()) {
-        if(ui->RealTextEdit->fontWeight() == QFont::Bold) {
+        int fontPointSize = static_cast<int>(ui->RealTextEdit->fontPointSize());
+        ui->fontDimensionBox->setCurrentText(QString::number(fontPointSize));
+        ui->fontDimensionBox->setCurrentIndex(ui->fontDimensionBox->findText(ui->fontDimensionBox->currentText()));
+    }
+    else {
+        int fontSizeCalculated = calculateFontSizeComboBox(c);
+        if(fontSizeCalculated == -1) {
+            ui->fontDimensionBox->setCurrentText(""); //blank text on item combobox
+        } else {
+            ui->fontDimensionBox->setCurrentText(QString::number(fontSizeCalculated));
+            ui->RealTextEdit->setFontPointSize(fontSizeCalculated); //set fontSize to common fontSize of the chars
+        }
+    }
+
+    /****************************************************************
+     *                  TEXT FORMAT (Bold/Italic/Underline)         *
+     ****************************************************************/
+    if(!c.hasSelection()) {
+        if(ui->RealTextEdit->fontWeight() == QFont::Bold)
             ui->buttonBold->setChecked(true);
-        } else {
+        else
             ui->buttonBold->setChecked(false);
-        }
-        if(ui->RealTextEdit->fontItalic()) {
+        if(ui->RealTextEdit->fontItalic())
             ui->buttonItalic->setChecked(true);
-        } else {
+        else
             ui->buttonItalic->setChecked(false);
-        }
-        if(ui->RealTextEdit->fontUnderline()) {
+        if(ui->RealTextEdit->fontUnderline())
             ui->buttonUnderline->setChecked(true);
-        } else {
+        else
             ui->buttonUnderline->setChecked(false);
-        }
     } else {
         std::vector<bool> buttonChecks = calculateButtonChecks(c);
         ui->buttonBold->setChecked(buttonChecks.at(0));
@@ -443,7 +393,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     refreshFormatButtons();
 
     /****************************************************************
-     * STEP 5 - If text is aligned, set alignment button to clicked
+     *                      TEXT ALIGNMENT                          *
      ****************************************************************/
     if(ui->RealTextEdit->alignment()==Qt::AlignLeft){
         AlignSXButtonHandler();
@@ -485,78 +435,11 @@ void EditorWindow::on_buttonReduce_clicked(){
 }
 */
 
-
-/***********************************************************************************
-*                                 FileFrame FUNCTION                               *
-************************************************************************************/
-/* MAYBE WE HAVE TO DELETE THIS
-void EditorWindow::on_newDocButton_clicked(){
-
-    bool ok;
-    QString text = QInputDialog::getText(this, tr("Titolo documento"),
-                                         tr("Inserisci un nome per il nuovo documento:"), QLineEdit::Normal,
-                                         "", &ok);
-    if (ok && !text.isEmpty() && text.size()<=15){
-        //TODO controllo file database (nome e utente)
-
-        //Get data from the form
-        //QString user = ui->Username->text();
-        //QByteArray ba_user = user.toLocal8Bit();
-        //const char *c_user = ba_user.data();
-        //QString filename = text;
-        //QByteArray ba_filename = filename.toLocal8Bit();
-        //const char *c_filename = ba_filename.data();
-        //Serialize data
-        //json j;
-        //jsonUtility::to_jsonFilename(j, "NEWFILE_REQUEST", c_user, c_filename);
-        //const char* req = j.dump().c_str();
-        //Send data (header and body)
-        //sendRequestMsg(req);
-
-        //TODO: don't open file right now! First check the NEWFILE_RESPONSE from the server.
-        EditorWindow *ew = new EditorWindow(text);
-        ew->show();
-        delete this;
-    }
-    else if (ok && !text.isEmpty() && text.size()>15){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome minore di 15 caratteri!");
-        messageBox.setFixedSize(600,400);
-        on_newDocButton_clicked();
-    }
-    else if (ok && text.isEmpty()){
-        QMessageBox messageBox;
-        messageBox.critical(nullptr,"Errore","Inserire un nome!");
-        messageBox.setFixedSize(600,400);
-        on_newDocButton_clicked();
-    }
-
-}
-*/
-
-/* MAYBE WE HAVE TO DELETE THIS
-void EditorWindow::on_URIButton_clicked(){
-   bool ok;
-    QString text = QInputDialog::getText(this, tr("Sei stato invitato?"),
-                                         tr("Inserisci una URI:"), QLineEdit::Normal,
-                                         "", &ok);
-    if (ok && !text.isEmpty()){
-
-        QMessageBox messageBox;
-        messageBox.information(nullptr, "ATTENZIONE", "Ora si chiede troppo (da implementare)");
-        messageBox.setFixedSize(600,400);
-        messageBox.show();
-    }
-}
-*/
-
-
 /***********************************************************************************
 *                                   EVENT HANDLER                                  *
-*                                                                                  *
-*     KeyPressEvent is my personal way for recall the Action function              *
 ************************************************************************************/
-bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
+bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
+
     if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
 
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
@@ -568,9 +451,8 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         if(!keyEvent->text().isEmpty()) { //to ignore chars like "CAPS_LOCK", "SHIFT", "CTRL", etc...
 
         if (keyEvent->matches(QKeySequence::Cut)) { //CTRL-X
-            //Get data
-            QTextCursor cursor = ui->RealTextEdit->textCursor();
 
+            QTextCursor cursor = ui->RealTextEdit->textCursor();
             if(cursor.hasSelection()) { //Remove range of characters selected
                 int startIndex = cursor.selectionStart();
                 int endIndex = cursor.selectionEnd();
@@ -654,8 +536,63 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            int pos = cursor.position();
+            int pos;
+            int firstCharFontSize = ui->fontDimensionBox->currentText().toInt();
+
+            if(cursor.hasSelection()) { //Remove range of characters selected
+                pos = cursor.selectionStart();
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                //Get font size of the first char of the selection
+                QTextCursor tempCursor = cursor;
+                tempCursor.setPosition(startIndex+1, QTextCursor::MoveAnchor);
+                firstCharFontSize = tempCursor.charFormat().font().pointSize();
+
+                //Serialize data
+                json j;
+                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+                const std::string req = j.dump();
+
+                //Send data (header and body)
+                sendRequestMsg(req);
+            } else {
+                pos = cursor.position();
+            }
+
             wchar_t c = keyEvent->text().toStdWString().c_str()[0];
+            ui->RealTextEdit->setFontPointSize(ui->fontDimensionBox->currentText().toInt());
+
+            //if that selected size is not an index of combobox, add it (and hide it)
+            if(ui->fontDimensionBox->findText(ui->fontDimensionBox->currentText()) == -1) {
+                ui->fontDimensionBox->addItem(ui->fontDimensionBox->currentText());
+                hideLastAddedItem();
+            }
+
+            //force changing cursor char format if fontPointSize of textedit is different from the combobox current text
+            if(QString::number(ui->RealTextEdit->fontPointSize()) != ui->fontDimensionBox->currentText()) {
+                if(cursor.hasSelection()) {
+                    //Get positions
+                    int startPos = cursor.selectionStart();
+                    int endPos = cursor.selectionEnd();
+
+                    //change format
+                    QTextCharFormat f;
+                    if(ui->fontDimensionBox->currentText() == "")
+                        f.setFontPointSize(firstCharFontSize); //set fontSize of first char of the selection
+                    else
+                        f.setFontPointSize(ui->fontDimensionBox->currentText().toInt()); //set fontSize to common fontSize of the chars
+
+                    //apply format
+                    cursor.setPosition(startPos, QTextCursor::MoveAnchor);
+                    cursor.setPosition(endPos, QTextCursor::KeepAnchor);
+                    qDebug() << "selected text: " << cursor.selectedText();
+                    cursor.mergeCharFormat(f);
+                    ui->RealTextEdit->mergeCurrentCharFormat(f);
+                    ui->RealTextEdit->setTextCursor(cursor);
+                    ui->fontDimensionBox->setCurrentText(QString::number(f.fontPointSize()));
+                }
+            }
             qDebug() << "char: " << c;
             tuple = std::make_pair(pos, c);
 
@@ -670,7 +607,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         }
         else if(key == Qt::Key_Backspace) { //only Backspace
 
-            //Get data
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
 
@@ -702,7 +638,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
         }
         else if(key == Qt::Key_Delete) { //only "canc" button
 
-            //Get data
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
 
@@ -739,33 +674,33 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev){
     return false; //or return QObject::eventFilter(obj, ev);
 }
 
-void EditorWindow::keyPressEvent(QKeyEvent *e){
+void EditorWindow::keyPressEvent(QKeyEvent *e) {
     //WORKING ON IT
-    if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    if ((e->key() == Qt::Key_I) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
         qDebug()<<" CTRL + I";
         on_actionAbout_triggered();
-    }else if((e->key() == Qt::Key_S) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    } else if((e->key() == Qt::Key_S) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
         qDebug()<<" CTRL + S";
         on_actionEsporta_come_PDF_triggered();
-    }else if((e->key() == Qt::Key_F11) && Qt::ControlModifier){
+    } else if((e->key() == Qt::Key_F11) && Qt::ControlModifier){
         qDebug()<<" CTRL + F11";
         on_actionFullscreen_triggered();
-    }else if((e->key() == Qt::Key_E) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    } else if((e->key() == Qt::Key_E) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
         qDebug()<<" CTRL + E";
         on_actionExit_triggered();
-    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    } else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
         qDebug()<<" CTRL + N - But the action is temporanely disabled";
         on_actionNew_triggered();
-    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    } else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
         qDebug()<<" CTRL + R";
         on_actionRinomina_triggered();
-    }else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier){
+    } else if((e->key() == Qt::Key_N) && QApplication::keyboardModifiers() && Qt::ControlModifier) {
         qDebug()<<" CTRL + D";
         on_actionDark_Mode_triggered();
     }
 }
 
-//CHECK HOW THIS WINDOW IS CLOSED   -   IS AN OVERRIDE OF A ORIGINAL CLOSE EVENT
+//Override of the original close event
 void EditorWindow::closeEvent(QCloseEvent * event){
 
     //If is a forced close then, ask the user if he really wants to close the document
@@ -880,7 +815,6 @@ void EditorWindow::on_actionEsporta_come_PDF_triggered(){
     ui->RealTextEdit->setFocus();
 }
 
-//INVITE A FRIEND WITH URI ACTION
 void EditorWindow::on_actionInvita_tramite_URI_triggered(){
     bool ok;
     QString text = QInputDialog::getText(this, tr("Invito a collaborare"),
@@ -959,8 +893,8 @@ void EditorWindow::LogoutRequest() {
     sendRequestMsg(req);
 }
 
-void EditorWindow::PaintItBlack(){
-    if(ui->actionDark_Mode->isChecked()){
+void EditorWindow::PaintItBlack() {
+    if(ui->actionDark_Mode->isChecked()) {
         //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
         ui->actionDark_Mode->setChecked(true);
 
@@ -1007,7 +941,7 @@ void EditorWindow::PaintItBlack(){
         ui->buttonSearch->setStyleSheet("   #buttonSearch{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{background-color:#AEAEAE; border-radius:4px;}");
 
-    }else{
+    } else {
         //How come no-one told me all throughout history the loneliest people were the ones who always spoke the truth
         ui->actionDark_Mode->setChecked(false);
 
@@ -1061,51 +995,49 @@ void EditorWindow::PaintItBlack(){
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::AlignDXButtonHandler(){
-ui->buttonAlignDX->setChecked(true);
-ui->buttonAlignCX->setChecked(false);
-ui->buttonAlignSX->setChecked(false);
-ui->buttonAlignJFX->setChecked(false);
+void EditorWindow::AlignDXButtonHandler() {
+    ui->buttonAlignDX->setChecked(true);
+    ui->buttonAlignCX->setChecked(false);
+    ui->buttonAlignSX->setChecked(false);
+    ui->buttonAlignJFX->setChecked(false);
+}
+void EditorWindow::AlignCXButtonHandler() {
+    ui->buttonAlignDX->setChecked(false);
+    ui->buttonAlignCX->setChecked(true);
+    ui->buttonAlignSX->setChecked(false);
+    ui->buttonAlignJFX->setChecked(false);
+}
+void EditorWindow::AlignSXButtonHandler() {
+    ui->buttonAlignDX->setChecked(false);
+    ui->buttonAlignCX->setChecked(false);
+    ui->buttonAlignSX->setChecked(true);
+    ui->buttonAlignJFX->setChecked(false);
 }
 
-void EditorWindow::AlignCXButtonHandler(){
-ui->buttonAlignDX->setChecked(false);
-ui->buttonAlignCX->setChecked(true);
-ui->buttonAlignSX->setChecked(false);
-ui->buttonAlignJFX->setChecked(false);
-
-}
-void EditorWindow::AlignSXButtonHandler(){
-ui->buttonAlignDX->setChecked(false);
-ui->buttonAlignCX->setChecked(false);
-ui->buttonAlignSX->setChecked(true);
-ui->buttonAlignJFX->setChecked(false);
+void EditorWindow::AlignJFXButtonHandler() {
+    ui->buttonAlignDX->setChecked(false);
+    ui->buttonAlignCX->setChecked(false);
+    ui->buttonAlignSX->setChecked(false);
+    ui->buttonAlignJFX->setChecked(true);
 }
 
-void EditorWindow::AlignJFXButtonHandler(){
-ui->buttonAlignDX->setChecked(false);
-ui->buttonAlignCX->setChecked(false);
-ui->buttonAlignSX->setChecked(false);
-ui->buttonAlignJFX->setChecked(true);
-}
-
-void EditorWindow::AlignButtonStyleHandler(){
+void EditorWindow::AlignButtonStyleHandler() {
    if(ui->buttonAlignCX->isChecked()){
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
         ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
-    }else if(ui->buttonAlignSX->isChecked()){
+    } else if(ui->buttonAlignSX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
         ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
-    }else if(ui->buttonAlignDX->isChecked()){
+    } else if(ui->buttonAlignDX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
-    }else if(ui->buttonAlignJFX->isChecked()){
+    } else if(ui->buttonAlignJFX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
@@ -1114,21 +1046,18 @@ void EditorWindow::AlignButtonStyleHandler(){
 }
 
 void EditorWindow::refreshFormatButtons() {
-    if(ui->buttonBold->isChecked()) {
+    if(ui->buttonBold->isChecked())
         ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AEAEAE; border-radius:4px;}");
-    } else {
+    else
         ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
-    }
-    if(ui->buttonItalic->isChecked()) {
+    if(ui->buttonItalic->isChecked())
         ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AEAEAE; border-radius:4px;}");
-    } else {
+    else
         ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: lightgrey;}");
-    }
-    if(ui->buttonUnderline->isChecked()) {
+    if(ui->buttonUnderline->isChecked())
         ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AEAEAE; border-radius:4px;}");
-    } else {
+    else
         ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: lightgrey;}");
-    }
 }
 
 /***********************************************************************************
@@ -1212,7 +1141,7 @@ void EditorWindow::on_DebugIns6Word_clicked(){
 */
 
 
-//----------------------OTHER KIND OF FUNCTION OVER THERE-----------------------------//
+//---------------------- Other utility functions -----------------------------//
 
 void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     if(result == "LOGOUTURI_SUCCESS") {
@@ -1247,7 +1176,6 @@ void EditorWindow::showPopupFailure(QString result) {
     }
 }
 
-
 void EditorWindow::sendRequestMsg(std::string req) {
     message msg;
     msg.body_length(req.size());
@@ -1279,6 +1207,13 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
             newFormat.setFontUnderline(false);
         newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
         newFormat.setFontPointSize(s.getStyle().getFontSize());
+
+        //if the selected sizes received are not an index of combobox, add them (and hide them)
+        if(ui->fontDimensionBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
+            ui->fontDimensionBox->addItem(QString::number(s.getStyle().getFontSize()));
+            hideLastAddedItem();
+        }
+
         int pos = index++;
         c.setPosition(pos);
         c.setCharFormat(newFormat);
@@ -1304,6 +1239,15 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     cursor.setPosition(pos);
     cursor.mergeCharFormat(format); //format the char
     cursor.insertText(static_cast<QString>(c));
+
+    //if that selected size is not an index of combobox, add it (and hide it)
+    if(ui->fontDimensionBox->findText(QString::number(style.getFontSize())) == -1) {
+        ui->fontDimensionBox->addItem(QString::number(style.getFontSize()));
+        hideLastAddedItem();
+        ui->RealTextEdit->setFontPointSize(cursor.charFormat().fontPointSize());
+        ui->fontDimensionBox->setCurrentText(QString::number(cursor.charFormat().fontPointSize()));
+    }
+
     qDebug() << "Written in pos: " << pos << endl;
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
@@ -1353,12 +1297,57 @@ void EditorWindow::formatSymbols(int startIndex, int endIndex, int format) {
         cursor.mergeCharFormat(newFormat);
     }
     qDebug() << "Formatted char range" << endl;
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
+}
+
+void EditorWindow::hideAndChangeCustomFontSize() {
+    /* Hide last added item */
+    hideLastAddedItem();
+
+    /* Change font point size of the text edit */
+    changedFontSize = true;
+    if(!changedCurIndex)
+        changedCurIndex = true;
+    ui->RealTextEdit->setFontPointSize(ui->fontDimensionBox->currentText().toInt());
+    ui->RealTextEdit->setFocus();
+}
+
+void EditorWindow::resetFontSize() {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+
+    //we don't want to apply the selected font size if the user loose focus on the combobox, but only when user press Enter
+    if(!changedFontSize && !changedCurIndex) {
+        if(changedCurIndex)
+            setCurPointSize = false;
+        else {
+            cursor.setPosition(cursor.position()-1);
+            cursor.setPosition(cursor.position()+1, QTextCursor::KeepAnchor); //to select the char to be updated
+            ui->RealTextEdit->setFontPointSize(cursor.charFormat().fontPointSize());
+        }
+    }
+    if(changedFontSize && changedCurIndex)
+        changedCurIndex = false;
+    changedFontSize = false;
+}
+
+void EditorWindow::changeFontSize(int startIndex, int endIndex, int fontSize) {
+
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    QTextCharFormat newFormat;
+
+    while(endIndex > startIndex) {
+        cursor.setPosition(--endIndex);
+        cursor.setPosition(endIndex+1, QTextCursor::KeepAnchor); //to select the char to be updated
+        newFormat.setFontPointSize(fontSize);
+        cursor.mergeCharFormat(newFormat);
+    }
+    qDebug() << "Changed font size in char range" << endl;
+    ui->RealTextEdit->setFocus();
 }
 
 symbolStyle EditorWindow::getCurCharStyle() {
     bool isBold = ui->RealTextEdit->fontWeight()==QFont::Bold;
-    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->RealTextEdit->fontFamily().toStdString(), ui->RealTextEdit->font().pointSize()};
+    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->RealTextEdit->fontFamily().toStdString(), ui->fontDimensionBox->currentText().toInt()};
     return style;
 }
 
@@ -1431,10 +1420,41 @@ void EditorWindow::sendFormatRequest(int format) {
     }
 }
 
+void EditorWindow::sendFontChangeRequest(int fontSize) {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    if(cursor.hasSelection()) {
+        int startIndex = cursor.selectionStart();
+        int endIndex = cursor.selectionEnd();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_REQUEST", startIndex, endIndex, fontSize);
+        const std::string req = j.dump();
+
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
+}
+
+void EditorWindow::sendFontChangeRequest(std::string fontFamily) {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    if(cursor.hasSelection()) {
+        int startIndex = cursor.selectionStart();
+        int endIndex = cursor.selectionEnd();
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_fontfamily_change(j, "FONTFAMILY_CHANGE_REQUEST", startIndex, endIndex, fontFamily);
+        const std::string req = j.dump();
+
+        //Send data (header and body)
+        sendRequestMsg(req);
+    }
+}
+
 std::vector<bool> EditorWindow::calculateButtonChecks(QTextCursor& c) {
     int startIndex = c.selectionStart();
     int endIndex = c.selectionEnd();
-    qDebug() << "startIndex: "<< startIndex << "endIndex: " << endIndex << endl;
     bool checkBold = false, checkItalic = false, checkUnderline = false,  uncheckAll = false;
     std::vector<std::vector<bool>> formatVectors; //vector for all chars in cursor selection
     std::vector<bool> vec(3); //vector for current char -> containing 3 values: isBold, isItalic, isUnderline
@@ -1443,7 +1463,6 @@ std::vector<bool> EditorWindow::calculateButtonChecks(QTextCursor& c) {
     while(endIndex > startIndex) { //loop over the cursor selection
         c.setPosition(endIndex--);
         vec = {c.charFormat().fontWeight()==QFont::Bold, c.charFormat().fontItalic(), c.charFormat().fontUnderline()};
-        qDebug() << vec.at(0) << " " << vec.at(1) << " " << vec.at(2) << endl;
         if(std::all_of(vec.begin(), vec.end(), [](bool val){return val == false;})) { //if all formats are false -> uncheckAll buttons and exit
             uncheckAll = true;
             break;
@@ -1463,6 +1482,39 @@ std::vector<bool> EditorWindow::calculateButtonChecks(QTextCursor& c) {
             if(checkUnderline) checkUnderline = v.at(2);
         }
     }
-    qDebug() << "Final: " << checkBold << " " << checkItalic << " " << checkUnderline << endl;
     return {checkBold, checkItalic, checkUnderline};
+}
+
+int EditorWindow::calculateFontSizeComboBox(QTextCursor c) {
+    int startIndex = c.selectionStart();
+    int endIndex = c.selectionEnd();
+    std::vector<int> vec;
+    int curFontSize;
+    bool isMixed = false;
+    int oldPos = c.position();
+
+    while(endIndex > startIndex) { //loop over the cursor selection
+        c.setPosition(endIndex--, QTextCursor::KeepAnchor);
+        curFontSize = static_cast<int>(c.charFormat().fontPointSize());
+        vec.push_back(curFontSize);
+        if(curFontSize != vec.at(0)) {
+            isMixed = true;
+            break;
+        }
+    }
+    c.setPosition(oldPos);
+    return isMixed ? -1 : vec.at(0);
+}
+
+void EditorWindow::hideLastAddedItem() {
+    /* Hide new item created from the QComboBox list (because we don't want to display all the items user select) */
+    QListView* view = qobject_cast<QListView *>(ui->fontDimensionBox->view());
+    Q_ASSERT(view != nullptr);
+    view->setRowHidden(ui->fontDimensionBox->count()-1, true);
+
+    /* Hide the item also for the mouse wheel */
+    QStandardItemModel* model = qobject_cast<QStandardItemModel*>(ui->fontDimensionBox->model());
+    Q_ASSERT(model != nullptr);
+    QStandardItem* item = model->item(ui->fontDimensionBox->count()-1);
+    item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 }

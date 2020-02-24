@@ -62,6 +62,7 @@ signals:
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void formatSymbols(int startIndex, int endIndex, int format);
+    void changeFontSize(int startIndex, int endIndex, int fontSize);
     void jsonMsgFailure(QString windowName, QString msg);
 
 private:

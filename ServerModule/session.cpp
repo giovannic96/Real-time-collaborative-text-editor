@@ -83,7 +83,7 @@ void session::do_read_body()
                 std::string curFile = std::string();
                 bool onlyToThisEditor = false;
                 const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
-                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST") {
+                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST" || opJSON == "FONTSIZE_CHANGE_REQUEST") {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
                 }
@@ -665,6 +665,41 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_format_range(j, "FORMAT_RANGE_RESPONSE", startIndexJSON, endIndexJSON, formatJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "FONTSIZE_CHANGE_REQUEST") {
+        int startIndexJSON;
+        int endIndexJSON;
+        int fontSizeJSON;
+        bool firstTime = true;
+        jsonUtility::from_json_fontsize_change(jdata_in, startIndexJSON, endIndexJSON, fontSizeJSON); //get json value and put into JSON variables
+        std::cout << "[FONTSIZE_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " newFontSize: " << std::to_string(fontSizeJSON) << std::endl;
+
+        int counter = startIndexJSON;
+        while(counter < endIndexJSON) {
+            //Construct msgInfo
+            msgInfo m = localFontSizeChange(counter++, fontSizeJSON);
+            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+            if(firstTime) {
+                edId = m.getEditorId(); //don't send this message to this editor
+                firstTime = false;
+            }
+
+            //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            //Dispatch message to all the clients
+            room_.send(m);
+            room_.dispatchMessages();
+        }
+
+        curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, fontSizeJSON);
         const std::string response = j.dump();
         return response;
 

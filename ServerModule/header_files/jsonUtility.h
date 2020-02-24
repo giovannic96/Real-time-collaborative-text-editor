@@ -40,6 +40,8 @@ public:
     static void to_json_removal(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
     static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
+    static void to_json_fontsize_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &fontSize);
+    static void to_json_fontfamily_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const std::string &fontFamily);
     static void to_json_insertion_range(json &j, const std::string &op, const int &firstIndex, const std::vector<json> &symbolsJSONS);
     static void from_json(const json& j, std::string& op);
     static void from_json_filename(const json &j, std::string &user, std::string &filename);
@@ -54,6 +56,8 @@ public:
     static void from_json_removal(const json& j, int& index);
     static void from_json_removal_range(const json& j, int& startIndex, int& endIndex);
     static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);
+    static void from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize);
+    static void from_json_fontfamily_change(const json &j, int& startIndex, int& endIndex, std::string& fontFamily);
     static void from_json_insertion_range(const json &j, std::vector<json>& symbols);
     static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
 

@@ -21,30 +21,31 @@ public:
 
 private slots:
 
-    //Button for change style of the text
+    //Change style of the text
     void on_buttonBold_clicked();
     void on_buttonItalic_clicked();
     void on_buttonUnderline_clicked();
     void on_buttonColor_clicked();
     void on_buttonBackgroundColor_clicked();
 
-    //Button for align the text
+    //Align the text
     void on_buttonAlignDX_clicked();
     void on_buttonAlignCX_clicked();
     void on_buttonAlignSX_clicked();
     void on_buttonAlignJFX_clicked();
 
-    //Button for modify the text
+    //Modify the text
     void on_buttonUndo_clicked();
     void on_buttonRedo_clicked();
     void on_buttonTaglia_clicked();
     void on_buttonIncolla_clicked();
     void on_buttonCopia_clicked();
 
-    //Button for highlight the text
+    //Highlight the text
     void on_buttonSearch_clicked();
 
-    //Button for modify font and size of text
+    //Modify font and size of text
+    void on_fontDimensionBox_currentIndexChanged(int index);
     void on_fontDimensionBox_activated(int index);
     void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
@@ -56,8 +57,6 @@ private slots:
     //void on_buttonExit_clicked();
     //void on_buttonToIcon_clicked();
     //void on_buttonReduce_clicked();
-
-    //ViewFrame Button
 
     /************************************
      *               EVENT              *
@@ -94,6 +93,9 @@ public slots:
     void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void formatSymbols(int startIndex, int endIndex, int format);
+    void hideAndChangeCustomFontSize();
+    void resetFontSize();
+    void changeFontSize(int startIndex, int endIndex, int fontSize);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
 
 private:
@@ -107,8 +109,14 @@ private:
     symbolStyle getStyleFromHTMLStyles(QVector<QVector<QString>>& styles);
     QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
     std::vector<bool> calculateButtonChecks(QTextCursor& c);
+    int calculateFontSizeComboBox(QTextCursor c);
     void sendFormatRequest(int format);
-    enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6};
+    void sendFontChangeRequest(int fontSize);
+    void sendFontChangeRequest(std::string fontFamily);
+    int getIndexFromFontSize(int fontSize);
+    void hideLastAddedItem();
+    bool changedFontSize = false, changedCurIndex = false, setCurPointSize = false;
+    enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6, CHANGE_FONT_SIZE=7};
 
 };
 
