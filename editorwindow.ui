@@ -549,29 +549,17 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="fontSizeBox">
+                 <widget class="QComboBox" name="fontDimensionBox">
                   <property name="minimumSize">
                    <size>
-                    <width>50</width>
+                    <width>40</width>
                     <height>22</height>
                    </size>
                   </property>
                   <property name="maximumSize">
                    <size>
-                    <width>44</width>
+                    <width>40</width>
                     <height>22</height>
-                   </size>
-                  </property>
-                  <property name="sizeIncrement">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="baseSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
                    </size>
                   </property>
                   <property name="autoFillBackground">
@@ -580,24 +568,27 @@
                   <property name="styleSheet">
                    <string notr="true"/>
                   </property>
-                  <property name="editable">
-                   <bool>true</bool>
-                  </property>
                   <property name="currentText">
                    <string>14</string>
                   </property>
                   <property name="currentIndex">
-                   <number>5</number>
+                   <number>6</number>
                   </property>
-                  <property name="maxVisibleItems">
-                   <number>10</number>
-                  </property>
-                  <property name="iconSize">
-                   <size>
-                    <width>18</width>
-                    <height>16</height>
-                   </size>
-                  </property>
+                  <item>
+                   <property name="text">
+                    <string>2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>4</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>6</string>
+                   </property>
+                  </item>
                   <item>
                    <property name="text">
                     <string>8</string>
@@ -605,17 +596,7 @@
                   </item>
                   <item>
                    <property name="text">
-                    <string>9</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
                     <string>10</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>11</string>
                    </property>
                   </item>
                   <item>
@@ -630,7 +611,22 @@
                   </item>
                   <item>
                    <property name="text">
+                    <string>16</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
                     <string>18</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>20</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>22</string>
                    </property>
                   </item>
                   <item>
@@ -640,12 +636,12 @@
                   </item>
                   <item>
                    <property name="text">
-                    <string>30</string>
+                    <string>28</string>
                    </property>
                   </item>
                   <item>
                    <property name="text">
-                    <string>36</string>
+                    <string>32</string>
                    </property>
                   </item>
                   <item>
@@ -655,17 +651,7 @@
                   </item>
                   <item>
                    <property name="text">
-                    <string>60</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
                     <string>72</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>96</string>
                    </property>
                   </item>
                  </widget>
@@ -1317,7 +1303,7 @@ background: #f3f3f3;
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1415,6 +1401,10 @@ background: #f3f3f3;
    </property>
   </action>
   <action name="actionEsporta_come_PDF">
+   <property name="icon">
+    <iconset resource="Risorse.qrc">
+     <normaloff>:/image/Editor/save(1).png</normaloff>:/image/Editor/save(1).png</iconset>
+   </property>
    <property name="text">
     <string>Esporta come PDF</string>
    </property>

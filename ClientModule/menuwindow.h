@@ -26,6 +26,7 @@ private slots:
     void on_backButton_clicked();
     void closeEvent(QCloseEvent * event);
     void RapidUserLogout();
+    void SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
 
 public slots:
     void showPopupSuccess(QString result);
