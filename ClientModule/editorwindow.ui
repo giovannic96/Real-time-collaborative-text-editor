@@ -1315,6 +1315,7 @@ background: #f3f3f3;
     <addaction name="actionRinomina"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
+    <addaction name="actionEsci"/>
    </widget>
    <widget class="QMenu" name="menuVisualizza">
     <property name="title">
@@ -1330,8 +1331,17 @@ background: #f3f3f3;
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuModifica">
+    <property name="title">
+     <string>Modifica</string>
+    </property>
+    <addaction name="actionGrassetto"/>
+    <addaction name="actionCorsivo"/>
+    <addaction name="actionSottolineato"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuVisualizza"/>
+   <addaction name="menuModifica"/>
    <addaction name="menuAbout"/>
   </widget>
   <action name="actionNew">
@@ -1357,7 +1367,7 @@ background: #f3f3f3;
   </action>
   <action name="actionFullscreen">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Schermo Intero</string>
@@ -1374,15 +1384,15 @@ background: #f3f3f3;
     <string>?</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+I</string>
+    <string>Ctrl+Shift+A</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>Chiudi Documento</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+E</string>
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionInvita_tramite_URI">
@@ -1408,7 +1418,11 @@ background: #f3f3f3;
   </action>
   <action name="actionDark_Mode">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Risorse.qrc">
+     <normaloff>:/image/Editor/DarkMoon.png</normaloff>:/image/Editor/DarkMoon.png</iconset>
    </property>
    <property name="text">
     <string>Modalità Notte</string>
@@ -1422,10 +1436,60 @@ background: #f3f3f3;
   </action>
   <action name="actionCollaboratori">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
-    <string>Collaboratori</string>
+    <string>Mostra Collaboratori</string>
+   </property>
+  </action>
+  <action name="actionGrassetto">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Risorse.qrc">
+     <normaloff>:/image/Editor/v2bold.png</normaloff>:/image/Editor/v2bold.png</iconset>
+   </property>
+   <property name="text">
+    <string>Grassetto</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionCorsivo">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Risorse.qrc">
+     <normaloff>:/image/Editor/v2italic.png</normaloff>:/image/Editor/v2italic.png</iconset>
+   </property>
+   <property name="text">
+    <string>Corsivo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionSottolineato">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="Risorse.qrc">
+     <normaloff>:/image/Editor/v2underline.png</normaloff>:/image/Editor/v2underline.png</iconset>
+   </property>
+   <property name="text">
+    <string>Sottolineato</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionEsci">
+   <property name="text">
+    <string>Esci</string>
    </property>
   </action>
  </widget>

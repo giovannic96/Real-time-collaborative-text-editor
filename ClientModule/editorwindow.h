@@ -73,6 +73,10 @@ private slots:
     void on_actionInvita_tramite_URI_triggered();
     void on_actionDark_Mode_triggered();
     void on_actionCollaboratori_triggered();
+    void on_actionGrassetto_triggered();
+    void on_actionCorsivo_triggered();
+    void on_actionSottolineato_triggered();
+    void on_actionEsci_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -103,6 +107,8 @@ private:
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented char
     QString textOnTitleBar;
     bool BruteClose=true;
+    bool SchermoIntero=false;
+    bool DarkMode=false;
     symbolStyle getCurCharStyle();
     symbolStyle getStyleFromHTMLStyles(QVector<QVector<QString>>& styles);
     QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
