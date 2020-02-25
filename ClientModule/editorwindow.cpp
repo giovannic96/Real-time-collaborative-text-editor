@@ -195,17 +195,27 @@ void EditorWindow::on_buttonRedo_clicked() {
     ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonTaglia_clicked() {
-    ui->RealTextEdit->cut();
+void EditorWindow::on_buttonCut_clicked() {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    if(cursor.hasSelection()) {
+        removeCharRangeRequest(cursor);
+        ui->RealTextEdit->cut();
+    }
     ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonIncolla_clicked() {
+void EditorWindow::on_buttonPaste_clicked() {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    int pos;
+    cursor.hasSelection() ? pos = cursor.selectionStart() : pos = cursor.position();
+    if(cursor.hasSelection())
+        removeCharRangeRequest(cursor);
+    insertCharRangeRequest(pos);
     ui->RealTextEdit->paste();
     ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_buttonCopia_clicked() {
+void EditorWindow::on_buttonCopy_clicked() {
     ui->RealTextEdit->copy();
     ui->RealTextEdit->setFocus();
 }
@@ -472,83 +482,19 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         if(!keyEvent->text().isEmpty()) { //to ignore chars like "CAPS_LOCK", "SHIFT", "CTRL", etc...
 
         if (keyEvent->matches(QKeySequence::Cut)) { //CTRL-X
-
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            if(cursor.hasSelection()) { //Remove range of characters selected
-                int startIndex = cursor.selectionStart();
-                int endIndex = cursor.selectionEnd();
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
-                return QObject::eventFilter(obj, ev);
-            }
-            else
-                return QObject::eventFilter(obj, ev);
+            if(cursor.hasSelection())
+                removeCharRangeRequest(cursor);
+            return QObject::eventFilter(obj, ev);
         }
         else if (keyEvent->matches(QKeySequence::Paste)) { //CTRL-V
-            //Get data
-            const QClipboard *clipboard = QApplication::clipboard();
-            const QMimeData *mimeData = clipboard->mimeData();
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos;
-
-            if(cursor.hasSelection()) { //Remove range of characters selected
-                pos = cursor.selectionStart();
-                int startIndex = cursor.selectionStart();
-                int endIndex = cursor.selectionEnd();
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
-            } else {
-                pos = cursor.position();
-            }
-
-            if(mimeData->hasText()) { //TODO: and if mimeData has Images or html??? -> handle this case
-                //Get data
-                int numChars = mimeData->text().size(); //number of chars = number of iterations
-                std::wstring str_to_paste = mimeData->text().toStdWString();
-                QVector<QVector<QString>> styles = getStylesFromHTML(mimeData->html());
-                std::vector<symbolInfo> infoSymbols;
-                int index;
-                wchar_t c;
-                symbolStyle charStyle;
-
-                for(int i=0; i<numChars; i++) {
-                    c = str_to_paste.c_str()[0]; //get wchar
-                    qDebug() << "char: " << c;
-                    str_to_paste.erase(0,1); //remove first wchar
-                    index = pos++; //get index
-                    if(c <= 32 || c > 126) //special characters has no style (LF, CR, ESC, SP, ecc.)
-                        charStyle = symbolStyle(false, false, false, "Times New Roman", 14);
-                    else
-                        charStyle = getStyleFromHTMLStyles(styles); //get the style
-                    symbolInfo s(index, c, charStyle);
-                    infoSymbols.push_back(s);
-                }
-
-                //Serialize data
-                json j;
-                std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(infoSymbols);
-                jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
-                return QObject::eventFilter(obj, ev);
-            } else {
-                qDebug() << "Cannot paste this." << endl;
-                return QObject::eventFilter(obj, ev);
-            }
+            cursor.hasSelection() ? pos = cursor.selectionStart() : pos = cursor.position();
+            if(cursor.hasSelection())
+                removeCharRangeRequest(cursor);
+            insertCharRangeRequest(pos);
+            return QObject::eventFilter(obj, ev);
         }
         else if(modifiers & Qt::ControlModifier) { //ignore other CTRL combinations
             return QObject::eventFilter(obj, ev);
@@ -607,7 +553,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                     //apply format
                     cursor.setPosition(startPos, QTextCursor::MoveAnchor);
                     cursor.setPosition(endPos, QTextCursor::KeepAnchor);
-                    qDebug() << "selected text: " << cursor.selectedText();
                     cursor.mergeCharFormat(f);
                     ui->RealTextEdit->mergeCurrentCharFormat(f);
                     ui->RealTextEdit->setTextCursor(cursor);
@@ -632,27 +577,11 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             int pos = cursor.position();
 
             if(cursor.hasSelection()) { //Remove range of characters selected
-                int startIndex = cursor.selectionStart();
-                int endIndex = cursor.selectionEnd();
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
+                removeCharRangeRequest(cursor);
                 return QObject::eventFilter(obj, ev);
             }
             else if(pos > 0) { //Remove only one character
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos-1);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
+                removeCharRequest(pos-1);
                 return QObject::eventFilter(obj, ev);
             } else
                 return QObject::eventFilter(obj, ev);
@@ -662,28 +591,12 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
 
-            if(cursor.hasSelection()) { //Remove range of characters selected
-                int startIndex = cursor.selectionStart();
-                int endIndex = cursor.selectionEnd();
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
+            if(cursor.hasSelection()) {
+                removeCharRangeRequest(cursor); //Remove range of characters selected
                 return QObject::eventFilter(obj, ev);
             }
-            else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) { //Remove only one character
-
-                //Serialize data
-                json j;
-                jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos);
-                const std::string req = j.dump();
-
-                //Send data (header and body)
-                sendRequestMsg(req);
+            else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) {
+                removeCharRequest(pos); //Remove only one character
                 return QObject::eventFilter(obj, ev);
             } else
                 return QObject::eventFilter(obj, ev);
@@ -698,7 +611,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
   //******************//
  // Shortcut Handler //
 //******************//
-void EditorWindow::keyPressEvent(QKeyEvent *e){
+void EditorWindow::keyPressEvent(QKeyEvent *e) {
     //WORKING ON IT
     if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier)  && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Shift + I";
@@ -736,10 +649,10 @@ void EditorWindow::keyPressEvent(QKeyEvent *e){
 //***********************//
 // Close Editor Handler // - Is an override of oriignal closeEvent. Check if Editor is close normally or forced (like ALT+F4)
 //*********************//
-void EditorWindow::closeEvent(QCloseEvent * event){
+void EditorWindow::closeEvent(QCloseEvent * event) {
     bool StayInThisWindow = true;
     if(_client->getStatus()==false){
-        StayInThisWindow = ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus();
+        StayInThisWindow = handleConnectionLoss();
         if(StayInThisWindow==true){
             event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
         }
@@ -765,7 +678,7 @@ void EditorWindow::closeEvent(QCloseEvent * event){
 ************************************************************************************/
 
 //FULLSCREEN ACTION      -->     CTRL+F11
-void EditorWindow::on_actionFullscreen_triggered(){
+void EditorWindow::on_actionFullscreen_triggered() {
    if(SchermoIntero==false){
         SchermoIntero=true;
         ui->actionFullscreen->setText("Modalità Finestra");
@@ -779,18 +692,18 @@ void EditorWindow::on_actionFullscreen_triggered(){
 }
 
 //NEW DOCUMENT ACTION    -->     CTRL+N
-void EditorWindow::on_actionNew_triggered(){
+void EditorWindow::on_actionNew_triggered() {
     //on_newDocButton_clicked();
 }
 
 //ABOUT ACTION           -->     CTRL+Shift+I
-void EditorWindow::on_actionAbout_triggered(){
+void EditorWindow::on_actionAbout_triggered() {
     infoWindow *iw = new infoWindow(this);
     iw->show();
 }
 
 //EXIT DOCUMENT ACTION  -->     CTRL+Q
-void EditorWindow::on_actionExit_triggered(){
+void EditorWindow::on_actionExit_triggered() {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
                                   QMessageBox::Yes|QMessageBox::No);
@@ -800,7 +713,7 @@ void EditorWindow::on_actionExit_triggered(){
 }
 
 //RENAME ACTION         -->     CTRL+R
-void EditorWindow::on_actionRinomina_triggered(){
+void EditorWindow::on_actionRinomina_triggered() {
     bool ok, StayInThisWindow;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
@@ -814,24 +727,24 @@ void EditorWindow::on_actionRinomina_triggered(){
 
         //Send data (header and body)
         sendRequestMsg(req);
-    }else if (ok && !newText.isEmpty() && newText.size()>25){
+    }else if (ok && !newText.isEmpty() && newText.size()>25) {
         QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
         on_actionRinomina_triggered();
-    }else if (ok && newText.isEmpty()){
+    }else if (ok && newText.isEmpty()) {
         QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_actionRinomina_triggered();
     }
 
-    if(_client->getStatus()==false){
-        StayInThisWindow = ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus();
-    }else{
+    if(_client->getStatus()==false) {
+        StayInThisWindow = handleConnectionLoss();
+    }else {
         textOnTitleBar = "C.A.R.T.E. - " + newText;
         this->setWindowTitle(textOnTitleBar);
     }
 }
 
 //EXPORT AS PDF ACTION  --> CTRL + S
-void EditorWindow::on_actionEsporta_come_PDF_triggered(){
+void EditorWindow::on_actionEsporta_come_PDF_triggered() {
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
     QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocName->text(), "PDF File (*.pdf)");
@@ -859,7 +772,7 @@ void EditorWindow::on_actionEsporta_come_PDF_triggered(){
     ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::on_actionInvita_tramite_URI_triggered(){
+void EditorWindow::on_actionInvita_tramite_URI_triggered() {
     bool ok;
     QString text = QInputDialog::getText(this, tr("Invito a collaborare"),
                                          tr("Inserisci username del nuovo partecipante:"), QLineEdit::Normal,
@@ -906,32 +819,32 @@ void EditorWindow::on_actionInvita_tramite_URI_triggered(){
 }
 
 //DARK MODE TRIGGERED       -->     CTRL+D
-void EditorWindow::on_actionDark_Mode_triggered(){
+void EditorWindow::on_actionDark_Mode_triggered() {
     PaintItBlack();
 }
 
 //COLLABORATOR TRIGGERED
-void EditorWindow::on_actionCollaboratori_triggered(){
+void EditorWindow::on_actionCollaboratori_triggered() {
     ui->buttonCollab->click();
 }
 
 //GRASSETTO TRIGGERED       -->     CTRL + B
-void EditorWindow::on_actionGrassetto_triggered(){
+void EditorWindow::on_actionGrassetto_triggered() {
     ui->buttonBold->click();
 }
 
 //CORSIVO TRIGGERED         -->     CTRL + I
-void EditorWindow::on_actionCorsivo_triggered(){
+void EditorWindow::on_actionCorsivo_triggered() {
     ui->buttonItalic->click();
 }
 
 //SOTTOLINEATO TRIGGERED    -->     CTRL + U
-void EditorWindow::on_actionSottolineato_triggered(){
+void EditorWindow::on_actionSottolineato_triggered() {
     ui->buttonUnderline->click();
 }
 
 //ESCI TRIGGERED
-void EditorWindow::on_actionEsci_triggered(){
+void EditorWindow::on_actionEsci_triggered() {
     QMessageBox::information(this,"Attenzione", "IMPLEMENTARE EXIT da TUTTO IL PROGRAMMA IN MODO CORRETTO - Lo farà Hidro!");
 }
 
@@ -991,9 +904,9 @@ void EditorWindow::PaintItBlack() {
         ui->buttonAlignSX->setIcon(icoAS);
         ui->buttonAlignDX->setIcon(icoAD);
         ui->buttonAlignJFX->setIcon(icoJS);
-        ui->buttonCopia->setIcon(icoCPY);
-        ui->buttonTaglia->setIcon(icoCUT);
-        ui->buttonIncolla->setIcon(icoPAS);
+        ui->buttonCopy->setIcon(icoCPY);
+        ui->buttonCut->setIcon(icoCUT);
+        ui->buttonPaste->setIcon(icoPAS);
         ui->buttonRedo->setIcon(icoREDO);
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
@@ -1002,9 +915,9 @@ void EditorWindow::PaintItBlack() {
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
         //iconContainer CSS
-        ui->buttonCopia->setStyleSheet("    #buttonCopia{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonTaglia->setStyleSheet("   #buttonTaglia{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonIncolla->setStyleSheet("  #buttonIncolla{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonCopy->setStyleSheet("    #buttonCopy{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonCut->setStyleSheet("   #buttonCut{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonPaste->setStyleSheet("  #buttonPaste{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonRedo->setStyleSheet("     #buttonRedo{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonUndo->setStyleSheet("     #buttonUndo{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{background-color:#AEAEAE; border-radius:4px;}");
@@ -1042,9 +955,9 @@ void EditorWindow::PaintItBlack() {
         ui->buttonAlignSX->setIcon(icoAS);
         ui->buttonAlignDX->setIcon(icoAD);
         ui->buttonAlignJFX->setIcon(icoJS);
-        ui->buttonCopia->setIcon(icoCPY);
-        ui->buttonTaglia->setIcon(icoCUT);
-        ui->buttonIncolla->setIcon(icoPAS);
+        ui->buttonCopy->setIcon(icoCPY);
+        ui->buttonCut->setIcon(icoCUT);
+        ui->buttonPaste->setIcon(icoPAS);
         ui->buttonRedo->setIcon(icoREDO);
         ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
@@ -1053,9 +966,9 @@ void EditorWindow::PaintItBlack() {
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
         //iconContainer CSS
-        ui->buttonCopia->setStyleSheet("    #buttonCopia{border-radius:4px}    #buttonCopia:hover{background-color: lightgrey;}");
-        ui->buttonTaglia->setStyleSheet("   #buttonTaglia{border-radius:4px}    #buttonTaglia:hover{background-color: lightgrey;}");
-        ui->buttonIncolla->setStyleSheet("  #buttonIncolla{border-radius:4px}    #buttonIncolla:hover{background-color: lightgrey;}");
+        ui->buttonCopy->setStyleSheet("    #buttonCopy{border-radius:4px}    #buttonCopy:hover{background-color: lightgrey;}");
+        ui->buttonCut->setStyleSheet("   #buttonCut{border-radius:4px}    #buttonCut:hover{background-color: lightgrey;}");
+        ui->buttonPaste->setStyleSheet("  #buttonPaste{border-radius:4px}    #buttonPaste:hover{background-color: lightgrey;}");
         ui->buttonRedo->setStyleSheet("     #buttonRedo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
         ui->buttonUndo->setStyleSheet("     #buttonUndo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
@@ -1069,8 +982,7 @@ void EditorWindow::PaintItBlack() {
     //Set Other CSS
     AlignButtonStyleHandler();
     refreshFormatButtons();
-    //IN THE END
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
 void EditorWindow::AlignDXButtonHandler() {
@@ -1597,8 +1509,7 @@ void EditorWindow::hideLastAddedItem() {
     item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 }
 
-
-bool EditorWindow::ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus(){
+bool EditorWindow::handleConnectionLoss() {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
                                                         "Le ultime modifiche al documento potrebbero non essere state salvate\n"
@@ -1610,4 +1521,67 @@ bool EditorWindow::ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAn
         BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
     }
     return true;
+}
+
+void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor) {
+    int startIndex = cursor.selectionStart();
+    int endIndex = cursor.selectionEnd();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+}
+
+void EditorWindow::removeCharRequest(int pos) {
+    //Serialize data
+    json j;
+    jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+}
+
+void EditorWindow::insertCharRangeRequest(int pos) {
+    const QClipboard *clipboard = QApplication::clipboard();
+    const QMimeData *mimeData = clipboard->mimeData();
+
+    if(mimeData->hasText()) { //TODO: and if mimeData has Images or html or text from outside??? -> handle these cases
+        //Get data
+        int numChars = mimeData->text().size(); //number of chars = number of iterations
+        std::wstring str_to_paste = mimeData->text().toStdWString();
+        QVector<QVector<QString>> styles = getStylesFromHTML(mimeData->html());
+        std::vector<symbolInfo> infoSymbols;
+        int index;
+        wchar_t c;
+        symbolStyle charStyle;
+
+        for(int i=0; i<numChars; i++) {
+            c = str_to_paste.c_str()[0]; //get wchar
+            qDebug() << "char: " << c;
+            str_to_paste.erase(0,1); //remove first wchar
+            index = pos++; //get index
+            if(c <= 32 || c > 126) //special characters has no style (LF, CR, ESC, SP, ecc.)
+                charStyle = symbolStyle(false, false, false, "Times New Roman", 14);
+            else
+                charStyle = getStyleFromHTMLStyles(styles); //get the style
+            symbolInfo s(index, c, charStyle);
+            infoSymbols.push_back(s);
+        }
+
+        //Serialize data
+        json j;
+        std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(infoSymbols);
+        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
+        const std::string req = j.dump();
+
+        //Send data (header and body)
+        sendRequestMsg(req);
+    } else {
+        qDebug() << "Cannot paste this." << endl;
+    }
 }

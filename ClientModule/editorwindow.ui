@@ -901,7 +901,7 @@
                  <number>1</number>
                 </property>
                 <item>
-                 <widget class="QPushButton" name="buttonCopia">
+                 <widget class="QPushButton" name="buttonCopy">
                   <property name="minimumSize">
                    <size>
                     <width>34</width>
@@ -927,11 +927,11 @@
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#buttonCopia{
+                   <string notr="true">#buttonCopy {
 	border-radius: 4px;
 }
 
-#buttonCopia:hover{
+#buttonCopy:hover {
 	background-color: lightgrey;
 }
 </string>
@@ -952,7 +952,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="buttonTaglia">
+                 <widget class="QPushButton" name="buttonCut">
                   <property name="minimumSize">
                    <size>
                     <width>34</width>
@@ -978,11 +978,11 @@
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#buttonTaglia{
+                   <string notr="true">#buttonCut {
 	border-radius: 4px;
 }
 
-#buttonTaglia:hover{
+#buttonCut:hover {
 	background-color: lightgrey;
 }
 </string>
@@ -1003,7 +1003,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="buttonIncolla">
+                 <widget class="QPushButton" name="buttonPaste">
                   <property name="minimumSize">
                    <size>
                     <width>34</width>
@@ -1029,11 +1029,11 @@
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">#buttonIncolla{
+                   <string notr="true">#buttonPaste {
 	border-radius: 4px;
 }
 
-#buttonIncolla:hover{
+#buttonPaste:hover {
 	background-color: lightgrey;
 }
 </string>

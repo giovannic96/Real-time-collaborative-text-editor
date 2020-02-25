@@ -37,9 +37,9 @@ private slots:
     //Modify the text
     void on_buttonUndo_clicked();
     void on_buttonRedo_clicked();
-    void on_buttonTaglia_clicked();
-    void on_buttonIncolla_clicked();
-    void on_buttonCopia_clicked();
+    void on_buttonCut_clicked();
+    void on_buttonPaste_clicked();
+    void on_buttonCopy_clicked();
 
     //Highlight the text
     void on_buttonSearch_clicked();
@@ -94,7 +94,7 @@ private slots:
     void AlignJFXButtonHandler();
     void AlignButtonStyleHandler();
     void refreshFormatButtons();
-    bool ThisFunctionIsForHandleTheConnectionLossTryToChangeThisNameAndYouWillGetTheCoronavirus();
+    bool handleConnectionLoss();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
@@ -127,6 +127,9 @@ private:
     void sendFontChangeRequest(std::string fontFamily);
     int getIndexFromFontSize(int fontSize);
     void hideLastAddedItem();
+    void insertCharRangeRequest(int pos);
+    void removeCharRequest(int pos);
+    void removeCharRangeRequest(const QTextCursor& cursor);
     bool changedFontSize = false, changedCurIndex = false, setCurPointSize = false;
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6, CHANGE_FONT_SIZE=7};
 
