@@ -307,7 +307,6 @@ void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f) {
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-
 /***********************************************************************************
 *                            BUTTON FOR COLLABORATORS                              *
 ************************************************************************************/
@@ -323,7 +322,7 @@ void EditorWindow::on_buttonCollab_clicked() {
         ui->listWidget->hide();
         ui->labelCollab->hide();
     }
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
 /***********************************************************************************
@@ -426,13 +425,13 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     /****************************************************************
      *                      TEXT ALIGNMENT                          *
      ****************************************************************/
-    if(ui->RealTextEdit->alignment()==Qt::AlignLeft){
+    if(ui->RealTextEdit->alignment()==Qt::AlignLeft) {
         AlignSXButtonHandler();
-    }else if(ui->RealTextEdit->alignment()==Qt::AlignCenter){
+    } else if(ui->RealTextEdit->alignment()==Qt::AlignCenter) {
         AlignCXButtonHandler();
-    }else if(ui->RealTextEdit->alignment()==Qt::AlignRight){
+    } else if(ui->RealTextEdit->alignment()==Qt::AlignRight) {
         AlignDXButtonHandler();
-    }else if(ui->RealTextEdit->alignment()==Qt::AlignJustify){
+    } else if(ui->RealTextEdit->alignment()==Qt::AlignJustify) {
         AlignJFXButtonHandler();
     }
     AlignButtonStyleHandler();
@@ -676,7 +675,6 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
 *                                                                                  *
 *     Action can be recallable with shortcut, but for now it doesn't work          *
 ************************************************************************************/
-
 //FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered() {
    if(SchermoIntero==false){
@@ -1140,6 +1138,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     } else if (result == "RENAME_SUCCESS") {
         ui->DocName->setText(QString::fromStdString(filename));
         _client->setFilename(QString::fromStdString(filename));      //Assign newText to the variable
+        this->setWindowTitle(QString::fromStdString(filename));
         ui->RealTextEdit->setFocus(); //Return focus to textedit
     } else if(result == "INVITE_URI_SUCCESS") {
         QMessageBox::warning(this,"Invito effettuato con successo", "Il tuo invito a collaborare è stato correttamente eseguito.");
