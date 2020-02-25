@@ -17,6 +17,11 @@ public:
 private slots:
     void on_exitButton_clicked();
     void on_exitButton_2_clicked();
+    //Github Profile
+    void on_giovanni_clicked();
+    void on_francesco_clicked();
+    void on_rinaldo_clicked();
+    void on_enrico_clicked();
 
 private:
     Ui::infoWindow *ui;
