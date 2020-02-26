@@ -63,6 +63,7 @@ signals:
     void eraseSymbols(int startIndex, int endIndex);
     void formatSymbols(int startIndex, int endIndex, int format);
     void changeFontSize(int startIndex, int endIndex, int fontSize);
+    void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void jsonMsgFailure(QString windowName, QString msg);
 
 private:

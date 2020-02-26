@@ -23,6 +23,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::eraseSymbols, this, &EditorWindow::eraseSymbols);
     connect(_client, &myClient::formatSymbols, this, &EditorWindow::formatSymbols);
     connect(_client, &myClient::changeFontSize, this, &EditorWindow::changeFontSize);
+    connect(_client, &myClient::changeFontFamily, this, &EditorWindow::changeFontFamily);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
@@ -37,6 +38,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     QListWidgetItem* item;
     QListWidgetItem* item2;
     QRegularExpressionValidator* fontSizeValidator;
+    QIcon fontIcon(":/image/font_icon.png");
 
     item = new QListWidgetItem(itemString, ui->listWidget);
     item2 = new QListWidgetItem(itemString, ui->listWidget);
@@ -49,11 +51,16 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
     ui->listWidget->hide();
-    ui->labelCollab->hide();
+    //ui->labelCollab->hide();
     ui->DocName->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
-    ui->fontSelectorBox->setCurrentText(ui->RealTextEdit->currentFont().family());
+    ui->RealTextEdit->setAcceptDrops(false);
+    ui->fontFamilyBox->setCurrentText(ui->RealTextEdit->currentFont().family());
+    for(int i=0; i<ui->fontFamilyBox->count(); i++) {
+        ui->fontFamilyBox->setItemIcon(i, fontIcon);
+    }
+    hideLastAddedItem(ui->fontFamilyBox);
     //ui->RealTextEdit->document()->setDefaultFont(QFont("Times New Roman", 14));
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbolsAt(0, _client->getVector());
@@ -221,7 +228,7 @@ void EditorWindow::on_buttonCopy_clicked() {
 }
 
 /***********************************************************************************
-*                         TEXT HIGHLIGHTING BUTTON                                 *
+*                         TEXT SEARCH BUTTON                                       *
 ************************************************************************************/
 void EditorWindow::on_buttonSearch_clicked() {
     QString findtext = QInputDialog::getText(this, "Search", "Insert text to search: ");
@@ -252,59 +259,29 @@ void EditorWindow::on_fontSizeBox_activated(int index) {
 /***********************************************************************************
 *                            FONT FAMILY COMBOBOX                                  *
 ************************************************************************************/
-//TODO: Handle the situation where we have a text made of different size
+void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
+    if(ui->fontFamilyBox->currentText() != "") {
+        QTextCursor c = ui->RealTextEdit->textCursor();
+        QString fontFamily = ui->fontFamilyBox->currentText(); //get fontfamily from text of item selected
+        ui->RealTextEdit->setFontFamily(fontFamily);
+        /*
+        QTextCharFormat format;
+        format.setFontFamily(fontFamily);
+        c.mergeCharFormat(format);
+        */
+        sendFontChangeRequest(fontFamily.toStdString());
+        ui->RealTextEdit->setFocus();
+    }
+}
+
 void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f) {
-
-    double fontPointSize;
-    bool bold = false;
-    bool italic = false;
-    bool underl = false;
-    QColor textcolor;
-    QColor backcolor;
-    QTextCursor c = ui->RealTextEdit->textCursor();
-
-    //Restore previous property of text
-    fontPointSize = ui->RealTextEdit->fontPointSize();
-    textcolor = ui->RealTextEdit->textColor();
-    backcolor = ui->RealTextEdit->textBackgroundColor();
-    qDebug() << "Previous selected color: " << backcolor;
-    if(ui->RealTextEdit->fontWeight()>50) {
-        bold=true;
-    }
-    if(ui->RealTextEdit->fontItalic()) {
-        italic = true;
-    }
-    if(ui->RealTextEdit->fontUnderline()) {
-        underl = true;
-    }
-
     //Set new FontFamily
     QTextCharFormat format;
     format.setFont(f);
     QFontInfo infof(f);
     QString family = infof.family();
     ui->RealTextEdit->setFontFamily(family);
-
-    //Restore previous property of text
-    ui->RealTextEdit->setFontPointSize(fontPointSize);
-    ui->RealTextEdit->setTextColor(textcolor);
-    if(bold==true) {
-        ui->RealTextEdit->setFontWeight(QFont::Bold);
-    }
-    if(italic==true) {
-        ui->RealTextEdit->setFontItalic(true);
-    }
-    if(underl==true) {
-        ui->RealTextEdit->setFontUnderline(true);
-    }
-
-    //Check if background color is the default one or not
-    if(backcolor!=(QColor(0,0,0,255))) { //The QColor is default trasparent (r=0,g=0,b=0,a=255) that in Qt ARGB is (1,0,0,0).
-        //If backcolor is == (0,0,0,255) and i set another background color, then the background will be black.
-        ui->RealTextEdit->setTextBackgroundColor(backcolor);
-    }
-
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    ui->RealTextEdit->setFocus();
 }
 
 /***********************************************************************************
@@ -315,12 +292,12 @@ void EditorWindow::on_buttonCollab_clicked() {
         ui->buttonCollab->setChecked(true);
         ui->actionCollaboratori->setText("Nascondi Collaboratori");
         ui->listWidget->show();
-        ui->labelCollab->show();
+        //ui->labelCollab->show();
     } else {
         ui->buttonCollab->setChecked(false);
         ui->actionCollaboratori->setText("Mostra Collaboratori");
         ui->listWidget->hide();
-        ui->labelCollab->hide();
+        //ui->labelCollab->hide();
     }
     ui->RealTextEdit->setFocus();
 }
@@ -332,52 +309,53 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
     if(!c.hasSelection()) {
         ui->fontSizeBox->setCurrentText(QString::number(c.charFormat().fontPointSize()));
+        //ui->fontFamilyBox->setCurrentText(c.charFormat().fontFamily());
+        qDebug() << "char format fontfamily: " << c.charFormat().fontFamily();
+        ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(c.charFormat().fontFamily()));
     }
 }
 
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
-
     QTextCursor c = ui->RealTextEdit->textCursor();
 
     /****************************************************************
      * Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
      * https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
      ****************************************************************/
-    if(ui->RealTextEdit->fontPointSize()<=0) {
-        /*
-        If I'm in the first position and press CANC or BACKSPACE, the font index and the size of font became 0 (QT Known bug 29393)
-        This is my personal solution: if fontPointSize became less or equal than 0, then I restore the previous selected font and dimension
-        KNOWN BUG
-        1) If the user press "CTRL+A and after CANC", the first char is in default font/dimension (Times New Roman - 14)
-        2) If the user press "Arrow Up" and the RealTextEdit is fully empty, the first char is in default font/dimension (Time New Romans - 14)
-        */
+    if(ui->RealTextEdit->fontPointSize() <= 0) {
         int dimensionFromOtherSide = (ui->fontSizeBox->currentText()).toInt();
-        QString fontFromOtherSide = ui->fontSelectorBox->currentText();
+        QString fontFamily = ui->fontFamilyBox->currentText();
         ui->RealTextEdit->setFontPointSize(dimensionFromOtherSide);
-        ui->RealTextEdit->setFontFamily(fontFromOtherSide);
+        ui->RealTextEdit->setFontFamily(fontFamily);
         qDebug()<<"Il Cursore è sicuramente in posizione iniziale";
     }
 
     /****************************************************************
      *                      TEXT FONT FAMILY                        *
      ****************************************************************/
+    /*
     QFont f = ui->RealTextEdit->fontFamily();
     QFontInfo infof(f);
     QString family = infof.family();
 
     if(!c.hasSelection()) {
-        /*
-         * Is important that the cursor hasn't selection. If i have "AAAAABBB" text on the document,
-         * where A is a char written with font1 and B is char written with font 2, and I start a selection
-         * from the second A up and reach the B, then the text becomes "ABBBBBBBB".
-         * Another example is the following: if I start a selection from the last B and reach the fourth,
-         * then the text becomes "AAAAAAAA".
-         *
-         * Change fontSelector trigger the fontSelectorBox_currentFontChanged() function, that change the
-         * font of the selected text (or the following text) according to the fontSelectorBox!
-         * Hey, did you imagine to fall in this complexed situation? Me neither! This s**t goes crazy!
-        */
         ui->fontSelectorBox->setCurrentFont(family);
+    }
+    */
+    if(!c.hasSelection()) {
+        QString fontFamily = ui->RealTextEdit->fontFamily();
+        ui->fontFamilyBox->setCurrentText(fontFamily);
+        ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(ui->fontFamilyBox->currentText()));
+    }
+    else {
+        QString fontFamilyCalculated = calculateFontFamilyComboBox(c);
+        if(fontFamilyCalculated == "FONT_UNKNOWN") {
+            ui->fontSizeBox->setCurrentText(""); //blank text on item combobox
+            ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(""));
+        } else {
+            ui->fontFamilyBox->setCurrentText(fontFamilyCalculated);
+            ui->RealTextEdit->setFontFamily(fontFamilyCalculated); //set fontFamily to common fontFamily of the chars
+        }
     }
 
     /****************************************************************
@@ -504,16 +482,38 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos;
             int firstCharFontSize = ui->fontSizeBox->currentText().toInt();
+            std::string firstCharFontFamily = ui->fontFamilyBox->currentText().toStdString();
 
             if(cursor.hasSelection()) { //Remove range of characters selected
                 pos = cursor.selectionStart();
                 int startIndex = cursor.selectionStart();
                 int endIndex = cursor.selectionEnd();
 
-                //Get font size of the first char of the selection
+                //Get fontsize and fontfamily of the first char of the selection
                 QTextCursor tempCursor = cursor;
                 tempCursor.setPosition(startIndex+1, QTextCursor::MoveAnchor);
                 firstCharFontSize = tempCursor.charFormat().font().pointSize();
+                firstCharFontFamily = tempCursor.charFormat().font().family().toStdString();
+
+                //change format
+                QTextCharFormat f;
+                if(ui->fontSizeBox->currentText() == "")
+                    f.setFontPointSize(firstCharFontSize); //set fontSize of first char of the selection
+                else
+                    f.setFontPointSize(ui->fontSizeBox->currentText().toInt()); //set fontSize to common fontSize of the chars
+                if(ui->fontFamilyBox->currentText() == "")
+                    f.setFontFamily(QString::fromStdString(firstCharFontFamily)); //set fontFamily of first char of the selection
+                else
+                    f.setFontFamily(ui->fontFamilyBox->currentText()); //set fontFamily to common fontFamily of the chars
+
+                //apply format
+                cursor.setPosition(startIndex, QTextCursor::MoveAnchor);
+                cursor.setPosition(endIndex, QTextCursor::KeepAnchor);
+                cursor.mergeCharFormat(f);
+                ui->RealTextEdit->mergeCurrentCharFormat(f);
+                ui->RealTextEdit->setTextCursor(cursor);
+                ui->fontSizeBox->setCurrentText(QString::number(f.fontPointSize()));
+                ui->fontFamilyBox->setCurrentText(f.fontFamily());
 
                 //Serialize data
                 json j;
@@ -528,13 +528,15 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
             wchar_t c = keyEvent->text().toStdWString().c_str()[0];
             ui->RealTextEdit->setFontPointSize(ui->fontSizeBox->currentText().toInt());
+            ui->RealTextEdit->setFontFamily(ui->fontFamilyBox->currentText());
 
             //if that selected size is not an index of combobox, add it (and hide it)
             if(ui->fontSizeBox->findText(ui->fontSizeBox->currentText()) == -1) {
                 ui->fontSizeBox->addItem(ui->fontSizeBox->currentText());
-                hideLastAddedItem();
+                hideLastAddedItem(ui->fontSizeBox);
             }
 
+            /*
             //force changing cursor char format if fontPointSize of textedit is different from the combobox current text
             if(QString::number(ui->RealTextEdit->fontPointSize()) != ui->fontSizeBox->currentText()) {
                 if(cursor.hasSelection()) {
@@ -558,6 +560,8 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                     ui->fontSizeBox->setCurrentText(QString::number(f.fontPointSize()));
                 }
             }
+            */
+
             qDebug() << "char: " << c;
             tuple = std::make_pair(pos, c);
 
@@ -735,7 +739,7 @@ void EditorWindow::on_actionRinomina_triggered() {
 
     if(_client->getStatus()==false) {
         StayInThisWindow = handleConnectionLoss();
-    }else {
+    } else {
         textOnTitleBar = "C.A.R.T.E. - " + newText;
         this->setWindowTitle(textOnTitleBar);
     }
@@ -1138,7 +1142,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     } else if (result == "RENAME_SUCCESS") {
         ui->DocName->setText(QString::fromStdString(filename));
         _client->setFilename(QString::fromStdString(filename));      //Assign newText to the variable
-        this->setWindowTitle(QString::fromStdString(filename));
+        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename));
         ui->RealTextEdit->setFocus(); //Return focus to textedit
     } else if(result == "INVITE_URI_SUCCESS") {
         QMessageBox::warning(this,"Invito effettuato con successo", "Il tuo invito a collaborare è stato correttamente eseguito.");
@@ -1200,7 +1204,7 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         //if the selected sizes received are not an index of combobox, add them (and hide them)
         if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
             ui->fontSizeBox->addItem(QString::number(s.getStyle().getFontSize()));
-            hideLastAddedItem();
+            hideLastAddedItem(ui->fontSizeBox);
         }
 
         int pos = index++;
@@ -1232,7 +1236,7 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     //if that selected size is not an index of combobox, add it (and hide it)
     if(ui->fontSizeBox->findText(QString::number(style.getFontSize())) == -1) {
         ui->fontSizeBox->addItem(QString::number(style.getFontSize()));
-        hideLastAddedItem();
+        hideLastAddedItem(ui->fontSizeBox);
         ui->RealTextEdit->setFontPointSize(cursor.charFormat().fontPointSize());
         ui->fontSizeBox->setCurrentText(QString::number(cursor.charFormat().fontPointSize()));
     }
@@ -1291,7 +1295,7 @@ void EditorWindow::formatSymbols(int startIndex, int endIndex, int format) {
 
 void EditorWindow::hideAndChangeCustomFontSize() {
     /* Hide last added item */
-    hideLastAddedItem();
+    hideLastAddedItem(ui->fontSizeBox);
 
     /* Change font point size of the text edit */
     changedFontSize = true;
@@ -1320,7 +1324,6 @@ void EditorWindow::resetFontSize() {
 }
 
 void EditorWindow::changeFontSize(int startIndex, int endIndex, int fontSize) {
-
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     QTextCharFormat newFormat;
 
@@ -1334,9 +1337,23 @@ void EditorWindow::changeFontSize(int startIndex, int endIndex, int fontSize) {
     ui->RealTextEdit->setFocus();
 }
 
+void EditorWindow::changeFontFamily(int startIndex, int endIndex, std::string fontFamily) {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    QTextCharFormat newFormat;
+
+    while(endIndex > startIndex) {
+        cursor.setPosition(--endIndex);
+        cursor.setPosition(endIndex+1, QTextCursor::KeepAnchor); //to select the char to be updated
+        newFormat.setFontFamily(QString::fromStdString(fontFamily));
+        cursor.mergeCharFormat(newFormat);
+    }
+    qDebug() << "Changed font family in char range" << endl;
+    ui->RealTextEdit->setFocus();
+}
+
 symbolStyle EditorWindow::getCurCharStyle() {
     bool isBold = ui->RealTextEdit->fontWeight()==QFont::Bold;
-    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->RealTextEdit->fontFamily().toStdString(), ui->fontSizeBox->currentText().toInt()};
+    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->fontFamilyBox->currentText().toStdString(), ui->fontSizeBox->currentText().toInt()};
     return style;
 }
 
@@ -1495,16 +1512,37 @@ int EditorWindow::calculateFontSizeComboBox(QTextCursor c) {
     return isMixed ? -1 : vec.at(0);
 }
 
-void EditorWindow::hideLastAddedItem() {
+QString EditorWindow::calculateFontFamilyComboBox(QTextCursor c) {
+    int startIndex = c.selectionStart();
+    int endIndex = c.selectionEnd();
+    std::vector<QString> vec;
+    QString curFontFamily;
+    bool isMixed = false;
+    int oldPos = c.position();
+
+    while(endIndex > startIndex) { //loop over the cursor selection
+        c.setPosition(endIndex--, QTextCursor::KeepAnchor);
+        curFontFamily = c.charFormat().fontFamily();
+        vec.push_back(curFontFamily);
+        if(curFontFamily != vec.at(0)) {
+            isMixed = true;
+            break;
+        }
+    }
+    c.setPosition(oldPos);
+    return isMixed ? "FONT_UNKNOWN" : vec.at(0);
+}
+
+void EditorWindow::hideLastAddedItem(QComboBox* combobox) {
     /* Hide new item created from the QComboBox list (because we don't want to display all the items user select) */
-    QListView* view = qobject_cast<QListView *>(ui->fontSizeBox->view());
+    QListView* view = qobject_cast<QListView *>(combobox->view());
     Q_ASSERT(view != nullptr);
-    view->setRowHidden(ui->fontSizeBox->count()-1, true);
+    view->setRowHidden(combobox->count()-1, true);
 
     /* Hide the item also for the mouse wheel */
-    QStandardItemModel* model = qobject_cast<QStandardItemModel*>(ui->fontSizeBox->model());
+    QStandardItemModel* model = qobject_cast<QStandardItemModel*>(combobox->model());
     Q_ASSERT(model != nullptr);
-    QStandardItem* item = model->item(ui->fontSizeBox->count()-1);
+    QStandardItem* item = model->item(combobox->count()-1);
     item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
 }
 

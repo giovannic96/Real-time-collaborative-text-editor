@@ -156,9 +156,8 @@ void myClient::do_read_body() {
                             symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
 
                             s = jsonUtility::from_json_symbol(j);
-                            if(s==nullptr){
-                                //SHOW ERROR
-                                emitMsgInCorrectWindow();
+                            if(s==nullptr) {
+                                emitMsgInCorrectWindow(); //show error
                                 do_read_header();
                             }
                             symbols.push_back(*s);
@@ -202,9 +201,8 @@ void myClient::do_read_body() {
                         for(const auto& j: jsonSymbols) {
                             symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
                             s = jsonUtility::from_json_symbol(j);
-                            if(s==nullptr){
-                                //SHOW ERROR
-                                emitMsgInCorrectWindow();
+                            if(s==nullptr) {
+                                emitMsgInCorrectWindow(); //show error
                                 do_read_header();
                             }
                             symbols.push_back(*s);
@@ -321,6 +319,12 @@ void myClient::do_read_body() {
                     int fontSizeJSON;
                     jsonUtility::from_json_fontsize_change(jdata_in, startIndexJSON, endIndexJSON, fontSizeJSON);
                     emit changeFontSize(startIndexJSON, endIndexJSON, fontSizeJSON);
+                } else if(opJSON == "FONTFAMILY_CHANGE_RESPONSE") {
+                    int startIndexJSON;
+                    int endIndexJSON;
+                    std::string fontFamilyJSON;
+                    jsonUtility::from_json_fontfamily_change(jdata_in, startIndexJSON, endIndexJSON, fontFamilyJSON);
+                    emit changeFontFamily(startIndexJSON, endIndexJSON, fontFamilyJSON);
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");

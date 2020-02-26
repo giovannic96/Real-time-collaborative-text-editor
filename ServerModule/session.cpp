@@ -83,7 +83,9 @@ void session::do_read_body()
                 std::string curFile = std::string();
                 bool onlyToThisEditor = false;
                 const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
-                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" || opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST" || opJSON == "FONTSIZE_CHANGE_REQUEST") {
+                if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" ||
+                    opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST" || opJSON == "FONTSIZE_CHANGE_REQUEST" ||
+                    opJSON == "FONTFAMILY_CHANGE_REQUEST") {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
                 }
@@ -700,6 +702,41 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, fontSizeJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "FONTFAMILY_CHANGE_REQUEST") {
+        int startIndexJSON;
+        int endIndexJSON;
+        std::string fontFamilyJSON;
+        bool firstTime = true;
+        jsonUtility::from_json_fontfamily_change(jdata_in, startIndexJSON, endIndexJSON, fontFamilyJSON);
+        std::cout << "[FONTFAMILY_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " newFontFamily: " << fontFamilyJSON << std::endl;
+
+        int counter = startIndexJSON;
+        while(counter < endIndexJSON) {
+            //Construct msgInfo
+            msgInfo m = localFontFamilyChange(counter++, fontFamilyJSON);
+            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+            if(firstTime) {
+                edId = m.getEditorId(); //don't send this message to this editor
+                firstTime = false;
+            }
+
+            //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            //Dispatch message to all the clients
+            room_.send(m);
+            room_.dispatchMessages();
+        }
+
+        curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_fontfamily_change(j, "FONTFAMILY_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, fontFamilyJSON);
         const std::string response = j.dump();
         return response;
 

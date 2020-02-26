@@ -12,6 +12,10 @@ msgInfo::msgInfo(int type, int editorId, symbol s, int newIndex)
             : type(type), editorId(editorId), s(std::move(s)), newIndex(newIndex) {
 }
 
+msgInfo::msgInfo(int type, int editorId, symbol s, std::string family)
+        : type(type), editorId(editorId), s(std::move(s)), fontFamily(std::move(family)) {
+}
+
 int msgInfo::getType() const {
     return type;
 }
@@ -26,6 +30,10 @@ int msgInfo::getEditorId() {
 
 int msgInfo::getNewIndex() const {
     return newIndex;
+}
+
+std::string msgInfo::getFontFamily() const {
+    return fontFamily;
 }
 
 std::string msgInfo::toString() {

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTextCursor>
+#include <QComboBox>
 #include "jsonUtility.h"
 #include "message.h"
 #include "myClient.h"
@@ -46,6 +47,7 @@ private slots:
 
     //Modify font and size of text
     void on_fontSizeBox_currentIndexChanged(int index);
+    void on_fontFamilyBox_currentIndexChanged(int index);
     void on_fontSizeBox_activated(int index);
     void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
@@ -106,6 +108,7 @@ public slots:
     void hideAndChangeCustomFontSize();
     void resetFontSize();
     void changeFontSize(int startIndex, int endIndex, int fontSize);
+    void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
 
 private:
@@ -122,11 +125,12 @@ private:
     QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
     std::vector<bool> calculateButtonChecks(QTextCursor& c);
     int calculateFontSizeComboBox(QTextCursor c);
+    QString calculateFontFamilyComboBox(QTextCursor c);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);
     int getIndexFromFontSize(int fontSize);
-    void hideLastAddedItem();
+    void hideLastAddedItem(QComboBox* combobox);
     void insertCharRangeRequest(int pos);
     void removeCharRequest(int pos);
     void removeCharRangeRequest(const QTextCursor& cursor);

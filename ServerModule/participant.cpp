@@ -135,6 +135,19 @@ msgInfo participant::localFontSizeChange(int startIndex, int fontSize) noexcept(
     return m;
 }
 
+msgInfo participant::localFontFamilyChange(int startIndex, const std::string& fontFamily) noexcept(false) {
+    if(startIndex < 0 || startIndex > _symbols.size()) {
+        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
+        //TODO: return null msgInfo or sthg similar
+    }
+    symbol s = _symbols.at(startIndex);
+    symbolStyle newStyle;
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), fontFamily, s.getStyle().getFontSize() };
+    _symbols.at(startIndex).setStyle(newStyle);
+    msgInfo m(4, getId(), s, fontFamily);
+    return m;
+}
+
 int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
     if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
         return 1; //correct position found
@@ -224,6 +237,23 @@ void participant::process(const msgInfo& m) {
             symbolStyle newStyle;
             //in this case 'newIndex' of msgInfo represents the fontSize
             newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), m.getNewIndex() };
+            _symbols[index].setStyle(newStyle);
+        }
+    }
+    /* Font family change */
+    else if(m.getType() == 4) {
+        std::vector<int> fractionalPos = m.getSymbol().getPos();
+        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
+        if (it == _symbols.end()) {
+            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            return;
+        }
+        int index = it - _symbols.begin();
+
+        if(_symbols.at(index).getId() == m.getSymbol().getId()) {
+            symbol s = _symbols[index];
+            symbolStyle newStyle;
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), m.getFontFamily(), s.getStyle().getFontSize() };
             _symbols[index].setStyle(newStyle);
         }
     }

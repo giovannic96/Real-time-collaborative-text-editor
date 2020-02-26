@@ -525,6 +525,9 @@
                     <height>22</height>
                    </size>
                   </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
                   <property name="toolTipDuration">
                    <number>0</number>
                   </property>
@@ -579,6 +582,9 @@
                     <width>0</width>
                     <height>0</height>
                    </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="autoFillBackground">
                    <bool>false</bool>
@@ -1200,27 +1206,130 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="labelCollab">
+               <widget class="QComboBox" name="fontFamilyBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="minimumSize">
                  <size>
-                  <width>150</width>
+                  <width>0</width>
                   <height>0</height>
                  </size>
                 </property>
                 <property name="font">
                  <font>
-                  <family>Calibri</family>
-                  <pointsize>16</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <family>Segoe UI</family>
+                  <pointsize>10</pointsize>
                  </font>
                 </property>
-                <property name="layoutDirection">
-                 <enum>Qt::RightToLeft</enum>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
                 </property>
-                <property name="text">
-                 <string>COLLABORATORI</string>
+                <property name="styleSheet">
+                 <string notr="true">QAbstractItemView::item {
+margin-top: 3px;
+}</string>
                 </property>
+                <property name="currentText">
+                 <string>Times New Roman</string>
+                </property>
+                <property name="currentIndex">
+                 <number>13</number>
+                </property>
+                <property name="maxVisibleItems">
+                 <number>16</number>
+                </property>
+                <property name="insertPolicy">
+                 <enum>QComboBox::NoInsert</enum>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Arial</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Arial Black</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Comic Sans MS</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Courier New</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Franklin Gothic Medium</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Georgia</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Impact</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Lucida Console</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Lucida Sans Unicode</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Microsoft Sans Serif</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Palatino Linotype</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Sylfaen</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Tahoma</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Times New Roman</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Trebuchet MS</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Verdana</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>
