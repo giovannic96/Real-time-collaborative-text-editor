@@ -38,6 +38,9 @@
     </property>
     <item row="2" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetFixedSize</enum>
+      </property>
       <item>
        <widget class="QFrame" name="editorFrame">
         <property name="sizePolicy">
@@ -512,49 +515,130 @@
                  <number>3</number>
                 </property>
                 <item>
-                 <widget class="QFontComboBox" name="fontSelectorBox">
+                 <widget class="QComboBox" name="fontFamilyBox">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="minimumSize">
                    <size>
-                    <width>120</width>
-                    <height>22</height>
+                    <width>0</width>
+                    <height>0</height>
                    </size>
                   </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>220</width>
-                    <height>22</height>
-                   </size>
+                  <property name="font">
+                   <font>
+                    <family>Segoe UI</family>
+                    <pointsize>10</pointsize>
+                   </font>
                   </property>
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
-                  <property name="toolTipDuration">
-                   <number>0</number>
-                  </property>
-                  <property name="autoFillBackground">
-                   <bool>false</bool>
-                  </property>
                   <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <property name="editable">
-                   <bool>false</bool>
+                   <string notr="true">QAbstractItemView::item {
+margin-top: 3px;
+}</string>
                   </property>
                   <property name="currentText">
                    <string>Times New Roman</string>
                   </property>
                   <property name="currentIndex">
-                   <number>176</number>
+                   <number>13</number>
+                  </property>
+                  <property name="maxVisibleItems">
+                   <number>16</number>
                   </property>
                   <property name="insertPolicy">
-                   <enum>QComboBox::InsertAtTop</enum>
+                   <enum>QComboBox::NoInsert</enum>
                   </property>
-                  <property name="currentFont">
-                   <font>
-                    <family>Times New Roman</family>
-                    <pointsize>14</pointsize>
-                   </font>
-                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Arial</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Arial Black</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Comic Sans MS</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Courier New</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Franklin Gothic Medium</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Georgia</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Impact</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Lucida Console</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Lucida Sans Unicode</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Microsoft Sans Serif</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Palatino Linotype</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Sylfaen</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Tahoma</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Times New Roman</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Trebuchet MS</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Verdana</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                 <item>
@@ -1205,133 +1289,6 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QComboBox" name="fontFamilyBox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Segoe UI</family>
-                  <pointsize>10</pointsize>
-                 </font>
-                </property>
-                <property name="cursor">
-                 <cursorShape>PointingHandCursor</cursorShape>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QAbstractItemView::item {
-margin-top: 3px;
-}</string>
-                </property>
-                <property name="currentText">
-                 <string>Times New Roman</string>
-                </property>
-                <property name="currentIndex">
-                 <number>13</number>
-                </property>
-                <property name="maxVisibleItems">
-                 <number>16</number>
-                </property>
-                <property name="insertPolicy">
-                 <enum>QComboBox::NoInsert</enum>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Arial</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Arial Black</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Comic Sans MS</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Courier New</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Franklin Gothic Medium</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Georgia</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Impact</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Lucida Console</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Lucida Sans Unicode</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Microsoft Sans Serif</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Palatino Linotype</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Sylfaen</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Tahoma</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Times New Roman</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Trebuchet MS</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Verdana</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string/>
-                 </property>
-                </item>
-               </widget>
-              </item>
              </layout>
             </item>
            </layout>
@@ -1340,10 +1297,10 @@ margin-top: 3px;
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <property name="spacing">
-            <number>40</number>
+            <number>25</number>
            </property>
            <property name="sizeConstraint">
-            <enum>QLayout::SetNoConstraint</enum>
+            <enum>QLayout::SetFixedSize</enum>
            </property>
            <property name="leftMargin">
             <number>42</number>
@@ -1360,7 +1317,7 @@ margin-top: 3px;
            <item>
             <widget class="QTextEdit" name="RealTextEdit">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -1388,34 +1345,86 @@ border-left: 2px solid #505050;</string>
             </widget>
            </item>
            <item>
-            <widget class="QListWidget" name="listWidget">
-             <property name="minimumSize">
-              <size>
-               <width>250</width>
-               <height>0</height>
-              </size>
+            <layout class="QVBoxLayout" name="LayoutCollab">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetNoConstraint</enum>
              </property>
-             <property name="maximumSize">
-              <size>
-               <width>250</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <family>Calibri</family>
-               <pointsize>14</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">border:none;
+             <item>
+              <widget class="QFrame" name="frameCollab">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QLabel" name="labelCollab">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>18</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="layoutDirection">
+                   <enum>Qt::LeftToRight</enum>
+                  </property>
+                  <property name="text">
+                   <string>COLLABORATORI</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QListWidget" name="listWidget">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>250</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>250</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Calibri</family>
+                    <pointsize>14</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">border:none;
 background: #f3f3f3;
 
 </string>
-             </property>
-            </widget>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -1432,7 +1441,7 @@ background: #f3f3f3;
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

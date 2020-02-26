@@ -52,7 +52,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
     ui->listWidget->hide();
-    //ui->labelCollab->hide();
+    ui->labelCollab->hide();
     ui->DocName->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -278,12 +278,14 @@ void EditorWindow::on_buttonCollab_clicked() {
         ui->buttonCollab->setChecked(true);
         ui->actionCollaboratori->setText("Nascondi Collaboratori");
         ui->listWidget->show();
-        //ui->labelCollab->show();
+        ui->labelCollab->show();
+        //ui->frameCollab->show(); IT HAS TO BE EVER SHOWED!!!
     } else {
         ui->buttonCollab->setChecked(false);
         ui->actionCollaboratori->setText("Mostra Collaboratori");
         ui->listWidget->hide();
-        //ui->labelCollab->hide();
+        ui->labelCollab->hide();
+        //ui->frameCollab->hide(); NEVER, AND I SAID, "NEVER" HIDE THE "frameCollab" OR THE ENTIRE LAYOUT WILL FUCKED UP! IS LIKE PUT A BIG PENIS IN THE MIDDLE OF THE SCREEN
     }
     ui->RealTextEdit->setFocus();
 }
