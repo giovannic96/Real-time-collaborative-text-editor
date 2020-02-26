@@ -544,7 +544,7 @@
                    <string>Times New Roman</string>
                   </property>
                   <property name="currentIndex">
-                   <number>166</number>
+                   <number>176</number>
                   </property>
                   <property name="insertPolicy">
                    <enum>QComboBox::InsertAtTop</enum>
@@ -1432,7 +1432,7 @@ background: #f3f3f3;
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

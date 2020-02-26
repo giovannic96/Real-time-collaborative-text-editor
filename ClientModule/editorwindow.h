@@ -49,7 +49,6 @@ private slots:
     void on_fontSizeBox_currentIndexChanged(int index);
     void on_fontFamilyBox_currentIndexChanged(int index);
     void on_fontSizeBox_activated(int index);
-    void on_fontSelectorBox_currentFontChanged(const QFont &f);
 
     //RealTextEdit Function
     void on_RealTextEdit_cursorPositionChanged();

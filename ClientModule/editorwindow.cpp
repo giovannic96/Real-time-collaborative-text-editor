@@ -45,7 +45,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
     item->setText(_client->getUsername());
-    item->setTextColor(QColor(255,1,1));
+    item->setForeground(QColor(255,1,1));
     fileItem.append(item);
     item2->setText("Genitore Due");
     fileItem.append(item2);
@@ -265,24 +265,9 @@ void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
         QTextCursor c = ui->RealTextEdit->textCursor();
         QString fontFamily = ui->fontFamilyBox->currentText(); //get fontfamily from text of item selected
         ui->RealTextEdit->setFontFamily(fontFamily);
-        /*
-        QTextCharFormat format;
-        format.setFontFamily(fontFamily);
-        c.mergeCharFormat(format);
-        */
         sendFontChangeRequest(fontFamily.toStdString());
         ui->RealTextEdit->setFocus();
     }
-}
-
-void EditorWindow::on_fontSelectorBox_currentFontChanged(const QFont &f) {
-    //Set new FontFamily
-    QTextCharFormat format;
-    format.setFont(f);
-    QFontInfo infof(f);
-    QString family = infof.family();
-    ui->RealTextEdit->setFontFamily(family);
-    ui->RealTextEdit->setFocus();
 }
 
 /***********************************************************************************
@@ -310,8 +295,6 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
     if(!c.hasSelection()) {
         ui->fontSizeBox->setCurrentText(QString::number(c.charFormat().fontPointSize()));
-        //ui->fontFamilyBox->setCurrentText(c.charFormat().fontFamily());
-        qDebug() << "char format fontfamily: " << c.charFormat().fontFamily();
         ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(c.charFormat().fontFamily()));
     }
 }
@@ -334,15 +317,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     /****************************************************************
      *                      TEXT FONT FAMILY                        *
      ****************************************************************/
-    /*
-    QFont f = ui->RealTextEdit->fontFamily();
-    QFontInfo infof(f);
-    QString family = infof.family();
-
-    if(!c.hasSelection()) {
-        ui->fontSelectorBox->setCurrentFont(family);
-    }
-    */
     if(!c.hasSelection()) {
         QString fontFamily = ui->RealTextEdit->fontFamily();
         ui->fontFamilyBox->setCurrentText(fontFamily);
@@ -415,34 +389,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     }
     AlignButtonStyleHandler();
 }
-
-/***********************************************************************************
-*                            OLD TopLeftBar FUNCTION                               *
-************************************************************************************
-void EditorWindow::on_buttonExit_clicked() {
-    QMessageBox::StandardButton reply;
-      reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
-                                    QMessageBox::Yes|QMessageBox::No);
-      if (reply == QMessageBox::Yes) {
-        LogoutRequest(); //Return to MenuWindow (close only the current document)
-      }
-}
-
-
-void EditorWindow::on_buttonToIcon_clicked() {
-    this->setWindowState(Qt::WindowMinimized);
-}
-
-void EditorWindow::on_buttonReduce_clicked(){
-    if(ui->buttonReduce->isChecked()){
-        this->setWindowState(Qt::WindowMaximized);
-    }else{
-        this->setWindowState(Qt::WindowNoState);
-        ui->buttonReduce->setCheckable(true);
-    }
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-*/
 
 /***********************************************************************************
 *                                   EVENT HANDLER                                  *
@@ -536,32 +482,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 ui->fontSizeBox->addItem(ui->fontSizeBox->currentText());
                 hideLastAddedItem(ui->fontSizeBox);
             }
-
-            /*
-            //force changing cursor char format if fontPointSize of textedit is different from the combobox current text
-            if(QString::number(ui->RealTextEdit->fontPointSize()) != ui->fontSizeBox->currentText()) {
-                if(cursor.hasSelection()) {
-                    //Get positions
-                    int startPos = cursor.selectionStart();
-                    int endPos = cursor.selectionEnd();
-
-                    //change format
-                    QTextCharFormat f;
-                    if(ui->fontSizeBox->currentText() == "")
-                        f.setFontPointSize(firstCharFontSize); //set fontSize of first char of the selection
-                    else
-                        f.setFontPointSize(ui->fontSizeBox->currentText().toInt()); //set fontSize to common fontSize of the chars
-
-                    //apply format
-                    cursor.setPosition(startPos, QTextCursor::MoveAnchor);
-                    cursor.setPosition(endPos, QTextCursor::KeepAnchor);
-                    cursor.mergeCharFormat(f);
-                    ui->RealTextEdit->mergeCurrentCharFormat(f);
-                    ui->RealTextEdit->setTextCursor(cursor);
-                    ui->fontSizeBox->setCurrentText(QString::number(f.fontPointSize()));
-                }
-            }
-            */
 
             qDebug() << "char: " << c;
             tuple = std::make_pair(pos, c);
