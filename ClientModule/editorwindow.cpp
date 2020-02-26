@@ -44,7 +44,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     item2 = new QListWidgetItem(itemString, ui->listWidget);
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
-    item->setText("Genitore Uno");
+    item->setText(_client->getUsername());
+    item->setTextColor(QColor(255,1,1));
     fileItem.append(item);
     item2->setText("Genitore Due");
     fileItem.append(item2);
@@ -646,6 +647,9 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
         ui->buttonUnderline->click();
+    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + Shift + Q";
+        on_actionEsci_triggered();
     }
 }
 
@@ -845,9 +849,21 @@ void EditorWindow::on_actionSottolineato_triggered() {
     ui->buttonUnderline->click();
 }
 
-//ESCI TRIGGERED
+//ESCI TRIGGERED            -->     CTRL+Shift+Q
 void EditorWindow::on_actionEsci_triggered() {
-    QMessageBox::information(this,"Attenzione", "IMPLEMENTARE EXIT da TUTTO IL PROGRAMMA IN MODO CORRETTO - Lo farà Hidro!");
+    //Get data from the form
+    QString user = _client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+    QApplication::exit(0);
 }
 
 

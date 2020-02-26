@@ -544,7 +544,7 @@
                    <string>Times New Roman</string>
                   </property>
                   <property name="currentIndex">
-                   <number>176</number>
+                   <number>166</number>
                   </property>
                   <property name="insertPolicy">
                    <enum>QComboBox::InsertAtTop</enum>
@@ -1432,7 +1432,7 @@ background: #f3f3f3;
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1530,6 +1530,10 @@ background: #f3f3f3;
    </property>
   </action>
   <action name="actionEsporta_come_PDF">
+   <property name="icon">
+    <iconset resource="Risorse.qrc">
+     <normaloff>:/image/Editor/save(1).png</normaloff>:/image/Editor/save(1).png</iconset>
+   </property>
    <property name="text">
     <string>Esporta come PDF</string>
    </property>
@@ -1619,6 +1623,9 @@ background: #f3f3f3;
   <action name="actionEsci">
    <property name="text">
     <string>Esci</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Q</string>
    </property>
   </action>
  </widget>
