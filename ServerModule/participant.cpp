@@ -6,7 +6,6 @@
 #include <iostream>
 #include <utility>
 #include "header_files/participant.h"
-#include "header_files/session.h"
 
 int participant::getId() const {
     return _siteId;
@@ -74,6 +73,18 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
     }
 }
 
+int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
+    if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
+        return 1; //correct position found
+    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex))
+        if (newSymPos.size() > posIndex+1 && curSymPos.size() <= posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
+            return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
+        else if (newSymPos.size() <= posIndex+1 && curSymPos.size() > posIndex+1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
+            return 1; //correct position found
+        else if (newSymPos.size() > posIndex+1 && curSymPos.size() > posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
+            return comparePos(curSymPos, newSymPos, posIndex+1); //call recursively this function using next index for posIndex
+}
+
 msgInfo participant::localErase(int index) noexcept(false) {
     if(index < 0 || index > _symbols.size()) {
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
@@ -104,17 +115,17 @@ msgInfo participant::localFormat(int startIndex, int format) noexcept(false) {
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
     if(format == MAKE_BOLD)
-        newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize()};
+        newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment()};
     else if(format == MAKE_ITALIC)
-        newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+        newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
     else if(format == MAKE_UNDERLINE)
-        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
     else if(format == UNMAKE_BOLD)
-        newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+        newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
     else if(format == UNMAKE_ITALIC)
-        newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+        newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
     else if(format == UNMAKE_UNDERLINE)
-        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
     else
         newStyle = s.getStyle();
     _symbols.at(startIndex).setStyle(newStyle);
@@ -129,7 +140,7 @@ msgInfo participant::localFontSizeChange(int startIndex, int fontSize) noexcept(
     }
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
-    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), fontSize };
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), fontSize, s.getStyle().getAlignment() };
     _symbols.at(startIndex).setStyle(newStyle);
     msgInfo m(3, getId(), s, fontSize); //in this case 'fontSize' (4th param) represents the fontSize, not the newIndex
     return m;
@@ -142,22 +153,10 @@ msgInfo participant::localFontFamilyChange(int startIndex, const std::string& fo
     }
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
-    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), fontFamily, s.getStyle().getFontSize() };
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), fontFamily, s.getStyle().getFontSize(), s.getStyle().getAlignment() };
     _symbols.at(startIndex).setStyle(newStyle);
     msgInfo m(4, getId(), s, fontFamily);
     return m;
-}
-
-int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
-    if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
-        return 1; //correct position found
-    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex))
-        if (newSymPos.size() > posIndex+1 && curSymPos.size() <= posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
-            return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
-        else if (newSymPos.size() <= posIndex+1 && curSymPos.size() > posIndex+1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
-            return 1; //correct position found
-        else if (newSymPos.size() > posIndex+1 && curSymPos.size() > posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
-            return comparePos(curSymPos, newSymPos, posIndex+1); //call recursively this function using next index for posIndex
 }
 
 void participant::process(const msgInfo& m) {
@@ -206,17 +205,17 @@ void participant::process(const msgInfo& m) {
             symbolStyle newStyle;
             //in this case 'newIndex' of msgInfo represents the format type -> 0: Bold, 1: Italic, 2: Underline, 3: Unbold
             if(m.getNewIndex() == MAKE_BOLD)
-                newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+                newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             else if(m.getNewIndex() == MAKE_ITALIC)
-                newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+                newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             else if(m.getNewIndex() == MAKE_UNDERLINE)
-                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             else if(m.getNewIndex() == UNMAKE_BOLD)
-                newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+                newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             else if(m.getNewIndex() == UNMAKE_ITALIC)
-                newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+                newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             else if(m.getNewIndex() == UNMAKE_UNDERLINE)
-                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize() };
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             else
                 newStyle = s.getStyle();
             _symbols[index].setStyle(newStyle);
@@ -236,7 +235,7 @@ void participant::process(const msgInfo& m) {
             symbol s = _symbols[index];
             symbolStyle newStyle;
             //in this case 'newIndex' of msgInfo represents the fontSize
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), m.getNewIndex() };
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), m.getNewIndex(), s.getStyle().getAlignment() };
             _symbols[index].setStyle(newStyle);
         }
     }
@@ -253,7 +252,7 @@ void participant::process(const msgInfo& m) {
         if(_symbols.at(index).getId() == m.getSymbol().getId()) {
             symbol s = _symbols[index];
             symbolStyle newStyle;
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), m.getFontFamily(), s.getStyle().getFontSize() };
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), m.getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
             _symbols[index].setStyle(newStyle);
         }
     }

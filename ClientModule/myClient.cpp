@@ -93,29 +93,26 @@ void myClient::do_read_body() {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                    if(db_responseJSON == "SIGNUP_OK") {
+                    if(db_responseJSON == "SIGNUP_OK")
                         emit formResultSuccess("SIGNUP_SUCCESS");
-                    } else {
+                    else
                         emit formResultFailure("SIGNUP_FAILURE");
-                    }
                 } else if(opJSON == "LOGOUT_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                    if(db_responseJSON == "LOGOUT_OK") {
+                    if(db_responseJSON == "LOGOUT_OK")
                         emit opResultSuccess("LOGOUT_SUCCESS");
-                    } else {
+                    else
                         emit opResultFailure("LOGOUT_FAILURE");
-                    }
                 } else if(opJSON == "DISCONNECT_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
-                    if(db_responseJSON == "LOGOUT_OK") {
+                    if(db_responseJSON == "LOGOUT_OK")
                         emit opResultSuccess("DISCONNECT_SUCCESS");
-                    } else {
+                    else
                         emit opResultFailure("DISCONNECT_FAILURE");
-                    }
                 } else if(opJSON == "LOGOUTURI_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -123,9 +120,8 @@ void myClient::do_read_body() {
                     if(db_responseJSON == "LOGOUTURI_OK") {
                         emit editorResultSuccess("LOGOUTURI_SUCCESS");
                         emit backToMenuWindow();
-                    } else {
+                    } else
                         emit editorResultFailure("LOGOUTURI_FAILURE");
-                    }
                 } else if(opJSON == "NEWFILE_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -139,10 +135,8 @@ void myClient::do_read_body() {
                         this->setFileURI(uriQString);
                         this->setVector(std::vector<symbol>());
                         emit opResultSuccess("NEWFILE_SUCCESS");
-                    } else {
+                    } else
                         emit opResultFailure("NEWFILE_FAILURE");
-                    }
-
                 } else if(opJSON == "OPENFILE_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -169,25 +163,20 @@ void myClient::do_read_body() {
 
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
-
                         //Update client data
                         this->setVector(std::vector<symbol>());
                         emit opResultSuccess("OPENFILE_SUCCESS");
-                    } else {
+                    } else
                         emit opResultFailure("OPENFILE_FAILURE");
-                    }
-
                 } else if(opJSON == "RENAMEFILE_RESPONSE") {
                     std::string db_responseJSON;
                     std::string filenameJSON;
                     jsonUtility::from_json_rename_file(jdata_in, db_responseJSON, filenameJSON);
 
-                    if(db_responseJSON == "RENAME_OK") {
+                    if(db_responseJSON == "RENAME_OK")
                         emit editorResultSuccess("RENAME_SUCCESS", filenameJSON.c_str());
-                    } else {
+                    else
                         emit editorResultFailure("RENAME_FAILURE");
-                    }
-
                 } else if(opJSON == "OPENWITHURI_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -239,9 +228,8 @@ void myClient::do_read_body() {
                         for(const auto& j: jsonFiles) {
                             File *f = nullptr; //do not remember to delete it! (keyword 'delete')
                             f = jsonUtility::from_json_file(j);
-                            if(f==nullptr){
-                                //SHOW ERROR
-                                emitMsgInCorrectWindow();
+                            if(f==nullptr) {
+                                emitMsgInCorrectWindow(); //show error
                                 do_read_header();
                             }
                             files.push_back(*f);
@@ -262,19 +250,18 @@ void myClient::do_read_body() {
                     std::string db_responseJSON;
                     jsonUtility::from_json_inviteURI(jdata_in, db_responseJSON);
 
-                    if(db_responseJSON == "INVITE_URI_SUCCESS") {
+                    if(db_responseJSON == "INVITE_URI_SUCCESS")
                         emit editorResultSuccess("INVITE_URI_SUCCESS");
-                    } else if(db_responseJSON == "ALREADY_PARTECIPANT") {
+                    else if(db_responseJSON == "ALREADY_PARTECIPANT")
                         emit editorResultFailure("ALREADY_PARTECIPANT");
-                    } else if(db_responseJSON == "INVITED_NOT_EXIST") {
+                    else if(db_responseJSON == "INVITED_NOT_EXIST")
                         emit editorResultFailure("INVITED_NOT_EXIST");
-                    } else if(db_responseJSON == "SAME_USER") {
+                    else if(db_responseJSON == "SAME_USER")
                         emit editorResultFailure("SAME_USER");
-                    } else if(db_responseJSON == "SEND_EMAIL_FAILED") {
+                    else if(db_responseJSON == "SEND_EMAIL_FAILED")
                         emit editorResultFailure("SEND_EMAIL_FAILED");
-                    } else {
+                    else
                         emit editorResultFailure("INVITE_URI_FAILURE");
-                    }
                 } else if(opJSON == "INSERTION_RESPONSE") {
                     std::pair<int, wchar_t> tupleJSON;
                     symbolStyle styleJSON;
@@ -325,15 +312,20 @@ void myClient::do_read_body() {
                     std::string fontFamilyJSON;
                     jsonUtility::from_json_fontfamily_change(jdata_in, startIndexJSON, endIndexJSON, fontFamilyJSON);
                     emit changeFontFamily(startIndexJSON, endIndexJSON, fontFamilyJSON);
+                } else if(opJSON == "ALIGNMENT_CHANGE_RESPONSE") {
+                    int startBlockJSON;
+                    int endBlockJSON;
+                    int alignmentJSON;
+                    jsonUtility::from_json_alignment_change(jdata_in, startBlockJSON, endBlockJSON, alignmentJSON);
+                    emit changeAlignment(startBlockJSON, endBlockJSON, alignmentJSON);
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");
                 }
                 do_read_header(); //continue reading loop
 
-            } catch (json::exception& e){
-                // output exception information
-                         std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
+            } catch (json::exception& e) {
+                std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
                 emitMsgInCorrectWindow();
                 do_read_header();
             }

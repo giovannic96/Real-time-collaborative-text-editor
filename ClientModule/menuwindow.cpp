@@ -30,7 +30,7 @@ MenuWindow::~MenuWindow() {
 }
 
 //CHECK HOW THIS WINDOW IS CLOSED
-void MenuWindow::closeEvent(QCloseEvent * event){
+void MenuWindow::closeEvent(QCloseEvent * event) {
     if(Logout==false){
         //If isn't a simple logout, but a forced close then disconnect the user
         RapidUserLogout();
@@ -39,7 +39,7 @@ void MenuWindow::closeEvent(QCloseEvent * event){
 }
 
 //SEE UP
-void MenuWindow::RapidUserLogout(){
+void MenuWindow::RapidUserLogout() {
     //Get data from the form
     QString user = _client->getUsername();
     QByteArray ba_user = user.toLocal8Bit();
@@ -59,7 +59,7 @@ void MenuWindow::on_LogoutButton_clicked(){
     Logout=true;    //set simple logout true
 
     if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
+        handleTheConnectionLoss();
     }else{
         //Get data from the form
         QString user = _client->getUsername();
@@ -93,7 +93,7 @@ void MenuWindow::mouseMoveEvent(QMouseEvent *evt){
 //USERNAME BUTTON
 void MenuWindow::on_Username_clicked(){
     if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
+        handleTheConnectionLoss();
     }else{
         profile = true;
         on_listFiles_clicked();
@@ -135,7 +135,7 @@ void MenuWindow::on_exitButton_clicked() {
                                     QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         if(_client->getStatus()==false){
-            SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
+            handleTheConnectionLoss();
         }else{
             //Get data from the form
             QString user = _client->getUsername();
@@ -161,7 +161,7 @@ void MenuWindow::on_backButton_clicked() {
 //NEW DOCUMENT
 void MenuWindow::on_newDoc_clicked(){
     if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
+        handleTheConnectionLoss();
     }else{
         bool ok;
         QString text = QInputDialog::getText(this, tr("Titolo documento"),
@@ -173,10 +173,7 @@ void MenuWindow::on_newDoc_clicked(){
             QString user = _client->getUsername();
             QByteArray ba_user = user.toLocal8Bit();
             const char *c_user = ba_user.data();
-            QString filename = QLatin1String(text.toUtf8()); //è diventa A con dieresi e un altro simbolo. Facendo toLatin1 alla ricezione lo riconverto in è.
-            //QString filename = QLatin1String(text.toLatin1()); //crash
-            //QString filename = QString::fromUtf8(text.toLatin1()); //è diventa <?> però diventa ? nel filename
-            //QString filename = QLatin1String(text.toLocal8Bit()); //crash
+            QString filename = QLatin1String(text.toUtf8());
             QByteArray ba_filename = filename.toLocal8Bit();
             const char *c_filename = ba_filename.data();
 
@@ -192,20 +189,20 @@ void MenuWindow::on_newDoc_clicked(){
             //Send data (header and body)
             sendRequestMsg(req);
         }
-        else if (ok && !text.isEmpty() && text.size()>25){
+        else if (ok && !text.isEmpty() && text.size()>25) {
             QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!");
             on_newDoc_clicked();
         }
-        else if (ok && text.isEmpty()){
+        else if (ok && text.isEmpty()) {
             QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
             on_newDoc_clicked();
         }
     }
 }
 
-void MenuWindow::on_listFiles_clicked(){
+void MenuWindow::on_listFiles_clicked() {
     if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
+        handleTheConnectionLoss();
     }else{
         //Get data from the form
         QString user = _client->getUsername();
@@ -225,15 +222,15 @@ void MenuWindow::on_listFiles_clicked(){
     }
 }
 
-void MenuWindow::on_uriDoc_clicked(){
-    if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
-    }else{
+void MenuWindow::on_uriDoc_clicked() {
+    if(_client->getStatus()==false) {
+        handleTheConnectionLoss();
+    } else {
         bool ok;
         QString text = QInputDialog::getText(this, tr("Titolo documento"),
                                              tr("Inserisci URI del documento:"), QLineEdit::Normal,
                                              "", &ok);
-        if (ok && !text.isEmpty() && text.size()<=25){ //TODO: better controls
+        if (ok && !text.isEmpty() && text.size()<=25) { //TODO: better controls
             //TODO controllo file database (nome e utente)
 
             //Get data from the form
@@ -268,10 +265,10 @@ void MenuWindow::on_uriDoc_clicked(){
 }
 
 //OPEN ONE DOCUMENT FROM A LIST OF USER'S DOC
-void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item){
-    if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
-    }else{
+void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
+    if(_client->getStatus()==false) {
+        handleTheConnectionLoss();
+    } else {
         //Get data from the form
         QString user = _client->getUsername();
         QByteArray ba_user = user.toLocal8Bit();
@@ -300,28 +297,28 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item){
 }
 
 void MenuWindow::showPopupSuccess(QString result) {
-    if(result == "DISCONNECT_SUCCESS"){
+    if(result == "DISCONNECT_SUCCESS") {
         StartWindow *s = new StartWindow();
         this->close();
         s->show();
-    }else if(result == "LOGOUT_SUCCESS"){
+    } else if(result == "LOGOUT_SUCCESS") {
         QApplication::exit();
-    }else if(result == "NEWFILE_SUCCESS"){
+    } else if(result == "NEWFILE_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
         _ew->showMaximized();
-    }else if(result == "OPENFILE_SUCCESS"){
+    } else if(result == "OPENFILE_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
         _ew->showMaximized();
-    }else if(result == "OPENWITHURI_SUCCESS"){
+    } else if(result == "OPENWITHURI_SUCCESS") {
         _ew = new EditorWindow(_client);
         this->hide();
         _ew->showMaximized();
-    }else if(result == "LISTFILE_SUCCESS"){
-        if(profile){
+    } else if(result == "LISTFILE_SUCCESS") {
+        if(profile) {
             profile = false;
-        }else{
+        } else {
             ui->stackedWidget->setCurrentIndex(1);
         }
     }
@@ -350,9 +347,9 @@ void MenuWindow::showPopupFailure(QString result) {
 }
 
 void MenuWindow::showListFile(std::vector<File> files) {
-    if(_client->getStatus()==false){
-        SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
-    }else{
+    if(_client->getStatus()==false) {
+        handleTheConnectionLoss();
+    } else {
         QString filename, owner, timestamp;
         int littlechar=0;
         QString itemString;
@@ -406,16 +403,14 @@ void MenuWindow::sendRequestMsg(std::string req) {
     message msg;
     msg.body_length(req.size());
     std::memcpy(msg.body(), req.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
+    msg.body()[msg.body_length()] = '\0';
     msg.encode_header();
     _client->write(msg);
 }
 
-
-//Function for protection loss
-void MenuWindow::SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis(){
+void MenuWindow::handleTheConnectionLoss() {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\nVuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
+    reply = QMessageBox::warning(nullptr, "Warning", "Cannot reach the server!\nDo you want to quit?",  QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         QApplication::exit(-1000);
     }

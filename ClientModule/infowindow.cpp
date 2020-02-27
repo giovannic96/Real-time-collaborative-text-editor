@@ -9,7 +9,6 @@ infoWindow::infoWindow(QWidget *parent): QWidget(parent, Qt::FramelessWindowHint
     ui->francesco->setStyleSheet("background: transparent;");
     ui->rinaldo->setStyleSheet("background: transparent;");
     ui->enrico->setStyleSheet("background: transparent;");
-    //ui->giovanni->setAttribute(Qt::WA_TranslucentBackground);
     this->show();
 }
 

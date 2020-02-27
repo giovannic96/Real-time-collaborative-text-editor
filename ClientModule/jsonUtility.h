@@ -30,6 +30,7 @@ public:
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
     static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
     static void to_json_fontsize_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &fontSize);
+    static void to_json_alignment_change(json &j, const std::string &op, const int &startBlock, const int &endBlock, const int &alignment);
     static void to_json_fontfamily_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const std::string &fontFamily);
     static void to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector);
     static void to_json_FormattingSymbol(json &j, const symbolInfo &symbol);
@@ -56,6 +57,7 @@ public:
     static void from_json_removal_range(const json &j, int& startIndex, int& endIndex);
     static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);
     static void from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize);
+    static void from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment);
     static void from_json_fontfamily_change(const json &j, int& startIndex, int& endIndex, std::string& fontFamily);
     static std::vector<json> fromFormattingSymToJson(const std::vector<symbolInfo>& symbols);
 };

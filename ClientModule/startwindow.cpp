@@ -31,7 +31,6 @@ StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWind
     connect(_client, &myClient::formResultFailure, this, &StartWindow::showPopupFailure);
     connect(_client, &myClient::jsonMsgFailure, this, &StartWindow::showJsonPopupFailure);
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
-
 }
 
 //DESTRUCTOR
@@ -40,24 +39,21 @@ StartWindow::~StartWindow() {
     delete _client;
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void StartWindow::mousePressEvent(QMouseEvent *evt){
      oldPos = evt->globalPos();
 }
 
-//FUNCTION FOR MAKE DRAGGABLE THE WINDOW
 void StartWindow::mouseMoveEvent(QMouseEvent *evt){
     const QPoint delta = evt->globalPos() - oldPos;
     move(x()+delta.x(), y()+delta.y());
     oldPos = evt->globalPos();
 }
 
-//LOGIN BUTTON
 void StartWindow::on_LoginButton_clicked(){
     if(_client->getStatus()==false){
         QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
                                                         "Riprova più tardi");
-    }else{
+    } else {
         //Get data from the form
         QString user = ui->LoginUsernameForm->text();
         QByteArray ba_user = user.toLocal8Bit();
@@ -79,29 +75,28 @@ void StartWindow::on_LoginButton_clicked(){
     }
 }
 
-//SIGNUP BUTTON
 void StartWindow::on_SignUpButton_clicked() {
 
-    if(_client->getStatus()==false){
+    if(_client->getStatus()==false) {
         QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
                                                         "Riprova più tardi");
-    }else{
-        if (ui->RegUsernameForm->text().isEmpty()){
+    } else {
+        if (ui->RegUsernameForm->text().isEmpty()) {
             ui->usernameERR->show();
-        }else{
+        } else {
             ui->usernameERR->hide();
 
-            if (ui->RegPasswordForm->text().length() < 6){
+            if (ui->RegPasswordForm->text().length() < 6) {
                 ui->passERR->show();
-            }else{
+            } else {
                 ui->passERR->hide();
 
                 QRegularExpression mailREX("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
                 regMat = mailREX.match(ui->RegMailForm->text()).hasMatch();
 
-                if (!regMat){
+                if (!regMat) {
                     ui->mailERR->show();
-                }else{
+                } else {
                     ui->mailERR->hide();
 
                     //Get data from the form
@@ -135,12 +130,10 @@ void StartWindow::on_LoginAdmin_clicked() {
     this->close();
 }
 
-//REGISTER BUTTON
 void StartWindow::on_RegisterButton_clicked() {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-//ACCEDI BUTTON
 void StartWindow::on_AccediButton_clicked() {
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -155,12 +148,10 @@ void StartWindow::on_exitButton_clicked() {
 }
 
 void StartWindow::setStatus(bool newStatus) {
-    if(newStatus) {
+    if(newStatus)
         ui->label_status->setText(tr("<font color=\"green\">CONNECTED</font>"));
-    }
-    else {
+    else
         ui->label_status->setText(tr("<font color=\"red\">DISCONNECTED</font>"));
-    }
 }
 
 void StartWindow::showPopupSuccess(QString result) {
@@ -195,59 +186,53 @@ void StartWindow::sendRequestMsg(std::string req) {
     message msg;
     msg.body_length(req.size());
     std::memcpy(msg.body(), req.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0'; //TODO: do we have to leave it??
+    msg.body()[msg.body_length()] = '\0';
     msg.encode_header();
     _client->write(msg);
 }
 
-//FOR LOGIN PAGE
-void StartWindow::on_LoginPasswordForm_returnPressed(){
+//LOGIN PAGE
+void StartWindow::on_LoginPasswordForm_returnPressed() {
     on_LoginButton_clicked();
 }
 
-void StartWindow::on_LoginUsernameForm_returnPressed(){
+void StartWindow::on_LoginUsernameForm_returnPressed() {
     on_LoginButton_clicked();
 }
 
-//FOR REG PAGE
-void StartWindow::on_RegUsernameForm_returnPressed(){
+//REG PAGE
+void StartWindow::on_RegUsernameForm_returnPressed() {
     on_SignUpButton_clicked();
 }
 
-void StartWindow::on_RegPasswordForm_returnPressed(){
+void StartWindow::on_RegPasswordForm_returnPressed() {
     on_SignUpButton_clicked();
 }
 
-void StartWindow::on_RegMailForm_returnPressed(){
+void StartWindow::on_RegMailForm_returnPressed() {
     on_SignUpButton_clicked();
 }
 
-void StartWindow::on_RegPasswordForm_editingFinished()
-{
-    if (ui->RegPasswordForm->text().length() < 6){
+void StartWindow::on_RegPasswordForm_editingFinished() {
+    if (ui->RegPasswordForm->text().length() < 6)
         ui->passERR->show();
-    }
     else
         ui->passERR->hide();
 }
 
-void StartWindow::on_RegUsernameForm_editingFinished()
-{
-    if (ui->RegUsernameForm->text().isEmpty()){
+void StartWindow::on_RegUsernameForm_editingFinished() {
+    if (ui->RegUsernameForm->text().isEmpty())
         ui->usernameERR->show();
-    }
     else
         ui->usernameERR->hide();
 }
 
-void StartWindow::on_RegMailForm_editingFinished()
-{
+void StartWindow::on_RegMailForm_editingFinished() {
     QRegularExpression mailREX("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
     regMat = mailREX.match(ui->RegMailForm->text()).hasMatch();
 
-    if (!regMat){
+    if (!regMat)
         ui->mailERR->show();
-    }
     else
         ui->mailERR->hide();
 }

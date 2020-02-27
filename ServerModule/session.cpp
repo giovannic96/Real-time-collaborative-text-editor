@@ -85,7 +85,7 @@ void session::do_read_body()
                 const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
                 if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" ||
                     opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST" || opJSON == "FONTSIZE_CHANGE_REQUEST" ||
-                    opJSON == "FONTFAMILY_CHANGE_REQUEST") {
+                    opJSON == "FONTFAMILY_CHANGE_REQUEST" || opJSON == "ALIGNMENT_CHANGE_REQUEST") {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
                 }
@@ -696,7 +696,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             room_.send(m);
             room_.dispatchMessages();
         }
-
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
 
         //Serialize data

@@ -26,6 +26,7 @@ void jsonUtility::to_json_symbol(json &j, const symbol &symbol) {
             {"isUnderlined", symbol.getStyle().isUnderlined()},
             {"fontFamily", symbol.getStyle().getFontFamily()},
             {"fontSize", symbol.getStyle().getFontSize()},
+            {"alignment", symbol.getStyle().getAlignment()}
     };
 }
 
@@ -129,7 +130,8 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::p
         {"isItalic", style.isItalic()},
         {"isUnderlined", style.isUnderlined()},
         {"fontFamily", style.getFontFamily()},
-        {"fontSize", style.getFontSize()}
+        {"fontSize", style.getFontSize()},
+        {"alignment", style.getAlignment()}
     };
 }
 
@@ -172,6 +174,15 @@ void jsonUtility::to_json_fontfamily_change(json &j, const std::string &op, cons
             {"startIndex", startIndex},
             {"endIndex", endIndex},
             {"fontFamily", fontFamily}
+    };
+}
+
+void jsonUtility::to_json_alignment_change(json &j, const std::string &op, const int &startBlock, const int &endBlock, const int &alignment) {
+    j = json{
+            {"operation", op},
+            {"startBlock", startBlock},
+            {"endBlock", endBlock},
+            {"alignment", alignment}
     };
 }
 
@@ -285,7 +296,7 @@ symbol jsonUtility::from_json_symbol(const json &j) {
     std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
     std::vector<int> pos = j.at("pos").get<std::vector<int>>();
     symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                    j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>());
+                    j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>());
 
     //now create the symbol
     symbol s(letter, id, pos, style);
@@ -298,7 +309,7 @@ symbolInfo jsonUtility::from_json_formatting_symbol(const json &j) {
     int index = j.at("index").get<int>();
     wchar_t letter = j.at("letter").get<wchar_t>();
     symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>());
+                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>());
 
     //now create the symbol
     symbolInfo s(index, letter, style);
@@ -308,7 +319,7 @@ symbolInfo jsonUtility::from_json_formatting_symbol(const json &j) {
 void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, symbolStyle& style) {
     tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
     style = {j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(), j.at("isUnderlined").get<bool>(),
-             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>()};
+             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>()};
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
@@ -336,6 +347,12 @@ void jsonUtility::from_json_fontfamily_change(const json &j, int& startIndex, in
     startIndex = j.at("startIndex").get<int>();
     endIndex = j.at("endIndex").get<int>();
     fontFamily = j.at("fontFamily").get<std::string>();
+}
+
+void jsonUtility::from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment) {
+    startBlock = j.at("startBlock").get<int>();
+    endBlock = j.at("endBlock").get<int>();
+    alignment = j.at("alignment").get<int>();
 }
 
 void jsonUtility::from_json_insertion_range(const json &j, std::vector<json>& symbols) {

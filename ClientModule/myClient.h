@@ -28,7 +28,6 @@ public:
     myClient();
     virtual ~myClient();
     void do_connect();
-
     bool getStatus();
     QString getUsername();
     QString getMail();
@@ -64,6 +63,7 @@ signals:
     void formatSymbols(int startIndex, int endIndex, int format);
     void changeFontSize(int startIndex, int endIndex, int fontSize);
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
+    void changeAlignment(int startBlock, int endBlock, int alignment);
     void jsonMsgFailure(QString windowName, QString msg);
 
 private:

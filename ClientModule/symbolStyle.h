@@ -11,6 +11,7 @@
 
 #define DEFAULT_FONT_FAMILY "Times New Roman"
 #define DEFAULT_FONT_SIZE 14
+#define DEFAULT_ALIGNMENT 1
 
 class symbolStyle {
 
@@ -20,15 +21,17 @@ private:
     bool _isUnderlined;
     std::string _fontFamily;
     int _fontSize;
+    int _alignment;
 
 public:
     /* Constructors */
     symbolStyle(); //default style parameters
-    symbolStyle(bool isBold, bool isItalic, bool isUnderlined, std::string fontFamily, int fontSize);
+    symbolStyle(bool isBold, bool isItalic, bool isUnderlined, std::string fontFamily, int fontSize, int alignment);
 
     /* Getters */
     std::string getFontFamily() const;
     int getFontSize() const;
+    int getAlignment() const;
     bool isBold() const;
     bool isItalic() const;
     bool isUnderlined() const;
@@ -39,6 +42,7 @@ public:
     void setUnderlined(bool val);
     void setFontFamily(std::string fontFamily);
     void setFontSize(int value);
+    void setAlignment(int value);
 };
 
 

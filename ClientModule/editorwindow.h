@@ -54,10 +54,6 @@ private slots:
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_selectionChanged();
 
-    //OLD TopLeftBar Button
-    //void on_buttonExit_clicked();
-    //void on_buttonToIcon_clicked();
-    //void on_buttonReduce_clicked();
     //Button for Collaborators
     void on_buttonCollab_clicked();
 
@@ -108,13 +104,14 @@ public slots:
     void resetFontSize();
     void changeFontSize(int startIndex, int endIndex, int fontSize);
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
+    void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
 
 private:
     Ui::EditorWindow *ui;
     void sendRequestMsg(std::string req);
     myClient *_client;
-    QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented char
+    QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented chars
     QString textOnTitleBar;
     bool BruteClose=true;
     bool SchermoIntero=false;
@@ -128,6 +125,7 @@ private:
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);
+    void sendAlignChangeRequest(int blockStart, int blockEnd, int alignment);
     int getIndexFromFontSize(int fontSize);
     void hideLastAddedItem(QComboBox* combobox);
     void insertCharRangeRequest(int pos);

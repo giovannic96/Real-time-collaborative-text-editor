@@ -6,10 +6,12 @@
 #include <utility>
 
 symbolStyle::symbolStyle()
-        : _isBold(false), _isItalic(false), _isUnderlined(false), _fontFamily(DEFAULT_FONT_FAMILY), _fontSize(DEFAULT_FONT_SIZE) {}
+        : _isBold(false), _isItalic(false), _isUnderlined(false), _fontFamily(DEFAULT_FONT_FAMILY), _fontSize(DEFAULT_FONT_SIZE),
+          _alignment(DEFAULT_ALIGNMENT) {}
 
-symbolStyle::symbolStyle(bool isBold, bool isItalic, bool isUnderlined, std::string fontFamily, int fontSize)
-    : _isBold(isBold), _isItalic(isItalic), _isUnderlined(isUnderlined), _fontFamily(std::move(fontFamily)), _fontSize(fontSize) {}
+symbolStyle::symbolStyle(bool isBold, bool isItalic, bool isUnderlined, std::string fontFamily, int fontSize, int alignment)
+    : _isBold(isBold), _isItalic(isItalic), _isUnderlined(isUnderlined), _fontFamily(std::move(fontFamily)), _fontSize(fontSize),
+      _alignment(alignment) {}
 
 std::string symbolStyle::getFontFamily() const {
     return _fontFamily;
@@ -17,6 +19,10 @@ std::string symbolStyle::getFontFamily() const {
 
 int symbolStyle::getFontSize() const {
     return _fontSize;
+}
+
+int symbolStyle::getAlignment() const {
+    return _alignment;
 }
 
 bool symbolStyle::isBold() const {
@@ -49,4 +55,8 @@ void symbolStyle::setFontFamily(std::string fontFamily) {
 
 void symbolStyle::setFontSize(int value) {
     this->_fontSize = value;
+}
+
+void symbolStyle::setAlignment(int value) {
+    this->_alignment = value;
 }

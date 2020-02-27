@@ -26,7 +26,7 @@ private slots:
     void on_backButton_clicked();
     void closeEvent(QCloseEvent * event);
     void RapidUserLogout();
-    void SuperFunctionForHandleTheConnectionLossThatIsBadassAndKicksAssGiovanniDontRenameThis();
+    void handleTheConnectionLoss();
 
 public slots:
     void showPopupSuccess(QString result);
@@ -35,8 +35,8 @@ public slots:
     void resumeWindow();
 
 private:
-    Ui::MenuWindow *ui;            //"ui" (user interface)
-    QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
+    Ui::MenuWindow *ui;
+    QPoint oldPos; //This "oldPos" object is used to save the old position of the windows for the translation of windows
     myClient *_client;
     EditorWindow *_ew;
     void sendRequestMsg(const std::string req);
