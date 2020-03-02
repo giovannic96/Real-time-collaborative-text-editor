@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 
 SOURCES += \
     File.cpp \
+    MyQTextEdit.cpp \
     editorwindow.cpp \
     infowindow.cpp \
     jsonUtility.cpp \
@@ -43,6 +44,7 @@ SOURCES += \
 
 HEADERS += \
     File.h \
+    MyQTextEdit.h \
     editorwindow.h \
     infowindow.h \
     json.hpp \

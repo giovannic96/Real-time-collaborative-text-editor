@@ -11,7 +11,7 @@
 class msgInfo {
 
 private:
-    int type; //0 = 'insertion'; 1 = 'removal'; 2 = 'format'; 3 = 'font_size'; 4 = 'font_family'
+    int type; //0 = 'insertion'; 1 = 'removal'; 2 = 'format'; 3 = 'font_size'; 4 = 'font_family'; 5 = 'alignment'
     int editorId;
     symbol s;
     int newIndex; //this param will assume the meaning of 'format' if we're using type 2 or 'font_size' if we're using type 3

@@ -16,7 +16,6 @@ class EditorWindow : public QMainWindow {
 
 public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
-    //EditorWindow(const EditorWindow& source) = delete;
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
 
@@ -89,6 +88,7 @@ private slots:
     void AlignCXButtonHandler();
     void AlignDXButtonHandler();
     void AlignJFXButtonHandler();
+    void AlignNoneButtonHandler();
     void AlignButtonStyleHandler();
     void refreshFormatButtons();
     bool handleConnectionLoss();
@@ -106,6 +106,7 @@ public slots:
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
+    void updateAlignmentButton();
 
 private:
     Ui::EditorWindow *ui;
@@ -117,20 +118,38 @@ private:
     bool SchermoIntero=false;
     bool DarkMode=false;
     symbolStyle getCurCharStyle();
-    symbolStyle getStyleFromHTMLStyles(QVector<QVector<QString>>& styles);
-    QVector<QVector<QString>> getStylesFromHTML(QString htmlText);
+    symbolStyle getStyleFromHTMLStyles(QVector<std::pair<int,symbolStyle>>& styles);
+    QVector<QRegularExpression> getStyleRegexes();
+    symbolStyle constructSymStyle(QVector<QRegularExpression> rxs, QString str, int alignment);
+    symbolStyle getFirstCharStyle(QTextCursor cursor);
+    QVector<std::pair<int,symbolStyle>> getStylesFromHTML(QString htmlText, QTextCursor& cursor, QVector<int>& alignments);
+    QVector<std::pair<int,int>> getAlignmentsFromHTML(QString htmlText, QTextCursor cursor);
     std::vector<bool> calculateButtonChecks(QTextCursor& c);
     int calculateFontSizeComboBox(QTextCursor c);
+    int calculateAlignmentButtons(QTextCursor c);
     QString calculateFontFamilyComboBox(QTextCursor c);
+    void hideLastAddedItem(QComboBox* combobox);
+    int getIndexFromFontSize(int fontSize);
+    /* Requests */
+    void insertCharRangeRequest(int pos, bool cursorHasSelection);
+    void removeCharRequest(int pos);
+    void removeCharRangeRequest(const QTextCursor& cursor);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);
     void sendAlignChangeRequest(int blockStart, int blockEnd, int alignment);
-    int getIndexFromFontSize(int fontSize);
-    void hideLastAddedItem(QComboBox* combobox);
-    void insertCharRangeRequest(int pos);
-    void removeCharRequest(int pos);
-    void removeCharRangeRequest(const QTextCursor& cursor);
+    /* Alignment */
+    void alignSingleBlock(QTextCursor& cursor, Qt::AlignmentFlag alignment);
+    void alignMultipleBlocks(int startIndex, int endIndex, QTextCursor& cursor, Qt::AlignmentFlag alignment);
+    std::pair<int,int> alignBlocks(int startIndex, int endIndex, const QTextCursor& cursor, Qt::AlignmentFlag alignment);
+    Qt::AlignmentFlag detectAlignment();
+    int getFirstCharAlignment(QTextCursor cursor);
+    QStringList getRegexListFromHTML(QString text, QRegularExpression rx);
+    int getParagAlignment(QString text);
+    int getTotalCharsInSpan(QString text);
+    void setAlignmentButton(Qt::AlignmentFlag alignment);
+    void changeNextCharsAlignment(QTextCursor cursor, int startIndex, int endIndex);
+    /* Variables */
     bool changedFontSize = false, changedCurIndex = false, setCurPointSize = false;
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6, CHANGE_FONT_SIZE=7};
 

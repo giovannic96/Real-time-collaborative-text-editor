@@ -33,6 +33,7 @@ public:
     msgInfo localFormat(int startIndex, int format);
     msgInfo localFontSizeChange(int startIndex, int fontSize);
     msgInfo localFontFamilyChange(int startIndex, const std::string& fontFamily);
+    msgInfo localAlignmentChange(int startIndex, int alignment);
     void process(const msgInfo& m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)

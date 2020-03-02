@@ -28,6 +28,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
+    connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
 
     ui->listWidget->setStyleSheet(
       "QListWidget::item {"
@@ -165,57 +166,96 @@ void EditorWindow::on_buttonColor_clicked() {
 *                            TEXT ALIGNMENT BUTTONS                                *
 ************************************************************************************/
 void EditorWindow::on_buttonAlignDX_clicked() {
-    if(!ui->buttonAlignDX->isChecked()) {
-        QTextCursor cursor = ui->RealTextEdit->textCursor();
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
 
-        if(cursor.hasSelection()) {
-            //TODO
-        } else {
-            QTextBlockFormat textBlockFormat = cursor.blockFormat();
-            textBlockFormat.setAlignment(Qt::AlignRight);
-            cursor.mergeBlockFormat(textBlockFormat);
-            ui->RealTextEdit->setTextCursor(cursor);
-            AlignDXButtonHandler();
-            AlignButtonStyleHandler();
-            sendAlignChangeRequest(cursor.blockNumber(), cursor.blockNumber(), Qt::AlignRight);
-        }
+    /* Align Right */
+    if(ui->buttonAlignDX->isChecked()) {
+        AlignDXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignRight);
+        else
+            alignSingleBlock(cursor, Qt::AlignRight); //align single block
+    }
+    else { /* Align Left by default */
+        AlignSXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignLeft);
+        else
+            alignSingleBlock(cursor, Qt::AlignLeft); //align single block
     }
     ui->RealTextEdit->setFocus();
 }
 
 void EditorWindow::on_buttonAlignCX_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
-    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-    textBlockFormat.setAlignment(Qt::AlignCenter);
-    cursor.mergeBlockFormat(textBlockFormat);
-    ui->RealTextEdit->setTextCursor(cursor);
-    AlignCXButtonHandler();
-    AlignButtonStyleHandler();
+
+    /* Align Center */
+    if(ui->buttonAlignCX->isChecked()) {
+        AlignCXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignCenter);
+        else
+            alignSingleBlock(cursor, Qt::AlignCenter); //align single block
+    }
+    else { /* Align Left by default */
+        AlignSXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignLeft);
+        else
+            alignSingleBlock(cursor, Qt::AlignLeft); //align single block
+    }
     ui->RealTextEdit->setFocus();
 }
 
 void EditorWindow::on_buttonAlignSX_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
-    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-    textBlockFormat.setAlignment(Qt::AlignLeft);
-    cursor.mergeBlockFormat(textBlockFormat);
-    ui->RealTextEdit->setTextCursor(cursor);
-    AlignSXButtonHandler();
-    AlignButtonStyleHandler();
+
+    /* Align Left */
+    if(ui->buttonAlignSX->isChecked()) {
+        AlignSXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignLeft);
+        else
+            alignSingleBlock(cursor, Qt::AlignLeft); //align single block
+    }
+    else { /* Align Justify */
+        AlignJFXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignJustify);
+        else
+            alignSingleBlock(cursor, Qt::AlignJustify); //align single block
+    }
     ui->RealTextEdit->setFocus();
 }
 
 void EditorWindow::on_buttonAlignJFX_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
-    QTextBlockFormat textBlockFormat = cursor.blockFormat();
-    textBlockFormat.setAlignment(Qt::AlignJustify);
-    cursor.mergeBlockFormat(textBlockFormat);
-    ui->RealTextEdit->setTextCursor(cursor);
-    AlignJFXButtonHandler();
-    AlignButtonStyleHandler();
+
+    /* Align Justify */
+    if(ui->buttonAlignJFX->isChecked()) {
+        AlignJFXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignJustify);
+        else
+            alignSingleBlock(cursor, Qt::AlignJustify); //align single block
+    }
+    else { /* Align Left by default */
+        AlignSXButtonHandler();
+        AlignButtonStyleHandler();
+        if(cursor.hasSelection()) //align multiple (selected) blocks
+            alignMultipleBlocks(cursor.selectionStart(), cursor.selectionEnd(), cursor, Qt::AlignLeft);
+        else
+            alignSingleBlock(cursor, Qt::AlignLeft); //align single block
+    }
     ui->RealTextEdit->setFocus();
 }
-
 
 /***********************************************************************************
 *                           TEXT EDITING BUTTONS                                   *
@@ -233,6 +273,7 @@ void EditorWindow::on_buttonRedo_clicked() {
 void EditorWindow::on_buttonCut_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     if(cursor.hasSelection()) {
+        changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
         removeCharRangeRequest(cursor);
         ui->RealTextEdit->cut();
     }
@@ -242,12 +283,17 @@ void EditorWindow::on_buttonCut_clicked() {
 void EditorWindow::on_buttonPaste_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     int pos;
+    bool hasSelection = false;
+
     cursor.hasSelection() ? pos = cursor.selectionStart() : pos = cursor.position();
-    if(cursor.hasSelection())
+    if(cursor.hasSelection()) {
+        hasSelection = true;
+        changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
         removeCharRangeRequest(cursor);
-    insertCharRangeRequest(pos);
+    }
+    insertCharRangeRequest(pos, hasSelection);
     ui->RealTextEdit->paste();
-    ui->RealTextEdit->setFocus();
+    ui->RealTextEdit->setFocus();    
 }
 
 void EditorWindow::on_buttonCopy_clicked() {
@@ -305,13 +351,13 @@ void EditorWindow::on_buttonCollab_clicked() {
         ui->actionCollaboratori->setText("Nascondi Collaboratori");
         ui->listWidget->show();
         ui->labelCollab->show();
-        //ui->frameCollab->show(); IT HAS TO BE EVER SHOWED!!!
+        //ui->frameCollab->show(); it has to be ever showed
     } else {
         ui->buttonCollab->setChecked(false);
         ui->actionCollaboratori->setText("Mostra Collaboratori");
         ui->listWidget->hide();
         ui->labelCollab->hide();
-        //ui->frameCollab->hide(); NEVER, AND I SAID, "NEVER" HIDE THE "frameCollab" OR THE ENTIRE LAYOUT WILL FUCKED UP! IS LIKE PUT A BIG PENIS IN THE MIDDLE OF THE SCREEN
+        //ui->frameCollab->hide(); Never hide the "frameCollab"
     }
     ui->RealTextEdit->setFocus();
 }
@@ -328,6 +374,15 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
         c.charFormat().fontWeight()==QFont::Bold ? ui->buttonBold->setChecked(true) : ui->buttonBold->setChecked(false);
         c.charFormat().fontItalic()==true ? ui->buttonItalic->setChecked(true) : ui->buttonItalic->setChecked(false);
         c.charFormat().fontUnderline()==true ? ui->buttonUnderline->setChecked(true) : ui->buttonUnderline->setChecked(false);
+        if(c.blockFormat().alignment()==Qt::AlignRight)
+            AlignDXButtonHandler();
+        else if(c.blockFormat().alignment()==Qt::AlignCenter)
+            AlignCXButtonHandler();
+        else if(c.blockFormat().alignment()==Qt::AlignJustify)
+            AlignJFXButtonHandler();
+        else
+            AlignSXButtonHandler();
+        AlignButtonStyleHandler();
         refreshFormatButtons();
     }
 }
@@ -385,6 +440,35 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     }
 
     /****************************************************************
+     *                      TEXT ALIGNMENT                          *
+     ****************************************************************/
+    if(!c.hasSelection()) {
+        if(ui->RealTextEdit->alignment() == Qt::AlignCenter)
+            AlignCXButtonHandler();
+        else if(ui->RealTextEdit->alignment() == Qt::AlignRight)
+            AlignDXButtonHandler();
+        else if(ui->RealTextEdit->alignment() == Qt::AlignJustify)
+            AlignJFXButtonHandler();
+        else
+            AlignSXButtonHandler();
+    } else {
+        int alignmentCalculated = calculateAlignmentButtons(c);
+        if(alignmentCalculated == -1) {
+            AlignNoneButtonHandler(); //uncheck all align buttons
+        } else {
+            if(alignmentCalculated == Qt::AlignRight)
+                AlignDXButtonHandler();
+            else if(alignmentCalculated == Qt::AlignCenter)
+                AlignCXButtonHandler();
+            else if(alignmentCalculated == Qt::AlignJustify)
+                AlignJFXButtonHandler();
+            else
+                AlignSXButtonHandler();
+        }
+    }
+    AlignButtonStyleHandler();
+
+    /****************************************************************
      *                  TEXT FORMAT (Bold/Italic/Underline)         *
      ****************************************************************/
     if(!c.hasSelection()) {
@@ -407,20 +491,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         ui->buttonUnderline->setChecked(buttonChecks.at(2));
     }
     refreshFormatButtons();
-
-    /****************************************************************
-     *                      TEXT ALIGNMENT                          *
-     ****************************************************************/
-    if(ui->RealTextEdit->alignment()==Qt::AlignLeft) {
-        AlignSXButtonHandler();
-    } else if(ui->RealTextEdit->alignment()==Qt::AlignCenter) {
-        AlignCXButtonHandler();
-    } else if(ui->RealTextEdit->alignment()==Qt::AlignRight) {
-        AlignDXButtonHandler();
-    } else if(ui->RealTextEdit->alignment()==Qt::AlignJustify) {
-        AlignJFXButtonHandler();
-    }
-    AlignButtonStyleHandler();
 }
 
 /***********************************************************************************
@@ -440,17 +510,24 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
         if (keyEvent->matches(QKeySequence::Cut)) { //CTRL-X
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            if(cursor.hasSelection())
+            if(cursor.hasSelection()) {
+                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor);
+            }
             return QObject::eventFilter(obj, ev);
         }
         else if (keyEvent->matches(QKeySequence::Paste)) { //CTRL-V
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos;
+            bool hasSelection = false;
+
             cursor.hasSelection() ? pos = cursor.selectionStart() : pos = cursor.position();
-            if(cursor.hasSelection())
+            if(cursor.hasSelection()) {
+                hasSelection = true;
+                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor);
-            insertCharRangeRequest(pos);
+            }
+            insertCharRangeRequest(pos, hasSelection);
             return QObject::eventFilter(obj, ev);
         }
         else if(modifiers & Qt::ControlModifier) { //ignore other CTRL combinations
@@ -466,6 +543,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             bool firstCharBold = ui->buttonBold->isChecked();
             bool firstCharItalic = ui->buttonItalic->isChecked();
             bool firstCharUnderline = ui->buttonUnderline->isChecked();
+            int firstCharAlignment = static_cast<int>(detectAlignment());
             int firstCharFontSize = ui->fontSizeBox->currentText().toInt();
             std::string firstCharFontFamily = ui->fontFamilyBox->currentText().toStdString();
 
@@ -473,18 +551,29 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 pos = cursor.selectionStart();
                 int startIndex = cursor.selectionStart();
                 int endIndex = cursor.selectionEnd();
+                QTextCursor tempCursor = cursor;
+
+                //change alignment of the chars next to the selection (until the end of that block)
+                changeNextCharsAlignment(tempCursor, startIndex, endIndex);
 
                 /* Get properties of the first char of the selection */
-                QTextCursor tempCursor = cursor;
                 tempCursor.setPosition(startIndex+1, QTextCursor::MoveAnchor);
                 firstCharBold = tempCursor.charFormat().font().weight() == QFont::Bold;
                 firstCharItalic = tempCursor.charFormat().font().italic();
                 firstCharUnderline = tempCursor.charFormat().font().underline();
                 firstCharFontSize = tempCursor.charFormat().font().pointSize();
                 firstCharFontFamily = tempCursor.charFormat().font().family().toStdString();
+                if(tempCursor.positionInBlock() == 0) { //this happens when I select also the newLine (<CR>)
+                    tempCursor.movePosition(QTextCursor::Left); //get alignment of previous block
+                    firstCharAlignment = static_cast<int>(tempCursor.blockFormat().alignment());
+                    tempCursor.movePosition(QTextCursor::Right);
+                }
+                else
+                    firstCharAlignment = static_cast<int>(tempCursor.blockFormat().alignment());
 
                 //change format
                 QTextCharFormat f;
+                QTextBlockFormat textBlockFormat;
                 if(!ui->buttonBold->isChecked())
                     f.setFontWeight(firstCharBold ? QFont::Bold : QFont::Normal);
                 else
@@ -505,19 +594,24 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                     f.setFontFamily(QString::fromStdString(firstCharFontFamily)); //set fontFamily of first char of the selection
                 else
                     f.setFontFamily(ui->fontFamilyBox->currentText()); //set fontFamily to common fontFamily of the chars
+                textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(firstCharAlignment));
 
                 //apply format
                 cursor.setPosition(startIndex, QTextCursor::MoveAnchor);
                 cursor.setPosition(endIndex, QTextCursor::KeepAnchor);
                 cursor.mergeCharFormat(f);
+                cursor.mergeBlockFormat(textBlockFormat);
                 ui->RealTextEdit->mergeCurrentCharFormat(f);
+                ui->RealTextEdit->setAlignment(textBlockFormat.alignment());
                 ui->RealTextEdit->setTextCursor(cursor);
 
                 //update data on textedit buttons/combobox
                 ui->buttonBold->setChecked(f.fontWeight()==QFont::Bold);
                 ui->buttonItalic->setChecked(f.fontItalic());
                 ui->buttonUnderline->setChecked(f.fontUnderline());
+                setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(textBlockFormat.alignment())));
                 refreshFormatButtons();
+                AlignButtonStyleHandler();
                 ui->fontSizeBox->setCurrentText(QString::number(f.fontPointSize()));
                 ui->fontFamilyBox->setCurrentText(f.fontFamily());
 
@@ -538,6 +632,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             ui->RealTextEdit->setFontUnderline(ui->buttonUnderline->isChecked());
             ui->RealTextEdit->setFontPointSize(ui->fontSizeBox->currentText().toInt());
             ui->RealTextEdit->setFontFamily(ui->fontFamilyBox->currentText());
+            ui->RealTextEdit->setAlignment(detectAlignment());
 
             //if that selected size is not an index of combobox, add it (and hide it)
             if(ui->fontSizeBox->findText(ui->fontSizeBox->currentText()) == -1) {
@@ -563,10 +658,12 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             int pos = cursor.position();
 
             if(cursor.hasSelection()) { //Remove range of characters selected
+                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor);
                 return QObject::eventFilter(obj, ev);
             }
             else if(pos > 0) { //Remove only one character
+                changeNextCharsAlignment(cursor, pos-1, pos);
                 removeCharRequest(pos-1);
                 return QObject::eventFilter(obj, ev);
             } else
@@ -578,10 +675,12 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             int pos = cursor.position();
 
             if(cursor.hasSelection()) {
+                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor); //Remove range of characters selected
                 return QObject::eventFilter(obj, ev);
             }
             else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) {
+                changeNextCharsAlignment(cursor, pos, pos+1);
                 removeCharRequest(pos); //Remove only one character
                 return QObject::eventFilter(obj, ev);
             } else
@@ -636,7 +735,7 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 //***********************//
-// Close Editor Handler // - Is an override of oriignal closeEvent. Check if Editor is close normally or forced (like ALT+F4)
+// Close Editor Handler // - Is an override of original closeEvent. Check if Editor is close normally or forced (like ALT+F4)
 //*********************//
 void EditorWindow::closeEvent(QCloseEvent * event) {
     bool StayInThisWindow = true;
@@ -736,7 +835,7 @@ void EditorWindow::on_actionEsporta_come_PDF_triggered() {
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
     QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocName->text(), "PDF File (*.pdf)");
 
-    if (fileName==nullptr){
+    if (fileName==nullptr) {
         return;
     }
 
@@ -846,11 +945,8 @@ void EditorWindow::on_actionEsci_triggered() {
     QApplication::exit(0);
 }
 
-
 /***********************************************************************************
-*                                                                                  *
 *                              STANDALONE FUNCTION                                 *
-*                                                                                  *
 ************************************************************************************/
 void EditorWindow::LogoutRequest() {
     BruteClose=false;
@@ -1008,8 +1104,15 @@ void EditorWindow::AlignJFXButtonHandler() {
     ui->buttonAlignJFX->setChecked(true);
 }
 
+void EditorWindow::AlignNoneButtonHandler() {
+    ui->buttonAlignDX->setChecked(false);
+    ui->buttonAlignCX->setChecked(false);
+    ui->buttonAlignSX->setChecked(false);
+    ui->buttonAlignJFX->setChecked(false);
+}
+
 void EditorWindow::AlignButtonStyleHandler() {
-   if(ui->buttonAlignCX->isChecked()){
+   if(ui->buttonAlignCX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
@@ -1029,6 +1132,11 @@ void EditorWindow::AlignButtonStyleHandler() {
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
         ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AEAEAE; border-radius:4px;}");
+    } else {
+       ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
+       ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
+       ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
+       ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
     }
 }
 
@@ -1177,24 +1285,18 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     wchar_t letter;
     int index = firstIndex;
     QTextCursor c = ui->RealTextEdit->textCursor();
+
     foreach (symbol s, symbols) {
+        c.setPosition(index++);
         letter = s.getLetter();
-        QTextCharFormat oldFormat = c.charFormat();
-        QTextCharFormat newFormat = oldFormat;
-        if (s.getStyle().isBold())
-            newFormat.setFontWeight(QFont::Bold);
-        else
-            newFormat.setFontWeight(QFont::Normal);
-        if (s.getStyle().isItalic())
-            newFormat.setFontItalic(true);
-        else
-            newFormat.setFontItalic(false);
-        if (s.getStyle().isUnderlined())
-            newFormat.setFontUnderline(true);
-        else
-            newFormat.setFontUnderline(false);
+        QTextCharFormat newFormat;
+        QTextBlockFormat newBlockFormat;
+        s.getStyle().isBold() ? newFormat.setFontWeight(QFont::Bold) : newFormat.setFontWeight(QFont::Normal);
+        s.getStyle().isItalic() ? newFormat.setFontItalic(true) : newFormat.setFontItalic(false);
+        s.getStyle().isUnderlined() ? newFormat.setFontUnderline(true) : newFormat.setFontUnderline(false);
         newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
         newFormat.setFontPointSize(s.getStyle().getFontSize());
+        newBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(s.getStyle().getAlignment()));
 
         //if the selected sizes received are not an index of combobox, add them (and hide them)
         if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
@@ -1202,12 +1304,10 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
             hideLastAddedItem(ui->fontSizeBox);
         }
 
-        int pos = index++;
-        c.setPosition(pos);
         c.setCharFormat(newFormat);
         c.insertText(static_cast<QString>(letter));
-        ui->RealTextEdit->setTextCursor(c);
-        c.setCharFormat(oldFormat);
+        c.setBlockFormat(newBlockFormat);
+        //c.setCharFormat(oldFormat);
     }
 }
 
@@ -1251,7 +1351,6 @@ void EditorWindow::eraseSymbol(int index) {
 }
 
 void EditorWindow::eraseSymbols(int startIndex, int endIndex) {    
-
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     while(endIndex > startIndex) {
         cursor.setPosition(--endIndex);
@@ -1263,7 +1362,6 @@ void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
 }
 
 void EditorWindow::formatSymbols(int startIndex, int endIndex, int format) {
-
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     QTextCharFormat newFormat;
 
@@ -1346,99 +1444,240 @@ void EditorWindow::changeFontFamily(int startIndex, int endIndex, std::string fo
     ui->RealTextEdit->setFocus();
 }
 
-void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) {
+void EditorWindow::updateAlignmentButton() {
+    setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(ui->RealTextEdit->textCursor().blockFormat().alignment())));
+    AlignButtonStyleHandler();
+}
 
-    qDebug() << "startBlock received: " << startBlock;
-    qDebug() << "endBlock received: " << endBlock;
-    qDebug() << "alignment received: " << alignment;
-    QTextBlock block = ui->RealTextEdit->document()->findBlockByNumber(startBlock);
-    QTextCursor cursor(block);
-    QTextBlockFormat textBlockFormat = cursor.blockFormat();
+void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) {
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+    QTextBlockFormat textBlockFormat;
+    int oldPos = cursor.position();
+
+    /* Change alignment of the 1st block */
+    cursor.setPosition(startBlock);
+    textBlockFormat = cursor.blockFormat();
     textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
     cursor.mergeBlockFormat(textBlockFormat);
-    //ui->RealTextEdit->setTextCursor(cursor);
+    cursor.movePosition(QTextCursor::EndOfBlock);
+    int curPos = cursor.position();
 
-    /*
-    while(endIndex > startIndex) {
-        cursor.setPosition(--endIndex);
-        cursor.setPosition(endIndex+1, QTextCursor::KeepAnchor); //to select the char to be updated
-        newFormat.setFontFamily(QString::fromStdString(fontFamily));
-        cursor.mergeCharFormat(newFormat);
+    /* Change alignment of the next blocks, if requested */
+    while(curPos < endBlock-1) {
+        cursor.movePosition(QTextCursor::Right);
+        textBlockFormat = cursor.blockFormat();
+        textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
+        cursor.mergeBlockFormat(textBlockFormat);
+        cursor.movePosition(QTextCursor::EndOfBlock);
+        curPos = cursor.position();
     }
-    */
+
+    /* Update cursor and style buttons */
+    cursor.setPosition(oldPos);
+    ui->RealTextEdit->setTextCursor(cursor);
+    setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(cursor.blockFormat().alignment())));
+    AlignButtonStyleHandler();
+    ui->RealTextEdit->setAlignment(cursor.blockFormat().alignment());
+
     qDebug() << "Changed alignment" << endl;
     ui->RealTextEdit->setFocus();
 }
 
 symbolStyle EditorWindow::getCurCharStyle() {
     bool isBold = ui->RealTextEdit->fontWeight()==QFont::Bold;
-    int alignment = static_cast<int>(ui->RealTextEdit->alignment());
-
-    //TODO: add switch case -> map 1,2,3,4 based on AlignmentFlag
-    alignment = 1; //TODO: remove this later
+    int alignment = detectAlignment();
     symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->fontFamilyBox->currentText().toStdString(), ui->fontSizeBox->currentText().toInt(), alignment};
     return style;
 }
 
-symbolStyle EditorWindow::getStyleFromHTMLStyles(QVector<QVector<QString>>& styles) {
-    //Ex. QVector(QVector("Times New Roman", "14", "", "italic", "underline", "2"), QVector("Times New Roman", "14", "600", "", "", "1"))
-    //I consider always the first element (vector) of the 'styles' vector of vector
-    bool isBold = styles.at(0).at(2) != "" && styles.at(0).at(2) == "600";
-    bool isItalic = styles.at(0).at(3) != "" && styles.at(0).at(3) == "italic";
-    bool isUnderlined = styles.at(0).at(4) != "" && styles.at(0).at(4) == "underline";
-    std::string fontFamily = styles.at(0).at(0).toStdString();
-    int fontSize = styles.at(0).at(1).toInt();
-
-    //TODO: add another regex for alignment
-    int alignment = 1; //TODO: remove this later
-
-    symbolStyle style = {isBold, isItalic, isUnderlined, fontFamily, fontSize, alignment}; //create the style for the current char
-    if(styles.at(0).at(5).toInt() > 1)
-        styles[0][5] = QString::number(styles.at(0).at(5).toInt() - 1); //decrease the number of chars having same style
-    else {
+symbolStyle EditorWindow::getStyleFromHTMLStyles(QVector<std::pair<int,symbolStyle>>& styles) {
+    symbolStyle style = styles.at(0).second;
+    if(styles.at(0).first > 1)
+        styles[0].first -= 1; //decrease the number of chars having same style
+    else
         styles.pop_front(); //remove the style from the vector -> i.e. all chars with that style has been handled
-    }
     return style;
 }
 
-QVector<QVector<QString>> EditorWindow::getStylesFromHTML(QString htmlText) {
-    /* STEP 1 - From HTML To list containing only the essential info -> i.e. normalize HTML text */
-    QRegExp rx("<span ([^<]+)</span>");
-    QStringList list;
-    int pos = 0;
+symbolStyle EditorWindow::constructSymStyle(QVector<QRegularExpression> rxs, QString str, int alignment) {
+    bool isBold = rxs.at(0).match(str).captured(1) != "" && rxs.at(0).match(str).captured(1) == "600";
+    bool isItalic = rxs.at(1).match(str).captured(1) != "" && rxs.at(1).match(str).captured(1) == "italic";
+    bool isUnderlined = rxs.at(2).match(str).captured(1) != "" && rxs.at(2).match(str).captured(1) == "underline";
+    std::string fontFamily = rxs.at(3).match(str).captured(1).toStdString();
+    int fontSize = rxs.at(4).match(str).captured(1).toInt();
 
-    while((pos = rx.indexIn(htmlText, pos)) != -1) {
-        list << rx.cap(1);
-        pos += rx.matchedLength();
+    symbolStyle style = {isBold, isItalic, isUnderlined, fontFamily, fontSize, alignment}; //create the style for the current char
+    return style;
+}
+
+QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString htmlText, QTextCursor& cursor, QVector<int>& alignments) {
+    QVector<std::pair<int,symbolStyle>> finalVector;
+
+    symbolStyle startStyle = getFirstCharStyle(cursor);
+    htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
+
+    QRegularExpression rx("<span ([^<]+)</span>");
+    QStringList list = getRegexListFromHTML(htmlText, rx);
+    QVector<QRegularExpression> rxs = getStyleRegexes();
+
+    symbolStyle prevStyle = startStyle;
+    foreach (QString s, list) {
+        int numChars = s.mid(s.indexOf('>')).length()-1;
+        symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
+        alignments.pop_front();
+        curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
+        finalVector.push_back(std::make_pair(numChars, curStyle));
+    }
+    qDebug() << "FINAL VECTOR:";
+    for(const std::pair<int,symbolStyle>& p : finalVector)
+        qDebug() << "(" << p.first << ",[" << p.second.isBold() << "," << p.second.isItalic() << "," << p.second.isUnderlined() << "," << QString::fromStdString(p.second.getFontFamily()) << "," << p.second.getFontSize() << "," << p.second.getAlignment() << "])";
+    return finalVector;
+}
+
+QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText, QTextCursor cursor) {
+    QVector<std::pair<int,int>> finalVec;
+    int startAlignment = getFirstCharAlignment(cursor);
+
+    /* Remove initial html header and substitute '\n' with empty paragraphs */
+    htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID></p>");
+
+    /* Split htmlText in many strings defined by the tags <p> e </p> (paragraphs) */
+    QRegularExpression rx("<p (.*?)</p>");
+    QStringList paragraphs = getRegexListFromHTML(htmlText, rx);
+    if(paragraphs.length()==3 && paragraphs.at(0).contains("paragraph-type:empty") && paragraphs.at(2).contains("paragraph-type:empty")) {
+        paragraphs.pop_back();
+        paragraphs.pop_back();
     }
 
-    /* STEP 2 - From list of essential info To list of list containing only the value of the essential info -> normalize previous list */
-    QVector<QVector<QString>> finalVector;
+    /* Handle first paragraph -> each char of this paragraph will have the startAlignment */
+    int totalChars = getTotalCharsInSpan(paragraphs.at(0));
+    finalVec.push_back(std::make_pair(totalChars, startAlignment));
+    paragraphs.pop_front();
+    int prevAlignment = startAlignment;
+
+    /* Handle other remaining paragraphs -> each char will have the alignment of the paragraph they belong to */
+    foreach (QString s, paragraphs) {
+        int paragAlignment = getParagAlignment(s);
+        int totalChars = getTotalCharsInSpan(s);
+        totalChars == 0 ? paragAlignment = prevAlignment : prevAlignment = paragAlignment;
+        finalVec.push_back(std::make_pair(totalChars, paragAlignment));
+        paragraphs.pop_front();
+    }
+
+    /* Remove first and last element if we've selected '\n' as first/last element */
+    if(finalVec.length() > 1) {
+        if(finalVec.at(0) == finalVec.at(1))
+            finalVec.pop_front();
+        if(finalVec.at(finalVec.length()-1) == finalVec.at(finalVec.length()-2))
+            finalVec.pop_back();
+    }
+
+    /* Replace all 0s with 1s due to '\n' that is not considered as '<span>' tag */
+    std::for_each(std::begin(finalVec), std::end(finalVec), [](std::pair<int,int>& p) {
+        if(p.first  == 0)
+            p.first = 1;
+    });
+
+    qDebug() << endl << "FINAL ALMNT VECTOR: " << finalVec;
+    return finalVec;
+}
+
+int EditorWindow::getTotalCharsInSpan(QString text) {
+    QRegularExpression spanRx("<span ([^<]+)</span>");
+    QStringList spans = getRegexListFromHTML(text, spanRx);
+    int totalChars = 0;
+    foreach (QString s, spans) { //because chars can belong to the same span if they have the same style
+        int numChars = s.mid(s.indexOf('>')).length()-1;
+        totalChars += numChars;
+    }
+    return totalChars;
+}
+
+int EditorWindow::getParagAlignment(QString text) {
+    int alignment;
+    QRegularExpression rx("align=\"(.+?)\"");
+    QString alignmentCaptured = rx.match(text).captured(1);
+    if(alignmentCaptured.isNull())
+        alignment = static_cast<int>(Qt::AlignLeft);
+    else if(alignmentCaptured == "right")
+        alignment = static_cast<int>(Qt::AlignRight);
+    else if(alignmentCaptured == "center")
+        alignment = static_cast<int>(Qt::AlignCenter);
+    else if(alignmentCaptured == "justify")
+        alignment = static_cast<int>(Qt::AlignJustify);
+    else
+        alignment = static_cast<int>(Qt::AlignLeft);
+    return alignment;
+}
+
+QStringList EditorWindow::getRegexListFromHTML(QString text, QRegularExpression rx) {
+    QStringList list;
+    QRegularExpressionMatchIterator i = rx.globalMatch(text);
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
+        QString word = match.captured(1);
+        list << word;
+    }
+    return list;
+}
+
+QVector<QRegularExpression> EditorWindow::getStyleRegexes() {
+    QVector<QRegularExpression> v;
     QRegularExpression fontFamilyRegex("font-family:'(.+?)';");
     QRegularExpression fontSizeRegex("font-size:(.+?)pt;");
     QRegularExpression fontWeightRegex("font-weight:(.+?);");
     QRegularExpression fontStyleRegex("font-style:(.+?);");
     QRegularExpression textDecorationRegex("text-decoration: (.+?);");
+    v.push_back(fontWeightRegex);
+    v.push_back(fontStyleRegex);
+    v.push_back(textDecorationRegex);
+    v.push_back(fontFamilyRegex);
+    v.push_back(fontSizeRegex);
+    return v;
+}
 
-    //TODO: regex for alignment
+int EditorWindow::getFirstCharAlignment(QTextCursor cursor) {
+    int oldPos = cursor.position();
+    int startAlignment;
 
-    foreach (QString s, list) {
-        qDebug() << s;
-        int numChars = s.mid(s.indexOf('>')).length()-1;
-        QVector<QString> styleVector;
-        styleVector.push_back(fontFamilyRegex.match(s).captured(1));
-        styleVector.push_back(fontSizeRegex.match(s).captured(1));
-        styleVector.push_back(fontWeightRegex.match(s).captured(1));
-        styleVector.push_back(fontStyleRegex.match(s).captured(1));
-        styleVector.push_back(textDecorationRegex.match(s).captured(1));
-        styleVector.push_back(QString::number(numChars));
-
-        //TODO: add alignment
-
-        finalVector.push_back(styleVector);
+    /* Get alignment of first char of the selection or the current alignment if there are no selection */
+    if(cursor.hasSelection()) {
+        int startIndex = cursor.selectionStart();
+        cursor.setPosition(startIndex);
+        QTextBlock block = cursor.block();
+        cursor.movePosition(QTextCursor::Right);
+        if(block != cursor.block()) //if we've selected 'newline' -> alignment will be that of the previous char
+            cursor.movePosition(QTextCursor::Left);
     }
-    qDebug() << "FINAL VECTOR: " << finalVector << endl;
-    return finalVector;
+    startAlignment = static_cast<int>(cursor.blockFormat().alignment());
+    cursor.setPosition(oldPos);
+    return startAlignment;
+}
+
+symbolStyle EditorWindow::getFirstCharStyle(QTextCursor cursor) {
+    int oldPos = cursor.position();
+    symbolStyle startStyle;
+
+    /* Get alignment of first char of the selection or the current alignment if there are no selection */
+    if(cursor.hasSelection()) {
+        int startIndex = cursor.selectionStart();
+        cursor.setPosition(startIndex);
+        QTextBlock block = cursor.block();
+        cursor.movePosition(QTextCursor::Right);
+        if(block != cursor.block()) //if we've selected 'newline' -> alignment will be that of the previous char
+            cursor.movePosition(QTextCursor::Left);
+    }
+    //Get data
+    bool bold = cursor.charFormat().fontWeight()==600 ? true : false;
+    bool italic = cursor.charFormat().fontItalic();
+    bool underline = cursor.charFormat().fontUnderline();
+    std::string family = cursor.charFormat().fontFamily().toStdString();
+    int size = static_cast<int>(cursor.charFormat().fontPointSize());
+    int alignment = static_cast<int>(cursor.blockFormat().alignment());
+
+    startStyle = {bold, italic, underline, family, size, alignment};
+    cursor.setPosition(oldPos);
+    return startStyle;
 }
 
 void EditorWindow::sendFormatRequest(int format) {
@@ -1553,6 +1792,36 @@ int EditorWindow::calculateFontSizeComboBox(QTextCursor c) {
     return isMixed ? -1 : vec.at(0);
 }
 
+int EditorWindow::calculateAlignmentButtons(QTextCursor c) {
+    int startIndex = c.selectionStart();
+    int endIndex = c.selectionEnd();
+    std::vector<int> vec;
+    int curAlignment;
+    bool isMixed = false;
+    int oldPos = c.position();
+    int blockNum;
+
+    while(endIndex > startIndex) { //loop over the cursor selection
+        c.setPosition(startIndex++);
+        blockNum = c.blockNumber();
+        c.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+        //if block change (i.e. a newline is selected), get the alignment of the char at the left of the newline
+        if(blockNum != c.blockNumber()) {
+            c.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+            curAlignment = static_cast<int>(c.blockFormat().alignment());
+            c.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+        } else
+            curAlignment = static_cast<int>(c.blockFormat().alignment());
+        vec.push_back(curAlignment);
+        if(curAlignment != vec.at(0)) {
+            isMixed = true;
+            break;
+        }
+    }
+    c.setPosition(oldPos);
+    return isMixed ? -1 : vec.at(0);
+}
+
 QString EditorWindow::calculateFontFamilyComboBox(QTextCursor c) {
     int startIndex = c.selectionStart();
     int endIndex = c.selectionEnd();
@@ -1585,6 +1854,90 @@ void EditorWindow::hideLastAddedItem(QComboBox* combobox) {
     Q_ASSERT(model != nullptr);
     QStandardItem* item = model->item(combobox->count()-1);
     item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+}
+
+Qt::AlignmentFlag EditorWindow::detectAlignment() {
+    if(ui->buttonAlignDX->isChecked())
+        return Qt::AlignRight;
+    else if(ui->buttonAlignCX->isChecked())
+        return Qt::AlignCenter;
+    else if(ui->buttonAlignJFX->isChecked())
+        return Qt::AlignJustify;
+    else
+        return Qt::AlignLeft;
+}
+
+void EditorWindow::setAlignmentButton(Qt::AlignmentFlag alignment) {
+    if(alignment == Qt::AlignRight)
+        AlignDXButtonHandler();
+    else if(alignment == Qt::AlignCenter)
+        AlignCXButtonHandler();
+    else if(alignment == Qt::AlignJustify)
+        AlignJFXButtonHandler();
+    else
+        AlignSXButtonHandler();
+}
+
+void EditorWindow::alignSingleBlock(QTextCursor& cursor, Qt::AlignmentFlag alignment) {
+    QTextBlockFormat textBlockFormat = cursor.blockFormat();
+    textBlockFormat.setAlignment(alignment);
+    cursor.mergeBlockFormat(textBlockFormat);
+    ui->RealTextEdit->setTextCursor(cursor);
+    if(ui->RealTextEdit->document()->lastBlock() == cursor.block()) //Qt considers <CR> in last line, even if I didn't press Return btn
+        sendAlignChangeRequest(cursor.block().position(), cursor.block().position()+cursor.block().length()-1, alignment);
+    else
+        sendAlignChangeRequest(cursor.block().position(), cursor.block().position()+cursor.block().length(), alignment);
+    //NB: cursor.block().length() considers also <CR>, while QTextCursor::EndOfBlock not!
+}
+
+void EditorWindow::alignMultipleBlocks(int startIndex, int endIndex, QTextCursor& cursor, Qt::AlignmentFlag alignment) {
+    int oldPos = cursor.position();
+    std::pair<int,int> positions = alignBlocks(startIndex, endIndex, cursor, alignment);
+    cursor.setPosition(oldPos);
+    ui->RealTextEdit->setTextCursor(cursor);
+    sendAlignChangeRequest(positions.first, positions.second, alignment);
+}
+
+void EditorWindow::changeNextCharsAlignment(QTextCursor cursor, int startIndex, int endIndex) {
+    int oldPos = cursor.position();
+
+    /* Get alignment of the char prior to the selection and chars after the selection, until the end of the block */
+    cursor.setPosition(startIndex);
+    int finalAlignment = static_cast<int>(cursor.blockFormat().alignment());
+    cursor.setPosition(endIndex);
+    int charsAfterSelectionAlignment = static_cast<int>(cursor.blockFormat().alignment());
+
+    /* Set alignment of the chars after selection to the alignment of the chars prior to the selection */
+    if(finalAlignment != charsAfterSelectionAlignment) {
+        if(ui->RealTextEdit->document()->lastBlock() == cursor.block()) //Qt considers <CR> in last line, even if I didn't press Return btn
+            sendAlignChangeRequest(endIndex, cursor.block().position()+cursor.block().length()-1, finalAlignment);
+        else
+            sendAlignChangeRequest(endIndex, cursor.block().position()+cursor.block().length(), finalAlignment);
+    }
+    cursor.setPosition(oldPos); //reset position
+}
+
+std::pair<int,int> EditorWindow::alignBlocks(int startIndex, int endIndex, const QTextCursor& cursor, Qt::AlignmentFlag alignment) {
+    QTextCursor tempCursor = cursor;
+    QTextBlockFormat textBlockFormat;
+    int startPos, endPos = -1;
+
+    tempCursor.setPosition(startIndex);
+    tempCursor.movePosition(QTextCursor::StartOfBlock);
+    startPos = tempCursor.position();
+    while(endPos < endIndex) {
+        textBlockFormat = tempCursor.blockFormat();
+        textBlockFormat.setAlignment(alignment);
+        tempCursor.mergeBlockFormat(textBlockFormat);
+        tempCursor.movePosition(QTextCursor::EndOfBlock); //NB: EndOfBlock does NOT consider <CR> (for ex.), so I have to move Right to reach the next block
+        endPos = tempCursor.position();
+        tempCursor.movePosition(QTextCursor::Right);
+    }
+    tempCursor.movePosition(QTextCursor::Left); //to check if we selected also the last block
+    if(ui->RealTextEdit->document()->lastBlock() == tempCursor.block())
+        return std::make_pair(startPos, endPos); //endPos and not endPos+1 due to the fact that Qt considers <CR> in last line, even if I didn't press Return btn
+    else
+        return std::make_pair(startPos, endPos+1); //endPos+1 to change alignment also for <CR>
 }
 
 bool EditorWindow::handleConnectionLoss() {
@@ -1624,29 +1977,49 @@ void EditorWindow::removeCharRequest(int pos) {
     sendRequestMsg(req);
 }
 
-void EditorWindow::insertCharRangeRequest(int pos) {
-    const QClipboard *clipboard = QApplication::clipboard();
+void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) {
+    QClipboard *clipboard = QApplication::clipboard();
     const QMimeData *mimeData = clipboard->mimeData();
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
 
     if(mimeData->hasText()) { //TODO: and if mimeData has Images or html or text from outside??? -> handle these cases
-        //Get data
+        /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
-        QVector<QVector<QString>> styles = getStylesFromHTML(mimeData->html());
+
+        QVector<int> alignmentsValues;
+        if(!cursorHasSelection) {
+            /* Get alignments from HTML and extract values */
+            QVector<std::pair<int,int>> alignments = getAlignmentsFromHTML(mimeData->html(), cursor);
+            std::transform(std::begin(alignments), std::end(alignments), std::back_inserter(alignmentsValues),
+                            [](std::pair<int,int> const& pair){ return pair.second; });
+        } else {
+            /* Get alignment from first char of the selection */
+            int align = getFirstCharAlignment(cursor);
+            std::fill_n(std::back_inserter(alignmentsValues), numChars, align);
+        }
+
+        /* Get char styles from HTML */
+        QVector<std::pair<int,symbolStyle>> styles = getStylesFromHTML(mimeData->html(), cursor, alignmentsValues);
+
+        /* Update alignments vector of RealTextEdit */
+        QVector<std::pair<int,int>> alignmentsVector;
+        std::transform(std::begin(styles), std::end(styles), std::back_inserter(alignmentsVector),
+                        [](std::pair<int,symbolStyle> const pair){ return std::make_pair(pair.first, pair.second.getAlignment()); });
+        ui->RealTextEdit->setAlignmentsVector(alignmentsVector);
+
         std::vector<symbolInfo> infoSymbols;
         int index;
         wchar_t c;
         symbolStyle charStyle;
 
+        /* Loop over mimeData chars and give the extracted style to each of them */
         for(int i=0; i<numChars; i++) {
             c = str_to_paste.c_str()[0]; //get wchar
             qDebug() << "char: " << c;
             str_to_paste.erase(0,1); //remove first wchar
             index = pos++; //get index
-            if(c <= 32 || c > 126) //special characters has no style (LF, CR, ESC, SP, ecc.)
-                charStyle = symbolStyle(false, false, false, "Times New Roman", 14, 1); //TODO: change alignment (maybe based on current button)
-            else
-                charStyle = getStyleFromHTMLStyles(styles); //get the style
+            charStyle = getStyleFromHTMLStyles(styles); //get the style
             symbolInfo s(index, c, charStyle);
             infoSymbols.push_back(s);
         }

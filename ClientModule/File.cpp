@@ -1,9 +1,4 @@
-//
-// Created by franc on 10/29/2019.
-//
-
 #include "File.h"
-
 #include <utility>
 
 File::File(std::string idfile, std::string filename, std::string owner, std::string timestamp)

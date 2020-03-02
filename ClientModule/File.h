@@ -1,9 +1,7 @@
-//
-// Created by franc on 10/29/2019.
-#include <string>
-#ifndef SERVERMODULE_FILE_H
-#define SERVERMODULE_FILE_H
+#ifndef FILE_H
+#define FILE_H
 
+#include <string>
 
 class File {
 private:
@@ -21,4 +19,4 @@ public:
 };
 
 
-#endif //SERVERMODULE_FILE_H
+#endif //FILE_H

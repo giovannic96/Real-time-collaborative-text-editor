@@ -739,6 +739,40 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         const std::string response = j.dump();
         return response;
 
+    } else if (opJSON == "ALIGNMENT_CHANGE_REQUEST") {
+        int startIndexJSON;
+        int endIndexJSON;
+        int alignmentJSON;
+        bool firstTime = true;
+        jsonUtility::from_json_alignment_change(jdata_in, startIndexJSON, endIndexJSON, alignmentJSON);
+        std::cout << "[ALIGNMENT_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " newAlignment: " << std::to_string(alignmentJSON) << std::endl;
+
+        int counter = startIndexJSON;
+        while(counter < endIndexJSON) {
+            //Construct msgInfo
+            msgInfo m = localAlignmentChange(counter++, alignmentJSON);
+            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+
+            if(firstTime) {
+                edId = m.getEditorId(); //don't send this message to this editor
+                firstTime = false;
+            }
+
+            //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            //Dispatch message to all the clients
+            room_.send(m);
+            room_.dispatchMessages();
+        }
+        curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, alignmentJSON);
+        const std::string response = j.dump();
+        return response;
+
     } else if (opJSON == "INSERTIONRANGE_REQUEST") {
         std::vector<json> formattingSymbolsJSON;
         jsonUtility::from_json_insertion_range(jdata_in, formattingSymbolsJSON);

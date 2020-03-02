@@ -159,6 +159,19 @@ msgInfo participant::localFontFamilyChange(int startIndex, const std::string& fo
     return m;
 }
 
+msgInfo participant::localAlignmentChange(int startIndex, int alignment) noexcept(false) {
+    if(startIndex < 0 || startIndex > _symbols.size()) {
+        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
+        //TODO: return null msgInfo or sthg similar
+    }
+    symbol s = _symbols.at(startIndex);
+    symbolStyle newStyle;
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), alignment };
+    _symbols.at(startIndex).setStyle(newStyle);
+    msgInfo m(5, getId(), s, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex
+    return m;
+}
+
 void participant::process(const msgInfo& m) {
     /* Insertion */
     if (m.getType() == 0) { //TODO: switch case for different msgtypes, better enum not int
@@ -253,6 +266,24 @@ void participant::process(const msgInfo& m) {
             symbol s = _symbols[index];
             symbolStyle newStyle;
             newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), m.getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+            _symbols[index].setStyle(newStyle);
+        }
+    }
+    /* Alignment change */
+    else if(m.getType() == 5) {
+        std::vector<int> fractionalPos = m.getSymbol().getPos();
+        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
+        if (it == _symbols.end()) {
+            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            return;
+        }
+        int index = it - _symbols.begin();
+
+        if(_symbols.at(index).getId() == m.getSymbol().getId()) {
+            symbol s = _symbols[index];
+            symbolStyle newStyle;
+            //in this case 'newIndex' of msgInfo represents the alignment
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex() };
             _symbols[index].setStyle(newStyle);
         }
     }
