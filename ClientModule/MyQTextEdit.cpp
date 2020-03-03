@@ -1,6 +1,10 @@
 #include "MyQTextEdit.h"
 #include <QMimeData>
 #include <qdebug.h>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QDebug>
+#include <QAction>
 
 void MyQTextEdit::insertFromMimeData(const QMimeData* source) {
     if (source->hasText()) {
@@ -48,3 +52,15 @@ void MyQTextEdit::setAlignmentsVector(QVector<std::pair<int,int>> alignmentVecto
 QVector<std::pair<int,int>> MyQTextEdit::getAlignmentsVector() {
     return this->alignments;
 }
+
+
+void MyQTextEdit::contextMenuEvent(QContextMenuEvent *event){
+    QMenu *menu = createStandardContextMenu();
+    menu->addSeparator();
+    menu->addAction(tr("HidroSaphire Was Here"));
+    menu->addSeparator();
+   // menu->removeAction(); //How get default redo/undo action??? Can't find a solution - Help
+    menu->exec(event->globalPos());
+    delete menu;
+}
+

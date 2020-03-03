@@ -15,6 +15,7 @@ public:
 private:
     QVector<std::pair<int,int>> alignments;
     int getAlignmentValues(QVector<std::pair<int,int>>& alignments);
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 signals:
     void updateAlignmentButton();
