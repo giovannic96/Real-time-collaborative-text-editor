@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MYQTEXTEDIT_H
+#define MYQTEXTEDIT_H
 #include <QTextEdit>
 
 class MyQTextEdit : public QTextEdit
@@ -19,3 +20,5 @@ signals:
     void updateAlignmentButton();
 
 };
+
+#endif //MYQTEXTEDIT_H

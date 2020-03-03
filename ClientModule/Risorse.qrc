@@ -25,8 +25,6 @@
         <file>image/Editor/copy.png</file>
         <file>image/Editor/cut.png</file>
         <file>image/Editor/paste.png</file>
-        <file>image/Editor/redo.png</file>
-        <file>image/Editor/undo.png</file>
         <file>image/Editor/icon.png</file>
         <file>image/Editor/icon2.png</file>
         <file>image/Editor/paintbrush.png</file>
@@ -51,11 +49,9 @@
         <file>image/DarkEditor/Magnifier.png</file>
         <file>image/DarkEditor/paintbrush.png</file>
         <file>image/DarkEditor/paste.png</file>
-        <file>image/DarkEditor/redo.png</file>
         <file>image/DarkEditor/right-align.png</file>
         <file>image/DarkEditor/save(1).png</file>
         <file>image/DarkEditor/save.png</file>
-        <file>image/DarkEditor/undo.png</file>
         <file>image/Editor/DarkMoon.png</file>
         <file>image/Editor/DarkSun.png</file>
         <file>image/Editor/Magnifier.png</file>

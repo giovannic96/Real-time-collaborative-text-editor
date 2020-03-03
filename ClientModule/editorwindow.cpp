@@ -1,5 +1,6 @@
 #include "editorwindow.h"
 #include "ui_editorwindow.h"
+#include "MyQTextEdit.h"
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QColorDialog>
@@ -260,16 +261,6 @@ void EditorWindow::on_buttonAlignJFX_clicked() {
 /***********************************************************************************
 *                           TEXT EDITING BUTTONS                                   *
 ************************************************************************************/
-void EditorWindow::on_buttonUndo_clicked() {
-    ui->RealTextEdit->undo();
-    ui->RealTextEdit->setFocus();
-}
-
-void EditorWindow::on_buttonRedo_clicked() {
-    ui->RealTextEdit->redo();
-    ui->RealTextEdit->setFocus();
-}
-
 void EditorWindow::on_buttonCut_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     if(cursor.hasSelection()) {
@@ -516,6 +507,9 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             }
             return QObject::eventFilter(obj, ev);
         }
+        else if (keyEvent->matches(QKeySequence::Copy)) { //CTRL-C
+            return false; //let the original handler handle this sequence
+        }
         else if (keyEvent->matches(QKeySequence::Paste)) { //CTRL-V
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos;
@@ -531,7 +525,8 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             return QObject::eventFilter(obj, ev);
         }
         else if(modifiers & Qt::ControlModifier) { //ignore other CTRL combinations
-            return QObject::eventFilter(obj, ev);
+            qDebug() << "Operation Not Supported";
+            return true;
         }
         else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete)) {
             //Get data
@@ -978,7 +973,7 @@ void EditorWindow::PaintItBlack() {
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocName->setStyleSheet("#DocName{color: #ff8000;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/DarkEditor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -986,8 +981,6 @@ void EditorWindow::PaintItBlack() {
         icoCPY.addPixmap(QPixmap(":/image/DarkEditor/copy.png"),QIcon::Normal,QIcon::On);
         icoCUT.addPixmap(QPixmap(":/image/DarkEditor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/DarkEditor/paste.png"),QIcon::Normal,QIcon::On);
-        icoREDO.addPixmap(QPixmap(":/image/DarkEditor/redo.png"),QIcon::Normal,QIcon::On);
-        icoUNDO.addPixmap(QPixmap(":/image/DarkEditor/undo.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
         icoCOL.addPixmap(QPixmap(":/image/DarkEditor/paintbrush.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
@@ -1000,8 +993,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonCopy->setIcon(icoCPY);
         ui->buttonCut->setIcon(icoCUT);
         ui->buttonPaste->setIcon(icoPAS);
-        ui->buttonRedo->setIcon(icoREDO);
-        ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
         ui->buttonColor->setIcon(icoCOL);
         ui->buttonBold->setIcon(v2B);
@@ -1011,8 +1002,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonCopy->setStyleSheet("    #buttonCopy{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonCut->setStyleSheet("   #buttonCut{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonPaste->setStyleSheet("  #buttonPaste{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonRedo->setStyleSheet("     #buttonRedo{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonUndo->setStyleSheet("     #buttonUndo{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{background-color:#AEAEAE; border-radius:4px;}");
         //Menu Modify
@@ -1029,7 +1018,7 @@ void EditorWindow::PaintItBlack() {
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocName->setStyleSheet("#DocName{color: #505050;}");
 
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoREDO, icoUNDO, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
+        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/Editor/left-align.png"),QIcon::Normal,QIcon::On);
         icoAD.addPixmap(QPixmap(":/image/Editor/right-align.png"),QIcon::Normal,QIcon::On);
@@ -1037,8 +1026,6 @@ void EditorWindow::PaintItBlack() {
         icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
         icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
-        icoREDO.addPixmap(QPixmap(":/image/Editor/redo.png"),QIcon::Normal,QIcon::On);
-        icoUNDO.addPixmap(QPixmap(":/image/Editor/undo.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
         icoCOL.addPixmap(QPixmap(":/image/Editor/paintbrush.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
@@ -1051,8 +1038,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonCopy->setIcon(icoCPY);
         ui->buttonCut->setIcon(icoCUT);
         ui->buttonPaste->setIcon(icoPAS);
-        ui->buttonRedo->setIcon(icoREDO);
-        ui->buttonUndo->setIcon(icoUNDO);
         ui->buttonSearch->setIcon(icoMAGN);
         ui->buttonColor->setIcon(icoCOL);
         ui->buttonBold->setIcon(v2B);
@@ -1062,8 +1047,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonCopy->setStyleSheet("    #buttonCopy{border-radius:4px}    #buttonCopy:hover{background-color: lightgrey;}");
         ui->buttonCut->setStyleSheet("   #buttonCut{border-radius:4px}    #buttonCut:hover{background-color: lightgrey;}");
         ui->buttonPaste->setStyleSheet("  #buttonPaste{border-radius:4px}    #buttonPaste:hover{background-color: lightgrey;}");
-        ui->buttonRedo->setStyleSheet("     #buttonRedo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
-        ui->buttonUndo->setStyleSheet("     #buttonUndo{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
         ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
         ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
 

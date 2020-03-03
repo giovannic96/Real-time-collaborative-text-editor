@@ -35,8 +35,6 @@ private slots:
     void on_buttonAlignJFX_clicked();
 
     //Modify the text
-    void on_buttonUndo_clicked();
-    void on_buttonRedo_clicked();
     void on_buttonCut_clicked();
     void on_buttonPaste_clicked();
     void on_buttonCopy_clicked();
