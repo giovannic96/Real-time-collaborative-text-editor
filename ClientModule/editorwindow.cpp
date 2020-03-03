@@ -359,20 +359,25 @@ void EditorWindow::on_buttonCollab_clicked() {
 void EditorWindow::on_RealTextEdit_selectionChanged() {
     //Update UI based on current char format (after pressing left/right arrow after selection)
     QTextCursor c = ui->RealTextEdit->textCursor();
+
     if(!c.hasSelection()) {
-        ui->fontSizeBox->setCurrentText(QString::number(c.charFormat().fontPointSize()));
-        ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(c.charFormat().fontFamily()));
-        c.charFormat().fontWeight()==QFont::Bold ? ui->buttonBold->setChecked(true) : ui->buttonBold->setChecked(false);
-        c.charFormat().fontItalic()==true ? ui->buttonItalic->setChecked(true) : ui->buttonItalic->setChecked(false);
-        c.charFormat().fontUnderline()==true ? ui->buttonUnderline->setChecked(true) : ui->buttonUnderline->setChecked(false);
-        if(c.blockFormat().alignment()==Qt::AlignRight)
-            AlignDXButtonHandler();
-        else if(c.blockFormat().alignment()==Qt::AlignCenter)
-            AlignCXButtonHandler();
-        else if(c.blockFormat().alignment()==Qt::AlignJustify)
-            AlignJFXButtonHandler();
-        else
-            AlignSXButtonHandler();
+        if(ui->RealTextEdit->toPlainText().length() == 0) { //there aren't chars
+            setupInitialCondition();
+        } else {
+            ui->fontSizeBox->setCurrentText(QString::number(c.charFormat().fontPointSize()));
+            ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(c.charFormat().fontFamily()));
+            c.charFormat().fontWeight()==QFont::Bold ? ui->buttonBold->setChecked(true) : ui->buttonBold->setChecked(false);
+            c.charFormat().fontItalic()==true ? ui->buttonItalic->setChecked(true) : ui->buttonItalic->setChecked(false);
+            c.charFormat().fontUnderline()==true ? ui->buttonUnderline->setChecked(true) : ui->buttonUnderline->setChecked(false);
+            if(c.blockFormat().alignment()==Qt::AlignRight)
+                AlignDXButtonHandler();
+            else if(c.blockFormat().alignment()==Qt::AlignCenter)
+                AlignCXButtonHandler();
+            else if(c.blockFormat().alignment()==Qt::AlignJustify)
+                AlignJFXButtonHandler();
+            else
+                AlignSXButtonHandler();
+        }
         AlignButtonStyleHandler();
         refreshFormatButtons();
     }
@@ -498,19 +503,19 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         QList<Qt::Key> modifiersList;
 
         if(!keyEvent->text().isEmpty()) { //to ignore chars like "CAPS_LOCK", "SHIFT", "CTRL", etc...
-
-        if (keyEvent->matches(QKeySequence::Cut)) { //CTRL-X
+        //*********************************************** CTRL-X *************************************************
+        if (keyEvent->matches(QKeySequence::Cut)) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             if(cursor.hasSelection()) {
                 changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor);
             }
             return QObject::eventFilter(obj, ev);
-        }
-        else if (keyEvent->matches(QKeySequence::Copy)) { //CTRL-C
+        } //*********************************************** CTRL-C *************************************************
+        else if (keyEvent->matches(QKeySequence::Copy)) {
             return false; //let the original handler handle this sequence
-        }
-        else if (keyEvent->matches(QKeySequence::Paste)) { //CTRL-V
+        } //*********************************************** CTRL-V *************************************************
+        else if (keyEvent->matches(QKeySequence::Paste)) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos;
             bool hasSelection = false;
@@ -523,11 +528,14 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             }
             insertCharRangeRequest(pos, hasSelection);
             return QObject::eventFilter(obj, ev);
-        }
+        } //*********************************************** CTRL-A *************************************************
+        else if (keyEvent->matches(QKeySequence::SelectAll)) {
+            return false; //let the original handler handle this sequence
+        } //******************************************** ALL THE OTHER CTRL COMBINATION ****************************
         else if(modifiers & Qt::ControlModifier) { //ignore other CTRL combinations
             qDebug() << "Operation Not Supported";
             return true;
-        }
+        } //******************************************** ANY DIGIT *************************************************
         else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete)) {
             //Get data
             std::pair<int, wchar_t> tuple;
@@ -646,40 +654,34 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             //Send data (header and body)
             sendRequestMsg(req);
             return QObject::eventFilter(obj, ev);
-        }
-        else if(key == Qt::Key_Backspace) { //only Backspace
-
+        } //******************************************** BACKSPACE *************************************************
+        else if(key == Qt::Key_Backspace) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
 
             if(cursor.hasSelection()) { //Remove range of characters selected
                 changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor);
-                return QObject::eventFilter(obj, ev);
             }
             else if(pos > 0) { //Remove only one character
                 changeNextCharsAlignment(cursor, pos-1, pos);
                 removeCharRequest(pos-1);
-                return QObject::eventFilter(obj, ev);
-            } else
-                return QObject::eventFilter(obj, ev);
-        }
-        else if(key == Qt::Key_Delete) { //only "canc" button
-
+            }
+            return QObject::eventFilter(obj, ev);
+        } //******************************************** CANC ******************************************************
+        else if(key == Qt::Key_Delete) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             int pos = cursor.position();
 
             if(cursor.hasSelection()) {
                 changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
                 removeCharRangeRequest(cursor); //Remove range of characters selected
-                return QObject::eventFilter(obj, ev);
             }
             else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) {
                 changeNextCharsAlignment(cursor, pos, pos+1);
                 removeCharRequest(pos); //Remove only one character
-                return QObject::eventFilter(obj, ev);
-            } else
-                return QObject::eventFilter(obj, ev);
+            }
+            return QObject::eventFilter(obj, ev);
         }
         } else
             return QObject::eventFilter(obj, ev);
@@ -1934,6 +1936,23 @@ bool EditorWindow::handleConnectionLoss() {
         BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
     }
     return true;
+}
+
+void EditorWindow::setupInitialCondition() {
+    ui->fontSizeBox->setCurrentText(QString::number(14));
+    ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
+    ui->buttonBold->setChecked(false);
+    ui->buttonItalic->setChecked(false);
+    ui->buttonUnderline->setChecked(false);
+    QTextCursor c = ui->RealTextEdit->textCursor();
+    if(c.blockFormat().alignment()==Qt::AlignRight)
+        AlignDXButtonHandler();
+    else if(c.blockFormat().alignment()==Qt::AlignCenter)
+        AlignCXButtonHandler();
+    else if(c.blockFormat().alignment()==Qt::AlignJustify)
+        AlignJFXButtonHandler();
+    else
+        AlignSXButtonHandler();
 }
 
 void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor) {

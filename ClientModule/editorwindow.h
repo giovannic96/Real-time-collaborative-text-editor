@@ -90,6 +90,7 @@ private slots:
     void AlignButtonStyleHandler();
     void refreshFormatButtons();
     bool handleConnectionLoss();
+    void setupInitialCondition();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
