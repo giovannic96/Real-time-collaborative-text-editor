@@ -532,11 +532,12 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         else if (keyEvent->matches(QKeySequence::SelectAll)) {
             return false; //let the original handler handle this sequence
         } //******************************************** ALL THE OTHER CTRL COMBINATION ****************************
-        else if(modifiers & Qt::ControlModifier) { //ignore other CTRL combinations
+        else if((modifiers & Qt::ControlModifier) && !(key == Qt::Key_BracketLeft) && !(key == Qt::Key_BracketRight)
+                && !(key == Qt::Key_BraceLeft) && !(key == Qt::Key_BraceRight) && !(key == Qt::Key_At) && !(key == Qt::Key_NumberSign) ) {
             qDebug() << "Operation Not Supported";
             return true;
         } //******************************************** ANY DIGIT *************************************************
-        else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete)) {
+        else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete) && !(key == Qt::Key_Escape)) {
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
@@ -682,6 +683,9 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 removeCharRequest(pos); //Remove only one character
             }
             return QObject::eventFilter(obj, ev);
+        } //********************************************* ESC ******************************************************
+        else if(key == Qt::Key_Escape) {
+            return true; //do not handle ESC
         }
         } else
             return QObject::eventFilter(obj, ev);
