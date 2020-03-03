@@ -1512,7 +1512,6 @@ symbolStyle EditorWindow::constructSymStyle(QVector<QRegularExpression> rxs, QSt
 
 QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString htmlText, QTextCursor& cursor, QVector<int>& alignments) {
     QVector<std::pair<int,symbolStyle>> finalVector;
-
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
 
@@ -1524,7 +1523,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     foreach (QString s, list) {
         int numChars = s.mid(s.indexOf('>')).length()-1;
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
-        alignments.pop_front();
+        alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
         finalVector.push_back(std::make_pair(numChars, curStyle));
     }
@@ -1991,8 +1990,9 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) {
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
             QVector<std::pair<int,int>> alignments = getAlignmentsFromHTML(mimeData->html(), cursor);
-            std::transform(std::begin(alignments), std::end(alignments), std::back_inserter(alignmentsValues),
-                            [](std::pair<int,int> const& pair){ return pair.second; });
+            std::for_each(alignments.begin(), alignments.end(), [&](std::pair<int,int> pair) {
+                alignmentsValues.insert(alignmentsValues.end(), pair.first, pair.second);
+            });
         } else {
             /* Get alignment from first char of the selection */
             int align = getFirstCharAlignment(cursor);
