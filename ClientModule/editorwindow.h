@@ -24,9 +24,6 @@ public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
-    void cutText();
-    void pasteText();
-    void deleteCharText();
 
 private slots:
 

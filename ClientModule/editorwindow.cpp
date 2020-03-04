@@ -1519,15 +1519,18 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
 
     QRegularExpression rx("<span ([^<]+)</span>");
-    QStringList list = getRegexListFromHTML(htmlText, rx);
+    QStringList list = getRegexListFromHTML(htmlText, rx);    
     QVector<QRegularExpression> rxs = getStyleRegexes();
 
     symbolStyle prevStyle = startStyle;
     foreach (QString s, list) {
         int numChars = s.mid(s.indexOf('>')).length()-1;
-        if(alignments.empty() || numChars <= 0)
+        if(alignments.empty() || numChars <= 0 || s.contains("color:"))
             throw OperationNotSupported();
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
+        if(ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 ||
+           curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
+            throw OperationNotSupported();
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
         finalVector.push_back(std::make_pair(numChars, curStyle));
@@ -1572,10 +1575,13 @@ QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText
     }
 
     /* Remove first and last element if we've selected '\n' as first/last element */
-    if(finalVec.length() > 1) {
-        if(finalVec.at(0) == finalVec.at(1))
+    int len = finalVec.length();
+    if(len > 1) {
+        if(finalVec.at(0) == finalVec.at(1)) {
             finalVec.pop_front();
-        if(finalVec.at(finalVec.length()-1) == finalVec.at(finalVec.length()-2))
+            --len;
+        }
+        if(len > 1 && finalVec.at(len-1) == finalVec.at(len-2))
             finalVec.pop_back();
     }
 
@@ -2006,7 +2012,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
     const QMimeData *mimeData = clipboard->mimeData();
     QTextCursor cursor = ui->RealTextEdit->textCursor();
 
-    if(mimeData->hasText() && !mimeData->hasImage() && !mimeData->hasUrls() && !mimeData->html().contains("<a href")) { //TODO: and if mimeData has Images or html or text from outside??? -> handle these cases
+    if(mimeData->hasText() && !mimeData->hasImage() && !mimeData->hasUrls() && !mimeData->html().contains("<a href")) {
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
