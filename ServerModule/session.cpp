@@ -589,6 +589,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Update room symbols for this file
         room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
+        //Write on file if there aren't chars (to prevent 2nd client reading from file previous symbols, see 'getSymbolMap', 2nd 'if' statement)
+        if(room_.getMap().at(shared_from_this()->getCurrentFile()).empty())
+            fileUtility::writeFile(R"(..\Filesystem\)" + shared_from_this()->getCurrentFile() + ".txt", room_.getMap().at(shared_from_this()->getCurrentFile()));
+
         //Dispatch message to all the clients
         room_.send(m);
         room_.dispatchMessages();
@@ -626,6 +630,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             room_.send(m);
             room_.dispatchMessages();
         }
+
+        //Write on file if there aren't chars (to prevent 2nd client reading from file previous symbols, see 'getSymbolMap', 2nd 'if' statement)
+        if(room_.getMap().at(shared_from_this()->getCurrentFile()).empty())
+            fileUtility::writeFile(R"(..\Filesystem\)" + shared_from_this()->getCurrentFile() + ".txt", room_.getMap().at(shared_from_this()->getCurrentFile()));
 
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
