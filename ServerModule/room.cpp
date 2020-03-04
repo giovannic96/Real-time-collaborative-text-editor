@@ -61,18 +61,12 @@ void room::dispatchMessages() {
 }
 
 std::vector<symbol> room::getSymbolMap(const std::string& filename) {
-    if(room_map_.empty()) {//server has nothing in RAM
-        std::cout << "entrato1";
+    if(room_map_.empty()) //server has nothing in RAM
         return std::vector<symbol>();
-    }
-    if(room_map_.at(filename).empty()) {//server has not in RAM the vector symbols for this filename
-        std::cout << "entrato2" << " length: " << room_map_.at(filename).size();
+    if(room_map_.at(filename).empty()) //server has not in RAM the vector symbols for this filename
         return fileUtility::readFile(R"(..\Filesystem\)" + filename + ".txt");
-    }
-    else {//server has already in RAM this vector symbols
-        std::cout << "entrato3" << " length: " << room_map_.at(filename).size();
+    else //server has already in RAM this vector symbols
         return room_map_.at(filename);
-    }
 }
 
 std::map<std::string, std::vector<symbol>> room::getMap() {
