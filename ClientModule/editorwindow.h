@@ -11,6 +11,12 @@
 class QEvent;
 namespace Ui {class EditorWindow;}
 
+struct OperationNotSupported : public std::exception {
+    const char * what () const noexcept override {
+        return "Operation not supported";
+    }
+};
+
 class EditorWindow : public QMainWindow {
     Q_OBJECT
 
@@ -18,6 +24,9 @@ public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
     ~EditorWindow();
     bool eventFilter(QObject *obj, QEvent *ev);
+    void cutText();
+    void pasteText();
+    void deleteCharText();
 
 private slots:
 

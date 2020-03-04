@@ -5,9 +5,11 @@
 #include <QMenu>
 #include <QDebug>
 #include <QAction>
+#include <QApplication>
+#include <QClipboard>
 
 void MyQTextEdit::insertFromMimeData(const QMimeData* source) {
-    if (source->hasText()) {
+    if (source->hasText() && !source->hasImage() && !source->hasUrls() && !source->html().contains("<a href")) {
         QString text = source->text();
         QTextCursor cursor = textCursor();
         int startIndex;

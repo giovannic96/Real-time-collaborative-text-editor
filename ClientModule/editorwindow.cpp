@@ -1,6 +1,8 @@
 #include "editorwindow.h"
 #include "ui_editorwindow.h"
 #include "MyQTextEdit.h"
+#include "infowindow.h"
+#include "menuwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QColorDialog>
@@ -9,9 +11,8 @@
 #include <QMessageBox>
 #include <QGraphicsOpacityEffect>
 #include <QPrinter>
-#include "infowindow.h"
-#include "menuwindow.h"
 #include <QEvent>
+#include <stdexcept>
 
 using json = nlohmann::json;
 
@@ -277,14 +278,19 @@ void EditorWindow::on_buttonPaste_clicked() {
     bool hasSelection = false;
 
     cursor.hasSelection() ? pos = cursor.selectionStart() : pos = cursor.position();
-    if(cursor.hasSelection()) {
-        hasSelection = true;
-        changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-        removeCharRangeRequest(cursor);
+    try {
+        if(cursor.hasSelection()) {
+            hasSelection = true;
+            changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
+            removeCharRangeRequest(cursor);
+        }
+        insertCharRangeRequest(pos, hasSelection);
+        ui->RealTextEdit->paste();
+        ui->RealTextEdit->setFocus();
+    } catch(OperationNotSupported& ex) {
+        qDebug() << ex.what();
+        cursor.removeSelectedText();
     }
-    insertCharRangeRequest(pos, hasSelection);
-    ui->RealTextEdit->paste();
-    ui->RealTextEdit->setFocus();    
 }
 
 void EditorWindow::on_buttonCopy_clicked() {
@@ -521,12 +527,18 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             bool hasSelection = false;
 
             cursor.hasSelection() ? pos = cursor.selectionStart() : pos = cursor.position();
-            if(cursor.hasSelection()) {
-                hasSelection = true;
-                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-                removeCharRangeRequest(cursor);
+            try {
+                if(cursor.hasSelection()) {
+                    hasSelection = true;
+                    changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
+                    removeCharRangeRequest(cursor);
+                }
+                insertCharRangeRequest(pos, hasSelection);
+            } catch(OperationNotSupported& ex) {
+                qDebug() << ex.what();
+                cursor.removeSelectedText();
+                return true; //not paste text
             }
-            insertCharRangeRequest(pos, hasSelection);
             return QObject::eventFilter(obj, ev);
         } //*********************************************** CTRL-A *************************************************
         else if (keyEvent->matches(QKeySequence::SelectAll)) {
@@ -560,7 +572,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 //change alignment of the chars next to the selection (until the end of that block)
                 changeNextCharsAlignment(tempCursor, startIndex, endIndex);
 
-                /* Get properties of the first char of the selection */
+                //get properties of the first char of the selection
                 tempCursor.setPosition(startIndex+1, QTextCursor::MoveAnchor);
                 firstCharBold = tempCursor.charFormat().font().weight() == QFont::Bold;
                 firstCharItalic = tempCursor.charFormat().font().italic();
@@ -1479,7 +1491,9 @@ symbolStyle EditorWindow::getCurCharStyle() {
     return style;
 }
 
-symbolStyle EditorWindow::getStyleFromHTMLStyles(QVector<std::pair<int,symbolStyle>>& styles) {
+symbolStyle EditorWindow::getStyleFromHTMLStyles(QVector<std::pair<int,symbolStyle>>& styles) noexcept(false) {
+    if(styles.empty())
+        throw OperationNotSupported();
     symbolStyle style = styles.at(0).second;
     if(styles.at(0).first > 1)
         styles[0].first -= 1; //decrease the number of chars having same style
@@ -1499,7 +1513,7 @@ symbolStyle EditorWindow::constructSymStyle(QVector<QRegularExpression> rxs, QSt
     return style;
 }
 
-QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString htmlText, QTextCursor& cursor, QVector<int>& alignments) {
+QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString htmlText, QTextCursor& cursor, QVector<int>& alignments) noexcept(false) {
     QVector<std::pair<int,symbolStyle>> finalVector;
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
@@ -1511,6 +1525,8 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     symbolStyle prevStyle = startStyle;
     foreach (QString s, list) {
         int numChars = s.mid(s.indexOf('>')).length()-1;
+        if(alignments.empty() || numChars <= 0)
+            throw OperationNotSupported();
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
@@ -1522,7 +1538,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     return finalVector;
 }
 
-QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText, QTextCursor cursor) {
+QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText, QTextCursor cursor) noexcept(false) {
     QVector<std::pair<int,int>> finalVec;
     int startAlignment = getFirstCharAlignment(cursor);
 
@@ -1532,6 +1548,9 @@ QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText
     /* Split htmlText in many strings defined by the tags <p> e </p> (paragraphs) */
     QRegularExpression rx("<p (.*?)</p>");
     QStringList paragraphs = getRegexListFromHTML(htmlText, rx);
+
+    if(paragraphs.empty())
+        throw OperationNotSupported();
     if(paragraphs.length()==3 && paragraphs.at(0).contains("paragraph-type:empty") && paragraphs.at(2).contains("paragraph-type:empty")) {
         paragraphs.pop_back();
         paragraphs.pop_back();
@@ -1982,12 +2001,12 @@ void EditorWindow::removeCharRequest(int pos) {
     sendRequestMsg(req);
 }
 
-void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) {
+void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noexcept(false) {
     QClipboard *clipboard = QApplication::clipboard();
     const QMimeData *mimeData = clipboard->mimeData();
     QTextCursor cursor = ui->RealTextEdit->textCursor();
 
-    if(mimeData->hasText()) { //TODO: and if mimeData has Images or html or text from outside??? -> handle these cases
+    if(mimeData->hasText() && !mimeData->hasImage() && !mimeData->hasUrls() && !mimeData->html().contains("<a href")) { //TODO: and if mimeData has Images or html or text from outside??? -> handle these cases
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
@@ -1995,18 +2014,32 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) {
         QVector<int> alignmentsValues;
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
-            QVector<std::pair<int,int>> alignments = getAlignmentsFromHTML(mimeData->html(), cursor);
-            std::for_each(alignments.begin(), alignments.end(), [&](std::pair<int,int> pair) {
-                alignmentsValues.insert(alignmentsValues.end(), pair.first, pair.second);
-            });
+            try {
+                QVector<std::pair<int,int>> alignments = getAlignmentsFromHTML(mimeData->html(), cursor);
+                std::for_each(alignments.begin(), alignments.end(), [&](std::pair<int,int> pair) {
+                    alignmentsValues.insert(alignmentsValues.end(), pair.first, pair.second);
+                });
+            } catch(OperationNotSupported& ex) {
+                qDebug() << ex.what();
+                throw OperationNotSupported(); //raise exception
+            }
         } else {
             /* Get alignment from first char of the selection */
             int align = getFirstCharAlignment(cursor);
             std::fill_n(std::back_inserter(alignmentsValues), numChars, align);
         }
 
+        if(alignmentsValues.length() != numChars || alignmentsValues.empty())
+            throw OperationNotSupported();
+
         /* Get char styles from HTML */
-        QVector<std::pair<int,symbolStyle>> styles = getStylesFromHTML(mimeData->html(), cursor, alignmentsValues);
+        QVector<std::pair<int,symbolStyle>> styles;
+        try {
+            styles = getStylesFromHTML(mimeData->html(), cursor, alignmentsValues);
+        } catch(OperationNotSupported& ex) {
+            qDebug() << ex.what();
+            throw OperationNotSupported(); //raise exception
+        }
 
         /* Update alignments vector of RealTextEdit */
         QVector<std::pair<int,int>> alignmentsVector;
@@ -2025,7 +2058,12 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) {
             qDebug() << "char: " << c;
             str_to_paste.erase(0,1); //remove first wchar
             index = pos++; //get index
-            charStyle = getStyleFromHTMLStyles(styles); //get the style
+            try {
+                charStyle = getStyleFromHTMLStyles(styles); //get the style
+            } catch(OperationNotSupported& ex) {
+                qDebug() << ex.what();
+                throw OperationNotSupported(); //raise exception
+            }
             symbolInfo s(index, c, charStyle);
             infoSymbols.push_back(s);
         }
