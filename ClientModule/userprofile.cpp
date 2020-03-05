@@ -13,8 +13,8 @@ UserProfile::UserProfile(QString nome, QString mail,int files, int myFiles, QWid
     QString sTotFiles = QString::number(files+myFiles);
 
     ui->myFile->setText(sMyFiles);
-    ui->totFile->setText(sFiles);
-    ui->otherFile->setText(sTotFiles);
+    ui->totFile->setText(sTotFiles);
+    ui->otherFile->setText(sFiles);
     SetImage();
     this->show();
 }
