@@ -57,7 +57,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
     ui->listWidget->hide();
     ui->labelCollab->hide();
-    ui->DocName->setText(docName);
+    ui->DocNameButton->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
@@ -77,8 +77,16 @@ EditorWindow::~EditorWindow() {
     delete ui;
 }
 
+
 /***********************************************************************************
-*                               TEXT FORMAT BUTTONS                                *
+*                                 TOP BAR FUNCTION                                 *
+************************************************************************************/
+void EditorWindow::on_DocNameButton_clicked(){
+    on_actionRinomina_triggered();
+}
+
+/***********************************************************************************
+*                                TEXT FORMAT BUTTONS                               *
 ************************************************************************************/
 void EditorWindow::on_buttonBold_clicked() {
     int format = FORMAT_UNKNOWN;
@@ -816,13 +824,9 @@ void EditorWindow::on_actionExit_triggered() {
 void EditorWindow::on_actionRinomina_triggered() {
     bool ok, StayInThisWindow;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
-                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal,
-                                         _client->getFilename(), &ok);
+                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, _client->getFilename(), &ok);
 
-    if (ok && !newText.isEmpty() && newText.size()<=25) {
-        textOnTitleBar = "C.A.R.T.E. - " + newText;
-        this->setWindowTitle(textOnTitleBar);
-
+    if(ok && !newText.isEmpty() && newText.size()<=25) {
         //Serialize data
         json j;
         jsonUtility::to_jsonRenamefile(j, "RENAMEFILE_REQUEST", newText.toStdString(), _client->getFileURI().toStdString(), _client->getUsername().toStdString());
@@ -830,23 +834,25 @@ void EditorWindow::on_actionRinomina_triggered() {
 
         //Send data (header and body)
         sendRequestMsg(req);
-    }else if (ok && !newText.isEmpty() && newText.size()>25) {
+    }else if(ok && !newText.isEmpty() && newText.size()>25){
         QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
         on_actionRinomina_triggered();
-    }else if (ok && newText.isEmpty()) {
+    }else if(ok && newText.isEmpty()){
         QMessageBox::critical(this,"Errore", "Inserire il nome del documento!");
         on_actionRinomina_triggered();
     }
 
-    if(_client->getStatus()==false)
-        StayInThisWindow = handleConnectionLoss(); 
+    if(_client->getStatus()==false){
+        StayInThisWindow = handleConnectionLoss();
+    }
+
 }
 
 //EXPORT AS PDF ACTION  --> CTRL + S
 void EditorWindow::on_actionEsporta_come_PDF_triggered() {
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocName->text(), "PDF File (*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocNameButton->text(), "PDF File (*.pdf)");
 
     if (fileName==nullptr) {
         return;
@@ -989,7 +995,7 @@ void EditorWindow::PaintItBlack() {
         ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #1a1a1a;}");
         ui->editorFrame->setStyleSheet("#editorFrame{background-color: #262626;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
-        ui->DocName->setStyleSheet("#DocName{color: #ff8000;}");
+        ui->DocNameButton->setStyleSheet("#DocNameButton{background-color:transparent; border: transparent; color: #ff8000;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1034,7 +1040,7 @@ void EditorWindow::PaintItBlack() {
         ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #FFFFFF;}");
         ui->editorFrame->setStyleSheet("#editorFrame{background-color: #EFEFEF;}");
         ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
-        ui->DocName->setStyleSheet("#DocName{color: #505050;}");
+        ui->DocNameButton->setStyleSheet("#DocNameButton{background-color:transparent; border: transparent; color: #505050;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1244,7 +1250,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         this->close();
         delete this;
     } else if (result == "RENAME_SUCCESS") {
-        ui->DocName->setText(QString::fromStdString(filename));
+        ui->DocNameButton->setText(QString::fromStdString(filename));
         _client->setFilename(QString::fromStdString(filename)); //Assign newText to the variable
         this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename));
         ui->RealTextEdit->setFocus();
