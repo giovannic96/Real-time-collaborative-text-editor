@@ -1173,8 +1173,28 @@ margin-top: 3px;
               </item>
               <item>
                <widget class="QPushButton" name="buttonCollab">
+                <property name="styleSheet">
+                 <string notr="true">#buttonCollab {
+	border-radius: 4px;
+}
+
+#buttonCollab:hover {
+	background-color: lightgrey;
+}
+</string>
+                </property>
                 <property name="text">
-                 <string>Show -&gt;</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="Risorse.qrc">
+                  <normaloff>:/image/Editor/Collaborator.png</normaloff>:/image/Editor/Collaborator.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
@@ -1268,6 +1288,13 @@ border-left: 2px solid #505050;</string>
                   </property>
                   <property name="layoutDirection">
                    <enum>Qt::LeftToRight</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">#labelCollab{
+	background-color:transparent;
+	border: transparent;
+	color: #505050;
+}</string>
                   </property>
                   <property name="text">
                    <string>COLLABORATORI</string>
