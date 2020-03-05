@@ -40,7 +40,6 @@ private:
     myClient *_client;
     EditorWindow *_ew;
     void sendRequestMsg(const std::string req);
-    void SetImage();
     bool Logout = false;
     bool profile = false;
 
