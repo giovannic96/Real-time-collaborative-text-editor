@@ -992,10 +992,12 @@ void EditorWindow::PaintItBlack() {
         //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
         DarkMode=true;
 
-        ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #1a1a1a;}");
-        ui->editorFrame->setStyleSheet("#editorFrame{background-color: #262626;}");
-        ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
-        ui->DocNameButton->setStyleSheet("#DocNameButton{background-color:transparent; border: transparent; color: #ff8000;}");
+        ui->DocumentFrame->setStyleSheet("  #DocumentFrame{    background-color: #1a1a1a;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{      background-color: #262626;}");
+        ui->IconsBar->setStyleSheet("       #IconsBar{         background-color: ##262626;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
+        ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
+        ui->labelCollab->setStyleSheet("    #labelCollab{      background-color:transparent; border: transparent; color: #ff8000;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1023,24 +1025,26 @@ void EditorWindow::PaintItBlack() {
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
         //iconContainer CSS
-        ui->buttonCopy->setStyleSheet("    #buttonCopy{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonCut->setStyleSheet("   #buttonCut{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonPaste->setStyleSheet("  #buttonPaste{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonCopy->setStyleSheet("     #buttonCopy{    background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonCut->setStyleSheet("      #buttonCut{     background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonPaste->setStyleSheet("    #buttonPaste{   background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonSearch->setStyleSheet("   #buttonSearch{  background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonColor->setStyleSheet("    #buttonColor{   background-color:#AEAEAE; border-radius:4px;}");
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setText("Modalità Giorno");
         ui->actionDark_Mode->setIcon(menuIcon);
-    } else if(DarkMode==true) {
-        //How come no-one told me all throughout history the loneliest people were the ones who always spoke the truth
+
+    }else if(DarkMode==true){
+        //Shine on you crazy diamond
         DarkMode=false;
 
-        ui->actionDark_Mode->setText("Modalità Notte");
-        ui->DocumentFrame->setStyleSheet("#DocumentFrame{background-color: #FFFFFF;}");
-        ui->editorFrame->setStyleSheet("#editorFrame{background-color: #EFEFEF;}");
-        ui->RealTextEdit->setStyleSheet("#RealTextEdit{background: #FFFFFF; border-left: 2px solid #404040;}");
-        ui->DocNameButton->setStyleSheet("#DocNameButton{background-color:transparent; border: transparent; color: #505050;}");
+        ui->DocumentFrame->setStyleSheet("  #DocumentFrame{ background-color: #FFFFFF;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background-color: #EFEFEF;}");
+        ui->IconsBar->setStyleSheet("       #IconsBar{      background-color: #EFEFEF;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
+        ui->labelCollab->setStyleSheet("    #labelCollab{   background-color:transparent; border: transparent; color: #505050;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1068,21 +1072,23 @@ void EditorWindow::PaintItBlack() {
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
         //iconContainer CSS
-        ui->buttonCopy->setStyleSheet("    #buttonCopy{border-radius:4px}    #buttonCopy:hover{background-color: lightgrey;}");
-        ui->buttonCut->setStyleSheet("   #buttonCut{border-radius:4px}    #buttonCut:hover{background-color: lightgrey;}");
-        ui->buttonPaste->setStyleSheet("  #buttonPaste{border-radius:4px}    #buttonPaste:hover{background-color: lightgrey;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonCopy->setStyleSheet("     #buttonCopy{border-radius:4px}    #buttonCopy:hover{background-color: lightgrey;}");
+        ui->buttonCut->setStyleSheet("      #buttonCut{border-radius:4px}     #buttonCut:hover{background-color: lightgrey;}");
+        ui->buttonPaste->setStyleSheet("    #buttonPaste{border-radius:4px}   #buttonPaste:hover{background-color: lightgrey;}");
+        ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}  #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}   #buttonBold:hover{background-color: lightgrey;}");
 
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setText("Modalità Notte");
         ui->actionDark_Mode->setIcon(menuIcon);
     }
+
     //Set Other CSS
     AlignButtonStyleHandler();
     refreshFormatButtons();
     ui->RealTextEdit->setFocus();
+
 }
 
 void EditorWindow::AlignDXButtonHandler() {
@@ -1123,27 +1129,27 @@ void EditorWindow::AlignButtonStyleHandler() {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
     } else if(ui->buttonAlignSX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AEAEAE; border-radius:4px;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
     } else if(ui->buttonAlignDX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
     } else if(ui->buttonAlignJFX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
         ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
         ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
         ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AEAEAE; border-radius:4px;}");
     } else {
-       ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-       ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-       ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-       ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}    #buttonAlignJFX:hover{background-color: lightgrey;}");
+       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
+       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
+       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
+       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
     }
 }
 

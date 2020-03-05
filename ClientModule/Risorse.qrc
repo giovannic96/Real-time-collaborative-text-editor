@@ -63,5 +63,6 @@
         <file>image/DarkEditor/v2italic.png</file>
         <file>image/DarkEditor/v2underline.png</file>
         <file>image/font_icon.png</file>
+        <file>image/Editor/Collaborator.png</file>
     </qresource>
 </RCC>
