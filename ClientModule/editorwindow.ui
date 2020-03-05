@@ -135,7 +135,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="DocName">
+             <widget class="QPushButton" name="DocNameButton">
               <property name="font">
                <font>
                 <family>Calibri</family>
@@ -145,13 +145,14 @@
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">color: #505050;</string>
+               <string notr="true">#DocNameButton{
+	background-color:transparent;
+	border: transparent;
+	color: #505050;
+}</string>
               </property>
               <property name="text">
                <string>DocumentNameGoesHere</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
