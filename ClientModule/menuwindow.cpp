@@ -19,6 +19,17 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent) : QMainWindow(parent, 
     this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
     qRegisterMetaType<std::vector<File>>("std::vector<File>");
+
+    ui->listWidget->setViewMode(QListView::IconMode);
+    ui->listWidget->setGridSize(QSize(100,100));
+    ui->listWidget->setIconSize(QSize(60,60));
+    ui->listWidget->setFlow(QListView::LeftToRight);
+    ui->listWidget->setWrapping(true);
+    ui->listWidget->setWordWrap(true);
+    ui->listWidget->setResizeMode(QListView::Adjust);
+    ui->listWidget->setAlternatingRowColors(false);
+    ui->listWidget->setMovement(QListView::Static);
+    ui->listWidget->setTextElideMode(Qt::ElideRight);
 }
 
 //DESTRUCTOR
@@ -360,6 +371,7 @@ void MenuWindow::showListFile(std::vector<File> files) {
             owner     = QString::fromUtf8(f.getowner().c_str());
             timestamp = QString::fromUtf8(f.gettimestamp().c_str());
             QListWidgetItem* item;
+            /*
             if(filename.length()>=15){
                 QString truncatedFilename = filename;
                 truncatedFilename.resize(14);
@@ -372,8 +384,10 @@ void MenuWindow::showListFile(std::vector<File> files) {
                 }
             }else{
                 itemString = filename+"\t\t"+owner+"\t"+timestamp;
-            }
-            item = new QListWidgetItem(itemString, ui->listWidget);
+            }*/
+
+            itemString = filename+"\n("+owner+")";
+            item = new QListWidgetItem(QIcon(":/image/document-icon.png"),itemString, ui->listWidget);
             std::vector<QString> uriAndFilename;
             uriAndFilename.push_back(QString::fromStdString(f.getidfile()));
             uriAndFilename.push_back(filename);

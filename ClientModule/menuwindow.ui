@@ -214,6 +214,14 @@ border-radius: 5px;
         <height>481</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:transparent;
+border: none;
+border-top: 2px solid lightgrey;
+padding: 20px;
+
+</string>
+      </property>
      </widget>
      <widget class="QPushButton" name="backButton">
       <property name="geometry">
