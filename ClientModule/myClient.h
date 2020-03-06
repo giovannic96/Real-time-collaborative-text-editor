@@ -33,12 +33,14 @@ public:
     QString getMail();
     QString getFilename();
     QString getFileURI();
+    QString getColor();
     std::vector<File> getVectorFile();
     std::vector<symbol> getVector();
     void setUsername(QString name);
     void setMail(QString mail);
     void setFilename(QString filename);
     void setFileURI(QString uri);
+    void setColor(QString color);
     void setVector(std::vector<symbol> symbols);
     void setVectorFile(std::vector<File> fileVector);
     void close();
@@ -53,8 +55,10 @@ signals:
     void editorResultSuccess(QString result, std::string filename = "");
     void editorResultFailure(QString result);
     void backToMenuWindow();
+    /*
     void changeTextUsername(QString text);
     void changeTextMail(QString mail);
+    */
     void listFileResult(std::vector<File> files);
     void insertSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
     void insertSymbols(int firstIndex, std::vector<symbol> symbols);
@@ -84,6 +88,7 @@ private:
     QString filename_;
     QString uri_;
     QString mail_;
+    QString color_;
     std::vector<File> fileVector_;
     std::vector<symbol> vector_;
 };

@@ -65,6 +65,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     for(int i=0; i<ui->fontFamilyBox->count(); i++) {
         ui->fontFamilyBox->setItemIcon(i, fontIcon);
     }
+    ui->RealTextEdit->setEditorColor(client->getColor());
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbolsAt(0, _client->getVector());
@@ -509,7 +510,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         QList<Qt::Key> modifiersList;
 
         if(!keyEvent->text().isEmpty()) { //to ignore chars like "CAPS_LOCK", "SHIFT", "CTRL", etc...
-        //*********************************************** CTRL-X *************************************************
+        //************************************************* CTRL-X *************************************************
         if (keyEvent->matches(QKeySequence::Cut)) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             if(cursor.hasSelection()) {
@@ -553,6 +554,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
+            QColor color(ui->RealTextEdit->getEditorColor());
             int pos;
 
             //set default value
@@ -610,6 +612,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                     f.setFontFamily(QString::fromStdString(firstCharFontFamily)); //set fontFamily of first char of the selection
                 else
                     f.setFontFamily(ui->fontFamilyBox->currentText()); //set fontFamily to common fontFamily of the chars
+                f.setBackground(color);
                 textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(firstCharAlignment));
 
                 //apply format
@@ -642,6 +645,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 pos = cursor.position();
             }
 
+            //update textedit formats
             wchar_t c = keyEvent->text().toStdWString().c_str()[0];
             ui->RealTextEdit->setFontWeight(ui->buttonBold->isChecked() ? QFont::Bold : QFont::Normal);
             ui->RealTextEdit->setFontItalic(ui->buttonItalic->isChecked());
@@ -649,6 +653,17 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             ui->RealTextEdit->setFontPointSize(ui->fontSizeBox->currentText().toInt());
             ui->RealTextEdit->setFontFamily(ui->fontFamilyBox->currentText());
             ui->RealTextEdit->setAlignment(detectAlignment());
+
+            //update char format
+            QTextCharFormat form;
+            form.setBackground(color);
+            form.setFontWeight(ui->buttonBold->isChecked() ? QFont::Bold : QFont::Normal);
+            form.setFontItalic(ui->buttonItalic->isChecked());
+            form.setFontUnderline(ui->buttonUnderline->isChecked());
+            form.setFontPointSize(ui->fontSizeBox->currentText().toInt());
+            form.setFontFamily(ui->fontFamilyBox->currentText());
+            cursor.setCharFormat(form);
+            ui->RealTextEdit->setTextCursor(cursor);
 
             //if that selected size is not an index of combobox, add it (and hide it)
             if(ui->fontSizeBox->findText(ui->fontSizeBox->currentText()) == -1) {
@@ -1288,27 +1303,53 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     QTextCursor c = ui->RealTextEdit->textCursor();
 
     foreach (symbol s, symbols) {
-        c.setPosition(index++);
         letter = s.getLetter();
         QTextCharFormat newFormat;
         QTextBlockFormat newBlockFormat;
+        QColor color(QString::fromStdString(s.getStyle().getColor()));
+
+        /* Set format based on current symbol style received */
         s.getStyle().isBold() ? newFormat.setFontWeight(QFont::Bold) : newFormat.setFontWeight(QFont::Normal);
         s.getStyle().isItalic() ? newFormat.setFontItalic(true) : newFormat.setFontItalic(false);
         s.getStyle().isUnderlined() ? newFormat.setFontUnderline(true) : newFormat.setFontUnderline(false);
         newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
         newFormat.setFontPointSize(s.getStyle().getFontSize());
+        newFormat.setBackground(color);
         newBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(s.getStyle().getAlignment()));
+
+        int endIndex;
+        int pos = index++;
+        c.hasSelection() ? endIndex = c.selectionEnd() : endIndex = -90;
+
+        //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
+        if(c.hasSelection() && pos == endIndex) {
+            int startIndex = c.selectionStart();
+            int oldPos = c.position();
+
+            /* Insert (formatted) char */
+            c.setPosition(pos);
+            c.setCharFormat(newFormat);
+            c.insertText(static_cast<QString>(letter));
+            c.setBlockFormat(newBlockFormat);
+
+            /* Keep current selection */
+            c.setPosition(oldPos == startIndex ? endIndex : startIndex, QTextCursor::MoveAnchor);
+            c.setPosition(oldPos == startIndex ? startIndex : endIndex, QTextCursor::KeepAnchor);
+            ui->RealTextEdit->setTextCursor(c);
+        }
+        else {
+            /* Insert (formatted) char */
+            c.setPosition(pos);
+            c.setCharFormat(newFormat);
+            c.insertText(static_cast<QString>(letter));
+            c.setBlockFormat(newBlockFormat);
+        }
 
         //if the selected sizes received are not an index of combobox, add them (and hide them)
         if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
             ui->fontSizeBox->addItem(QString::number(s.getStyle().getFontSize()));
             hideLastAddedItem(ui->fontSizeBox);
         }
-
-        c.setCharFormat(newFormat);
-        c.insertText(static_cast<QString>(letter));
-        c.setBlockFormat(newBlockFormat);
-        //c.setCharFormat(oldFormat);
     }
 }
 
@@ -1316,18 +1357,41 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     int pos = tuple.first;
     wchar_t c = tuple.second;
     QTextCharFormat format;
-    if(style.isBold())
-        format.setFontWeight(QFont::Bold);
-    else
-        format.setFontWeight(QFont::Normal);
+    QColor color(QString::fromStdString(style.getColor()));
+
+    /* Set format based on style received */
+    style.isBold() ? format.setFontWeight(QFont::Bold) : format.setFontWeight(QFont::Normal);
     format.setFontItalic(style.isItalic());
     format.setFontUnderline(style.isUnderlined());
     format.setFontFamily(QString::fromStdString(style.getFontFamily()));
     format.setFontPointSize(style.getFontSize());
+    format.setBackground(color);
+
     QTextCursor cursor = ui->RealTextEdit->textCursor();
-    cursor.setPosition(pos);
-    cursor.mergeCharFormat(format); //format the char
-    cursor.insertText(static_cast<QString>(c));
+    int endIndex;
+    cursor.hasSelection() ? endIndex = cursor.selectionEnd() : endIndex = -90;
+
+    //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
+    if(cursor.hasSelection() && pos == endIndex) {
+        int startIndex = cursor.selectionStart();
+        int oldPos = cursor.position();
+
+        /* Insert (formatted) char */
+        cursor.setPosition(pos);
+        cursor.setCharFormat(format);
+        cursor.insertText(static_cast<QString>(c));
+
+        /* Keep current selection */
+        cursor.setPosition(oldPos == startIndex ? endIndex : startIndex, QTextCursor::MoveAnchor);
+        cursor.setPosition(oldPos == startIndex ? startIndex : endIndex, QTextCursor::KeepAnchor);
+        ui->RealTextEdit->setTextCursor(cursor);
+    }
+    else {
+        /* Insert (formatted) char */
+        cursor.setPosition(pos);
+        cursor.setCharFormat(format);
+        cursor.insertText(static_cast<QString>(c));
+    }
 
     //if that selected size is not an index of combobox, add it (and hide it)
     if(ui->fontSizeBox->findText(QString::number(style.getFontSize())) == -1) {
@@ -1487,7 +1551,8 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
 symbolStyle EditorWindow::getCurCharStyle() {
     bool isBold = ui->RealTextEdit->fontWeight()==QFont::Bold;
     int alignment = detectAlignment();
-    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->fontFamilyBox->currentText().toStdString(), ui->fontSizeBox->currentText().toInt(), alignment};
+    std::string color = _client->getColor().toStdString();
+    symbolStyle style = {isBold, ui->RealTextEdit->fontItalic(), ui->RealTextEdit->fontUnderline(), ui->fontFamilyBox->currentText().toStdString(), ui->fontSizeBox->currentText().toInt(), alignment, color};
     return style;
 }
 
@@ -1508,8 +1573,10 @@ symbolStyle EditorWindow::constructSymStyle(QVector<QRegularExpression> rxs, QSt
     bool isUnderlined = rxs.at(2).match(str).captured(1) != "" && rxs.at(2).match(str).captured(1) == "underline";
     std::string fontFamily = rxs.at(3).match(str).captured(1).toStdString();
     int fontSize = rxs.at(4).match(str).captured(1).toInt();
+    if(fontSize == 0) fontSize = 1;
+    std::string color = _client->getColor().toStdString();
 
-    symbolStyle style = {isBold, isItalic, isUnderlined, fontFamily, fontSize, alignment}; //create the style for the current char
+    symbolStyle style = {isBold, isItalic, isUnderlined, fontFamily, fontSize, alignment, color}; //create the style for the current char
     return style;
 }
 
@@ -1517,7 +1584,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     QVector<std::pair<int,symbolStyle>> finalVector;
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
-
+qDebug() << "new html: " << htmlText;
     QRegularExpression rx("<span ([^<]+)</span>");
     QStringList list = getRegexListFromHTML(htmlText, rx);    
     QVector<QRegularExpression> rxs = getStyleRegexes();
@@ -1525,12 +1592,15 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     symbolStyle prevStyle = startStyle;
     foreach (QString s, list) {
         int numChars = s.mid(s.indexOf('>')).length()-1;
-        if(alignments.empty() || numChars <= 0 || s.contains("color:"))
+        if(alignments.empty() || numChars <= 0 || s.contains(" color:"))
             throw OperationNotSupported();
+        qDebug() << "passato5";
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
-        if(ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 ||
-           curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
+        qDebug() << curStyle.getFontSize();
+        if((ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 &&
+            curStyle.getFontFamily() != "") || curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
             throw OperationNotSupported();
+        qDebug() << "passato6";
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
         finalVector.push_back(std::make_pair(numChars, curStyle));
@@ -1687,8 +1757,9 @@ symbolStyle EditorWindow::getFirstCharStyle(QTextCursor cursor) {
     std::string family = cursor.charFormat().fontFamily().toStdString();
     int size = static_cast<int>(cursor.charFormat().fontPointSize());
     int alignment = static_cast<int>(cursor.blockFormat().alignment());
+    std::string color = _client->getColor().toStdString();
 
-    startStyle = {bold, italic, underline, family, size, alignment};
+    startStyle = {bold, italic, underline, family, size, alignment, color};
     cursor.setPosition(oldPos);
     return startStyle;
 }
@@ -2016,7 +2087,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
-
+qDebug()<<mimeData->html();
         QVector<int> alignmentsValues;
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
@@ -2037,7 +2108,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
 
         if(alignmentsValues.length() != numChars || alignmentsValues.empty())
             throw OperationNotSupported();
-
+qDebug() << "passato1";
         /* Get char styles from HTML */
         QVector<std::pair<int,symbolStyle>> styles;
         try {
@@ -2046,6 +2117,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
             qDebug() << ex.what();
             throw OperationNotSupported(); //raise exception
         }
+        qDebug() << "passato2";
 
         /* Update alignments vector of RealTextEdit */
         QVector<std::pair<int,int>> alignmentsVector;
@@ -2064,6 +2136,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
             qDebug() << "char: " << c;
             str_to_paste.erase(0,1); //remove first wchar
             index = pos++; //get index
+            qDebug() << "passatoX";
             try {
                 charStyle = getStyleFromHTMLStyles(styles); //get the style
             } catch(OperationNotSupported& ex) {

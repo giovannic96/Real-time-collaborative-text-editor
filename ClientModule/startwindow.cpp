@@ -76,7 +76,6 @@ void StartWindow::on_LoginButton_clicked(){
 }
 
 void StartWindow::on_SignUpButton_clicked() {
-
     if(_client->getStatus()==false) {
         QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
                                                         "Riprova più tardi");

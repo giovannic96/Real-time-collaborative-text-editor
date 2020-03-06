@@ -69,7 +69,7 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user, const std::
     }
 }
 
-dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass) {
+dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass, QString& color) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(user.data(), user.size());
     QString password = QString::fromUtf8(pass.data(), pass.size());
@@ -88,6 +88,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
                 QString usernameFromDb = query.value(0).toString();
                 QString passwordFromDb = query.value(1).toString();
                 bool isLoggedFromDb = query.value(3).toBool();
+                QString colorFromDb = query.value(4).toString();
 
                 if(usernameFromDb == username && passwordFromDb == password) {
                     if(!isLoggedFromDb) {
@@ -98,6 +99,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
 
                         if(query2.exec()) {
                             std::cout << "Login success" << std::endl;
+                            color = colorFromDb;
                             return LOGIN_OK;
                         } else {
                             std::cout << "Error on UPDATE" << std::endl;
@@ -157,10 +159,11 @@ dbService::DB_RESPONSE dbService::trySignup(const std::string& user, const std::
                     return SIGNUP_FAILED;
             } else { //user can be created
                 QSqlQuery query2(QSqlDatabase::database("MyConnect"));
-                query2.prepare("INSERT INTO users (username, password, email) VALUES (:username, :password, :email)");
+                query2.prepare("INSERT INTO users (username, password, email, color) VALUES (:username, :password, :email, :color)");
                 query2.bindValue(":username", username);
                 query2.bindValue(":password", password);
                 query2.bindValue(":email", mail);
+                query2.bindValue(":color", generateColor());
 
                 if (query2.exec())
                     return SIGNUP_OK;
@@ -490,6 +493,16 @@ QString dbService::generateURI(int len) {
     for (int i=1; i<=len; i++)
         URI.push_back(str[rand() % n]);
     return(QString::fromUtf8(URI.data(), URI.size()));
+}
+
+QString dbService::generateColor() {
+    std::string hex = "abcdef0123456789";
+    int n = hex.length();
+    std::string color;
+    color.push_back('#');
+    for (int i=1; i<=8; i++)
+        color.push_back(hex[rand() % n]);
+    return(QString::fromUtf8(color.data(), color.size()));
 }
 
 QString dbService::getTimestamp() {

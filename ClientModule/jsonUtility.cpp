@@ -33,7 +33,8 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::p
         {"isUnderlined", style.isUnderlined()},
         {"fontFamily", style.getFontFamily()},
         {"fontSize", style.getFontSize()},
-        {"alignment", style.getAlignment()}
+        {"alignment", style.getAlignment()},
+        {"color", style.getColor()}
     };
 }
 
@@ -211,8 +212,10 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
         id = j.at("id").get<std::pair<int, int>>();
         pos = j.at("pos").get<std::vector<int>>();
         style = {j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                 j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>()};
-    } catch (json::exception& e) {
+                 j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
+                 j.at("color").get<std::string>()};
+    }
+    catch (json::exception& e) {
         std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
         return nullptr;
     }
@@ -228,7 +231,8 @@ symbolInfo* jsonUtility::from_json_formatting_symbol(const json &j) {
     int index = j.at("index").get<int>();
     wchar_t letter = j.at("letter").get<wchar_t>();
     symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>());
+                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
+                      j.at("color").get<std::string>());
 
     //now create the symbol
     symbolInfo *s = new symbolInfo(index, letter, style);
@@ -257,8 +261,9 @@ File* jsonUtility::from_json_file(const json &j) {
     return f;
 }
 
-void jsonUtility::from_json_usernameLogin(const json &j, std::string &name) {
+void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color) {
     name = j.at("content").at("usernameLogin").get<std::string>();
+    color = j.at("content").at("colorLogin").get<std::string>();
 }
 
 void jsonUtility::from_json(const json &j, std::string &user, std::string &pass) {
@@ -279,7 +284,8 @@ void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
 void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, symbolStyle& style) {
     tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
     style = {j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(), j.at("isUnderlined").get<bool>(),
-             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>()};
+             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
+             j.at("color").get<std::string>()};
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
@@ -325,6 +331,7 @@ void jsonUtility::to_json_FormattingSymbol(json &j, const symbolInfo &symbol) {
             {"fontFamily", symbol.getStyle().getFontFamily()},
             {"fontSize", symbol.getStyle().getFontSize()},
             {"alignment", symbol.getStyle().getAlignment()},
+            {"color", symbol.getStyle().getColor()}
     };
 }
 

@@ -11,6 +11,7 @@ myClient::myClient()
           socket_(io_context_),
           username_(""),
           mail_(""),
+          color_("#00ffffff"),
           fileVector_(std::vector<File>()),
           vector_() {
             worker_= std::thread([&](){
@@ -78,12 +79,17 @@ void myClient::do_read_body() {
                     if(db_responseJSON == "LOGIN_OK") {
                         qDebug() << "Login success" << endl;
                         std::string db_usernameLoginJSON;
-                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON);
+                        std::string db_colorJSON;
+                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON, db_colorJSON);
                         QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
+                        QString color_qstring = QString::fromUtf8(db_colorJSON.data(), db_colorJSON.size());
 
                         this->setUsername(name_qstring);
+                        this->setColor(color_qstring);
+                        /*
                         emit changeTextUsername(this->getUsername());
                         emit changeTextMail(this->getMail());
+                        */
                         emit formResultSuccess("LOGIN_SUCCESS");
                     } else {
                         qDebug() << "Wrong user or password" << endl;
@@ -394,12 +400,20 @@ void myClient::setMail(QString mail) {
     this->mail_ = mail;
 }
 
+void myClient::setColor(QString color) {
+    this->color_ = color;
+}
+
 QString myClient::getUsername() {
     return this->username_;
 }
 
 QString myClient::getMail() {
     return this->mail_;
+}
+
+QString myClient::getColor() {
+    return this->color_;
 }
 
 void myClient::setVector(std::vector<symbol> symbols){

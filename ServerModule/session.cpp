@@ -167,11 +167,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON);
+        QString colorJSON = "#00ffffff";
+        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON, colorJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGIN_OK) {
             shared_from_this()->setUsername(userJSON);
+            shared_from_this()->setColor(colorJSON.toStdString());
             db_res = "LOGIN_OK";
         }
         else if(resp == dbService::LOGIN_FAILED)
@@ -187,7 +189,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON);
+        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON, colorJSON.toStdString());
         const std::string response = j.dump();
         return response;
 

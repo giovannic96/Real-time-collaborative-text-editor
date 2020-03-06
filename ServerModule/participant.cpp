@@ -115,17 +115,17 @@ msgInfo participant::localFormat(int startIndex, int format) noexcept(false) {
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
     if(format == MAKE_BOLD)
-        newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment()};
+        newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor()};
     else if(format == MAKE_ITALIC)
-        newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+        newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
     else if(format == MAKE_UNDERLINE)
-        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
     else if(format == UNMAKE_BOLD)
-        newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+        newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
     else if(format == UNMAKE_ITALIC)
-        newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+        newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
     else if(format == UNMAKE_UNDERLINE)
-        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
     else
         newStyle = s.getStyle();
     _symbols.at(startIndex).setStyle(newStyle);
@@ -140,7 +140,7 @@ msgInfo participant::localFontSizeChange(int startIndex, int fontSize) noexcept(
     }
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
-    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), fontSize, s.getStyle().getAlignment() };
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), fontSize, s.getStyle().getAlignment(), s.getStyle().getColor() };
     _symbols.at(startIndex).setStyle(newStyle);
     msgInfo m(3, getId(), s, fontSize); //in this case 'fontSize' (4th param) represents the fontSize, not the newIndex
     return m;
@@ -153,7 +153,7 @@ msgInfo participant::localFontFamilyChange(int startIndex, const std::string& fo
     }
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
-    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), fontFamily, s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), fontFamily, s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
     _symbols.at(startIndex).setStyle(newStyle);
     msgInfo m(4, getId(), s, fontFamily);
     return m;
@@ -166,7 +166,7 @@ msgInfo participant::localAlignmentChange(int startIndex, int alignment) noexcep
     }
     symbol s = _symbols.at(startIndex);
     symbolStyle newStyle;
-    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), alignment };
+    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), alignment, s.getStyle().getColor() };
     _symbols.at(startIndex).setStyle(newStyle);
     msgInfo m(5, getId(), s, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex
     return m;
@@ -218,17 +218,17 @@ void participant::process(const msgInfo& m) {
             symbolStyle newStyle;
             //in this case 'newIndex' of msgInfo represents the format type -> 0: Bold, 1: Italic, 2: Underline, 3: Unbold
             if(m.getNewIndex() == MAKE_BOLD)
-                newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+                newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             else if(m.getNewIndex() == MAKE_ITALIC)
-                newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+                newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             else if(m.getNewIndex() == MAKE_UNDERLINE)
-                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             else if(m.getNewIndex() == UNMAKE_BOLD)
-                newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+                newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             else if(m.getNewIndex() == UNMAKE_ITALIC)
-                newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+                newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             else if(m.getNewIndex() == UNMAKE_UNDERLINE)
-                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             else
                 newStyle = s.getStyle();
             _symbols[index].setStyle(newStyle);
@@ -248,7 +248,7 @@ void participant::process(const msgInfo& m) {
             symbol s = _symbols[index];
             symbolStyle newStyle;
             //in this case 'newIndex' of msgInfo represents the fontSize
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), m.getNewIndex(), s.getStyle().getAlignment() };
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), m.getNewIndex(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             _symbols[index].setStyle(newStyle);
         }
     }
@@ -265,7 +265,7 @@ void participant::process(const msgInfo& m) {
         if(_symbols.at(index).getId() == m.getSymbol().getId()) {
             symbol s = _symbols[index];
             symbolStyle newStyle;
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), m.getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment() };
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), m.getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
             _symbols[index].setStyle(newStyle);
         }
     }
@@ -283,7 +283,7 @@ void participant::process(const msgInfo& m) {
             symbol s = _symbols[index];
             symbolStyle newStyle;
             //in this case 'newIndex' of msgInfo represents the alignment
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex() };
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex(), s.getStyle().getColor() };
             _symbols[index].setStyle(newStyle);
         }
     }
@@ -299,6 +299,10 @@ std::string participant::getCurrentFile() {
 
 std::string participant::getUsername() {
     return this->username;
+}
+
+std::string participant::getColor() {
+    return this->color;
 }
 
 std::string participant::to_string() {
@@ -322,4 +326,8 @@ void participant::setCurrentFile(std::string uri) {
 
 void participant::setUsername(std::string userName) {
     this->username = std::move(userName);
+}
+
+void participant::setColor(std::string color) {
+    this->color = std::move(color);
 }

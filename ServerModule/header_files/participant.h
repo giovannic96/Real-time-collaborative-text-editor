@@ -16,6 +16,7 @@ private:
     int _siteId;
     std::string currentFile;
     std::string username;
+    std::string color;
     std::vector<symbol> _symbols;
     int _counter = 0;
     std::vector<int> generatePos(int index, wchar_t value);
@@ -40,9 +41,11 @@ public:
     void setSymbols(std::vector<symbol> symbols);
     void setCurrentFile(std::string uri);
     void setUsername(std::string userName);
+    void setColor(std::string color);
     void setSiteId(int edId);
     std::string getCurrentFile();
     std::string getUsername();
+    std::string getColor();
 };
 
 
