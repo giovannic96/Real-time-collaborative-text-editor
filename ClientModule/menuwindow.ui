@@ -38,6 +38,9 @@
       <height>800</height>
      </rect>
     </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
     <widget class="QWidget" name="selectPage">
      <property name="styleSheet">
       <string notr="true">#selectPage{border-image: url(:/image/startMinimal.png);}</string>
@@ -174,10 +177,10 @@
      <widget class="QPushButton" name="LogoutButton">
       <property name="geometry">
        <rect>
-        <x>293</x>
-        <y>721</y>
-        <width>66</width>
-        <height>66</height>
+        <x>259</x>
+        <y>715</y>
+        <width>131</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="cursor">
@@ -189,8 +192,9 @@ background-color:transparent;
 border: transparent;}
 
 #LogoutButton:hover {
- border: 5px solid black;
-border-radius: 33px;}</string>
+ border: 3px solid black;
+border-radius: 5px;
+}</string>
       </property>
       <property name="text">
        <string/>
@@ -214,10 +218,10 @@ border-radius: 33px;}</string>
      <widget class="QPushButton" name="backButton">
       <property name="geometry">
        <rect>
-        <x>298</x>
-        <y>731</y>
-        <width>58</width>
-        <height>58</height>
+        <x>259</x>
+        <y>715</y>
+        <width>131</width>
+        <height>61</height>
        </rect>
       </property>
       <property name="cursor">
@@ -226,7 +230,12 @@ border-radius: 33px;}</string>
       <property name="styleSheet">
        <string notr="true">#backButton{	
 background-color:transparent;
-border: transparent;}</string>
+border: transparent;}
+
+#backButton:hover {
+ border: 3px solid black;
+border-radius: 5px;
+}</string>
       </property>
       <property name="text">
        <string/>

@@ -27,6 +27,9 @@ public:
 
 private slots:
 
+    //Top Bar Function
+    void on_DocNameButton_clicked();
+
     //Change style of the text
     void on_buttonBold_clicked();
     void on_buttonItalic_clicked();
@@ -97,6 +100,7 @@ private slots:
     void refreshFormatButtons();
     bool handleConnectionLoss();
     void setupInitialCondition();
+
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
