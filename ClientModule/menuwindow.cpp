@@ -360,8 +360,9 @@ void MenuWindow::showListFile(std::vector<File> files) {
     if(_client->getStatus()==false) {
         handleTheConnectionLoss();
     } else {
+        QString user = _client->getUsername();
         QString filename, owner, timestamp;
-        int littlechar=0;
+        //int littlechar=0;
         QString itemString;
         QList<QListWidgetItem*> fileItem;
 
@@ -386,8 +387,14 @@ void MenuWindow::showListFile(std::vector<File> files) {
                 itemString = filename+"\t\t"+owner+"\t"+timestamp;
             }*/
 
-            itemString = filename+"\n("+owner+")";
-            item = new QListWidgetItem(QIcon(":/image/document-icon.png"),itemString, ui->listWidget);
+            itemString = filename;
+            if(user == owner){
+                item = new QListWidgetItem(QIcon(":/image/document-own.png"), itemString, ui->listWidget);
+            }
+            else{
+                item = new QListWidgetItem(QIcon(":/image/document-col.png"), itemString, ui->listWidget);
+
+            }
             std::vector<QString> uriAndFilename;
             uriAndFilename.push_back(QString::fromStdString(f.getidfile()));
             uriAndFilename.push_back(filename);
