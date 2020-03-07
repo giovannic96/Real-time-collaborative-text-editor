@@ -8,6 +8,8 @@ int main(int argc, char *argv[]){
     qRegisterMetaType<std::string>("std::string");
     qRegisterMetaType<symbolStyle>("symbolStyle");
 
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+
     /*
      * FOLLOWING COMMENTED LINE IS FOR DPI SCALING -> IT DOESN'T WORK FOR ME. Check yourself with your monitor
      * I tryed to copy this line in the constructor of EditorWindow, it doesn't work too!

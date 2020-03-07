@@ -172,6 +172,7 @@ void MenuWindow::on_newDoc_clicked(){
             QString user = _client->getUsername();
             QByteArray ba_user = user.toLocal8Bit();
             const char *c_user = ba_user.data();
+
             QString filename = QLatin1String(text.toUtf8());
             QByteArray ba_filename = filename.toLocal8Bit();
             const char *c_filename = ba_filename.data();
