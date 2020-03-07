@@ -13,7 +13,7 @@ private:
     QString str;
 public:
     //CONSTRUCTOR WITHOUT PARAMETER (Default)
-    VersionInfo(): Major(0), Minor(2), Patch(0), ReleaseType("a"), BuildTypeAndNumber("Daily 1302") {
+    VersionInfo(): Major(0), Minor(2), Patch(0), ReleaseType("a"), BuildTypeAndNumber("Daily 1303") {
         str = "v"+QString::number(Major)+"."+QString::number(Minor)+"."+QString::number(Patch)+ReleaseType+" - "+BuildTypeAndNumber;
     }
 
@@ -24,7 +24,6 @@ public:
     QString getVersion(){return str;}
 
 };
-
 
 /*HS***************NOTE*****************
 The software version is indicated by the American convention instead of SemVer (Semantic Version) therefore the resulting string follow the four digit scheme.

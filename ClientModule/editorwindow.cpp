@@ -140,36 +140,22 @@ void EditorWindow::on_buttonUnderline_clicked() {
 /***********************************************************************************
 *                            TEXT COLOR BUTTONS                                    *
 ************************************************************************************/
-void EditorWindow::on_buttonBackgroundColor_clicked() {
-    //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
-        /*
-        QColor backColour = QColorDialog::getColor();
-        ui->RealTextEdit->setTextBackgroundColor(backColour);
-        */
-    //VERSION 2 --> Working if EditorWindow is build passing menuWindow as a parent (2° argument)
-        QColorDialog *dialog = new QColorDialog(this); //passing this is important for returning
-        dialog->show();
-        QObject::connect(dialog,&QDialog::accepted,[=]() {
-            QColor txtColour = dialog->currentColor();
-            ui->RealTextEdit->setTextBackgroundColor(txtColour);
-        });
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-
 void EditorWindow::on_buttonColor_clicked() {
-    //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
-    /*
-        QColor txtColour = QColorDialog::getColor();
-        ui->RealTextEdit->setTextColor(txtColour);
-    */
-    //VERSION 2 --> Working if EditorWindow is build passing menuWindow as a parent (2° argument)
-        QColorDialog *dialog = new QColorDialog(this); //passing this is important for returning
-        dialog->show();
-        QObject::connect(dialog,&QDialog::accepted,[=]() {
-            QColor txtColour = dialog->currentColor();
-            ui->RealTextEdit->setTextColor(txtColour);
-        });
+    qDebug() << ui->RealTextEdit->document()->toHtml();
+    QString html = ui->RealTextEdit->document()->toHtml();
+
+    if(ui->buttonColor->isChecked()) {
+        ui->buttonColor->setChecked(true);
+        ui->RealTextEdit->setBtnColorChecked(true);
+        html = updateBackgroundColor(html, ALPHA_COLOR);
+        ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AEAEAE; border-radius:4px;}");
+    } else {
+        ui->buttonColor->setChecked(false);
+        ui->RealTextEdit->setBtnColorChecked(false);
+        html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
+        ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: lightgrey;}");
+    }
+    ui->RealTextEdit->document()->setHtml(html);
     ui->RealTextEdit->setFocus();
 }
 
@@ -562,7 +548,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            QColor color(ui->RealTextEdit->getEditorColor());
+            QColor color = ui->RealTextEdit->getEditorColor();
             int pos;
 
             //set default value
@@ -1318,7 +1304,14 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         letter = s.getLetter();
         QTextCharFormat newFormat;
         QTextBlockFormat newBlockFormat;
-        QColor color(QString::fromStdString(s.getStyle().getColor()));
+
+        /* Apply transparency (put 01 as alpha value) if btn color is unchecked */
+        QString colorStr = QString::fromStdString(s.getStyle().getColor());
+        if(!ui->buttonColor->isChecked()) {
+            colorStr[1] = '0';
+            colorStr[2] = '1';
+        }
+        QColor color(colorStr);
 
         /* Set format based on current symbol style received */
         s.getStyle().isBold() ? newFormat.setFontWeight(QFont::Bold) : newFormat.setFontWeight(QFont::Normal);
@@ -1369,7 +1362,14 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     int pos = tuple.first;
     wchar_t c = tuple.second;
     QTextCharFormat format;
-    QColor color(QString::fromStdString(style.getColor()));
+
+    /* Apply transparency (put 01 as alpha value) if btn color is unchecked */
+    QString colorStr = QString::fromStdString(style.getColor());
+    if(!ui->buttonColor->isChecked()) {
+        colorStr[1] = '0';
+        colorStr[2] = '1';
+    }
+    QColor color(colorStr);
 
     /* Set format based on style received */
     style.isBold() ? format.setFontWeight(QFont::Bold) : format.setFontWeight(QFont::Normal);
@@ -1596,7 +1596,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     QVector<std::pair<int,symbolStyle>> finalVector;
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
-qDebug() << "new html: " << htmlText;
+
     QRegularExpression rx("<span ([^<]+)</span>");
     QStringList list = getRegexListFromHTML(htmlText, rx);    
     QVector<QRegularExpression> rxs = getStyleRegexes();
@@ -1606,13 +1606,11 @@ qDebug() << "new html: " << htmlText;
         int numChars = s.mid(s.indexOf('>')).length()-1;
         if(alignments.empty() || numChars <= 0 || s.contains(" color:"))
             throw OperationNotSupported();
-        qDebug() << "passato5";
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
         qDebug() << curStyle.getFontSize();
         if((ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 &&
             curStyle.getFontFamily() != "") || curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
             throw OperationNotSupported();
-        qDebug() << "passato6";
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
         finalVector.push_back(std::make_pair(numChars, curStyle));
@@ -2050,6 +2048,18 @@ bool EditorWindow::handleConnectionLoss() {
     return true;
 }
 
+QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
+    QRegularExpression rx("background-color:rgba(([^;]+));");
+    QStringList list = getRegexListFromHTML(html, rx);
+    foreach (QString s, list) {
+        QString originalBackColor = s;
+        int index = s.lastIndexOf(",");
+        QString curAlpha = s.mid(index+1, s.length()-index-2);
+        html.replace(originalBackColor, s.replace(curAlpha, finalAlpha));
+    }
+    return html;
+}
+
 void EditorWindow::setupInitialCondition() {
     ui->fontSizeBox->setCurrentText(QString::number(14));
     ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
@@ -2099,7 +2109,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
-qDebug()<<mimeData->html();
+
         QVector<int> alignmentsValues;
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
@@ -2120,7 +2130,7 @@ qDebug()<<mimeData->html();
 
         if(alignmentsValues.length() != numChars || alignmentsValues.empty())
             throw OperationNotSupported();
-qDebug() << "passato1";
+
         /* Get char styles from HTML */
         QVector<std::pair<int,symbolStyle>> styles;
         try {
@@ -2129,7 +2139,6 @@ qDebug() << "passato1";
             qDebug() << ex.what();
             throw OperationNotSupported(); //raise exception
         }
-        qDebug() << "passato2";
 
         /* Update alignments vector of RealTextEdit */
         QVector<std::pair<int,int>> alignmentsVector;
@@ -2148,7 +2157,6 @@ qDebug() << "passato1";
             qDebug() << "char: " << c;
             str_to_paste.erase(0,1); //remove first wchar
             index = pos++; //get index
-            qDebug() << "passatoX";
             try {
                 charStyle = getStyleFromHTMLStyles(styles); //get the style
             } catch(OperationNotSupported& ex) {
@@ -2171,3 +2179,5 @@ qDebug() << "passato1";
         qDebug() << "Cannot paste this." << endl;
     }
 }
+
+

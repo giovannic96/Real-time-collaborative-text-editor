@@ -8,6 +8,9 @@
 #include "message.h"
 #include "myClient.h"
 
+#define ALPHA_TRANSPARENT "0.003922"
+#define ALPHA_COLOR "0.529412"
+
 class QEvent;
 namespace Ui {class EditorWindow;}
 
@@ -35,7 +38,6 @@ private slots:
     void on_buttonItalic_clicked();
     void on_buttonUnderline_clicked();
     void on_buttonColor_clicked();
-    void on_buttonBackgroundColor_clicked();
 
     //Align the text
     void on_buttonAlignDX_clicked();
@@ -101,7 +103,6 @@ private slots:
     bool handleConnectionLoss();
     void setupInitialCondition();
 
-
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
@@ -138,6 +139,7 @@ private:
     int calculateAlignmentButtons(QTextCursor c);
     QString calculateFontFamilyComboBox(QTextCursor c);
     void hideLastAddedItem(QComboBox* combobox);
+    QString updateBackgroundColor(QString html, QString finalAlpha);
     int getIndexFromFontSize(int fontSize);
     /* Requests */
     void insertCharRangeRequest(int pos, bool cursorHasSelection);

@@ -52,15 +52,20 @@ int MyQTextEdit::getAlignmentValues(QVector<std::pair<int,int>>& alignments) {
 }
 
 QString MyQTextEdit::hexToHtmlRGB(QString hexARGB) {
-    //at the end we have to obtain something like this: rgba(235,166,63,0.6)
+    //at the end we have to obtain something like this: rgba(235,166,63,0.533333)
     QColor color(hexARGB);
     color.toRgb();
+    qDebug() << "ALPHA:"<<color.alpha();
     QString alpha = QString::number(static_cast<double>(color.alpha())/255);
     QString red = QString::number(color.red());
     QString green = QString::number(color.green());
     QString blue = QString::number(color.blue());
     QString htmlColor = "rgba(" + red + "," + green + "," + blue + "," + alpha + ")";
     return htmlColor;
+}
+
+void MyQTextEdit::setBtnColorChecked(bool val) {
+    this->isColorBtnChecked = val;
 }
 
 void MyQTextEdit::setAlignmentsVector(QVector<std::pair<int,int>> alignmentVector) {
@@ -72,7 +77,18 @@ void MyQTextEdit::setEditorColor(QString color) {
 }
 
 QString MyQTextEdit::getEditorColor() {
-    return this->editorColor;
+    if(isBtnColorChecked())
+        return this->editorColor;
+    else {
+        QString edColor = this->editorColor;
+        edColor[1] = '0';
+        edColor[2] = '1';
+        return edColor;
+    }
+}
+
+bool MyQTextEdit::isBtnColorChecked() {
+    return this->isColorBtnChecked;
 }
 
 QVector<std::pair<int,int>> MyQTextEdit::getAlignmentsVector() {

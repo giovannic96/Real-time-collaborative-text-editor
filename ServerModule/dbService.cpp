@@ -498,9 +498,8 @@ QString dbService::generateURI(int len) {
 QString dbService::generateColor() {
     std::string hex = "abcdef0123456789";
     int n = hex.length();
-    std::string color;
-    color.push_back('#');
-    for (int i=1; i<=8; i++)
+    std::string color = "#88"; //alpha will be fixed to 88
+    for (int i=1; i<=6; i++)
         color.push_back(hex[rand() % n]);
     return(QString::fromUtf8(color.data(), color.size()));
 }
