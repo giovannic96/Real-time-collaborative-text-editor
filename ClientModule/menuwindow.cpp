@@ -19,6 +19,17 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent) : QMainWindow(parent, 
     this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
     qRegisterMetaType<std::vector<File>>("std::vector<File>");
+
+    ui->listWidget->setViewMode(QListView::IconMode);
+    ui->listWidget->setGridSize(QSize(100,100));
+    ui->listWidget->setIconSize(QSize(60,60));
+    ui->listWidget->setFlow(QListView::LeftToRight);
+    ui->listWidget->setWrapping(true);
+    ui->listWidget->setWordWrap(true);
+    ui->listWidget->setResizeMode(QListView::Adjust);
+    ui->listWidget->setAlternatingRowColors(false);
+    ui->listWidget->setMovement(QListView::Static);
+    ui->listWidget->setTextElideMode(Qt::ElideRight);
 }
 
 //DESTRUCTOR
@@ -172,6 +183,7 @@ void MenuWindow::on_newDoc_clicked(){
             QString user = _client->getUsername();
             QByteArray ba_user = user.toLocal8Bit();
             const char *c_user = ba_user.data();
+
             QString filename = QLatin1String(text.toUtf8());
             QByteArray ba_filename = filename.toLocal8Bit();
             const char *c_filename = ba_filename.data();
@@ -349,8 +361,9 @@ void MenuWindow::showListFile(std::vector<File> files) {
     if(_client->getStatus()==false) {
         handleTheConnectionLoss();
     } else {
+        QString user = _client->getUsername();
         QString filename, owner, timestamp;
-        int littlechar=0;
+        //int littlechar=0;
         QString itemString;
         QList<QListWidgetItem*> fileItem;
 
@@ -360,6 +373,7 @@ void MenuWindow::showListFile(std::vector<File> files) {
             owner     = QString::fromUtf8(f.getowner().c_str());
             timestamp = QString::fromUtf8(f.gettimestamp().c_str());
             QListWidgetItem* item;
+            /*
             if(filename.length()>=15){
                 QString truncatedFilename = filename;
                 truncatedFilename.resize(14);
@@ -372,8 +386,16 @@ void MenuWindow::showListFile(std::vector<File> files) {
                 }
             }else{
                 itemString = filename+"\t\t"+owner+"\t"+timestamp;
+            }*/
+
+            itemString = filename;
+            if(user == owner){
+                item = new QListWidgetItem(QIcon(":/image/document-own.png"), itemString, ui->listWidget);
             }
-            item = new QListWidgetItem(itemString, ui->listWidget);
+            else{
+                item = new QListWidgetItem(QIcon(":/image/document-col.png"), itemString, ui->listWidget);
+
+            }
             std::vector<QString> uriAndFilename;
             uriAndFilename.push_back(QString::fromStdString(f.getidfile()));
             uriAndFilename.push_back(filename);

@@ -825,7 +825,7 @@ void EditorWindow::on_actionExit_triggered() {
 void EditorWindow::on_actionRinomina_triggered() {
     bool ok, StayInThisWindow;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
-                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, _client->getFilename(), &ok);
+                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, docName, &ok);
 
     if(ok && !newText.isEmpty() && newText.size()<=25) {
         //Serialize data
