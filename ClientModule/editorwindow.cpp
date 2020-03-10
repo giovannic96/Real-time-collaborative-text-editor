@@ -151,37 +151,23 @@ void EditorWindow::on_buttonUnderline_clicked() {
 /***********************************************************************************
 *                            TEXT COLOR BUTTONS                                    *
 ************************************************************************************/
-void EditorWindow::on_buttonBackgroundColor_clicked() {
-    //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
-        /*
-        QColor backColour = QColorDialog::getColor();
-        ui->RealTextEdit->setTextBackgroundColor(backColour);
-        */
-    //VERSION 2 --> Working if EditorWindow is build passing menuWindow as a parent (2° argument)
-        QColorDialog *dialog = new QColorDialog(this); //passing this is important for returning
-        dialog->show();
-        QObject::connect(dialog,&QDialog::accepted,[=]() {
-            QColor txtColour = dialog->currentColor();
-            ui->RealTextEdit->setTextBackgroundColor(txtColour);
-        });
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-
 void EditorWindow::on_buttonColor_clicked() {
-    //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
-    /*
-        QColor txtColour = QColorDialog::getColor();
-        ui->RealTextEdit->setTextColor(txtColour);
-    */
-    //VERSION 2 --> Working if EditorWindow is build passing menuWindow as a parent (2° argument)
-        QColorDialog *dialog = new QColorDialog(this); //passing this is important for returning
-        dialog->show();
-        QObject::connect(dialog,&QDialog::accepted,[=]() {
-            QColor txtColour = dialog->currentColor();
-            ui->RealTextEdit->setTextColor(txtColour);
-        });
-    ui->RealTextEdit->setFocus();
+     qDebug() << ui->RealTextEdit->document()->toHtml();
+     QString html = ui->RealTextEdit->document()->toHtml();
+
+     if(ui->buttonColor->isChecked()) {
+         ui->buttonColor->setChecked(true);
+         ui->RealTextEdit->setBtnColorChecked(true);
+         html = updateBackgroundColor(html, ALPHA_COLOR);
+         ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AEAEAE; border-radius:4px;}");
+     } else {
+         ui->buttonColor->setChecked(false);
+         ui->RealTextEdit->setBtnColorChecked(false);
+         html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
+         ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: lightgrey;}");
+     }
+     ui->RealTextEdit->document()->setHtml(html);
+     ui->RealTextEdit->setFocus();
 }
 
 /***********************************************************************************
@@ -1321,66 +1307,80 @@ void EditorWindow::sendRequestMsg(std::string req) {
 }
 
 void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
-    wchar_t letter;
-    int index = firstIndex;
-    QTextCursor c = ui->RealTextEdit->textCursor();
+   wchar_t letter;
+   int index = firstIndex;
+   QTextCursor c = ui->RealTextEdit->textCursor();
 
-    foreach (symbol s, symbols) {
-        letter = s.getLetter();
-        QTextCharFormat newFormat;
-        QTextBlockFormat newBlockFormat;
-        QColor color(QString::fromStdString(s.getStyle().getColor()));
+   foreach (symbol s, symbols) {
+       letter = s.getLetter();
+       QTextCharFormat newFormat;
+       QTextBlockFormat newBlockFormat;
 
-        /* Set format based on current symbol style received */
-        s.getStyle().isBold() ? newFormat.setFontWeight(QFont::Bold) : newFormat.setFontWeight(QFont::Normal);
-        s.getStyle().isItalic() ? newFormat.setFontItalic(true) : newFormat.setFontItalic(false);
-        s.getStyle().isUnderlined() ? newFormat.setFontUnderline(true) : newFormat.setFontUnderline(false);
-        newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
-        newFormat.setFontPointSize(s.getStyle().getFontSize());
-        newFormat.setBackground(color);
-        newBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(s.getStyle().getAlignment()));
+       /* Apply transparency (put 01 as alpha value) if btn color is unchecked */
+       QString colorStr = QString::fromStdString(s.getStyle().getColor());
+       if(!ui->buttonColor->isChecked()) {
+           colorStr[1] = '0';
+           colorStr[2] = '1';
+       }
+       QColor color(colorStr);
 
-        int endIndex;
-        int pos = index++;
-        c.hasSelection() ? endIndex = c.selectionEnd() : endIndex = -90;
+       /* Set format based on current symbol style received */
+       s.getStyle().isBold() ? newFormat.setFontWeight(QFont::Bold) : newFormat.setFontWeight(QFont::Normal);
+       s.getStyle().isItalic() ? newFormat.setFontItalic(true) : newFormat.setFontItalic(false);
+       s.getStyle().isUnderlined() ? newFormat.setFontUnderline(true) : newFormat.setFontUnderline(false);
+       newFormat.setFontFamily(QString::fromStdString(s.getStyle().getFontFamily()));
+       newFormat.setFontPointSize(s.getStyle().getFontSize());
+       newFormat.setBackground(color);
+       newBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(s.getStyle().getAlignment()));
 
-        //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
-        if(c.hasSelection() && pos == endIndex) {
-            int startIndex = c.selectionStart();
-            int oldPos = c.position();
+       int endIndex;
+       int pos = index++;
+       c.hasSelection() ? endIndex = c.selectionEnd() : endIndex = -90;
 
-            /* Insert (formatted) char */
-            c.setPosition(pos);
-            c.setCharFormat(newFormat);
-            c.insertText(static_cast<QString>(letter));
-            c.setBlockFormat(newBlockFormat);
+       //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
+       if(c.hasSelection() && pos == endIndex) {
+           int startIndex = c.selectionStart();
+           int oldPos = c.position();
 
-            /* Keep current selection */
-            c.setPosition(oldPos == startIndex ? endIndex : startIndex, QTextCursor::MoveAnchor);
-            c.setPosition(oldPos == startIndex ? startIndex : endIndex, QTextCursor::KeepAnchor);
-            ui->RealTextEdit->setTextCursor(c);
-        }
-        else {
-            /* Insert (formatted) char */
-            c.setPosition(pos);
-            c.setCharFormat(newFormat);
-            c.insertText(static_cast<QString>(letter));
-            c.setBlockFormat(newBlockFormat);
-        }
+           /* Insert (formatted) char */
+           c.setPosition(pos);
+           c.setCharFormat(newFormat);
+           c.insertText(static_cast<QString>(letter));
+           c.setBlockFormat(newBlockFormat);
 
-        //if the selected sizes received are not an index of combobox, add them (and hide them)
-        if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
-            ui->fontSizeBox->addItem(QString::number(s.getStyle().getFontSize()));
-            hideLastAddedItem(ui->fontSizeBox);
-        }
-    }
+           /* Keep current selection */
+           c.setPosition(oldPos == startIndex ? endIndex : startIndex, QTextCursor::MoveAnchor);
+           c.setPosition(oldPos == startIndex ? startIndex : endIndex, QTextCursor::KeepAnchor);
+           ui->RealTextEdit->setTextCursor(c);
+       }
+       else {
+           /* Insert (formatted) char */
+           c.setPosition(pos);
+           c.setCharFormat(newFormat);
+           c.insertText(static_cast<QString>(letter));
+           c.setBlockFormat(newBlockFormat);
+       }
+
+       //if the selected sizes received are not an index of combobox, add them (and hide them)
+       if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
+           ui->fontSizeBox->addItem(QString::number(s.getStyle().getFontSize()));
+           hideLastAddedItem(ui->fontSizeBox);
+       }
+   }
 }
 
 void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) {
     int pos = tuple.first;
     wchar_t c = tuple.second;
     QTextCharFormat format;
-    QColor color(QString::fromStdString(style.getColor()));
+
+    /* Apply transparency (put 01 as alpha value) if btn color is unchecked */
+    QString colorStr = QString::fromStdString(style.getColor());
+    if(!ui->buttonColor->isChecked()) {
+        colorStr[1] = '0';
+        colorStr[2] = '1';
+    }
+    QColor color(colorStr);
 
     /* Set format based on style received */
     style.isBold() ? format.setFontWeight(QFont::Bold) : format.setFontWeight(QFont::Normal);
@@ -2059,6 +2059,18 @@ bool EditorWindow::handleConnectionLoss() {
         BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
     }
     return true;
+}
+
+QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
+    QRegularExpression rx("background-color:rgba(([^;]+));");
+    QStringList list = getRegexListFromHTML(html, rx);
+    foreach (QString s, list) {
+        QString originalBackColor = s;
+        int index = s.lastIndexOf(",");
+        QString curAlpha = s.mid(index+1, s.length()-index-2);
+        html.replace(originalBackColor, s.replace(curAlpha, finalAlpha));
+    }
+    return html;
 }
 
 void EditorWindow::setupInitialCondition() {

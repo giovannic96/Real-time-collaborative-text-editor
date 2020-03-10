@@ -64,5 +64,7 @@
         <file>image/DarkEditor/v2underline.png</file>
         <file>image/font_icon.png</file>
         <file>image/Editor/Collaborator.png</file>
+        <file>image/document-col.png</file>
+        <file>image/document-own.png</file>
     </qresource>
 </RCC>
