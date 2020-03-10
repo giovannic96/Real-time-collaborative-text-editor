@@ -32,10 +32,19 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
 
-    ui->listWidget->setStyleSheet(
-      "QListWidget::item {"
-         "border-color:#e0e0e0;"
-      "}");
+    ui->listWidget->setViewMode(QListView::ListMode);
+    ui->listWidget->setGridSize(QSize(250,50));
+    ui->listWidget->setIconSize(QSize(40,40));
+    ui->listWidget->setFlow(QListView::LeftToRight);
+    ui->listWidget->setWrapping(true);
+    ui->listWidget->setWordWrap(true);
+    ui->listWidget->setResizeMode(QListView::Adjust);
+    ui->listWidget->setAlternatingRowColors(false);
+    ui->listWidget->setMovement(QListView::Static);
+    ui->listWidget->setTextElideMode(Qt::ElideRight);
+
+    QString user = _client->getUsername();
+    ui->labelUser->setText(user);
 
     QString itemString;
     QList<QListWidgetItem*> fileItem;
@@ -48,15 +57,17 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     item2 = new QListWidgetItem(itemString, ui->listWidget);
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
-    item->setText(_client->getUsername());
-    item->setForeground(QColor(255,1,1));
+    item->setText("Collaboratore 1");
+    item->setForeground(QColor(0,255,0));
+    item->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item);
-    item2->setText("Genitore Due");
+    item2->setText("Collaboratore 2");
+    item2->setForeground(QColor(255,0,0));
+    item2->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item2);
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-    ui->listWidget->hide();
-    ui->labelCollab->hide();
+    ui->buttonCollab->hide();
     ui->DocNameButton->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -140,22 +151,36 @@ void EditorWindow::on_buttonUnderline_clicked() {
 /***********************************************************************************
 *                            TEXT COLOR BUTTONS                                    *
 ************************************************************************************/
-void EditorWindow::on_buttonColor_clicked() {
-    qDebug() << ui->RealTextEdit->document()->toHtml();
-    QString html = ui->RealTextEdit->document()->toHtml();
+void EditorWindow::on_buttonBackgroundColor_clicked() {
+    //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
+        /*
+        QColor backColour = QColorDialog::getColor();
+        ui->RealTextEdit->setTextBackgroundColor(backColour);
+        */
+    //VERSION 2 --> Working if EditorWindow is build passing menuWindow as a parent (2° argument)
+        QColorDialog *dialog = new QColorDialog(this); //passing this is important for returning
+        dialog->show();
+        QObject::connect(dialog,&QDialog::accepted,[=]() {
+            QColor txtColour = dialog->currentColor();
+            ui->RealTextEdit->setTextBackgroundColor(txtColour);
+        });
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
 
-    if(ui->buttonColor->isChecked()) {
-        ui->buttonColor->setChecked(true);
-        ui->RealTextEdit->setBtnColorChecked(true);
-        html = updateBackgroundColor(html, ALPHA_COLOR);
-        ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AEAEAE; border-radius:4px;}");
-    } else {
-        ui->buttonColor->setChecked(false);
-        ui->RealTextEdit->setBtnColorChecked(false);
-        html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
-        ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: lightgrey;}");
-    }
-    ui->RealTextEdit->document()->setHtml(html);
+
+void EditorWindow::on_buttonColor_clicked() {
+    //VERSION 1 --> Working only if EditorWindow is build without passing the parent (2° argument)
+    /*
+        QColor txtColour = QColorDialog::getColor();
+        ui->RealTextEdit->setTextColor(txtColour);
+    */
+    //VERSION 2 --> Working if EditorWindow is build passing menuWindow as a parent (2° argument)
+        QColorDialog *dialog = new QColorDialog(this); //passing this is important for returning
+        dialog->show();
+        QObject::connect(dialog,&QDialog::accepted,[=]() {
+            QColor txtColour = dialog->currentColor();
+            ui->RealTextEdit->setTextColor(txtColour);
+        });
     ui->RealTextEdit->setFocus();
 }
 
@@ -342,13 +367,13 @@ void EditorWindow::on_buttonCollab_clicked() {
         ui->buttonCollab->setChecked(true);
         ui->actionCollaboratori->setText("Nascondi Collaboratori");
         ui->listWidget->show();
-        ui->labelCollab->show();
+        ui->labelUser->show();
         //ui->frameCollab->show(); it has to be ever showed
     } else {
         ui->buttonCollab->setChecked(false);
         ui->actionCollaboratori->setText("Mostra Collaboratori");
         ui->listWidget->hide();
-        ui->labelCollab->hide();
+        ui->labelUser->hide();
         //ui->frameCollab->hide(); Never hide the "frameCollab"
     }
     ui->RealTextEdit->setFocus();
@@ -548,7 +573,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            QColor color = ui->RealTextEdit->getEditorColor();
+            QColor color(ui->RealTextEdit->getEditorColor());
             int pos;
 
             //set default value
@@ -825,7 +850,7 @@ void EditorWindow::on_actionExit_triggered() {
 void EditorWindow::on_actionRinomina_triggered() {
     bool ok, StayInThisWindow;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
-                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, docName, &ok);
+                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, _client->getFilename(), &ok);
 
     if(ok && !newText.isEmpty() && newText.size()<=25) {
         //Serialize data
@@ -993,12 +1018,12 @@ void EditorWindow::PaintItBlack() {
         //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
         DarkMode=true;
 
-        ui->DocumentFrame->setStyleSheet("  #DocumentFrame{    background-color: #1a1a1a;}");
+        //ui->DocumentFrame->setStyleSheet("  #DocumentFrame{    background-color: #1a1a1a;}");
         ui->editorFrame->setStyleSheet("    #editorFrame{      background-color: #262626;}");
-        ui->IconsBar->setStyleSheet("       #IconsBar{         background-color: ##262626;}");
+        //ui->IconsBar->setStyleSheet("       #IconsBar{         background-color: ##262626;}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
-        ui->labelCollab->setStyleSheet("    #labelCollab{      background-color:transparent; border: transparent; color: #ff8000;}");
+        ui->labelUser->setStyleSheet("    #labelUser{      background-color:transparent; border: transparent; color: #ff8000;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1040,12 +1065,12 @@ void EditorWindow::PaintItBlack() {
         //Shine on you crazy diamond
         DarkMode=false;
 
-        ui->DocumentFrame->setStyleSheet("  #DocumentFrame{ background-color: #FFFFFF;}");
+        //ui->DocumentFrame->setStyleSheet("  #DocumentFrame{ background-color: #FFFFFF;}");
         ui->editorFrame->setStyleSheet("    #editorFrame{   background-color: #EFEFEF;}");
-        ui->IconsBar->setStyleSheet("       #IconsBar{      background-color: #EFEFEF;}");
+        //ui->IconsBar->setStyleSheet("       #IconsBar{      background-color: #EFEFEF;}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
-        ui->labelCollab->setStyleSheet("    #labelCollab{   background-color:transparent; border: transparent; color: #505050;}");
+        ui->labelUser->setStyleSheet("    #labelUser{   background-color:transparent; border: transparent; color: #505050;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1304,14 +1329,7 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         letter = s.getLetter();
         QTextCharFormat newFormat;
         QTextBlockFormat newBlockFormat;
-
-        /* Apply transparency (put 01 as alpha value) if btn color is unchecked */
-        QString colorStr = QString::fromStdString(s.getStyle().getColor());
-        if(!ui->buttonColor->isChecked()) {
-            colorStr[1] = '0';
-            colorStr[2] = '1';
-        }
-        QColor color(colorStr);
+        QColor color(QString::fromStdString(s.getStyle().getColor()));
 
         /* Set format based on current symbol style received */
         s.getStyle().isBold() ? newFormat.setFontWeight(QFont::Bold) : newFormat.setFontWeight(QFont::Normal);
@@ -1362,14 +1380,7 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     int pos = tuple.first;
     wchar_t c = tuple.second;
     QTextCharFormat format;
-
-    /* Apply transparency (put 01 as alpha value) if btn color is unchecked */
-    QString colorStr = QString::fromStdString(style.getColor());
-    if(!ui->buttonColor->isChecked()) {
-        colorStr[1] = '0';
-        colorStr[2] = '1';
-    }
-    QColor color(colorStr);
+    QColor color(QString::fromStdString(style.getColor()));
 
     /* Set format based on style received */
     style.isBold() ? format.setFontWeight(QFont::Bold) : format.setFontWeight(QFont::Normal);
@@ -1596,7 +1607,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     QVector<std::pair<int,symbolStyle>> finalVector;
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
-
+qDebug() << "new html: " << htmlText;
     QRegularExpression rx("<span ([^<]+)</span>");
     QStringList list = getRegexListFromHTML(htmlText, rx);    
     QVector<QRegularExpression> rxs = getStyleRegexes();
@@ -1606,11 +1617,13 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
         int numChars = s.mid(s.indexOf('>')).length()-1;
         if(alignments.empty() || numChars <= 0 || s.contains(" color:"))
             throw OperationNotSupported();
+        qDebug() << "passato5";
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
         qDebug() << curStyle.getFontSize();
         if((ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 &&
             curStyle.getFontFamily() != "") || curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
             throw OperationNotSupported();
+        qDebug() << "passato6";
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
         finalVector.push_back(std::make_pair(numChars, curStyle));
@@ -2048,18 +2061,6 @@ bool EditorWindow::handleConnectionLoss() {
     return true;
 }
 
-QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
-    QRegularExpression rx("background-color:rgba(([^;]+));");
-    QStringList list = getRegexListFromHTML(html, rx);
-    foreach (QString s, list) {
-        QString originalBackColor = s;
-        int index = s.lastIndexOf(",");
-        QString curAlpha = s.mid(index+1, s.length()-index-2);
-        html.replace(originalBackColor, s.replace(curAlpha, finalAlpha));
-    }
-    return html;
-}
-
 void EditorWindow::setupInitialCondition() {
     ui->fontSizeBox->setCurrentText(QString::number(14));
     ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
@@ -2109,7 +2110,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
-
+qDebug()<<mimeData->html();
         QVector<int> alignmentsValues;
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
@@ -2130,7 +2131,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
 
         if(alignmentsValues.length() != numChars || alignmentsValues.empty())
             throw OperationNotSupported();
-
+qDebug() << "passato1";
         /* Get char styles from HTML */
         QVector<std::pair<int,symbolStyle>> styles;
         try {
@@ -2139,6 +2140,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
             qDebug() << ex.what();
             throw OperationNotSupported(); //raise exception
         }
+        qDebug() << "passato2";
 
         /* Update alignments vector of RealTextEdit */
         QVector<std::pair<int,int>> alignmentsVector;
@@ -2157,6 +2159,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
             qDebug() << "char: " << c;
             str_to_paste.erase(0,1); //remove first wchar
             index = pos++; //get index
+            qDebug() << "passatoX";
             try {
                 charStyle = getStyleFromHTMLStyles(styles); //get the style
             } catch(OperationNotSupported& ex) {
@@ -2179,5 +2182,3 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         qDebug() << "Cannot paste this." << endl;
     }
 }
-
-
