@@ -122,13 +122,6 @@ void StartWindow::on_SignUpButton_clicked() {
     }
 }
 
-//ADMIN LOGIN BUTTON --> Is for debugging, it will deleted when we reached a beta verision
-void StartWindow::on_LoginAdmin_clicked() {
-    MenuWindow *m = new MenuWindow(_client);
-    m->show();
-    this->close();
-}
-
 void StartWindow::on_RegisterButton_clicked() {
     ui->stackedWidget->setCurrentIndex(1);
 }
