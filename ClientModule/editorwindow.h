@@ -77,7 +77,8 @@ private slots:
     void on_actionFullscreen_triggered();
     void on_actionNew_triggered();
     void on_actionAbout_triggered();
-    void on_actionExit_triggered();
+    void on_actionClose_triggered();
+    void on_actionEsci_triggered();
     void on_actionRinomina_triggered();
     void on_actionEsporta_come_PDF_triggered();
     void on_actionInvita_tramite_URI_triggered();
@@ -86,12 +87,11 @@ private slots:
     void on_actionGrassetto_triggered();
     void on_actionCorsivo_triggered();
     void on_actionSottolineato_triggered();
-    void on_actionEsci_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
-    void LogoutRequest();
+    void CloseDocumentRequest();
     void PaintItBlack();
     void AlignSXButtonHandler();
     void AlignCXButtonHandler();

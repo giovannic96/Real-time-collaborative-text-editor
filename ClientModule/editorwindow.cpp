@@ -742,7 +742,10 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
         on_actionFullscreen_triggered();
     }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Q";
-        on_actionExit_triggered();
+        on_actionClose_triggered();
+    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + Shift + Q";
+        on_actionEsci_triggered();
     }else if((e->key() == Qt::Key_N) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + N - But the action is temporanely disabled";
         on_actionNew_triggered();
@@ -761,9 +764,6 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
         ui->buttonUnderline->click();
-    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + Shift + Q";
-        on_actionEsci_triggered();
     }
 }
 
@@ -780,13 +780,28 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
     } else {
         //If is a forced close then, ask the user if he really wants to close the document
         if(BruteClose==true) {
-            QMessageBox::StandardButton reply;
-            reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?", QMessageBox::Yes|QMessageBox::No);
-            if (reply == QMessageBox::Yes) {
-                event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a LogoutRequest();
-                LogoutRequest();    //By ignoring the closing event, the LogoutRequest() brings me back to the menuWindow.
-             }else{
-                event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+            QMessageBox message(this);
+            message.setWindowTitle("Uscire?");
+            message.setText("Vuoi tornare al menù iniziale o uscire dal programma?");
+            message.addButton("Annulla", QMessageBox::RejectRole);
+            message.addButton("Esci", QMessageBox::AcceptRole);
+            message.addButton("Torna al menù", QMessageBox::DestructiveRole);
+            int replay = message.exec();
+            switch(replay){
+                case 0:
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+                  break;
+                case 1:
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Close all C.A.R.T.E.
+                  on_actionEsci_triggered();
+                  break;
+                case 2:
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a CloseDocumentRequest();
+                  CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
+                  break;
+                default:
+                  event->ignore();   //Should never reach this
+                  break;
             }
         }
     }
@@ -822,14 +837,26 @@ void EditorWindow::on_actionAbout_triggered() {
     iw->show();
 }
 
-//EXIT DOCUMENT ACTION  -->     CTRL+Q
-void EditorWindow::on_actionExit_triggered() {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-      LogoutRequest(); //Return to MenuWindow (close only the current document)
-    }
+//CLOSE DOCUMENT ACTION  -->     CTRL+Q
+void EditorWindow::on_actionClose_triggered() {
+    CloseDocumentRequest();     //Return to MainWindow
+}
+
+//ESCI ACTION            -->     CTRL+Shift+Q
+void EditorWindow::on_actionEsci_triggered() {
+    //Get data from the form
+    QString user = _client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+    QApplication::exit(0);
 }
 
 //RENAME ACTION         -->     CTRL+R
@@ -959,27 +986,10 @@ void EditorWindow::on_actionSottolineato_triggered() {
     ui->buttonUnderline->click();
 }
 
-//ESCI TRIGGERED            -->     CTRL+Shift+Q
-void EditorWindow::on_actionEsci_triggered() {
-    //Get data from the form
-    QString user = _client->getUsername();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-
-    //Serialize data
-    json j;
-    jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
-    const std::string req = j.dump();
-
-    //Send data (header and body)
-    sendRequestMsg(req);
-    QApplication::exit(0);
-}
-
 /***********************************************************************************
 *                              STANDALONE FUNCTION                                 *
 ************************************************************************************/
-void EditorWindow::LogoutRequest() {
+void EditorWindow::CloseDocumentRequest() {
     BruteClose=false;
 
     //Get data from the form
@@ -1617,13 +1627,11 @@ qDebug() << "new html: " << htmlText;
         int numChars = s.mid(s.indexOf('>')).length()-1;
         if(alignments.empty() || numChars <= 0 || s.contains(" color:"))
             throw OperationNotSupported();
-        qDebug() << "passato5";
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
         qDebug() << curStyle.getFontSize();
         if((ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 &&
             curStyle.getFontFamily() != "") || curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
             throw OperationNotSupported();
-        qDebug() << "passato6";
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
         finalVector.push_back(std::make_pair(numChars, curStyle));
@@ -2050,7 +2058,6 @@ std::pair<int,int> EditorWindow::alignBlocks(int startIndex, int endIndex, const
 bool EditorWindow::handleConnectionLoss() {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
-                                                        "Le ultime modifiche al documento potrebbero non essere state salvate\n"
                                                         "\n"
                                                         "Vuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
@@ -2073,7 +2080,7 @@ QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
     return html;
 }
 
-void EditorWindow::setupInitialCondition() {
+void EditorWindow::setupInitialCondition(){
     ui->fontSizeBox->setCurrentText(QString::number(14));
     ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
     ui->buttonBold->setChecked(false);
@@ -2143,7 +2150,6 @@ qDebug()<<mimeData->html();
 
         if(alignmentsValues.length() != numChars || alignmentsValues.empty())
             throw OperationNotSupported();
-qDebug() << "passato1";
         /* Get char styles from HTML */
         QVector<std::pair<int,symbolStyle>> styles;
         try {
@@ -2152,7 +2158,6 @@ qDebug() << "passato1";
             qDebug() << ex.what();
             throw OperationNotSupported(); //raise exception
         }
-        qDebug() << "passato2";
 
         /* Update alignments vector of RealTextEdit */
         QVector<std::pair<int,int>> alignmentsVector;
@@ -2171,7 +2176,6 @@ qDebug() << "passato1";
             qDebug() << "char: " << c;
             str_to_paste.erase(0,1); //remove first wchar
             index = pos++; //get index
-            qDebug() << "passatoX";
             try {
                 charStyle = getStyleFromHTMLStyles(styles); //get the style
             } catch(OperationNotSupported& ex) {
