@@ -1607,7 +1607,7 @@ background: transparent;
     <addaction name="actionEsporta_come_PDF"/>
     <addaction name="actionRinomina"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="actionClose"/>
     <addaction name="actionEsci"/>
    </widget>
    <widget class="QMenu" name="menuVisualizza">
@@ -1680,7 +1680,7 @@ background: transparent;
     <string>Ctrl+Shift+A</string>
    </property>
   </action>
-  <action name="actionExit">
+  <action name="actionClose">
    <property name="text">
     <string>Chiudi Documento</string>
    </property>
