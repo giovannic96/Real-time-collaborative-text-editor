@@ -22,7 +22,6 @@ public:
 
 private slots:
     void on_exitButton_clicked();
-    void on_LoginAdmin_clicked();
     void on_RegisterButton_clicked();
     void on_LoginButton_clicked();
     void on_SignUpButton_clicked();
