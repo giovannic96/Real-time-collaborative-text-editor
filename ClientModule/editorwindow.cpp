@@ -66,8 +66,9 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     item2->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item2);
 
+    hideCollab();
+
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-    ui->buttonCollab->hide();
     ui->DocNameButton->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -89,6 +90,9 @@ EditorWindow::~EditorWindow() {
     delete ui;
 }
 
+/***************************************************************************************************************************************
+ *                                                           INTERFACE                                                                 *
+***************************************************************************************************************************************/
 
 /***********************************************************************************
 *                                 TOP BAR FUNCTION                                 *
@@ -351,22 +355,17 @@ void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
 void EditorWindow::on_buttonCollab_clicked() {
     if(ui->buttonCollab->isChecked()) {
         ui->buttonCollab->setChecked(true);
-        ui->actionCollaboratori->setText("Nascondi Collaboratori");
-        ui->listWidget->show();
-        ui->labelUser->show();
-        //ui->frameCollab->show(); it has to be ever showed
+        showCollab();
     } else {
         ui->buttonCollab->setChecked(false);
-        ui->actionCollaboratori->setText("Mostra Collaboratori");
-        ui->listWidget->hide();
-        ui->labelUser->hide();
-        //ui->frameCollab->hide(); Never hide the "frameCollab"
+        hideCollab();
     }
     ui->RealTextEdit->setFocus();
 }
 
+
 /***********************************************************************************
-*                              RealTextEdit FUNCTIONS                              *
+*                                 REAL TEXT EDIT EVENT                             *
 ************************************************************************************/
 void EditorWindow::on_RealTextEdit_selectionChanged() {
     //Update UI based on current char format (after pressing left/right arrow after selection)
@@ -395,13 +394,15 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
     }
 }
 
+
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
 
-    /****************************************************************
-     * Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
-     * https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
-     ****************************************************************/
+    //  STEP N°1
+    //
+    // Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
+    // https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
+    //*****************************************************************************************************
     if(ui->RealTextEdit->fontPointSize() <= 0) {
         int dimensionFromOtherSide = (ui->fontSizeBox->currentText()).toInt();
         QString fontFamily = ui->fontFamilyBox->currentText();
@@ -410,9 +411,10 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         qDebug()<<"Il Cursore è sicuramente in posizione iniziale";
     }
 
-    /****************************************************************
-     *                      TEXT FONT FAMILY                        *
-     ****************************************************************/
+    //  STEP N°2
+    //
+    //  Set TEXT FONT FAMILY
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         QString fontFamily = ui->RealTextEdit->fontFamily();
         ui->fontFamilyBox->setCurrentText(fontFamily);
@@ -429,27 +431,30 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         }
     }
 
-    /****************************************************************
-     *                      TEXT FONT SIZE                          *
-     ****************************************************************/
+
+    //  STEP N°3
+    //
+    //  Set TEXT FONT SIZE
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         int fontPointSize = static_cast<int>(ui->RealTextEdit->fontPointSize());
         ui->fontSizeBox->setCurrentText(QString::number(fontPointSize));
         ui->fontSizeBox->setCurrentIndex(ui->fontSizeBox->findText(ui->fontSizeBox->currentText()));
-    }
-    else {
+    }else{
         int fontSizeCalculated = calculateFontSizeComboBox(c);
         if(fontSizeCalculated == -1) {
             ui->fontSizeBox->setCurrentText(""); //blank text on item combobox
-        } else {
+        }else{
             ui->fontSizeBox->setCurrentText(QString::number(fontSizeCalculated));
             ui->RealTextEdit->setFontPointSize(fontSizeCalculated); //set fontSize to common fontSize of the chars
         }
     }
 
-    /****************************************************************
-     *                      TEXT ALIGNMENT                          *
-     ****************************************************************/
+
+    //  STEP N°4
+    //
+    //  DETERMINES TEXT ALIGNMENT
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         if(ui->RealTextEdit->alignment() == Qt::AlignCenter)
             AlignCXButtonHandler();
@@ -476,9 +481,11 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     }
     AlignButtonStyleHandler();
 
-    /****************************************************************
-     *                  TEXT FORMAT (Bold/Italic/Underline)         *
-     ****************************************************************/
+
+    //  STEP N°5
+    //
+    //  DETERMINES TEXT FORMAT (Bold/Italic/Underline)
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         if(ui->RealTextEdit->fontWeight() == QFont::Bold)
             ui->buttonBold->setChecked(true);
@@ -807,11 +814,13 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
     }
 }
 
-/***********************************************************************************
-*                                       ACTION                                     *
-*                                                                                  *
-*     Action can be recallable with shortcut, but for now it doesn't work          *
-************************************************************************************/
+
+/***************************************************************************************************************************************
+ *                                                           ACTION                                                                    *
+ *                                                                                                                                     *
+ *                                           Action can be recallable with shortcut                                                    *
+ ***************************************************************************************************************************************/
+
 //FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered() {
    if(SchermoIntero==false) {
@@ -990,9 +999,12 @@ void EditorWindow::on_actionSottolineato_triggered() {
     ui->buttonUnderline->click();
 }
 
-/***********************************************************************************
-*                              STANDALONE FUNCTION                                 *
-************************************************************************************/
+
+/***************************************************************************************************************************************
+ *                                                    STANDALONE FUNCTION                                                              *
+ *                                                                                                                                     *
+ ***************************************************************************************************************************************/
+//Return to MenuWindow
 void EditorWindow::CloseDocumentRequest() {
     BruteClose=false;
 
@@ -1013,6 +1025,7 @@ void EditorWindow::CloseDocumentRequest() {
     sendRequestMsg(req);
 }
 
+//Set the Editor in DarkMode or in DayMode
 void EditorWindow::PaintItBlack() {
     if(DarkMode==false) {
         //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
@@ -1020,7 +1033,6 @@ void EditorWindow::PaintItBlack() {
 
         //ui->DocumentFrame->setStyleSheet("  #DocumentFrame{    background-color: #1a1a1a;}");
         ui->editorFrame->setStyleSheet("    #editorFrame{      background-color: #262626;}");
-        //ui->IconsBar->setStyleSheet("       #IconsBar{         background-color: ##262626;}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
         ui->labelUser->setStyleSheet("    #labelUser{      background-color:transparent; border: transparent; color: #ff8000;}");
@@ -1061,7 +1073,6 @@ void EditorWindow::PaintItBlack() {
 
         //ui->DocumentFrame->setStyleSheet("  #DocumentFrame{ background-color: #FFFFFF;}");
         ui->editorFrame->setStyleSheet("    #editorFrame{   background-color: #EFEFEF;}");
-        //ui->IconsBar->setStyleSheet("       #IconsBar{      background-color: #EFEFEF;}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
         ui->labelUser->setStyleSheet("    #labelUser{   background-color:transparent; border: transparent; color: #505050;}");
@@ -1105,6 +1116,7 @@ void EditorWindow::PaintItBlack() {
 
 }
 
+//Set the button checked-status of Alignment buttons
 void EditorWindow::AlignDXButtonHandler() {
     ui->buttonAlignDX->setChecked(true);
     ui->buttonAlignCX->setChecked(false);
@@ -1138,6 +1150,8 @@ void EditorWindow::AlignNoneButtonHandler() {
     ui->buttonAlignJFX->setChecked(false);
 }
 
+
+//Set the button style if Alignment is checked
 void EditorWindow::AlignButtonStyleHandler() {
    if(ui->buttonAlignCX->isChecked()) {
         ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AEAEAE; border-radius:4px;}");
@@ -1167,6 +1181,7 @@ void EditorWindow::AlignButtonStyleHandler() {
     }
 }
 
+//Set the button style if Bold/Italic/Underline is checked
 void EditorWindow::refreshFormatButtons() {
     if(ui->buttonBold->isChecked())
         ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AEAEAE; border-radius:4px;}");
@@ -1182,88 +1197,70 @@ void EditorWindow::refreshFormatButtons() {
         ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: lightgrey;}");
 }
 
-/***********************************************************************************
-*
-*   ALL THE FOLLOWING FUNCTION ARE ONLY FOR TEST AND DEBUG
-*   ALL THESE FUNCTION MUST BE DELETED BEFORE WE REACH A BETA VERISION
-*
-*   THIS FUNCTION ARE PLAYNING WITH A CURSOR THAT ISN'T SHARED, BUT WE NEED TO
-*   BUILD A CURSOR (An original one, but I would prefer it to be a class that
-*   extends the original) SHARED BY ALL THE FUNCTION
-*
-*   THIS FUNCTION EMULATE THE MESSAGE THAT ARRIVED FROM THE SERVER.
-*   THE CURSON ISN'T SHOWN IN THE EDITOR AND WE HAD TO FIND A WAY TO DO IT!
-*
-*                                                                        HidroSaphire
-*
-***********************************************************************************/
-/*
-void EditorWindow::on_DebugIns1_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(1);
-    c.insertText("Z");
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+void EditorWindow::hideCollab(){
+    ui->actionCollaboratori->setText("Mostra Collaboratori");
+    ui->listWidget->hide();
+    ui->labelUser->hide();
+    ui->someButton->hide();
+    ui->label->hide();
+    ui->label_2->hide();
+    ui->label_3->hide();
+    ui->label_4->hide();
+    ui->line->hide();
+    ui->line_2->hide();
+    ui->line_3->hide();
 }
 
-void EditorWindow::on_DebugInsInit_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(0);
-    c.insertText("A");
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+void EditorWindow::showCollab(){
+    ui->actionCollaboratori->setText("Nascondi Collaboratori");
+    ui->listWidget->show();
+    ui->labelUser->show();
+    ui->someButton->show();
+    ui->label->show();
+    ui->label_2->show();
+    ui->label_3->show();
+    ui->label_4->show();
+    ui->line->show();
+    ui->line_2->show();
+    ui->line_3->show();
 }
 
-
-void EditorWindow::on_DebugDel1_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(1);
-    c.deleteChar();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+//HANDLE LOSS OF CONNECTION
+bool EditorWindow::handleConnectionLoss() {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
+                                                        "\n"
+                                                        "Vuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        QApplication::exit(-1000);
+    }else if(reply == QMessageBox::No){
+        BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
+    }
+    return true;
 }
 
-void EditorWindow::on_DebugCursLeft_clicked(){
+//INITIAL CONDITION OF TEXT
+void EditorWindow::setupInitialCondition(){
+    ui->fontSizeBox->setCurrentText(QString::number(14));
+    ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
+    ui->buttonBold->setChecked(false);
+    ui->buttonItalic->setChecked(false);
+    ui->buttonUnderline->setChecked(false);
     QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::PreviousCharacter,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    if(c.blockFormat().alignment()==Qt::AlignRight)
+        AlignDXButtonHandler();
+    else if(c.blockFormat().alignment()==Qt::AlignCenter)
+        AlignCXButtonHandler();
+    else if(c.blockFormat().alignment()==Qt::AlignJustify)
+        AlignJFXButtonHandler();
+    else
+        AlignSXButtonHandler();
 }
 
-void EditorWindow::on_DebugCursRight_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugCursLeftAnchor_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugWordLeft_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::WordLeft,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugWordRight_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::WordRight,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugIns6Word_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(6);
-    c.insertText("HidroSaphire è il migliore");
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-*/
-
-
-//---------------------- Other utility functions -----------------------------//
+/***************************************************************************************************************************************
+ *                                                    OTHER SLOT FUNCTION                                                              *
+ *                                                                                                                                     *
+ ***************************************************************************************************************************************/
 
 void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     if(result == "LOGOUTURI_SUCCESS") {
@@ -2048,19 +2045,6 @@ std::pair<int,int> EditorWindow::alignBlocks(int startIndex, int endIndex, const
         return std::make_pair(startPos, endPos+1); //endPos+1 to change alignment also for <CR>
 }
 
-bool EditorWindow::handleConnectionLoss() {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
-                                                        "\n"
-                                                        "Vuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        QApplication::exit(-1000);
-    }else if(reply == QMessageBox::No){
-        BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
-    }
-    return true;
-}
-
 QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
     QRegularExpression rx("background-color:rgba(([^;]+));");
     QStringList list = getRegexListFromHTML(html, rx);
@@ -2071,23 +2055,6 @@ QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
         html.replace(originalBackColor, s.replace(curAlpha, finalAlpha));
     }
     return html;
-}
-
-void EditorWindow::setupInitialCondition(){
-    ui->fontSizeBox->setCurrentText(QString::number(14));
-    ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
-    ui->buttonBold->setChecked(false);
-    ui->buttonItalic->setChecked(false);
-    ui->buttonUnderline->setChecked(false);
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    if(c.blockFormat().alignment()==Qt::AlignRight)
-        AlignDXButtonHandler();
-    else if(c.blockFormat().alignment()==Qt::AlignCenter)
-        AlignCXButtonHandler();
-    else if(c.blockFormat().alignment()==Qt::AlignJustify)
-        AlignJFXButtonHandler();
-    else
-        AlignSXButtonHandler();
 }
 
 void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor) {

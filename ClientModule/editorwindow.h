@@ -26,11 +26,11 @@ class EditorWindow : public QMainWindow {
 public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
     ~EditorWindow();
-    bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
-
-    //Top Bar Function
+    /************************************
+     *            INTERFACE             *
+     ************************************/
     void on_DocNameButton_clicked();
 
     //Change style of the text
@@ -58,7 +58,7 @@ private slots:
     void on_fontFamilyBox_currentIndexChanged(int index);
     void on_fontSizeBox_activated(int index);
 
-    //RealTextEdit Function
+    //RealTextEdit Event
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_selectionChanged();
 
@@ -68,7 +68,8 @@ private slots:
     /************************************
      *               EVENT              *
      ************************************/
-    void keyPressEvent(QKeyEvent *e);
+    bool eventFilter(QObject *obj, QEvent *ev);
+    void keyPressEvent(QKeyEvent *e);   //Handle Shortcut of Action
     void closeEvent(QCloseEvent * event);
 
     /************************************
@@ -100,9 +101,14 @@ private slots:
     void AlignNoneButtonHandler();
     void AlignButtonStyleHandler();
     void refreshFormatButtons();
+    void hideCollab();
+    void showCollab();
     bool handleConnectionLoss();
     void setupInitialCondition();
 
+    /************************************
+     *        OTHER SLOTS FUNCTION      *
+     ************************************/
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);

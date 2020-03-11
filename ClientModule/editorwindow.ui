@@ -1281,7 +1281,7 @@ background-color: lightgrey;
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_7">
                    <item>
-                    <widget class="QPushButton" name="pushButton">
+                    <widget class="QPushButton" name="someButton">
                      <property name="minimumSize">
                       <size>
                        <width>40</width>
