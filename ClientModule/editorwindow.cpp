@@ -1050,12 +1050,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonBold->setIcon(v2B);
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
-        //iconContainer CSS
-        ui->buttonCopy->setStyleSheet("     #buttonCopy{    background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonCut->setStyleSheet("      #buttonCut{     background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonPaste->setStyleSheet("    #buttonPaste{   background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{  background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{   background-color:#AEAEAE; border-radius:4px;}");
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setText("Modalità Giorno");
@@ -1097,12 +1091,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonBold->setIcon(v2B);
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
-        //iconContainer CSS
-        ui->buttonCopy->setStyleSheet("     #buttonCopy{border-radius:4px}    #buttonCopy:hover{background-color: lightgrey;}");
-        ui->buttonCut->setStyleSheet("      #buttonCut{border-radius:4px}     #buttonCut:hover{background-color: lightgrey;}");
-        ui->buttonPaste->setStyleSheet("    #buttonPaste{border-radius:4px}   #buttonPaste:hover{background-color: lightgrey;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}  #buttonBold:hover{background-color: lightgrey;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}   #buttonBold:hover{background-color: lightgrey;}");
 
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
