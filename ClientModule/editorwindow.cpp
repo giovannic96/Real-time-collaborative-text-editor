@@ -863,12 +863,16 @@ void EditorWindow::on_actionEsci_triggered() {
 void EditorWindow::on_actionRinomina_triggered() {
     bool ok, StayInThisWindow;
     QString newText = QInputDialog::getText(this, tr("Titolo documento"),
-                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, _client->getFilename(), &ok);
+                                         tr("Inserisci un nome per il documento:"), QLineEdit::Normal, docName, &ok);
 
     if(ok && !newText.isEmpty() && newText.size()<=25) {
+        //add character standardization
+        QString filename = QLatin1String(newText.toUtf8());
+        QByteArray ba_filename = filename.toLocal8Bit();
+        const char *c_filename = ba_filename.data();
         //Serialize data
         json j;
-        jsonUtility::to_jsonRenamefile(j, "RENAMEFILE_REQUEST", newText.toStdString(), _client->getFileURI().toStdString(), _client->getUsername().toStdString());
+        jsonUtility::to_jsonRenamefile(j, "RENAMEFILE_REQUEST", c_filename, _client->getFileURI().toStdString(), _client->getUsername().toStdString());
         const std::string req = j.dump();
 
         //Send data (header and body)
@@ -1278,9 +1282,10 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         this->close();
         delete this;
     } else if (result == "RENAME_SUCCESS") {
-        ui->DocNameButton->setText(QString::fromStdString(filename));
-        _client->setFilename(QString::fromStdString(filename)); //Assign newText to the variable
-        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename));
+        //toLatin1 is necessary to display correctly special characters like "€"
+        ui->DocNameButton->setText(QString::fromStdString(filename).toLatin1());
+        _client->setFilename(QString::fromStdString(filename).toLatin1()); //Assign newText to the variable
+        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename).toLatin1());
         ui->RealTextEdit->setFocus();
     } else if(result == "INVITE_URI_SUCCESS") {
         QMessageBox::warning(this,"Invito effettuato con successo", "Il tuo invito a collaborare è stato correttamente eseguito.");

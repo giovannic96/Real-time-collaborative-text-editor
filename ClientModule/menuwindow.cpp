@@ -369,9 +369,9 @@ void MenuWindow::showListFile(std::vector<File> files) {
 
         ui->listWidget->clear();
         foreach (File f, files) {
-            filename  = QString::fromUtf8(f.getfilename().c_str());
-            owner     = QString::fromUtf8(f.getowner().c_str());
-            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+            filename  = QString::fromUtf8(f.getfilename().c_str()).toLatin1();
+            owner     = QString::fromUtf8(f.getowner().c_str()).toLatin1();
+            timestamp = QString::fromUtf8(f.gettimestamp().c_str()).toLatin1();
             QListWidgetItem* item;
             /*
             if(filename.length()>=15){
