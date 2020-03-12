@@ -92,19 +92,19 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <property name="spacing">
-            <number>10</number>
+            <number>5</number>
            </property>
            <property name="sizeConstraint">
             <enum>QLayout::SetFixedSize</enum>
            </property>
            <property name="leftMargin">
-            <number>42</number>
+            <number>40</number>
            </property>
            <property name="topMargin">
             <number>5</number>
            </property>
            <property name="rightMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="bottomMargin">
             <number>20</number>
@@ -617,7 +617,7 @@ margin-top: 3px;
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_6">
                  <property name="spacing">
-                  <number>1</number>
+                  <number>2</number>
                  </property>
                  <item>
                   <widget class="QPushButton" name="buttonAlignSX">
@@ -1100,7 +1100,7 @@ margin-top: 3px;
                    </property>
                    <property name="icon">
                     <iconset resource="Risorse.qrc">
-                     <normaloff>:/image/Editor/paintbrush.png</normaloff>:/image/Editor/paintbrush.png</iconset>
+                     <normaloff>:/image/Editor/highlighter.png</normaloff>:/image/Editor/highlighter.png</iconset>
                    </property>
                    <property name="iconSize">
                     <size>
@@ -1249,19 +1249,60 @@ background-color: lightgrey;
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout">
                <property name="spacing">
-                <number>2</number>
+                <number>0</number>
                </property>
                <property name="sizeConstraint">
                 <enum>QLayout::SetNoConstraint</enum>
                </property>
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout">
+                 <property name="spacing">
+                  <number>6</number>
+                 </property>
                  <property name="leftMargin">
                   <number>0</number>
                  </property>
                  <property name="rightMargin">
-                  <number>5</number>
+                  <number>0</number>
                  </property>
+                 <item>
+                  <widget class="QPushButton" name="infoButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>259</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>259</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:none;</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="Risorse.qrc">
+                     <normaloff>:/image/Editor/carte.png</normaloff>:/image/Editor/carte.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>259</width>
+                     <height>94</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <spacer name="verticalSpacer_2">
                    <property name="orientation">
@@ -1281,17 +1322,17 @@ background-color: lightgrey;
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_7">
                    <item>
-                    <widget class="QPushButton" name="someButton">
+                    <widget class="QPushButton" name="profileButton">
                      <property name="minimumSize">
                       <size>
-                       <width>40</width>
-                       <height>40</height>
+                       <width>46</width>
+                       <height>46</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>40</width>
-                       <height>40</height>
+                       <width>46</width>
+                       <height>46</height>
                       </size>
                      </property>
                      <property name="cursor">
@@ -1311,8 +1352,8 @@ border:none;
                      </property>
                      <property name="iconSize">
                       <size>
-                       <width>40</width>
-                       <height>40</height>
+                       <width>46</width>
+                       <height>46</height>
                       </size>
                      </property>
                     </widget>
@@ -1508,7 +1549,7 @@ background-color: lightgrey;
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_4">
+                  <widget class="QLabel" name="labelCollOn">
                    <property name="font">
                     <font>
                      <weight>75</weight>
@@ -1519,36 +1560,80 @@ background-color: lightgrey;
                     <string notr="true">color: grey;</string>
                    </property>
                    <property name="text">
-                    <string>2 Collaboratori</string>
+                    <string>Collaboratori online</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QListWidget" name="listWidget">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>250</width>
+                     <width>259</width>
                      <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>250</width>
+                     <width>259</width>
                      <height>16777215</height>
                     </size>
                    </property>
                    <property name="font">
                     <font>
                      <family>Calibri</family>
-                     <pointsize>14</pointsize>
+                     <pointsize>12</pointsize>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">border:transparent;
+background: transparent;
+
+</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="labelCollOff">
+                   <property name="font">
+                    <font>
                      <weight>75</weight>
                      <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: grey;</string>
+                   </property>
+                   <property name="text">
+                    <string>Collaboratori offline</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QListWidget" name="listWidgetOff">
+                   <property name="minimumSize">
+                    <size>
+                     <width>259</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>259</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Calibri</family>
+                     <pointsize>12</pointsize>
                     </font>
                    </property>
                    <property name="styleSheet">
@@ -1736,7 +1821,7 @@ background: transparent;
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Mostra Collaboratori</string>
+    <string>Nascondi Collaboratori</string>
    </property>
   </action>
   <action name="actionGrassetto">

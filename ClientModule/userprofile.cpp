@@ -15,6 +15,9 @@ UserProfile::UserProfile(QString nome, QString mail,int files, int myFiles, QWid
     ui->myFile->setText(sMyFiles);
     ui->totFile->setText(sTotFiles);
     ui->otherFile->setText(sFiles);
+
+    ui->UserImageButton->setText(nome.at(0));
+
     SetImage();
     this->show();
 }

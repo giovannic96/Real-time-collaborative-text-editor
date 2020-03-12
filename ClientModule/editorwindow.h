@@ -110,6 +110,8 @@ private slots:
     /************************************
      *        OTHER SLOTS FUNCTION      *
      ************************************/
+    void on_infoButton_clicked();
+
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);

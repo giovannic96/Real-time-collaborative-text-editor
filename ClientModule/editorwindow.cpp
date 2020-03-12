@@ -43,30 +43,54 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->listWidget->setMovement(QListView::Static);
     ui->listWidget->setTextElideMode(Qt::ElideRight);
 
+    ui->listWidgetOff->setViewMode(QListView::ListMode);
+    ui->listWidgetOff->setGridSize(QSize(250,50));
+    ui->listWidgetOff->setIconSize(QSize(40,40));
+    ui->listWidgetOff->setFlow(QListView::LeftToRight);
+    ui->listWidgetOff->setWrapping(true);
+    ui->listWidgetOff->setWordWrap(true);
+    ui->listWidgetOff->setResizeMode(QListView::Adjust);
+    ui->listWidgetOff->setAlternatingRowColors(false);
+    ui->listWidgetOff->setMovement(QListView::Static);
+    ui->listWidgetOff->setTextElideMode(Qt::ElideRight);
+
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
+
+    QColor color = _client->getColor();
+    QString qss = QString("border:none; \nbackground-color: %1;").arg(color.name());
+    ui->profileButton->setStyleSheet(qss);
 
     QString itemString;
     QList<QListWidgetItem*> fileItem;
     QListWidgetItem* item;
     QListWidgetItem* item2;
+    QListWidgetItem* item3;
     QRegularExpressionValidator* fontSizeValidator;
     QIcon fontIcon(":/image/font_icon.png");
 
     item = new QListWidgetItem(itemString, ui->listWidget);
-    item2 = new QListWidgetItem(itemString, ui->listWidget);
+    item2 = new QListWidgetItem(itemString, ui->listWidgetOff);
+    item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
+    QRect *rect = new QRect(0,0,45,45);
+    QRegion* region = new QRegion(*rect,QRegion::Ellipse);
+    ui->profileButton->setMask(*region);
+
     item->setText("Collaboratore 1");
-    item->setForeground(QColor(0,255,0));
     item->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item);
     item2->setText("Collaboratore 2");
-    item2->setForeground(QColor(255,0,0));
+    item2->setForeground(QColor(169, 169, 169));
     item2->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item2);
+    item3->setText("Collaboratore 3");
+    item3->setForeground(QColor(169, 169, 169));
+    item3->setIcon(QIcon(":/image/Editor/user.png"));
+    fileItem.append(item3);
 
-    hideCollab();
+    ui->buttonCollab->hide();
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
     ui->DocNameButton->setText(docName);
@@ -1199,13 +1223,16 @@ void EditorWindow::refreshFormatButtons() {
 
 void EditorWindow::hideCollab(){
     ui->actionCollaboratori->setText("Mostra Collaboratori");
+    ui->infoButton->hide();
     ui->listWidget->hide();
+    ui->listWidgetOff->hide();
     ui->labelUser->hide();
-    ui->someButton->hide();
+    ui->profileButton->hide();
     ui->label->hide();
     ui->label_2->hide();
     ui->label_3->hide();
-    ui->label_4->hide();
+    ui->labelCollOn->hide();
+    ui->labelCollOff->hide();
     ui->line->hide();
     ui->line_2->hide();
     ui->line_3->hide();
@@ -1213,13 +1240,16 @@ void EditorWindow::hideCollab(){
 
 void EditorWindow::showCollab(){
     ui->actionCollaboratori->setText("Nascondi Collaboratori");
+    ui->infoButton->show();
     ui->listWidget->show();
+    ui->listWidgetOff->show();
     ui->labelUser->show();
-    ui->someButton->show();
+    ui->profileButton->show();
     ui->label->show();
     ui->label_2->show();
     ui->label_3->show();
-    ui->label_4->show();
+    ui->labelCollOn->show();
+    ui->labelCollOff->show();
     ui->line->show();
     ui->line_2->show();
     ui->line_3->show();
@@ -2169,4 +2199,9 @@ qDebug()<<mimeData->html();
     } else {
         qDebug() << "Cannot paste this." << endl;
     }
+}
+
+void EditorWindow::on_infoButton_clicked()
+{
+    on_actionAbout_triggered();
 }
