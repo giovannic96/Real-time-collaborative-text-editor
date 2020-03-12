@@ -105,6 +105,7 @@ private slots:
     void showCollab();
     bool handleConnectionLoss();
     void setupInitialCondition();
+    void on_RealTextEdit_textChanged();
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
@@ -121,7 +122,7 @@ public slots:
     void changeFontSize(int startIndex, int endIndex, int fontSize);
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
-    void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
+    void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
     void updateAlignmentButton();
 
 private:

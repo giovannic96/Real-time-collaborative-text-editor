@@ -1426,7 +1426,7 @@ background-color: lightgrey;
                     <string notr="true">color:grey;</string>
                    </property>
                    <property name="text">
-                    <string>Last saved: 10h ago</string>
+                    <string>Caratteri: 0</string>
                    </property>
                   </widget>
                  </item>
@@ -1442,7 +1442,7 @@ background-color: lightgrey;
                     <string notr="true">color:grey;</string>
                    </property>
                    <property name="text">
-                    <string>Words: 200</string>
+                    <string>Parole: 0</string>
                    </property>
                   </widget>
                  </item>
@@ -1458,7 +1458,7 @@ background-color: lightgrey;
                     <string notr="true">color:grey;</string>
                    </property>
                    <property name="text">
-                    <string>Carachters: 1320</string>
+                    <string>Linee: 0</string>
                    </property>
                   </widget>
                  </item>

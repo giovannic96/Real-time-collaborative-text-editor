@@ -1257,6 +1257,18 @@ void EditorWindow::setupInitialCondition(){
         AlignSXButtonHandler();
 }
 
+void EditorWindow::on_RealTextEdit_textChanged(){
+    int charCount = ui->RealTextEdit->toPlainText().count();
+    int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
+    int lineCount = ui->RealTextEdit->document()->blockCount();
+    QString ZaChar = "Caratteri: "+QString::number(charCount);
+    QString ZaWord = "Parole: "+QString::number(wordCount);
+    QString ZaLine = "Linee: "+QString::number(lineCount);
+    ui->label->setText(ZaChar);
+    ui->label_2->setText(ZaWord);
+    ui->label_3->setText(ZaLine);
+}
+
 /***************************************************************************************************************************************
  *                                                    OTHER SLOT FUNCTION                                                              *
  *                                                                                                                                     *
