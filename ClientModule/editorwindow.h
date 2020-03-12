@@ -62,9 +62,6 @@ private slots:
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_selectionChanged();
 
-    //Button for Collaborators
-    void on_buttonCollab_clicked();
-
     /************************************
      *               EVENT              *
      ************************************/
@@ -112,9 +109,10 @@ private slots:
     /************************************
      *        OTHER SLOTS FUNCTION      *
      ************************************/
-    void on_infoButton_clicked();
 
 
+
+    void on_profileButton_clicked();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");

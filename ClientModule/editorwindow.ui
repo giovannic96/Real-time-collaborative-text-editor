@@ -62,7 +62,9 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">#editorFrame{background-color: #EFEFEF;}</string>
+         <string notr="true">#editorFrame{
+background: url(:/image/Editor/sfondo.png);
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -107,7 +109,7 @@
             <number>0</number>
            </property>
            <property name="bottomMargin">
-            <number>20</number>
+            <number>10</number>
            </property>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -115,6 +117,9 @@
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <property name="sizeConstraint">
                 <enum>QLayout::SetMinimumSize</enum>
+               </property>
+               <property name="leftMargin">
+                <number>6</number>
                </property>
                <item>
                 <widget class="QPushButton" name="DocNameButton">
@@ -1131,54 +1136,6 @@ margin-top: 3px;
                  </property>
                 </spacer>
                </item>
-               <item>
-                <widget class="QPushButton" name="buttonCollab">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>34</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">#buttonCollab {
-	border-radius: 4px;
-}
-
-#buttonCollab:hover {
-	background-color: lightgrey;
-}
-</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="Risorse.qrc">
-                   <normaloff>:/image/Editor/Collaborator.png</normaloff>:/image/Editor/Collaborator.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>30</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </item>
              <item>
@@ -1270,44 +1227,6 @@ background-color: lightgrey;
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="infoButton">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>259</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>259</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">border:none;</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="Risorse.qrc">
-                     <normaloff>:/image/Editor/carte.png</normaloff>:/image/Editor/carte.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>259</width>
-                     <height>94</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <spacer name="verticalSpacer_2">
                    <property name="orientation">
                     <enum>Qt::Vertical</enum>
@@ -1318,7 +1237,7 @@ background-color: lightgrey;
                    <property name="sizeHint" stdset="0">
                     <size>
                      <width>20</width>
-                     <height>35</height>
+                     <height>63</height>
                     </size>
                    </property>
                   </spacer>
@@ -1339,25 +1258,26 @@ background-color: lightgrey;
                        <height>46</height>
                       </size>
                      </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>16</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="cursor">
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">background:transparent;
-border:none;
-</string>
+                      <string notr="true">border:none;</string>
                      </property>
                      <property name="text">
                       <string/>
                      </property>
-                     <property name="icon">
-                      <iconset>
-                       <normaloff>image/Editor/user.png</normaloff>image/Editor/user.png</iconset>
-                     </property>
                      <property name="iconSize">
                       <size>
-                       <width>46</width>
-                       <height>46</height>
+                       <width>0</width>
+                       <height>0</height>
                       </size>
                      </property>
                     </widget>
@@ -1406,7 +1326,7 @@ border:none;
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>40</width>
+                       <width>250</width>
                        <height>20</height>
                       </size>
                      </property>

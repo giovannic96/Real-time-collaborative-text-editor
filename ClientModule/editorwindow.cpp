@@ -2,6 +2,7 @@
 #include "ui_editorwindow.h"
 #include "MyQTextEdit.h"
 #include "infowindow.h"
+#include "userprofile.h"
 #include "menuwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
@@ -57,8 +58,12 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
 
+    showCollab();
+
+    ui->profileButton->setText(user.at(0).toUpper());
+
     QColor color = _client->getColor();
-    QString qss = QString("border:none; \nbackground-color: %1;").arg(color.name());
+    QString qss = QString("border:none; \nbackground-color: %1; color:white;").arg(color.name());
     ui->profileButton->setStyleSheet(qss);
 
     QString itemString;
@@ -89,8 +94,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     item3->setForeground(QColor(169, 169, 169));
     item3->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item3);
-
-    ui->buttonCollab->hide();
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
     ui->DocNameButton->setText(docName);
@@ -372,21 +375,6 @@ void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
         ui->RealTextEdit->setFocus();
     }
 }
-
-/***********************************************************************************
-*                            BUTTON FOR COLLABORATORS                              *
-************************************************************************************/
-void EditorWindow::on_buttonCollab_clicked() {
-    if(ui->buttonCollab->isChecked()) {
-        ui->buttonCollab->setChecked(true);
-        showCollab();
-    } else {
-        ui->buttonCollab->setChecked(false);
-        hideCollab();
-    }
-    ui->RealTextEdit->setFocus();
-}
-
 
 /***********************************************************************************
 *                                 REAL TEXT EDIT EVENT                             *
@@ -1004,7 +992,12 @@ void EditorWindow::on_actionDark_Mode_triggered() {
 
 //COLLABORATOR TRIGGERED
 void EditorWindow::on_actionCollaboratori_triggered() {
-    ui->buttonCollab->click();
+    if(ui->listWidget->isHidden()){
+        showCollab();
+    }
+    else{
+        hideCollab();
+    }
 }
 
 //GRASSETTO TRIGGERED       -->     CTRL + B
@@ -1055,14 +1048,12 @@ void EditorWindow::CloseDocumentRequest() {
 //Set the Editor in DarkMode or in DayMode
 void EditorWindow::PaintItBlack() {
     if(DarkMode==false) {
-        //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
+
         DarkMode=true;
 
-        //ui->DocumentFrame->setStyleSheet("  #DocumentFrame{    background-color: #1a1a1a;}");
-        ui->editorFrame->setStyleSheet("    #editorFrame{      background-color: #262626;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{      background: url(:/image/DarkEditor/sfondo.png);}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
-        ui->labelUser->setStyleSheet("    #labelUser{      background-color:transparent; border: transparent; color: #ff8000;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1077,6 +1068,8 @@ void EditorWindow::PaintItBlack() {
         v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/DarkEditor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/DarkEditor/v2underline.png"),QIcon::Normal,QIcon::On);
+        ui->listWidget->setStyleSheet("border:none;\n background:transparent;\n color:white");
+        ui->labelUser->setStyleSheet("color:white;");
         ui->buttonAlignCX->setIcon(icoAC);
         ui->buttonAlignSX->setIcon(icoAS);
         ui->buttonAlignDX->setIcon(icoAD);
@@ -1089,6 +1082,7 @@ void EditorWindow::PaintItBlack() {
         ui->buttonBold->setIcon(v2B);
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
+
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setText("Modalità Giorno");
@@ -1098,11 +1092,9 @@ void EditorWindow::PaintItBlack() {
         //Shine on you crazy diamond
         DarkMode=false;
 
-        //ui->DocumentFrame->setStyleSheet("  #DocumentFrame{ background-color: #FFFFFF;}");
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background-color: #EFEFEF;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
-        ui->labelUser->setStyleSheet("    #labelUser{   background-color:transparent; border: transparent; color: #505050;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1117,6 +1109,8 @@ void EditorWindow::PaintItBlack() {
         v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+        ui->listWidget->setStyleSheet("border:none;\n background:transparent;\n color:black");
+        ui->labelUser->setStyleSheet("color:black;");
         ui->buttonAlignCX->setIcon(icoAC);
         ui->buttonAlignSX->setIcon(icoAS);
         ui->buttonAlignDX->setIcon(icoAD);
@@ -1226,7 +1220,6 @@ void EditorWindow::refreshFormatButtons() {
 
 void EditorWindow::hideCollab(){
     ui->actionCollaboratori->setText("Mostra Collaboratori");
-    ui->infoButton->hide();
     ui->listWidget->hide();
     ui->listWidgetOff->hide();
     ui->labelUser->hide();
@@ -1243,7 +1236,6 @@ void EditorWindow::hideCollab(){
 
 void EditorWindow::showCollab(){
     ui->actionCollaboratori->setText("Nascondi Collaboratori");
-    ui->infoButton->show();
     ui->listWidget->show();
     ui->listWidgetOff->show();
     ui->labelUser->show();
@@ -2276,6 +2268,32 @@ qDebug()<<mimeData->html();
     }
 }
 
-void EditorWindow::on_infoButton_clicked(){
-    on_actionAbout_triggered();
+void EditorWindow::on_profileButton_clicked()
+{
+    QString filename, owner, timestamp;
+    QList<QListWidgetItem*> fileItem;
+    int Contafile=0;
+    int ContaFileOwner=0;
+
+    if(!_client->getVectorFile().empty()){
+        std::vector<File> files = _client->getVectorFile();
+        foreach (File f, files) {
+            filename  = QString::fromUtf8(f.getfilename().c_str());
+            owner     = QString::fromUtf8(f.getowner().c_str());
+            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+            Contafile++;
+            if(owner==_client->getUsername()){
+                ContaFileOwner++;
+            }
+        }
+    }else{
+        Contafile=0;
+        ContaFileOwner=0;
+    }
+
+    qDebug()<<"Ho un totale di "<< Contafile << "file";
+    qDebug()<<"Ho creato "<< ContaFileOwner << "file";
+
+    UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+    up->show();
 }

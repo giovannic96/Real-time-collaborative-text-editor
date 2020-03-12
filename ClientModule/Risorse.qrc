@@ -68,5 +68,7 @@
         <file>image/infoprofile.png</file>
         <file>image/fileWindow.png</file>
         <file>image/startMinimal.png</file>
+        <file>image/Editor/sfondo.png</file>
+        <file>image/DarkEditor/sfondo.png</file>
     </qresource>
 </RCC>
