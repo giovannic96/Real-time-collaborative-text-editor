@@ -57,10 +57,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
 
-    ui->profileButton->setText(user.at(0).toUpper());
-
     QColor color = _client->getColor();
-    QString qss = QString("border:none; \nbackground-color: %1;\n color:white;").arg(color.name());
+    QString qss = QString("border:none; \nbackground-color: %1;").arg(color.name());
     ui->profileButton->setStyleSheet(qss);
 
     QString itemString;
@@ -76,7 +74,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
-    QRect *rect = new QRect(0,0,46,46);
+    QRect *rect = new QRect(0,0,45,45);
     QRegion* region = new QRegion(*rect,QRegion::Ellipse);
     ui->profileButton->setMask(*region);
 
@@ -763,7 +761,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
  // Shortcut Handler //
 //******************//
 void EditorWindow::keyPressEvent(QKeyEvent *e) {
-    //WORKING ON IT
     if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier)  && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Shift + I";
         on_actionAbout_triggered();
@@ -1025,6 +1022,10 @@ void EditorWindow::on_actionSottolineato_triggered() {
     ui->buttonUnderline->click();
 }
 
+//SELEZIONA TUTTO TRIGGERED    -->  CTRL + A
+void EditorWindow::on_actionSeleziona_Tutto_triggered(){
+   ui->RealTextEdit->selectAll();
+}
 
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
@@ -1299,6 +1300,78 @@ void EditorWindow::on_RealTextEdit_textChanged(){
     ui->label->setText(ZaChar);
     ui->label_2->setText(ZaWord);
     ui->label_3->setText(ZaLine);
+}
+
+void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos){
+    //QMenu *menu = ui->RealTextEdit->createStandardContextMenu(pos);
+    QMenu menu(this);
+
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+
+    //prepare icon
+    QIcon icoCPY, icoCUT, icoPAS, v2B, v2I, v2U;
+    icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
+    icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
+    icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
+    v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
+    v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
+    v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+
+    //prepare action
+    QAction *cut = new QAction(icoCUT, tr("Cut"), this);
+    QAction *copy = new QAction(icoCPY, tr("Copy"), this);
+    QAction *paste = new QAction(icoPAS, tr("Paste"), this);
+    QAction *selectAll = new QAction(tr("Select All"), this);
+    QAction *bold = new QAction(v2B, tr("Bold"), this);
+    QAction *italic = new QAction(v2I, tr("Italic"), this);
+    QAction *underl = new QAction(v2U, tr("Underline"), this);
+
+    //connect action
+    connect(cut, &QAction::triggered, this, &EditorWindow::on_buttonCut_clicked);
+    connect(copy, &QAction::triggered, this, &EditorWindow::on_buttonCopy_clicked);
+    connect(paste, &QAction::triggered, this, &EditorWindow::on_buttonPaste_clicked);
+    connect(selectAll, &QAction::triggered, this, &EditorWindow::on_actionSeleziona_Tutto_triggered);
+    connect(bold, &QAction::triggered, this, &EditorWindow::on_actionGrassetto_triggered);
+    connect(italic, &QAction::triggered, this, &EditorWindow::on_actionCorsivo_triggered);
+    connect(underl, &QAction::triggered, this, &EditorWindow::on_actionSottolineato_triggered);
+
+    //set tip
+    cut->setStatusTip(tr("Taglia il codice selezionato"));
+    copy->setStatusTip(tr("Copia il codice selezionato"));
+    paste->setStatusTip(tr("Incolla il codice selezionato"));
+    selectAll->setStatusTip(tr("Seleziona tutto il testo"));
+    bold->setStatusTip(tr("Rende grassetto il testo"));
+    italic->setStatusTip(tr("Rende corsivo il testo"));
+    underl->setStatusTip(tr("Rende sottolineato il testo"));
+
+    //disable some action if cursor hasn't selection
+    if(!cursor.hasSelection()){
+        cut->setEnabled(false);
+        copy->setEnabled(false);
+    }
+
+    //set Shortcut
+    cut->setShortcuts(QKeySequence::Cut);
+    copy->setShortcuts(QKeySequence::Copy);
+    paste->setShortcuts(QKeySequence::Paste);
+    selectAll->setShortcuts(QKeySequence::SelectAll);
+    bold->setShortcuts(QKeySequence::Bold);
+    italic->setShortcuts(QKeySequence::Italic);
+    underl->setShortcuts(QKeySequence::Underline);
+
+    //add action to menu
+    menu.addAction(cut);
+    menu.addAction(copy);
+    menu.addAction(paste);
+    menu.addSeparator();
+    menu.addAction(bold);
+    menu.addAction(italic);
+    menu.addAction(underl);
+    menu.addSeparator();
+    menu.addAction(selectAll);
+
+    //show menu
+    menu.exec(ui->RealTextEdit->viewport()->mapToGlobal(pos)); //I don't know why, but it works! (I mean viewport->mapToGlobal)
 }
 
 /***************************************************************************************************************************************
@@ -2203,7 +2276,6 @@ qDebug()<<mimeData->html();
     }
 }
 
-void EditorWindow::on_infoButton_clicked()
-{
+void EditorWindow::on_infoButton_clicked(){
     on_actionAbout_triggered();
 }

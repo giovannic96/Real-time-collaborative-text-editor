@@ -88,6 +88,7 @@ private slots:
     void on_actionGrassetto_triggered();
     void on_actionCorsivo_triggered();
     void on_actionSottolineato_triggered();
+    void on_actionSeleziona_Tutto_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -106,11 +107,14 @@ private slots:
     bool handleConnectionLoss();
     void setupInitialCondition();
     void on_RealTextEdit_textChanged();
+    void on_RealTextEdit_customContextMenuRequested(const QPoint &pos);
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
      ************************************/
     void on_infoButton_clicked();
+
+
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
