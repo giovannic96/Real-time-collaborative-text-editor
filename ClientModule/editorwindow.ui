@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>700</height>
+    <height>656</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1000</width>
-    <height>700</height>
+    <height>400</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -62,7 +62,7 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: #EFEFEF;</string>
+         <string notr="true">#editorFrame{background-color: #EFEFEF;}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -1204,10 +1204,14 @@ margin-top: 3px;
                  <strikeout>false</strikeout>
                 </font>
                </property>
+               <property name="contextMenuPolicy">
+                <enum>Qt::CustomContextMenu</enum>
+               </property>
                <property name="styleSheet">
-                <string notr="true">border: transparent;
-background: #FFFFFF;
-border-left: 2px solid #505050;</string>
+                <string notr="true"> #RealTextEdit{  
+background: #FFFFFF; 
+border-left: 2px solid #404040
+;}</string>
                </property>
               </widget>
              </item>
@@ -1268,7 +1272,7 @@ background-color: lightgrey;
                  <item>
                   <widget class="QPushButton" name="infoButton">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -1335,28 +1339,25 @@ background-color: lightgrey;
                        <height>46</height>
                       </size>
                      </property>
-                     <property name="font">
-                      <font>
-                       <pointsize>14</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
-                      </font>
-                     </property>
                      <property name="cursor">
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">border:none;
-color: white;
+                      <string notr="true">background:transparent;
+border:none;
 </string>
                      </property>
                      <property name="text">
                       <string/>
                      </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>image/Editor/user.png</normaloff>image/Editor/user.png</iconset>
+                     </property>
                      <property name="iconSize">
                       <size>
-                       <width>0</width>
-                       <height>0</height>
+                       <width>46</width>
+                       <height>46</height>
                       </size>
                      </property>
                     </widget>
@@ -1405,7 +1406,7 @@ color: white;
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>200</width>
+                       <width>40</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1719,6 +1720,8 @@ background: transparent;
     <addaction name="actionGrassetto"/>
     <addaction name="actionCorsivo"/>
     <addaction name="actionSottolineato"/>
+    <addaction name="separator"/>
+    <addaction name="actionSeleziona_Tutto"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuVisualizza"/>
@@ -1878,6 +1881,14 @@ background: transparent;
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Q</string>
+   </property>
+  </action>
+  <action name="actionSeleziona_Tutto">
+   <property name="text">
+    <string>Seleziona Tutto</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
    </property>
   </action>
  </widget>
