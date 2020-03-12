@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>656</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1000</width>
-    <height>400</height>
+    <height>700</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -1268,7 +1268,7 @@ background-color: lightgrey;
                  <item>
                   <widget class="QPushButton" name="infoButton">
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -1335,25 +1335,28 @@ background-color: lightgrey;
                        <height>46</height>
                       </size>
                      </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>14</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
                      <property name="cursor">
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">background:transparent;
-border:none;
+                      <string notr="true">border:none;
+color: white;
 </string>
                      </property>
                      <property name="text">
                       <string/>
                      </property>
-                     <property name="icon">
-                      <iconset>
-                       <normaloff>image/Editor/user.png</normaloff>image/Editor/user.png</iconset>
-                     </property>
                      <property name="iconSize">
                       <size>
-                       <width>46</width>
-                       <height>46</height>
+                       <width>0</width>
+                       <height>0</height>
                       </size>
                      </property>
                     </widget>
@@ -1402,7 +1405,7 @@ border:none;
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>40</width>
+                       <width>200</width>
                        <height>20</height>
                       </size>
                      </property>

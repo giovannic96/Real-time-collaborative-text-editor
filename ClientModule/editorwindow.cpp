@@ -57,8 +57,10 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
 
+    ui->profileButton->setText(user.at(0).toUpper());
+
     QColor color = _client->getColor();
-    QString qss = QString("border:none; \nbackground-color: %1;").arg(color.name());
+    QString qss = QString("border:none; \nbackground-color: %1;\n color:white;").arg(color.name());
     ui->profileButton->setStyleSheet(qss);
 
     QString itemString;
@@ -74,7 +76,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
 
-    QRect *rect = new QRect(0,0,45,45);
+    QRect *rect = new QRect(0,0,46,46);
     QRegion* region = new QRegion(*rect,QRegion::Ellipse);
     ui->profileButton->setMask(*region);
 

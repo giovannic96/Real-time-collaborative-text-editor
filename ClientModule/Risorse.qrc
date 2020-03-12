@@ -6,7 +6,6 @@
         <file>image/accesso.png</file>
         <file>image/registrazione.png</file>
         <file>image/start.png</file>
-        <file>image/startMinimal.png</file>
         <file>image/registratiButton1.png</file>
         <file>image/registratiButton2.png</file>
         <file>image/accediButton1.png</file>
@@ -52,7 +51,6 @@
         <file>image/Editor/DarkMoon.png</file>
         <file>image/Editor/DarkSun.png</file>
         <file>image/Editor/Magnifier.png</file>
-        <file>image/fileWindow.png</file>
         <file>image/Editor/v2bold.png</file>
         <file>image/Editor/v2italic.png</file>
         <file>image/Editor/v2underline.png</file>
@@ -68,5 +66,7 @@
         <file>image/Editor/user.png</file>
         <file>image/Editor/carte.png</file>
         <file>image/infoprofile.png</file>
+        <file>image/fileWindow.png</file>
+        <file>image/startMinimal.png</file>
     </qresource>
 </RCC>
