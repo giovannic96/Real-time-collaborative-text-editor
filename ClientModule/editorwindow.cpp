@@ -65,7 +65,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     ui->profileButton->setText(user.at(0).toUpper());
 
-    ui->DocNameButton->hide();
+    //ui->DocNameButton->hide();
 
     QColor color = _client->getColor();
     QString qss = QString("border:none; \nbackground-color: %1; color:white;").arg(color.name());
@@ -421,7 +421,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     /* REMOTE CURSOR */
     cursorChangeRequest(c.position());
 
-    // Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
+    // Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
     // https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
     //*****************************************************************************************************
     if(ui->RealTextEdit->fontPointSize() <= 0) {
@@ -762,9 +762,6 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Shift + Q";
         on_actionEsci_triggered();
-    }else if((e->key() == Qt::Key_N) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + N - But the action is temporanely disabled";
-        on_actionNew_triggered();
     }else if((e->key() == Qt::Key_R) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + R";
         on_actionRinomina_triggered();
@@ -842,11 +839,6 @@ void EditorWindow::on_actionFullscreen_triggered() {
         ui->actionFullscreen->setText("Schermo Intero");
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-//NEW DOCUMENT ACTION    -->     CTRL+N
-void EditorWindow::on_actionNew_triggered() {
-    //on_newDocButton_clicked();
 }
 
 //ABOUT ACTION           -->     CTRL+Shift+I
@@ -1443,7 +1435,7 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         int endIndex;
         int pos = index++;
         c.hasSelection() ? endIndex = c.selectionEnd() : endIndex = -90;
-        int oldPos = c.position();
+        int oldPos = pos < c.position() ? c.position()+1 : c.position();
 
         //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
         if(c.hasSelection() && pos == endIndex) {
@@ -1501,7 +1493,7 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     int endIndex;
     cursor.hasSelection() ? endIndex = cursor.selectionEnd() : endIndex = -90;
-    int oldPos = cursor.position();
+    int oldPos = pos < cursor.position() ? cursor.position()+1 : cursor.position();
 
     //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
     if(cursor.hasSelection() && pos == endIndex) {

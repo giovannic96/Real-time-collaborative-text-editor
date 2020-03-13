@@ -250,16 +250,6 @@ QStringList MyQTextEdit::getRegexListFromHTML(QString text, QRegularExpression r
     return list;
 }
 
-void MyQTextEdit::contextMenuEvent(QContextMenuEvent *event) {
-    QMenu *menu = createStandardContextMenu();
-    menu->addSeparator();
-    menu->addAction(tr("HidroSaphire Was Here"));
-    menu->addSeparator();
-   // menu->removeAction(); //How get default redo/undo action??? Can't find a solution - Help
-    menu->exec(event->globalPos());
-    delete menu;
-}
-
 void MyQTextEdit::removeRemoteCursor(std::string username) {
     remoteCursors.remove(QString::fromStdString(username));
     this->viewport()->update();

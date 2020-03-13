@@ -30,7 +30,6 @@ private:
     int calculateOffsetY(int curFontSize);
     int calculateWidthForUsername(QString& username);
     int getAlignmentValues(QVector<std::pair<int,int>>& alignments);
-    void contextMenuEvent(QContextMenuEvent *event) override;
     QString hexToHtmlRGB(QString hexARGB);
     QString replaceColorWithEditorColor(QString text);
     QStringList getRegexListFromHTML(QString text, QRegularExpression rx);
