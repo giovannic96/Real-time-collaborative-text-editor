@@ -28,9 +28,12 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::changeFontFamily, this, &EditorWindow::changeFontFamily);
     connect(_client, &myClient::changeAlignment, this, &EditorWindow::changeAlignment);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
+    connect(_client, &myClient::removeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::removeRemoteCursor);
+    connect(_client, &myClient::changeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::changeRemoteCursor);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
+    connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
 
     ui->listWidget->setStyleSheet(
       "QListWidget::item {"
@@ -46,7 +49,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     item = new QListWidgetItem(itemString, ui->listWidget);
     item2 = new QListWidgetItem(itemString, ui->listWidget);
-    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(400|[1-9]|[1-9][0-9]|[1-3][0-9][0-9])")); //from 1 to 400
+    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     item->setText(_client->getUsername());
     item->setForeground(QColor(255,1,1));
@@ -61,11 +64,13 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
+    ui->RealTextEdit->document()->setDocumentMargin(30);
     ui->fontFamilyBox->setCurrentText(ui->RealTextEdit->currentFont().family());
     for(int i=0; i<ui->fontFamilyBox->count(); i++) {
         ui->fontFamilyBox->setItemIcon(i, fontIcon);
     }
-    ui->RealTextEdit->setEditorColor(client->getColor());
+    ui->RealTextEdit->setEditorColor(_client->getColor());
+    //ui->RealTextEdit->addRemoteCursor(_client->getUsername(), std::make_pair(_client->getColor(),0));
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbolsAt(0, _client->getVector());
@@ -77,7 +82,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 EditorWindow::~EditorWindow() {
     delete ui;
 }
-
 
 /***********************************************************************************
 *                                 TOP BAR FUNCTION                                 *
@@ -386,6 +390,8 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
 
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
+
+    cursorChangeRequest(c.position());
 
     /****************************************************************
      * Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
@@ -1325,11 +1331,11 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         int endIndex;
         int pos = index++;
         c.hasSelection() ? endIndex = c.selectionEnd() : endIndex = -90;
+        int oldPos = c.position();
 
         //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
         if(c.hasSelection() && pos == endIndex) {
             int startIndex = c.selectionStart();
-            int oldPos = c.position();
 
             /* Insert (formatted) char */
             c.setPosition(pos);
@@ -1340,7 +1346,6 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
             /* Keep current selection */
             c.setPosition(oldPos == startIndex ? endIndex : startIndex, QTextCursor::MoveAnchor);
             c.setPosition(oldPos == startIndex ? startIndex : endIndex, QTextCursor::KeepAnchor);
-            ui->RealTextEdit->setTextCursor(c);
         }
         else {
             /* Insert (formatted) char */
@@ -1348,7 +1353,9 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
             c.setCharFormat(newFormat);
             c.insertText(static_cast<QString>(letter));
             c.setBlockFormat(newBlockFormat);
+            c.setPosition(oldPos);
         }
+        ui->RealTextEdit->setTextCursor(c);
 
         //if the selected sizes received are not an index of combobox, add them (and hide them)
         if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
@@ -1382,11 +1389,11 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     int endIndex;
     cursor.hasSelection() ? endIndex = cursor.selectionEnd() : endIndex = -90;
+    int oldPos = cursor.position();
 
     //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
     if(cursor.hasSelection() && pos == endIndex) {
         int startIndex = cursor.selectionStart();
-        int oldPos = cursor.position();
 
         /* Insert (formatted) char */
         cursor.setPosition(pos);
@@ -1396,14 +1403,15 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
         /* Keep current selection */
         cursor.setPosition(oldPos == startIndex ? endIndex : startIndex, QTextCursor::MoveAnchor);
         cursor.setPosition(oldPos == startIndex ? startIndex : endIndex, QTextCursor::KeepAnchor);
-        ui->RealTextEdit->setTextCursor(cursor);
     }
     else {
         /* Insert (formatted) char */
         cursor.setPosition(pos);
         cursor.setCharFormat(format);
         cursor.insertText(static_cast<QString>(c));
+        cursor.setPosition(oldPos);
     }
+    ui->RealTextEdit->setTextCursor(cursor);
 
     //if that selected size is not an index of combobox, add it (and hide it)
     if(ui->fontSizeBox->findText(QString::number(style.getFontSize())) == -1) {
@@ -1609,7 +1617,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
         symbolStyle curStyle = constructSymStyle(rxs, s, alignments.first());
         qDebug() << curStyle.getFontSize();
         if((ui->fontFamilyBox->findText(QString::fromStdString(curStyle.getFontFamily())) == -1 &&
-            curStyle.getFontFamily() != "") || curStyle.getFontSize() > 400 || curStyle.getFontSize() <= 0)
+            curStyle.getFontFamily() != "") || curStyle.getFontSize() > 200 || curStyle.getFontSize() <= 0)
             throw OperationNotSupported();
         alignments.erase(alignments.begin(), alignments.begin() + numChars);
         curStyle.getFontFamily() == "" ? curStyle = prevStyle : prevStyle = curStyle;
@@ -2094,6 +2102,16 @@ void EditorWindow::removeCharRequest(int pos) {
     //Serialize data
     json j;
     jsonUtility::to_json_removal(j, "REMOVAL_REQUEST", pos);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+}
+
+void EditorWindow::cursorChangeRequest(int pos) {
+    //Serialize data
+    json j;
+    jsonUtility::to_json_removal(j, "CURSOR_CHANGE_REQUEST", pos);
     const std::string req = j.dump();
 
     //Send data (header and body)

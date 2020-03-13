@@ -144,6 +144,7 @@ private:
     /* Requests */
     void insertCharRangeRequest(int pos, bool cursorHasSelection);
     void removeCharRequest(int pos);
+    void cursorChangeRequest(int pos);
     void removeCharRangeRequest(const QTextCursor& cursor);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);

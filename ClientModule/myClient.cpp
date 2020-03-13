@@ -119,6 +119,11 @@ void myClient::do_read_body() {
                         emit opResultSuccess("DISCONNECT_SUCCESS");
                     else
                         emit opResultFailure("DISCONNECT_FAILURE");
+                } else if(opJSON == "REMOVE_CURSOR_RESPONSE") {
+                    std::string db_usernameJSON;
+                    jsonUtility::from_json_resp(jdata_in, db_usernameJSON);
+
+                    emit removeRemoteCursor(db_usernameJSON);
                 } else if(opJSON == "LOGOUTURI_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -295,6 +300,12 @@ void myClient::do_read_body() {
                     int indexJSON;
                     jsonUtility::from_json_removal(jdata_in, indexJSON);
                     emit eraseSymbol(indexJSON);
+                } else if(opJSON == "CURSOR_CHANGE_RESPONSE") {
+                    std::string usernameJSON;
+                    std::string colorJSON;
+                    int posJSON;
+                    jsonUtility::from_json_cursor_change(jdata_in, usernameJSON, colorJSON, posJSON);
+                    emit changeRemoteCursor(usernameJSON, colorJSON, posJSON);
                 } else if(opJSON == "REMOVALRANGE_RESPONSE") {
                     int startIndexJSON;
                     int endIndexJSON;

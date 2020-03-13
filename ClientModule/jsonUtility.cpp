@@ -292,6 +292,12 @@ void jsonUtility::from_json_removal(const json &j, int& index) {
     index = j.at("index").get<int>();
 }
 
+void jsonUtility::from_json_cursor_change(const json &j, std::string& username, std::string& color, int& pos) {
+    username = j.at("username").get<std::string>();
+    color = j.at("color").get<std::string>();
+    pos = j.at("pos").get<int>();
+}
+
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
     startIndex = j.at("startIndex").get<int>();
     endIndex = j.at("endIndex").get<int>();

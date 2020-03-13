@@ -53,6 +53,7 @@ public:
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);
     static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple, symbolStyle& style);
     static void from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols);
+    static void from_json_cursor_change(const json &j, std::string& username, std::string& color, int& pos);
     static void from_json_removal(const json &j, int& index);
     static void from_json_removal_range(const json &j, int& startIndex, int& endIndex);
     static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);

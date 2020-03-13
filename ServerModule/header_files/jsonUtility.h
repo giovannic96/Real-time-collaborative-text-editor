@@ -31,6 +31,7 @@ public:
     static void to_json_newuri(json &j, const std::string &op, const std::string &resp, const std::string &uri);
     static void to_json_rename_file(json &j, const std::string &op, const std::string &resp, const std::string &filename);
     static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin);
+    static void to_json_cursor_change(json &j, const std::string &op, const std::string &username, const std::string &color, const int &pos);
     static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector);
     static void to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename);
     static void to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile);

@@ -41,6 +41,15 @@ void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::s
     };
 }
 
+void jsonUtility::to_json_cursor_change(json &j, const std::string &op, const std::string &username, const std::string &color, const int &pos) {
+    j = json{
+            {"operation", op},
+            {"username", username},
+            {"color", color},
+            {"pos", pos}
+    };
+}
+
 void jsonUtility::to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename) {
     j = json{
             {"operation", op},

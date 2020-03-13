@@ -29,6 +29,7 @@ session::session(tcp::socket socket, room &room)
 
 void session::session_start(int editorId) {
     shared_from_this()->setSiteId(editorId);
+    shared_from_this()->setCurrentFile("");
     room_.join(shared_from_this());
     do_read_header();
 }
@@ -85,13 +86,25 @@ void session::do_read_body()
                 const std::string response = this->handleRequests(opJSON, jdata_in, edId, curFile, onlyToThisEditor);
                 if(opJSON == "INSERTION_REQUEST" || opJSON == "REMOVAL_REQUEST" || opJSON == "REMOVALRANGE_REQUEST" ||
                     opJSON == "INSERTIONRANGE_REQUEST" || opJSON == "FORMAT_RANGE_REQUEST" || opJSON == "FONTSIZE_CHANGE_REQUEST" ||
-                    opJSON == "FONTFAMILY_CHANGE_REQUEST" || opJSON == "ALIGNMENT_CHANGE_REQUEST") {
+                    opJSON == "FONTFAMILY_CHANGE_REQUEST" || opJSON == "ALIGNMENT_CHANGE_REQUEST" || opJSON == "CURSOR_CHANGE_REQUEST") {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
                 }
                 else if(opJSON == "RENAMEFILE_REQUEST" && !onlyToThisEditor) {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
+                }
+                else if(opJSON == "LOGOUT_REQUEST" || opJSON == "DISCONNECT_REQUEST") {
+                    std::cout << "Sent:" << response << "END" << std::endl;
+                    this->sendMsg(response); //send data only to this participant
+
+                    if (response.find("LOGOUT_OK") != std::string::npos) {
+                        json j;
+                        jsonUtility::to_json(j, "REMOVE_CURSOR_RESPONSE", shared_from_this()->getUsername());
+                        const std::string response2 = j.dump();
+                        std::cout << "Sent:" << response << "END" << std::endl;
+                        this->sendMsgAll(response2, edId, curFile); //send data to all the participants, having the curFile opened
+                    }
                 }
                 else {
                     std::cout << "Sent:" << response << "END" << std::endl;
@@ -203,6 +216,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         if(resp == dbService::LOGOUT_OK)
             db_res = "LOGOUT_OK";
@@ -780,6 +794,20 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, alignmentJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "CURSOR_CHANGE_REQUEST") {
+        int posJSON;
+        jsonUtility::from_json_removal(jdata_in, posJSON);
+        std::cout << "pos received: " << std::to_string(posJSON) << std::endl;
+
+        edId = shared_from_this()->getId(); //don't send this message to this editor
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_cursor_change(j, "CURSOR_CHANGE_RESPONSE", shared_from_this()->getUsername(), shared_from_this()->getColor(), posJSON);
         const std::string response = j.dump();
         return response;
 

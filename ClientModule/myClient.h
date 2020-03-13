@@ -69,6 +69,8 @@ signals:
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void jsonMsgFailure(QString windowName, QString msg);
+    void removeRemoteCursor(std::string username);
+    void changeRemoteCursor(std::string username, std::string color, int pos);
 
 private:
     boost::asio::io_context io_context_;
