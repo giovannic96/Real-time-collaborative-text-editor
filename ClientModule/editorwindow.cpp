@@ -28,7 +28,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::changeFontSize, this, &EditorWindow::changeFontSize);
     connect(_client, &myClient::changeFontFamily, this, &EditorWindow::changeFontFamily);
     connect(_client, &myClient::changeAlignment, this, &EditorWindow::changeAlignment);
-    connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);    
+    connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
     connect(_client, &myClient::removeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::removeRemoteCursor);
     connect(_client, &myClient::changeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::changeRemoteCursor);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
@@ -759,9 +759,6 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Q";
         on_actionClose_triggered();
-    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + Shift + Q";
-        on_actionEsci_triggered();
     }else if((e->key() == Qt::Key_R) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + R";
         on_actionRinomina_triggered();
@@ -795,21 +792,16 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
         if(BruteClose==true) {
             QMessageBox message(this);
             message.setWindowTitle("Uscire?");
-            message.setText("Vuoi tornare al menù iniziale o uscire dal programma?");
+            message.setText("Vuoi chiudere il documento?");
+            message.addButton("Chiudi", QMessageBox::DestructiveRole);
             message.addButton("Annulla", QMessageBox::RejectRole);
-            message.addButton("Esci", QMessageBox::AcceptRole);
-            message.addButton("Torna al menù", QMessageBox::DestructiveRole);
             int replay = message.exec();
             switch(replay){
                 case 0:
                   event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
                   break;
                 case 1:
-                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Close all C.A.R.T.E.
-                  on_actionEsci_triggered();
-                  break;
-                case 2:
-                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a CloseDocumentRequest();
+                  event->ignore();
                   CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
                   break;
                 default:
@@ -819,7 +811,6 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
         }
     }
 }
-
 
 /***************************************************************************************************************************************
  *                                                           ACTION                                                                    *
@@ -850,23 +841,6 @@ void EditorWindow::on_actionAbout_triggered() {
 //CLOSE DOCUMENT ACTION  -->     CTRL+Q
 void EditorWindow::on_actionClose_triggered() {
     CloseDocumentRequest();     //Return to MainWindow
-}
-
-//ESCI ACTION            -->     CTRL+Shift+Q
-void EditorWindow::on_actionEsci_triggered() {
-    //Get data from the form
-    QString user = _client->getUsername();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-
-    //Serialize data
-    json j;
-    jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
-    const std::string req = j.dump();
-
-    //Send data (header and body)
-    sendRequestMsg(req);
-    QApplication::exit(0);
 }
 
 //RENAME ACTION         -->     CTRL+R
@@ -1539,7 +1513,7 @@ void EditorWindow::eraseSymbol(int index) {
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-void EditorWindow::eraseSymbols(int startIndex, int endIndex) {    
+void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     while(endIndex > startIndex) {
         cursor.setPosition(--endIndex);
@@ -1710,7 +1684,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
 qDebug() << "new html: " << htmlText;
     QRegularExpression rx("<span ([^<]+)</span>");
-    QStringList list = getRegexListFromHTML(htmlText, rx);    
+    QStringList list = getRegexListFromHTML(htmlText, rx);
     QVector<QRegularExpression> rxs = getStyleRegexes();
 
     symbolStyle prevStyle = startStyle;

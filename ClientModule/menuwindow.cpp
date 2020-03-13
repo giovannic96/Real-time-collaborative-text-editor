@@ -16,6 +16,7 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent) : QMainWindow(parent, 
     connect(_client, &myClient::opResultFailure, this, &MenuWindow::showPopupFailure);
     connect(_client, &myClient::listFileResult, this, &MenuWindow::showListFile);
     connect(_client, &myClient::backToMenuWindow,this, &MenuWindow::resumeWindow);
+
     this->show();
     setFixedSize(size());   //IS AN HALF HELP WITH THE DPI-Related-BUG - DON'T DELETE ME FOR NOW
     qRegisterMetaType<std::vector<File>>("std::vector<File>");

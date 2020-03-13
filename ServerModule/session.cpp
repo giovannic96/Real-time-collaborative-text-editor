@@ -94,15 +94,15 @@ void session::do_read_body()
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
                 }
-                else if(opJSON == "LOGOUT_REQUEST" || opJSON == "DISCONNECT_REQUEST") {
+                else if(opJSON == "LOGOUTURI_REQUEST") {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsg(response); //send data only to this participant
 
-                    if (response.find("LOGOUT_OK") != std::string::npos) {
+                    if (response.find("LOGOUTURI_OK") != std::string::npos) {
                         json j;
                         jsonUtility::to_json(j, "REMOVE_CURSOR_RESPONSE", shared_from_this()->getUsername());
                         const std::string response2 = j.dump();
-                        std::cout << "Sent:" << response << "END" << std::endl;
+                        std::cout << "Sent:" << response2 << "END" << std::endl;
                         this->sendMsgAll(response2, edId, curFile); //send data to all the participants, having the curFile opened
                     }
                 }
@@ -216,7 +216,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
-        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         if(resp == dbService::LOGOUT_OK)
             db_res = "LOGOUT_OK";
@@ -245,6 +244,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+        edId = shared_from_this()->getId();
 
         if(resp == dbService::LOGOUT_OK) {
             fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getMap().at(uriJSON));

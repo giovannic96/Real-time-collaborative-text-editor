@@ -75,7 +75,6 @@ private slots:
     void on_actionFullscreen_triggered();
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
-    void on_actionEsci_triggered();
     void on_actionRinomina_triggered();
     void on_actionEsporta_come_PDF_triggered();
     void on_actionInvita_tramite_URI_triggered();
