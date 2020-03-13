@@ -62,6 +62,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     ui->profileButton->setText(user.at(0).toUpper());
 
+    ui->DocNameButton->hide();
+
     QColor color = _client->getColor();
     QString qss = QString("border:none; \nbackground-color: %1; color:white;").arg(color.name());
     ui->profileButton->setStyleSheet(qss);
@@ -109,7 +111,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
-    textOnTitleBar = "C.A.R.T.E. - " + docName;
+    textOnTitleBar = docName;
     this->setWindowTitle(textOnTitleBar);
 }
 
@@ -190,12 +192,12 @@ void EditorWindow::on_buttonColor_clicked() {
          ui->buttonColor->setChecked(true);
          ui->RealTextEdit->setBtnColorChecked(true);
          html = updateBackgroundColor(html, ALPHA_COLOR);
-         ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AEAEAE; border-radius:4px;}");
+         ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AED6F1; border-radius:4px;}");
      } else {
          ui->buttonColor->setChecked(false);
          ui->RealTextEdit->setBtnColorChecked(false);
          html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
-         ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: lightgrey;}");
+         ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: #D6EAF8;}");
      }
      ui->RealTextEdit->document()->setHtml(html);
      ui->RealTextEdit->setFocus();
@@ -1052,7 +1054,7 @@ void EditorWindow::PaintItBlack() {
         DarkMode=true;
 
         ui->editorFrame->setStyleSheet("    #editorFrame{      background: url(:/image/DarkEditor/sfondo.png);}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #9d9d9d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
@@ -1064,7 +1066,7 @@ void EditorWindow::PaintItBlack() {
         icoCUT.addPixmap(QPixmap(":/image/DarkEditor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/DarkEditor/paste.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
-        icoCOL.addPixmap(QPixmap(":/image/DarkEditor/paintbrush.png"),QIcon::Normal,QIcon::On);
+        icoCOL.addPixmap(QPixmap(":/image/DarkEditor/highlighter.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/DarkEditor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/DarkEditor/v2underline.png"),QIcon::Normal,QIcon::On);
@@ -1105,7 +1107,7 @@ void EditorWindow::PaintItBlack() {
         icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
-        icoCOL.addPixmap(QPixmap(":/image/Editor/paintbrush.png"),QIcon::Normal,QIcon::On);
+        icoCOL.addPixmap(QPixmap(":/image/Editor/highlighter.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
@@ -1175,47 +1177,47 @@ void EditorWindow::AlignNoneButtonHandler() {
 //Set the button style if Alignment is checked
 void EditorWindow::AlignButtonStyleHandler() {
    if(ui->buttonAlignCX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     } else if(ui->buttonAlignSX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     } else if(ui->buttonAlignDX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     } else if(ui->buttonAlignJFX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AED6F1; border-radius:4px;}");
     } else {
-       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     }
 }
 
 //Set the button style if Bold/Italic/Underline is checked
 void EditorWindow::refreshFormatButtons() {
     if(ui->buttonBold->isChecked())
-        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AED6F1; border-radius:4px;}");
     else
-        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: #D6EAF8;}");
     if(ui->buttonItalic->isChecked())
-        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AED6F1; border-radius:4px;}");
     else
-        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: lightgrey;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: #D6EAF8;}");
     if(ui->buttonUnderline->isChecked())
-        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AED6F1; border-radius:4px;}");
     else
-        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: lightgrey;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: #D6EAF8;}");
 }
 
 void EditorWindow::hideCollab(){

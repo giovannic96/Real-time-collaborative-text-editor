@@ -37,7 +37,6 @@
         <file>image/DarkEditor/font.png</file>
         <file>image/DarkEditor/fontChange.png</file>
         <file>image/DarkEditor/fontSize.png</file>
-        <file>image/DarkEditor/highlighter.png</file>
         <file>image/DarkEditor/icon.png</file>
         <file>image/DarkEditor/iconcina.png</file>
         <file>image/DarkEditor/justify.png</file>
@@ -64,11 +63,13 @@
         <file>image/Editor/highlighter.png</file>
         <file>image/Editor/paintbrush.png</file>
         <file>image/Editor/user.png</file>
-        <file>image/Editor/carte.png</file>
         <file>image/infoprofile.png</file>
         <file>image/fileWindow.png</file>
         <file>image/startMinimal.png</file>
         <file>image/Editor/sfondo.png</file>
         <file>image/DarkEditor/sfondo.png</file>
+        <file>image/DarkEditor/highlighter.png</file>
+        <file>image/DarkEditor/carte.png</file>
+        <file>image/Editor/carte.png</file>
     </qresource>
 </RCC>

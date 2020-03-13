@@ -115,6 +115,9 @@ background: url(:/image/Editor/sfondo.png);
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="spacing">
+                <number>0</number>
+               </property>
                <property name="sizeConstraint">
                 <enum>QLayout::SetMinimumSize</enum>
                </property>
@@ -123,10 +126,16 @@ background: url(:/image/Editor/sfondo.png);
                </property>
                <item>
                 <widget class="QPushButton" name="DocNameButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>15</height>
+                  </size>
+                 </property>
                  <property name="maximumSize">
                   <size>
                    <width>616</width>
-                   <height>36</height>
+                   <height>15</height>
                   </size>
                  </property>
                  <property name="font">
@@ -160,7 +169,7 @@ background: url(:/image/Editor/sfondo.png);
                  <property name="sizeHint" stdset="0">
                   <size>
                    <width>10</width>
-                   <height>36</height>
+                   <height>15</height>
                   </size>
                  </property>
                 </spacer>
@@ -170,7 +179,7 @@ background: url(:/image/Editor/sfondo.png);
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <property name="spacing">
-                <number>15</number>
+                <number>8</number>
                </property>
                <property name="sizeConstraint">
                 <enum>QLayout::SetNoConstraint</enum>
@@ -225,7 +234,7 @@ background: url(:/image/Editor/sfondo.png);
 }
 
 #buttonBold:hover {
-	background-color: lightgrey;
+	background-color: #CFE5F3;
 }
 </string>
                    </property>
@@ -281,7 +290,7 @@ background: url(:/image/Editor/sfondo.png);
 }
 
 #buttonItalic:hover {
-	background-color: lightgrey;
+	background-color: #CFE5F3;
 }
 </string>
                    </property>
@@ -336,7 +345,7 @@ background: url(:/image/Editor/sfondo.png);
 }
 
 #buttonUnderline:hover {
-	background-color: lightgrey;
+	background-color: #CFE5F3;
 }
 </string>
                    </property>
@@ -359,6 +368,31 @@ background: url(:/image/Editor/sfondo.png);
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:none;
+background-color: lightgrey;
+
+</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -497,13 +531,13 @@ margin-top: 3px;
                    <property name="minimumSize">
                     <size>
                      <width>50</width>
-                     <height>22</height>
+                     <height>23</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
                      <width>44</width>
-                     <height>22</height>
+                     <height>23</height>
                     </size>
                    </property>
                    <property name="sizeIncrement">
@@ -620,6 +654,31 @@ margin-top: 3px;
                 </layout>
                </item>
                <item>
+                <widget class="Line" name="line_5">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:none;
+background-color: lightgrey;
+
+</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_6">
                  <property name="spacing">
                   <number>2</number>
@@ -656,7 +715,7 @@ margin-top: 3px;
 }
 
 #buttonAlignSX:hover{
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -710,7 +769,7 @@ margin-top: 3px;
 }
 
 #buttonAlignCX:hover{
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -764,7 +823,7 @@ margin-top: 3px;
 }
 
 #buttonAlignDX:hover{
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -818,7 +877,7 @@ margin-top: 3px;
 }
 
 #buttonAlignJFX:hover{
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -841,6 +900,31 @@ margin-top: 3px;
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_6">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:none;
+background-color: lightgrey;
+
+</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -879,7 +963,7 @@ margin-top: 3px;
 }
 
 #buttonCopy:hover {
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -930,7 +1014,7 @@ margin-top: 3px;
 }
 
 #buttonCut:hover {
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -981,7 +1065,7 @@ margin-top: 3px;
 }
 
 #buttonPaste:hover {
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -1001,6 +1085,31 @@ margin-top: 3px;
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_7">
+                 <property name="minimumSize">
+                  <size>
+                   <width>1</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>1</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border:none;
+background-color: lightgrey;
+
+</string>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1045,7 +1154,7 @@ margin-top: 3px;
 }
 
 #buttonSearch:hover{
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -1096,7 +1205,7 @@ margin-top: 3px;
 }
 
 #buttonColor:hover{
-	background-color: lightgrey;
+	background-color: #D6EAF8;
 }
 </string>
                    </property>
@@ -1184,13 +1293,13 @@ border-left: 2px solid #404040
              </property>
              <property name="minimumSize">
               <size>
-               <width>7</width>
+               <width>5</width>
                <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
-               <width>7</width>
+               <width>5</width>
                <height>16777215</height>
               </size>
              </property>
@@ -1221,7 +1330,7 @@ background-color: lightgrey;
                   <number>6</number>
                  </property>
                  <property name="leftMargin">
-                  <number>0</number>
+                  <number>5</number>
                  </property>
                  <property name="rightMargin">
                   <number>0</number>
@@ -1237,7 +1346,7 @@ background-color: lightgrey;
                    <property name="sizeHint" stdset="0">
                     <size>
                      <width>20</width>
-                     <height>63</height>
+                     <height>40</height>
                     </size>
                    </property>
                   </spacer>
@@ -1352,6 +1461,18 @@ background-color: lightgrey;
                  </item>
                  <item>
                   <widget class="Line" name="line_2">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>1</height>
+                    </size>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">border:none;
 background-color: lightgrey;
@@ -1445,6 +1566,18 @@ background-color: lightgrey;
                  </item>
                  <item>
                   <widget class="Line" name="line_3">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>1</height>
+                    </size>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">border:none;
 background-color: lightgrey;
@@ -1498,13 +1631,13 @@ background-color: lightgrey;
                    </property>
                    <property name="minimumSize">
                     <size>
-                     <width>259</width>
+                     <width>255</width>
                      <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>259</width>
+                     <width>255</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -1517,10 +1650,10 @@ background-color: lightgrey;
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border:transparent;
-background: transparent;
-
-</string>
+                    <string notr="true">#listWidget{
+	border:transparent;
+	background: transparent;
+}</string>
                    </property>
                   </widget>
                  </item>
@@ -1544,13 +1677,13 @@ background: transparent;
                   <widget class="QListWidget" name="listWidgetOff">
                    <property name="minimumSize">
                     <size>
-                     <width>259</width>
+                     <width>255</width>
                      <height>0</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>259</width>
+                     <width>255</width>
                      <height>16777215</height>
                     </size>
                    </property>
@@ -1561,10 +1694,10 @@ background: transparent;
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">border:transparent;
+                    <string notr="true">#listWidgetOff{
+border:transparent;
 background: transparent;
-
-</string>
+}</string>
                    </property>
                   </widget>
                  </item>
