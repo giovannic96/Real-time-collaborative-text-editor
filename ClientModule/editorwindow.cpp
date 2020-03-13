@@ -1443,7 +1443,7 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         int endIndex;
         int pos = index++;
         c.hasSelection() ? endIndex = c.selectionEnd() : endIndex = -90;
-        int oldPos = c.position();
+        int oldPos = pos < c.position() ? c.position()+1 : c.position();
 
         //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
         if(c.hasSelection() && pos == endIndex) {
@@ -1501,7 +1501,7 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     int endIndex;
     cursor.hasSelection() ? endIndex = cursor.selectionEnd() : endIndex = -90;
-    int oldPos = cursor.position();
+    int oldPos = pos < cursor.position() ? cursor.position()+1 : cursor.position();
 
     //if user2 insert a char at the end of the selection of user1 -> this can cause extension of user1's selection (that is wrong)
     if(cursor.hasSelection() && pos == endIndex) {
@@ -2208,7 +2208,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
-qDebug()<<mimeData->html();
+
         QVector<int> alignmentsValues;
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
