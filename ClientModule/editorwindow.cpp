@@ -2,6 +2,7 @@
 #include "ui_editorwindow.h"
 #include "MyQTextEdit.h"
 #include "infowindow.h"
+#include "userprofile.h"
 #include "menuwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
@@ -35,31 +36,71 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
 
-    ui->listWidget->setStyleSheet(
-      "QListWidget::item {"
-         "border-color:#e0e0e0;"
-      "}");
+    ui->listWidget->setViewMode(QListView::ListMode);
+    ui->listWidget->setGridSize(QSize(250,50));
+    ui->listWidget->setIconSize(QSize(40,40));
+    ui->listWidget->setFlow(QListView::LeftToRight);
+    ui->listWidget->setWrapping(true);
+    ui->listWidget->setWordWrap(true);
+    ui->listWidget->setResizeMode(QListView::Adjust);
+    ui->listWidget->setAlternatingRowColors(false);
+    ui->listWidget->setMovement(QListView::Static);
+    ui->listWidget->setTextElideMode(Qt::ElideRight);
+
+    ui->listWidgetOff->setViewMode(QListView::ListMode);
+    ui->listWidgetOff->setGridSize(QSize(250,50));
+    ui->listWidgetOff->setIconSize(QSize(40,40));
+    ui->listWidgetOff->setFlow(QListView::LeftToRight);
+    ui->listWidgetOff->setWrapping(true);
+    ui->listWidgetOff->setWordWrap(true);
+    ui->listWidgetOff->setResizeMode(QListView::Adjust);
+    ui->listWidgetOff->setAlternatingRowColors(false);
+    ui->listWidgetOff->setMovement(QListView::Static);
+    ui->listWidgetOff->setTextElideMode(Qt::ElideRight);
+
+    QString user = _client->getUsername();
+    ui->labelUser->setText(user);
+
+    showCollab();
+
+    ui->profileButton->setText(user.at(0).toUpper());
+
+    ui->DocNameButton->hide();
+
+    QColor color = _client->getColor();
+    QString qss = QString("border:none; \nbackground-color: %1; color:white;").arg(color.name());
+    ui->profileButton->setStyleSheet(qss);
 
     QString itemString;
     QList<QListWidgetItem*> fileItem;
     QListWidgetItem* item;
     QListWidgetItem* item2;
+    QListWidgetItem* item3;
     QRegularExpressionValidator* fontSizeValidator;
     QIcon fontIcon(":/image/font_icon.png");
 
     item = new QListWidgetItem(itemString, ui->listWidget);
-    item2 = new QListWidgetItem(itemString, ui->listWidget);
+    item2 = new QListWidgetItem(itemString, ui->listWidgetOff);
+    item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
-    item->setText(_client->getUsername());
-    item->setForeground(QColor(255,1,1));
+    QRect *rect = new QRect(0,0,45,45);
+    QRegion* region = new QRegion(*rect,QRegion::Ellipse);
+    ui->profileButton->setMask(*region);
+
+    item->setText("Collaboratore 1");
+    item->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item);
-    item2->setText("Genitore Due");
+    item2->setText("Collaboratore 2");
+    item2->setForeground(QColor(169, 169, 169));
+    item2->setIcon(QIcon(":/image/Editor/user.png"));
     fileItem.append(item2);
+    item3->setText("Collaboratore 3");
+    item3->setForeground(QColor(169, 169, 169));
+    item3->setIcon(QIcon(":/image/Editor/user.png"));
+    fileItem.append(item3);
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-    ui->listWidget->hide();
-    ui->labelCollab->hide();
     ui->DocNameButton->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -75,13 +116,18 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
-    textOnTitleBar = "C.A.R.T.E. - " + docName;
+    textOnTitleBar = docName;
     this->setWindowTitle(textOnTitleBar);
 }
 
 EditorWindow::~EditorWindow() {
     delete ui;
 }
+
+
+/***************************************************************************************************************************************
+ *                                                           INTERFACE                                                                 *
+***************************************************************************************************************************************/
 
 /***********************************************************************************
 *                                 TOP BAR FUNCTION                                 *
@@ -145,22 +191,22 @@ void EditorWindow::on_buttonUnderline_clicked() {
 *                            TEXT COLOR BUTTONS                                    *
 ************************************************************************************/
 void EditorWindow::on_buttonColor_clicked() {
-    qDebug() << ui->RealTextEdit->document()->toHtml();
-    QString html = ui->RealTextEdit->document()->toHtml();
+     qDebug() << ui->RealTextEdit->document()->toHtml();
+     QString html = ui->RealTextEdit->document()->toHtml();
 
-    if(ui->buttonColor->isChecked()) {
-        ui->buttonColor->setChecked(true);
-        ui->RealTextEdit->setBtnColorChecked(true);
-        html = updateBackgroundColor(html, ALPHA_COLOR);
-        ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AEAEAE; border-radius:4px;}");
-    } else {
-        ui->buttonColor->setChecked(false);
-        ui->RealTextEdit->setBtnColorChecked(false);
-        html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
-        ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: lightgrey;}");
-    }
-    ui->RealTextEdit->document()->setHtml(html);
-    ui->RealTextEdit->setFocus();
+     if(ui->buttonColor->isChecked()) {
+         ui->buttonColor->setChecked(true);
+         ui->RealTextEdit->setBtnColorChecked(true);
+         html = updateBackgroundColor(html, ALPHA_COLOR);
+         ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AED6F1; border-radius:4px;}");
+     } else {
+         ui->buttonColor->setChecked(false);
+         ui->RealTextEdit->setBtnColorChecked(false);
+         html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
+         ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: #D6EAF8;}");
+     }
+     ui->RealTextEdit->document()->setHtml(html);
+     ui->RealTextEdit->setFocus();
 }
 
 /***********************************************************************************
@@ -339,27 +385,7 @@ void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
 }
 
 /***********************************************************************************
-*                            BUTTON FOR COLLABORATORS                              *
-************************************************************************************/
-void EditorWindow::on_buttonCollab_clicked() {
-    if(ui->buttonCollab->isChecked()) {
-        ui->buttonCollab->setChecked(true);
-        ui->actionCollaboratori->setText("Nascondi Collaboratori");
-        ui->listWidget->show();
-        ui->labelCollab->show();
-        //ui->frameCollab->show(); it has to be ever showed
-    } else {
-        ui->buttonCollab->setChecked(false);
-        ui->actionCollaboratori->setText("Mostra Collaboratori");
-        ui->listWidget->hide();
-        ui->labelCollab->hide();
-        //ui->frameCollab->hide(); Never hide the "frameCollab"
-    }
-    ui->RealTextEdit->setFocus();
-}
-
-/***********************************************************************************
-*                              RealTextEdit FUNCTIONS                              *
+*                                 REAL TEXT EDIT EVENT                             *
 ************************************************************************************/
 void EditorWindow::on_RealTextEdit_selectionChanged() {
     //Update UI based on current char format (after pressing left/right arrow after selection)
@@ -388,15 +414,16 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
     }
 }
 
+
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
 
+    /* REMOTE CURSOR */
     cursorChangeRequest(c.position());
 
-    /****************************************************************
-     * Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
-     * https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
-     ****************************************************************/
+    // Hidro's Personal Solution to handle the QTBUG-29393 --> https://bugreports.qt.io/browse/QTBUG-29393
+    // https://github.com/giovannic96/Real-time-collaborative-text-editor/issues/29
+    //*****************************************************************************************************
     if(ui->RealTextEdit->fontPointSize() <= 0) {
         int dimensionFromOtherSide = (ui->fontSizeBox->currentText()).toInt();
         QString fontFamily = ui->fontFamilyBox->currentText();
@@ -405,9 +432,8 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         qDebug()<<"Il Cursore è sicuramente in posizione iniziale";
     }
 
-    /****************************************************************
-     *                      TEXT FONT FAMILY                        *
-     ****************************************************************/
+    //  Set TEXT FONT FAMILY
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         QString fontFamily = ui->RealTextEdit->fontFamily();
         ui->fontFamilyBox->setCurrentText(fontFamily);
@@ -424,27 +450,24 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         }
     }
 
-    /****************************************************************
-     *                      TEXT FONT SIZE                          *
-     ****************************************************************/
+    //  Set TEXT FONT SIZE
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         int fontPointSize = static_cast<int>(ui->RealTextEdit->fontPointSize());
         ui->fontSizeBox->setCurrentText(QString::number(fontPointSize));
         ui->fontSizeBox->setCurrentIndex(ui->fontSizeBox->findText(ui->fontSizeBox->currentText()));
-    }
-    else {
+    }else{
         int fontSizeCalculated = calculateFontSizeComboBox(c);
         if(fontSizeCalculated == -1) {
             ui->fontSizeBox->setCurrentText(""); //blank text on item combobox
-        } else {
+        }else{
             ui->fontSizeBox->setCurrentText(QString::number(fontSizeCalculated));
             ui->RealTextEdit->setFontPointSize(fontSizeCalculated); //set fontSize to common fontSize of the chars
         }
     }
 
-    /****************************************************************
-     *                      TEXT ALIGNMENT                          *
-     ****************************************************************/
+    //  DETERMINES TEXT ALIGNMENT
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         if(ui->RealTextEdit->alignment() == Qt::AlignCenter)
             AlignCXButtonHandler();
@@ -471,9 +494,8 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     }
     AlignButtonStyleHandler();
 
-    /****************************************************************
-     *                  TEXT FORMAT (Bold/Italic/Underline)         *
-     ****************************************************************/
+    //  DETERMINES TEXT FORMAT (Bold/Italic/Underline)
+    //*****************************************************************************************************
     if(!c.hasSelection()) {
         if(ui->RealTextEdit->fontWeight() == QFont::Bold)
             ui->buttonBold->setChecked(true);
@@ -554,7 +576,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
-            QColor color = ui->RealTextEdit->getEditorColor();
+            QColor color(ui->RealTextEdit->getEditorColor());
             int pos;
 
             //set default value
@@ -725,7 +747,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
  // Shortcut Handler //
 //******************//
 void EditorWindow::keyPressEvent(QKeyEvent *e) {
-    //WORKING ON IT
     if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier)  && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Shift + I";
         on_actionAbout_triggered();
@@ -737,7 +758,10 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
         on_actionFullscreen_triggered();
     }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + Q";
-        on_actionExit_triggered();
+        on_actionClose_triggered();
+    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + Shift + Q";
+        on_actionEsci_triggered();
     }else if((e->key() == Qt::Key_N) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + N - But the action is temporanely disabled";
         on_actionNew_triggered();
@@ -756,9 +780,6 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
         ui->buttonUnderline->click();
-    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + Shift + Q";
-        on_actionEsci_triggered();
     }
 }
 
@@ -775,23 +796,40 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
     } else {
         //If is a forced close then, ask the user if he really wants to close the document
         if(BruteClose==true) {
-            QMessageBox::StandardButton reply;
-            reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?", QMessageBox::Yes|QMessageBox::No);
-            if (reply == QMessageBox::Yes) {
-                event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a LogoutRequest();
-                LogoutRequest();    //By ignoring the closing event, the LogoutRequest() brings me back to the menuWindow.
-             }else{
-                event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+            QMessageBox message(this);
+            message.setWindowTitle("Uscire?");
+            message.setText("Vuoi tornare al menù iniziale o uscire dal programma?");
+            message.addButton("Annulla", QMessageBox::RejectRole);
+            message.addButton("Esci", QMessageBox::AcceptRole);
+            message.addButton("Torna al menù", QMessageBox::DestructiveRole);
+            int replay = message.exec();
+            switch(replay){
+                case 0:
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+                  break;
+                case 1:
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Close all C.A.R.T.E.
+                  on_actionEsci_triggered();
+                  break;
+                case 2:
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Is the "override", i'll handle the close event with a CloseDocumentRequest();
+                  CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
+                  break;
+                default:
+                  event->ignore();   //Should never reach this
+                  break;
             }
         }
     }
 }
 
-/***********************************************************************************
-*                                       ACTION                                     *
-*                                                                                  *
-*     Action can be recallable with shortcut, but for now it doesn't work          *
-************************************************************************************/
+
+/***************************************************************************************************************************************
+ *                                                           ACTION                                                                    *
+ *                                                                                                                                     *
+ *                                           Action can be recallable with shortcut                                                    *
+ ***************************************************************************************************************************************/
+
 //FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered() {
    if(SchermoIntero==false) {
@@ -817,14 +855,26 @@ void EditorWindow::on_actionAbout_triggered() {
     iw->show();
 }
 
-//EXIT DOCUMENT ACTION  -->     CTRL+Q
-void EditorWindow::on_actionExit_triggered() {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Uscita", "Uscire dal documento?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-      LogoutRequest(); //Return to MenuWindow (close only the current document)
-    }
+//CLOSE DOCUMENT ACTION  -->     CTRL+Q
+void EditorWindow::on_actionClose_triggered() {
+    CloseDocumentRequest();     //Return to MainWindow
+}
+
+//ESCI ACTION            -->     CTRL+Shift+Q
+void EditorWindow::on_actionEsci_triggered() {
+    //Get data from the form
+    QString user = _client->getUsername();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+
+    //Serialize data
+    json j;
+    jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+    QApplication::exit(0);
 }
 
 //RENAME ACTION         -->     CTRL+R
@@ -834,9 +884,13 @@ void EditorWindow::on_actionRinomina_triggered() {
                                          tr("Inserisci un nome per il documento:"), QLineEdit::Normal, docName, &ok);
 
     if(ok && !newText.isEmpty() && newText.size()<=25) {
+        //add character standardization
+        QString filename = QLatin1String(newText.toUtf8());
+        QByteArray ba_filename = filename.toLocal8Bit();
+        const char *c_filename = ba_filename.data();
         //Serialize data
         json j;
-        jsonUtility::to_jsonRenamefile(j, "RENAMEFILE_REQUEST", newText.toStdString(), _client->getFileURI().toStdString(), _client->getUsername().toStdString());
+        jsonUtility::to_jsonRenamefile(j, "RENAMEFILE_REQUEST", c_filename, _client->getFileURI().toStdString(), _client->getUsername().toStdString());
         const std::string req = j.dump();
 
         //Send data (header and body)
@@ -936,7 +990,12 @@ void EditorWindow::on_actionDark_Mode_triggered() {
 
 //COLLABORATOR TRIGGERED
 void EditorWindow::on_actionCollaboratori_triggered() {
-    ui->buttonCollab->click();
+    if(ui->listWidget->isHidden()){
+        showCollab();
+    }
+    else{
+        hideCollab();
+    }
 }
 
 //GRASSETTO TRIGGERED       -->     CTRL + B
@@ -954,27 +1013,17 @@ void EditorWindow::on_actionSottolineato_triggered() {
     ui->buttonUnderline->click();
 }
 
-//ESCI TRIGGERED            -->     CTRL+Shift+Q
-void EditorWindow::on_actionEsci_triggered() {
-    //Get data from the form
-    QString user = _client->getUsername();
-    QByteArray ba_user = user.toLocal8Bit();
-    const char *c_user = ba_user.data();
-
-    //Serialize data
-    json j;
-    jsonUtility::to_jsonUser(j, "DISCONNECT_REQUEST", c_user);
-    const std::string req = j.dump();
-
-    //Send data (header and body)
-    sendRequestMsg(req);
-    QApplication::exit(0);
+//SELEZIONA TUTTO TRIGGERED    -->  CTRL + A
+void EditorWindow::on_actionSeleziona_Tutto_triggered(){
+   ui->RealTextEdit->selectAll();
 }
 
-/***********************************************************************************
-*                              STANDALONE FUNCTION                                 *
-************************************************************************************/
-void EditorWindow::LogoutRequest() {
+/***************************************************************************************************************************************
+ *                                                    STANDALONE FUNCTION                                                              *
+ *                                                                                                                                     *
+ ***************************************************************************************************************************************/
+//Return to MenuWindow
+void EditorWindow::CloseDocumentRequest() {
     BruteClose=false;
 
     //Get data from the form
@@ -994,17 +1043,15 @@ void EditorWindow::LogoutRequest() {
     sendRequestMsg(req);
 }
 
+//Set the Editor in DarkMode or in DayMode
 void EditorWindow::PaintItBlack() {
     if(DarkMode==false) {
-        //I see a red door and I want to Paint it Black No colors anymore I want them to turn black I see the girls walk by dressed in their summer clothes I have to turn my head until my darkness goes
+
         DarkMode=true;
 
-        ui->DocumentFrame->setStyleSheet("  #DocumentFrame{    background-color: #1a1a1a;}");
-        ui->editorFrame->setStyleSheet("    #editorFrame{      background-color: #262626;}");
-        ui->IconsBar->setStyleSheet("       #IconsBar{         background-color: ##262626;}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #4d4d4d; border-left: 2px solid #e6e6e6;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{      background: url(:/image/DarkEditor/sfondo.png);}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #9d9d9d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
-        ui->labelCollab->setStyleSheet("    #labelCollab{      background-color:transparent; border: transparent; color: #ff8000;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1015,10 +1062,12 @@ void EditorWindow::PaintItBlack() {
         icoCUT.addPixmap(QPixmap(":/image/DarkEditor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/DarkEditor/paste.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
-        icoCOL.addPixmap(QPixmap(":/image/DarkEditor/paintbrush.png"),QIcon::Normal,QIcon::On);
+        icoCOL.addPixmap(QPixmap(":/image/DarkEditor/highlighter.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/DarkEditor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/DarkEditor/v2underline.png"),QIcon::Normal,QIcon::On);
+        ui->listWidget->setStyleSheet("border:none;\n background:transparent;\n color:white");
+        ui->labelUser->setStyleSheet("color:white;");
         ui->buttonAlignCX->setIcon(icoAC);
         ui->buttonAlignSX->setIcon(icoAS);
         ui->buttonAlignDX->setIcon(icoAD);
@@ -1031,12 +1080,7 @@ void EditorWindow::PaintItBlack() {
         ui->buttonBold->setIcon(v2B);
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
-        //iconContainer CSS
-        ui->buttonCopy->setStyleSheet("     #buttonCopy{    background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonCut->setStyleSheet("      #buttonCut{     background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonPaste->setStyleSheet("    #buttonPaste{   background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{  background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{   background-color:#AEAEAE; border-radius:4px;}");
+
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setText("Modalità Giorno");
@@ -1046,12 +1090,9 @@ void EditorWindow::PaintItBlack() {
         //Shine on you crazy diamond
         DarkMode=false;
 
-        ui->DocumentFrame->setStyleSheet("  #DocumentFrame{ background-color: #FFFFFF;}");
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background-color: #EFEFEF;}");
-        ui->IconsBar->setStyleSheet("       #IconsBar{      background-color: #EFEFEF;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
-        ui->labelCollab->setStyleSheet("    #labelCollab{   background-color:transparent; border: transparent; color: #505050;}");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
@@ -1062,10 +1103,12 @@ void EditorWindow::PaintItBlack() {
         icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
         icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
         icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
-        icoCOL.addPixmap(QPixmap(":/image/Editor/paintbrush.png"),QIcon::Normal,QIcon::On);
+        icoCOL.addPixmap(QPixmap(":/image/Editor/highlighter.png"),QIcon::Normal,QIcon::On);
         v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+        ui->listWidget->setStyleSheet("border:none;\n background:transparent;\n color:black");
+        ui->labelUser->setStyleSheet("color:black;");
         ui->buttonAlignCX->setIcon(icoAC);
         ui->buttonAlignSX->setIcon(icoAS);
         ui->buttonAlignDX->setIcon(icoAD);
@@ -1078,12 +1121,6 @@ void EditorWindow::PaintItBlack() {
         ui->buttonBold->setIcon(v2B);
         ui->buttonItalic->setIcon(v2I);
         ui->buttonUnderline->setIcon(v2U);
-        //iconContainer CSS
-        ui->buttonCopy->setStyleSheet("     #buttonCopy{border-radius:4px}    #buttonCopy:hover{background-color: lightgrey;}");
-        ui->buttonCut->setStyleSheet("      #buttonCut{border-radius:4px}     #buttonCut:hover{background-color: lightgrey;}");
-        ui->buttonPaste->setStyleSheet("    #buttonPaste{border-radius:4px}   #buttonPaste:hover{background-color: lightgrey;}");
-        ui->buttonSearch->setStyleSheet("   #buttonSearch{border-radius:4px}  #buttonBold:hover{background-color: lightgrey;}");
-        ui->buttonColor->setStyleSheet("    #buttonColor{border-radius:4px}   #buttonBold:hover{background-color: lightgrey;}");
 
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
@@ -1098,6 +1135,7 @@ void EditorWindow::PaintItBlack() {
 
 }
 
+//Set the button checked-status of Alignment buttons
 void EditorWindow::AlignDXButtonHandler() {
     ui->buttonAlignDX->setChecked(true);
     ui->buttonAlignCX->setChecked(false);
@@ -1131,141 +1169,215 @@ void EditorWindow::AlignNoneButtonHandler() {
     ui->buttonAlignJFX->setChecked(false);
 }
 
+
+//Set the button style if Alignment is checked
 void EditorWindow::AlignButtonStyleHandler() {
    if(ui->buttonAlignCX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     } else if(ui->buttonAlignSX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     } else if(ui->buttonAlignDX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AEAEAE; border-radius:4px;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     } else if(ui->buttonAlignJFX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AED6F1; border-radius:4px;}");
     } else {
-       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: lightgrey;}");
-       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: lightgrey;}");
-       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: lightgrey;}");
-       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: lightgrey;}");
+       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
     }
 }
 
+//Set the button style if Bold/Italic/Underline is checked
 void EditorWindow::refreshFormatButtons() {
     if(ui->buttonBold->isChecked())
-        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AED6F1; border-radius:4px;}");
     else
-        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: lightgrey;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: #D6EAF8;}");
     if(ui->buttonItalic->isChecked())
-        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AED6F1; border-radius:4px;}");
     else
-        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: lightgrey;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: #D6EAF8;}");
     if(ui->buttonUnderline->isChecked())
-        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AEAEAE; border-radius:4px;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AED6F1; border-radius:4px;}");
     else
-        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: lightgrey;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: #D6EAF8;}");
 }
 
-/***********************************************************************************
-*
-*   ALL THE FOLLOWING FUNCTION ARE ONLY FOR TEST AND DEBUG
-*   ALL THESE FUNCTION MUST BE DELETED BEFORE WE REACH A BETA VERISION
-*
-*   THIS FUNCTION ARE PLAYNING WITH A CURSOR THAT ISN'T SHARED, BUT WE NEED TO
-*   BUILD A CURSOR (An original one, but I would prefer it to be a class that
-*   extends the original) SHARED BY ALL THE FUNCTION
-*
-*   THIS FUNCTION EMULATE THE MESSAGE THAT ARRIVED FROM THE SERVER.
-*   THE CURSON ISN'T SHOWN IN THE EDITOR AND WE HAD TO FIND A WAY TO DO IT!
-*
-*                                                                        HidroSaphire
-*
-***********************************************************************************/
-/*
-void EditorWindow::on_DebugIns1_clicked(){
+void EditorWindow::hideCollab(){
+    ui->actionCollaboratori->setText("Mostra Collaboratori");
+    ui->listWidget->hide();
+    ui->listWidgetOff->hide();
+    ui->labelUser->hide();
+    ui->profileButton->hide();
+    ui->label->hide();
+    ui->label_2->hide();
+    ui->label_3->hide();
+    ui->labelCollOn->hide();
+    ui->labelCollOff->hide();
+    ui->line->hide();
+    ui->line_2->hide();
+    ui->line_3->hide();
+}
+
+void EditorWindow::showCollab(){
+    ui->actionCollaboratori->setText("Nascondi Collaboratori");
+    ui->listWidget->show();
+    ui->listWidgetOff->show();
+    ui->labelUser->show();
+    ui->profileButton->show();
+    ui->label->show();
+    ui->label_2->show();
+    ui->label_3->show();
+    ui->labelCollOn->show();
+    ui->labelCollOff->show();
+    ui->line->show();
+    ui->line_2->show();
+    ui->line_3->show();
+}
+
+//HANDLE LOSS OF CONNECTION
+bool EditorWindow::handleConnectionLoss() {
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
+                                                        "\n"
+                                                        "Vuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        QApplication::exit(-1000);
+    }else if(reply == QMessageBox::No){
+        BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
+    }
+    return true;
+}
+
+//INITIAL CONDITION OF TEXT
+void EditorWindow::setupInitialCondition(){
+    ui->fontSizeBox->setCurrentText(QString::number(14));
+    ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
+    ui->buttonBold->setChecked(false);
+    ui->buttonItalic->setChecked(false);
+    ui->buttonUnderline->setChecked(false);
     QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(1);
-    c.insertText("Z");
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    if(c.blockFormat().alignment()==Qt::AlignRight)
+        AlignDXButtonHandler();
+    else if(c.blockFormat().alignment()==Qt::AlignCenter)
+        AlignCXButtonHandler();
+    else if(c.blockFormat().alignment()==Qt::AlignJustify)
+        AlignJFXButtonHandler();
+    else
+        AlignSXButtonHandler();
 }
 
-void EditorWindow::on_DebugInsInit_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(0);
-    c.insertText("A");
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+void EditorWindow::on_RealTextEdit_textChanged(){
+    int charCount = ui->RealTextEdit->toPlainText().count();
+    int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
+    int lineCount = ui->RealTextEdit->document()->blockCount();
+    QString ZaChar = "Caratteri: "+QString::number(charCount);
+    QString ZaWord = "Parole: "+QString::number(wordCount);
+    QString ZaLine = "Linee: "+QString::number(lineCount);
+    ui->label->setText(ZaChar);
+    ui->label_2->setText(ZaWord);
+    ui->label_3->setText(ZaLine);
 }
 
+void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos){
+    //QMenu *menu = ui->RealTextEdit->createStandardContextMenu(pos);
+    QMenu menu(this);
 
-void EditorWindow::on_DebugDel1_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(1);
-    c.deleteChar();
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+
+    //prepare icon
+    QIcon icoCPY, icoCUT, icoPAS, v2B, v2I, v2U;
+    icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
+    icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
+    icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
+    v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
+    v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
+    v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+
+    //prepare action
+    QAction *cut = new QAction(icoCUT, tr("Cut"), this);
+    QAction *copy = new QAction(icoCPY, tr("Copy"), this);
+    QAction *paste = new QAction(icoPAS, tr("Paste"), this);
+    QAction *selectAll = new QAction(tr("Select All"), this);
+    QAction *bold = new QAction(v2B, tr("Bold"), this);
+    QAction *italic = new QAction(v2I, tr("Italic"), this);
+    QAction *underl = new QAction(v2U, tr("Underline"), this);
+
+    //connect action
+    connect(cut, &QAction::triggered, this, &EditorWindow::on_buttonCut_clicked);
+    connect(copy, &QAction::triggered, this, &EditorWindow::on_buttonCopy_clicked);
+    connect(paste, &QAction::triggered, this, &EditorWindow::on_buttonPaste_clicked);
+    connect(selectAll, &QAction::triggered, this, &EditorWindow::on_actionSeleziona_Tutto_triggered);
+    connect(bold, &QAction::triggered, this, &EditorWindow::on_actionGrassetto_triggered);
+    connect(italic, &QAction::triggered, this, &EditorWindow::on_actionCorsivo_triggered);
+    connect(underl, &QAction::triggered, this, &EditorWindow::on_actionSottolineato_triggered);
+
+    //set tip
+    cut->setStatusTip(tr("Taglia il codice selezionato"));
+    copy->setStatusTip(tr("Copia il codice selezionato"));
+    paste->setStatusTip(tr("Incolla il codice selezionato"));
+    selectAll->setStatusTip(tr("Seleziona tutto il testo"));
+    bold->setStatusTip(tr("Rende grassetto il testo"));
+    italic->setStatusTip(tr("Rende corsivo il testo"));
+    underl->setStatusTip(tr("Rende sottolineato il testo"));
+
+    //disable some action if cursor hasn't selection
+    if(!cursor.hasSelection()){
+        cut->setEnabled(false);
+        copy->setEnabled(false);
+    }
+
+    //set Shortcut
+    cut->setShortcuts(QKeySequence::Cut);
+    copy->setShortcuts(QKeySequence::Copy);
+    paste->setShortcuts(QKeySequence::Paste);
+    selectAll->setShortcuts(QKeySequence::SelectAll);
+    bold->setShortcuts(QKeySequence::Bold);
+    italic->setShortcuts(QKeySequence::Italic);
+    underl->setShortcuts(QKeySequence::Underline);
+
+    //add action to menu
+    menu.addAction(cut);
+    menu.addAction(copy);
+    menu.addAction(paste);
+    menu.addSeparator();
+    menu.addAction(bold);
+    menu.addAction(italic);
+    menu.addAction(underl);
+    menu.addSeparator();
+    menu.addAction(selectAll);
+
+    //show menu
+    menu.exec(ui->RealTextEdit->viewport()->mapToGlobal(pos)); //I don't know why, but it works! (I mean viewport->mapToGlobal)
 }
 
-void EditorWindow::on_DebugCursLeft_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::PreviousCharacter,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugCursRight_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::NextCharacter,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugCursLeftAnchor_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::NextCharacter,QTextCursor::KeepAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugWordLeft_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::WordLeft,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugWordRight_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.movePosition(QTextCursor::WordRight,QTextCursor::MoveAnchor,1);
-    ui->RealTextEdit->setTextCursor(c);
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-
-void EditorWindow::on_DebugIns6Word_clicked(){
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    c.setPosition(6);
-    c.insertText("HidroSaphire è il migliore");
-    ui->RealTextEdit->setFocus(); //Return focus to textedit
-}
-*/
-
-
-//---------------------- Other utility functions -----------------------------//
+/***************************************************************************************************************************************
+ *                                                    OTHER SLOT FUNCTION                                                              *
+ *                                                                                                                                     *
+ ***************************************************************************************************************************************/
 
 void EditorWindow::showPopupSuccess(QString result, std::string filename) {
     if(result == "LOGOUTURI_SUCCESS") {
         this->close();
         delete this;
     } else if (result == "RENAME_SUCCESS") {
-        ui->DocNameButton->setText(QString::fromStdString(filename));
-        _client->setFilename(QString::fromStdString(filename)); //Assign newText to the variable
-        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename));
+        //toLatin1 is necessary to display correctly special characters like "€"
+        ui->DocNameButton->setText(QString::fromStdString(filename).toLatin1());
+        _client->setFilename(QString::fromStdString(filename).toLatin1()); //Assign newText to the variable
+        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename).toLatin1());
         ui->RealTextEdit->setFocus();
     } else if(result == "INVITE_URI_SUCCESS") {
         QMessageBox::warning(this,"Invito effettuato con successo", "Il tuo invito a collaborare è stato correttamente eseguito.");
@@ -1604,7 +1716,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     QVector<std::pair<int,symbolStyle>> finalVector;
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
-
+qDebug() << "new html: " << htmlText;
     QRegularExpression rx("<span ([^<]+)</span>");
     QStringList list = getRegexListFromHTML(htmlText, rx);    
     QVector<QRegularExpression> rxs = getStyleRegexes();
@@ -2042,20 +2154,6 @@ std::pair<int,int> EditorWindow::alignBlocks(int startIndex, int endIndex, const
         return std::make_pair(startPos, endPos+1); //endPos+1 to change alignment also for <CR>
 }
 
-bool EditorWindow::handleConnectionLoss() {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
-                                                        "Le ultime modifiche al documento potrebbero non essere state salvate\n"
-                                                        "\n"
-                                                        "Vuoi chiudere il programma?",  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        QApplication::exit(-1000);
-    }else if(reply == QMessageBox::No){
-        BruteClose=false;  //The user want to continue editing the document, maybe for save it locally.
-    }
-    return true;
-}
-
 QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
     QRegularExpression rx("background-color:rgba(([^;]+));");
     QStringList list = getRegexListFromHTML(html, rx);
@@ -2066,23 +2164,6 @@ QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
         html.replace(originalBackColor, s.replace(curAlpha, finalAlpha));
     }
     return html;
-}
-
-void EditorWindow::setupInitialCondition() {
-    ui->fontSizeBox->setCurrentText(QString::number(14));
-    ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText("Times New Roman"));
-    ui->buttonBold->setChecked(false);
-    ui->buttonItalic->setChecked(false);
-    ui->buttonUnderline->setChecked(false);
-    QTextCursor c = ui->RealTextEdit->textCursor();
-    if(c.blockFormat().alignment()==Qt::AlignRight)
-        AlignDXButtonHandler();
-    else if(c.blockFormat().alignment()==Qt::AlignCenter)
-        AlignCXButtonHandler();
-    else if(c.blockFormat().alignment()==Qt::AlignJustify)
-        AlignJFXButtonHandler();
-    else
-        AlignSXButtonHandler();
 }
 
 void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor) {
@@ -2127,7 +2208,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
         std::wstring str_to_paste = mimeData->text().toStdWString();
-
+qDebug()<<mimeData->html();
         QVector<int> alignmentsValues;
         if(!cursorHasSelection) {
             /* Get alignments from HTML and extract values */
@@ -2148,7 +2229,6 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
 
         if(alignmentsValues.length() != numChars || alignmentsValues.empty())
             throw OperationNotSupported();
-
         /* Get char styles from HTML */
         QVector<std::pair<int,symbolStyle>> styles;
         try {
@@ -2198,4 +2278,31 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
     }
 }
 
+void EditorWindow::on_profileButton_clicked() {
+    QString filename, owner, timestamp;
+    QList<QListWidgetItem*> fileItem;
+    int Contafile=0;
+    int ContaFileOwner=0;
 
+    if(!_client->getVectorFile().empty()) {
+        std::vector<File> files = _client->getVectorFile();
+        foreach (File f, files) {
+            filename  = QString::fromUtf8(f.getfilename().c_str());
+            owner     = QString::fromUtf8(f.getowner().c_str());
+            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+            Contafile++;
+            if(owner==_client->getUsername()){
+                ContaFileOwner++;
+            }
+        }
+    } else {
+        Contafile=0;
+        ContaFileOwner=0;
+    }
+
+    qDebug()<<"Ho un totale di "<< Contafile << "file";
+    qDebug()<<"Ho creato "<< ContaFileOwner << "file";
+
+    UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+    up->show();
+}

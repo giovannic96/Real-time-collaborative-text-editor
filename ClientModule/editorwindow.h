@@ -26,11 +26,11 @@ class EditorWindow : public QMainWindow {
 public:
     EditorWindow(myClient* client, QWidget *parent = nullptr);
     ~EditorWindow();
-    bool eventFilter(QObject *obj, QEvent *ev);
 
 private slots:
-
-    //Top Bar Function
+    /************************************
+     *            INTERFACE             *
+     ************************************/
     void on_DocNameButton_clicked();
 
     //Change style of the text
@@ -58,17 +58,15 @@ private slots:
     void on_fontFamilyBox_currentIndexChanged(int index);
     void on_fontSizeBox_activated(int index);
 
-    //RealTextEdit Function
+    //RealTextEdit Event
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_selectionChanged();
-
-    //Button for Collaborators
-    void on_buttonCollab_clicked();
 
     /************************************
      *               EVENT              *
      ************************************/
-    void keyPressEvent(QKeyEvent *e);
+    bool eventFilter(QObject *obj, QEvent *ev);
+    void keyPressEvent(QKeyEvent *e);   //Handle Shortcut of Action
     void closeEvent(QCloseEvent * event);
 
     /************************************
@@ -77,7 +75,8 @@ private slots:
     void on_actionFullscreen_triggered();
     void on_actionNew_triggered();
     void on_actionAbout_triggered();
-    void on_actionExit_triggered();
+    void on_actionClose_triggered();
+    void on_actionEsci_triggered();
     void on_actionRinomina_triggered();
     void on_actionEsporta_come_PDF_triggered();
     void on_actionInvita_tramite_URI_triggered();
@@ -86,12 +85,12 @@ private slots:
     void on_actionGrassetto_triggered();
     void on_actionCorsivo_triggered();
     void on_actionSottolineato_triggered();
-    void on_actionEsci_triggered();
+    void on_actionSeleziona_Tutto_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
-    void LogoutRequest();
+    void CloseDocumentRequest();
     void PaintItBlack();
     void AlignSXButtonHandler();
     void AlignCXButtonHandler();
@@ -100,8 +99,20 @@ private slots:
     void AlignNoneButtonHandler();
     void AlignButtonStyleHandler();
     void refreshFormatButtons();
+    void hideCollab();
+    void showCollab();
     bool handleConnectionLoss();
     void setupInitialCondition();
+    void on_RealTextEdit_textChanged();
+    void on_RealTextEdit_customContextMenuRequested(const QPoint &pos);
+
+    /************************************
+     *        OTHER SLOTS FUNCTION      *
+     ************************************/
+
+
+
+    void on_profileButton_clicked();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
@@ -115,7 +126,7 @@ public slots:
     void changeFontSize(int startIndex, int endIndex, int fontSize);
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
-    void showSymbolsAt(int startIndex, std::vector<symbol> symbols);    
+    void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
     void updateAlignmentButton();
 
 private:

@@ -177,9 +177,9 @@
      <widget class="QPushButton" name="LogoutButton">
       <property name="geometry">
        <rect>
-        <x>259</x>
+        <x>247</x>
         <y>715</y>
-        <width>131</width>
+        <width>159</width>
         <height>61</height>
        </rect>
       </property>

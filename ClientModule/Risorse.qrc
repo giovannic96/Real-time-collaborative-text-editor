@@ -6,13 +6,11 @@
         <file>image/accesso.png</file>
         <file>image/registrazione.png</file>
         <file>image/start.png</file>
-        <file>image/startMinimal.png</file>
         <file>image/registratiButton1.png</file>
         <file>image/registratiButton2.png</file>
         <file>image/accediButton1.png</file>
         <file>image/accediButton2.png</file>
         <file>image/Editor/center-align.png</file>
-        <file>image/Editor/highlighter.png</file>
         <file>image/Editor/justify.png</file>
         <file>image/Editor/left-align.png</file>
         <file>image/Editor/right-align.png</file>
@@ -27,12 +25,10 @@
         <file>image/Editor/paste.png</file>
         <file>image/Editor/icon.png</file>
         <file>image/Editor/icon2.png</file>
-        <file>image/Editor/paintbrush.png</file>
         <file>image/InfoWindow.png</file>
         <file>image/Editor/pdfImage.png</file>
         <file>image/Editor/uriImage.png</file>
         <file>image/debugger-icon-16.jpg.png</file>
-        <file>image/infoprofile.png</file>
         <file>image/DarkEditor/center-align.png</file>
         <file>image/DarkEditor/copy.png</file>
         <file>image/DarkEditor/cut.png</file>
@@ -41,7 +37,6 @@
         <file>image/DarkEditor/font.png</file>
         <file>image/DarkEditor/fontChange.png</file>
         <file>image/DarkEditor/fontSize.png</file>
-        <file>image/DarkEditor/highlighter.png</file>
         <file>image/DarkEditor/icon.png</file>
         <file>image/DarkEditor/iconcina.png</file>
         <file>image/DarkEditor/justify.png</file>
@@ -55,7 +50,6 @@
         <file>image/Editor/DarkMoon.png</file>
         <file>image/Editor/DarkSun.png</file>
         <file>image/Editor/Magnifier.png</file>
-        <file>image/fileWindow.png</file>
         <file>image/Editor/v2bold.png</file>
         <file>image/Editor/v2italic.png</file>
         <file>image/Editor/v2underline.png</file>
@@ -66,5 +60,16 @@
         <file>image/Editor/Collaborator.png</file>
         <file>image/document-col.png</file>
         <file>image/document-own.png</file>
+        <file>image/Editor/highlighter.png</file>
+        <file>image/Editor/paintbrush.png</file>
+        <file>image/Editor/user.png</file>
+        <file>image/infoprofile.png</file>
+        <file>image/fileWindow.png</file>
+        <file>image/startMinimal.png</file>
+        <file>image/Editor/sfondo.png</file>
+        <file>image/DarkEditor/sfondo.png</file>
+        <file>image/DarkEditor/highlighter.png</file>
+        <file>image/DarkEditor/carte.png</file>
+        <file>image/Editor/carte.png</file>
     </qresource>
 </RCC>

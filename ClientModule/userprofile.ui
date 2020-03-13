@@ -59,12 +59,21 @@ background: transparent;
      <height>130</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Calibri</family>
+     <pointsize>72</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
    <property name="styleSheet">
     <string notr="true">#UserImageButton{
-background-color:transparent;
+border:none;
+color:white;
 }</string>
    </property>
    <property name="text">
@@ -75,54 +84,6 @@ background-color:transparent;
      <width>128</width>
      <height>128</height>
     </size>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Username">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>40</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>20</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:white;</string>
-   </property>
-   <property name="text">
-    <string>Username</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="Mail">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>66</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Calibri</family>
-     <pointsize>14</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color:white;</string>
-   </property>
-   <property name="text">
-    <string>username@mail.it</string>
    </property>
   </widget>
   <widget class="QFrame" name="frameProfile">
@@ -253,12 +214,58 @@ border-image: url(:/image/infoprofile.png);
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="Username">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>100</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;</string>
+    </property>
+    <property name="text">
+     <string>Username</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Mail">
+    <property name="geometry">
+     <rect>
+      <x>41</x>
+      <y>124</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Calibri</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:white;</string>
+    </property>
+    <property name="text">
+     <string>username@mail.it</string>
+    </property>
+   </widget>
   </widget>
   <zorder>frameProfile</zorder>
   <zorder>exitButton</zorder>
   <zorder>UserImageButton</zorder>
-  <zorder>Username</zorder>
-  <zorder>Mail</zorder>
  </widget>
  <resources/>
  <connections/>
