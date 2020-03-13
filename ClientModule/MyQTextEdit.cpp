@@ -48,10 +48,8 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
     QPainter painter(viewport());
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-qDebug() << "PAINT EVENT!";
     QHash<QString, std::pair<QString,int>>::iterator i;
     for (i = remoteCursors.begin(); i != remoteCursors.end(); ++i) {
-
         /* Get current info */
         QTextCursor cursor = this->textCursor();
         cursor.setPosition(i.value().second);
