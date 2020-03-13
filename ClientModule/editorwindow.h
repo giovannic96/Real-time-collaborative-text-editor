@@ -73,7 +73,6 @@ private slots:
      *              ACTION              *
      ************************************/
     void on_actionFullscreen_triggered();
-    void on_actionNew_triggered();
     void on_actionAbout_triggered();
     void on_actionClose_triggered();
     void on_actionEsci_triggered();
