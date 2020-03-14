@@ -36,20 +36,40 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
 
-    ui->listWidget->setViewMode(QListView::ListMode);
-    ui->listWidget->setGridSize(QSize(250,50));
-    ui->listWidget->setIconSize(QSize(40,40));
-    ui->listWidget->setFlow(QListView::LeftToRight);
-    ui->listWidget->setWrapping(true);
-    ui->listWidget->setWordWrap(true);
-    ui->listWidget->setResizeMode(QListView::Adjust);
-    ui->listWidget->setAlternatingRowColors(false);
-    ui->listWidget->setMovement(QListView::Static);
-    ui->listWidget->setTextElideMode(Qt::ElideRight);
+    ui->listIconOn->setViewMode(QListView::ListMode);
+    ui->listIconOn->setGridSize(QSize(25,35));
+    ui->listIconOn->setIconSize(QSize(25,25));
+    ui->listIconOn->setFlow(QListView::LeftToRight);
+    ui->listIconOn->setWrapping(true);
+    ui->listIconOn->setWordWrap(true);
+    ui->listIconOn->setResizeMode(QListView::Adjust);
+    ui->listIconOn->setAlternatingRowColors(false);
+    ui->listIconOn->setMovement(QListView::Static);
+    ui->listIconOn->setTextElideMode(Qt::ElideRight);
+
+    ui->listIconOff->setViewMode(QListView::ListMode);
+    ui->listIconOff->setGridSize(QSize(25,35));
+    ui->listIconOff->setIconSize(QSize(25,25));
+    ui->listIconOff->setFlow(QListView::LeftToRight);
+    ui->listIconOff->setWrapping(true);
+    ui->listIconOff->setWordWrap(true);
+    ui->listIconOff->setResizeMode(QListView::Adjust);
+    ui->listIconOff->setAlternatingRowColors(false);
+    ui->listIconOff->setMovement(QListView::Static);
+    ui->listIconOff->setTextElideMode(Qt::ElideRight);
+
+    ui->listWidgetOn->setViewMode(QListView::ListMode);
+    ui->listWidgetOn->setGridSize(QSize(200,35));
+    ui->listWidgetOn->setFlow(QListView::LeftToRight);
+    ui->listWidgetOn->setWrapping(true);
+    ui->listWidgetOn->setWordWrap(true);
+    ui->listWidgetOn->setResizeMode(QListView::Adjust);
+    ui->listWidgetOn->setAlternatingRowColors(false);
+    ui->listWidgetOn->setMovement(QListView::Static);
+    ui->listWidgetOn->setTextElideMode(Qt::ElideRight);
 
     ui->listWidgetOff->setViewMode(QListView::ListMode);
-    ui->listWidgetOff->setGridSize(QSize(250,50));
-    ui->listWidgetOff->setIconSize(QSize(40,40));
+    ui->listWidgetOff->setGridSize(QSize(200,35));
     ui->listWidgetOff->setFlow(QListView::LeftToRight);
     ui->listWidgetOff->setWrapping(true);
     ui->listWidgetOff->setWordWrap(true);
@@ -65,39 +85,64 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     ui->profileButton->setText(user.at(0).toUpper());
 
-    //ui->DocNameButton->hide();
+    ui->DocNameButton->hide();
 
     QColor color = _client->getColor();
-    QString qss = QString("border:none; \nbackground-color: %1; color:white;").arg(color.name());
-    ui->profileButton->setStyleSheet(qss);
+    QString qss = QString("border-radius: 5px; \nbackground-color: %1; color:white;").arg(color.name());
+    ui->profileButton->setStyleSheet(qss);    
+
+    QRegularExpressionValidator* fontSizeValidator;
+    QIcon fontIcon(":/image/font_icon.png");
+    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     QString itemString;
     QList<QListWidgetItem*> fileItem;
+    QListWidgetItem* icon;
+    QListWidgetItem* icon2;
+    QListWidgetItem* icon3;
     QListWidgetItem* item;
     QListWidgetItem* item2;
     QListWidgetItem* item3;
-    QRegularExpressionValidator* fontSizeValidator;
-    QIcon fontIcon(":/image/font_icon.png");
 
-    item = new QListWidgetItem(itemString, ui->listWidget);
-    item2 = new QListWidgetItem(itemString, ui->listWidgetOff);
+    icon = new QListWidgetItem(itemString, ui->listIconOn);
+    icon2 = new QListWidgetItem(itemString, ui->listIconOn);
+    icon3 = new QListWidgetItem(itemString, ui->listIconOff);
+    item = new QListWidgetItem(itemString, ui->listWidgetOn);
+    item2 = new QListWidgetItem(itemString, ui->listWidgetOn);
     item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
-    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
-    QRect *rect = new QRect(0,0,45,45);
-    QRegion* region = new QRegion(*rect,QRegion::Ellipse);
-    ui->profileButton->setMask(*region);
+    QString hidro = "hidro";
+    QString rinaldo = "rinaldo";
+    QString francesco = "francesco";
 
-    item->setText("Collaboratore 1");
-    item->setIcon(QIcon(":/image/Editor/user.png"));
+    /*QString colH = ui->RealTextEdit->getRemoteCursors().value(hidro).first;
+    QString colR = ui->RealTextEdit->getRemoteCursors().value(rinaldo).first;
+    QColor colHidro = QColor (colH);
+    QColor colRinaldo = QColor (colR);
+
+    qDebug()<<"COLORE HIDRO"<<colH;
+    qDebug()<<"COLORE HIDRO"<<colR;*/
+
+    icon->setBackground(Qt::red);
+    QString icH = QString(":/image/Letters/%1.png").arg(hidro.at(0).toUpper());
+    icon->setIcon(QIcon(icH));
+    fileItem.append(icon);
+    item->setText("enrico");
     fileItem.append(item);
-    item2->setText("Collaboratore 2");
-    item2->setForeground(QColor(169, 169, 169));
-    item2->setIcon(QIcon(":/image/Editor/user.png"));
+
+    icon2->setBackground(Qt::green);
+    QString icR = QString(":/image/Letters/%1.png").arg(rinaldo.at(0).toUpper());
+    icon2->setIcon(QIcon(icR));
+    fileItem.append(icon2);
+    item2->setText("rinaldo");
     fileItem.append(item2);
-    item3->setText("Collaboratore 3");
-    item3->setForeground(QColor(169, 169, 169));
-    item3->setIcon(QIcon(":/image/Editor/user.png"));
+
+    icon3->setBackground(Qt::blue);
+    QString icF = QString(":/image/Letters/%1.png").arg(francesco.at(0).toUpper());
+    icon3->setIcon(QIcon(icF));
+    fileItem.append(icon3);
+    item3->setText("francesco");
+
     fileItem.append(item3);
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
@@ -123,6 +168,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 EditorWindow::~EditorWindow() {
     delete ui;
 }
+
 
 /***************************************************************************************************************************************
  *                                                           INTERFACE                                                                 *
@@ -797,12 +843,12 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
             int replay = message.exec();
             switch(replay){
                 case 0:
-                    event->ignore();
-                    CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
-                    break;
+                  event->ignore();
+                  CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
+                  break;
                 case 1:
-                    event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
-                    break;
+                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+                  break;
                 default:
                   event->ignore();   //Should never reach this
                   break;
@@ -955,7 +1001,7 @@ void EditorWindow::on_actionDark_Mode_triggered() {
 
 //COLLABORATOR TRIGGERED
 void EditorWindow::on_actionCollaboratori_triggered() {
-    if(ui->listWidget->isHidden()){
+    if(ui->listWidgetOn->isHidden()){
         showCollab();
     }
     else{
@@ -1031,7 +1077,8 @@ void EditorWindow::PaintItBlack() {
         v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/DarkEditor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/DarkEditor/v2underline.png"),QIcon::Normal,QIcon::On);
-        ui->listWidget->setStyleSheet("border:none;\n background:transparent;\n color:white");
+
+        ui->listWidgetOn->setStyleSheet("border:none;\n background:transparent;\n color:white");
         ui->labelUser->setStyleSheet("color:white;");
         ui->buttonAlignCX->setIcon(icoAC);
         ui->buttonAlignSX->setIcon(icoAS);
@@ -1072,7 +1119,9 @@ void EditorWindow::PaintItBlack() {
         v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
         v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
         v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
-        ui->listWidget->setStyleSheet("border:none;\n background:transparent;\n color:black");
+
+        ui->listWidgetOn->setStyleSheet("border:none;\n background:transparent;\n color:black");
+
         ui->labelUser->setStyleSheet("color:black;");
         ui->buttonAlignCX->setIcon(icoAC);
         ui->buttonAlignSX->setIcon(icoAS);
@@ -1183,7 +1232,8 @@ void EditorWindow::refreshFormatButtons() {
 
 void EditorWindow::hideCollab(){
     ui->actionCollaboratori->setText("Mostra Collaboratori");
-    ui->listWidget->hide();
+	
+    ui->listWidgetOn->hide();
     ui->listWidgetOff->hide();
     ui->labelUser->hide();
     ui->profileButton->hide();
@@ -1199,7 +1249,7 @@ void EditorWindow::hideCollab(){
 
 void EditorWindow::showCollab(){
     ui->actionCollaboratori->setText("Nascondi Collaboratori");
-    ui->listWidget->show();
+    ui->listWidgetOn->show();
     ui->listWidgetOff->show();
     ui->labelUser->show();
     ui->profileButton->show();

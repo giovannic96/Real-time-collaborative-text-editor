@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>656</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1330,7 +1330,7 @@ background-color: lightgrey;
                   <number>6</number>
                  </property>
                  <property name="leftMargin">
-                  <number>5</number>
+                  <number>0</number>
                  </property>
                  <property name="rightMargin">
                   <number>0</number>
@@ -1357,14 +1357,14 @@ background-color: lightgrey;
                     <widget class="QPushButton" name="profileButton">
                      <property name="minimumSize">
                       <size>
-                       <width>46</width>
-                       <height>46</height>
+                       <width>40</width>
+                       <height>40</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>46</width>
-                       <height>46</height>
+                       <width>40</width>
+                       <height>40</height>
                       </size>
                      </property>
                      <property name="font">
@@ -1378,7 +1378,8 @@ background-color: lightgrey;
                       <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">border:none;</string>
+                      <string notr="true">border:none;
+border-radius: 4px;</string>
                      </property>
                      <property name="text">
                       <string/>
@@ -1504,6 +1505,8 @@ background-color: lightgrey;
                   <widget class="QLabel" name="label">
                    <property name="font">
                     <font>
+                     <family>Calibri</family>
+                     <pointsize>12</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
@@ -1520,6 +1523,8 @@ background-color: lightgrey;
                   <widget class="QLabel" name="label_2">
                    <property name="font">
                     <font>
+                     <family>Calibri</family>
+                     <pointsize>12</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
@@ -1536,6 +1541,8 @@ background-color: lightgrey;
                   <widget class="QLabel" name="label_3">
                    <property name="font">
                     <font>
+                     <family>Calibri</family>
+                     <pointsize>12</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
@@ -1609,6 +1616,8 @@ background-color: lightgrey;
                   <widget class="QLabel" name="labelCollOn">
                    <property name="font">
                     <font>
+                     <family>Calibri</family>
+                     <pointsize>12</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
@@ -1622,45 +1631,97 @@ background-color: lightgrey;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QListWidget" name="listWidget">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <property name="spacing">
+                    <number>0</number>
                    </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>255</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>255</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>12</pointsize>
-                     <weight>50</weight>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">#listWidget{
+                   <item>
+                    <widget class="QListWidget" name="listIconOn">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>35</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>35</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">#listIconOn{
+	color:white;
+	border:transparent;
+	background:transparent;
+}</string>
+                     </property>
+                     <property name="autoScrollMargin">
+                      <number>16</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidgetOn">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>215</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>215</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">#listWidgetOn{
 	border:transparent;
 	background: transparent;
 }</string>
-                   </property>
-                  </widget>
+                     </property>
+                     <property name="autoScrollMargin">
+                      <number>16</number>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item>
                   <widget class="QLabel" name="labelCollOff">
                    <property name="font">
                     <font>
+                     <family>Calibri</family>
+                     <pointsize>12</pointsize>
                      <weight>75</weight>
                      <bold>true</bold>
                     </font>
@@ -1674,32 +1735,79 @@ background-color: lightgrey;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QListWidget" name="listWidgetOff">
-                   <property name="minimumSize">
-                    <size>
-                     <width>255</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>255</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Calibri</family>
-                     <pointsize>12</pointsize>
-                    </font>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">#listWidgetOff{
+                  <layout class="QHBoxLayout" name="horizontalLayout_12">
+                   <item>
+                    <widget class="QListWidget" name="listIconOff">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>35</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>35</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">#listIconOff{
+	color:white;
+	border:transparent;
+	background:transparent;
+}</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listWidgetOff">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>215</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>215</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Calibri</family>
+                       <pointsize>12</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">#listWidgetOff{
 border:transparent;
 background: transparent;
 }</string>
-                   </property>
-                  </widget>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item>
                   <spacer name="verticalSpacer_4">
