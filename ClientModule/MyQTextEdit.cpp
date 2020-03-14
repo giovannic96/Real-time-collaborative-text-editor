@@ -54,6 +54,14 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
         QTextCursor cursor = this->textCursor();
         cursor.setPosition(i.value().second);
         int curFontSize = static_cast<int>(cursor.charFormat().fontPointSize());
+        if(cursor.position()==0) {
+            if(this->toPlainText().size()>0) {
+                cursor.movePosition(QTextCursor::Right);
+                curFontSize = static_cast<int>(cursor.charFormat().fontPointSize());
+                cursor.movePosition(QTextCursor::Left);
+            } else
+                curFontSize = static_cast<int>(this->font().pointSize());
+        }
         int rectHeight = (curFontSize*30)/14;
         QString username = i.key();
         QColor color = i.value().first;
@@ -69,6 +77,7 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
         int offsetHeight = calculateOffsetHeight(curFontSize);
         int offsetY = calculateOffsetY(curFontSize);
         int y = rect.bottom()-(rect.height()/4)-metrics.ascent()+(metrics.descent()/2)*(cursor.charFormat().font().pointSize()/50);
+        qDebug() << center.x() << y-offsetY << rectHeight << offsetHeight;
         painter.drawRect(center.x(), y-offsetY, 1, (rectHeight-offsetHeight));
 
         /* Horizontal rect for username */

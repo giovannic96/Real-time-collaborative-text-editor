@@ -798,12 +798,12 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
             int replay = message.exec();
             switch(replay){
                 case 0:
-                  event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
-                  break;
+                    event->ignore();
+                    CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
+                    break;
                 case 1:
-                  event->ignore();
-                  CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
-                  break;
+                    event->ignore();    //IGNORE FORCED CLOSE EVENT --> Stay in this window (EditorWindow)
+                    break;
                 default:
                   event->ignore();   //Should never reach this
                   break;
