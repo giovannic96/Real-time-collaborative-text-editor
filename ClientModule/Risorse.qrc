@@ -71,5 +71,31 @@
         <file>image/DarkEditor/highlighter.png</file>
         <file>image/DarkEditor/carte.png</file>
         <file>image/Editor/carte.png</file>
+        <file>image/Letters/A.png</file>
+        <file>image/Letters/H.png</file>
+        <file>image/Letters/B.png</file>
+        <file>image/Letters/C.png</file>
+        <file>image/Letters/D.png</file>
+        <file>image/Letters/E.png</file>
+        <file>image/Letters/F.png</file>
+        <file>image/Letters/G.png</file>
+        <file>image/Letters/I.png</file>
+        <file>image/Letters/J.png</file>
+        <file>image/Letters/K.png</file>
+        <file>image/Letters/L.png</file>
+        <file>image/Letters/M.png</file>
+        <file>image/Letters/N.png</file>
+        <file>image/Letters/O.png</file>
+        <file>image/Letters/P.png</file>
+        <file>image/Letters/Q.png</file>
+        <file>image/Letters/R.png</file>
+        <file>image/Letters/S.png</file>
+        <file>image/Letters/T.png</file>
+        <file>image/Letters/U.png</file>
+        <file>image/Letters/V.png</file>
+        <file>image/Letters/W.png</file>
+        <file>image/Letters/X.png</file>
+        <file>image/Letters/Y.png</file>
+        <file>image/Letters/Z.png</file>
     </qresource>
 </RCC>
