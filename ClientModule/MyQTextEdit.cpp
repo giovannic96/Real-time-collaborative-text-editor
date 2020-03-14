@@ -260,15 +260,15 @@ QStringList MyQTextEdit::getRegexListFromHTML(QString text, QRegularExpression r
 }
 
 void MyQTextEdit::removeRemoteCursor(std::string username) {
-    remoteCursors.remove(QString::fromStdString(username));
+    remoteCursors.remove(QString::fromStdString(username).toLatin1());
     this->viewport()->update();
 }
 
 void MyQTextEdit::changeRemoteCursor(std::string username, std::string color, int pos) {
-    QString col = QString::fromStdString(color);
+    QString col = QString::fromStdString(color).toLatin1();
     col[1] = 'f';
     col[2] = 'f';
-    addRemoteCursor(QString::fromStdString(username), std::make_pair(col, pos));
+    addRemoteCursor(QString::fromStdString(username).toLatin1(), std::make_pair(col, pos));
     showHorizontalRect = true;
     timer.setSingleShot(true);
     timer.start(3000);
