@@ -77,7 +77,6 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
         int offsetHeight = calculateOffsetHeight(curFontSize);
         int offsetY = calculateOffsetY(curFontSize);
         int y = rect.bottom()-(rect.height()/4)-metrics.ascent()+(metrics.descent()/2)*(cursor.charFormat().font().pointSize()/50);
-        qDebug() << center.x() << y-offsetY << rectHeight << offsetHeight;
         painter.drawRect(center.x(), y-offsetY, 1, (rectHeight-offsetHeight));
 
         /* Horizontal rect for username */
@@ -98,7 +97,7 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
             QFont font("Helvetica", 10, QFont::Bold, false);
             painter.setPen(QColor(255,255,255));
             painter.setFont(font);
-            painter.drawText(finalX+1, y-offsetY-6, username);
+            painter.drawText(finalX+1, y-offsetY-6, QString::fromUtf8(qPrintable(username)));
         } else {
             /* Small Rect above cursor */
             QRectF smallRect(center.x()-4, y-offsetY-7, 9, 7);
@@ -265,7 +264,7 @@ void MyQTextEdit::removeRemoteCursor(std::string username) {
 }
 
 void MyQTextEdit::changeRemoteCursor(std::string username, std::string color, int pos) {
-    QString col = QString::fromStdString(color).toLatin1();
+    QString col = QString::fromStdString(color);
     col[1] = 'f';
     col[2] = 'f';
     addRemoteCursor(QString::fromStdString(username).toLatin1(), std::make_pair(col, pos));
