@@ -124,7 +124,6 @@ EditorWindow::~EditorWindow() {
     delete ui;
 }
 
-
 /***************************************************************************************************************************************
  *                                                           INTERFACE                                                                 *
 ***************************************************************************************************************************************/
@@ -1551,7 +1550,8 @@ void EditorWindow::formatSymbols(int startIndex, int endIndex, int format) {
 
 void EditorWindow::hideAndChangeCustomFontSize() {
     /* Hide last added item */
-    hideLastAddedItem(ui->fontSizeBox);
+    if(!(std::find(sizeVector.begin(), sizeVector.end(), ui->fontSizeBox->currentText().toInt()) != sizeVector.end()))
+        hideLastAddedItem(ui->fontSizeBox);
 
     /* Change font point size of the text edit */
     changedFontSize = true;
