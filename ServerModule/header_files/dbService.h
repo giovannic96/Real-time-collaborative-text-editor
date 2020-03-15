@@ -8,6 +8,7 @@
 #include <QtCore/QString>
 #include "sqlite3.h"
 #include <vector>
+#include <map>
 #include "File.h"
 
 class dbService {
@@ -19,7 +20,7 @@ public:
     enum DB_RESPONSE {LOGIN_OK, LOGIN_FAILED, SIGNUP_OK, SIGNUP_FAILED, NEWFILE_OK, NEWFILE_FAILED, OPENFILE_OK, OPENFILE_FAILED,
                         DB_ERROR, QUERY_ERROR, EMAIL_ERROR, ALREADY_LOGGED, LIST_EXIST, LIST_DOESNT_EXIST, OPENWITHURI_OK,
                         OPENWITHURI_FAILED, LOGOUT_OK, LOGOUT_FAILED, RENAME_OK, RENAME_FAILED, ALREADY_PARTECIPANT, INVITE_URI_SUCCESS,
-                        INVITE_URI_FAILED, INVITED_NOT_EXIST, GET_EMAIL_OK
+                        INVITE_URI_FAILED, INVITED_NOT_EXIST, GET_EMAIL_OK, GET_COLLAB_COLORS_MAP_OK
 
     };
     static inline const char* enumToStr(dbService::DB_RESPONSE db_resp);
@@ -37,8 +38,9 @@ public:
     static DB_RESPONSE tryRenameFile(const std::string& newNameFile, const std::string& urifile, const std::string& user);
     static DB_RESPONSE tryGetEmail(const std::string& invited, std::string& email_invited);
     static DB_RESPONSE tryAddFriend(const std::string& invited, const std::string& urifile);
+    static DB_RESPONSE tryGetCollabColors(const std::string& uri, std::map<std::string, std::string>& collabColorsMap);
 
-};
+    };
 
 
 #endif //SERVERMODULE_DBSERVICE_H

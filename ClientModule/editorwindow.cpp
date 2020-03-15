@@ -31,6 +31,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
     connect(_client, &myClient::removeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::removeRemoteCursor);
     connect(_client, &myClient::changeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::changeRemoteCursor);
+    connect(_client, &myClient::showCollabColorsMap, this, &EditorWindow::showCollabColorsMap);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
@@ -80,11 +81,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
-
     showCollab();
-
     ui->profileButton->setText(user.at(0).toUpper());
-
     ui->DocNameButton->hide();
 
     QColor color = _client->getColor();
@@ -94,56 +92,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     QRegularExpressionValidator* fontSizeValidator;
     QIcon fontIcon(":/image/font_icon.png");
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
-
-    QString itemString;
-    QList<QListWidgetItem*> fileItem;
-    QListWidgetItem* icon;
-    QListWidgetItem* icon2;
-    QListWidgetItem* icon3;
-    QListWidgetItem* item;
-    QListWidgetItem* item2;
-    QListWidgetItem* item3;
-
-    icon = new QListWidgetItem(itemString, ui->listIconOn);
-    icon2 = new QListWidgetItem(itemString, ui->listIconOn);
-    icon3 = new QListWidgetItem(itemString, ui->listIconOff);
-    item = new QListWidgetItem(itemString, ui->listWidgetOn);
-    item2 = new QListWidgetItem(itemString, ui->listWidgetOn);
-    item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
-
-    QString hidro = "hidro";
-    QString rinaldo = "rinaldo";
-    QString francesco = "francesco";
-
-    /*QString colH = ui->RealTextEdit->getRemoteCursors().value(hidro).first;
-    QString colR = ui->RealTextEdit->getRemoteCursors().value(rinaldo).first;
-    QColor colHidro = QColor (colH);
-    QColor colRinaldo = QColor (colR);
-
-    qDebug()<<"COLORE HIDRO"<<colH;
-    qDebug()<<"COLORE HIDRO"<<colR;*/
-
-    icon->setBackground(Qt::red);
-    QString icH = QString(":/image/Letters/%1.png").arg(hidro.at(0).toUpper());
-    icon->setIcon(QIcon(icH));
-    fileItem.append(icon);
-    item->setText("enrico");
-    fileItem.append(item);
-
-    icon2->setBackground(Qt::green);
-    QString icR = QString(":/image/Letters/%1.png").arg(rinaldo.at(0).toUpper());
-    icon2->setIcon(QIcon(icR));
-    fileItem.append(icon2);
-    item2->setText("rinaldo");
-    fileItem.append(item2);
-
-    icon3->setBackground(Qt::blue);
-    QString icF = QString(":/image/Letters/%1.png").arg(francesco.at(0).toUpper());
-    icon3->setIcon(QIcon(icF));
-    fileItem.append(icon3);
-    item3->setText("francesco");
-
-    fileItem.append(item3);
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
     ui->DocNameButton->setText(docName);
@@ -159,10 +107,12 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     //ui->RealTextEdit->addRemoteCursor(_client->getUsername(), std::make_pair(_client->getColor(),0));
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
+    qRegisterMetaType<std::map<std::string,std::string>>("std::map<std::string,std::string");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
     textOnTitleBar = docName;
     this->setWindowTitle(textOnTitleBar);
+    collabColorsRequest(_client->getFileURI());
 }
 
 EditorWindow::~EditorWindow() {
@@ -1428,6 +1378,57 @@ void EditorWindow::sendRequestMsg(std::string req) {
     _client->write(msg);
 }
 
+void EditorWindow::showCollabColorsMap(std::map<std::string, std::string> collabColorsMap) {
+    QString itemString;
+    QList<QListWidgetItem*> fileItem;
+    QListWidgetItem* icon;
+    QListWidgetItem* icon2;
+    QListWidgetItem* icon3;
+    QListWidgetItem* item;
+    QListWidgetItem* item2;
+    QListWidgetItem* item3;
+
+    icon = new QListWidgetItem(itemString, ui->listIconOn);
+    icon2 = new QListWidgetItem(itemString, ui->listIconOn);
+    icon3 = new QListWidgetItem(itemString, ui->listIconOff);
+    item = new QListWidgetItem(itemString, ui->listWidgetOn);
+    item2 = new QListWidgetItem(itemString, ui->listWidgetOn);
+    item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
+
+    QString hidro = "hidro";
+    QString rinaldo = "rinaldo";
+    QString francesco = "francesco";
+
+    /*QString colH = ui->RealTextEdit->getRemoteCursors().value(hidro).first;
+    QString colR = ui->RealTextEdit->getRemoteCursors().value(rinaldo).first;
+    QColor colHidro = QColor (colH);
+    QColor colRinaldo = QColor (colR);
+
+    qDebug()<<"COLORE HIDRO"<<colH;
+    qDebug()<<"COLORE HIDRO"<<colR;*/
+
+    icon->setBackground(Qt::red);
+    QString icH = QString(":/image/Letters/%1.png").arg(hidro.at(0).toUpper());
+    icon->setIcon(QIcon(icH));
+    fileItem.append(icon);
+    item->setText("enrico");
+    fileItem.append(item);
+
+    icon2->setBackground(Qt::green);
+    QString icR = QString(":/image/Letters/%1.png").arg(rinaldo.at(0).toUpper());
+    icon2->setIcon(QIcon(icR));
+    fileItem.append(icon2);
+    item2->setText("rinaldo");
+    fileItem.append(item2);
+
+    icon3->setBackground(Qt::blue);
+    QString icF = QString(":/image/Letters/%1.png").arg(francesco.at(0).toUpper());
+    icon3->setIcon(QIcon(icF));
+    fileItem.append(icon3);
+    item3->setText("francesco");
+    fileItem.append(item3);
+}
+
 void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     wchar_t letter;
     int index = firstIndex;
@@ -2209,6 +2210,16 @@ void EditorWindow::cursorChangeRequest(int pos) {
     //Serialize data
     json j;
     jsonUtility::to_json_removal(j, "CURSOR_CHANGE_REQUEST", pos);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    sendRequestMsg(req);
+}
+
+void EditorWindow::collabColorsRequest(QString uri) {
+    //Serialize data
+    json j;
+    jsonUtility::to_json_collab_colors(j, "COLLAB_COLORS_REQUEST", uri.toStdString());
     const std::string req = j.dump();
 
     //Send data (header and body)

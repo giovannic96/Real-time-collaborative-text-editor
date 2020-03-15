@@ -50,6 +50,14 @@ void jsonUtility::to_json_cursor_change(json &j, const std::string &op, const st
     };
 }
 
+void jsonUtility::to_json_collab_colors_resp(json &j, const std::string &op, const std::string &resp, const std::map<std::string, std::string> &collabColorsMap) {
+    j = json{
+            {"operation", op},
+            {"response", resp},
+            {"collabColorsMap", collabColorsMap}
+    };
+}
+
 void jsonUtility::to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename) {
     j = json{
             {"operation", op},
@@ -218,6 +226,7 @@ void jsonUtility::from_json(const json &j, std::string &user, std::string &pass)
     user = j.at("content").at("username").get<std::string>();
     pass = j.at("content").at("password").get<std::string>();
 }
+
 void jsonUtility::from_json_inviteURI(const json &j, std::string &invited, std::string &applicant, std::string &uri) {
     invited = j.at("invited").get<std::string>();
     applicant = j.at("applicant").get<std::string>();
@@ -339,6 +348,10 @@ void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tu
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
     index = j.at("index").get<int>();
+}
+
+void jsonUtility::from_json_collab_colors(const json &j, std::string& uri) {
+    uri = j.at("uri").get<std::string>();
 }
 
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {

@@ -219,7 +219,8 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
                 query3.bindValue(":isConfirmed", true);
 
                 if (query3.exec()) {
-                    /* TODO: remove this query4 later */
+                    /*
+                    // TODO: remove this query4 later
                     QSqlQuery query4(QSqlDatabase::database("MyConnect3"));
                     query4.prepare("INSERT INTO permissions (idfile, iduser, isOwner, isOpen, isConfirmed) VALUES (:idfile, :iduser, :isOwner, :isOpen, :isConfirmed)");
                     query4.bindValue(":idfile", uri);
@@ -228,6 +229,7 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
                     query4.bindValue(":isOpen", false);
                     query4.bindValue(":isConfirmed", true);
                     query4.exec();
+                    */
                     return NEWFILE_OK;
                 }
                 else
@@ -459,6 +461,34 @@ dbService::DB_RESPONSE dbService::tryAddFriend(const std::string &invited, const
                     return INVITE_URI_FAILED;
                 }
             }
+        } else {
+            std::cout << "Error on SELECT" << std::endl;
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
+
+dbService::DB_RESPONSE dbService::tryGetCollabColors(const std::string& uri, std::map<std::string, std::string>& collabColorsMap) {
+    QSqlDatabase db;
+    QString _uri = QString::fromUtf8(uri.data(), uri.size());
+
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect"));
+        query.prepare(QString("SELECT username, color FROM users, permissions WHERE users.username = permissions.iduser AND idfile = :uri AND isOpen = 1;"));
+        query.bindValue(":uri", _uri);
+        if (query.exec()) {
+            while(query.next()){
+                collabColorsMap.insert(std::make_pair(query.value(0).toString().toStdString(), query.value(1).toString().toStdString()));
+            }
+            return GET_COLLAB_COLORS_MAP_OK;
         } else {
             std::cout << "Error on SELECT" << std::endl;
             db.close();

@@ -71,6 +71,7 @@ signals:
     void jsonMsgFailure(QString windowName, QString msg);
     void removeRemoteCursor(std::string username);
     void changeRemoteCursor(std::string username, std::string color, int pos);
+    void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
 
 private:
     boost::asio::io_context io_context_;

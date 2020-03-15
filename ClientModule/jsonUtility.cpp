@@ -89,6 +89,13 @@ void jsonUtility::to_json_fontfamily_change(json &j, const std::string &op, cons
     };
 }
 
+void jsonUtility::to_json_collab_colors(json &j, const std::string &op, const std::string &uri) {
+    j = json{
+        {"operation", op},
+        {"uri", uri}
+    };
+}
+
 void jsonUtility::to_jsonFilename(json &j, const std::string &op, const std::string &user, const std::string &filename) {
     j = json{
             {"operation", op},
@@ -156,13 +163,16 @@ void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const 
     };
 }
 
-
 void jsonUtility::from_json(const json &j, std::string &op) {
     op = j.at("operation").get<std::string>();
 }
 
 void jsonUtility::from_json_inviteURI(const json &j, std::string &op) {
     op = j.at("content").at("response").get<std::string>();
+}
+
+void jsonUtility::from_json_collab_colors_map(const json &j, std::string &op) {
+    op = j.at("response").get<std::string>();
 }
 
 void jsonUtility::from_json_resp(const json &j, std::string &resp) {
@@ -296,6 +306,10 @@ void jsonUtility::from_json_cursor_change(const json &j, std::string& username, 
     username = j.at("username").get<std::string>();
     color = j.at("color").get<std::string>();
     pos = j.at("pos").get<int>();
+}
+
+void jsonUtility::from_json_collab_colors_resp(const json &j, std::map<std::string, std::string>& collabColorsMap) {
+    collabColorsMap = j.at("collabColorsMap").get<std::map<std::string, std::string>>();
 }
 
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {

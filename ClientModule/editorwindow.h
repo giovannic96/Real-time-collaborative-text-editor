@@ -126,6 +126,7 @@ public slots:
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
     void updateAlignmentButton();
+    void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
 
 private:
     Ui::EditorWindow *ui;
@@ -155,6 +156,7 @@ private:
     void insertCharRangeRequest(int pos, bool cursorHasSelection);
     void removeCharRequest(int pos);
     void cursorChangeRequest(int pos);
+    void collabColorsRequest(QString uri);
     void removeCharRangeRequest(const QTextCursor& cursor);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);

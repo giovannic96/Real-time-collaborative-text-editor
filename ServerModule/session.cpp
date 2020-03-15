@@ -90,7 +90,7 @@ void session::do_read_body()
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile); //send data to all the participants in the room except to this client, having the curFile opened
                 }
-                else if(opJSON == "RENAMEFILE_REQUEST" && !onlyToThisEditor) {
+                else if((opJSON == "RENAMEFILE_REQUEST" || opJSON == "COLLAB_COLORS_REQUEST") && !onlyToThisEditor) {
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
                 }
@@ -809,6 +809,33 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_cursor_change(j, "CURSOR_CHANGE_RESPONSE", shared_from_this()->getUsername(), shared_from_this()->getColor(), posJSON);
+        const std::string response = j.dump();
+        return response;
+
+    } else if (opJSON == "COLLAB_COLORS_REQUEST") {
+        std::string uriJSON;
+        jsonUtility::from_json_collab_colors(jdata_in, uriJSON);
+        std::cout << "uri received: " << uriJSON << std::endl;
+
+        curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+
+        const char *db_res;
+        std::map<std::string, std::string> mapCollabColors;
+        dbService::DB_RESPONSE resp = dbService::tryGetCollabColors(uriJSON, mapCollabColors);
+        QSqlDatabase::removeDatabase("MyConnect");
+
+        if (resp == dbService::GET_COLLAB_COLORS_MAP_OK)
+            db_res = "COLLAB_COLORS_MAP_OK";
+        else if(resp == dbService::DB_ERROR)
+            db_res = "DB_ERROR";
+        else if(resp == dbService::QUERY_ERROR)
+            db_res = "QUERY_ERROR";
+        else
+            db_res = "DB_ERROR";
+
+        //Serialize data
+        json j;
+        jsonUtility::to_json_collab_colors_resp(j, "COLLAB_COLORS_RESPONSE", db_res, mapCollabColors);
         const std::string response = j.dump();
         return response;
 

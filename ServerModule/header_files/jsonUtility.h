@@ -32,6 +32,7 @@ public:
     static void to_json_rename_file(json &j, const std::string &op, const std::string &resp, const std::string &filename);
     static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin);
     static void to_json_cursor_change(json &j, const std::string &op, const std::string &username, const std::string &color, const int &pos);
+    static void to_json_collab_colors_resp(json &j, const std::string &op, const std::string &resp, const std::map<std::string, std::string> &collabColorsMap);
     static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector);
     static void to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename);
     static void to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile);
@@ -63,6 +64,7 @@ public:
     static void from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment);
     static void from_json_insertion_range(const json &j, std::vector<json>& symbols);
     static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
+    static void from_json_collab_colors(const json& j, std::string& uri);
 };
 
 
