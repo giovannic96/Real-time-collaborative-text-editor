@@ -112,6 +112,14 @@ private slots:
 
     void on_profileButton_clicked();
 
+    void on_fileButton_clicked();
+
+    void on_visualizzaButton_clicked();
+
+    void on_modificaButton_clicked();
+
+    void on_aboutButton_clicked();
+
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
