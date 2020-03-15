@@ -30,6 +30,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::changeAlignment, this, &EditorWindow::changeAlignment);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
     connect(_client, &myClient::removeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::removeRemoteCursor);
+    connect(_client, &myClient::removeRemoteCursor, this, &EditorWindow::getUserOffline);
     connect(_client, &myClient::changeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::changeRemoteCursor);
     connect(_client, &myClient::showCollabColorsMap, this, &EditorWindow::showCollabColorsMap);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
@@ -1427,6 +1428,11 @@ void EditorWindow::showCollabColorsMap(std::map<std::string, std::string> collab
     fileItem.append(icon3);
     item3->setText("francesco");
     fileItem.append(item3);
+}
+
+void EditorWindow::getUserOffline(std::string username) {
+    QString user = QString::fromStdString(username).toLatin1();
+    //TODO: rinaldo
 }
 
 void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {

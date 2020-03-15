@@ -125,6 +125,7 @@ public slots:
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
+    void removeRemoteCursor(std::string username);
     void updateAlignmentButton();
     void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
 
