@@ -107,10 +107,11 @@ private slots:
     /************************************
      *        OTHER SLOTS FUNCTION      *
      ************************************/
-
-
-
     void on_profileButton_clicked();
+    void on_fileButton_clicked();
+    void on_visualizzaButton_clicked();
+    void on_modificaButton_clicked();
+    void on_aboutButton_clicked();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
@@ -137,6 +138,7 @@ private:
     QString textOnTitleBar;
     bool BruteClose=true;
     bool SchermoIntero=false;
+    bool MenuCollaboratori=true;
     bool DarkMode=false;
     std::vector<int> sizeVector = {8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96};
     symbolStyle getCurCharStyle();
@@ -158,7 +160,7 @@ private:
     void removeCharRequest(int pos);
     void cursorChangeRequest(int pos);
     void collabColorsRequest(QString uri);
-    void removeCharRangeRequest(const QTextCursor& cursor, int startIndex, int endIndex);
+    void removeCharRangeRequest(int startIndex, int endIndex);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);

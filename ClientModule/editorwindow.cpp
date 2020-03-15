@@ -14,6 +14,9 @@
 #include <QPrinter>
 #include <QEvent>
 #include <stdexcept>
+#include <QMenu>
+#include <QCursor>
+#include <QShortcut>
 
 using json = nlohmann::json;
 
@@ -84,7 +87,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->labelUser->setText(user);
     showCollab();
     ui->profileButton->setText(user.at(0).toUpper());
-    ui->DocNameButton->hide();
 
     QColor color = _client->getColor();
     QString qss = QString("border-radius: 5px; \nbackground-color: %1; color:white;").arg(color.name());
@@ -130,6 +132,189 @@ EditorWindow::~EditorWindow() {
 ************************************************************************************/
 void EditorWindow::on_DocNameButton_clicked(){
     on_actionRinomina_triggered();
+}
+
+void EditorWindow::on_fileButton_clicked(){
+    QMenu menuFile(this);
+
+    //prepare icon
+    QIcon icoSAVELORD;
+    icoSAVELORD.addPixmap(QPixmap(":/image/Editor/save(1).png"),QIcon::Normal,QIcon::On);
+
+    //prepare action
+    QAction *uri = new QAction(tr("Invita tramite URI"), this);
+    QAction *pdfExport = new QAction(icoSAVELORD, tr("Esporta come PDF"), this);
+    QAction *rename = new QAction(tr("Rinomina"), this);
+    QAction *close = new QAction(tr("Chiudi Documento"), this);
+
+
+    //connect action
+    connect(uri, &QAction::triggered, this, &EditorWindow::on_actionInvita_tramite_URI_triggered);
+    connect(pdfExport, &QAction::triggered, this, &EditorWindow::on_actionEsporta_come_PDF_triggered);
+    connect(rename, &QAction::triggered, this, &EditorWindow::on_actionRinomina_triggered);
+    connect(close, &QAction::triggered, this, &EditorWindow::on_actionClose_triggered);
+
+    //set tip
+    uri->setStatusTip(tr("Invita un amico a collaborare su questo documento"));
+    pdfExport->setStatusTip(tr("Esporta questo documento in formato PDF"));
+    rename->setStatusTip(tr("Modifica il nome di questo documento"));
+    close->setStatusTip(tr("Chiudi il documento corrente e torna al menu"));
+
+    //set Shortcut
+    //cut->setShortcuts(QKeySequence::Cut);
+    //pdfExport->setShortcuts(QKeySequence::);
+    //paste->setShortcuts(QKeySequence::Paste);
+
+    //add action to menu
+    menuFile.addAction(uri);
+    menuFile.addAction(pdfExport);
+    menuFile.addAction(rename);
+    menuFile.addSeparator();
+    menuFile.addAction(close);
+
+    ui->fileButton->setMenu(&menuFile);
+    ui->fileButton->showMenu();
+}
+
+void EditorWindow::on_visualizzaButton_clicked(){
+    QMenu menuVisualizza(this);
+
+    //prepare action
+    QAction *fullscreen = new QAction( tr("Schermo Intero"), this);
+    QAction *DayNNight = new QAction(  tr("Modalità Notte"), this);
+    QAction *MenuCollab = new QAction( tr("Nascondi barra collaboratori"), this);
+
+    //Handle the dynamic part of this menu (if the action is checked)
+    if(SchermoIntero==true){
+        fullscreen->setText("Modalità Finestra");
+    }
+    if(DarkMode==true){
+        QIcon icoDay;
+        icoDay.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
+        DayNNight->setIcon(icoDay);
+        DayNNight->setText("Modalità Giorno");
+    }else{
+        //prepare icon
+        QIcon icoDark;
+        icoDark.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
+        DayNNight->setIcon(icoDark);
+    }
+    if(MenuCollaboratori==false){
+        MenuCollab->setText("Mostra barra collaboratori");
+    }
+
+    //connect action
+    connect(fullscreen, &QAction::triggered, this, &EditorWindow::on_actionFullscreen_triggered);
+    connect(DayNNight, &QAction::triggered, this, &EditorWindow::on_actionDark_Mode_triggered);
+    connect(MenuCollab, &QAction::triggered, this, &EditorWindow::on_actionCollaboratori_triggered);
+
+    //set tip
+    fullscreen->setStatusTip(tr("Passa in modalità fullscreen"));
+    DayNNight->setStatusTip(tr("Copia il codice selezionato"));
+    MenuCollab->setStatusTip(tr("Incolla il codice selezionato"));
+
+
+    //set Shortcut
+    //cut->setShortcuts();
+    //copy->setShortcuts(&d);
+    //paste->setShortcuts(QKeySequence::Paste);
+
+    //add action to menu
+    menuVisualizza.addAction(fullscreen);
+    menuVisualizza.addAction(DayNNight);
+    menuVisualizza.addAction(MenuCollab);
+
+    ui->visualizzaButton->setMenu(&menuVisualizza);
+    ui->visualizzaButton->showMenu();
+}
+
+void EditorWindow::on_modificaButton_clicked(){
+    QMenu menuEdit(this);
+
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+
+    //prepare icon
+    QIcon icoCPY, icoCUT, icoPAS, v2B, v2I, v2U;
+    v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
+    v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
+    v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+
+    //prepare action
+    QAction *cut = new QAction(icoCUT, tr("Taglia"), this);
+    QAction *copy = new QAction(icoCPY, tr("Copia"), this);
+    QAction *paste = new QAction(icoPAS, tr("Incolla"), this);
+    QAction *selectAll = new QAction(tr("Seleziona tutto"), this);
+    QAction *bold = new QAction(v2B, tr("Grassetto"), this);
+    QAction *italic = new QAction(v2I, tr("Corsivo"), this);
+    QAction *underl = new QAction(v2U, tr("Sottolineato"), this);
+
+    //connect action
+    connect(cut, &QAction::triggered, this, &EditorWindow::on_buttonCut_clicked);
+    connect(copy, &QAction::triggered, this, &EditorWindow::on_buttonCopy_clicked);
+    connect(paste, &QAction::triggered, this, &EditorWindow::on_buttonPaste_clicked);
+    connect(selectAll, &QAction::triggered, this, &EditorWindow::on_actionSeleziona_Tutto_triggered);
+    connect(bold, &QAction::triggered, this, &EditorWindow::on_actionGrassetto_triggered);
+    connect(italic, &QAction::triggered, this, &EditorWindow::on_actionCorsivo_triggered);
+    connect(underl, &QAction::triggered, this, &EditorWindow::on_actionSottolineato_triggered);
+
+    //set tip
+    cut->setStatusTip(tr("Taglia il codice selezionato"));
+    copy->setStatusTip(tr("Copia il codice selezionato"));
+    paste->setStatusTip(tr("Incolla il codice selezionato"));
+    selectAll->setStatusTip(tr("Seleziona tutto il testo"));
+    bold->setStatusTip(tr("Rende grassetto il testo"));
+    italic->setStatusTip(tr("Rende corsivo il testo"));
+    underl->setStatusTip(tr("Rende sottolineato il testo"));
+
+    //disable some action if cursor hasn't selection
+    if(!cursor.hasSelection()){
+        cut->setEnabled(false);
+        copy->setEnabled(false);
+    }
+
+    //set Shortcut
+    cut->setShortcuts(QKeySequence::Cut);
+    copy->setShortcuts(QKeySequence::Copy);
+    paste->setShortcuts(QKeySequence::Paste);
+    selectAll->setShortcuts(QKeySequence::SelectAll);
+    bold->setShortcuts(QKeySequence::Bold);
+    italic->setShortcuts(QKeySequence::Italic);
+    underl->setShortcuts(QKeySequence::Underline);
+
+    //add action to menu
+    menuEdit.addAction(bold);
+    menuEdit.addAction(italic);
+    menuEdit.addAction(underl);
+    menuEdit.addSeparator();
+    menuEdit.addAction(cut);
+    menuEdit.addAction(copy);
+    menuEdit.addAction(paste);
+    menuEdit.addSeparator();
+    menuEdit.addAction(selectAll);
+
+    ui->modificaButton->setMenu(&menuEdit);
+    ui->modificaButton->showMenu();
+}
+
+void EditorWindow::on_aboutButton_clicked(){
+    QMenu menuAbout(this);
+
+    QAction *about = new QAction(tr("About"), this);
+
+    //connect action
+    connect(about, &QAction::triggered, this, &EditorWindow::on_actionAbout_triggered);
+
+    //set tip
+    about->setStatusTip(tr("Apre una finestra con le informazioni "));
+
+    //set Shortcut
+    about->setShortcuts(QKeySequence::Underline);
+
+    //add action to menu
+    menuAbout.addAction(about);
+
+    ui->aboutButton->setMenu(&menuAbout);
+    ui->aboutButton->showMenu();
 }
 
 /***********************************************************************************
@@ -309,7 +494,7 @@ void EditorWindow::on_buttonCut_clicked() {
         int startIndex = cursor.selectionStart();
         int endIndex = cursor.selectionEnd();
         changeNextCharsAlignment(cursor, startIndex, endIndex);
-        removeCharRangeRequest(cursor, startIndex, endIndex);
+        removeCharRangeRequest(startIndex, endIndex);
         ui->RealTextEdit->cut();
     }
     ui->RealTextEdit->setFocus();
@@ -327,7 +512,7 @@ void EditorWindow::on_buttonPaste_clicked() {
             int startIndex = cursor.selectionStart();
             int endIndex = cursor.selectionEnd();
             changeNextCharsAlignment(cursor, startIndex, endIndex);
-            removeCharRangeRequest(cursor, startIndex, endIndex);
+            removeCharRangeRequest(startIndex, endIndex);
         }
         insertCharRangeRequest(pos, hasSelection);
         ui->RealTextEdit->paste();
@@ -539,7 +724,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 int startIndex = cursor.selectionStart();
                 int endIndex = cursor.selectionEnd();
                 changeNextCharsAlignment(cursor, startIndex, endIndex);
-                removeCharRangeRequest(cursor, startIndex, endIndex);
+                removeCharRangeRequest(startIndex, endIndex);
             }
             return QObject::eventFilter(obj, ev);
         } //*********************************************** CTRL-C *************************************************
@@ -558,7 +743,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                     int startIndex = cursor.selectionStart();
                     int endIndex = cursor.selectionEnd();
                     changeNextCharsAlignment(cursor, startIndex, endIndex);
-                    removeCharRangeRequest(cursor, startIndex, endIndex);
+                    removeCharRangeRequest(startIndex, endIndex);
                 }
                 insertCharRangeRequest(pos, hasSelection);
             } catch(OperationNotSupported& ex) {
@@ -731,7 +916,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
                 /* Send requests */
                 changeNextCharsAlignment(cursor, startIndex, endIndex);
-                removeCharRangeRequest(cursor, startIndex, endIndex);
+                removeCharRangeRequest(startIndex, endIndex);
             }
             else if(pos > 0) { //Remove only one character
                 changeNextCharsAlignment(cursor, pos-1, pos);
@@ -761,7 +946,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
                 /* Send requests */
                 changeNextCharsAlignment(cursor, startIndex, endIndex);
-                removeCharRangeRequest(cursor, startIndex, endIndex);
+                removeCharRangeRequest(startIndex, endIndex);
             }
             else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) {
                 changeNextCharsAlignment(cursor, pos, pos+1);
@@ -858,12 +1043,10 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
 void EditorWindow::on_actionFullscreen_triggered() {
    if(SchermoIntero==false) {
         SchermoIntero=true;
-        ui->actionFullscreen->setText("Modalità Finestra");
         this->setWindowState(Qt::WindowFullScreen);
     } else if(SchermoIntero==true) {
         SchermoIntero=false;
         this->setWindowState(Qt::WindowNoState); //WindowNoState save the old position and the old size of the window
-        ui->actionFullscreen->setText("Schermo Intero");
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
@@ -1086,7 +1269,6 @@ void EditorWindow::PaintItBlack() {
 
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
-        ui->actionDark_Mode->setText("Modalità Giorno");
         ui->actionDark_Mode->setIcon(menuIcon);
 
     }else if(DarkMode==true){
@@ -1129,7 +1311,6 @@ void EditorWindow::PaintItBlack() {
 
         //Menu Modify
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
-        ui->actionDark_Mode->setText("Modalità Notte");
         ui->actionDark_Mode->setIcon(menuIcon);
     }
 
@@ -1222,8 +1403,7 @@ void EditorWindow::refreshFormatButtons() {
 }
 
 void EditorWindow::hideCollab(){
-    ui->actionCollaboratori->setText("Mostra Collaboratori");
-	
+    MenuCollaboratori = false;
     ui->listWidgetOn->hide();
     ui->listWidgetOff->hide();
     ui->labelUser->hide();
@@ -1236,10 +1416,11 @@ void EditorWindow::hideCollab(){
     ui->line->hide();
     ui->line_2->hide();
     ui->line_3->hide();
+    ui->DocNameButton->hide();
 }
 
 void EditorWindow::showCollab(){
-    ui->actionCollaboratori->setText("Nascondi Collaboratori");
+    MenuCollaboratori = true;
     ui->listWidgetOn->show();
     ui->listWidgetOff->show();
     ui->labelUser->show();
@@ -1252,6 +1433,7 @@ void EditorWindow::showCollab(){
     ui->line->show();
     ui->line_2->show();
     ui->line_3->show();
+    ui->DocNameButton->show();
 }
 
 //HANDLE LOSS OF CONNECTION
@@ -1314,13 +1496,13 @@ void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos)
     v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
 
     //prepare action
-    QAction *cut = new QAction(icoCUT, tr("Cut"), this);
-    QAction *copy = new QAction(icoCPY, tr("Copy"), this);
-    QAction *paste = new QAction(icoPAS, tr("Paste"), this);
-    QAction *selectAll = new QAction(tr("Select All"), this);
-    QAction *bold = new QAction(v2B, tr("Bold"), this);
-    QAction *italic = new QAction(v2I, tr("Italic"), this);
-    QAction *underl = new QAction(v2U, tr("Underline"), this);
+    QAction *cut = new QAction(icoCUT, tr("Taglia"), this);
+    QAction *copy = new QAction(icoCPY, tr("Copia"), this);
+    QAction *paste = new QAction(icoPAS, tr("Incolla"), this);
+    QAction *selectAll = new QAction(tr("Seleziona tutto"), this);
+    QAction *bold = new QAction(v2B, tr("Grassetto"), this);
+    QAction *italic = new QAction(v2I, tr("Corsivo"), this);
+    QAction *underl = new QAction(v2U, tr("Sottolineato"), this);
 
     //connect action
     connect(cut, &QAction::triggered, this, &EditorWindow::on_buttonCut_clicked);
@@ -2229,7 +2411,7 @@ QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
     return html;
 }
 
-void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor, int startIndex, int endIndex) {
+void EditorWindow::removeCharRangeRequest(int startIndex, int endIndex) {
     //Serialize data
     json j;
     jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
