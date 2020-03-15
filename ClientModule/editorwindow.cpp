@@ -101,7 +101,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
-    ui->RealTextEdit->document()->setDocumentMargin(30);
+    ui->RealTextEdit->document()->setDocumentMargin(50);
     ui->fontFamilyBox->setCurrentText(ui->RealTextEdit->currentFont().family());
     for(int i=0; i<ui->fontFamilyBox->count(); i++) {
         ui->fontFamilyBox->setItemIcon(i, fontIcon);
