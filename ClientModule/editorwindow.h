@@ -33,6 +33,14 @@ private slots:
     /************************************
      *            INTERFACE             *
      ************************************/
+
+    //TopMenuBar
+    void on_fileButton_clicked();
+    void on_visualizzaButton_clicked();
+    void on_modificaButton_clicked();
+    void on_aboutButton_clicked();
+
+    //CollaboratorBar
     void on_DocNameButton_clicked();
 
     //Change style of the text
@@ -63,6 +71,8 @@ private slots:
     //RealTextEdit Event
     void on_RealTextEdit_cursorPositionChanged();
     void on_RealTextEdit_selectionChanged();
+    void on_RealTextEdit_textChanged();
+    void on_RealTextEdit_customContextMenuRequested(const QPoint &pos);
 
     /************************************
      *               EVENT              *
@@ -103,17 +113,11 @@ private slots:
     void showCollab();
     bool handleConnectionLoss();
     void setupInitialCondition();
-    void on_RealTextEdit_textChanged();
-    void on_RealTextEdit_customContextMenuRequested(const QPoint &pos);
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
      ************************************/
     void on_profileButton_clicked();
-    void on_fileButton_clicked();
-    void on_visualizzaButton_clicked();
-    void on_modificaButton_clicked();
-    void on_aboutButton_clicked();
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");

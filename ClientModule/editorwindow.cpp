@@ -130,10 +130,6 @@ EditorWindow::~EditorWindow() {
 /***********************************************************************************
 *                                 TOP BAR FUNCTION                                 *
 ************************************************************************************/
-void EditorWindow::on_DocNameButton_clicked(){
-    on_actionRinomina_triggered();
-}
-
 void EditorWindow::on_fileButton_clicked(){
     QMenu menuFile(this);
 
@@ -160,10 +156,18 @@ void EditorWindow::on_fileButton_clicked(){
     rename->setStatusTip(tr("Modifica il nome di questo documento"));
     close->setStatusTip(tr("Chiudi il documento corrente e torna al menu"));
 
+    //prepare list of Shortcut
+    QList<QKeySequence> shortcutUri, shortcutPdf, shortcutRinomina, shortcutClose;
+    //shortcutUri.append(QKeySequence(Qt::CTRL + Qt::Key_?));       //WE HAVE A SHORTCUT FOR THIS?
+    shortcutPdf.append(QKeySequence(Qt::CTRL + Qt::Key_S));         //CTRL+S
+    shortcutRinomina.append(QKeySequence(Qt::CTRL + Qt::Key_R));    //CTRL+R
+    shortcutClose.append(QKeySequence(Qt::CTRL + Qt::Key_Q));       //CTRL+Q
+
     //set Shortcut
-    //cut->setShortcuts(QKeySequence::Cut);
-    //pdfExport->setShortcuts(QKeySequence::);
-    //paste->setShortcuts(QKeySequence::Paste);
+    uri->setShortcuts(shortcutUri);
+    pdfExport->setShortcuts(shortcutPdf);
+    rename->setShortcuts(shortcutRinomina);
+    close->setShortcuts(shortcutClose);
 
     //add action to menu
     menuFile.addAction(uri);
@@ -213,11 +217,16 @@ void EditorWindow::on_visualizzaButton_clicked(){
     DayNNight->setStatusTip(tr("Copia il codice selezionato"));
     MenuCollab->setStatusTip(tr("Incolla il codice selezionato"));
 
+    //prepare list of Shortcut
+    QList<QKeySequence> shortcutFullS, shortcutDark, shortcutMenuC;
+    shortcutFullS.append(QKeySequence(Qt::CTRL + Qt::Key_F11));     //CTRL+F11
+    shortcutDark.append(QKeySequence(Qt::CTRL + Qt::Key_D));        //CTRL+D
+    //shortcutMenuC.append(QKeySequence(Qt::CTRL + Qt::Key_?));     //WE HAVE A SHORTCUT FOR THIS?
 
     //set Shortcut
-    //cut->setShortcuts();
-    //copy->setShortcuts(&d);
-    //paste->setShortcuts(QKeySequence::Paste);
+    fullscreen->setShortcuts(shortcutFullS);
+    DayNNight->setShortcuts(shortcutDark);
+    MenuCollab->setShortcuts(shortcutMenuC);
 
     //add action to menu
     menuVisualizza.addAction(fullscreen);
@@ -307,14 +316,26 @@ void EditorWindow::on_aboutButton_clicked(){
     //set tip
     about->setStatusTip(tr("Apre una finestra con le informazioni "));
 
+    //prepare list of Shortcut
+    QList<QKeySequence> shortcutAbout;
+    shortcutAbout.append(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_I));     //CTRL+Shift+I
+
     //set Shortcut
-    about->setShortcuts(QKeySequence::Underline);
+    about->setShortcuts(shortcutAbout);
 
     //add action to menu
     menuAbout.addAction(about);
 
     ui->aboutButton->setMenu(&menuAbout);
     ui->aboutButton->showMenu();
+}
+
+
+/***********************************************************************************
+*                                  COLLABORATOR BAR                                *
+************************************************************************************/
+void EditorWindow::on_DocNameButton_clicked(){
+    on_actionRinomina_triggered();
 }
 
 /***********************************************************************************
@@ -703,13 +724,99 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     refreshFormatButtons();
 }
 
+
+void EditorWindow::on_RealTextEdit_textChanged(){
+    int charCount = ui->RealTextEdit->toPlainText().count();
+    int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
+    int lineCount = ui->RealTextEdit->document()->blockCount();
+    QString ZaChar = "Caratteri: "+QString::number(charCount);
+    QString ZaWord = "Parole: "+QString::number(wordCount);
+    QString ZaLine = "Linee: "+QString::number(lineCount);
+    ui->label->setText(ZaChar);
+    ui->label_2->setText(ZaWord);
+    ui->label_3->setText(ZaLine);
+}
+
+void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos){
+    //Create an empty menu
+    QMenu menu(this);
+
+    //Find cursor in the text field
+    QTextCursor cursor = ui->RealTextEdit->textCursor();
+
+    //prepare icon
+    QIcon icoCPY, icoCUT, icoPAS, v2B, v2I, v2U;
+    icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
+    icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
+    icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
+    v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
+    v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
+    v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+
+    //prepare action
+    QAction *cut = new QAction(icoCUT, tr("Taglia"), this);
+    QAction *copy = new QAction(icoCPY, tr("Copia"), this);
+    QAction *paste = new QAction(icoPAS, tr("Incolla"), this);
+    QAction *selectAll = new QAction(tr("Seleziona tutto"), this);
+    QAction *bold = new QAction(v2B, tr("Grassetto"), this);
+    QAction *italic = new QAction(v2I, tr("Corsivo"), this);
+    QAction *underl = new QAction(v2U, tr("Sottolineato"), this);
+
+    //connect action
+    connect(cut, &QAction::triggered, this, &EditorWindow::on_buttonCut_clicked);
+    connect(copy, &QAction::triggered, this, &EditorWindow::on_buttonCopy_clicked);
+    connect(paste, &QAction::triggered, this, &EditorWindow::on_buttonPaste_clicked);
+    connect(selectAll, &QAction::triggered, this, &EditorWindow::on_actionSeleziona_Tutto_triggered);
+    connect(bold, &QAction::triggered, this, &EditorWindow::on_actionGrassetto_triggered);
+    connect(italic, &QAction::triggered, this, &EditorWindow::on_actionCorsivo_triggered);
+    connect(underl, &QAction::triggered, this, &EditorWindow::on_actionSottolineato_triggered);
+
+    //set tip
+    cut->setStatusTip(tr("Taglia il codice selezionato"));
+    copy->setStatusTip(tr("Copia il codice selezionato"));
+    paste->setStatusTip(tr("Incolla il codice selezionato"));
+    selectAll->setStatusTip(tr("Seleziona tutto il testo"));
+    bold->setStatusTip(tr("Rende grassetto il testo"));
+    italic->setStatusTip(tr("Rende corsivo il testo"));
+    underl->setStatusTip(tr("Rende sottolineato il testo"));
+
+    //disable some action if cursor hasn't selection
+    if(!cursor.hasSelection()){
+        cut->setEnabled(false);
+        copy->setEnabled(false);
+    }
+
+    //set Shortcut
+    cut->setShortcuts(QKeySequence::Cut);
+    copy->setShortcuts(QKeySequence::Copy);
+    paste->setShortcuts(QKeySequence::Paste);
+    selectAll->setShortcuts(QKeySequence::SelectAll);
+    bold->setShortcuts(QKeySequence::Bold);
+    italic->setShortcuts(QKeySequence::Italic);
+    underl->setShortcuts(QKeySequence::Underline);
+
+    //add action to menu
+    menu.addAction(cut);
+    menu.addAction(copy);
+    menu.addAction(paste);
+    menu.addSeparator();
+    menu.addAction(bold);
+    menu.addAction(italic);
+    menu.addAction(underl);
+    menu.addSeparator();
+    menu.addAction(selectAll);
+
+    //show menu
+    menu.exec(ui->RealTextEdit->viewport()->mapToGlobal(pos)); //I don't know why, but it works! (I mean viewport->mapToGlobal)
+}
+
+
 /***********************************************************************************
 *                                   EVENT HANDLER                                  *
 ************************************************************************************/
 bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
     if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
-
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
@@ -1494,90 +1601,6 @@ void EditorWindow::setupInitialCondition(){
         AlignJFXButtonHandler();
     else
         AlignSXButtonHandler();
-}
-
-void EditorWindow::on_RealTextEdit_textChanged(){
-    int charCount = ui->RealTextEdit->toPlainText().count();
-    int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
-    int lineCount = ui->RealTextEdit->document()->blockCount();
-    QString ZaChar = "Caratteri: "+QString::number(charCount);
-    QString ZaWord = "Parole: "+QString::number(wordCount);
-    QString ZaLine = "Linee: "+QString::number(lineCount);
-    ui->label->setText(ZaChar);
-    ui->label_2->setText(ZaWord);
-    ui->label_3->setText(ZaLine);
-}
-
-void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos){
-    //QMenu *menu = ui->RealTextEdit->createStandardContextMenu(pos);
-    QMenu menu(this);
-
-    QTextCursor cursor = ui->RealTextEdit->textCursor();
-
-    //prepare icon
-    QIcon icoCPY, icoCUT, icoPAS, v2B, v2I, v2U;
-    icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
-    icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
-    icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
-    v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
-    v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
-    v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
-
-    //prepare action
-    QAction *cut = new QAction(icoCUT, tr("Taglia"), this);
-    QAction *copy = new QAction(icoCPY, tr("Copia"), this);
-    QAction *paste = new QAction(icoPAS, tr("Incolla"), this);
-    QAction *selectAll = new QAction(tr("Seleziona tutto"), this);
-    QAction *bold = new QAction(v2B, tr("Grassetto"), this);
-    QAction *italic = new QAction(v2I, tr("Corsivo"), this);
-    QAction *underl = new QAction(v2U, tr("Sottolineato"), this);
-
-    //connect action
-    connect(cut, &QAction::triggered, this, &EditorWindow::on_buttonCut_clicked);
-    connect(copy, &QAction::triggered, this, &EditorWindow::on_buttonCopy_clicked);
-    connect(paste, &QAction::triggered, this, &EditorWindow::on_buttonPaste_clicked);
-    connect(selectAll, &QAction::triggered, this, &EditorWindow::on_actionSeleziona_Tutto_triggered);
-    connect(bold, &QAction::triggered, this, &EditorWindow::on_actionGrassetto_triggered);
-    connect(italic, &QAction::triggered, this, &EditorWindow::on_actionCorsivo_triggered);
-    connect(underl, &QAction::triggered, this, &EditorWindow::on_actionSottolineato_triggered);
-
-    //set tip
-    cut->setStatusTip(tr("Taglia il codice selezionato"));
-    copy->setStatusTip(tr("Copia il codice selezionato"));
-    paste->setStatusTip(tr("Incolla il codice selezionato"));
-    selectAll->setStatusTip(tr("Seleziona tutto il testo"));
-    bold->setStatusTip(tr("Rende grassetto il testo"));
-    italic->setStatusTip(tr("Rende corsivo il testo"));
-    underl->setStatusTip(tr("Rende sottolineato il testo"));
-
-    //disable some action if cursor hasn't selection
-    if(!cursor.hasSelection()){
-        cut->setEnabled(false);
-        copy->setEnabled(false);
-    }
-
-    //set Shortcut
-    cut->setShortcuts(QKeySequence::Cut);
-    copy->setShortcuts(QKeySequence::Copy);
-    paste->setShortcuts(QKeySequence::Paste);
-    selectAll->setShortcuts(QKeySequence::SelectAll);
-    bold->setShortcuts(QKeySequence::Bold);
-    italic->setShortcuts(QKeySequence::Italic);
-    underl->setShortcuts(QKeySequence::Underline);
-
-    //add action to menu
-    menu.addAction(cut);
-    menu.addAction(copy);
-    menu.addAction(paste);
-    menu.addSeparator();
-    menu.addAction(bold);
-    menu.addAction(italic);
-    menu.addAction(underl);
-    menu.addSeparator();
-    menu.addAction(selectAll);
-
-    //show menu
-    menu.exec(ui->RealTextEdit->viewport()->mapToGlobal(pos)); //I don't know why, but it works! (I mean viewport->mapToGlobal)
 }
 
 /***************************************************************************************************************************************
