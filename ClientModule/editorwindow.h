@@ -112,6 +112,14 @@ private slots:
 
     void on_profileButton_clicked();
 
+    void on_fileButton_clicked();
+
+    void on_visualizzaButton_clicked();
+
+    void on_modificaButton_clicked();
+
+    void on_aboutButton_clicked();
+
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
@@ -125,7 +133,6 @@ public slots:
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
-    void removeRemoteCursor(std::string username);
     void updateAlignmentButton();
     void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
 
