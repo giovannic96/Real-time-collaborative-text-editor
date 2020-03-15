@@ -133,6 +133,7 @@ public slots:
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
+    void getUserOffline(std::string username);
     void updateAlignmentButton();
     void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
 
@@ -165,7 +166,7 @@ private:
     void removeCharRequest(int pos);
     void cursorChangeRequest(int pos);
     void collabColorsRequest(QString uri);
-    void removeCharRangeRequest(const QTextCursor& cursor);
+    void removeCharRangeRequest(const QTextCursor& cursor, int startIndex, int endIndex);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);

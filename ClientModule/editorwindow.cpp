@@ -485,8 +485,10 @@ void EditorWindow::on_buttonAlignJFX_clicked() {
 void EditorWindow::on_buttonCut_clicked() {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     if(cursor.hasSelection()) {
-        changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-        removeCharRangeRequest(cursor);
+        int startIndex = cursor.selectionStart();
+        int endIndex = cursor.selectionEnd();
+        changeNextCharsAlignment(cursor, startIndex, endIndex);
+        removeCharRangeRequest(cursor, startIndex, endIndex);
         ui->RealTextEdit->cut();
     }
     ui->RealTextEdit->setFocus();
@@ -501,8 +503,10 @@ void EditorWindow::on_buttonPaste_clicked() {
     try {
         if(cursor.hasSelection()) {
             hasSelection = true;
-            changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-            removeCharRangeRequest(cursor);
+            int startIndex = cursor.selectionStart();
+            int endIndex = cursor.selectionEnd();
+            changeNextCharsAlignment(cursor, startIndex, endIndex);
+            removeCharRangeRequest(cursor, startIndex, endIndex);
         }
         insertCharRangeRequest(pos, hasSelection);
         ui->RealTextEdit->paste();
@@ -711,8 +715,10 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         if (keyEvent->matches(QKeySequence::Cut)) {
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             if(cursor.hasSelection()) {
-                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-                removeCharRangeRequest(cursor);
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+                changeNextCharsAlignment(cursor, startIndex, endIndex);
+                removeCharRangeRequest(cursor, startIndex, endIndex);
             }
             return QObject::eventFilter(obj, ev);
         } //*********************************************** CTRL-C *************************************************
@@ -728,8 +734,10 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             try {
                 if(cursor.hasSelection()) {
                     hasSelection = true;
-                    changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-                    removeCharRangeRequest(cursor);
+                    int startIndex = cursor.selectionStart();
+                    int endIndex = cursor.selectionEnd();
+                    changeNextCharsAlignment(cursor, startIndex, endIndex);
+                    removeCharRangeRequest(cursor, startIndex, endIndex);
                 }
                 insertCharRangeRequest(pos, hasSelection);
             } catch(OperationNotSupported& ex) {
@@ -885,8 +893,24 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             int pos = cursor.position();
 
             if(cursor.hasSelection()) { //Remove range of characters selected
-                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-                removeCharRangeRequest(cursor);
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                /* Update new alignment */
+                cursor.setPosition(cursor.selectionStart());
+                QTextBlockFormat textBlockFormat;
+                int firstCharAlignment = static_cast<int>(cursor.blockFormat().alignment());
+                textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(firstCharAlignment));
+                cursor.mergeBlockFormat(textBlockFormat);
+                ui->RealTextEdit->setAlignment(textBlockFormat.alignment());
+                setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(textBlockFormat.alignment())));
+                refreshFormatButtons();
+                AlignButtonStyleHandler();
+                cursor.setPosition(pos);
+
+                /* Send requests */
+                changeNextCharsAlignment(cursor, startIndex, endIndex);
+                removeCharRangeRequest(cursor, startIndex, endIndex);
             }
             else if(pos > 0) { //Remove only one character
                 changeNextCharsAlignment(cursor, pos-1, pos);
@@ -899,8 +923,24 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             int pos = cursor.position();
 
             if(cursor.hasSelection()) {
-                changeNextCharsAlignment(cursor, cursor.selectionStart(), cursor.selectionEnd());
-                removeCharRangeRequest(cursor); //Remove range of characters selected
+                int startIndex = cursor.selectionStart();
+                int endIndex = cursor.selectionEnd();
+
+                /* Update new alignment */
+                cursor.setPosition(cursor.selectionStart());
+                QTextBlockFormat textBlockFormat;
+                int firstCharAlignment = static_cast<int>(cursor.blockFormat().alignment());
+                textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(firstCharAlignment));
+                cursor.mergeBlockFormat(textBlockFormat);
+                ui->RealTextEdit->setAlignment(textBlockFormat.alignment());
+                setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(textBlockFormat.alignment())));
+                refreshFormatButtons();
+                AlignButtonStyleHandler();
+                cursor.setPosition(pos);
+
+                /* Send requests */
+                changeNextCharsAlignment(cursor, startIndex, endIndex);
+                removeCharRangeRequest(cursor, startIndex, endIndex);
             }
             else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) {
                 changeNextCharsAlignment(cursor, pos, pos+1);
@@ -2363,10 +2403,7 @@ QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
     return html;
 }
 
-void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor) {
-    int startIndex = cursor.selectionStart();
-    int endIndex = cursor.selectionEnd();
-
+void EditorWindow::removeCharRangeRequest(const QTextCursor& cursor, int startIndex, int endIndex) {
     //Serialize data
     json j;
     jsonUtility::to_json_removal_range(j, "REMOVALRANGE_REQUEST", startIndex, endIndex);
