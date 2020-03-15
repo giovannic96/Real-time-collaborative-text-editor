@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTextCursor>
 #include <QComboBox>
+#include <QMetaType>
 #include "jsonUtility.h"
 #include "message.h"
 #include "myClient.h"
@@ -19,6 +20,7 @@ struct OperationNotSupported : public std::exception {
         return "Operation not supported";
     }
 };
+typedef std::map<std::string, std::string> myCollabColorsMap;
 
 class EditorWindow : public QMainWindow {
     Q_OBJECT
@@ -128,7 +130,7 @@ public slots:
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
     void getUserOffline(std::string username);
     void updateAlignmentButton();
-    void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
+    void showCollabColorsMap(myCollabColorsMap collabColorsMap);
 
 private:
     Ui::EditorWindow *ui;

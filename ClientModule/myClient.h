@@ -19,6 +19,8 @@
 
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;
+typedef std::map<std::string, std::string> myCollabColorsMap;
+Q_DECLARE_METATYPE(myCollabColorsMap)
 
 class myClient : public QObject
 {
@@ -71,7 +73,7 @@ signals:
     void jsonMsgFailure(QString windowName, QString msg);
     void removeRemoteCursor(std::string username);
     void changeRemoteCursor(std::string username, std::string color, int pos);
-    void showCollabColorsMap(std::map<std::string, std::string> collabColorsMap);
+    void showCollabColorsMap(myCollabColorsMap collabColorsMap);
 
 private:
     boost::asio::io_context io_context_;

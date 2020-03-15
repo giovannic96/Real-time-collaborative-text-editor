@@ -110,7 +110,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     //ui->RealTextEdit->addRemoteCursor(_client->getUsername(), std::make_pair(_client->getColor(),0));
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
-    qRegisterMetaType<std::map<std::string,std::string>>("std::map<std::string,std::string");
+    qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::string");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
     textOnTitleBar = docName;
@@ -1601,7 +1601,7 @@ void EditorWindow::sendRequestMsg(std::string req) {
     _client->write(msg);
 }
 
-void EditorWindow::showCollabColorsMap(std::map<std::string, std::string> collabColorsMap) {
+void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
     QString itemString;
     QList<QListWidgetItem*> fileItem;
     QListWidgetItem* icon;

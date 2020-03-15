@@ -308,8 +308,8 @@ void jsonUtility::from_json_cursor_change(const json &j, std::string& username, 
     pos = j.at("pos").get<int>();
 }
 
-void jsonUtility::from_json_collab_colors_resp(const json &j, std::map<std::string, std::string>& collabColorsMap) {
-    collabColorsMap = j.at("collabColorsMap").get<std::map<std::string, std::string>>();
+void jsonUtility::from_json_collab_colors_resp(const json &j, myCollabColorsMap& collabColorsMap) {
+    collabColorsMap = j.at("collabColorsMap").get<myCollabColorsMap>();
 }
 
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {

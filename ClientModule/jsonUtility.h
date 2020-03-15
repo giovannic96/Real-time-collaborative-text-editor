@@ -14,6 +14,7 @@ using nlohmann::json;
 
 //SERIALIZATION (convert json into string) -> it is obtained with method dump() (e.g. json.dump())
 //DESERIALIZATION (convert data into json) -> it is obtained with method parse() (e.g. json::parse(data_));
+typedef std::map<std::string, std::string> myCollabColorsMap;
 
 class jsonUtility {
 
@@ -56,7 +57,7 @@ public:
     static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple, symbolStyle& style);
     static void from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols);
     static void from_json_cursor_change(const json &j, std::string& username, std::string& color, int& pos);
-    static void from_json_collab_colors_resp(const json &j, std::map<std::string, std::string>& collabColorsMap);
+    static void from_json_collab_colors_resp(const json &j, myCollabColorsMap& collabColorsMap);
     static void from_json_removal(const json &j, int& index);
     static void from_json_removal_range(const json &j, int& startIndex, int& endIndex);
     static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);

@@ -311,7 +311,7 @@ void myClient::do_read_body() {
                     jsonUtility::from_json_collab_colors_map(jdata_in, db_responseJSON);
 
                     if(db_responseJSON == "COLLAB_COLORS_MAP_OK") {
-                        std::map<std::string, std::string> collabColorsMapJSON;
+                        myCollabColorsMap collabColorsMapJSON;
                         jsonUtility::from_json_collab_colors_resp(jdata_in, collabColorsMapJSON);
                         for (const auto& kv : collabColorsMapJSON) {
                             qDebug() << QString::fromStdString(kv.first) << " has value " << QString::fromStdString(kv.second) << endl;
