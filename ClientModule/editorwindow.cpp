@@ -1238,6 +1238,20 @@ void EditorWindow::PaintItBlack() {
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #9d9d9d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
 
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);");
+        ui->fileButton->setStyleSheet("#fileButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #fileButton:hover{background-color: #FF8000;} #fileButton:pressed {background-color: #FF6F00;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #visualizzaButton:hover{background-color: #FF8000;} #visualizzaButton:pressed {background-color: #FF6F00;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #modificaButton:hover{background-color: #FF8000;} #modificaButton:pressed {background-color: #FF6F00;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #aboutButton:hover{background-color: #FF8000;} #aboutButton:pressed {background-color: #FF6F00;}");
+
+        //COLLAB BAR
+        ui->label->setStyleSheet("color: #FFFFFF");
+        ui->label_2->setStyleSheet("color: #FFFFFF");
+        ui->label_3->setStyleSheet("color: #FFFFFF");
+        ui->labelCollOn->setStyleSheet("color: #FFFFFF");
+        ui->labelCollOff->setStyleSheet("color: #FFFFFF");
+
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
         icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
@@ -1278,6 +1292,20 @@ void EditorWindow::PaintItBlack() {
         ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);");
+        ui->fileButton->setStyleSheet("#fileButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #fileButton:hover{background-color: #005DBA;} #fileButton:pressed {background-color: #094377;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #visualizzaButton:hover{background-color: #005DBA;} #visualizzaButton:pressed {background-color: #094377;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #modificaButton:hover{background-color: #005DBA;} #modificaButton:pressed {background-color: #094377;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #aboutButton:hover{background-color: #005DBA;} #aboutButton:pressed {background-color: #094377;}");
+
+        //COLLAB BAR
+        ui->label->setStyleSheet("color: grey");
+        ui->label_2->setStyleSheet("color: grey");
+        ui->label_3->setStyleSheet("color: grey");
+        ui->labelCollOn->setStyleSheet("color: grey");
+        ui->labelCollOff->setStyleSheet("color: grey");
 
         QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
         icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);

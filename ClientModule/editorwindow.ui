@@ -116,11 +116,11 @@ background: url(:/image/Editor/sfondo.png);
              <property name="styleSheet">
               <string notr="true">background: qlineargradient(
 	x1: 0, y1: 1, x2: 1, y2: 1,
-	stop: 0 #02B7CD,
-	stop: 0.53 #02B7CD,
-	stop:0.54 #02B7CD
-	stop:0.63 #077DAD
-	stop:0.64 #077DAD
+	stop: 0 #0683FF
+	stop:0.53 #0683FF
+	stop:0.54 #0683FF
+	stop:0.63 #005DBA
+	stop:0.64 #005DBA
 	stop:0.88 #0A5597
 );
 </string>
@@ -132,6 +132,9 @@ background: url(:/image/Editor/sfondo.png);
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_14">
+              <property name="spacing">
+               <number>3</number>
+              </property>
               <property name="leftMargin">
                <number>17</number>
               </property>
@@ -153,19 +156,19 @@ background: url(:/image/Editor/sfondo.png);
                  <font>
                   <family>Verdana</family>
                   <pointsize>11</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#fileButton {
 	border-radius: 4px;
 	color: #FFFFFF;
-	background-color: #02B7CD;
+	background-color: #0683FF;
 }
 
 #fileButton:hover {
-	background-color: #077DAD;
+	background-color: #005DBA;
 }
 
 #fileButton:pressed {
@@ -194,19 +197,19 @@ See Diretta Manual merge on &quot;C.A.R.T.E. v0.2.1a&quot; at 2:12:00
                  <font>
                   <family>Verdana</family>
                   <pointsize>11</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#visualizzaButton {
 	border-radius: 4px;
 	color: #FFFFFF;
-	background-color: #02B7CD;
+	background-color: #0683FF;
 }
 
 #visualizzaButton:hover {
-	background-color: #077DAD;
+	background-color: #005DBA;
 }
 
 #visualizzaButton:pressed {
@@ -230,19 +233,19 @@ See Diretta Manual merge on &quot;C.A.R.T.E. v0.2.1a&quot; at 2:12:00
                  <font>
                   <family>Verdana</family>
                   <pointsize>11</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#modificaButton {
 	border-radius: 4px;
 	color: #FFFFFF;
-	background-color: #02B7CD;
+	background-color: #0683FF;
 }
 
 #modificaButton:hover {
-	background-color: #077DAD;
+	background-color: #005DBA;
 }
 
 #modificaButton:pressed {
@@ -266,19 +269,19 @@ See Diretta Manual merge on &quot;C.A.R.T.E. v0.2.1a&quot; at 2:12:00
                  <font>
                   <family>Verdana</family>
                   <pointsize>11</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
+                  <weight>50</weight>
+                  <bold>false</bold>
                  </font>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#aboutButton {
 	border-radius: 4px;
 	color: #FFFFFF;
-	background-color: #02B7CD;
+	background-color: #0683FF;
 }
 
 #aboutButton:hover {
-	background-color: #077DAD;
+	background-color: #005DBA;
 }
 
 #aboutButton:pressed {
