@@ -473,22 +473,44 @@ dbService::DB_RESPONSE dbService::tryAddFriend(const std::string &invited, const
     }
 }
 
-dbService::DB_RESPONSE dbService::tryGetCollabColors(const std::string& uri, std::map<std::string, std::string>& collabColorsMap) {
+dbService::DB_RESPONSE dbService::tryGetCollabColors(const std::string& uri, std::map<std::string, std::pair<std::string, bool>>& collabColorsMap) {
     QSqlDatabase db;
+    std::map<std::string, std::string> onlineCollabColorsMap;
+    std::map<std::string, std::string> offlineCollabColorsMap;
     QString _uri = QString::fromUtf8(uri.data(), uri.size());
 
     db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect");
     db.setDatabaseName("../Db/texteditor_users.sqlite");
 
     if(db.open()) {
+        /* Get online collaborators (with their color) */
         QSqlQuery query(QSqlDatabase::database("MyConnect"));
         query.prepare(QString("SELECT username, color FROM users, permissions WHERE users.username = permissions.iduser AND idfile = :uri AND isOpen = 1;"));
         query.bindValue(":uri", _uri);
         if (query.exec()) {
-            while(query.next()){
-                collabColorsMap.insert(std::make_pair(query.value(0).toString().toStdString(), query.value(1).toString().toStdString()));
+            while(query.next()) {
+                onlineCollabColorsMap.insert(std::make_pair(query.value(0).toString().toStdString(), query.value(1).toString().toStdString()));
             }
-            return GET_COLLAB_COLORS_MAP_OK;
+            /* Get offline collaborators (with their color) */
+            QSqlQuery query2(QSqlDatabase::database("MyConnect"));
+            query2.prepare(QString("SELECT username, color FROM users, permissions WHERE users.username = permissions.iduser AND idfile = :uri AND isOpen = 0;"));
+            query2.bindValue(":uri", _uri);
+            if (query2.exec()) {
+                while(query2.next()) {
+                    offlineCollabColorsMap.insert(std::make_pair(query2.value(0).toString().toStdString(), query2.value(1).toString().toStdString()));
+                }
+                /* Concatenate the two maps in one single map */
+                for (const auto& item : onlineCollabColorsMap)
+                    collabColorsMap.insert(std::make_pair(item.first, std::make_pair(item.second, 1)));
+                for (const auto& item : offlineCollabColorsMap)
+                    collabColorsMap.insert(std::make_pair(item.first, std::make_pair(item.second, 0)));
+
+                return GET_COLLAB_COLORS_MAP_OK;
+            } else {
+                std::cout << "Error on SELECT" << std::endl;
+                db.close();
+                return QUERY_ERROR;
+            }
         } else {
             std::cout << "Error on SELECT" << std::endl;
             db.close();
@@ -561,7 +583,6 @@ dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, 
         if (query3.exec()) {
             if (query3.next()) {
                 owner = query3.value(2).toString();
-                //std::cout << "Questo è il proprietario: " << owner.toStdString() << std::endl;//debug
             } else {
                 db.close();
                 return QUERY_ERROR;

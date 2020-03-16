@@ -119,11 +119,31 @@ void myClient::do_read_body() {
                         emit opResultSuccess("DISCONNECT_SUCCESS");
                     else
                         emit opResultFailure("DISCONNECT_FAILURE");
-                } else if(opJSON == "REMOVE_CURSOR_RESPONSE") {
-                    std::string db_usernameJSON;
-                    jsonUtility::from_json_resp(jdata_in, db_usernameJSON);
+                } else if(opJSON == "GET_USER_OFFLINE_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_collab_colors_map(jdata_in, db_responseJSON);
 
-                    emit removeRemoteCursor(db_usernameJSON);
+                    if(db_responseJSON == "GET_USER_OFFLINE_OK") {
+                        std::string db_usernameJSON;
+                        myCollabColorsMap db_mapJSON;
+                        jsonUtility::from_json_user_offline(jdata_in, db_usernameJSON, db_mapJSON);
+                        emit removeRemoteCursor(db_usernameJSON);
+                        emit getUserOffline(db_mapJSON);
+                    } else {
+                        qDebug() << "Something went wrong with db" << endl;
+                    }
+                } else if(opJSON == "GET_USER_ONLINE_RESPONSE") {
+                    std::string db_responseJSON;
+                    jsonUtility::from_json_collab_colors_map(jdata_in, db_responseJSON);
+
+                    if(db_responseJSON == "GET_USER_ONLINE_OK") {
+                        std::string db_usernameJSON;
+                        myCollabColorsMap db_mapJSON;
+                        jsonUtility::from_json_user_offline(jdata_in, db_usernameJSON, db_mapJSON);
+                        emit getUserOnline(db_mapJSON);
+                    } else {
+                        qDebug() << "Something went wrong with db" << endl;
+                    }
                 } else if(opJSON == "LOGOUTURI_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -313,9 +333,8 @@ void myClient::do_read_body() {
                     if(db_responseJSON == "COLLAB_COLORS_MAP_OK") {
                         myCollabColorsMap collabColorsMapJSON;
                         jsonUtility::from_json_collab_colors_resp(jdata_in, collabColorsMapJSON);
-                        for (const auto& kv : collabColorsMapJSON) {
-                            qDebug() << QString::fromStdString(kv.first) << " has value " << QString::fromStdString(kv.second) << endl;
-                        }
+                        for (const auto& kv : collabColorsMapJSON)
+                            qDebug() << "username: " << QString::fromStdString(kv.first) << " color: " << QString::fromStdString(kv.second.first) << " isOnline: " << kv.second.second;
                         emit showCollabColorsMap(collabColorsMapJSON);
                     }
                 } else if(opJSON == "REMOVALRANGE_RESPONSE") {

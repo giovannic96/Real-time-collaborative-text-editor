@@ -20,7 +20,7 @@ struct OperationNotSupported : public std::exception {
         return "Operation not supported";
     }
 };
-typedef std::map<std::string, std::string> myCollabColorsMap;
+typedef std::map<std::string, std::pair<std::string,bool>> myCollabColorsMap;
 
 class EditorWindow : public QMainWindow {
     Q_OBJECT
@@ -132,7 +132,8 @@ public slots:
     void changeFontFamily(int startIndex, int endIndex, std::string fontFamily);
     void changeAlignment(int startBlock, int endBlock, int alignment);
     void showSymbolsAt(int startIndex, std::vector<symbol> symbols);
-    void getUserOffline(std::string username);
+    void getUserOffline(myCollabColorsMap collabColorsMap);
+    void getUserOnline(myCollabColorsMap collabColorsMap);
     void updateAlignmentButton();
     void showCollabColorsMap(myCollabColorsMap collabColorsMap);
 

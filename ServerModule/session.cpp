@@ -99,8 +99,49 @@ void session::do_read_body()
                     this->sendMsg(response); //send data only to this participant
 
                     if (response.find("LOGOUTURI_OK") != std::string::npos) {
+                        const char *db_res;
+                        std::map<std::string, std::pair<std::string, bool>> mapCollabColors;
+                        dbService::DB_RESPONSE resp = dbService::tryGetCollabColors(curFile, mapCollabColors);
+                        QSqlDatabase::removeDatabase("MyConnect");
+
+                        if (resp == dbService::GET_COLLAB_COLORS_MAP_OK)
+                            db_res = "GET_USER_OFFLINE_OK";
+                        else if(resp == dbService::DB_ERROR)
+                            db_res = "DB_ERROR";
+                        else if(resp == dbService::QUERY_ERROR)
+                            db_res = "QUERY_ERROR";
+                        else
+                            db_res = "DB_ERROR";
+
                         json j;
-                        jsonUtility::to_json(j, "REMOVE_CURSOR_RESPONSE", shared_from_this()->getUsername());
+                        jsonUtility::to_json_user_offline(j, "GET_USER_OFFLINE_RESPONSE", db_res, shared_from_this()->getUsername(), mapCollabColors);
+                        const std::string response2 = j.dump();
+                        std::cout << "Sent:" << response2 << "END" << std::endl;
+                        this->sendMsgAll(response2, edId, curFile); //send data to all the participants, having the curFile opened
+                    }
+                }
+                else if(opJSON == "OPENFILE_REQUEST" || opJSON == "OPENWITHURI_REQUEST") {
+                    std::cout << "Sent:" << response << "END" << std::endl;
+                    this->sendMsg(response); //send data only to this participant
+
+                    if (response.find("OPENFILE_FILE_EMPTY") != std::string::npos || response.find("OPENFILE_OK") != std::string::npos ||
+                        response.find("OPENWITHURI_OK") != std::string::npos) {
+                        const char *db_res;
+                        std::map<std::string, std::pair<std::string, bool>> mapCollabColors;
+                        dbService::DB_RESPONSE resp = dbService::tryGetCollabColors(shared_from_this()->getCurrentFile(), mapCollabColors);
+                        QSqlDatabase::removeDatabase("MyConnect");
+
+                        if (resp == dbService::GET_COLLAB_COLORS_MAP_OK)
+                            db_res = "GET_USER_ONLINE_OK";
+                        else if(resp == dbService::DB_ERROR)
+                            db_res = "DB_ERROR";
+                        else if(resp == dbService::QUERY_ERROR)
+                            db_res = "QUERY_ERROR";
+                        else
+                            db_res = "DB_ERROR";
+
+                        json j;
+                        jsonUtility::to_json_user_offline(j, "GET_USER_ONLINE_RESPONSE", db_res, shared_from_this()->getUsername(), mapCollabColors);
                         const std::string response2 = j.dump();
                         std::cout << "Sent:" << response2 << "END" << std::endl;
                         this->sendMsgAll(response2, edId, curFile); //send data to all the participants, having the curFile opened
@@ -820,7 +861,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         const char *db_res;
-        std::map<std::string, std::string> mapCollabColors;
+        std::map<std::string, std::pair<std::string, bool>> mapCollabColors;
         dbService::DB_RESPONSE resp = dbService::tryGetCollabColors(uriJSON, mapCollabColors);
         QSqlDatabase::removeDatabase("MyConnect");
 

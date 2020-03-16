@@ -33,7 +33,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(_client, &myClient::changeAlignment, this, &EditorWindow::changeAlignment);
     connect(_client, &myClient::insertSymbols, this, &EditorWindow::showSymbolsAt);
     connect(_client, &myClient::removeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::removeRemoteCursor);
-    connect(_client, &myClient::removeRemoteCursor, this, &EditorWindow::getUserOffline);
+    connect(_client, &myClient::getUserOffline, this, &EditorWindow::getUserOffline);
+    connect(_client, &myClient::getUserOnline, this, &EditorWindow::getUserOnline);
     connect(_client, &myClient::changeRemoteCursor, ui->RealTextEdit, &MyQTextEdit::changeRemoteCursor);
     connect(_client, &myClient::showCollabColorsMap, this, &EditorWindow::showCollabColorsMap);
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::returnPressed, this, &EditorWindow::hideAndChangeCustomFontSize);
@@ -110,7 +111,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     //ui->RealTextEdit->addRemoteCursor(_client->getUsername(), std::make_pair(_client->getColor(),0));
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
-    qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::string");
+    qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
     textOnTitleBar = docName;
@@ -1703,9 +1704,26 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
     fileItem.append(item3);
 }
 
-void EditorWindow::getUserOffline(std::string username) {
-    QString user = QString::fromStdString(username).toLatin1();
-    //TODO: rinaldo
+void EditorWindow::getUserOffline(myCollabColorsMap collabColorsMap) {
+    for (const auto& item : collabColorsMap) {
+        QString user = QString::fromStdString(item.first).toLatin1();
+        std::string color = item.second.first;
+        bool isOnline = item.second.second;
+
+        qDebug() << "username: " << user << " color: " << QString::fromStdString(color) << " isOnline: " << isOnline;
+        //TODO: rinaldo
+    }
+}
+
+void EditorWindow::getUserOnline(myCollabColorsMap collabColorsMap) {
+    for (const auto& item : collabColorsMap) {
+        QString user = QString::fromStdString(item.first).toLatin1();
+        std::string color = item.second.first;
+        bool isOnline = item.second.second;
+
+        qDebug() << "username: " << user << " color: " << QString::fromStdString(color) << " isOnline: " << isOnline;
+        //TODO: rinaldo
+    }
 }
 
 void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {

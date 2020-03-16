@@ -312,6 +312,11 @@ void jsonUtility::from_json_collab_colors_resp(const json &j, myCollabColorsMap&
     collabColorsMap = j.at("collabColorsMap").get<myCollabColorsMap>();
 }
 
+void jsonUtility::from_json_user_offline(const json &j, std::string &username, myCollabColorsMap& collabColorsMap) {
+    username = j.at("username").get<std::string>();
+    collabColorsMap = j.at("collabColorsMap").get<myCollabColorsMap>();
+}
+
 void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
     startIndex = j.at("startIndex").get<int>();
     endIndex = j.at("endIndex").get<int>();

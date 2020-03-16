@@ -50,10 +50,19 @@ void jsonUtility::to_json_cursor_change(json &j, const std::string &op, const st
     };
 }
 
-void jsonUtility::to_json_collab_colors_resp(json &j, const std::string &op, const std::string &resp, const std::map<std::string, std::string> &collabColorsMap) {
+void jsonUtility::to_json_collab_colors_resp(json &j, const std::string &op, const std::string &resp, const std::map<std::string, std::pair<std::string,bool>> &collabColorsMap) {
     j = json{
             {"operation", op},
             {"response", resp},
+            {"collabColorsMap", collabColorsMap}
+    };
+}
+
+void jsonUtility::to_json_user_offline(json &j, const std::string &op, const std::string &resp, const std::string &username, const std::map<std::string, std::pair<std::string,bool>> &collabColorsMap) {
+    j = json{
+            {"operation", op},
+            {"response", resp},
+            {"username", username},
             {"collabColorsMap", collabColorsMap}
     };
 }

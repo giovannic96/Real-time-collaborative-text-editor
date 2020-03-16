@@ -38,7 +38,7 @@ public:
     static DB_RESPONSE tryRenameFile(const std::string& newNameFile, const std::string& urifile, const std::string& user);
     static DB_RESPONSE tryGetEmail(const std::string& invited, std::string& email_invited);
     static DB_RESPONSE tryAddFriend(const std::string& invited, const std::string& urifile);
-    static DB_RESPONSE tryGetCollabColors(const std::string& uri, std::map<std::string, std::string>& collabColorsMap);
+    static DB_RESPONSE tryGetCollabColors(const std::string& uri, std::map<std::string, std::pair<std::string, bool>>& collabColorsMap);
 
     };
 
