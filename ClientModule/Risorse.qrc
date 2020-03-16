@@ -97,5 +97,7 @@
         <file>image/Letters/X.png</file>
         <file>image/Letters/Y.png</file>
         <file>image/Letters/Z.png</file>
+        <file>image/hidePassword.png</file>
+        <file>image/showPassword.png</file>
     </qresource>
 </RCC>

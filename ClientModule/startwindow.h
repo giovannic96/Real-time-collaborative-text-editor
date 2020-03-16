@@ -38,6 +38,7 @@ private slots:
 
     void on_RegUsernameForm_editingFinished();
 
+    void on_eyeButton_clicked();
 
 public slots:
     void setStatus(bool newStatus);

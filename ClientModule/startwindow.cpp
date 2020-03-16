@@ -228,3 +228,14 @@ void StartWindow::on_RegMailForm_editingFinished() {
     else
         ui->mailERR->hide();
 }
+
+void StartWindow::on_eyeButton_clicked() {
+    if(ui->eyeButton->isChecked()){
+        ui->LoginPasswordForm->setEchoMode(QLineEdit::Normal);
+        ui->eyeButton->setStyleSheet("border-image: url(:image/hidePassword.png);");
+    }
+    else{
+        ui->LoginPasswordForm->setEchoMode(QLineEdit::Password);
+        ui->eyeButton->setStyleSheet("border-image: url(:image/showPassword.png);");
+    }
+}

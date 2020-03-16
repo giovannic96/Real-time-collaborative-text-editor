@@ -1654,76 +1654,69 @@ void EditorWindow::sendRequestMsg(std::string req) {
 }
 
 void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
-    QString itemString;
+
+    ui->listIconOn->clear();
+    ui->listWidgetOn->clear();
+    ui->listIconOff->clear();
+    ui->listWidgetOff->clear();
+
+    QString itemString=nullptr, user=nullptr, color=nullptr;
     QList<QListWidgetItem*> fileItem;
-    QListWidgetItem* icon;
-    QListWidgetItem* icon2;
-    QListWidgetItem* icon3;
-    QListWidgetItem* item;
-    QListWidgetItem* item2;
-    QListWidgetItem* item3;
+    QListWidgetItem* iconOn;
+    QListWidgetItem* iconOff;
+    QListWidgetItem* itemOn;
+    QListWidgetItem* itemOff;
 
-    icon = new QListWidgetItem(itemString, ui->listIconOn);
-    icon2 = new QListWidgetItem(itemString, ui->listIconOn);
-    icon3 = new QListWidgetItem(itemString, ui->listIconOff);
-    item = new QListWidgetItem(itemString, ui->listWidgetOn);
-    item2 = new QListWidgetItem(itemString, ui->listWidgetOn);
-    item3 = new QListWidgetItem(itemString, ui->listWidgetOff);
+    iconOn = new QListWidgetItem(itemString, ui->listIconOn);
+    itemOn = new QListWidgetItem(itemString, ui->listWidgetOn);
+    iconOff = new QListWidgetItem(itemString, ui->listIconOff);
+    itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
 
-    QString hidro = "hidro";
-    QString rinaldo = "rinaldo";
-    QString francesco = "francesco";
+    for(std::map<std::string, std::pair<std::string,bool>>::const_iterator it = collabColorsMap.begin(); it != collabColorsMap.end(); ++it){
+        user = QString::fromStdString(it->first).toLatin1();
+        color = QString::fromStdString(it->second.first).toLatin1();
+        color[1]='f';
+        color[2]='f';
+        bool isOnline = it->second.second;
 
-    /*QString colH = ui->RealTextEdit->getRemoteCursors().value(hidro).first;
-    QString colR = ui->RealTextEdit->getRemoteCursors().value(rinaldo).first;
-    QColor colHidro = QColor (colH);
-    QColor colRinaldo = QColor (colR);
+        if(_client->getUsername()==user){
+            continue;
+        }
 
-    qDebug()<<"COLORE HIDRO"<<colH;
-    qDebug()<<"COLORE HIDRO"<<colR;*/
+        color[1]='f';
+        color[2]='f';
 
-    icon->setBackground(Qt::red);
-    QString icH = QString(":/image/Letters/%1.png").arg(hidro.at(0).toUpper());
-    icon->setIcon(QIcon(icH));
-    fileItem.append(icon);
-    item->setText("enrico");
-    fileItem.append(item);
+        if(isOnline){
+            iconOn->setBackground(QColor(color));
+            QString ic = QString(":/image/Letters/%1.png").arg(user.at(0).toUpper());
+            iconOn->setIcon(QIcon(ic));
+            itemOn->setText(user);
 
-    icon2->setBackground(Qt::green);
-    QString icR = QString(":/image/Letters/%1.png").arg(rinaldo.at(0).toUpper());
-    icon2->setIcon(QIcon(icR));
-    fileItem.append(icon2);
-    item2->setText("rinaldo");
-    fileItem.append(item2);
+            fileItem.append(iconOn);
+            fileItem.append(itemOn);
+        }
+        else{
+            iconOff->setBackground(QColor(color));
+            QString ic = QString(":/image/Letters/%1.png").arg(user.at(0).toUpper());
+            iconOff->setIcon(QIcon(ic));
+            itemOff->setText(user);
 
-    icon3->setBackground(Qt::blue);
-    QString icF = QString(":/image/Letters/%1.png").arg(francesco.at(0).toUpper());
-    icon3->setIcon(QIcon(icF));
-    fileItem.append(icon3);
-    item3->setText("francesco");
-    fileItem.append(item3);
+            fileItem.append(iconOff);
+            fileItem.append(itemOff);
+        }
+
+
+
+     }
+
 }
 
 void EditorWindow::getUserOffline(myCollabColorsMap collabColorsMap) {
-    for (const auto& item : collabColorsMap) {
-        QString user = QString::fromStdString(item.first).toLatin1();
-        std::string color = item.second.first;
-        bool isOnline = item.second.second;
-
-        qDebug() << "username: " << user << " color: " << QString::fromStdString(color) << " isOnline: " << isOnline;
-        //TODO: rinaldo
-    }
+    showCollabColorsMap(collabColorsMap);
 }
 
 void EditorWindow::getUserOnline(myCollabColorsMap collabColorsMap) {
-    for (const auto& item : collabColorsMap) {
-        QString user = QString::fromStdString(item.first).toLatin1();
-        std::string color = item.second.first;
-        bool isOnline = item.second.second;
-
-        qDebug() << "username: " << user << " color: " << QString::fromStdString(color) << " isOnline: " << isOnline;
-        //TODO: rinaldo
-    }
+    showCollabColorsMap(collabColorsMap);
 }
 
 void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
