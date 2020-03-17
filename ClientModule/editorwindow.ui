@@ -1924,6 +1924,9 @@ background-color: lightgrey;
                      <property name="autoScrollMargin">
                       <number>16</number>
                      </property>
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::NoSelection</enum>
+                     </property>
                     </widget>
                    </item>
                    <item>
@@ -1968,6 +1971,9 @@ background-color: lightgrey;
                      </property>
                      <property name="autoScrollMargin">
                       <number>16</number>
+                     </property>
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::NoSelection</enum>
                      </property>
                     </widget>
                    </item>
@@ -2025,6 +2031,15 @@ background-color: lightgrey;
 	background:transparent;
 }</string>
                      </property>
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::NoSelection</enum>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <property name="selectionRectVisible">
+                      <bool>true</bool>
+                     </property>
                     </widget>
                    </item>
                    <item>
@@ -2064,6 +2079,9 @@ color: rgb(159,159,159);
                      </property>
                      <property name="autoScroll">
                       <bool>false</bool>
+                     </property>
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::NoSelection</enum>
                      </property>
                     </widget>
                    </item>

@@ -743,8 +743,15 @@ void EditorWindow::on_RealTextEdit_textChanged(){
     int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
     int lineCount = ui->RealTextEdit->document()->blockCount();
     QString ZaChar = "Caratteri: "+QString::number(charCount);
+    QString ZaLine;
     QString ZaWord = "Parole: "+QString::number(wordCount);
-    QString ZaLine = "Linee: "+QString::number(lineCount);
+    if(charCount==0&&wordCount==0){
+        ZaLine = "Linee: 0";
+    }
+    else{
+        ZaLine = "Linee: "+QString::number(lineCount);
+
+    }
     ui->label->setText(ZaChar);
     ui->label_2->setText(ZaWord);
     ui->label_3->setText(ZaLine);
@@ -1355,15 +1362,15 @@ void EditorWindow::PaintItBlack() {
         DarkMode=true;
 
         ui->editorFrame->setStyleSheet("    #editorFrame{      background: url(:/image/DarkEditor/sfondo.png);}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #9d9d9d; border-left: 2px solid #e6e6e6;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #7d7d7d; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
 
         //TOP FRAME
         ui->frameTopBar->setStyleSheet("background: #FF8000;");
-        ui->fileButton->setStyleSheet("#fileButton{color: #000000, border:none;} #fileButton:hover{background-color: #e67300;} #fileButton:pressed {background-color: #e67300;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color: #000000, border:none;} #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{color: #000000, border:none;} #modificaButton:hover{background-color: #e67300;} #modificaButton:pressed {background-color: #e67300;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{color: #000000, border:none;} #aboutButton:hover{background-color: #e67300;} #aboutButton:pressed {background-color: #e67300;}");
+        ui->fileButton->setStyleSheet("#fileButton{color:black; border:none;} #fileButton:hover{background-color: #e67300;} #fileButton:pressed {background-color: #e67300;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;} #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{color:black; border:none;} #modificaButton:hover{background-color: #e67300;} #modificaButton:pressed {background-color: #e67300;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{color:black; border:none;} #aboutButton:hover{background-color: #e67300;} #aboutButton:pressed {background-color: #e67300;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: #FFFFFF");
@@ -1415,10 +1422,10 @@ void EditorWindow::PaintItBlack() {
 
         //TOP FRAME
         ui->frameTopBar->setStyleSheet("background: #0064C8;");
-        ui->fileButton->setStyleSheet("#fileButton{color: #FFFFFF, border:none;} #fileButton:hover{background-color: #075299;} #fileButton:pressed {background-color: #075299;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color: #FFFFFF, border:none;} #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{color: #FFFFFF, border:none;} #modificaButton:hover{background-color: #075299;} #modificaButton:pressed {background-color: #075299;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{color: #FFFFFF, border:none;} #aboutButton:hover{background-color: #075299;} #aboutButton:pressed {background-color: #075299;}");
+        ui->fileButton->setStyleSheet("#fileButton{color:white; border:none;} #fileButton:hover{background-color: #075299;} #fileButton:pressed {background-color: #075299;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:white; border:none;} #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{color:white; border:none;} #modificaButton:hover{background-color: #075299;} #modificaButton:pressed {background-color: #075299;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{color:white; border:none;} #aboutButton:hover{background-color: #075299;} #aboutButton:pressed {background-color: #075299;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: grey");
@@ -1685,11 +1692,6 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
     QListWidgetItem* itemOn;
     QListWidgetItem* itemOff;
 
-    iconOn = new QListWidgetItem(itemString, ui->listIconOn);
-    itemOn = new QListWidgetItem(itemString, ui->listWidgetOn);
-    iconOff = new QListWidgetItem(itemString, ui->listIconOff);
-    itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
-
     for(std::map<std::string, std::pair<std::string,bool>>::const_iterator it = collabColorsMap.begin(); it != collabColorsMap.end(); ++it){
         user = QString::fromStdString(it->first);
         color = QString::fromStdString(it->second.first);
@@ -1717,6 +1719,8 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
         ic = QString(":/image/Letters/%1.png").arg(firstLetter.toUpper());
 
         if(isOnline){
+            iconOn = new QListWidgetItem(itemString, ui->listIconOn);
+            itemOn = new QListWidgetItem(itemString, ui->listWidgetOn);
             iconOn->setBackground(QColor(color));
             iconOn->setIcon(QIcon(ic));
             itemOn->setText(user);
@@ -1725,6 +1729,8 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             fileItem.append(itemOn);
         }
         else{
+            iconOff = new QListWidgetItem(itemString, ui->listIconOff);
+            itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
             iconOff->setBackground(QColor(color));
             iconOff->setIcon(QIcon(ic));
             itemOff->setText(user);
