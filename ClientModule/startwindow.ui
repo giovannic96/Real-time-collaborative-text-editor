@@ -200,22 +200,22 @@ font-size: 18px;
      <widget class="QPushButton" name="eyeButton">
       <property name="geometry">
        <rect>
-        <x>1024</x>
-        <y>367</y>
-        <width>25</width>
-        <height>25</height>
+        <x>1025</x>
+        <y>370</y>
+        <width>20</width>
+        <height>20</height>
        </rect>
       </property>
       <property name="minimumSize">
        <size>
-        <width>25</width>
-        <height>25</height>
+        <width>20</width>
+        <height>20</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>25</width>
-        <height>25</height>
+        <width>20</width>
+        <height>20</height>
        </size>
       </property>
       <property name="styleSheet">

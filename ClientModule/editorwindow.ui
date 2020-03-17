@@ -176,7 +176,10 @@ background: #0064c8;
 #fileButton:pressed {
 	background-color: #075299;
 }
-</string>
+
+#fileButton:menu-indicator{ image: none; }	/*KNOW BUG OF HIDING ARROW
+See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
+*/</string>
                 </property>
                 <property name="text">
                  <string>File</string>
@@ -1614,11 +1617,11 @@ border-radius: 4px;</string>
                       <enum>Qt::Horizontal</enum>
                      </property>
                      <property name="sizeType">
-                      <enum>QSizePolicy::Maximum</enum>
+                      <enum>QSizePolicy::Preferred</enum>
                      </property>
                      <property name="sizeHint" stdset="0">
                       <size>
-                       <width>100</width>
+                       <width>50</width>
                        <height>20</height>
                       </size>
                      </property>
@@ -1913,10 +1916,10 @@ background-color: lightgrey;
                      </property>
                      <property name="styleSheet">
                       <string notr="true">#listIconOn{
-	color:white;
 	border:transparent;
 	background:transparent;
-}</string>
+}
+</string>
                      </property>
                      <property name="autoScrollMargin">
                       <number>16</number>
@@ -2018,7 +2021,6 @@ background-color: lightgrey;
                      </property>
                      <property name="styleSheet">
                       <string notr="true">#listIconOff{
-	color:white;
 	border:transparent;
 	background:transparent;
 }</string>

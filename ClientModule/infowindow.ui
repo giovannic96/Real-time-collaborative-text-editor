@@ -60,6 +60,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: Transparent;
+border:none;
 background-repeat:no-repeat;</string>
     </property>
     <property name="text">
