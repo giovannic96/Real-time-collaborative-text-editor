@@ -86,8 +86,20 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
+
     showCollab();
-    ui->profileButton->setText(user.at(0).toUpper());
+
+    QChar firstLetter;
+
+    for (int i=0;i<user.length();i++){
+        firstLetter = user.at(i);
+        if(firstLetter.isLetter()){
+            break;
+        }
+    }
+
+    SimplifySingleCharForSorting(firstLetter,1);
+    ui->profileButton->setText(firstLetter.toUpper());
 
     QColor color = _client->getColor();
     QString qss = QString("border-radius: 5px; \nbackground-color: %1; color:white;").arg(color.name());
@@ -1347,11 +1359,11 @@ void EditorWindow::PaintItBlack() {
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
 
         //TOP FRAME
-        ui->frameTopBar->setStyleSheet("background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);");
-        ui->fileButton->setStyleSheet("#fileButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #fileButton:hover{background-color: #FF8000;} #fileButton:pressed {background-color: #FF6F00;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #visualizzaButton:hover{background-color: #FF8000;} #visualizzaButton:pressed {background-color: #FF6F00;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #modificaButton:hover{background-color: #FF8000;} #modificaButton:pressed {background-color: #FF6F00;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{border-radius:4px; color:#000000; background-color:#FFBC88;} #aboutButton:hover{background-color: #FF8000;} #aboutButton:pressed {background-color: #FF6F00;}");
+        ui->frameTopBar->setStyleSheet("background: #FF8000;");
+        ui->fileButton->setStyleSheet("#fileButton{border:none;} #fileButton:hover{background-color: #e67300;} #fileButton:pressed {background-color: #e67300;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{border:none;} #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{border:none;} #modificaButton:hover{background-color: #e67300;} #modificaButton:pressed {background-color: #e67300;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{border:none;} #aboutButton:hover{background-color: #e67300;} #aboutButton:pressed {background-color: #e67300;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: #FFFFFF");
@@ -1402,11 +1414,11 @@ void EditorWindow::PaintItBlack() {
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
 
         //TOP FRAME
-        ui->frameTopBar->setStyleSheet("background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);");
-        ui->fileButton->setStyleSheet("#fileButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #fileButton:hover{background-color: #005DBA;} #fileButton:pressed {background-color: #094377;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #visualizzaButton:hover{background-color: #005DBA;} #visualizzaButton:pressed {background-color: #094377;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #modificaButton:hover{background-color: #005DBA;} #modificaButton:pressed {background-color: #094377;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{border-radius:4px; color:#FFFFFF; background-color:#0683FF;} #aboutButton:hover{background-color: #005DBA;} #aboutButton:pressed {background-color: #094377;}");
+        ui->frameTopBar->setStyleSheet("background: #0064C8;");
+        ui->fileButton->setStyleSheet("#fileButton{border:none;} #fileButton:hover{background-color: #075299;} #fileButton:pressed {background-color: #075299;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{border:none;} #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{border:none;} #modificaButton:hover{background-color: #075299;} #modificaButton:pressed {background-color: #075299;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{border:none;} #aboutButton:hover{background-color: #075299;} #aboutButton:pressed {background-color: #075299;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: grey");
@@ -1542,6 +1554,8 @@ void EditorWindow::hideCollab(){
     MenuCollaboratori = false;
     ui->listWidgetOn->hide();
     ui->listWidgetOff->hide();
+    ui->listIconOn->hide();
+    ui->listIconOff->hide();
     ui->labelUser->hide();
     ui->profileButton->hide();
     ui->label->hide();
@@ -1559,6 +1573,8 @@ void EditorWindow::showCollab(){
     MenuCollaboratori = true;
     ui->listWidgetOn->show();
     ui->listWidgetOff->show();
+    ui->listIconOn->show();
+    ui->listIconOff->show();
     ui->labelUser->show();
     ui->profileButton->show();
     ui->label->show();
@@ -1661,7 +1677,8 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
     ui->listIconOff->clear();
     ui->listWidgetOff->clear();
 
-    QString itemString=nullptr, user=nullptr, color=nullptr;
+    QString username=nullptr, itemString=nullptr, user=nullptr, color=nullptr, ic=nullptr;
+    QChar firstLetter;
     QList<QListWidgetItem*> fileItem;
     QListWidgetItem* iconOn;
     QListWidgetItem* iconOff;
@@ -1674,22 +1691,33 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
     itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
 
     for(std::map<std::string, std::pair<std::string,bool>>::const_iterator it = collabColorsMap.begin(); it != collabColorsMap.end(); ++it){
-        user = QString::fromStdString(it->first).toLatin1();
-        color = QString::fromStdString(it->second.first).toLatin1();
+        user = QString::fromStdString(it->first);
+        color = QString::fromStdString(it->second.first);
         color[1]='f';
         color[2]='f';
         bool isOnline = it->second.second;
+        username = _client->getUsername();
 
-        if(_client->getUsername()==user){
+        if(username==user){
             continue;
         }
 
         color[1]='f';
         color[2]='f';
 
+        for (int i=0;i<user.length();i++){
+            firstLetter = user.at(i);
+            if(firstLetter.isLetter()){
+                break;
+            }
+        }
+
+        firstLetter = SimplifySingleCharForSorting(firstLetter,1);
+
+        ic = QString(":/image/Letters/%1.png").arg(firstLetter.toUpper());
+
         if(isOnline){
             iconOn->setBackground(QColor(color));
-            QString ic = QString(":/image/Letters/%1.png").arg(user.at(0).toUpper());
             iconOn->setIcon(QIcon(ic));
             itemOn->setText(user);
 
@@ -1698,18 +1726,13 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
         }
         else{
             iconOff->setBackground(QColor(color));
-            QString ic = QString(":/image/Letters/%1.png").arg(user.at(0).toUpper());
             iconOff->setIcon(QIcon(ic));
             itemOff->setText(user);
 
             fileItem.append(iconOff);
             fileItem.append(itemOff);
         }
-
-
-
      }
-
 }
 
 void EditorWindow::getUserOffline(myCollabColorsMap collabColorsMap) {
@@ -2620,4 +2643,75 @@ void EditorWindow::on_profileButton_clicked() {
 
     UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
     up->show();
+}
+
+QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase){
+    // C0 C1 C2 C3 C4 C5 E0 E1 E2 E3 E4 E5 AA // one-byte codes for "a"
+    // C8 C9 CA CB E8 E9 EA EB // one-byte codes for "e"
+    // CC CD CE CF EC ED EE EF // one-byte codes for "i"
+    // D2 D3 D4 D5 D6 F2 F3 F4 F5 F6 BA // one-byte codes for "o"
+    // D9 DA DB DC F9 FA FB FC // one-byte codes for "u"
+    // A9 C7 E7 // one-byte codes for "c"
+    // D1 F1 // one-byte codes for "n"
+    // AE // one-byte codes for "r"
+    // DF // one-byte codes for "s"
+    // 8E 9E // one-byte codes for "z"
+    // 9F DD FD FF // one-byte codes for "y"
+
+    if ( ( c >= 0xC0 && c <= 0xC5 ) || ( c >= 0xE1 && c <= 0xE5 ) || c == 0xAA )
+    {
+        return ( ( c >= 0xC0 && c <= 0xC5 ) && !changeToLowerCase ) ? 'A' : 'a';
+    }
+
+    if ( ( c >= 0xC8 && c <= 0xCB ) || ( c >= 0xE8 && c <= 0xEB ) )
+    {
+        return ( c > 0xCB || changeToLowerCase ) ? 'e' : 'E';
+    }
+
+    if ( ( c >= 0xCC && c <= 0xCF ) || ( c >= 0xEC && c <= 0xEF ) )
+    {
+        return ( c > 0xCF || changeToLowerCase ) ? 'i' : 'I';
+    }
+
+    if ( ( c >= 0xD2 && c <= 0xD6 ) || ( c >= 0xF2 && c <= 0xF6 ) || c == 0xBA )
+    {
+        return ( ( c >= 0xD2 && c <= 0xD6 ) && !changeToLowerCase ) ? 'O' : 'o';
+    }
+
+    if ( ( c >= 0xD9 && c <= 0xDC ) || ( c >= 0xF9 && c <= 0xFC ) )
+    {
+        return ( c > 0xDC || changeToLowerCase ) ? 'u' : 'U';
+    }
+
+    if ( c == 0xA9 || c == 0xC7 || c == 0xE7 )
+    {
+        return ( c == 0xC7 && !changeToLowerCase ) ? 'C' : 'c';
+    }
+
+    if ( c == 0xD1 || c == 0xF1 )
+    {
+        return ( c == 0xD1 && !changeToLowerCase ) ? 'N' : 'n';
+    }
+
+    if ( c == 0xAE )
+    {
+        return 'r';
+    }
+
+    if ( c == 0xDF )
+    {
+        return 's';
+    }
+
+    if ( c == 0x8E || c == 0x9E )
+    {
+        return ( c == 0x8E && !changeToLowerCase ) ? 'Z' : 'z';
+    }
+
+    if ( c == 0x9F || c == 0xDD || c == 0xFD || c == 0xFF )
+    {
+        return ( ( c == 0x9F || c == 0xDD ) && !changeToLowerCase ) ? 'Y' : 'y';
+    }
+
+    return c;
 }

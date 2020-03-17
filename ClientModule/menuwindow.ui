@@ -265,6 +265,7 @@ border-radius: 5px;
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: Transparent;
+border: none;
 background-repeat:no-repeat;
 </string>
     </property>
