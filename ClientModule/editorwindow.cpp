@@ -1617,6 +1617,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         //toLatin1 is necessary to display correctly special characters like "€"
         ui->DocNameButton->setText(QString::fromStdString(filename).toLatin1());
         _client->setFilename(QString::fromStdString(filename).toLatin1()); //Assign newText to the variable
+        docName = QString::fromStdString(filename).toLatin1();
         this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename).toLatin1());
         ui->RealTextEdit->setFocus();
     } else if(result == "INVITE_URI_SUCCESS") {
