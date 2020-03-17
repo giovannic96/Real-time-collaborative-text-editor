@@ -2645,7 +2645,7 @@ void EditorWindow::on_profileButton_clicked() {
     up->show();
 }
 
-QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase){
+QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase) {
     // C0 C1 C2 C3 C4 C5 E0 E1 E2 E3 E4 E5 AA // one-byte codes for "a"
     // C8 C9 CA CB E8 E9 EA EB // one-byte codes for "e"
     // CC CD CE CF EC ED EE EF // one-byte codes for "i"
@@ -2659,59 +2659,26 @@ QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase
     // 9F DD FD FF // one-byte codes for "y"
 
     if ( ( c >= 0xC0 && c <= 0xC5 ) || ( c >= 0xE1 && c <= 0xE5 ) || c == 0xAA )
-    {
         return ( ( c >= 0xC0 && c <= 0xC5 ) && !changeToLowerCase ) ? 'A' : 'a';
-    }
-
     if ( ( c >= 0xC8 && c <= 0xCB ) || ( c >= 0xE8 && c <= 0xEB ) )
-    {
         return ( c > 0xCB || changeToLowerCase ) ? 'e' : 'E';
-    }
-
     if ( ( c >= 0xCC && c <= 0xCF ) || ( c >= 0xEC && c <= 0xEF ) )
-    {
         return ( c > 0xCF || changeToLowerCase ) ? 'i' : 'I';
-    }
-
     if ( ( c >= 0xD2 && c <= 0xD6 ) || ( c >= 0xF2 && c <= 0xF6 ) || c == 0xBA )
-    {
         return ( ( c >= 0xD2 && c <= 0xD6 ) && !changeToLowerCase ) ? 'O' : 'o';
-    }
-
     if ( ( c >= 0xD9 && c <= 0xDC ) || ( c >= 0xF9 && c <= 0xFC ) )
-    {
         return ( c > 0xDC || changeToLowerCase ) ? 'u' : 'U';
-    }
-
     if ( c == 0xA9 || c == 0xC7 || c == 0xE7 )
-    {
         return ( c == 0xC7 && !changeToLowerCase ) ? 'C' : 'c';
-    }
-
     if ( c == 0xD1 || c == 0xF1 )
-    {
         return ( c == 0xD1 && !changeToLowerCase ) ? 'N' : 'n';
-    }
-
     if ( c == 0xAE )
-    {
         return 'r';
-    }
-
     if ( c == 0xDF )
-    {
         return 's';
-    }
-
     if ( c == 0x8E || c == 0x9E )
-    {
         return ( c == 0x8E && !changeToLowerCase ) ? 'Z' : 'z';
-    }
-
     if ( c == 0x9F || c == 0xDD || c == 0xFD || c == 0xFF )
-    {
         return ( ( c == 0x9F || c == 0xDD ) && !changeToLowerCase ) ? 'Y' : 'y';
-    }
-
     return c;
 }
