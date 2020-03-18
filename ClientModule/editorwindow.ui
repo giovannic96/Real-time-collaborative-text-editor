@@ -353,10 +353,16 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <property name="spacing">
-              <number>7</number>
+              <number>14</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
              </property>
              <property name="topMargin">
               <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>35</number>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">

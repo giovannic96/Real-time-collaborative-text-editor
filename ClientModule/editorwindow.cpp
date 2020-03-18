@@ -252,6 +252,7 @@ void EditorWindow::on_visualizzaButton_clicked(){
     //add action to menu
     menuVisualizza.addAction(fullscreen);
     menuVisualizza.addAction(DayNNight);
+    menuVisualizza.addSeparator();
     menuVisualizza.addAction(MenuCollab);
     menuVisualizza.addAction(Toolbar);
 
@@ -1598,6 +1599,7 @@ void EditorWindow::hideCollab(){
     ui->line_2->hide();
     ui->line_3->hide();
     ui->DocNameButton->hide();
+    ui->verticalLayout_5->setContentsMargins(10,5,0,0);
 }
 
 void EditorWindow::showCollab(){
@@ -1617,6 +1619,7 @@ void EditorWindow::showCollab(){
     ui->line_2->show();
     ui->line_3->show();
     ui->DocNameButton->show();
+    ui->verticalLayout_5->setContentsMargins(0,5,35,0);
 }
 
 void EditorWindow::showToolbar(){
