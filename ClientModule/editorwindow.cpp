@@ -110,7 +110,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-    ui->DocNameButton->setText(docName);
+    ui->DocNameLabel->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
@@ -126,7 +126,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
-    textOnTitleBar = docName;
+    textOnTitleBar = "C.A.R.T.E. - " + docName;
     this->setWindowTitle(textOnTitleBar);
     collabColorsRequest(_client->getFileURI());
 }
@@ -357,9 +357,7 @@ void EditorWindow::on_aboutButton_clicked(){
 /***********************************************************************************
 *                                  COLLABORATOR BAR                                *
 ************************************************************************************/
-void EditorWindow::on_DocNameButton_clicked(){
-    on_actionRinomina_triggered();
-}
+
 
 /***********************************************************************************
 *                                TEXT FORMAT BUTTONS                               *
@@ -1238,7 +1236,7 @@ void EditorWindow::on_actionRinomina_triggered() {
 void EditorWindow::on_actionEsporta_come_PDF_triggered() {
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocNameButton->text(), "PDF File (*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocNameLabel->text(), "PDF File (*.pdf)");
 
     if (fileName==nullptr) {
         return;
@@ -1386,9 +1384,9 @@ void EditorWindow::PaintItBlack() {
         //I see a red door and I want it painted black, no colors anymore I want them to turn black
         DarkMode=true;
 
-        ui->editorFrame->setStyleSheet("    #editorFrame{      background: #1A1A1A;}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-        ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: #1A1A1A;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
 
         //TOP FRAME
         ui->frameTopBar->setStyleSheet("background: #FF8000;");
@@ -1441,9 +1439,9 @@ void EditorWindow::PaintItBlack() {
         //Shine on you crazy diamond
         DarkMode=false;
 
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}"); //IN CASO METTERE COLOR #E5E4E4
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
-        ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}"); //IN CASO METTERE COLOR #E5E4E4
+        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
 
         //TOP FRAME
         ui->frameTopBar->setStyleSheet("background: #0064C8;");
@@ -1598,7 +1596,7 @@ void EditorWindow::hideCollab(){
     ui->line->hide();
     ui->line_2->hide();
     ui->line_3->hide();
-    ui->DocNameButton->hide();
+    ui->DocNameLabel->hide();
     ui->verticalLayout_5->setContentsMargins(10,5,0,0);
 }
 
@@ -1618,7 +1616,7 @@ void EditorWindow::showCollab(){
     ui->line->show();
     ui->line_2->show();
     ui->line_3->show();
-    ui->DocNameButton->show();
+    ui->DocNameLabel->show();
     ui->verticalLayout_5->setContentsMargins(0,5,35,0);
 }
 
@@ -1701,7 +1699,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         delete this;
     } else if (result == "RENAME_SUCCESS") {
         //toLatin1 is necessary to display correctly special characters like "€"
-        ui->DocNameButton->setText(QString::fromStdString(filename).toLatin1());
+        ui->DocNameLabel->setText(QString::fromStdString(filename).toLatin1());
         _client->setFilename(QString::fromStdString(filename).toLatin1()); //Assign newText to the variable
         docName = QString::fromStdString(filename).toLatin1();
         this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename).toLatin1());

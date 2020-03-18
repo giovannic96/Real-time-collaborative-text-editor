@@ -41,7 +41,6 @@ private slots:
     void on_aboutButton_clicked();
 
     //CollaboratorBar
-    void on_DocNameButton_clicked();
 
     //Change style of the text
     void on_buttonBold_clicked();
