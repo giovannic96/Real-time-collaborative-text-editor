@@ -96,6 +96,7 @@ private slots:
     void on_actionCorsivo_triggered();
     void on_actionSottolineato_triggered();
     void on_actionSeleziona_Tutto_triggered();
+    void on_actionToolbar_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -111,6 +112,8 @@ private slots:
     void refreshFormatButtons();
     void hideCollab();
     void showCollab();
+    void showToolbar();
+    void hideToolbar();
     bool handleConnectionLoss();
     void setupInitialCondition();
 
@@ -118,6 +121,7 @@ private slots:
      *        OTHER SLOTS FUNCTION      *
      ************************************/
     void on_profileButton_clicked();
+
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
@@ -146,6 +150,7 @@ private:
     bool BruteClose=true;
     bool SchermoIntero=false;
     bool MenuCollaboratori=true;
+    bool ShowToolbar=true;
     bool DarkMode=false;
     std::vector<int> sizeVector = {8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96};
     symbolStyle getCurCharStyle();
