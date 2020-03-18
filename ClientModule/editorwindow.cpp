@@ -200,6 +200,7 @@ void EditorWindow::on_visualizzaButton_clicked(){
     QAction *fullscreen = new QAction( tr("Schermo Intero"), this);
     QAction *DayNNight = new QAction(  tr("Modalità Notte"), this);
     QAction *MenuCollab = new QAction( tr("Nascondi barra collaboratori"), this);
+    QAction *Toolbar = new QAction( tr("Nascondi barra degli strumenti"), this);
 
     //Handle the dynamic part of this menu (if the action is checked)
     if(SchermoIntero==true){
@@ -219,32 +220,40 @@ void EditorWindow::on_visualizzaButton_clicked(){
     if(MenuCollaboratori==false){
         MenuCollab->setText("Mostra barra collaboratori");
     }
+    if(ShowToolbar==false){
+        Toolbar->setText("Mostra barra degli strumenti");
+    }
 
     //connect action
     connect(fullscreen, &QAction::triggered, this, &EditorWindow::on_actionFullscreen_triggered);
     connect(DayNNight, &QAction::triggered, this, &EditorWindow::on_actionDark_Mode_triggered);
     connect(MenuCollab, &QAction::triggered, this, &EditorWindow::on_actionCollaboratori_triggered);
+    connect(Toolbar, &QAction::triggered, this, &EditorWindow::on_actionToolbar_triggered);
 
     //set tip
     fullscreen->setStatusTip(tr("Passa in modalità fullscreen"));
-    DayNNight->setStatusTip(tr("Copia il codice selezionato"));
-    MenuCollab->setStatusTip(tr("Incolla il codice selezionato"));
+    DayNNight->setStatusTip(tr("Alterna DayMode o DarkMode"));
+    MenuCollab->setStatusTip(tr("Mostra o nascondi la barra dei collaboratori"));
+    Toolbar->setStatusTip(tr("Mostra o nascondi la barra degli strumenti"));
 
     //prepare list of Shortcut
-    QList<QKeySequence> shortcutFullS, shortcutDark, shortcutMenuC;
+    QList<QKeySequence> shortcutFullS, shortcutDark, shortcutMenuC, shortcutToolbar;
     shortcutFullS.append(QKeySequence(Qt::CTRL + Qt::Key_F11));     //CTRL+F11
     shortcutDark.append(QKeySequence(Qt::CTRL + Qt::Key_D));        //CTRL+D
     //shortcutMenuC.append(QKeySequence(Qt::CTRL + Qt::Key_?));     //WE HAVE A SHORTCUT FOR THIS?
+    shortcutToolbar.append(QKeySequence(Qt::CTRL + Qt::Key_M));        //CTRL+M
 
     //set Shortcut
     fullscreen->setShortcuts(shortcutFullS);
     DayNNight->setShortcuts(shortcutDark);
     MenuCollab->setShortcuts(shortcutMenuC);
+    Toolbar->setShortcuts(shortcutToolbar);
 
     //add action to menu
     menuVisualizza.addAction(fullscreen);
     menuVisualizza.addAction(DayNNight);
     menuVisualizza.addAction(MenuCollab);
+    menuVisualizza.addAction(Toolbar);
 
     ui->visualizzaButton->setMenu(&menuVisualizza);
     ui->visualizzaButton->showMenu();
@@ -1122,6 +1131,9 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
         ui->buttonUnderline->click();
+    }else if((e->key() == Qt::Key_M) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + M";
+        on_actionToolbar_triggered();
     }
 }
 
@@ -1308,6 +1320,7 @@ void EditorWindow::on_actionCollaboratori_triggered() {
     else{
         hideCollab();
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //GRASSETTO TRIGGERED       -->     CTRL + B
@@ -1328,6 +1341,17 @@ void EditorWindow::on_actionSottolineato_triggered() {
 //SELEZIONA TUTTO TRIGGERED    -->  CTRL + A
 void EditorWindow::on_actionSeleziona_Tutto_triggered(){
    ui->RealTextEdit->selectAll();
+}
+
+//TOOLBAR TRIGGERED    -->  CTRL + M
+void EditorWindow::on_actionToolbar_triggered(){
+    if(ShowToolbar==false){
+        showToolbar();
+    }
+    else{
+        hideToolbar();
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 /***************************************************************************************************************************************
@@ -1593,6 +1617,42 @@ void EditorWindow::showCollab(){
     ui->line_2->show();
     ui->line_3->show();
     ui->DocNameButton->show();
+}
+
+void EditorWindow::showToolbar(){
+    ShowToolbar = true;
+    ui->buttonBold->show();
+    ui->buttonItalic->show();
+    ui->buttonUnderline->show();
+    ui->fontFamilyBox->show();
+    ui->fontSizeBox->show();
+    ui->buttonAlignCX->show();
+    ui->buttonAlignDX->show();
+    ui->buttonAlignSX->show();
+    ui->buttonAlignJFX->show();
+    ui->buttonCopy->show();
+    ui->buttonCut->show();
+    ui->buttonPaste->show();
+    ui->buttonColor->show();
+    ui->buttonSearch->show();
+}
+
+void EditorWindow::hideToolbar(){
+    ShowToolbar = false;
+    ui->buttonBold->hide();
+    ui->buttonItalic->hide();
+    ui->buttonUnderline->hide();
+    ui->fontFamilyBox->hide();
+    ui->fontSizeBox->hide();
+    ui->buttonAlignCX->hide();
+    ui->buttonAlignDX->hide();
+    ui->buttonAlignSX->hide();
+    ui->buttonAlignJFX->hide();
+    ui->buttonCopy->hide();
+    ui->buttonCut->hide();
+    ui->buttonPaste->hide();
+    ui->buttonColor->hide();
+    ui->buttonSearch->hide();
 }
 
 //HANDLE LOSS OF CONNECTION

@@ -2275,6 +2275,14 @@ color: rgb(159,159,159);
     <string>Ctrl+A</string>
    </property>
   </action>
+  <action name="actionToolbar">
+   <property name="text">
+    <string>Toolbar</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
