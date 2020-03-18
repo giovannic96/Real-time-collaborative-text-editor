@@ -115,7 +115,15 @@ background: url(:/image/Editor/sfondo.png);
              </property>
              <property name="styleSheet">
               <string notr="true">#frameTopBar{
-background: #0064c8;
+	background: qlineargradient(
+		x1: 0, y1: 1, x2: 1, y2: 1,
+		stop: 0 #0683FF
+		stop:0.53 #0683FF
+		stop:0.54 #0683FF
+		stop:0.63 #005DBA
+		stop:0.64 #005DBA
+		stop:0.88 #0A5597
+	);
 }
 </string>
              </property>

@@ -1388,12 +1388,12 @@ void EditorWindow::PaintItBlack() {
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
         ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
 
-        //TOP FRAME
-        ui->frameTopBar->setStyleSheet("background: #FF8000;");
-        ui->fileButton->setStyleSheet("#fileButton{color:black; border:none;} #fileButton:hover{background-color: #e67300;} #fileButton:pressed {background-color: #e67300;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;} #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{color:black; border:none;} #modificaButton:hover{background-color: #e67300;} #modificaButton:pressed {background-color: #e67300;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{color:black; border:none;} #aboutButton:hover{background-color: #e67300;} #aboutButton:pressed {background-color: #e67300;}");
+        //TOP FRAME     
+        ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
+        ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: #FFFFFF");
@@ -1444,11 +1444,11 @@ void EditorWindow::PaintItBlack() {
         ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
 
         //TOP FRAME
-        ui->frameTopBar->setStyleSheet("background: #0064C8;");
-        ui->fileButton->setStyleSheet("#fileButton{color:white; border:none;} #fileButton:hover{background-color: #075299;} #fileButton:pressed {background-color: #075299;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:white; border:none;} #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{color:white; border:none;} #modificaButton:hover{background-color: #075299;} #modificaButton:pressed {background-color: #075299;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{color:white; border:none;} #aboutButton:hover{background-color: #075299;} #aboutButton:pressed {background-color: #075299;}");
+        ui->frameTopBar->setStyleSheet("#frameTopBar{            background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
+        ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: grey");
