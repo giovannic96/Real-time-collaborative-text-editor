@@ -129,6 +129,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     textOnTitleBar = "C.A.R.T.E. - " + docName;
     this->setWindowTitle(textOnTitleBar);
     collabColorsRequest(_client->getFileURI());
+
 }
 
 EditorWindow::~EditorWindow() {
@@ -203,10 +204,10 @@ void EditorWindow::on_visualizzaButton_clicked(){
     QAction *Toolbar = new QAction( tr("Nascondi barra degli strumenti"), this);
 
     //Handle the dynamic part of this menu (if the action is checked)
-    if(SchermoIntero==true){
+    if(estate.GetFullScreen()==true){
         fullscreen->setText("Modalità Finestra");
     }
-    if(DarkMode==true){
+    if(estate.GetDarkMode()==true){
         QIcon icoDay;
         icoDay.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         DayNNight->setIcon(icoDay);
@@ -217,10 +218,10 @@ void EditorWindow::on_visualizzaButton_clicked(){
         icoDark.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
         DayNNight->setIcon(icoDark);
     }
-    if(MenuCollaboratori==false){
+    if(estate.GetCollaboratorBar()==false){
         MenuCollab->setText("Mostra barra collaboratori");
     }
-    if(ShowToolbar==false){
+    if(estate.GetToolbar()==false){
         Toolbar->setText("Mostra barra degli strumenti");
     }
 
@@ -1179,11 +1180,11 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
 
 //FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered() {
-   if(SchermoIntero==false) {
-        SchermoIntero=true;
+   if(estate.GetFullScreen()==false) {
+        estate.SetFullScreen(true);
         this->setWindowState(Qt::WindowFullScreen);
-    } else if(SchermoIntero==true) {
-        SchermoIntero=false;
+    } else if(estate.GetFullScreen()==true) {
+        estate.SetFullScreen(false);
         this->setWindowState(Qt::WindowNoState); //WindowNoState save the old position and the old size of the window
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -1344,7 +1345,7 @@ void EditorWindow::on_actionSeleziona_Tutto_triggered(){
 
 //TOOLBAR TRIGGERED    -->  CTRL + M
 void EditorWindow::on_actionToolbar_triggered(){
-    if(ShowToolbar==false){
+    if(estate.GetToolbar()==false){
         showToolbar();
     }
     else{
@@ -1380,9 +1381,9 @@ void EditorWindow::CloseDocumentRequest() {
 
 //Set the Editor in DarkMode or in DayMode
 void EditorWindow::PaintItBlack() {
-    if(DarkMode==false) {
+    if(estate.GetDarkMode()==false) {
         //I see a red door and I want it painted black, no colors anymore I want them to turn black
-        DarkMode=true;
+        estate.SetDarkMode(true);
 
         ui->editorFrame->setStyleSheet("    #editorFrame{   background: #1A1A1A;}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
@@ -1435,9 +1436,9 @@ void EditorWindow::PaintItBlack() {
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setIcon(menuIcon);
 
-    }else if(DarkMode==true){
+    }else if(estate.GetDarkMode()==true){
         //Shine on you crazy diamond
-        DarkMode=false;
+        estate.SetDarkMode(false);
 
         ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}"); //IN CASO METTERE COLOR #E5E4E4
         ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
@@ -1581,7 +1582,7 @@ void EditorWindow::refreshFormatButtons() {
 }
 
 void EditorWindow::hideCollab(){
-    MenuCollaboratori = false;
+    estate.SetCollaboratorBar(false);
     ui->listWidgetOn->hide();
     ui->listWidgetOff->hide();
     ui->listIconOn->hide();
@@ -1601,7 +1602,7 @@ void EditorWindow::hideCollab(){
 }
 
 void EditorWindow::showCollab(){
-    MenuCollaboratori = true;
+    estate.SetCollaboratorBar(true);
     ui->listWidgetOn->show();
     ui->listWidgetOff->show();
     ui->listIconOn->show();
@@ -1621,7 +1622,7 @@ void EditorWindow::showCollab(){
 }
 
 void EditorWindow::showToolbar(){
-    ShowToolbar = true;
+    estate.SetToolbar(true);
     ui->buttonBold->show();
     ui->buttonItalic->show();
     ui->buttonUnderline->show();
@@ -1639,7 +1640,7 @@ void EditorWindow::showToolbar(){
 }
 
 void EditorWindow::hideToolbar(){
-    ShowToolbar = false;
+    estate.SetToolbar(false);
     ui->buttonBold->hide();
     ui->buttonItalic->hide();
     ui->buttonUnderline->hide();

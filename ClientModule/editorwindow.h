@@ -8,6 +8,7 @@
 #include "jsonUtility.h"
 #include "message.h"
 #include "myClient.h"
+#include "editorstate.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"
@@ -141,16 +142,13 @@ public slots:
     void showCollabColorsMap(myCollabColorsMap collabColorsMap);
 
 private:
+    EditorState estate;
     Ui::EditorWindow *ui;
     void sendRequestMsg(std::string req);
     myClient *_client;
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented chars
     QString textOnTitleBar;
     bool BruteClose=true;
-    bool SchermoIntero=false;
-    bool MenuCollaboratori=true;
-    bool ShowToolbar=true;
-    bool DarkMode=false;
     std::vector<int> sizeVector = {8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96};
     symbolStyle getCurCharStyle();
     symbolStyle getStyleFromHTMLStyles(QVector<std::pair<int,symbolStyle>>& styles);
