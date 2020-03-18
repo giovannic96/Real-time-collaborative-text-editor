@@ -1358,11 +1358,11 @@ void EditorWindow::CloseDocumentRequest() {
 //Set the Editor in DarkMode or in DayMode
 void EditorWindow::PaintItBlack() {
     if(DarkMode==false) {
-
+        //I see a red door and I want it painted black, no colors anymore I want them to turn black
         DarkMode=true;
 
-        ui->editorFrame->setStyleSheet("    #editorFrame{      background: url(:/image/DarkEditor/sfondo.png);}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #7d7d7d; border-left: 2px solid #e6e6e6;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{      background: #1A1A1A;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
 
         //TOP FRAME
@@ -1416,8 +1416,8 @@ void EditorWindow::PaintItBlack() {
         //Shine on you crazy diamond
         DarkMode=false;
 
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}"); //IN CASO METTERE COLOR #E5E4E4
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
         ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
 
         //TOP FRAME
