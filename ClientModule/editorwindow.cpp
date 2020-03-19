@@ -54,30 +54,9 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     }
     //End of loading setting
 
-    ui->listIconOn->setViewMode(QListView::ListMode);
-    ui->listIconOn->setGridSize(QSize(25,35));
-    ui->listIconOn->setIconSize(QSize(25,25));
-    ui->listIconOn->setFlow(QListView::LeftToRight);
-    ui->listIconOn->setWrapping(true);
-    ui->listIconOn->setWordWrap(true);
-    ui->listIconOn->setResizeMode(QListView::Adjust);
-    ui->listIconOn->setAlternatingRowColors(false);
-    ui->listIconOn->setMovement(QListView::Static);
-    ui->listIconOn->setTextElideMode(Qt::ElideRight);
-
-    ui->listIconOff->setViewMode(QListView::ListMode);
-    ui->listIconOff->setGridSize(QSize(25,35));
-    ui->listIconOff->setIconSize(QSize(25,25));
-    ui->listIconOff->setFlow(QListView::LeftToRight);
-    ui->listIconOff->setWrapping(true);
-    ui->listIconOff->setWordWrap(true);
-    ui->listIconOff->setResizeMode(QListView::Adjust);
-    ui->listIconOff->setAlternatingRowColors(false);
-    ui->listIconOff->setMovement(QListView::Static);
-    ui->listIconOff->setTextElideMode(Qt::ElideRight);
-
     ui->listWidgetOn->setViewMode(QListView::ListMode);
-    ui->listWidgetOn->setGridSize(QSize(200,35));
+    ui->listWidgetOn->setGridSize(QSize(215,40));
+    ui->listWidgetOn->setIconSize(QSize(30,30));
     ui->listWidgetOn->setFlow(QListView::LeftToRight);
     ui->listWidgetOn->setWrapping(true);
     ui->listWidgetOn->setWordWrap(true);
@@ -87,7 +66,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->listWidgetOn->setTextElideMode(Qt::ElideRight);
 
     ui->listWidgetOff->setViewMode(QListView::ListMode);
-    ui->listWidgetOff->setGridSize(QSize(200,35));
+    ui->listWidgetOff->setGridSize(QSize(215,40));
+    ui->listWidgetOff->setIconSize(QSize(30,30));
     ui->listWidgetOff->setFlow(QListView::LeftToRight);
     ui->listWidgetOff->setWrapping(true);
     ui->listWidgetOff->setWordWrap(true);
@@ -1634,8 +1614,6 @@ void EditorWindow::hideCollab(){
     estate.SetCollaboratorBar(false);
     ui->listWidgetOn->hide();
     ui->listWidgetOff->hide();
-    ui->listIconOn->hide();
-    ui->listIconOff->hide();
     ui->labelUser->hide();
     ui->profileButton->hide();
     ui->label->hide();
@@ -1654,8 +1632,6 @@ void EditorWindow::showCollab(){
     estate.SetCollaboratorBar(true);
     ui->listWidgetOn->show();
     ui->listWidgetOff->show();
-    ui->listIconOn->show();
-    ui->listIconOff->show();
     ui->labelUser->show();
     ui->profileButton->show();
     ui->label->show();
@@ -1790,18 +1766,16 @@ void EditorWindow::sendRequestMsg(std::string req) {
 
 void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
 
-    ui->listIconOn->clear();
     ui->listWidgetOn->clear();
-    ui->listIconOff->clear();
     ui->listWidgetOff->clear();
 
     QString username=nullptr, itemString=nullptr, user=nullptr, color=nullptr, ic=nullptr;
     QChar firstLetter;
     QList<QListWidgetItem*> fileItem;
-    QListWidgetItem* iconOn;
-    QListWidgetItem* iconOff;
     QListWidgetItem* itemOn;
     QListWidgetItem* itemOff;
+    QLinearGradient gradient = QLinearGradient(35, 35, 36, 35);
+    QBrush brush;
 
     for(std::map<std::string, std::pair<std::string,bool>>::const_iterator it = collabColorsMap.begin(); it != collabColorsMap.end(); ++it){
         user = QString::fromStdString(it->first);
@@ -1828,25 +1802,22 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
         firstLetter = SimplifySingleCharForSorting(firstLetter,1);
 
         ic = QString(":/image/Letters/%1.png").arg(firstLetter.toUpper());
+        gradient.setColorAt(0,QColor(color));
+        gradient.setColorAt(1,Qt::transparent);
+        brush = QBrush(gradient);
 
         if(isOnline){
-            iconOn = new QListWidgetItem(itemString, ui->listIconOn);
             itemOn = new QListWidgetItem(itemString, ui->listWidgetOn);
-            iconOn->setBackground(QColor(color));
-            iconOn->setIcon(QIcon(ic));
-            itemOn->setText(user);
-
-            fileItem.append(iconOn);
-            fileItem.append(itemOn);
+            itemOn->setText(" "+user);
+            itemOn->setIcon(QIcon(ic));
+            itemOn->setBackground(brush);
         }
         else{
-            iconOff = new QListWidgetItem(itemString, ui->listIconOff);
             itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
-            iconOff->setBackground(QColor(color));
-            iconOff->setIcon(QIcon(ic));
-            itemOff->setText(user);
+            itemOff->setText(" "+user);
+            itemOff->setIcon(QIcon(ic));
+            itemOff->setBackground(brush);
 
-            fileItem.append(iconOff);
             fileItem.append(itemOff);
         }
      }

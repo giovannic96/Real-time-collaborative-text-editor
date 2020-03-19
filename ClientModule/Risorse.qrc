@@ -99,5 +99,6 @@
         <file>image/Letters/Z.png</file>
         <file>image/hidePassword.png</file>
         <file>image/showPassword.png</file>
+        <file>image/Editor/logo.png</file>
     </qresource>
 </RCC>
