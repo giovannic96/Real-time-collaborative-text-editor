@@ -113,6 +113,12 @@ background: url(:/image/Editor/sfondo.png);
                <height>40</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Verdana</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="styleSheet">
               <string notr="true">#frameTopBar{
 	background: qlineargradient(
@@ -273,6 +279,39 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 </property>
                 <property name="text">
                  <string>Modifica</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="strumentiButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Verdana</family>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">#strumentiButton {
+	border: none;
+	color: #FFFFFF;
+}
+
+#strumentiButton:hover {
+	background-color: #075299;
+}
+
+#strumentiButton:pressed {
+	background-color: #075299;
+}</string>
+                </property>
+                <property name="text">
+                 <string>Strumenti</string>
                 </property>
                </widget>
               </item>
@@ -2302,6 +2341,14 @@ color: rgb(159,159,159);
    </property>
    <property name="shortcut">
     <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionOpzioni">
+   <property name="text">
+    <string>Opzioni</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>
