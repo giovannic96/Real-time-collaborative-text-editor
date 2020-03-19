@@ -47,6 +47,7 @@ public:
     void setVectorFile(std::vector<File> fileVector);
     void close();
     void write(const message& msg);
+    void sendRequestMsg(std::string request);
 
 signals:
     void statusChanged(bool);
@@ -83,6 +84,7 @@ private:
     std::thread worker_;
     tcp::resolver resolver_;
     tcp::socket socket_;
+    std::string fullBody;
     message read_msg_;
     message_queue write_msgs_;
     void do_read_header();

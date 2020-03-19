@@ -61,7 +61,7 @@ void MenuWindow::RapidUserLogout() {
     jsonUtility::to_jsonUser(j, "LOGOUT_REQUEST", c_user);
     const std::string req = j.dump();
 
-    sendRequestMsg(req);    //Send data (header and body)
+    _client->sendRequestMsg(req);    //Send data (header and body)
 }
 
 //LOGOUT BUTTON
@@ -86,7 +86,7 @@ void MenuWindow::on_LogoutButton_clicked(){
             const std::string req = j.dump();
 
             //Send data (header and body)
-            sendRequestMsg(req);
+            _client->sendRequestMsg(req);
         }
     }
 }
@@ -159,7 +159,7 @@ void MenuWindow::on_exitButton_clicked() {
             const std::string req = j.dump();
 
             //Send data (header and body)
-            sendRequestMsg(req);
+            _client->sendRequestMsg(req);
         }
     }
 }
@@ -199,7 +199,7 @@ void MenuWindow::on_newDoc_clicked(){
             _client->setFilename(filename);
 
             //Send data (header and body)
-            sendRequestMsg(req);
+            _client->sendRequestMsg(req);
         }
         else if (ok && !text.isEmpty() && text.size()>25) {
             QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!");
@@ -230,7 +230,7 @@ void MenuWindow::on_listFiles_clicked() {
         _client->setUsername(user);
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }
 }
 
@@ -263,7 +263,7 @@ void MenuWindow::on_uriDoc_clicked() {
             _client->setFileURI(uri);
 
             //Send data (header and body)
-            sendRequestMsg(req);
+            _client->sendRequestMsg(req);
         }
         else if (ok && !text.isEmpty() && text.size()>25) {
             QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
@@ -304,7 +304,7 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
         _client->setFilename(filename);
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }
 }
 
@@ -412,15 +412,6 @@ void MenuWindow::showListFile(std::vector<File> files) {
 void MenuWindow::resumeWindow() {
     this->show();
     ui->stackedWidget->setCurrentIndex(0);
-}
-
-void MenuWindow::sendRequestMsg(std::string req) {
-    message msg;
-    msg.body_length(req.size());
-    std::memcpy(msg.body(), req.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0';
-    msg.encode_header();
-    _client->write(msg);
 }
 
 void MenuWindow::handleTheConnectionLoss() {

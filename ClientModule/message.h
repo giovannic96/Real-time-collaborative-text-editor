@@ -6,12 +6,13 @@
 #define SERVERMODULE_MESSAGE_H
 
 #include <string>
+#include <iostream>
+#define MAX_CHUNK_LENGTH 65000
 
 class message {
 
 public:
     enum { header_length = 5 };
-    enum { max_body_length = 65536 };
     message();
     const char* data() const;
     char* data();
@@ -20,14 +21,17 @@ public:
     char* body();
     std::size_t body_length() const;
     void body_length(std::size_t new_length);
-    bool decode_header();
+    void decode_header();
     void encode_header();
     void reset_data();
+    char& isThisLastChunk();
+    void setLastChunk(char val);
+    static message constructMsg(const std::string& chunkResponse, char isLastChunk);
 
 private:
-    char data_[header_length + max_body_length];
+    char data_[MAX_CHUNK_LENGTH + header_length + 1];
     std::size_t body_length_;
-
+    char isLastChunk;
 };
 
 

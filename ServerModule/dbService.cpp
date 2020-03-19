@@ -625,5 +625,3 @@ dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, 
         return DB_ERROR;
     }
 }
-
-

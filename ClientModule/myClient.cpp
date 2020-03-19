@@ -12,6 +12,7 @@ myClient::myClient()
           username_(""),
           mail_(""),
           color_("#00ffffff"),
+          fullBody(""),
           fileVector_(std::vector<File>()),
           vector_() {
             worker_= std::thread([&](){
@@ -43,11 +44,12 @@ void myClient::do_connect() {
 }
 
 void myClient::do_read_header() {
-    memset(read_msg_.data(), 0, read_msg_.length()); //VERY IMPORTANT, otherwise rubbish remains inside socket!
+    memset(read_msg_.data(), 0, read_msg_.length()+1); //VERY IMPORTANT, otherwise rubbish remains inside socket!
     boost::asio::async_read(socket_,
-                            boost::asio::buffer(read_msg_.data(), message::header_length),
+                            boost::asio::buffer(read_msg_.data(), message::header_length+1),
                             [this](boost::system::error_code ec, std::size_t /*length*/) {
-        if (!ec && read_msg_.decode_header()) {
+        if (!ec) {
+            read_msg_.decode_header();
             do_read_body();
         }
         else {
@@ -59,17 +61,21 @@ void myClient::do_read_header() {
 
 void myClient::do_read_body() {
     boost::asio::async_read(socket_,
-                            boost::asio::buffer(read_msg_.body(), read_msg_.body_length()),
+                            boost::asio::buffer(read_msg_.body()+1, read_msg_.body_length()),
                             [this](boost::system::error_code ec, std::size_t /*length*/) {
-
         if (!ec) {
-            qDebug() << "Lunghezza messaggio"<<read_msg_.length();
-            qDebug() << "read msg:" << read_msg_.body() << endl;
-            read_msg_.data()[read_msg_.length()] = '\0';  //VERY IMPORTANT: this removes any possible letters after data
+            read_msg_.data()[read_msg_.length()+1] = '\0';  //VERY IMPORTANT: this removes any possible letters after data
+            fullBody.append(read_msg_.body()+1);
+
+            if(read_msg_.isThisLastChunk()=='0') {
+                do_read_header();
+                return;
+            }
+            std::cout << std::endl << std::endl << "full body:" << fullBody << std::endl << std::endl;
 
             std::string opJSON;
             try{
-                json jdata_in = json::parse(read_msg_.body());
+                json jdata_in = json::parse(fullBody);
                 jsonUtility::from_json(jdata_in, opJSON);
 
                 if(opJSON == "LOGIN_RESPONSE") {
@@ -370,11 +376,12 @@ void myClient::do_read_body() {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");
                 }
+                fullBody = "";
                 do_read_header(); //continue reading loop
-
             } catch (json::exception& e) {
                 std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
                 emitMsgInCorrectWindow();
+                fullBody = "";
                 do_read_header();
             }
         }
@@ -392,7 +399,7 @@ void myClient::emitMsgInCorrectWindow(){
 
 void myClient::do_write() {
     boost::asio::async_write(socket_,
-                             boost::asio::buffer(write_msgs_.front().data(), write_msgs_.front().length()),
+                             boost::asio::buffer(write_msgs_.front().data(), write_msgs_.front().length()+1),
                              [this](boost::system::error_code ec, std::size_t /*length*/) {
          if (!ec) {
              qDebug() << "Sent:" << write_msgs_.front().data() << "END" << endl;
@@ -488,4 +495,21 @@ void myClient::setFileURI(QString uri) {
 
 QString myClient::getFileURI() {
     return this->uri_;
+}
+
+void myClient::sendRequestMsg(std::string request) {
+    int mod = (request.length()%MAX_CHUNK_LENGTH==0) ? 1 : 0;
+    int numChanks = (int)((request.length() / MAX_CHUNK_LENGTH) + 1 - mod);
+    int chunkSize = MAX_CHUNK_LENGTH;
+    char isLastChunk = '0';
+    std::string chunkResponse = request;
+    for(int i=0; i<numChanks; i++) {
+        if(i == numChanks-1) {
+            chunkSize = (int)(request.length() % MAX_CHUNK_LENGTH);
+            isLastChunk = '1';
+        }
+        message msg = message::constructMsg(std::string(chunkResponse.begin(), chunkResponse.begin() + chunkSize), isLastChunk);
+        chunkResponse.erase(0, chunkSize);
+        this->write(msg); //deliver msg to the server
+    }
 }

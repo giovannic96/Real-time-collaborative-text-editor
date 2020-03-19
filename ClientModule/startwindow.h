@@ -53,7 +53,6 @@ private:
     QString qstr = version.getVersion();
     myClient *_client;
     bool regMat;
-    void sendRequestMsg(std::string req);
 
 protected:
     //Function for mouse related event

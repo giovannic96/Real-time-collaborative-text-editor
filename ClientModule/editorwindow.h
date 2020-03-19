@@ -139,7 +139,6 @@ public slots:
 
 private:
     Ui::EditorWindow *ui;
-    void sendRequestMsg(std::string req);
     myClient *_client;
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented chars
     QString textOnTitleBar;

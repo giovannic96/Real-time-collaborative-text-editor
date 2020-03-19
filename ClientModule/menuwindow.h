@@ -39,7 +39,6 @@ private:
     QPoint oldPos; //This "oldPos" object is used to save the old position of the windows for the translation of windows
     myClient *_client;
     EditorWindow *_ew;
-    void sendRequestMsg(const std::string req);
     bool Logout = false;
     bool profile = false;
 

@@ -71,7 +71,7 @@ void StartWindow::on_LoginButton_clicked(){
         const std::string req = j.dump();
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }
 }
 
@@ -115,7 +115,7 @@ void StartWindow::on_SignUpButton_clicked() {
                     const std::string req = j.dump();
 
                     //Send data (header and body)
-                    sendRequestMsg(req);
+                    _client->sendRequestMsg(req);
                 }
             }
         }
@@ -172,15 +172,6 @@ void StartWindow::showJsonPopupFailure(QString windowName,QString msg) {
         QMessageBox::critical(this, "Errore", msg);
         QApplication::exit();
     }
-}
-
-void StartWindow::sendRequestMsg(std::string req) {
-    message msg;
-    msg.body_length(req.size());
-    std::memcpy(msg.body(), req.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0';
-    msg.encode_header();
-    _client->write(msg);
 }
 
 //LOGIN PAGE

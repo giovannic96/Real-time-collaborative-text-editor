@@ -978,7 +978,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 const std::string req = j.dump();
 
                 //Send data (header and body)
-                sendRequestMsg(req);
+                _client->sendRequestMsg(req);
             } else {
                 pos = cursor.position();
             }
@@ -1018,7 +1018,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             const std::string req = j.dump();
 
             //Send data (header and body)
-            sendRequestMsg(req);
+            _client->sendRequestMsg(req);
             return QObject::eventFilter(obj, ev);
         } //******************************************** BACKSPACE *************************************************
         else if(key == Qt::Key_Backspace) {
@@ -1206,7 +1206,7 @@ void EditorWindow::on_actionRinomina_triggered() {
         const std::string req = j.dump();
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }else if(ok && !newText.isEmpty() && newText.size()>25){
         QMessageBox::critical(this,"Errore", "Inserire un nome minore di 25 caratteri!!");
         on_actionRinomina_triggered();
@@ -1278,7 +1278,7 @@ void EditorWindow::on_actionInvita_tramite_URI_triggered() {
             const std::string req = j.dump();
 
             //Send data (header and body)
-            sendRequestMsg(req);
+            _client->sendRequestMsg(req);
         }
     }
     else if (ok && !text.isEmpty() && text.size()>15) {
@@ -1352,7 +1352,7 @@ void EditorWindow::CloseDocumentRequest() {
     const std::string req = j.dump();
 
     //Send data (header and body)
-    sendRequestMsg(req);
+    _client->sendRequestMsg(req);
 }
 
 //Set the Editor in DarkMode or in DayMode
@@ -1666,15 +1666,6 @@ void EditorWindow::showPopupFailure(QString result) {
     } else {
         QMessageBox::information(nullptr, "Attenzione", "Qualcosa è andato storto! Riprova!");
     }
-}
-
-void EditorWindow::sendRequestMsg(std::string req) {
-    message msg;
-    msg.body_length(req.size());
-    std::memcpy(msg.body(), req.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0';
-    msg.encode_header();
-    _client->write(msg);
 }
 
 void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
@@ -2243,7 +2234,7 @@ void EditorWindow::sendFormatRequest(int format) {
         const std::string req = j.dump();
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }
 }
 
@@ -2259,7 +2250,7 @@ void EditorWindow::sendFontChangeRequest(int fontSize) {
         const std::string req = j.dump();
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }
 }
 
@@ -2270,7 +2261,7 @@ void EditorWindow::sendAlignChangeRequest(int blockStart, int blockEnd, int alig
     const std::string req = j.dump();
 
     //Send data (header and body)
-    sendRequestMsg(req);
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::sendFontChangeRequest(std::string fontFamily) {
@@ -2285,7 +2276,7 @@ void EditorWindow::sendFontChangeRequest(std::string fontFamily) {
         const std::string req = j.dump();
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     }
 }
 
@@ -2510,7 +2501,7 @@ void EditorWindow::removeCharRangeRequest(int startIndex, int endIndex) {
     const std::string req = j.dump();
 
     //Send data (header and body)
-    sendRequestMsg(req);
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::removeCharRequest(int pos) {
@@ -2520,7 +2511,7 @@ void EditorWindow::removeCharRequest(int pos) {
     const std::string req = j.dump();
 
     //Send data (header and body)
-    sendRequestMsg(req);
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::cursorChangeRequest(int pos) {
@@ -2530,7 +2521,7 @@ void EditorWindow::cursorChangeRequest(int pos) {
     const std::string req = j.dump();
 
     //Send data (header and body)
-    sendRequestMsg(req);
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::collabColorsRequest(QString uri) {
@@ -2540,7 +2531,7 @@ void EditorWindow::collabColorsRequest(QString uri) {
     const std::string req = j.dump();
 
     //Send data (header and body)
-    sendRequestMsg(req);
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noexcept(false) {
@@ -2616,7 +2607,7 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         const std::string req = j.dump();
 
         //Send data (header and body)
-        sendRequestMsg(req);
+        _client->sendRequestMsg(req);
     } else {
         qDebug() << "Cannot paste this." << endl;
     }

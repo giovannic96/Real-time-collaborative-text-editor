@@ -24,6 +24,7 @@ private:
     room& room_;
     message read_msg_;
     message_queue write_msgs_;
+    std::string fullBody;
     dbService dbService_;
     void do_read_header();
     void do_read_body();
@@ -31,7 +32,6 @@ private:
     std::string handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile, bool& onlyToThisEditor);
     void sendMsg(const std::string& response);
     void sendMsgAll(const std::string& response, const int& edId, const std::string& curFile, bool includeThisEditor=false); //send msg to all the clients except client with id 'edId' having the curFile opened
-    static message constructMsg(const std::string& response);
 
 public:
     explicit session(tcp::socket socket, room& room);

@@ -30,6 +30,7 @@ session::session(tcp::socket socket, room &room)
 void session::session_start(int editorId) {
     shared_from_this()->setSiteId(editorId);
     shared_from_this()->setCurrentFile("");
+    fullBody = "";
     room_.join(shared_from_this());
     do_read_header();
 }
@@ -44,12 +45,13 @@ void session::deliver(const message &msg) {
 
 void session::do_read_header()
 {
-    memset(read_msg_.data(), 0, read_msg_.length()); //VERY IMPORTANT, otherwise rubbish remains inside socket!
+    memset(read_msg_.data(), 0, read_msg_.length()+1); //VERY IMPORTANT, otherwise rubbish remains inside socket!
     auto self(shared_from_this());
     boost::asio::async_read(socket_,
-                            boost::asio::buffer(read_msg_.data(), message::header_length),
+                            boost::asio::buffer(read_msg_.data(), message::header_length+1),
                             [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-        if (!ec && read_msg_.decode_header()) {
+        if (!ec) {
+            read_msg_.decode_header();
             do_read_body();
         }
         else {
@@ -64,20 +66,25 @@ void session::do_read_header()
     });
 }
 
-void session::do_read_body()
-{
+void session::do_read_body() {
     auto self(shared_from_this());
     boost::asio::async_read(socket_,
-                            boost::asio::buffer(read_msg_.body(), read_msg_.body_length()),
+                            boost::asio::buffer(read_msg_.body()+1, read_msg_.body_length()),
                             [this, self](boost::system::error_code ec, std::size_t /*length*/) {
         if (!ec) {
-            std::cout << "data:" << read_msg_.data() << "END" << std::endl;
-            read_msg_.data()[read_msg_.length()] = '\0'; //VERY IMPORTANT: this removes any possible letters after data
+            read_msg_.data()[read_msg_.length()+1] = '\0';  //VERY IMPORTANT: this removes any possible letters after data
+            fullBody.append(read_msg_.body()+1);
+
+            if(read_msg_.isThisLastChunk()=='0') {
+                do_read_header();
+                return;
+            }
+            std::cout << "read msg:" << fullBody << "END" << std::endl;
 
             std::string opJSON;
             json jdata_in;
             try {
-                jdata_in = json::parse(read_msg_.body());
+                jdata_in = json::parse(fullBody);
                 jsonUtility::from_json(jdata_in, opJSON); //get json value and put into JSON variables
 
                 int edId = shared_from_this()->getId();
@@ -151,9 +158,11 @@ void session::do_read_body()
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsg(response); //send data only to this participant
                 }
+                fullBody = "";
                 do_read_header(); //continue reading loop
             } catch (json::exception& e) {
                 std::cerr << "message: " << e.what() << '\n' << "exception id: " << e.id << std::endl;
+                fullBody = "";
                 do_read_header();
             }
         }
@@ -172,7 +181,7 @@ void session::do_read_body()
 void session::do_write() {
     auto self(shared_from_this());
     boost::asio::async_write(socket_,
-                             boost::asio::buffer(write_msgs_.front().data(),write_msgs_.front().length()),
+                             boost::asio::buffer(write_msgs_.front().data(),write_msgs_.front().length()+1),
                              [this, self](boost::system::error_code ec, std::size_t /*length*/) {
          if (!ec) {
              write_msgs_.pop_front();
@@ -193,23 +202,37 @@ void session::do_write() {
 }
 
 void session::sendMsg(const std::string& response) {
-    message msg = constructMsg(response);
-    shared_from_this()->deliver(msg); //deliver msg only to the participant
+    int mod = (response.length()%MAX_CHUNK_LENGTH==0) ? 1 : 0;
+    int numChanks = (int)((response.length() / MAX_CHUNK_LENGTH) + 1 - mod);
+    int chunkSize = MAX_CHUNK_LENGTH;
+    char isLastChunk = '0';
+    std::string chunkResponse = response;
+    for(int i=0; i<numChanks; i++) {
+        if(i == numChanks-1) {
+            chunkSize = (int)(response.length() % MAX_CHUNK_LENGTH);
+            isLastChunk = '1';
+        }
+        message msg = message::constructMsg(std::string(chunkResponse.begin(), chunkResponse.begin() + chunkSize), isLastChunk);
+        chunkResponse.erase(0, chunkSize);
+        shared_from_this()->deliver(msg); //deliver msg only to the participant
+    }
 }
 
 void session::sendMsgAll(const std::string& response, const int& edId, const std::string& curFile, bool includeThisEditor) {
-    message msg = constructMsg(response);
-    room_.deliverToAll(msg, edId, curFile, includeThisEditor); //deliver msg to all the clients except the client with id 'edId' (this client)
-}
-
-message session::constructMsg(const std::string& response) {
-    //Send data (header and body)
-    message msg;
-    msg.body_length(response.size());
-    std::memcpy(msg.body(), response.data(), msg.body_length());
-    msg.body()[msg.body_length()] = '\0';
-    msg.encode_header();
-    return msg;
+    int mod = (response.length() % MAX_CHUNK_LENGTH == 0) ? 1 : 0;
+    int numChanks = (int) ((response.length() / MAX_CHUNK_LENGTH) + 1 - mod);
+    int chunkSize = MAX_CHUNK_LENGTH;
+    char isLastChunk = '0';
+    std::string chunkResponse = response;
+    for (int i = 0; i < numChanks; i++) {
+        if (i == numChanks - 1) {
+            chunkSize = (int) (response.length() % MAX_CHUNK_LENGTH);
+            isLastChunk = '1';
+        }
+        message msg = message::constructMsg(std::string(chunkResponse.begin(), chunkResponse.begin() + chunkSize), isLastChunk);
+        chunkResponse.erase(0, chunkSize);
+        room_.deliverToAll(msg, edId, curFile, includeThisEditor); //deliver msg to all the clients except the client with id 'edId' (this client)    }
+    }
 }
 
 std::string session::handleRequests(const std::string& opJSON, const json& jdata_in, int& edId, std::string& curFile, bool& onlyToThisEditor) {
@@ -565,7 +588,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         if(resp2 == dbService::GET_EMAIL_OK) {
             // Send email
-            if(email::sendEmail(email_invited, uriJSON)) {
+            if(true/*email::sendEmail(email_invited, uriJSON)*/) {
                 const char *db_res;
                 if(invitedJSON == applicantJSON){
                     db_res = "SAME_USER";
@@ -618,7 +641,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Construct msgInfo
         msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, styleJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
         room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
@@ -642,7 +665,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Construct msgInfo
         msgInfo m = localErase(indexJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
         room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
@@ -674,7 +697,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         while(counter-- > startIndexJSON) {
             //Construct msgInfo
             msgInfo m = localErase(startIndexJSON);
-            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+            //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             if(firstTime) {
                 edId = m.getEditorId(); //don't send this message to this editor
@@ -713,7 +736,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         while(counter < endIndexJSON) {
             //Construct msgInfo
             msgInfo m = localFormat(counter++, formatJSON);
-            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+            //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             if(firstTime) {
                 edId = m.getEditorId(); //don't send this message to this editor
@@ -748,7 +771,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         while(counter < endIndexJSON) {
             //Construct msgInfo
             msgInfo m = localFontSizeChange(counter++, fontSizeJSON);
-            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+            //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             if(firstTime) {
                 edId = m.getEditorId(); //don't send this message to this editor
@@ -782,7 +805,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         while(counter < endIndexJSON) {
             //Construct msgInfo
             msgInfo m = localFontFamilyChange(counter++, fontFamilyJSON);
-            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+            //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             if(firstTime) {
                 edId = m.getEditorId(); //don't send this message to this editor
@@ -817,7 +840,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         while(counter < endIndexJSON) {
             //Construct msgInfo
             msgInfo m = localAlignmentChange(counter++, alignmentJSON);
-            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+            //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             if(firstTime) {
                 edId = m.getEditorId(); //don't send this message to this editor
@@ -891,7 +914,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         for(const symbolInfo& sym: formattingSymbols) {
             //Construct msgInfo
             msgInfo m = localInsert(sym.getIndex(), sym.getLetter(), sym.getStyle());
-            std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+            //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
             symbols.push_back(m.getSymbol());
 
