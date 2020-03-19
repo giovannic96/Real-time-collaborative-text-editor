@@ -5,6 +5,8 @@ EditorState::EditorState(){
     FullScreen=false;
     CollaboratorBar=true;
     Toolbar=true;
-    TitleBar=0;
+    Titlebar=1;
+    DarkMode_Theme=1;
+    DarkMode_Theme=1;
 }
 

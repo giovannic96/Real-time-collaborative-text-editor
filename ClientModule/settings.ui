@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="Save">
    <property name="geometry">
     <rect>
      <x>470</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>SAVE</string>
+    <string>Salva</string>
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget">
@@ -36,17 +36,17 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
-     <string>Generale</string>
+     <string>All'avvio</string>
     </attribute>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>40</y>
+       <x>10</x>
+       <y>110</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -58,8 +58,8 @@
     <widget class="QPushButton" name="day">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>70</y>
+       <x>90</x>
+       <y>110</y>
        <width>75</width>
        <height>23</height>
       </rect>
@@ -73,7 +73,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>71</width>
+       <width>101</width>
        <height>16</height>
       </rect>
      </property>
@@ -83,7 +83,43 @@
       </font>
      </property>
      <property name="text">
-      <string>Modalità</string>
+      <string>Colore Editor</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>20</y>
+       <width>141</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Barra Collaboratori</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>20</y>
+       <width>161</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Barra degli Strumenti</string>
      </property>
     </widget>
     <widget class="QWidget" name="">
@@ -106,6 +142,9 @@
         <property name="text">
          <string>DayMode</string>
         </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -117,6 +156,84 @@
         </property>
         <property name="text">
          <string>DarkMode</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>40</y>
+       <width>83</width>
+       <height>52</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QRadioButton" name="toolShowRadio">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Mostra</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="toolHideRadio">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nascondi</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>151</x>
+       <y>41</y>
+       <width>83</width>
+       <height>52</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QRadioButton" name="collabShowRadio">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Mostra</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="collabHideRadio">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nascondi</string>
         </property>
        </widget>
       </item>
@@ -156,7 +273,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QRadioButton" name="nomeTitoloRadio1">
+       <widget class="QRadioButton" name="titleRadio1">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -168,7 +285,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="nomeTitoloRadio4">
+       <widget class="QRadioButton" name="titleRadio2">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -177,10 +294,13 @@
         <property name="text">
          <string>Nome documento</string>
         </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="nomeTitoloRadio2">
+       <widget class="QRadioButton" name="titleRadio3">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -192,7 +312,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="nomeTitoloRadio3">
+       <widget class="QRadioButton" name="titleRadio4">
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -206,6 +326,175 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>Temi</string>
+    </attribute>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>20</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>DarkMode</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>DayMode</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>107</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QRadioButton" name="dayTheme1">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Classico</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="dayTheme2">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tinta Unita</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="dayTheme3">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Alta intensità</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>40</y>
+       <width>107</width>
+       <height>80</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <widget class="QRadioButton" name="darkTheme1">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Classico</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="darkTheme2">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tinta Unita</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="darkTheme3">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Alta intensità</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="Abort">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>260</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Annulla</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Default">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ripristina</string>
+   </property>
   </widget>
  </widget>
  <resources/>

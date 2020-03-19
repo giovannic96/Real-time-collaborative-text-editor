@@ -17,11 +17,13 @@ public:
     ~Settings();
 
 private slots:
+    void on_Save_clicked();
     void on_pushButton_clicked();
-
     void on_day_clicked();
+    void on_Default_clicked();
 
-    void on_pushButton_3_clicked();
+private:
+    void WriteSettingOnFile();
 
 private:
     Ui::Settings *ui;
