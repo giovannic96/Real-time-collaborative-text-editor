@@ -17,6 +17,7 @@
 #include <QMenu>
 #include <QCursor>
 #include <QShortcut>
+#include "settings.h"
 
 using json = nlohmann::json;
 
@@ -42,30 +43,20 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
 
-    ui->listIconOn->setViewMode(QListView::ListMode);
-    ui->listIconOn->setGridSize(QSize(25,35));
-    ui->listIconOn->setIconSize(QSize(25,25));
-    ui->listIconOn->setFlow(QListView::LeftToRight);
-    ui->listIconOn->setWrapping(true);
-    ui->listIconOn->setWordWrap(true);
-    ui->listIconOn->setResizeMode(QListView::Adjust);
-    ui->listIconOn->setAlternatingRowColors(false);
-    ui->listIconOn->setMovement(QListView::Static);
-    ui->listIconOn->setTextElideMode(Qt::ElideRight);
-
-    ui->listIconOff->setViewMode(QListView::ListMode);
-    ui->listIconOff->setGridSize(QSize(25,35));
-    ui->listIconOff->setIconSize(QSize(25,25));
-    ui->listIconOff->setFlow(QListView::LeftToRight);
-    ui->listIconOff->setWrapping(true);
-    ui->listIconOff->setWordWrap(true);
-    ui->listIconOff->setResizeMode(QListView::Adjust);
-    ui->listIconOff->setAlternatingRowColors(false);
-    ui->listIconOff->setMovement(QListView::Static);
-    ui->listIconOff->setTextElideMode(Qt::ElideRight);
+    //Load Setting
+    qDebug() << "---------------------------AFTER----------------";
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "C.A.R.T.E. Studio", "C.A.R.T.E.");
+    settings.beginGroup("EditorWindow");
+    qDebug() << settings.value("darkmode", estate.GetDarkMode()).toBool();
+    qDebug() << "---------------------------BEFORE----------------";
+    if(settings.value("darkmode", estate.GetDarkMode()).toBool() == true){
+        PaintItBlack();
+    }
+    //End of loading setting
 
     ui->listWidgetOn->setViewMode(QListView::ListMode);
-    ui->listWidgetOn->setGridSize(QSize(200,35));
+    ui->listWidgetOn->setGridSize(QSize(215,40));
+    ui->listWidgetOn->setIconSize(QSize(30,30));
     ui->listWidgetOn->setFlow(QListView::LeftToRight);
     ui->listWidgetOn->setWrapping(true);
     ui->listWidgetOn->setWordWrap(true);
@@ -75,7 +66,8 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->listWidgetOn->setTextElideMode(Qt::ElideRight);
 
     ui->listWidgetOff->setViewMode(QListView::ListMode);
-    ui->listWidgetOff->setGridSize(QSize(200,35));
+    ui->listWidgetOff->setGridSize(QSize(215,40));
+    ui->listWidgetOff->setIconSize(QSize(30,30));
     ui->listWidgetOff->setFlow(QListView::LeftToRight);
     ui->listWidgetOff->setWrapping(true);
     ui->listWidgetOff->setWordWrap(true);
@@ -110,7 +102,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-    ui->DocNameButton->setText(docName);
+    ui->DocNameLabel->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
@@ -126,9 +118,10 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
-    textOnTitleBar = docName;
+    textOnTitleBar = "C.A.R.T.E. - " + docName;
     this->setWindowTitle(textOnTitleBar);
     collabColorsRequest(_client->getFileURI());
+
 }
 
 EditorWindow::~EditorWindow() {
@@ -200,12 +193,13 @@ void EditorWindow::on_visualizzaButton_clicked(){
     QAction *fullscreen = new QAction( tr("Schermo Intero"), this);
     QAction *DayNNight = new QAction(  tr("Modalità Notte"), this);
     QAction *MenuCollab = new QAction( tr("Nascondi barra collaboratori"), this);
+    QAction *Toolbar = new QAction( tr("Nascondi barra degli strumenti"), this);
 
     //Handle the dynamic part of this menu (if the action is checked)
-    if(SchermoIntero==true){
+    if(estate.GetFullScreen()==true){
         fullscreen->setText("Modalità Finestra");
     }
-    if(DarkMode==true){
+    if(estate.GetDarkMode()==true){
         QIcon icoDay;
         icoDay.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         DayNNight->setIcon(icoDay);
@@ -216,35 +210,44 @@ void EditorWindow::on_visualizzaButton_clicked(){
         icoDark.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
         DayNNight->setIcon(icoDark);
     }
-    if(MenuCollaboratori==false){
+    if(estate.GetCollaboratorBar()==false){
         MenuCollab->setText("Mostra barra collaboratori");
+    }
+    if(estate.GetToolbar()==false){
+        Toolbar->setText("Mostra barra degli strumenti");
     }
 
     //connect action
     connect(fullscreen, &QAction::triggered, this, &EditorWindow::on_actionFullscreen_triggered);
     connect(DayNNight, &QAction::triggered, this, &EditorWindow::on_actionDark_Mode_triggered);
     connect(MenuCollab, &QAction::triggered, this, &EditorWindow::on_actionCollaboratori_triggered);
+    connect(Toolbar, &QAction::triggered, this, &EditorWindow::on_actionToolbar_triggered);
 
     //set tip
     fullscreen->setStatusTip(tr("Passa in modalità fullscreen"));
-    DayNNight->setStatusTip(tr("Copia il codice selezionato"));
-    MenuCollab->setStatusTip(tr("Incolla il codice selezionato"));
+    DayNNight->setStatusTip(tr("Alterna DayMode o DarkMode"));
+    MenuCollab->setStatusTip(tr("Mostra o nascondi la barra dei collaboratori"));
+    Toolbar->setStatusTip(tr("Mostra o nascondi la barra degli strumenti"));
 
     //prepare list of Shortcut
-    QList<QKeySequence> shortcutFullS, shortcutDark, shortcutMenuC;
+    QList<QKeySequence> shortcutFullS, shortcutDark, shortcutMenuC, shortcutToolbar;
     shortcutFullS.append(QKeySequence(Qt::CTRL + Qt::Key_F11));     //CTRL+F11
     shortcutDark.append(QKeySequence(Qt::CTRL + Qt::Key_D));        //CTRL+D
     //shortcutMenuC.append(QKeySequence(Qt::CTRL + Qt::Key_?));     //WE HAVE A SHORTCUT FOR THIS?
+    shortcutToolbar.append(QKeySequence(Qt::CTRL + Qt::Key_M));        //CTRL+M
 
     //set Shortcut
     fullscreen->setShortcuts(shortcutFullS);
     DayNNight->setShortcuts(shortcutDark);
     MenuCollab->setShortcuts(shortcutMenuC);
+    Toolbar->setShortcuts(shortcutToolbar);
 
     //add action to menu
     menuVisualizza.addAction(fullscreen);
     menuVisualizza.addAction(DayNNight);
+    menuVisualizza.addSeparator();
     menuVisualizza.addAction(MenuCollab);
+    menuVisualizza.addAction(Toolbar);
 
     ui->visualizzaButton->setMenu(&menuVisualizza);
     ui->visualizzaButton->showMenu();
@@ -318,6 +321,31 @@ void EditorWindow::on_modificaButton_clicked(){
     ui->modificaButton->showMenu();
 }
 
+void EditorWindow::on_strumentiButton_clicked(){
+    QMenu menuStrumenti(this);
+
+    QAction *option = new QAction(tr("Opzioni..."), this);
+
+    //connect action
+    connect(option, &QAction::triggered, this, &EditorWindow::on_actionOpzioni_triggered);
+
+    //set tip
+    option->setStatusTip(tr("Apre una finestra per regolare le impostazioni"));
+
+    //prepare list of Shortcut
+    QList<QKeySequence> shortcutOpzioni;
+    shortcutOpzioni.append(QKeySequence(Qt::CTRL + Qt::Key_O));     //CTRL+O
+
+    //set Shortcut
+    option->setShortcuts(shortcutOpzioni);
+
+    //add action to menu
+    menuStrumenti.addAction(option);
+
+    ui->strumentiButton->setMenu(&menuStrumenti);
+    ui->strumentiButton->showMenu();
+}
+
 void EditorWindow::on_aboutButton_clicked(){
     QMenu menuAbout(this);
 
@@ -347,9 +375,7 @@ void EditorWindow::on_aboutButton_clicked(){
 /***********************************************************************************
 *                                  COLLABORATOR BAR                                *
 ************************************************************************************/
-void EditorWindow::on_DocNameButton_clicked(){
-    on_actionRinomina_triggered();
-}
+
 
 /***********************************************************************************
 *                                TEXT FORMAT BUTTONS                               *
@@ -1122,6 +1148,12 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + S";
         ui->buttonUnderline->click();
+    }else if((e->key() == Qt::Key_M) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + M";
+        on_actionToolbar_triggered();
+    }else if((e->key() == Qt::Key_O) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + O";
+        on_actionOpzioni_triggered();
     }
 }
 
@@ -1168,11 +1200,11 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
 
 //FULLSCREEN ACTION      -->     CTRL+F11
 void EditorWindow::on_actionFullscreen_triggered() {
-   if(SchermoIntero==false) {
-        SchermoIntero=true;
+   if(estate.GetFullScreen()==false) {
+        estate.SetFullScreen(true);
         this->setWindowState(Qt::WindowFullScreen);
-    } else if(SchermoIntero==true) {
-        SchermoIntero=false;
+    } else if(estate.GetFullScreen()==true) {
+        estate.SetFullScreen(false);
         this->setWindowState(Qt::WindowNoState); //WindowNoState save the old position and the old size of the window
     }
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -1225,7 +1257,7 @@ void EditorWindow::on_actionRinomina_triggered() {
 void EditorWindow::on_actionEsporta_come_PDF_triggered() {
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocNameButton->text(), "PDF File (*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocNameLabel->text(), "PDF File (*.pdf)");
 
     if (fileName==nullptr) {
         return;
@@ -1308,6 +1340,7 @@ void EditorWindow::on_actionCollaboratori_triggered() {
     else{
         hideCollab();
     }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
 //GRASSETTO TRIGGERED       -->     CTRL + B
@@ -1329,6 +1362,24 @@ void EditorWindow::on_actionSottolineato_triggered() {
 void EditorWindow::on_actionSeleziona_Tutto_triggered(){
    ui->RealTextEdit->selectAll();
 }
+
+//TOOLBAR TRIGGERED    -->  CTRL + M
+void EditorWindow::on_actionToolbar_triggered(){
+    if(estate.GetToolbar()==false){
+        showToolbar();
+    }
+    else{
+        hideToolbar();
+    }
+    ui->RealTextEdit->setFocus(); //Return focus to textedit
+}
+
+//OPZIONI TRIGGERED    -->  CTRL + O
+void EditorWindow::on_actionOpzioni_triggered(){
+    Settings *s = new Settings(estate);
+    s->show();
+}
+
 
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
@@ -1357,20 +1408,21 @@ void EditorWindow::CloseDocumentRequest() {
 
 //Set the Editor in DarkMode or in DayMode
 void EditorWindow::PaintItBlack() {
-    if(DarkMode==false) {
+    if(estate.GetDarkMode()==false) {
+        //I see a red door and I want it painted black, no colors anymore I want them to turn black
+        estate.SetDarkMode(true);
 
-        DarkMode=true;
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: #1A1A1A;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
 
-        ui->editorFrame->setStyleSheet("    #editorFrame{      background: url(:/image/DarkEditor/sfondo.png);}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{     background: #7d7d7d; border-left: 2px solid #e6e6e6;}");
-        ui->DocNameButton->setStyleSheet("  #DocNameButton{    background-color:transparent; border: transparent; color: #ff8000;}");
-
-        //TOP FRAME
-        ui->frameTopBar->setStyleSheet("background: #FF8000;");
-        ui->fileButton->setStyleSheet("#fileButton{color:black; border:none;} #fileButton:hover{background-color: #e67300;} #fileButton:pressed {background-color: #e67300;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;} #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{color:black; border:none;} #modificaButton:hover{background-color: #e67300;} #modificaButton:pressed {background-color: #e67300;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{color:black; border:none;} #aboutButton:hover{background-color: #e67300;} #aboutButton:pressed {background-color: #e67300;}");
+        //TOP FRAME     
+        ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
+        ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{ color:black; border:none;}    #strumentiButton:hover{background-color: #e67300;}  #strumentiButton:pressed {background-color: #e67300;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: #FFFFFF");
@@ -1412,20 +1464,21 @@ void EditorWindow::PaintItBlack() {
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
         ui->actionDark_Mode->setIcon(menuIcon);
 
-    }else if(DarkMode==true){
+    }else if(estate.GetDarkMode()==true){
         //Shine on you crazy diamond
-        DarkMode=false;
+        estate.SetDarkMode(false);
 
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  background: #FFFFFF; border-left: 2px solid #404040;}");
-        ui->DocNameButton->setStyleSheet("  #DocNameButton{ background-color:transparent; border: transparent; color: #505050;}");
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}"); //IN CASO METTERE COLOR #E5E4E4
+        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
 
         //TOP FRAME
-        ui->frameTopBar->setStyleSheet("background: #0064C8;");
-        ui->fileButton->setStyleSheet("#fileButton{color:white; border:none;} #fileButton:hover{background-color: #075299;} #fileButton:pressed {background-color: #075299;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:white; border:none;} #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{color:white; border:none;} #modificaButton:hover{background-color: #075299;} #modificaButton:pressed {background-color: #075299;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{color:white; border:none;} #aboutButton:hover{background-color: #075299;} #aboutButton:pressed {background-color: #075299;}");
+        ui->frameTopBar->setStyleSheet("#frameTopBar{            background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
+        ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #075299;}  #strumentiButton:pressed {background-color: #075299;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;}");
 
         //COLLAB BAR
         ui->label->setStyleSheet("color: grey");
@@ -1558,11 +1611,9 @@ void EditorWindow::refreshFormatButtons() {
 }
 
 void EditorWindow::hideCollab(){
-    MenuCollaboratori = false;
+    estate.SetCollaboratorBar(false);
     ui->listWidgetOn->hide();
     ui->listWidgetOff->hide();
-    ui->listIconOn->hide();
-    ui->listIconOff->hide();
     ui->labelUser->hide();
     ui->profileButton->hide();
     ui->label->hide();
@@ -1573,15 +1624,14 @@ void EditorWindow::hideCollab(){
     ui->line->hide();
     ui->line_2->hide();
     ui->line_3->hide();
-    ui->DocNameButton->hide();
+    ui->DocNameLabel->hide();
+    ui->verticalLayout_5->setContentsMargins(10,5,0,0);
 }
 
 void EditorWindow::showCollab(){
-    MenuCollaboratori = true;
+    estate.SetCollaboratorBar(true);
     ui->listWidgetOn->show();
     ui->listWidgetOff->show();
-    ui->listIconOn->show();
-    ui->listIconOff->show();
     ui->labelUser->show();
     ui->profileButton->show();
     ui->label->show();
@@ -1592,7 +1642,44 @@ void EditorWindow::showCollab(){
     ui->line->show();
     ui->line_2->show();
     ui->line_3->show();
-    ui->DocNameButton->show();
+    ui->DocNameLabel->show();
+    ui->verticalLayout_5->setContentsMargins(0,5,35,0);
+}
+
+void EditorWindow::showToolbar(){
+    estate.SetToolbar(true);
+    ui->buttonBold->show();
+    ui->buttonItalic->show();
+    ui->buttonUnderline->show();
+    ui->fontFamilyBox->show();
+    ui->fontSizeBox->show();
+    ui->buttonAlignCX->show();
+    ui->buttonAlignDX->show();
+    ui->buttonAlignSX->show();
+    ui->buttonAlignJFX->show();
+    ui->buttonCopy->show();
+    ui->buttonCut->show();
+    ui->buttonPaste->show();
+    ui->buttonColor->show();
+    ui->buttonSearch->show();
+}
+
+void EditorWindow::hideToolbar(){
+    estate.SetToolbar(false);
+    ui->buttonBold->hide();
+    ui->buttonItalic->hide();
+    ui->buttonUnderline->hide();
+    ui->fontFamilyBox->hide();
+    ui->fontSizeBox->hide();
+    ui->buttonAlignCX->hide();
+    ui->buttonAlignDX->hide();
+    ui->buttonAlignSX->hide();
+    ui->buttonAlignJFX->hide();
+    ui->buttonCopy->hide();
+    ui->buttonCut->hide();
+    ui->buttonPaste->hide();
+    ui->buttonColor->hide();
+    ui->buttonSearch->hide();
 }
 
 //HANDLE LOSS OF CONNECTION
@@ -1638,7 +1725,7 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         delete this;
     } else if (result == "RENAME_SUCCESS") {
         //toLatin1 is necessary to display correctly special characters like "€"
-        ui->DocNameButton->setText(QString::fromStdString(filename).toLatin1());
+        ui->DocNameLabel->setText(QString::fromStdString(filename).toLatin1());
         _client->setFilename(QString::fromStdString(filename).toLatin1()); //Assign newText to the variable
         docName = QString::fromStdString(filename).toLatin1();
         this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename).toLatin1());
@@ -1670,18 +1757,16 @@ void EditorWindow::showPopupFailure(QString result) {
 
 void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
 
-    ui->listIconOn->clear();
     ui->listWidgetOn->clear();
-    ui->listIconOff->clear();
     ui->listWidgetOff->clear();
 
     QString username=nullptr, itemString=nullptr, user=nullptr, color=nullptr, ic=nullptr;
     QChar firstLetter;
     QList<QListWidgetItem*> fileItem;
-    QListWidgetItem* iconOn;
-    QListWidgetItem* iconOff;
     QListWidgetItem* itemOn;
     QListWidgetItem* itemOff;
+    QLinearGradient gradient = QLinearGradient(35, 35, 36, 35);
+    QBrush brush;
 
     for(std::map<std::string, std::pair<std::string,bool>>::const_iterator it = collabColorsMap.begin(); it != collabColorsMap.end(); ++it){
         user = QString::fromStdString(it->first);
@@ -1708,25 +1793,22 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
         firstLetter = SimplifySingleCharForSorting(firstLetter,1);
 
         ic = QString(":/image/Letters/%1.png").arg(firstLetter.toUpper());
+        gradient.setColorAt(0,QColor(color));
+        gradient.setColorAt(1,Qt::transparent);
+        brush = QBrush(gradient);
 
         if(isOnline){
-            iconOn = new QListWidgetItem(itemString, ui->listIconOn);
             itemOn = new QListWidgetItem(itemString, ui->listWidgetOn);
-            iconOn->setBackground(QColor(color));
-            iconOn->setIcon(QIcon(ic));
-            itemOn->setText(user);
-
-            fileItem.append(iconOn);
-            fileItem.append(itemOn);
+            itemOn->setText(" "+user);
+            itemOn->setIcon(QIcon(ic));
+            itemOn->setBackground(brush);
         }
         else{
-            iconOff = new QListWidgetItem(itemString, ui->listIconOff);
             itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
-            iconOff->setBackground(QColor(color));
-            iconOff->setIcon(QIcon(ic));
-            itemOff->setText(user);
+            itemOff->setText(" "+user);
+            itemOff->setIcon(QIcon(ic));
+            itemOff->setBackground(brush);
 
-            fileItem.append(iconOff);
             fileItem.append(itemOff);
         }
      }

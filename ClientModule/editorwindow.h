@@ -8,6 +8,8 @@
 #include "jsonUtility.h"
 #include "message.h"
 #include "myClient.h"
+#include "editorstate.h"
+#include "settings.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"
@@ -38,10 +40,10 @@ private slots:
     void on_fileButton_clicked();
     void on_visualizzaButton_clicked();
     void on_modificaButton_clicked();
+    void on_strumentiButton_clicked();
     void on_aboutButton_clicked();
 
     //CollaboratorBar
-    void on_DocNameButton_clicked();
 
     //Change style of the text
     void on_buttonBold_clicked();
@@ -96,6 +98,8 @@ private slots:
     void on_actionCorsivo_triggered();
     void on_actionSottolineato_triggered();
     void on_actionSeleziona_Tutto_triggered();
+    void on_actionToolbar_triggered();
+    void on_actionOpzioni_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -111,6 +115,8 @@ private slots:
     void refreshFormatButtons();
     void hideCollab();
     void showCollab();
+    void showToolbar();
+    void hideToolbar();
     bool handleConnectionLoss();
     void setupInitialCondition();
 
@@ -138,14 +144,12 @@ public slots:
     void showCollabColorsMap(myCollabColorsMap collabColorsMap);
 
 private:
+    EditorState estate;
     Ui::EditorWindow *ui;
     myClient *_client;
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented chars
     QString textOnTitleBar;
     bool BruteClose=true;
-    bool SchermoIntero=false;
-    bool MenuCollaboratori=true;
-    bool DarkMode=false;
     std::vector<int> sizeVector = {8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96};
     symbolStyle getCurCharStyle();
     symbolStyle getStyleFromHTMLStyles(QVector<std::pair<int,symbolStyle>>& styles);

@@ -28,6 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 SOURCES += \
     File.cpp \
     MyQTextEdit.cpp \
+    editorstate.cpp \
     editorwindow.cpp \
     infowindow.cpp \
     jsonUtility.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
     menuwindow.cpp \
     message.cpp \
     myClient.cpp \
+    settings.cpp \
     startwindow.cpp \
     symbol.cpp \
     symbolInfo.cpp \
@@ -45,6 +47,7 @@ SOURCES += \
 HEADERS += \
     File.h \
     MyQTextEdit.h \
+    editorstate.h \
     editorwindow.h \
     infowindow.h \
     json.hpp \
@@ -52,6 +55,7 @@ HEADERS += \
     menuwindow.h \
     message.h \
     myClient.h \
+    settings.h \
     startwindow.h \
     symbol.h \
     symbolInfo.h \
@@ -63,6 +67,7 @@ FORMS += \
     editorwindow.ui \
     infowindow.ui \
     menuwindow.ui \
+    settings.ui \
     startwindow.ui \
     userprofile.ui
 

@@ -110,12 +110,32 @@ background: url(:/image/Editor/sfondo.png);
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>40</height>
+               <height>45</height>
               </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>45</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Verdana</family>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="styleSheet">
               <string notr="true">#frameTopBar{
-background: #0064c8;
+	background: qlineargradient(
+		x1: 0, y1: 1, x2: 1, y2: 1,
+		stop: 0 #0683FF
+		stop:0.53 #0683FF
+		stop:0.54 #0683FF
+		stop:0.63 #005DBA
+		stop:0.64 #005DBA
+		stop:0.88 #0A5597
+	);
 }
 </string>
              </property>
@@ -146,13 +166,13 @@ background: #0064c8;
                 <property name="minimumSize">
                  <size>
                   <width>50</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="font">
@@ -191,13 +211,13 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 <property name="minimumSize">
                  <size>
                   <width>100</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="font">
@@ -232,13 +252,13 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 <property name="minimumSize">
                  <size>
                   <width>85</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>40</height>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="font">
@@ -269,17 +289,56 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="aboutButton">
+               <widget class="QPushButton" name="strumentiButton">
                 <property name="minimumSize">
                  <size>
-                  <width>30</width>
-                  <height>40</height>
+                  <width>100</width>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>40</height>
+                  <height>45</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Verdana</family>
+                  <pointsize>11</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">#strumentiButton {
+	border: none;
+	color: #FFFFFF;
+}
+
+#strumentiButton:hover {
+	background-color: #075299;
+}
+
+#strumentiButton:pressed {
+	background-color: #075299;
+}</string>
+                </property>
+                <property name="text">
+                 <string>Strumenti</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="aboutButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>45</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>45</height>
                  </size>
                 </property>
                 <property name="font">
@@ -325,6 +384,28 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 </property>
                </spacer>
               </item>
+              <item>
+               <widget class="QLabel" name="opaqueLogo">
+                <property name="minimumSize">
+                 <size>
+                  <width>370</width>
+                  <height>45</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>370</width>
+                  <height>45</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background: url(:/image/Editor/logo.png)</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -353,10 +434,16 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <property name="spacing">
-              <number>7</number>
+              <number>14</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
              </property>
              <property name="topMargin">
               <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>35</number>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1687,7 +1774,13 @@ background-color: lightgrey;
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="DocNameButton">
+                  <widget class="QLabel" name="DocNameLabel">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1696,7 +1789,7 @@ background-color: lightgrey;
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>616</width>
+                     <width>250</width>
                      <height>15</height>
                     </size>
                    </property>
@@ -1709,14 +1802,15 @@ background-color: lightgrey;
                     </font>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">#DocNameButton{
-	background-color:transparent;
-	border: transparent;
+                    <string notr="true">#DocNameLabel{
 	color: #505050;
 }</string>
                    </property>
                    <property name="text">
                     <string>DocumentNameGoesHere</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
                    </property>
                   </widget>
                  </item>
@@ -1887,49 +1981,6 @@ background-color: lightgrey;
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QListWidget" name="listIconOn">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>35</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>35</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Calibri</family>
-                       <pointsize>12</pointsize>
-                       <weight>75</weight>
-                       <bold>true</bold>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">#listIconOn{
-	border:transparent;
-	background:transparent;
-}
-</string>
-                     </property>
-                     <property name="autoScrollMargin">
-                      <number>16</number>
-                     </property>
-                     <property name="selectionMode">
-                      <enum>QAbstractItemView::NoSelection</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QListWidget" name="listWidgetOn">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -1939,13 +1990,13 @@ background-color: lightgrey;
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>215</width>
+                       <width>250</width>
                        <height>0</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>215</width>
+                       <width>250</width>
                        <height>16777215</height>
                       </size>
                      </property>
@@ -1966,14 +2017,35 @@ background-color: lightgrey;
                      <property name="verticalScrollBarPolicy">
                       <enum>Qt::ScrollBarAsNeeded</enum>
                      </property>
+                     <property name="sizeAdjustPolicy">
+                      <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                     </property>
                      <property name="autoScroll">
-                      <bool>true</bool>
+                      <bool>false</bool>
                      </property>
                      <property name="autoScrollMargin">
                       <number>16</number>
                      </property>
+                     <property name="editTriggers">
+                      <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                     <property name="showDropIndicator" stdset="0">
+                      <bool>false</bool>
+                     </property>
+                     <property name="defaultDropAction">
+                      <enum>Qt::IgnoreAction</enum>
+                     </property>
                      <property name="selectionMode">
                       <enum>QAbstractItemView::NoSelection</enum>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <property name="verticalScrollMode">
+                      <enum>QAbstractItemView::ScrollPerPixel</enum>
+                     </property>
+                     <property name="spacing">
+                      <number>6</number>
                      </property>
                     </widget>
                    </item>
@@ -2000,49 +2072,6 @@ background-color: lightgrey;
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_12">
                    <item>
-                    <widget class="QListWidget" name="listIconOff">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="minimumSize">
-                      <size>
-                       <width>35</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>35</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="font">
-                      <font>
-                       <family>Calibri</family>
-                       <pointsize>12</pointsize>
-                      </font>
-                     </property>
-                     <property name="styleSheet">
-                      <string notr="true">#listIconOff{
-	border:transparent;
-	background:transparent;
-}</string>
-                     </property>
-                     <property name="selectionMode">
-                      <enum>QAbstractItemView::NoSelection</enum>
-                     </property>
-                     <property name="selectionBehavior">
-                      <enum>QAbstractItemView::SelectRows</enum>
-                     </property>
-                     <property name="selectionRectVisible">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
                     <widget class="QListWidget" name="listWidgetOff">
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -2052,13 +2081,13 @@ background-color: lightgrey;
                      </property>
                      <property name="minimumSize">
                       <size>
-                       <width>215</width>
+                       <width>250</width>
                        <height>0</height>
                       </size>
                      </property>
                      <property name="maximumSize">
                       <size>
-                       <width>215</width>
+                       <width>250</width>
                        <height>16777215</height>
                       </size>
                      </property>
@@ -2075,33 +2104,74 @@ background-color: lightgrey;
 border:transparent;
 background: transparent;
 color: rgb(159,159,159);
-}</string>
+}
+
+ QScrollBar:vertical {
+     border: 2px solid grey;
+     background: #32CC99;
+     width: 15px;
+     margin: 22px 0 22px 0;
+ }
+ QScrollBar::handle:vertical {
+     background: white;
+     min-height: 20px;
+ }
+ QScrollBar::add-line:vertical {
+     border: 2px solid grey;
+     background: #32CC99;
+     height: 20px;
+     subcontrol-position: bottom;
+     subcontrol-origin: margin;
+ }
+
+ QScrollBar::sub-line:vertical {
+     border: 2px solid grey;
+     background: #32CC99;
+     height: 20px;
+     subcontrol-position: top;
+     subcontrol-origin: margin;
+ }
+ QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+     border: 2px solid grey;
+     width: 3px;
+     height: 3px;
+     background: white;
+ }
+
+ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+     background: none;
+ }</string>
+                     </property>
+                     <property name="sizeAdjustPolicy">
+                      <enum>QAbstractScrollArea::AdjustIgnored</enum>
                      </property>
                      <property name="autoScroll">
                       <bool>false</bool>
                      </property>
+                     <property name="editTriggers">
+                      <set>QAbstractItemView::NoEditTriggers</set>
+                     </property>
+                     <property name="showDropIndicator" stdset="0">
+                      <bool>false</bool>
+                     </property>
+                     <property name="defaultDropAction">
+                      <enum>Qt::IgnoreAction</enum>
+                     </property>
                      <property name="selectionMode">
                       <enum>QAbstractItemView::NoSelection</enum>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <property name="verticalScrollMode">
+                      <enum>QAbstractItemView::ScrollPerPixel</enum>
+                     </property>
+                     <property name="spacing">
+                      <number>6</number>
                      </property>
                     </widget>
                    </item>
                   </layout>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Maximum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>35</height>
-                    </size>
-                   </property>
-                  </spacer>
                  </item>
                 </layout>
                </item>
@@ -2273,6 +2343,22 @@ color: rgb(159,159,159);
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionToolbar">
+   <property name="text">
+    <string>Toolbar</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionOpzioni">
+   <property name="text">
+    <string>Opzioni</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
  </widget>
