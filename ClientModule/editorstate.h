@@ -13,10 +13,11 @@ public:
     bool GetToolbar(){return Toolbar;}
     void SetToolbar(bool value){Toolbar=value;}
 private:
-    bool DarkMode=false;
-    bool FullScreen=false;
-    bool CollaboratorBar=true;
-    bool Toolbar=true;
+    bool DarkMode;
+    bool FullScreen;
+    bool CollaboratorBar;
+    bool Toolbar;
+    int TitleBar;
 };
 
 #endif // EDITORSTATE_H

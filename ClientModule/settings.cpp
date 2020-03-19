@@ -15,14 +15,21 @@ void Settings::on_pushButton_clicked(){
     estate.SetDarkMode(true);
 }
 
-void Settings::on_day_clicked()
-{
+void Settings::on_day_clicked(){
     estate.SetDarkMode(false);
 }
 
-void Settings::on_pushButton_3_clicked()
-{
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "MySoft", "Star Runner");
+void Settings::on_pushButton_3_clicked(){
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "C.A.R.T.E. Studio", "C.A.R.T.E.");
+
+    if(ui->dayRadio->isChecked()){
+         estate.SetDarkMode(false);
+    }
+    if(ui->darkRadio->isChecked()){
+        estate.SetDarkMode(true);
+    }
+
+    settings.beginGroup("EditorWindow");
     settings.setValue("darkmode", estate.GetDarkMode());
     settings.endGroup();
 }
