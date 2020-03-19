@@ -43,15 +43,16 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
 
-
+    //Load Setting
     qDebug() << "---------------------------AFTER----------------";
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "MySoft", "Star Runner");
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "C.A.R.T.E. Studio", "C.A.R.T.E.");
+    settings.beginGroup("EditorWindow");
     qDebug() << settings.value("darkmode", estate.GetDarkMode()).toBool();
     qDebug() << "---------------------------BEFORE----------------";
     if(settings.value("darkmode", estate.GetDarkMode()).toBool() == true){
         PaintItBlack();
     }
-    settings.endGroup();
+    //End of loading setting
 
     ui->listIconOn->setViewMode(QListView::ListMode);
     ui->listIconOn->setGridSize(QSize(25,35));
