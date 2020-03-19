@@ -27,6 +27,13 @@ int main(int argc, char *argv[]){
     qputenv("QT_AUTO_SCREEN_SCALE_FACTORS", "2");
     */
 
+    //The Following 4 lines is crucial and NECESSARY for class "settings". Is the path for Register in Windows (or .ini file in \AppData\Roaming)
+    QCoreApplication::setOrganizationName("C.A.R.T.E. Studio");
+    QCoreApplication::setOrganizationDomain("https://github.com/giovannic96/Real-time-collaborative-text-editor");
+    QCoreApplication::setApplicationName("C.A.R.T.E.");
+    QSettings settingsH;
+
+    //Launch the application
     QApplication a(argc, argv);
 
     //Building first window (login).       //TODO --> Add a splashscreen

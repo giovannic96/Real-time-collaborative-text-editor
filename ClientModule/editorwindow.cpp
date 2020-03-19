@@ -17,6 +17,7 @@
 #include <QMenu>
 #include <QCursor>
 #include <QShortcut>
+#include "settings.h"
 
 using json = nlohmann::json;
 
@@ -41,6 +42,16 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
+
+
+    qDebug() << "---------------------------AFTER----------------";
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "MySoft", "Star Runner");
+    qDebug() << settings.value("darkmode", estate.GetDarkMode()).toBool();
+    qDebug() << "---------------------------BEFORE----------------";
+    if(settings.value("darkmode", estate.GetDarkMode()).toBool() == true){
+        PaintItBlack();
+    }
+    settings.endGroup();
 
     ui->listIconOn->setViewMode(QListView::ListMode);
     ui->listIconOn->setGridSize(QSize(25,35));
@@ -327,6 +338,31 @@ void EditorWindow::on_modificaButton_clicked(){
 
     ui->modificaButton->setMenu(&menuEdit);
     ui->modificaButton->showMenu();
+}
+
+void EditorWindow::on_strumentiButton_clicked(){
+    QMenu menuStrumenti(this);
+
+    QAction *option = new QAction(tr("Opzioni..."), this);
+
+    //connect action
+    connect(option, &QAction::triggered, this, &EditorWindow::on_actionOpzioni_triggered);
+
+    //set tip
+    option->setStatusTip(tr("Apre una finestra per regolare le impostazioni"));
+
+    //prepare list of Shortcut
+    QList<QKeySequence> shortcutOpzioni;
+    shortcutOpzioni.append(QKeySequence(Qt::CTRL + Qt::Key_O));     //CTRL+O
+
+    //set Shortcut
+    option->setShortcuts(shortcutOpzioni);
+
+    //add action to menu
+    menuStrumenti.addAction(option);
+
+    ui->strumentiButton->setMenu(&menuStrumenti);
+    ui->strumentiButton->showMenu();
 }
 
 void EditorWindow::on_aboutButton_clicked(){
@@ -1134,6 +1170,9 @@ void EditorWindow::keyPressEvent(QKeyEvent *e) {
     }else if((e->key() == Qt::Key_M) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
         qDebug()<<" CTRL + M";
         on_actionToolbar_triggered();
+    }else if((e->key() == Qt::Key_O) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
+        qDebug()<<" CTRL + O";
+        on_actionOpzioni_triggered();
     }
 }
 
@@ -1354,6 +1393,13 @@ void EditorWindow::on_actionToolbar_triggered(){
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
+//OPZIONI TRIGGERED    -->  CTRL + O
+void EditorWindow::on_actionOpzioni_triggered(){
+    Settings *s = new Settings(estate);
+    s->show();
+}
+
+
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
  *                                                                                                                                     *
@@ -1394,6 +1440,7 @@ void EditorWindow::PaintItBlack() {
         ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;}");
         ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
         ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{ color:black; border:none;}    #strumentiButton:hover{background-color: #e67300;}  #strumentiButton:pressed {background-color: #e67300;}");
         ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;}");
 
         //COLLAB BAR
@@ -1449,6 +1496,7 @@ void EditorWindow::PaintItBlack() {
         ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;}");
         ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
         ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #075299;}  #strumentiButton:pressed {background-color: #075299;}");
         ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;}");
 
         //COLLAB BAR

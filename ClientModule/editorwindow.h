@@ -9,6 +9,7 @@
 #include "message.h"
 #include "myClient.h"
 #include "editorstate.h"
+#include "settings.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"
@@ -39,6 +40,7 @@ private slots:
     void on_fileButton_clicked();
     void on_visualizzaButton_clicked();
     void on_modificaButton_clicked();
+    void on_strumentiButton_clicked();
     void on_aboutButton_clicked();
 
     //CollaboratorBar
@@ -97,6 +99,7 @@ private slots:
     void on_actionSottolineato_triggered();
     void on_actionSeleziona_Tutto_triggered();
     void on_actionToolbar_triggered();
+    void on_actionOpzioni_triggered();
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -121,7 +124,6 @@ private slots:
      *        OTHER SLOTS FUNCTION      *
      ************************************/
     void on_profileButton_clicked();
-
 
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
