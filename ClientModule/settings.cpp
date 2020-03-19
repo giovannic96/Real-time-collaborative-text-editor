@@ -107,12 +107,12 @@ void Settings::WriteSettingOnFile(){
 
 
 void Settings::on_Default_clicked(){
-     estate.SetDarkMode(false);
-     estate.SetToolbar(true);
-     estate.SetCollaboratorBar(true);
-     estate.SetTitlebar(2);
-     estate.SetThemeDay(1);
-     estate.SetThemeDark(1);
+     estate.SetDarkMode(false);             ui->dayRadio->setChecked(true);
+     estate.SetToolbar(true);               ui->toolShowRadio->setChecked(true);
+     estate.SetCollaboratorBar(true);       ui->collabShowRadio->setChecked(true);
+     estate.SetTitlebar(2);                 ui->titleRadio2->setChecked(true);
+     estate.SetThemeDay(1);                 ui->dayTheme1->setChecked(true);
+     estate.SetThemeDark(1);                ui->darkTheme1->setChecked(true);
 
      WriteSettingOnFile();
 }
