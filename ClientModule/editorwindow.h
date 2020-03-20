@@ -114,7 +114,6 @@ private slots:
     /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
-
     void CloseDocumentRequest();
     void AlignSXButtonHandler();
     void AlignCXButtonHandler();

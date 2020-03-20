@@ -15,12 +15,11 @@ public:
 
 private slots:
     void on_Save_clicked();
-    void on_pushButton_clicked();
-    void on_day_clicked();
     void on_Default_clicked();
     void on_Abort_clicked();
 
 private:
+    void LoadAndSetDefaultRadioButton();
     void WriteSettingOnFile();
 
 private:
