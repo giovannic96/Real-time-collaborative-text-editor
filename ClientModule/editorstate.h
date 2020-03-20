@@ -24,9 +24,9 @@ private:
     bool FullScreen;            // true=enabled / false=disabled
     bool CollaboratorBar;       // true=show    / false=hide
     bool Toolbar;               // true=show    / false=hide
-    int Titlebar;               // [1]=ProgName / [2]=DocName / [3]=Prog+Doc / [4]=Alternate
-    int DayMode_Theme;          // [1]=Classic  / [2]=Plain   / [3]=HighColor
-    int DarkMode_Theme;         // [1]=Classic  / [2]=Plain   / [3]=HighColor
+    int Titlebar;               // [1]=DocName  / [2]=ProgName / [3]=Prog+Doc / [4]=Alternate
+    int DayMode_Theme;          // [1]=Classic  / [2]=Plain    / [3]=HighColor
+    int DarkMode_Theme;         // [1]=Classic  / [2]=Plain    / [3]=HighColor
 };
 
 #endif // EDITORSTATE_H

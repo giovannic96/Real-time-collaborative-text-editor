@@ -90,6 +90,9 @@ background-color: rgb(20, 78, 117);
         <pointsize>-1</pointsize>
        </font>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent;
 border-radius: 15px;
@@ -165,6 +168,9 @@ background-image:url(:/image/registratiButton2.png)
        <font>
         <pointsize>-1</pointsize>
        </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent;
@@ -244,6 +250,9 @@ font-size: 18px;
         <height>30</height>
        </rect>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color:transparent;
 border: transparent;
@@ -267,6 +276,9 @@ font-size: 18px;
         <width>231</width>
         <height>30</height>
        </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color:transparent;
@@ -363,6 +375,9 @@ background-image:url(:/image/accediButton2.png)
         <width>231</width>
         <height>30</height>
        </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color:transparent;

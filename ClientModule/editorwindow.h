@@ -102,10 +102,20 @@ private slots:
     void on_actionOpzioni_triggered();
 
     /************************************
+     * STANDALONE FUNCTION FOR GRAPHIC  *
+     ************************************/
+    void PaintItBlack();
+    void ApplyDayMode();
+    void ApplyDarkMode();
+    void SetIconPackDayMode();
+    void SetIconPackDarkMode();
+    void LoadUserSetting();
+
+    /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
+
     void CloseDocumentRequest();
-    void PaintItBlack();
     void AlignSXButtonHandler();
     void AlignCXButtonHandler();
     void AlignDXButtonHandler();

@@ -85,6 +85,9 @@ void Settings::on_Save_clicked(){
         estate.SetThemeDark(3);
     }
     WriteSettingOnFile();
+
+    QWidget::close();
+    delete this;   //Very important, is needed for calling the destructor
 }
 
 void Settings::WriteSettingOnFile(){
@@ -110,9 +113,14 @@ void Settings::on_Default_clicked(){
      estate.SetDarkMode(false);             ui->dayRadio->setChecked(true);
      estate.SetToolbar(true);               ui->toolShowRadio->setChecked(true);
      estate.SetCollaboratorBar(true);       ui->collabShowRadio->setChecked(true);
-     estate.SetTitlebar(2);                 ui->titleRadio2->setChecked(true);
+     estate.SetTitlebar(1);                 ui->titleRadio1->setChecked(true);
      estate.SetThemeDay(1);                 ui->dayTheme1->setChecked(true);
      estate.SetThemeDark(1);                ui->darkTheme1->setChecked(true);
 
      WriteSettingOnFile();
+}
+
+void Settings::on_Abort_clicked(){
+    QWidget::close();
+    delete this;   //Very important, is needed for calling the destructor
 }
