@@ -915,7 +915,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             return true;
         } //******************************************** ANY DIGIT *************************************************
         else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete) && !(key == Qt::Key_Escape)) {
-            //Get data
+            //Get datad
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             QColor color(ui->RealTextEdit->getEditorColor());
@@ -1724,11 +1724,11 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         this->close();
         delete this;
     } else if (result == "RENAME_SUCCESS") {
-        //toLatin1 is necessary to display correctly special characters like "€"
-        ui->DocNameLabel->setText(QString::fromStdString(filename).toLatin1());
-        _client->setFilename(QString::fromStdString(filename).toLatin1()); //Assign newText to the variable
-        docName = QString::fromStdString(filename).toLatin1();
-        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename).toLatin1());
+        //filename.toLatin1() is not necessary because the conversione is done by the server in action NEWFILE_REQUEST, RENAMEFILE_REQUEST
+        ui->DocNameLabel->setText(QString::fromStdString(filename));
+        _client->setFilename(QString::fromStdString(filename)); //Assign newText to the variable
+        docName = QString::fromStdString(filename);
+        this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename));
         ui->RealTextEdit->setFocus();
     } else if(result == "INVITE_URI_SUCCESS") {
         QMessageBox::warning(this,"Invito effettuato con successo", "Il tuo invito a collaborare è stato correttamente eseguito.");

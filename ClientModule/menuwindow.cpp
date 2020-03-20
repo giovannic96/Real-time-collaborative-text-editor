@@ -370,7 +370,8 @@ void MenuWindow::showListFile(std::vector<File> files) {
 
         ui->listWidget->clear();
         foreach (File f, files) {
-            filename  = QString::fromUtf8(f.getfilename().c_str()).toLatin1();
+            //in filename the conversion .toLatin1() because the conversion is already done by the server
+            filename  = QString::fromUtf8(f.getfilename().c_str());
             owner     = QString::fromUtf8(f.getowner().c_str()).toLatin1();
             timestamp = QString::fromUtf8(f.gettimestamp().c_str()).toLatin1();
             QListWidgetItem* item;

@@ -347,7 +347,12 @@ dbService::DB_RESPONSE dbService::tryOpenWithURIFile(const std::string& user, co
         query.bindValue(":uri", uri);
         if (query.exec()) {
             if (query.next()) {
-                filename = query.value(1).toString().toStdString();
+                //needed to send correctly filename formatted to the client
+                QString temp_filename = QLatin1String(query.value(1).toString().toUtf8());
+                //std::cout << std::endl << "FILENAME QSTRING :" << temp_filename.toStdString() << std::endl;
+                filename = temp_filename.toStdString();
+                //std::cout << std::endl << "FILENAME "<< filename << std::endl;
+
                 QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
                 query2.prepare(QString("UPDATE permissions SET isOpen=1, isConfirmed=1 WHERE idfile= :uri and iduser= :username"));
                 query2.bindValue(":username", username);
