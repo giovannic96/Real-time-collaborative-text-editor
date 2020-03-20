@@ -364,7 +364,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
     } else if (opJSON == "NEWFILE_REQUEST") {
         std::string userJSON;
         std::string filenameJSON;
+
         jsonUtility::from_json_filename(jdata_in, userJSON, filenameJSON); //get json value and put into JSON variables
+        //conversion needed to save filename string correctly in the DB
+        filenameJSON = QString::fromUtf8(filenameJSON.c_str()).toLatin1().toStdString();
 
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
@@ -451,6 +454,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string uriJson;
         std::string userJSON;
         jsonUtility::from_json_renameFile(jdata_in, newNameFileJson, uriJson,userJSON);
+        //conversion needed to save filename string correctly in the DB
+        newNameFileJson = QString::fromUtf8(newNameFileJson.c_str()).toLatin1().toStdString();
 
         //Get data from db
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
@@ -537,7 +542,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //update tables on db
         dbService::DB_RESPONSE resp = dbService::tryOpenWithURIFile(userJSON, uriJSON, filenameJSON);
-        QSqlDatabase::removeDatabase("MyConnect3");
+        QSqlDatabase::removeDatabase("MyConnect2");
+
+        //conversion needed to save filename string correctly in the DB
+        //filenameJSON = QString::fromUtf8(filenameJSON.c_str()).toLatin1().toStdString();
 
         if (resp == dbService::OPENWITHURI_OK) {
             //Update session data
