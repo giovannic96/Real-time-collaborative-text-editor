@@ -43,17 +43,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
 
-    //Load Setting
-    qDebug() << "---------------------------AFTER----------------";
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "C.A.R.T.E. Studio", "C.A.R.T.E.");
-    settings.beginGroup("EditorWindow");
-    qDebug() << settings.value("darkmode", estate.GetDarkMode()).toBool();
-    qDebug() << "---------------------------BEFORE----------------";
-    if(settings.value("darkmode", estate.GetDarkMode()).toBool() == true){
-        PaintItBlack();
-    }
-    //End of loading setting
-
     ui->listWidgetOn->setViewMode(QListView::ListMode);
     ui->listWidgetOn->setGridSize(QSize(215,40));
     ui->listWidgetOn->setIconSize(QSize(30,30));
@@ -78,8 +67,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
-
-    showCollab();
 
     QChar firstLetter;
 
@@ -118,9 +105,11 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
     showSymbolsAt(0, _client->getVector());
     ui->RealTextEdit->installEventFilter(this);
-    textOnTitleBar = "C.A.R.T.E. - " + docName;
-    this->setWindowTitle(textOnTitleBar);
     collabColorsRequest(_client->getFileURI());
+
+
+    //Load Last User's Saved Setting
+    LoadUserSetting();
 
 }
 
@@ -1382,6 +1371,276 @@ void EditorWindow::on_actionOpzioni_triggered(){
 
 
 /***************************************************************************************************************************************
+ *                                               STANDALONE FUNCTION FOR GRAPHIC                                                       *
+ *                                                                                                                                     *
+ ***************************************************************************************************************************************/
+
+void EditorWindow::PaintItBlack() {
+    if(estate.GetDarkMode()==false) {
+        //I see a red door and I want it painted black, no colors anymore I want them to turn black
+        estate.SetDarkMode(true);
+
+        ApplyDarkMode();
+        SetIconPackDarkMode();
+
+        //Change the icon on TopBar menu
+        QIcon menuIcon;
+        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
+        ui->actionDark_Mode->setIcon(menuIcon);
+
+    }else if(estate.GetDarkMode()==true){
+        //Shine on you crazy diamond
+        estate.SetDarkMode(false);
+
+        ApplyDayMode();
+        SetIconPackDayMode();
+
+        //Change the icon on TopBar menu
+        QIcon menuIcon;
+        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
+        ui->actionDark_Mode->setIcon(menuIcon);
+    }
+
+    //Set Other CSS
+    AlignButtonStyleHandler();
+    refreshFormatButtons();
+    ui->RealTextEdit->setFocus();
+
+}
+
+void EditorWindow::ApplyDayMode(){
+    if(estate.GetThemeDay()==1){
+  //CLASSIC THEME SELECTED
+        //GENERAL COLOR
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
+        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
+        ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #075299;}  #strumentiButton:pressed {background-color: #075299;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;}");
+    }else if(estate.GetThemeDay()==2){
+  //PLAIN THEME SELECTED
+        //GENERAL COLOR
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
+        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("#frameTopBar{           background:#0A5597;}");
+        ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #0E79D8;}       #fileButton:pressed {background-color: #57ABF4;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #0E79D8;} #visualizzaButton:pressed {background-color: #57ABF4;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #0E79D8;}   #modificaButton:pressed {background-color: #57ABF4;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #0E79D8;}  #strumentiButton:pressed {background-color: #57ABF4;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #0E79D8;}      #aboutButton:pressed {background-color: #57ABF4;}");
+    }else if(estate.GetThemeDay()==3){
+  //HIGH COLOR THEME SELECTED
+        //GENERAL COLOR
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: white;}");
+        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("#frameTopBar{            background:#0000FF;}");
+        ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #000099;}       #fileButton:pressed {background-color: #000066;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #000099;} #visualizzaButton:pressed {background-color: #000066;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #000099;}   #modificaButton:pressed {background-color: #000066;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #000099;}  #strumentiButton:pressed {background-color: #000066;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #000099;}      #aboutButton:pressed {background-color: #000066;}");
+    }
+
+    //COLLAB BAR
+    ui->label->setStyleSheet("color: grey");
+    ui->label_2->setStyleSheet("color: grey");
+    ui->label_3->setStyleSheet("color: grey");
+    ui->labelCollOn->setStyleSheet("color: grey");
+    ui->labelCollOff->setStyleSheet("color: grey");
+    ui->listWidgetOn->setStyleSheet("border:none;\n background:transparent;\n color:black");
+    ui->labelUser->setStyleSheet("color:black;");
+}
+
+void EditorWindow::ApplyDarkMode(){
+    if(estate.GetThemeDark()==1){
+  //CLASSIC THEME SELECTED
+        //GENERAL COLOR
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: #1A1A1A;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
+        ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{ color:black; border:none;}    #strumentiButton:hover{background-color: #e67300;}  #strumentiButton:pressed {background-color: #e67300;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;}");
+    }else if(estate.GetThemeDark()==2){
+  //PLAIN THEME SELECTED
+        //GENERAL COLOR
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: #1A1A1A;}");
+        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{  background-color:transparent; border: transparent; color: #ff8000;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("#frameTopBar{         background: #FF8000;}");
+        ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #FFAD33;}       #fileButton:pressed {background-color: #FFC266;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #FFAD33;} #visualizzaButton:pressed {background-color: #FFC266;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #FFAD33;}   #modificaButton:pressed {background-color: #FFC266;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{ color:black; border:none;}    #strumentiButton:hover{background-color: #FFAD33;}  #strumentiButton:pressed {background-color: #FFC266;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #FFAD33;}      #aboutButton:pressed {background-color: #FFC266;}");
+    }else if(estate.GetThemeDark()==3){
+  //HIGH COLOR THEME SELECTED
+        //GENERAL COLOR
+        ui->editorFrame->setStyleSheet("    #editorFrame{   background: black;}");
+        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #111111; border-left: 2px solid #e6e6e6;}");
+        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+
+        //TOP FRAME
+        ui->frameTopBar->setStyleSheet("#frameTopBar{         background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFFF00 stop:0.60#FFFF00 stop:0.99#FF0000);}");
+        ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #FF9900;}       #fileButton:pressed {background-color: #FF0000;}");
+        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #FF9900;} #visualizzaButton:pressed {background-color: #FF0000;}");
+        ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #FF9900;}   #modificaButton:pressed {background-color: #FF0000;}");
+        ui->strumentiButton->setStyleSheet("#strumentiButton{ color:black; border:none;}    #strumentiButton:hover{background-color: #FF9900;}  #strumentiButton:pressed {background-color: #FF0000;}");
+        ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #FF9900;}      #aboutButton:pressed {background-color: #FF0000;}");
+      }
+
+    //COLLAB BAR
+    ui->label->setStyleSheet("color: #FFFFFF");
+    ui->label_2->setStyleSheet("color: #FFFFFF");
+    ui->label_3->setStyleSheet("color: #FFFFFF");
+    ui->labelCollOn->setStyleSheet("color: #FFFFFF");
+    ui->labelCollOff->setStyleSheet("color: #FFFFFF");
+    ui->listWidgetOn->setStyleSheet("border:none;\n background:transparent;\n color:white");
+    ui->labelUser->setStyleSheet("color:white;");
+
+}
+
+void EditorWindow::SetIconPackDayMode(){
+    QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U;
+    icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
+    icoAS.addPixmap(QPixmap(":/image/Editor/left-align.png"),QIcon::Normal,QIcon::On);
+    icoAD.addPixmap(QPixmap(":/image/Editor/right-align.png"),QIcon::Normal,QIcon::On);
+    icoJS.addPixmap(QPixmap(":/image/Editor/justify.png"),QIcon::Normal,QIcon::On);
+    icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
+    icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
+    icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
+    icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
+    icoCOL.addPixmap(QPixmap(":/image/Editor/highlighter.png"),QIcon::Normal,QIcon::On);
+    v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
+    v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
+    v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
+
+    ui->buttonAlignCX->setIcon(icoAC);
+    ui->buttonAlignSX->setIcon(icoAS);
+    ui->buttonAlignDX->setIcon(icoAD);
+    ui->buttonAlignJFX->setIcon(icoJS);
+    ui->buttonCopy->setIcon(icoCPY);
+    ui->buttonCut->setIcon(icoCUT);
+    ui->buttonPaste->setIcon(icoPAS);
+    ui->buttonSearch->setIcon(icoMAGN);
+    ui->buttonColor->setIcon(icoCOL);
+    ui->buttonBold->setIcon(v2B);
+    ui->buttonItalic->setIcon(v2I);
+    ui->buttonUnderline->setIcon(v2U);
+}
+
+void EditorWindow::SetIconPackDarkMode(){
+    QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U;
+    icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
+    icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
+    icoAD.addPixmap(QPixmap(":/image/DarkEditor/right-align.png"),QIcon::Normal,QIcon::On);
+    icoJS.addPixmap(QPixmap(":/image/DarkEditor/justify.png"),QIcon::Normal,QIcon::On);
+    icoCPY.addPixmap(QPixmap(":/image/DarkEditor/copy.png"),QIcon::Normal,QIcon::On);
+    icoCUT.addPixmap(QPixmap(":/image/DarkEditor/cut.png"),QIcon::Normal,QIcon::On);
+    icoPAS.addPixmap(QPixmap(":/image/DarkEditor/paste.png"),QIcon::Normal,QIcon::On);
+    icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
+    icoCOL.addPixmap(QPixmap(":/image/DarkEditor/highlighter.png"),QIcon::Normal,QIcon::On);
+    v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
+    v2I.addPixmap(QPixmap(":/image/DarkEditor/v2italic.png"),QIcon::Normal,QIcon::On);
+    v2U.addPixmap(QPixmap(":/image/DarkEditor/v2underline.png"),QIcon::Normal,QIcon::On);
+
+    ui->buttonAlignCX->setIcon(icoAC);
+    ui->buttonAlignSX->setIcon(icoAS);
+    ui->buttonAlignDX->setIcon(icoAD);
+    ui->buttonAlignJFX->setIcon(icoJS);
+    ui->buttonCopy->setIcon(icoCPY);
+    ui->buttonCut->setIcon(icoCUT);
+    ui->buttonPaste->setIcon(icoPAS);
+    ui->buttonSearch->setIcon(icoMAGN);
+    ui->buttonColor->setIcon(icoCOL);
+    ui->buttonBold->setIcon(v2B);
+    ui->buttonItalic->setIcon(v2I);
+    ui->buttonUnderline->setIcon(v2U);
+}
+
+void EditorWindow::LoadUserSetting(){
+
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "C.A.R.T.E. Studio", "C.A.R.T.E.");
+
+    // LOAD AND SET "START" VALUE
+    //*****************************************************************************************************
+    settings.beginGroup("Start");
+    estate.SetDarkMode(settings.value("darkmode", estate.GetDarkMode()).toBool());
+    estate.SetCollaboratorBar(settings.value("collaboratorbar", estate.GetCollaboratorBar()).toBool());
+    estate.SetToolbar(settings.value("toolbar", estate.GetToolbar()).toBool());
+    settings.endGroup();
+
+    if(estate.GetDarkMode() == true){
+        //ApplyDarkMode();      <-- No! It has to be done after the LOAD  AND SET "THEME" VALUE
+        SetIconPackDarkMode();
+        //Change the icon on TopBar menu
+        QIcon menuIcon;
+        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
+        ui->actionDark_Mode->setIcon(menuIcon);
+    }
+    if(estate.GetCollaboratorBar() == false){
+        hideCollab();
+    }
+    if(estate.GetToolbar() == false){
+        hideToolbar();
+    }
+
+
+    // LOAD AND SET "TITLEBAR" VALUE
+    //*****************************************************************************************************
+    settings.beginGroup("Titlebar");
+    estate.SetTitlebar(settings.value("titlebar", estate.GetTitlebar()).toInt());
+    settings.endGroup();
+
+    if(estate.GetTitlebar()==1){            // [1]=DocName
+        textOnTitleBar = docName;
+    }else if(estate.GetTitlebar()==2){      // [2]=ProgName
+        textOnTitleBar = "C.A.R.T.E.";
+    }else if(estate.GetTitlebar()==3){   // [3]=Prog+Doc
+        textOnTitleBar = "C.A.R.T.E. - " + docName;
+    }else if(estate.GetTitlebar()==4){   // [4]=Alternate
+        textOnTitleBar = "ALTERNATE MODE - TODO - ";
+    }
+    this->setWindowTitle(textOnTitleBar);
+
+
+    // LOAD AND SET "THEME" VALUE
+    //*****************************************************************************************************
+    settings.beginGroup("Theme");
+    estate.SetThemeDay(settings.value("dayTheme", estate.GetThemeDay()).toInt());
+    estate.SetThemeDark(settings.value("darkTheme", estate.GetThemeDark()).toInt());
+    settings.endGroup();
+
+    // SET THEME COLOUR SCHEME
+    //*****************************************************************************************************
+    if(estate.GetDarkMode() == true){
+        ApplyDarkMode();
+    }else{
+        ApplyDayMode();
+    }
+
+}
+
+/***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
  *                                                                                                                                     *
  ***************************************************************************************************************************************/
@@ -1406,128 +1665,6 @@ void EditorWindow::CloseDocumentRequest() {
     _client->sendRequestMsg(req);
 }
 
-//Set the Editor in DarkMode or in DayMode
-void EditorWindow::PaintItBlack() {
-    if(estate.GetDarkMode()==false) {
-        //I see a red door and I want it painted black, no colors anymore I want them to turn black
-        estate.SetDarkMode(true);
-
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background: #1A1A1A;}");
-        ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
-
-        //TOP FRAME     
-        ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
-        ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;}");
-        ui->strumentiButton->setStyleSheet("#strumentiButton{ color:black; border:none;}    #strumentiButton:hover{background-color: #e67300;}  #strumentiButton:pressed {background-color: #e67300;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{         color:black; border:none;}    #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;}");
-
-        //COLLAB BAR
-        ui->label->setStyleSheet("color: #FFFFFF");
-        ui->label_2->setStyleSheet("color: #FFFFFF");
-        ui->label_3->setStyleSheet("color: #FFFFFF");
-        ui->labelCollOn->setStyleSheet("color: #FFFFFF");
-        ui->labelCollOff->setStyleSheet("color: #FFFFFF");
-
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
-        icoAC.addPixmap(QPixmap(":/image/DarkEditor/center-align.png"),QIcon::Normal,QIcon::On);
-        icoAS.addPixmap(QPixmap(":/image/DarkEditor/left-align.png"),QIcon::Normal,QIcon::On);
-        icoAD.addPixmap(QPixmap(":/image/DarkEditor/right-align.png"),QIcon::Normal,QIcon::On);
-        icoJS.addPixmap(QPixmap(":/image/DarkEditor/justify.png"),QIcon::Normal,QIcon::On);
-        icoCPY.addPixmap(QPixmap(":/image/DarkEditor/copy.png"),QIcon::Normal,QIcon::On);
-        icoCUT.addPixmap(QPixmap(":/image/DarkEditor/cut.png"),QIcon::Normal,QIcon::On);
-        icoPAS.addPixmap(QPixmap(":/image/DarkEditor/paste.png"),QIcon::Normal,QIcon::On);
-        icoMAGN.addPixmap(QPixmap(":/image/DarkEditor/Magnifier.png"),QIcon::Normal,QIcon::On);
-        icoCOL.addPixmap(QPixmap(":/image/DarkEditor/highlighter.png"),QIcon::Normal,QIcon::On);
-        v2B.addPixmap(QPixmap(":/image/DarkEditor/v2bold.png"),QIcon::Normal,QIcon::On);
-        v2I.addPixmap(QPixmap(":/image/DarkEditor/v2italic.png"),QIcon::Normal,QIcon::On);
-        v2U.addPixmap(QPixmap(":/image/DarkEditor/v2underline.png"),QIcon::Normal,QIcon::On);
-
-        ui->listWidgetOn->setStyleSheet("border:none;\n background:transparent;\n color:white");
-        ui->labelUser->setStyleSheet("color:white;");
-        ui->buttonAlignCX->setIcon(icoAC);
-        ui->buttonAlignSX->setIcon(icoAS);
-        ui->buttonAlignDX->setIcon(icoAD);
-        ui->buttonAlignJFX->setIcon(icoJS);
-        ui->buttonCopy->setIcon(icoCPY);
-        ui->buttonCut->setIcon(icoCUT);
-        ui->buttonPaste->setIcon(icoPAS);
-        ui->buttonSearch->setIcon(icoMAGN);
-        ui->buttonColor->setIcon(icoCOL);
-        ui->buttonBold->setIcon(v2B);
-        ui->buttonItalic->setIcon(v2I);
-        ui->buttonUnderline->setIcon(v2U);
-
-        //Menu Modify
-        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
-        ui->actionDark_Mode->setIcon(menuIcon);
-
-    }else if(estate.GetDarkMode()==true){
-        //Shine on you crazy diamond
-        estate.SetDarkMode(false);
-
-        ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}"); //IN CASO METTERE COLOR #E5E4E4
-        ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
-        ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
-
-        //TOP FRAME
-        ui->frameTopBar->setStyleSheet("#frameTopBar{            background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
-        ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;}");
-        ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;}");
-        ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;}");
-        ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #075299;}  #strumentiButton:pressed {background-color: #075299;}");
-        ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;}");
-
-        //COLLAB BAR
-        ui->label->setStyleSheet("color: grey");
-        ui->label_2->setStyleSheet("color: grey");
-        ui->label_3->setStyleSheet("color: grey");
-        ui->labelCollOn->setStyleSheet("color: grey");
-        ui->labelCollOff->setStyleSheet("color: grey");
-
-        QIcon icoAC, icoAD, icoAS, icoJS, icoCPY, icoCUT, icoPAS, icoMAGN, icoCOL, v2B, v2I, v2U, menuIcon;
-        icoAC.addPixmap(QPixmap(":/image/Editor/center-align.png"),QIcon::Normal,QIcon::On);
-        icoAS.addPixmap(QPixmap(":/image/Editor/left-align.png"),QIcon::Normal,QIcon::On);
-        icoAD.addPixmap(QPixmap(":/image/Editor/right-align.png"),QIcon::Normal,QIcon::On);
-        icoJS.addPixmap(QPixmap(":/image/Editor/justify.png"),QIcon::Normal,QIcon::On);
-        icoCPY.addPixmap(QPixmap(":/image/Editor/copy.png"),QIcon::Normal,QIcon::On);
-        icoCUT.addPixmap(QPixmap(":/image/Editor/cut.png"),QIcon::Normal,QIcon::On);
-        icoPAS.addPixmap(QPixmap(":/image/Editor/paste.png"),QIcon::Normal,QIcon::On);
-        icoMAGN.addPixmap(QPixmap(":/image/Editor/Magnifier.png"),QIcon::Normal,QIcon::On);
-        icoCOL.addPixmap(QPixmap(":/image/Editor/highlighter.png"),QIcon::Normal,QIcon::On);
-        v2B.addPixmap(QPixmap(":/image/Editor/v2bold.png"),QIcon::Normal,QIcon::On);
-        v2I.addPixmap(QPixmap(":/image/Editor/v2italic.png"),QIcon::Normal,QIcon::On);
-        v2U.addPixmap(QPixmap(":/image/Editor/v2underline.png"),QIcon::Normal,QIcon::On);
-
-        ui->listWidgetOn->setStyleSheet("border:none;\n background:transparent;\n color:black");
-
-        ui->labelUser->setStyleSheet("color:black;");
-        ui->buttonAlignCX->setIcon(icoAC);
-        ui->buttonAlignSX->setIcon(icoAS);
-        ui->buttonAlignDX->setIcon(icoAD);
-        ui->buttonAlignJFX->setIcon(icoJS);
-        ui->buttonCopy->setIcon(icoCPY);
-        ui->buttonCut->setIcon(icoCUT);
-        ui->buttonPaste->setIcon(icoPAS);
-        ui->buttonSearch->setIcon(icoMAGN);
-        ui->buttonColor->setIcon(icoCOL);
-        ui->buttonBold->setIcon(v2B);
-        ui->buttonItalic->setIcon(v2I);
-        ui->buttonUnderline->setIcon(v2U);
-
-        //Menu Modify
-        menuIcon.addPixmap(QPixmap(":/image/Editor/DarkMoon.png"),QIcon::Normal,QIcon::On);
-        ui->actionDark_Mode->setIcon(menuIcon);
-    }
-
-    //Set Other CSS
-    AlignButtonStyleHandler();
-    refreshFormatButtons();
-    ui->RealTextEdit->setFocus();
-
-}
 
 //Set the button checked-status of Alignment buttons
 void EditorWindow::AlignDXButtonHandler() {
