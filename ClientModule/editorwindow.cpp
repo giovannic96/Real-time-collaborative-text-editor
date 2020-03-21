@@ -89,7 +89,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-    ui->DocNameLabel->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
@@ -113,6 +112,10 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     titlebarTimer = new QTimer(this);
     connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
     titlebarTimer->start(3000); //I love you 3000 Mr.Stark
+
+    //Set docName on CollabBar
+    SetDynamicDocNameLabel();
+
 }
 
 EditorWindow::~EditorWindow() {
@@ -1248,7 +1251,7 @@ void EditorWindow::on_actionRinomina_triggered() {
 void EditorWindow::on_actionEsporta_come_PDF_triggered() {
     QString pathname;
     //Dont change the follow line even if there is a warning (UNTIL I STUDY SMARTPOINTER)
-    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", ui->DocNameLabel->text(), "PDF File (*.pdf)");
+    QString fileName = QFileDialog::getSaveFileName(this,"Esporta come PDF", docName, "PDF File (*.pdf)");
 
     if (fileName==nullptr) {
         return;
@@ -1379,6 +1382,7 @@ void EditorWindow::on_actionOpzioni_triggered(){
 
 void EditorWindow::PaintItBlack() {
     if(estate.GetDarkMode()==false) {
+        qDebug() << estate.GetThemeDay();
         //I see a red door and I want it painted black, no colors anymore I want them to turn black
         estate.SetDarkMode(true);
 
@@ -1866,6 +1870,40 @@ void EditorWindow::setupInitialCondition(){
         AlignSXButtonHandler();
 }
 
+void EditorWindow::SetDynamicDocNameLabel(){
+    QString truncatedFilename = docName;
+    ui->DocNameLabel->adjustSize();
+    ui->DocNameLabel->resize(ui->DocNameLabel->sizeHint());
+    qDebug() << ui->DocNameLabel->width() << "-------------HERE";
+    if(ui->DocNameLabel->width() > 100){
+        QFontMetrics metrics(ui->DocNameLabel->font());
+        QString elidedText = metrics.elidedText(docName, Qt::ElideRight, ui->DocNameLabel->width());
+        ui->DocNameLabel->setText(elidedText);
+    }else{
+        ui->DocNameLabel->setText(docName);
+    }
+
+    /*V1
+    int DocLength = docName.length();
+    int DocLongCharCounter = docName.count('w', Qt::CaseInsensitive);
+    int DocLittleCharCounter = docName.count('i', Qt::CaseInsensitive) + docName.count('1', Qt::CaseInsensitive) + docName.count("j", Qt::CaseInsensitive) + docName.count('.') + docName.count('!');
+    int ResizeDynamicValue = 16; //17 is max number of "A"-char visible on Collaborator Bar, -1 because we want to add "...".
+
+    ResizeDynamicValue = DocLength + (DocLittleCharCounter*2) - (DocLongCharCounter/2);
+    //16 + 6 = 24
+    //16 - 2 = 14
+    //16 - 2 + 6 = 20
+
+    if(DocLength > ResizeDynamicValue){
+        truncatedFilename.resize(ResizeDynamicValue);
+        truncatedFilename=truncatedFilename+"...";
+        ui->DocNameLabel->setText(truncatedFilename);
+    }else{
+        ui->DocNameLabel->setText(docName);
+    }
+    */
+}
+
 /***************************************************************************************************************************************
  *                                                    OTHER SLOT FUNCTION                                                              *
  *                                                                                                                                     *
@@ -1877,9 +1915,10 @@ void EditorWindow::showPopupSuccess(QString result, std::string filename) {
         delete this;
     } else if (result == "RENAME_SUCCESS") {
         //filename.toLatin1() is not necessary because the conversione is done by the server in action NEWFILE_REQUEST, RENAMEFILE_REQUEST
-        ui->DocNameLabel->setText(QString::fromStdString(filename));
-        _client->setFilename(QString::fromStdString(filename)); //Assign newText to the variable
         docName = QString::fromStdString(filename);
+        SetDynamicDocNameLabel();
+        _client->setFilename(QString::fromStdString(filename)); //Assign newText to the variable
+
         this->setWindowTitle("C.A.R.T.E. - " + QString::fromStdString(filename));
         ui->RealTextEdit->setFocus();
     } else if(result == "INVITE_URI_SUCCESS") {
