@@ -41,6 +41,7 @@ private:
     EditorWindow *_ew;
     bool Logout = false;
     bool profile = false;
+    bool FirstTimeWindowOpens=true;
 
 protected:
     //Function for mouse related event

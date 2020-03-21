@@ -129,6 +129,7 @@ private slots:
     void hideToolbar();
     bool handleConnectionLoss();
     void setupInitialCondition();
+    void SetDynamicDocNameLabel();
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
