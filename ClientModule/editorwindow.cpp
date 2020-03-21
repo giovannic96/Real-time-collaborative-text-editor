@@ -85,10 +85,11 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->profileButton->setStyleSheet(qss);    
 
     QRegularExpressionValidator* fontSizeValidator;
-    QIcon fontIcon(":/image/font_icon.png");
+    QIcon fontIcon(":/image/Editor/font.png");
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
+
     ui->DocNameLabel->setText(docName);
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
@@ -430,12 +431,12 @@ void EditorWindow::on_buttonColor_clicked() {
          ui->buttonColor->setChecked(true);
          ui->RealTextEdit->setBtnColorChecked(true);
          html = updateBackgroundColor(html, ALPHA_COLOR);
-         ui->buttonColor->setStyleSheet("#buttonColor{background-color:#AED6F1; border-radius:4px;}");
+         ui->buttonColor->setStyleSheet("#buttonColor{background-color:#CACFD2; border-radius:4px;}");
      } else {
          ui->buttonColor->setChecked(false);
          ui->RealTextEdit->setBtnColorChecked(false);
          html = updateBackgroundColor(html, ALPHA_TRANSPARENT);
-         ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: #D6EAF8;}");
+         ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: #BDC3C7;}");
      }
      ui->RealTextEdit->document()->setHtml(html);
      ui->RealTextEdit->setFocus();
@@ -1469,12 +1470,12 @@ void EditorWindow::ApplyDarkMode(){
     if(estate.GetThemeDark()==1){
   //CLASSIC THEME SELECTED
         //GENERAL COLOR
-        ui->editorFrame->setStyleSheet("    #editorFrame{   background: #1A1A1A;}");
+        ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
         ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
         ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
 
         //TOP FRAME
-        ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFBC88 stop:0.53#FFBC88 stop:0.54#FFBC88 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
+        ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFB533 stop:0.53#FFB533 stop:0.54#FFB533 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
         ui->fileButton->setStyleSheet("#fileButton{           color:black; border:none;}    #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;}");
         ui->visualizzaButton->setStyleSheet("#visualizzaButton{color:black; border:none;}   #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;}");
         ui->modificaButton->setStyleSheet("#modificaButton{   color:black; border:none;}    #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;}");
@@ -1719,47 +1720,47 @@ void EditorWindow::AlignNoneButtonHandler() {
 //Set the button style if Alignment is checked
 void EditorWindow::AlignButtonStyleHandler() {
    if(ui->buttonAlignCX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#AED6F1; border-radius:4px;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{background-color:#CACFD2; border-radius:4px;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #909497;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #909497;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #909497;}");
     } else if(ui->buttonAlignSX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#AED6F1; border-radius:4px;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #909497;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{background-color:#CACFD2; border-radius:4px;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #909497;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #909497;}");
     } else if(ui->buttonAlignDX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#AED6F1; border-radius:4px;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #909497;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #909497;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{background-color:#CACFD2; border-radius:4px;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #909497;}");
     } else if(ui->buttonAlignJFX->isChecked()) {
-        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
-        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonAlignCX->setStyleSheet("  #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #909497;}");
+        ui->buttonAlignSX->setStyleSheet("  #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #909497;}");
+        ui->buttonAlignDX->setStyleSheet("  #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #909497;}");
+        ui->buttonAlignJFX->setStyleSheet(" #buttonAlignJFX{background-color:#CACFD2; border-radius:4px;}");
     } else {
-       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #D6EAF8;}");
-       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #D6EAF8;}");
-       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #D6EAF8;}");
-       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #D6EAF8;}");
+       ui->buttonAlignCX->setStyleSheet("   #buttonAlignCX{border-radius:4px}    #buttonAlignCX:hover{background-color: #909497;}");
+       ui->buttonAlignSX->setStyleSheet("   #buttonAlignSX{border-radius:4px}    #buttonAlignSX:hover{background-color: #909497;}");
+       ui->buttonAlignDX->setStyleSheet("   #buttonAlignDX{border-radius:4px}    #buttonAlignDX:hover{background-color: #909497;}");
+       ui->buttonAlignJFX->setStyleSheet("  #buttonAlignJFX{border-radius:4px}   #buttonAlignJFX:hover{background-color: #909497;}");
     }
 }
 
 //Set the button style if Bold/Italic/Underline is checked
 void EditorWindow::refreshFormatButtons() {
     if(ui->buttonBold->isChecked())
-        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{background-color:#CACFD2; border-radius:4px;}");
     else
-        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: #D6EAF8;}");
+        ui->buttonBold->setStyleSheet("#buttonBold{border-radius:4px}    #buttonBold:hover{background-color: #909497;}");
     if(ui->buttonItalic->isChecked())
-        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{background-color:#CACFD2; border-radius:4px;}");
     else
-        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: #D6EAF8;}");
+        ui->buttonItalic->setStyleSheet("#buttonItalic{border-radius:4px}    #buttonItalic:hover{background-color: #909497;}");
     if(ui->buttonUnderline->isChecked())
-        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#AED6F1; border-radius:4px;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{background-color:#CACFD2; border-radius:4px;}");
     else
-        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: #D6EAF8;}");
+        ui->buttonUnderline->setStyleSheet("#buttonUnderline{border-radius:4px}    #buttonUnderline:hover{background-color: #909497;}");
 }
 
 void EditorWindow::hideCollab(){
@@ -1923,17 +1924,12 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
     for(std::map<std::string, std::pair<std::string,bool>>::const_iterator it = collabColorsMap.begin(); it != collabColorsMap.end(); ++it){
         user = QString::fromStdString(it->first);
         color = QString::fromStdString(it->second.first);
-        color[1]='f';
-        color[2]='f';
         bool isOnline = it->second.second;
         username = _client->getUsername();
 
         if(username==user){
             continue;
         }
-
-        color[1]='f';
-        color[2]='f';
 
         for (int i=0;i<user.length();i++){
             firstLetter = user.at(i);
@@ -1943,19 +1939,23 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
         }
 
         firstLetter = SimplifySingleCharForSorting(firstLetter,1);
-
         ic = QString(":/image/Letters/%1.png").arg(firstLetter.toUpper());
-        gradient.setColorAt(0,QColor(color));
-        gradient.setColorAt(1,Qt::transparent);
-        brush = QBrush(gradient);
 
         if(isOnline){
+            color[1]='f';
+            color[2]='f';
+            gradient.setColorAt(0,QColor(color));
+            gradient.setColorAt(1,Qt::transparent);
+            brush = QBrush(gradient);
             itemOn = new QListWidgetItem(itemString, ui->listWidgetOn);
             itemOn->setText(" "+user);
             itemOn->setIcon(QIcon(ic));
             itemOn->setBackground(brush);
         }
         else{
+            gradient.setColorAt(0,QColor(color));
+            gradient.setColorAt(1,Qt::transparent);
+            brush = QBrush(gradient);
             itemOff = new QListWidgetItem(itemString, ui->listWidgetOff);
             itemOff->setText(" "+user);
             itemOff->setIcon(QIcon(ic));
@@ -2877,17 +2877,6 @@ void EditorWindow::on_profileButton_clicked() {
 }
 
 QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase) {
-    // C0 C1 C2 C3 C4 C5 E0 E1 E2 E3 E4 E5 AA // one-byte codes for "a"
-    // C8 C9 CA CB E8 E9 EA EB // one-byte codes for "e"
-    // CC CD CE CF EC ED EE EF // one-byte codes for "i"
-    // D2 D3 D4 D5 D6 F2 F3 F4 F5 F6 BA // one-byte codes for "o"
-    // D9 DA DB DC F9 FA FB FC // one-byte codes for "u"
-    // A9 C7 E7 // one-byte codes for "c"
-    // D1 F1 // one-byte codes for "n"
-    // AE // one-byte codes for "r"
-    // DF // one-byte codes for "s"
-    // 8E 9E // one-byte codes for "z"
-    // 9F DD FD FF // one-byte codes for "y"
 
     if ( ( c >= 0xC0 && c <= 0xC5 ) || ( c >= 0xE1 && c <= 0xE5 ) || c == 0xAA )
         return ( ( c >= 0xC0 && c <= 0xC5 ) && !changeToLowerCase ) ? 'A' : 'a';
