@@ -8,13 +8,13 @@ UserProfile::UserProfile(QString nome, QString mail,int files, int myFiles, QWid
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
     ui->Mail->setText(mail);     //Same way
 
-    QString sFiles = QString::number(files);
-    QString sMyFiles = QString::number(myFiles);
-    QString sTotFiles = QString::number(files+myFiles);
+    QString TotalFiles = QString::number(files);
+    QString MyFiles = QString::number(myFiles);
+    QString PartecipingFiles = QString::number(files-myFiles);
 
-    ui->myFile->setText(sMyFiles);
-    ui->totFile->setText(sTotFiles);
-    ui->otherFile->setText(sFiles);
+    ui->myFile->setText(MyFiles);
+    ui->totFile->setText(TotalFiles);
+    ui->otherFile->setText(PartecipingFiles);
 
     QChar firstLetter;
 
