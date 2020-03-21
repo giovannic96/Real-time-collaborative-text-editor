@@ -31,6 +31,8 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent) : QMainWindow(parent, 
     ui->listWidget->setAlternatingRowColors(false);
     ui->listWidget->setMovement(QListView::Static);
     ui->listWidget->setTextElideMode(Qt::ElideRight);
+
+    on_listFiles_clicked(); //See note on showPopupSuccess() function.
 }
 
 //DESTRUCTOR
@@ -231,6 +233,7 @@ void MenuWindow::on_listFiles_clicked() {
 
         //Send data (header and body)
         _client->sendRequestMsg(req);
+
     }
 }
 
@@ -331,7 +334,18 @@ void MenuWindow::showPopupSuccess(QString result) {
         if(profile) {
             profile = false;
         } else {
-            ui->stackedWidget->setCurrentIndex(1);
+            /*
+             * Note: First I call on_listFiles_clicked() in the constructor. This is for getting the number of files from server.
+             * Then I want to return to initial stackedWidget (index=0), if is the first time that I open this window.
+             * In this way, when user clicks on his profile button, he can see how many files has.
+             * On the second call of on_listFiles_clicked(), i want to go on the "list file page" (index=1).
+            */
+            if(FirstTimeWindowOpens==true){
+                FirstTimeWindowOpens=false;
+                ui->stackedWidget->setCurrentIndex(0);
+            }else{
+                ui->stackedWidget->setCurrentIndex(1);
+            }
         }
     }
 }
