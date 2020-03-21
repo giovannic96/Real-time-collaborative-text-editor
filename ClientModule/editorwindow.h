@@ -110,6 +110,7 @@ private slots:
     void SetIconPackDayMode();
     void SetIconPackDarkMode();
     void LoadUserSetting();
+    void TitlebarChangeByTimer();
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -158,6 +159,7 @@ private:
     myClient *_client;
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented chars
     QString textOnTitleBar;
+    QTimer *titlebarTimer;
     bool BruteClose=true;
     std::vector<int> sizeVector = {8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96};
     symbolStyle getCurCharStyle();
