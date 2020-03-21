@@ -110,7 +110,9 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     //Load Last User's Saved Setting
     LoadUserSetting();
-
+    titlebarTimer = new QTimer(this);
+    connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
+    titlebarTimer->start(3000); //I love you 3000 Mr.Stark
 }
 
 EditorWindow::~EditorWindow() {
@@ -1590,7 +1592,7 @@ void EditorWindow::LoadUserSetting(){
     settings.endGroup();
 
     if(estate.GetDarkMode() == true){
-        //ApplyDarkMode();      <-- No! It has to be done after the LOAD  AND SET "THEME" VALUE
+        //ApplyDarkMode();      <-- Not now! It has to be done after the LOAD AND SET "THEME" VALUE
         SetIconPackDarkMode();
         //Change the icon on TopBar menu
         QIcon menuIcon;
@@ -1615,10 +1617,10 @@ void EditorWindow::LoadUserSetting(){
         textOnTitleBar = docName;
     }else if(estate.GetTitlebar()==2){      // [2]=ProgName
         textOnTitleBar = "C.A.R.T.E.";
-    }else if(estate.GetTitlebar()==3){   // [3]=Prog+Doc
+    }else if(estate.GetTitlebar()==3){      // [3]=Prog+Doc
         textOnTitleBar = "C.A.R.T.E. - " + docName;
-    }else if(estate.GetTitlebar()==4){   // [4]=Alternate
-        textOnTitleBar = "ALTERNATE MODE - TODO - ";
+    }else if(estate.GetTitlebar()==4){      // [4]=Alternate
+        //Do nothing. TitlebarChangeByTimer is handle it by titlebarTimer, and is started/enabled when I load titlebar value to [4]
     }
     this->setWindowTitle(textOnTitleBar);
 
@@ -1638,6 +1640,19 @@ void EditorWindow::LoadUserSetting(){
         ApplyDayMode();
     }
 
+}
+
+void EditorWindow::TitlebarChangeByTimer(){
+    if(estate.GetTitlebar()==4){
+        if(estate.GetTitlebarAlternate()==true){
+            textOnTitleBar = "C.A.R.T.E.";
+            estate.SetTitlebarAlternate(false);
+        }else{
+            textOnTitleBar = docName;
+            estate.SetTitlebarAlternate(true);
+        }
+    this->setWindowTitle(textOnTitleBar);
+    }
 }
 
 /***************************************************************************************************************************************
