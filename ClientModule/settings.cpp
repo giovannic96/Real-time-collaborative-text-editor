@@ -54,6 +54,9 @@ void Settings::on_Save_clicked(){
     if(ui->titleRadio4->isChecked()){
         estate.SetTitlebar(4);
     }
+    if(ui->titleRadio5->isChecked()){
+        estate.SetTitlebar(5);
+    }
 
 
     /*****************************/
@@ -149,6 +152,8 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->titleRadio3->setChecked(true);
     }else if(titleD==4){
         ui->titleRadio4->setChecked(true);
+    }else if(titleD==5){
+        ui->titleRadio5->setChecked(true);
     }
 
     int themedayD = estate.GetThemeDay();

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>559</width>
-    <height>300</height>
+    <height>337</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>260</y>
+     <y>300</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -32,11 +32,11 @@
      <x>10</x>
      <y>70</y>
      <width>541</width>
-     <height>181</height>
+     <height>211</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -242,7 +242,7 @@
        <x>10</x>
        <y>40</y>
        <width>285</width>
-       <height>108</height>
+       <height>136</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -297,6 +297,18 @@
         </property>
         <property name="text">
          <string>Alterna nome programma / documento</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="titleRadio5">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Nome programma animato</string>
         </property>
        </widget>
       </item>
@@ -451,7 +463,7 @@
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>260</y>
+     <y>300</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -464,7 +476,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>260</y>
+     <y>300</y>
      <width>75</width>
      <height>23</height>
     </rect>

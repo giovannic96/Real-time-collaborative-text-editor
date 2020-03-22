@@ -82,14 +82,14 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     QColor color = _client->getColor();
     QString qss = QString("border-radius: 5px; \nbackground-color: %1; color:white;").arg(color.name());
-    ui->profileButton->setStyleSheet(qss);    
+    ui->profileButton->setStyleSheet(qss);
 
     QRegularExpressionValidator* fontSizeValidator;
     QIcon fontIcon(":/image/Editor/font.png");
     fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
 
     ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-	
+
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
@@ -112,8 +112,11 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     LoadUserSetting();
     titlebarTimer = new QTimer(this);
     connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
-    titlebarTimer->start(3000); //I love you 3000 Mr.Stark
-
+    if(estate.GetTitlebar()==4){
+        titlebarTimer->start(3000); //I love you 3000 Mr.Stark
+    }else if(estate.GetTitlebar()==5){
+        titlebarTimer->start(250);
+    }
     //Set docName on CollabBar
     SetDynamicDocNameLabel();
 
@@ -1656,7 +1659,27 @@ void EditorWindow::TitlebarChangeByTimer(){
             textOnTitleBar = docName;
             estate.SetTitlebarAlternate(true);
         }
-    this->setWindowTitle(textOnTitleBar);
+        this->setWindowTitle(textOnTitleBar);
+    }else if(estate.GetTitlebar()==5){
+       textOnTitleBar = "C.A.R.T.E.";
+
+       int a = estate.GetTitlebarCounter();
+       if(estate.GetTitlebarAlternate()==true){
+           a-=-1;
+           estate.SetTitlebarCounter(a);
+           for(int i=0; i<=a; i++){
+               textOnTitleBar.push_front(" ");
+           }
+           if(a>=25){
+               estate.SetTitlebarAlternate(false);
+           }
+       }else{
+           textOnTitleBar = "C.A.R.T.E.";
+           estate.SetTitlebarAlternate(true);
+           estate.SetTitlebar(5);
+           estate.SetTitlebarCounter(0);
+       }
+       this->setWindowTitle(textOnTitleBar);
     }
 }
 
