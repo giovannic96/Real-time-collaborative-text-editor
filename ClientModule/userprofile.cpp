@@ -4,6 +4,7 @@
 #include <QDebug>
 
 UserProfile::UserProfile(QString nome, QString mail,int files, int myFiles, QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile){
+    this->setAttribute(Qt::WA_TranslucentBackground, true);
     ui->setupUi(this);
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
     ui->Mail->setText(mail);     //Same way
@@ -25,11 +26,24 @@ UserProfile::UserProfile(QString nome, QString mail,int files, int myFiles, QWid
         }
     }
 
+    //CODICE GIUSTO, IL CLIENT CRASHA CON LA FUNZIONE getColor();
+    /*QString color = _client->getColor();
+    color[1]='f';
+    color[2]='f';
+
+    color = QString("#UserImageButton{"
+            "border-radius: 13px;"
+            "background:%1;"
+            "color:white;"
+            "}").arg(color);
+
+    ui->UserImageButton->setStyleSheet(color);*/
+
     SimplifySingleCharForSorting(firstLetter,1);
     ui->UserImageButton->setText(firstLetter.toUpper());
 
-    SetImage();
     this->show();
+
 }
 
 UserProfile::~UserProfile() {
@@ -61,13 +75,6 @@ void UserProfile::on_UserImageButton_clicked() {
     QMessageBox msgBox;
     msgBox.setText("Cliccando qui apparirà la schermata per far cambiare l'immagine dell'utente.\n");
     msgBox.exec();
-}
-
-void UserProfile::SetImage() {
-    QRect rect(0,0,128,128);
-    QRegion region(rect, QRegion::Ellipse);
-    qDebug() << region.boundingRect().size();
-    ui->UserImageButton->setMask(region);
 }
 
 QChar UserProfile::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase){

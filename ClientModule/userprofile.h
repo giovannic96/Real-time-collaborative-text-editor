@@ -4,6 +4,8 @@
 
 #include <QWidget>
 #include <QtGui>            //QPoint
+#include "myClient.h"
+
 
 namespace Ui {class UserProfile;}
 
@@ -23,6 +25,7 @@ private slots:
 
 private:
     Ui::UserProfile *ui;                //"ui" (user interface)
+    myClient *_client;
     //For mouse related event
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
     QChar SimplifySingleCharForSorting(QChar c, bool changeToLowerCase);

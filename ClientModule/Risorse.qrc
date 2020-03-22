@@ -101,5 +101,6 @@
         <file>image/Editor/carte.png</file>
         <file>image/Editor/font.png</file>
         <file>image/font_icon.png</file>
+        <file>image/userProfile.png</file>
     </qresource>
 </RCC>

@@ -120,6 +120,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     //Set docName on CollabBar
     SetDynamicDocNameLabel();
 
+
 }
 
 EditorWindow::~EditorWindow() {
