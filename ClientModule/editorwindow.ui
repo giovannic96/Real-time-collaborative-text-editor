@@ -2028,8 +2028,14 @@ background-color: lightgrey;
                      </property>
                      <property name="styleSheet">
                       <string notr="true">#listWidgetOn{
-	border:transparent;
-	background: transparent;
+border:transparent;
+background: transparent;
+}
+
+QToolTip { 
+	color: #000000; 
+	background-color: #FFF2BF; 
+	border: 0px; 
 }</string>
                      </property>
                      <property name="verticalScrollBarPolicy">
@@ -2121,12 +2127,43 @@ background-color: lightgrey;
                       <enum>Qt::LeftToRight</enum>
                      </property>
                      <property name="styleSheet">
-                      <string notr="true">border:transparent;
+                      <string notr="true">#listWidgetOff{
+border:transparent;
 background: transparent;
-color: rgb(159,159,159);</string>
+color: rgb(159,159,159);
+}
+
+QToolTip { 
+	color: #000000; 
+	background-color: #FFF2BF; 
+	border: 0px; 
+}
+
+QSlider::groove:vertical {
+    background: red;
+    position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */
+    left: 4px; right: 4px;
+}
+
+QSlider::handle:vertical {
+    height: 10px;
+    background: green;
+    margin: 0 -4px; /* expand outside the groove */
+}
+
+QSlider::add-page:vertical {
+    background: white;
+}
+
+QSlider::sub-page:vertical {
+    background: pink;
+}</string>
                      </property>
                      <property name="verticalScrollBarPolicy">
                       <enum>Qt::ScrollBarAlwaysOff</enum>
+                     </property>
+                     <property name="horizontalScrollBarPolicy">
+                      <enum>Qt::ScrollBarAsNeeded</enum>
                      </property>
                      <property name="sizeAdjustPolicy">
                       <enum>QAbstractScrollArea::AdjustIgnored</enum>
@@ -2150,13 +2187,16 @@ color: rgb(159,159,159);</string>
                       <enum>QAbstractItemView::NoSelection</enum>
                      </property>
                      <property name="selectionBehavior">
-                      <enum>QAbstractItemView::SelectRows</enum>
+                      <enum>QAbstractItemView::SelectItems</enum>
                      </property>
                      <property name="verticalScrollMode">
                       <enum>QAbstractItemView::ScrollPerPixel</enum>
                      </property>
                      <property name="spacing">
                       <number>6</number>
+                     </property>
+                     <property name="selectionRectVisible">
+                      <bool>false</bool>
                      </property>
                     </widget>
                    </item>

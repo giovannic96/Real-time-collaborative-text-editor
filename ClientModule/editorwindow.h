@@ -10,6 +10,7 @@
 #include "myClient.h"
 #include "editorstate.h"
 #include "settings.h"
+#include "qlistwidget.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"

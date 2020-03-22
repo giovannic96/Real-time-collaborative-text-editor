@@ -389,20 +389,6 @@ void MenuWindow::showListFile(std::vector<File> files) {
             owner     = QString::fromUtf8(f.getowner().c_str()).toLatin1();
             timestamp = QString::fromUtf8(f.gettimestamp().c_str()).toLatin1();
             QListWidgetItem* item;
-            /*
-            if(filename.length()>=15){
-                QString truncatedFilename = filename;
-                truncatedFilename.resize(14);
-                truncatedFilename=truncatedFilename+"...";
-                littlechar = truncatedFilename.count('i') + truncatedFilename.count('1') + truncatedFilename.count("j");
-                if(littlechar>=7){
-                    itemString = truncatedFilename+"\t\t"+owner+"\t"+timestamp;
-                }else{
-                    itemString = truncatedFilename+"\t"+owner+"\t"+timestamp;
-                }
-            }else{
-                itemString = filename+"\t\t"+owner+"\t"+timestamp;
-            }*/
 
             itemString = filename;
             if(user == owner){
@@ -420,6 +406,8 @@ void MenuWindow::showListFile(std::vector<File> files) {
             item->setData(Qt::UserRole, var);
             _client->setVectorFile(files);
             fileItem.append(item);
+
+            item->setToolTip("Nome: "+filename+"\nAutore: "+owner+"\nCreato il: "+timestamp);
         }
     }
 }

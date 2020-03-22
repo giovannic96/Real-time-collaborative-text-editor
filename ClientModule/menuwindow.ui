@@ -215,11 +215,18 @@ border-radius: 5px;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color:transparent;
-border: none;
-border-top: 2px solid lightgrey;
-padding: 20px;
+       <string notr="true">#listWidget{
+	background-color:transparent;
+	border: none;
+	border-top: 2px solid lightgrey;
+	padding: 20px;
+}
 
+QToolTip { 
+	color: #000000; 
+	background-color: #FFF2BF; 
+	border: 0px; 
+}
 </string>
       </property>
      </widget>

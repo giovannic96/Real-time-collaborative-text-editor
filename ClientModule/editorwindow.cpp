@@ -1993,6 +1993,9 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             itemOn->setText(" "+user);
             itemOn->setIcon(QIcon(ic));
             itemOn->setBackground(brush);
+            itemOn->setToolTip("Mostrare mail");
+            fileItem.append(itemOn);
+
         }
         else{
             gradient.setColorAt(0,QColor(color));
@@ -2002,7 +2005,7 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             itemOff->setText(" "+user);
             itemOff->setIcon(QIcon(ic));
             itemOff->setBackground(brush);
-
+            itemOff->setToolTip("Mostrare mail");
             fileItem.append(itemOff);
         }
      }
