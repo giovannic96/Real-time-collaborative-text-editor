@@ -1872,37 +1872,17 @@ void EditorWindow::setupInitialCondition(){
 }
 
 void EditorWindow::SetDynamicDocNameLabel(){
-    QString truncatedFilename = docName;
+
+    ui->DocNameLabel->setText(docName); //Update docNameLabel after rename! Important!!!
+
     ui->DocNameLabel->adjustSize();
     ui->DocNameLabel->resize(ui->DocNameLabel->sizeHint());
-    qDebug() << ui->DocNameLabel->width() << "-------------HERE";
-    if(ui->DocNameLabel->width() > 100){
+    qDebug() << "DocNameLabel pixel width is --> " << ui->DocNameLabel->width();
+    if(ui->DocNameLabel->width() > 240){
         QFontMetrics metrics(ui->DocNameLabel->font());
         QString elidedText = metrics.elidedText(docName, Qt::ElideRight, ui->DocNameLabel->width());
         ui->DocNameLabel->setText(elidedText);
-    }else{
-        ui->DocNameLabel->setText(docName);
     }
-
-    /*V1
-    int DocLength = docName.length();
-    int DocLongCharCounter = docName.count('w', Qt::CaseInsensitive);
-    int DocLittleCharCounter = docName.count('i', Qt::CaseInsensitive) + docName.count('1', Qt::CaseInsensitive) + docName.count("j", Qt::CaseInsensitive) + docName.count('.') + docName.count('!');
-    int ResizeDynamicValue = 16; //17 is max number of "A"-char visible on Collaborator Bar, -1 because we want to add "...".
-
-    ResizeDynamicValue = DocLength + (DocLittleCharCounter*2) - (DocLongCharCounter/2);
-    //16 + 6 = 24
-    //16 - 2 = 14
-    //16 - 2 + 6 = 20
-
-    if(DocLength > ResizeDynamicValue){
-        truncatedFilename.resize(ResizeDynamicValue);
-        truncatedFilename=truncatedFilename+"...";
-        ui->DocNameLabel->setText(truncatedFilename);
-    }else{
-        ui->DocNameLabel->setText(docName);
-    }
-    */
 }
 
 /***************************************************************************************************************************************
