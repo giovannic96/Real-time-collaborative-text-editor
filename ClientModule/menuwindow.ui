@@ -256,6 +256,35 @@ border-radius: 5px;
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="noFile">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>440</y>
+        <width>571</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>20</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#noFile{
+	color: grey
+}</string>
+      </property>
+      <property name="text">
+       <string>Non hai nessun documento da editare!</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QPushButton" name="exitButton">

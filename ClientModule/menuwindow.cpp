@@ -364,7 +364,24 @@ void MenuWindow::showPopupFailure(QString result) {
     } else if(result == "LISTFILE_FAILURE") {
         QMessageBox::critical(this,"Errore", "Listfile non completata!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
-        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");  //Stay in the same window (MenuWindow(1))
+        //QMessageBox::warning(this,"Attenzione", "Non hai ancora nessun un documento!");  //Stay in the same window (MenuWindow(1))
+
+        /*
+         * Note: If the user has no file, then first I call on_listFiles_clicked() in the constructor. This is for getting the number of files from server.
+         * Then I want to return to initial stackedWidget (index=0), if is the first time that I open this window.
+         * In this way, when user clicks on his profile button, he can see how many files has.
+         * On the second call of on_listFiles_clicked(), i want to go on the "list file page" (index=1).
+        */
+        if(FirstTimeWindowOpens==true){
+            FirstTimeWindowOpens=false;
+            ui->stackedWidget->setCurrentIndex(0);
+        }else{
+            if(profile) {
+                profile = false;
+            } else {
+                ui->stackedWidget->setCurrentIndex(1);
+            }
+        }
     } else if(result == "RESPONSE_FAILURE") {
         QMessageBox::critical(this,"Errore", "Risposta non gestita!\nErrore di tipo RESPONSE_FAILURE");
     } else {
@@ -408,6 +425,11 @@ void MenuWindow::showListFile(std::vector<File> files) {
             fileItem.append(item);
 
             item->setToolTip("Nome: "+filename+"\nAutore: "+owner+"\nCreato il: "+timestamp);
+        }
+        if(ui->listWidget->count()==0){
+            ui->noFile->show();
+        }else{
+            ui->noFile->hide();
         }
     }
 }
