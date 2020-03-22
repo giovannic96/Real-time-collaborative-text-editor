@@ -23,6 +23,9 @@ public:
     bool GetTitlebarAlternate(){return TitlebarAlternate;}
     void SetTitlebarAlternate(bool value){TitlebarAlternate=value;}
 
+    int GetTitlebarCounter(){return TitlebarCounter;}
+    void SetTitlebarCounter(int value){TitlebarCounter=value;}
+
     int GetThemeDay(){return DayMode_Theme;}
     void SetThemeDay(int value){DayMode_Theme=value;}
 
@@ -34,8 +37,9 @@ private:
     bool FullScreen;            // true=enabled / false=disabled
     bool CollaboratorBar;       // true=show    / false=hide
     bool Toolbar;               // true=show    / false=hide
-    int Titlebar;               // [1]=DocName  / [2]=ProgName / [3]=Prog+Doc / [4]=Alternate
-    bool TitlebarAlternate;     // true=DocName / false=ProgName    //This variable is valid only if Titlebar=4
+    int Titlebar;               // [1]=DocName  / [2]=ProgName / [3]=Prog+Doc / [4]=Alternate / [5]=AnimatedProgName
+    bool TitlebarAlternate;     // true=DocName / false=ProgName    //This variable is valid only if Titlebar=4 or Titlebar=5
+    int TitlebarCounter;        // only a counter                   //This variable is valid only if Titlebar=5
     int DayMode_Theme;          // [1]=Classic  / [2]=Plain    / [3]=HighColor
     int DarkMode_Theme;         // [1]=Classic  / [2]=Plain    / [3]=HighColor
 };
