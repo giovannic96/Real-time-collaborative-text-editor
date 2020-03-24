@@ -9,6 +9,7 @@
 #include "message.h"
 #include "symbol.h"
 #include "msgInfo.h"
+#include "symbolInfo.h"
 
 class participant {
 
@@ -29,12 +30,12 @@ public:
     virtual void deliver(const message& msg) = 0;
     int getId() const;
     msgInfo localInsert(int index, wchar_t value, symbolStyle style);
-    msgInfo localErase(int index);
-    msgInfo localErase(int startIndex, int endIndex); //TODO: not used (maybe it's not needed)
-    msgInfo localFormat(int startIndex, int format);
-    msgInfo localFontSizeChange(int startIndex, int fontSize);
-    msgInfo localFontFamilyChange(int startIndex, const std::string& fontFamily);
-    msgInfo localAlignmentChange(int startIndex, int alignment);
+    msgInfo localInsert(std::vector<symbolInfo> symbols);
+    msgInfo localErase(int startIndex, int endIndex);
+    msgInfo localFormat(int startIndex, int endIndex, int format);
+    msgInfo localFontSizeChange(int startIndex, int endIndex, int fontSize);
+    msgInfo localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
+    msgInfo localAlignmentChange(int startIndex, int endIndex, int alignment);
     void process(const msgInfo& m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)

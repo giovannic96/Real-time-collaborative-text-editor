@@ -3,14 +3,29 @@
 //
 
 #include <iostream>
+#include <utility>
 #include "header_files/msgInfo.h"
 
 msgInfo::msgInfo(int type, int editorId, symbol s): type(type), editorId(editorId), s(std::move(s)) {
 }
 
 msgInfo::msgInfo(int type, int editorId, symbol s, int newIndex)
-            : type(type), editorId(editorId), s(std::move(s)), newIndex(newIndex) {
+        : type(type), editorId(editorId), s(std::move(s)), newIndex(newIndex) {
 }
+
+msgInfo::msgInfo(int type, int editorId, symbol s, int range, int format)
+        : type(type), editorId(editorId), s(std::move(s)), range(range), newIndex(format) {
+}
+
+msgInfo::msgInfo(int type, int editorId, symbol s, int range, std::string family)
+        : type(type), editorId(editorId), s(std::move(s)), range(range), fontFamily(std::move(family)) {
+}
+
+msgInfo::msgInfo(int type, int editorId, const std::vector<symbol>& symbols, std::vector<int> indexes)
+        : type(type), editorId(editorId), s(symbols.front()), indexes(std::move(indexes)) {
+    this->symbols = symbols;
+}
+
 
 msgInfo::msgInfo(int type, int editorId, symbol s, std::string family)
         : type(type), editorId(editorId), s(std::move(s)), fontFamily(std::move(family)) {
@@ -32,8 +47,20 @@ int msgInfo::getNewIndex() const {
     return newIndex;
 }
 
+int msgInfo::getRange() const {
+    return range;
+}
+
 std::string msgInfo::getFontFamily() const {
     return fontFamily;
+}
+
+std::vector<symbol> msgInfo::getSymbolVector() const {
+    return symbols;
+}
+
+std::vector<int> msgInfo::getIndexes() const {
+    return indexes;
 }
 
 std::string msgInfo::toString() {

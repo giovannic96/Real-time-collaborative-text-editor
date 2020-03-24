@@ -141,7 +141,6 @@ public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
     void showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
-    void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void formatSymbols(int startIndex, int endIndex, int format);
     void hideAndChangeCustomFontSize();
@@ -180,10 +179,9 @@ private:
     int getIndexFromFontSize(int fontSize);
     /* Requests */
     void insertCharRangeRequest(int pos, bool cursorHasSelection);
-    void removeCharRequest(int pos);
     void cursorChangeRequest(int pos);
     void collabColorsRequest(QString uri);
-    void removeCharRangeRequest(int startIndex, int endIndex);
+    void removeCharRequest(int startIndex, int endIndex);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);

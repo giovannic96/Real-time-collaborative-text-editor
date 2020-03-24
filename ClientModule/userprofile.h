@@ -14,7 +14,7 @@ class UserProfile : public QWidget{
     Q_OBJECT
 
 public:
-    explicit UserProfile(QString nome, QString mail, int files, int myFiles, QWidget *parent = nullptr);
+    explicit UserProfile(myClient* client, QString nome, QString mail, int files, int myFiles, QWidget *parent = nullptr);
     ~UserProfile();
     void SetRadiusBorder();
     void SetImage();
