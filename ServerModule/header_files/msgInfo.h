@@ -18,14 +18,13 @@ private:
     std::string fontFamily;
     int range;
     std::vector<symbol> symbols;
-    std::vector<int> indexes;
 
 public:
     msgInfo(int type, int editorId, symbol s);
     msgInfo(int type, int editorId, symbol s, int newIndex);
     msgInfo(int type, int editorId, symbol s, int range, int format);
     msgInfo(int type, int editorId, symbol s, int range, std::string family);
-    msgInfo(int type, int editorId, const std::vector<symbol>& symbols, std::vector<int> indexes);
+    msgInfo(int type, int editorId, std::vector<symbol> symbols, int startIndex);
     msgInfo(int type, int editorId, symbol s, std::string family);
     int getType() const;
     int getRange() const;
@@ -34,7 +33,6 @@ public:
     int getNewIndex() const;
     std::string getFontFamily() const;
     std::vector<symbol> getSymbolVector() const;
-    std::vector<int> getIndexes() const;
     std::string toString();
 };
 

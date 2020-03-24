@@ -509,5 +509,3 @@ void myClient::sendRequestMsg(std::string request) {
         this->write(msg); //deliver msg to the server
     }
 }
-
-

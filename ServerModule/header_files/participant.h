@@ -20,8 +20,9 @@ private:
     std::string color;
     std::vector<symbol> _symbols;
     int _counter = 0;
-    std::vector<int> generatePos(int index, wchar_t value);
+    std::vector<int> generatePos(int index);
     std::vector<int> generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos = {});
+    int comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex);
     int comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex);
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6};
 

@@ -28,7 +28,7 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
     } else if(index == 0) {
         pos = {_symbols.front().getPos().at(0) - 1}; //put negative pos
     } else
-        pos = generatePos(index, value);
+        pos = generatePos(index);
 
     symbol s(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
     _symbols.insert(_symbols.begin() + index, s);
@@ -38,43 +38,58 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
 }
 
 msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false) {
-    std::vector<symbol> symbolVector;
-    std::vector<int> indexes;
 
     auto t_start = std::chrono::high_resolution_clock::now();
-    std::for_each(symbols.begin(), symbols.end(), [&symbolVector, &indexes, this](const symbolInfo& s) {
+
+    std::vector<int> pos;
+    int startIndex = symbols.front().getIndex();
+
+    //generate initial pos and initial index
+    if(_symbols.empty()) {
+        pos = {0};
+        startIndex = 0;
+    } else if(startIndex > _symbols.size()-1) {
+        pos = {_symbols.back().getPos().at(0) + 1}; //last element will not have fraction -> pos will be [x] not [x,y]
+        startIndex = _symbols.size();
+    } else if(startIndex == 0) {
+        pos = {_symbols.front().getPos().at(0) - 1}; //put negative pos
+    } else
+        pos = generatePos(startIndex);
+
+    std::vector<symbol> symbolVector;
+    bool firstTime = true;
+    bool secondTime = true;
+    int counter = 0;
+    std::for_each(symbols.begin(), symbols.end(), [&firstTime, &secondTime, &counter, &pos, &symbolVector, this](const symbolInfo& s) {
         //get values
-        int index = s.getIndex();
         wchar_t value = s.getLetter();
         symbolStyle style = s.getStyle();
-        std::vector<int> pos;
 
-        //generate pos
-        if(_symbols.empty()) {
-            pos = {0};
-            index = 0;
-        } else if(index > _symbols.size()-1) {
-            pos = {_symbols.back().getPos().at(0) + 1}; //last element will not have fraction -> pos will be [x] not [x,y]
-            index = _symbols.size();
-        } else if(index == 0) {
-            pos = {_symbols.front().getPos().at(0) - 1}; //put negative pos
-        } else
-            pos = generatePos(index, value);
+        //generate next pos
+        if(firstTime)
+            firstTime = false;
+        else {
+            if(secondTime) {
+                pos.push_back(counter++);
+                secondTime = false;
+            }
+            else
+                pos.back() = counter++;
+        }
 
         //insert symbol
         symbol sym(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
-        _symbols.insert(_symbols.begin() + index, sym);
         symbolVector.push_back(sym);
-        indexes.push_back(index);
     });
+    _symbols.insert(_symbols.begin() + startIndex, symbolVector.begin(), symbolVector.end());
     auto t_end = std::chrono::high_resolution_clock::now();
     double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
     std::cout << "FOR EACH LOCAL INSERT - ELAPSED (ms): " << elapsed_time_ms << std::endl;
-    msgInfo m(6, getId(), symbolVector, indexes);
+    msgInfo m(6, getId(), std::move(symbolVector), startIndex);
     return m;
 }
 
-std::vector<int> participant::generatePos(int index, wchar_t value) {
+std::vector<int> participant::generatePos(int index) {
     const std::vector<int> posBefore = _symbols[index-1].getPos();
     const std::vector<int> posAfter = _symbols[index].getPos();
     return generatePosBetween(posBefore, posAfter);
@@ -109,6 +124,18 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
             return newPos;
         }
     }
+}
+
+int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
+    if(curSymPos.at(posIndex) < newSymPos.at(posIndex))
+        return 1; //correct position found
+    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex))
+        if (newSymPos.size() < posIndex+1 && curSymPos.size() >= posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
+            return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
+        else if (newSymPos.size() >= posIndex+1 && curSymPos.size() < posIndex+1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
+            return 1; //correct position found
+        else if (newSymPos.size() < posIndex+1 && curSymPos.size() < posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
+            return comparePos(curSymPos, newSymPos, posIndex+1); //call recursively this function using next index for posIndex
 }
 
 int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
@@ -211,19 +238,31 @@ void participant::process(const msgInfo& m) {
     /* Insertion */
     if (m.getType() == 0) { //TODO: switch case for different msgtypes, better enum not int
         int symbols_index = 0, pos_index = 0;
-        int my_index = _symbols.size();
+        int startIndex = _symbols.size();
 
-        for (const auto &s: _symbols) {
-            symbols_index++;
-            int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
-            if (retValue == -1)
-                continue;
-            else if (retValue == 1) {
-                my_index = symbols_index - 1;
-                break;
+        //get first index
+        if (m.getNewIndex() >= _symbols.size() / 2) { //LOOP FROM RIGHT TO LEFT
+            for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
+                startIndex--;
+                int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
+                if (retValue == -1)
+                    continue;
+                else if (retValue == 1)
+                    break;
+            }
+        } else { //LOOP FROM LEFT TO RIGHT
+            for (const auto &s: _symbols) {
+                symbols_index++;
+                int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
+                if (retValue == -1)
+                    continue;
+                else if (retValue == 1) {
+                    startIndex = symbols_index - 1;
+                    break;
+                }
             }
         }
-        _symbols.insert(_symbols.begin() + my_index, m.getSymbol());
+        _symbols.insert(_symbols.begin() + startIndex, m.getSymbol());
     }
     /* Removal */
     else if (m.getType() == 1) {
@@ -332,33 +371,36 @@ void participant::process(const msgInfo& m) {
         int my_index = _symbols.size();
 
         auto t_start = std::chrono::high_resolution_clock::now();
-
-        /*std::cout << "FIRST INDEX: " << m.getIndexes().front();
-        std::cout << "SYMBOLS.SIZE: " << _symbols.size();
-
-        if(m.getIndexes().front() >= _symbols.size()/2)*/
-
         //get first index
-        for (const auto &s: _symbols) {
-            symbols_index++;
-            int retValue = comparePos(s.getPos(), m.getSymbolVector().front().getPos(), pos_index);
-            if (retValue == -1)
-                continue;
-            else if (retValue == 1) {
-                my_index = symbols_index - 1;
-                break;
+        if(m.getNewIndex() >= _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
+            for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
+                my_index--;
+                int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
+                if (retValue == -1)
+                    continue;
+                else if (retValue == 1)
+                    break;
             }
         }
-
+        else { //LOOP FROM LEFT TO RIGHT
+            for (const auto &s: _symbols) {
+                symbols_index++;
+                int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
+                if (retValue == -1)
+                    continue;
+                else if (retValue == 1) {
+                    my_index = symbols_index - 1;
+                    break;
+                }
+            }
+        }
         auto t_end = std::chrono::high_resolution_clock::now();
         double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
         std::cout << "FOR EACH SYMBOLS - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 
         auto t_start1 = std::chrono::high_resolution_clock::now();
-        //insert symbols from msgInfo in participant symbols vector
-        for (const auto &s: m.getSymbolVector()) {
-            _symbols.insert(_symbols.begin() + (my_index++), s);
-        }
+        std::vector<symbol> v = m.getSymbolVector();
+        _symbols.insert(_symbols.begin() + my_index, v.begin(), v.end());
         auto t_end1 = std::chrono::high_resolution_clock::now();
         double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
         std::cout << "FOR EACH m.getSymbolVector() - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;

@@ -22,6 +22,8 @@
 using json = nlohmann::json;
 
 EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), _client(client) {
+    auto t_start1 = std::chrono::high_resolution_clock::now();
+
     ui->setupUi(this);
     connect(_client, &myClient::editorResultSuccess, this, &EditorWindow::showPopupSuccess);
     connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
@@ -103,24 +105,30 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
+    auto t_end1 = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+    std::cout << "EDITOR WINDOW CONSTRUCTOR - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
+
     showSymbolsAt(0, _client->getVector());
+    auto t_start = std::chrono::high_resolution_clock::now();
+
     ui->RealTextEdit->installEventFilter(this);
     collabColorsRequest(_client->getFileURI());
-
 
     //Load Last User's Saved Setting
     LoadUserSetting();
     titlebarTimer = new QTimer(this);
     connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
     if(estate.GetTitlebar()==4){
-        titlebarTimer->start(3000); //I love you 3000 Mr.Stark
+        titlebarTimer->start(3000);
     }else if(estate.GetTitlebar()==5){
         titlebarTimer->start(250);
     }
     //Set docName on CollabBar
     SetDynamicDocNameLabel();
-
-
+    auto t_end = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+    std::cout << "EDITOR WINDOW CONSTRUCTOR - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 }
 
 EditorWindow::~EditorWindow() {
@@ -939,6 +947,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 changeNextCharsAlignment(tempCursor, startIndex, endIndex);
 
                 //get properties of the first char of the selection
+                tempCursor.beginEditBlock();
                 tempCursor.setPosition(startIndex+1, QTextCursor::MoveAnchor);
                 firstCharBold = tempCursor.charFormat().font().weight() == QFont::Bold;
                 firstCharItalic = tempCursor.charFormat().font().italic();
@@ -952,6 +961,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 }
                 else
                     firstCharAlignment = static_cast<int>(tempCursor.blockFormat().alignment());
+                tempCursor.endEditBlock();
 
                 //change format
                 QTextCharFormat f;
@@ -980,6 +990,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(firstCharAlignment));
 
                 //apply format
+                cursor.beginEditBlock();
                 cursor.setPosition(startIndex, QTextCursor::MoveAnchor);
                 cursor.setPosition(endIndex, QTextCursor::KeepAnchor);
                 cursor.mergeCharFormat(f);
@@ -987,6 +998,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 ui->RealTextEdit->mergeCurrentCharFormat(f);
                 ui->RealTextEdit->setAlignment(textBlockFormat.alignment());
                 ui->RealTextEdit->setTextCursor(cursor);
+                cursor.endEditBlock();
 
                 //update data on textedit buttons/combobox
                 ui->buttonBold->setChecked(f.fontWeight()==QFont::Bold);
@@ -2026,6 +2038,8 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     int index = firstIndex;
     QTextCursor c = ui->RealTextEdit->textCursor();
 
+    auto t_start1 = std::chrono::high_resolution_clock::now();
+
     c.beginEditBlock();
     foreach (symbol s, symbols) {
         letter = s.getLetter();
@@ -2076,7 +2090,6 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
             c.setBlockFormat(newBlockFormat);
             c.setPosition(oldPos);
         }
-        ui->RealTextEdit->setTextCursor(c);
 
         //if the selected sizes received are not an index of combobox, add them (and hide them)
         if(ui->fontSizeBox->findText(QString::number(s.getStyle().getFontSize())) == -1) {
@@ -2085,6 +2098,11 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
         }
     }
     c.endEditBlock();
+    ui->RealTextEdit->setTextCursor(c);
+
+    auto t_end1 = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+    std::cout << "SHOW SYMBOLS AT - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
 }
 
 void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) {
@@ -2135,7 +2153,6 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
         cursor.insertText(static_cast<QString>(c));
         cursor.setPosition(oldPos);
     }
-    ui->RealTextEdit->setTextCursor(cursor);
 
     //if that selected size is not an index of combobox, add it (and hide it)
     if(ui->fontSizeBox->findText(QString::number(style.getFontSize())) == -1) {
@@ -2145,6 +2162,7 @@ void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) 
         ui->fontSizeBox->setCurrentText(QString::number(cursor.charFormat().fontPointSize()));
     }
     cursor.endEditBlock();
+    ui->RealTextEdit->setTextCursor(cursor);
 
     qDebug() << "Written in pos: " << pos << endl;
     ui->RealTextEdit->setFocus(); //Return focus to textedit
@@ -2818,6 +2836,8 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
     const QMimeData *mimeData = clipboard->mimeData();
     QTextCursor cursor = ui->RealTextEdit->textCursor();
 
+    auto t_start1 = std::chrono::high_resolution_clock::now();
+
     if(mimeData->hasText() && !mimeData->hasImage() && !mimeData->hasUrls() && !mimeData->html().contains("<a href")) {
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
@@ -2884,6 +2904,10 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(infoSymbols);
         jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
         const std::string req = j.dump();
+
+        auto t_end1 = std::chrono::high_resolution_clock::now();
+        double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+        std::cout << "insertCharRangeRequest ELAPSED: " << elapsed_time_ms1 << std::endl;
 
         //Send data (header and body)
         _client->sendRequestMsg(req);

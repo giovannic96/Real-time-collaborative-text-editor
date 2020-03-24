@@ -868,7 +868,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         std::vector<json> symbolsJSON = jsonUtility::fromSymToJson(m.getSymbolVector());
-        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_RESPONSE", m.getIndexes().front(), symbolsJSON);
+        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_RESPONSE", m.getNewIndex(), symbolsJSON);
         const std::string response = j.dump();
         return response;
 

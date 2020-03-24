@@ -46,6 +46,8 @@ void MyQTextEdit::insertFromMimeData(const QMimeData* source) {
 }
 
 void MyQTextEdit::paintEvent(QPaintEvent *event) {
+    auto t_start = std::chrono::high_resolution_clock::now();
+
     QTextEdit::paintEvent(event);
     QPainter painter(viewport());
     painter.setRenderHint(QPainter::Antialiasing, true);
@@ -106,6 +108,9 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
             painter.fillRect(smallRect, color);
         }
     }
+    auto t_end = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+    qDebug() << "PAINT EVENT - ELAPSED (ms): " << elapsed_time_ms << endl;
 }
 
 int MyQTextEdit::calculateWidthForUsername(QString& username) {

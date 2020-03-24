@@ -21,11 +21,10 @@ msgInfo::msgInfo(int type, int editorId, symbol s, int range, std::string family
         : type(type), editorId(editorId), s(std::move(s)), range(range), fontFamily(std::move(family)) {
 }
 
-msgInfo::msgInfo(int type, int editorId, const std::vector<symbol>& symbols, std::vector<int> indexes)
-        : type(type), editorId(editorId), s(symbols.front()), indexes(std::move(indexes)) {
+msgInfo::msgInfo(int type, int editorId, std::vector<symbol> symbols, int startIndex)
+        : type(type), editorId(editorId), s(symbols.front()), newIndex(startIndex) {
     this->symbols = symbols;
 }
-
 
 msgInfo::msgInfo(int type, int editorId, symbol s, std::string family)
         : type(type), editorId(editorId), s(std::move(s)), fontFamily(std::move(family)) {
@@ -57,10 +56,6 @@ std::string msgInfo::getFontFamily() const {
 
 std::vector<symbol> msgInfo::getSymbolVector() const {
     return symbols;
-}
-
-std::vector<int> msgInfo::getIndexes() const {
-    return indexes;
 }
 
 std::string msgInfo::toString() {
