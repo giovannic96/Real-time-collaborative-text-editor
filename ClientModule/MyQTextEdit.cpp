@@ -17,6 +17,7 @@ void MyQTextEdit::insertFromMimeData(const QMimeData* source) {
         int startIndex;
 
         cursor.hasSelection() ? startIndex = cursor.selectionStart() : startIndex = cursor.position();
+        cursor.beginEditBlock();
 
         /* Get background color */
         QString html = replaceColorWithEditorColor(source->html());
@@ -38,6 +39,7 @@ void MyQTextEdit::insertFromMimeData(const QMimeData* source) {
             cursor.setPosition(startIndex++);
             cursor.mergeBlockFormat(textBlockFormat);
         }
+        cursor.endEditBlock();
         this->setAlignment(align);
         emit updateAlignmentButton();
     }

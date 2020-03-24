@@ -38,7 +38,7 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::p
     };
 }
 
-void jsonUtility::to_json_removal(json &j, const std::string &op, const int &index) {
+void jsonUtility::to_json_cursor_change_req(json &j, const std::string &op, const int &index) {
     j = json {
         {"operation", op},
         {"index", index}

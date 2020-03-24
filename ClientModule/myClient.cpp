@@ -16,7 +16,7 @@ myClient::myClient()
           fileVector_(std::vector<File>()),
           vector_() {
             worker_= std::thread([&](){
-            io_context_.run(); //boost thread loop start
+                io_context_.run(); //boost thread loop start
           });
     do_connect();
 }
@@ -322,10 +322,6 @@ void myClient::do_read_body() {
                         delete s;
                     }
                     emit insertSymbols(firstIndex, symbols);
-                } else if(opJSON == "REMOVAL_RESPONSE") {
-                    int indexJSON;
-                    jsonUtility::from_json_removal(jdata_in, indexJSON);
-                    emit eraseSymbol(indexJSON);
                 } else if(opJSON == "CURSOR_CHANGE_RESPONSE") {
                     std::string usernameJSON;
                     std::string colorJSON;
@@ -343,7 +339,7 @@ void myClient::do_read_body() {
                             qDebug() << "username: " << QString::fromStdString(kv.first) << " color: " << QString::fromStdString(kv.second.first) << " isOnline: " << kv.second.second;
                         emit showCollabColorsMap(collabColorsMapJSON);
                     }
-                } else if(opJSON == "REMOVALRANGE_RESPONSE") {
+                } else if(opJSON == "REMOVAL_RESPONSE") {
                     int startIndexJSON;
                     int endIndexJSON;
                     jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
@@ -513,3 +509,5 @@ void myClient::sendRequestMsg(std::string request) {
         this->write(msg); //deliver msg to the server
     }
 }
+
+

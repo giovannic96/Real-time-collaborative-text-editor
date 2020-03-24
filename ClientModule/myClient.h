@@ -65,7 +65,6 @@ signals:
     void listFileResult(std::vector<File> files);
     void insertSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
     void insertSymbols(int firstIndex, std::vector<symbol> symbols);
-    void eraseSymbol(int index);
     void eraseSymbols(int startIndex, int endIndex);
     void formatSymbols(int startIndex, int endIndex, int format);
     void changeFontSize(int startIndex, int endIndex, int fontSize);
