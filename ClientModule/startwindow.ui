@@ -90,6 +90,9 @@ background-color: rgb(20, 78, 117);
         <pointsize>-1</pointsize>
        </font>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent;
 border-radius: 15px;
@@ -165,6 +168,9 @@ background-image:url(:/image/registratiButton2.png)
        <font>
         <pointsize>-1</pointsize>
        </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: transparent;
@@ -244,6 +250,9 @@ font-size: 18px;
         <height>30</height>
        </rect>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color:transparent;
 border: transparent;
@@ -267,6 +276,9 @@ font-size: 18px;
         <width>231</width>
         <height>30</height>
        </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
       </property>
       <property name="styleSheet">
        <string notr="true">background-color:transparent;
@@ -364,6 +376,9 @@ background-image:url(:/image/accediButton2.png)
         <height>30</height>
        </rect>
       </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color:transparent;
 border: transparent;
@@ -395,7 +410,7 @@ font-size: 18px;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background: #F5F5Dc</string>
+       <string notr="true">background: #FFF2BF</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;La password deve contenere almeno 6 caratteri&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -411,7 +426,7 @@ font-size: 18px;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background: #F5F5Dc</string>
+       <string notr="true">background: #FFF2BF</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Inserire un username&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -427,7 +442,7 @@ font-size: 18px;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background: #F5F5Dc</string>
+       <string notr="true">background: #FFF2BF</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Inserire una mail valida&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

@@ -4,6 +4,8 @@
 
 #include <QWidget>
 #include <QtGui>            //QPoint
+#include "myClient.h"
+
 
 namespace Ui {class UserProfile;}
 
@@ -12,7 +14,7 @@ class UserProfile : public QWidget{
     Q_OBJECT
 
 public:
-    explicit UserProfile(QString nome, QString mail, int files, int myFiles, QWidget *parent = nullptr);
+    explicit UserProfile(myClient* client, QString nome, QString mail, int files, int myFiles, QWidget *parent = nullptr);
     ~UserProfile();
     void SetRadiusBorder();
     void SetImage();
@@ -23,6 +25,7 @@ private slots:
 
 private:
     Ui::UserProfile *ui;                //"ui" (user interface)
+    myClient *_client;
     //For mouse related event
     QPoint oldPos;                  //This "oldPos" object is used to save the old position of the windows for the translation of windows
     QChar SimplifySingleCharForSorting(QChar c, bool changeToLowerCase);

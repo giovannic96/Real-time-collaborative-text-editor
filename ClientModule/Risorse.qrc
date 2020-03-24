@@ -56,7 +56,6 @@
         <file>image/DarkEditor/v2bold.png</file>
         <file>image/DarkEditor/v2italic.png</file>
         <file>image/DarkEditor/v2underline.png</file>
-        <file>image/font_icon.png</file>
         <file>image/Editor/Collaborator.png</file>
         <file>image/document-col.png</file>
         <file>image/document-own.png</file>
@@ -67,10 +66,7 @@
         <file>image/fileWindow.png</file>
         <file>image/startMinimal.png</file>
         <file>image/Editor/sfondo.png</file>
-        <file>image/DarkEditor/sfondo.png</file>
         <file>image/DarkEditor/highlighter.png</file>
-        <file>image/DarkEditor/carte.png</file>
-        <file>image/Editor/carte.png</file>
         <file>image/Letters/A.png</file>
         <file>image/Letters/H.png</file>
         <file>image/Letters/B.png</file>
@@ -99,6 +95,12 @@
         <file>image/Letters/Z.png</file>
         <file>image/hidePassword.png</file>
         <file>image/showPassword.png</file>
+        <file>image/DarkEditor/sfondo.png</file>
         <file>image/Editor/logo.png</file>
+        <file>image/DarkEditor/carte.png</file>
+        <file>image/Editor/carte.png</file>
+        <file>image/Editor/font.png</file>
+        <file>image/font_icon.png</file>
+        <file>image/userProfile.png</file>
     </qresource>
 </RCC>

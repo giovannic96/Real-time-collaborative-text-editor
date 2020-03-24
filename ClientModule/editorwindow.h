@@ -10,6 +10,7 @@
 #include "myClient.h"
 #include "editorstate.h"
 #include "settings.h"
+#include "qlistwidget.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"
@@ -102,10 +103,20 @@ private slots:
     void on_actionOpzioni_triggered();
 
     /************************************
+     * STANDALONE FUNCTION FOR GRAPHIC  *
+     ************************************/
+    void PaintItBlack();
+    void ApplyDayMode();
+    void ApplyDarkMode();
+    void SetIconPackDayMode();
+    void SetIconPackDarkMode();
+    void LoadUserSetting();
+    void TitlebarChangeByTimer();
+
+    /************************************
      *        STANDALONE FUNCTION       *
      ************************************/
     void CloseDocumentRequest();
-    void PaintItBlack();
     void AlignSXButtonHandler();
     void AlignCXButtonHandler();
     void AlignDXButtonHandler();
@@ -119,6 +130,7 @@ private slots:
     void hideToolbar();
     bool handleConnectionLoss();
     void setupInitialCondition();
+    void SetDynamicDocNameLabel();
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
@@ -148,6 +160,7 @@ private:
     myClient *_client;
     QString docName = _client->getFilename().toLatin1(); //toLatin1 accept accented chars
     QString textOnTitleBar;
+    QTimer *titlebarTimer;
     bool BruteClose=true;
     std::vector<int> sizeVector = {8, 9, 10, 11, 12, 14, 18, 24, 30, 36, 48, 60, 72, 96};
     symbolStyle getCurCharStyle();

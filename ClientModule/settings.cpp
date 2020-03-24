@@ -5,20 +5,13 @@
 
 Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(new Ui::Settings), estate(estate){
     ui->setupUi(this);
+
+    LoadAndSetDefaultRadioButton();
+
 }
 
 Settings::~Settings(){
     delete ui;
-}
-
-//DEBUG
-void Settings::on_pushButton_clicked(){
-    estate.SetDarkMode(true);
-}
-
-//DEBUG
-void Settings::on_day_clicked(){
-    estate.SetDarkMode(false);
 }
 
 void Settings::on_Save_clicked(){
@@ -61,6 +54,9 @@ void Settings::on_Save_clicked(){
     if(ui->titleRadio4->isChecked()){
         estate.SetTitlebar(4);
     }
+    if(ui->titleRadio5->isChecked()){
+        estate.SetTitlebar(5);
+    }
 
 
     /*****************************/
@@ -85,6 +81,9 @@ void Settings::on_Save_clicked(){
         estate.SetThemeDark(3);
     }
     WriteSettingOnFile();
+
+    QWidget::close();
+    delete this;   //Very important, is needed for calling the destructor
 }
 
 void Settings::WriteSettingOnFile(){
@@ -110,9 +109,68 @@ void Settings::on_Default_clicked(){
      estate.SetDarkMode(false);             ui->dayRadio->setChecked(true);
      estate.SetToolbar(true);               ui->toolShowRadio->setChecked(true);
      estate.SetCollaboratorBar(true);       ui->collabShowRadio->setChecked(true);
-     estate.SetTitlebar(2);                 ui->titleRadio2->setChecked(true);
+     estate.SetTitlebar(1);                 ui->titleRadio1->setChecked(true);
      estate.SetThemeDay(1);                 ui->dayTheme1->setChecked(true);
      estate.SetThemeDark(1);                ui->darkTheme1->setChecked(true);
 
      WriteSettingOnFile();
+}
+
+void Settings::on_Abort_clicked(){
+    QWidget::close();
+    delete this;   //Very important, is needed for calling the destructor
+}
+
+void Settings::LoadAndSetDefaultRadioButton(){
+    bool darkmodeD = estate.GetDarkMode();
+    if(darkmodeD==true){
+        ui->darkRadio->setChecked(true);
+    }else{
+        ui->dayRadio->setChecked(true);
+    }
+
+    bool toolbarD = estate.GetToolbar();
+    if(toolbarD==false){
+        ui->toolHideRadio->setChecked(true);
+    }else{
+        ui->toolShowRadio->setChecked(true);
+    }
+
+    bool collabD = estate.GetCollaboratorBar();
+    if(collabD==false){
+        ui->collabHideRadio->setChecked(true);
+    }else{
+        ui->collabShowRadio->setChecked(true);
+    }
+
+    int titleD = estate.GetTitlebar();
+    if(titleD==1){
+        ui->titleRadio1->setChecked(true);
+    }else if(titleD==2){
+        ui->titleRadio2->setChecked(true);
+    }else if(titleD==3){
+        ui->titleRadio3->setChecked(true);
+    }else if(titleD==4){
+        ui->titleRadio4->setChecked(true);
+    }else if(titleD==5){
+        ui->titleRadio5->setChecked(true);
+    }
+
+    int themedayD = estate.GetThemeDay();
+    if(themedayD==1){
+        ui->dayTheme1->setChecked(true);
+    }else if(themedayD==2){
+        ui->dayTheme2->setChecked(true);
+    }else if(themedayD==3){
+        ui->dayTheme3->setChecked(true);
+    }
+
+    int themedarkD = estate.GetThemeDark();
+    if(themedarkD==1){
+        ui->darkTheme1->setChecked(true);
+    }else if(themedayD==2){
+        ui->darkTheme2->setChecked(true);
+    }else if(themedayD==3){
+        ui->darkTheme3->setChecked(true);
+    }
 }

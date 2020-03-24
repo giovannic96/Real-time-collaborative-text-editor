@@ -31,6 +31,8 @@ MenuWindow::MenuWindow(myClient* client, QWidget *parent) : QMainWindow(parent, 
     ui->listWidget->setAlternatingRowColors(false);
     ui->listWidget->setMovement(QListView::Static);
     ui->listWidget->setTextElideMode(Qt::ElideRight);
+
+    on_listFiles_clicked(); //See note on showPopupSuccess() function.
 }
 
 //DESTRUCTOR
@@ -133,7 +135,7 @@ void MenuWindow::on_Username_clicked(){
         qDebug()<<"Ho un totale di "<< Contafile << "file";
         qDebug()<<"Ho creato "<< ContaFileOwner << "file";
 
-        UserProfile *up = new UserProfile(_client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+        UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
         up->show();
     }
 }
@@ -231,6 +233,7 @@ void MenuWindow::on_listFiles_clicked() {
 
         //Send data (header and body)
         _client->sendRequestMsg(req);
+
     }
 }
 
@@ -331,7 +334,18 @@ void MenuWindow::showPopupSuccess(QString result) {
         if(profile) {
             profile = false;
         } else {
-            ui->stackedWidget->setCurrentIndex(1);
+            /*
+             * Note: First I call on_listFiles_clicked() in the constructor. This is for getting the number of files from server.
+             * Then I want to return to initial stackedWidget (index=0), if is the first time that I open this window.
+             * In this way, when user clicks on his profile button, he can see how many files has.
+             * On the second call of on_listFiles_clicked(), i want to go on the "list file page" (index=1).
+            */
+            if(FirstTimeWindowOpens==true){
+                FirstTimeWindowOpens=false;
+                ui->stackedWidget->setCurrentIndex(0);
+            }else{
+                ui->stackedWidget->setCurrentIndex(1);
+            }
         }
     }
 }
@@ -350,7 +364,24 @@ void MenuWindow::showPopupFailure(QString result) {
     } else if(result == "LISTFILE_FAILURE") {
         QMessageBox::critical(this,"Errore", "Listfile non completata!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
-        QMessageBox::warning(this,"Attenzione", "Non hai ancora creato un documento!");  //Stay in the same window (MenuWindow(1))
+        //QMessageBox::warning(this,"Attenzione", "Non hai ancora nessun un documento!");  //Stay in the same window (MenuWindow(1))
+
+        /*
+         * Note: If the user has no file, then first I call on_listFiles_clicked() in the constructor. This is for getting the number of files from server.
+         * Then I want to return to initial stackedWidget (index=0), if is the first time that I open this window.
+         * In this way, when user clicks on his profile button, he can see how many files has.
+         * On the second call of on_listFiles_clicked(), i want to go on the "list file page" (index=1).
+        */
+        if(FirstTimeWindowOpens==true){
+            FirstTimeWindowOpens=false;
+            ui->stackedWidget->setCurrentIndex(0);
+        }else{
+            if(profile) {
+                profile = false;
+            } else {
+                ui->stackedWidget->setCurrentIndex(1);
+            }
+        }
     } else if(result == "RESPONSE_FAILURE") {
         QMessageBox::critical(this,"Errore", "Risposta non gestita!\nErrore di tipo RESPONSE_FAILURE");
     } else {
@@ -375,20 +406,6 @@ void MenuWindow::showListFile(std::vector<File> files) {
             owner     = QString::fromUtf8(f.getowner().c_str()).toLatin1();
             timestamp = QString::fromUtf8(f.gettimestamp().c_str()).toLatin1();
             QListWidgetItem* item;
-            /*
-            if(filename.length()>=15){
-                QString truncatedFilename = filename;
-                truncatedFilename.resize(14);
-                truncatedFilename=truncatedFilename+"...";
-                littlechar = truncatedFilename.count('i') + truncatedFilename.count('1') + truncatedFilename.count("j");
-                if(littlechar>=7){
-                    itemString = truncatedFilename+"\t\t"+owner+"\t"+timestamp;
-                }else{
-                    itemString = truncatedFilename+"\t"+owner+"\t"+timestamp;
-                }
-            }else{
-                itemString = filename+"\t\t"+owner+"\t"+timestamp;
-            }*/
 
             itemString = filename;
             if(user == owner){
@@ -406,6 +423,13 @@ void MenuWindow::showListFile(std::vector<File> files) {
             item->setData(Qt::UserRole, var);
             _client->setVectorFile(files);
             fileItem.append(item);
+
+            item->setToolTip("Nome: "+filename+"\nAutore: "+owner+"\nCreato il: "+timestamp);
+        }
+        if(ui->listWidget->count()==0){
+            ui->noFile->show();
+        }else{
+            ui->noFile->hide();
         }
     }
 }
