@@ -27,18 +27,17 @@ UserProfile::UserProfile(myClient* client, QString nome, QString mail,int files,
         }
     }
 
-    //CODICE GIUSTO, IL CLIENT CRASHA CON LA FUNZIONE getColor();
-    /*QString color = _client->getColor();
+    QString color = _client->getColor();
     color[1]='f';
     color[2]='f';
 
     color = QString("#UserImageButton{"
-            "border-radius: 13px;"
+            "border-radius: 18px;"
             "background:%1;"
             "color:white;"
             "}").arg(color);
 
-    ui->UserImageButton->setStyleSheet(color);*/
+    ui->UserImageButton->setStyleSheet(color);
 
     SimplifySingleCharForSorting(firstLetter,1);
     ui->UserImageButton->setText(firstLetter.toUpper());

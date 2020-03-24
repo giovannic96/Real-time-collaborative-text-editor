@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>375</width>
-    <height>400</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>375</width>
-    <height>400</height>
+    <height>550</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>375</width>
-    <height>400</height>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -34,19 +34,19 @@
      <x>0</x>
      <y>0</y>
      <width>375</width>
-     <height>400</height>
+     <height>550</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
      <width>375</width>
-     <height>400</height>
+     <height>550</height>
     </size>
    </property>
    <property name="maximumSize">
     <size>
      <width>375</width>
-     <height>400</height>
+     <height>550</height>
     </size>
    </property>
    <property name="autoFillBackground">
@@ -60,21 +60,21 @@ background:url(:image/userProfile.png);
    <widget class="QLabel" name="otherFile">
     <property name="geometry">
      <rect>
-      <x>243</x>
-      <y>260</y>
-      <width>50</width>
+      <x>204</x>
+      <y>348</y>
+      <width>150</width>
       <height>50</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>50</width>
+      <width>150</width>
       <height>50</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>50</width>
+      <width>150</width>
       <height>50</height>
      </size>
     </property>
@@ -99,8 +99,8 @@ background:url(:image/userProfile.png);
    <widget class="QLabel" name="Username">
     <property name="geometry">
      <rect>
-      <x>17</x>
-      <y>140</y>
+      <x>16</x>
+      <y>176</y>
       <width>341</width>
       <height>30</height>
      </rect>
@@ -127,7 +127,7 @@ background:url(:image/userProfile.png);
     <property name="geometry">
      <rect>
       <x>22</x>
-      <y>95</y>
+      <y>108</y>
       <width>331</width>
       <height>30</height>
      </rect>
@@ -153,8 +153,8 @@ background:url(:image/userProfile.png);
    <widget class="QLabel" name="Mail">
     <property name="geometry">
      <rect>
-      <x>17</x>
-      <y>162</y>
+      <x>16</x>
+      <y>205</y>
       <width>341</width>
       <height>30</height>
      </rect>
@@ -180,21 +180,21 @@ background:url(:image/userProfile.png);
    <widget class="QLabel" name="totFile">
     <property name="geometry">
      <rect>
-      <x>162</x>
-      <y>200</y>
-      <width>50</width>
+      <x>88</x>
+      <y>260</y>
+      <width>200</width>
       <height>50</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>50</width>
+      <width>200</width>
       <height>50</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>50</width>
+      <width>200</width>
       <height>50</height>
      </size>
     </property>
@@ -219,18 +219,18 @@ background:url(:image/userProfile.png);
    <widget class="QLabel" name="status">
     <property name="geometry">
      <rect>
-      <x>27</x>
-      <y>354</y>
+      <x>25</x>
+      <y>471</y>
       <width>321</width>
-      <height>20</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Calibri</family>
       <pointsize>12</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
+      <weight>50</weight>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -255,21 +255,21 @@ background:url(:image/userProfile.png);
    <widget class="QLabel" name="myFile">
     <property name="geometry">
      <rect>
-      <x>84</x>
-      <y>260</y>
-      <width>50</width>
+      <x>24</x>
+      <y>347</y>
+      <width>150</width>
       <height>50</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>50</width>
+      <width>150</width>
       <height>50</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>50</width>
+      <width>150</width>
       <height>50</height>
      </size>
     </property>
@@ -294,22 +294,22 @@ background:url(:image/userProfile.png);
    <widget class="QPushButton" name="UserImageButton">
     <property name="geometry">
      <rect>
-      <x>146</x>
-      <y>5</y>
-      <width>83</width>
-      <height>83</height>
+      <x>141</x>
+      <y>7</y>
+      <width>94</width>
+      <height>94</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>83</width>
-      <height>83</height>
+      <width>94</width>
+      <height>94</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
-      <width>83</width>
-      <height>83</height>
+      <width>94</width>
+      <height>94</height>
      </size>
     </property>
     <property name="font">
@@ -344,7 +344,7 @@ color:white;
     <property name="geometry">
      <rect>
       <x>342</x>
-      <y>52</y>
+      <y>59</y>
       <width>23</width>
       <height>23</height>
      </rect>
