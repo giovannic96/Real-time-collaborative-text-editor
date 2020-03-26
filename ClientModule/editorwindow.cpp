@@ -2917,32 +2917,37 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
 }
 
 void EditorWindow::on_profileButton_clicked() {
-    QString filename, owner, timestamp;
-    QList<QListWidgetItem*> fileItem;
-    int Contafile=0;
-    int ContaFileOwner=0;
+    if(profile_closed){//you can access to the stats, else you must close the current UserProfile Window
 
-    if(!_client->getVectorFile().empty()) {
-        std::vector<File> files = _client->getVectorFile();
-        foreach (File f, files) {
-            filename  = QString::fromUtf8(f.getfilename().c_str());
-            owner     = QString::fromUtf8(f.getowner().c_str());
-            timestamp = QString::fromUtf8(f.gettimestamp().c_str());
-            Contafile++;
-            if(owner==_client->getUsername()){
-                ContaFileOwner++;
+        QString filename, owner, timestamp;
+        QList<QListWidgetItem*> fileItem;
+        int Contafile=0;
+        int ContaFileOwner=0;
+
+        if(!_client->getVectorFile().empty()) {
+            std::vector<File> files = _client->getVectorFile();
+            foreach (File f, files) {
+                filename  = QString::fromUtf8(f.getfilename().c_str());
+                owner     = QString::fromUtf8(f.getowner().c_str());
+                timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+                Contafile++;
+                if(owner==_client->getUsername()){
+                    ContaFileOwner++;
+                }
             }
+        } else {
+            Contafile=0;
+            ContaFileOwner=0;
         }
-    } else {
-        Contafile=0;
-        ContaFileOwner=0;
+
+        //qDebug()<<"Ho un totale di "<< Contafile << "file";
+        //qDebug()<<"Ho creato "<< ContaFileOwner << "file";
+
+        UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+        connect(up, &UserProfile::closeUserProfile, this, &EditorWindow::setUserProfileClosed);
+        profile_closed = false;
+        //up->show(); Not necessary is done by the costructor
     }
-
-    qDebug()<<"Ho un totale di "<< Contafile << "file";
-    qDebug()<<"Ho creato "<< ContaFileOwner << "file";
-
-    UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
-    up->show();
 }
 
 QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase) {
@@ -2970,4 +2975,8 @@ QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase
     if ( c == 0x9F || c == 0xDD || c == 0xFD || c == 0xFF )
         return ( ( c == 0x9F || c == 0xDD ) && !changeToLowerCase ) ? 'Y' : 'y';
     return c;
+}
+
+void EditorWindow:: setUserProfileClosed(){
+    profile_closed = true;
 }

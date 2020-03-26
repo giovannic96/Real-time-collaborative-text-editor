@@ -47,14 +47,14 @@ UserProfile::UserProfile(myClient* client, QString nome, QString mail,int files,
 }
 
 UserProfile::~UserProfile() {
+    emit closeUserProfile();
     delete ui;
-    qDebug() << "Destructor of UserProfile Widget in action";
 }
 
 //EXIT BUTTON
 void UserProfile::on_exitButton_clicked() {
     QWidget::close();
-    delete this;   //Very important, is needed for calling the destructor
+    delete this;   //Needed to call destructor
 }
 
 //To make draggable the window

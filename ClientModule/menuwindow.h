@@ -33,6 +33,7 @@ public slots:
     void showPopupFailure(QString result);
     void showListFile(std::vector<File> files);    
     void resumeWindow();
+    void setUserProfileClosed();
 
 private:
     Ui::MenuWindow *ui;
@@ -41,7 +42,8 @@ private:
     EditorWindow *_ew;
     bool Logout = false;
     bool profile = false;
-    bool FirstTimeWindowOpens=true;
+    bool FirstTimeWindowOpens=true;    
+    bool profile_closed = true;
 
 protected:
     //Function for mouse related event
