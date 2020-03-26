@@ -66,6 +66,9 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     ui->listWidgetOff->setMovement(QListView::Static);
     ui->listWidgetOff->setTextElideMode(Qt::ElideRight);
 
+    ui->listWidgetOn->setVerticalScrollBar(ui->verticalScrollBarOn);
+    ui->listWidgetOff->setVerticalScrollBar(ui->verticalScrollBarOff);
+
     QString user = _client->getUsername();
     ui->labelUser->setText(user);
 
