@@ -409,6 +409,11 @@
        <string>Rainbow</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>PoliTo</string>
+      </property>
+     </item>
     </widget>
     <widget class="QComboBox" name="ComboDark">
      <property name="geometry">
@@ -462,6 +467,11 @@
      <item>
       <property name="text">
        <string>Rainbow</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>PoliTo</string>
       </property>
      </item>
     </widget>

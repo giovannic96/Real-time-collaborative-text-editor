@@ -1448,6 +1448,8 @@ void EditorWindow::ApplyDayMode(){
         installTheme_Day_Rainbow();
     }else if(estate.GetThemeDay()==9){
         installTheme_Day_FountainRainbow();
+    }else if(estate.GetThemeDay()==10){
+        installTheme_Day_Polito();
     }
 
     //COLLAB BAR
@@ -1479,6 +1481,8 @@ void EditorWindow::ApplyDarkMode(){
         installTheme_Dark_Rainbow();
     }else if(estate.GetThemeDark()==9){
         installTheme_Dark_FountainRainbow();
+    }else if(estate.GetThemeDark()==10){
+        installTheme_Dark_Polito();
     }
 
     //COLLAB BAR
@@ -1657,6 +1661,7 @@ void EditorWindow::installTheme_Day_ClassicBlue(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
@@ -1673,9 +1678,10 @@ void EditorWindow::installTheme_Day_PlainBlue(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
-    ui->frameTopBar->setStyleSheet("#frameTopBar{           background:#0A5597;}");
+    ui->frameTopBar->setStyleSheet("#frameTopBar{           background: #0A5597;}");
     ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #0E79D8;}       #fileButton:pressed {background-color: #57ABF4;}");
     ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #0E79D8;} #visualizzaButton:pressed {background-color: #57ABF4;}");
     ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #0E79D8;}   #modificaButton:pressed {background-color: #57ABF4;}");
@@ -1688,6 +1694,7 @@ void EditorWindow::installTheme_Day_ElectricBlue(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: white;}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{            background:#0000FF;}");
@@ -1703,6 +1710,7 @@ void EditorWindow::installTheme_Day_ClassicPurple(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#6600FF stop:0.53#6600FF stop:0.54#6600FF stop:0.63#5200CC stop:0.64#5200CC stop:0.88 #3D0099);}");
@@ -1720,6 +1728,7 @@ void EditorWindow::installTheme_Day_ClassicOrange(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFB533 stop:0.53#FFB533 stop:0.54#FFB533 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
@@ -1736,6 +1745,7 @@ void EditorWindow::installTheme_Day_ClassicGreen(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#00CC00 stop:0.53#00CC00 stop:0.54#00CC00 stop:0.63#009900 stop:0.64#009900 stop:0.88 #006600);}");
@@ -1752,6 +1762,7 @@ void EditorWindow::installTheme_Day_ClassicRed(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#CC0000 stop:0.53#CC0000 stop:0.54#CC0000 stop:0.63#990000 stop:0.64#990000 stop:0.88 #660000);}");
@@ -1768,6 +1779,7 @@ void EditorWindow::installTheme_Day_Rainbow(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
 
@@ -1784,6 +1796,7 @@ void EditorWindow::installTheme_Day_FountainRainbow(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FF0000 stop:0.16#FF9900 stop:0.32#FFFF00 stop:0.48#40FF00 stop:0.66#00FFFF stop:0.82#0000FF stop:0.98#FF00FF);}");
@@ -1794,6 +1807,22 @@ void EditorWindow::installTheme_Day_FountainRainbow(){
     ui->aboutButton->setStyleSheet("#aboutButton{           color:black; background-color:transparent; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
 }
 
+void EditorWindow::installTheme_Day_Polito(){
+    //GENERAL COLOR
+    ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
+    ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/polilogo.png)");
+
+    //TOP FRAME
+    ui->frameTopBar->setStyleSheet("#frameTopBar{           background:#003576;}");
+    ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #00224d;}       #fileButton:pressed {background-color: #000b1a;}");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #00224d;} #visualizzaButton:pressed {background-color: #000b1a;}");
+    ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #00224d;}   #modificaButton:pressed {background-color: #000b1a;}");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #00224d;}  #strumentiButton:pressed {background-color: #000b1a;}");
+    ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #00224d;}      #aboutButton:pressed {background-color: #000b1a;}");
+}
+
 /*****************************************************************DARK THEME BEGIN*************************************************************************************/
 
 void EditorWindow::installTheme_Dark_ClassicOrange(){
@@ -1801,6 +1830,7 @@ void EditorWindow::installTheme_Dark_ClassicOrange(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFB533 stop:0.53#FFB533 stop:0.54#FFB533 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
@@ -1818,6 +1848,7 @@ void EditorWindow::installTheme_Dark_PlainOrange(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: #1A1A1A;}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{  background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{         background: #FF8000;}");
@@ -1835,6 +1866,7 @@ void EditorWindow::installTheme_Dark_ElectricOrange(){
     ui->editorFrame->setStyleSheet("    #editorFrame{   background: black;}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #111111; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{         background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFFF00 stop:0.60#FFFF00 stop:0.99#FF0000);}");
@@ -1852,6 +1884,7 @@ void EditorWindow::installTheme_Dark_ClassicPurple(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#6600FF stop:0.53#6600FF stop:0.54#6600FF stop:0.63#5200CC stop:0.64#5200CC stop:0.88 #3D0099);}");
@@ -1869,6 +1902,7 @@ void EditorWindow::installTheme_Dark_ClassicBlue(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
@@ -1885,6 +1919,7 @@ void EditorWindow::installTheme_Dark_ClassicGreen(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#00CC00 stop:0.53#00CC00 stop:0.54#00CC00 stop:0.63#009900 stop:0.64#009900 stop:0.88 #006600);}");
@@ -1900,6 +1935,7 @@ void EditorWindow::installTheme_Dark_ClassicRed(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#CC0000 stop:0.53#CC0000 stop:0.54#CC0000 stop:0.63#990000 stop:0.64#990000 stop:0.88 #660000);}");
@@ -1915,6 +1951,7 @@ void EditorWindow::installTheme_Dark_Rainbow(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#000000 stop:0.50#000000  stop:0.57#FF0000 stop:0.65#FF9900 stop:0.72#FFFF00 stop:0.80#40FF00 stop:0.87#00FFFF stop:0.92#0000FF stop:0.97#FF00FF);}");
@@ -1930,6 +1967,7 @@ void EditorWindow::installTheme_Dark_FountainRainbow(){
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
     ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FF0000 stop:0.16#FF9900 stop:0.32#FFFF00 stop:0.48#40FF00 stop:0.66#00FFFF stop:0.82#0000FF stop:0.98#FF00FF);}");
@@ -1938,6 +1976,22 @@ void EditorWindow::installTheme_Dark_FountainRainbow(){
     ui->modificaButton->setStyleSheet("#modificaButton{     color:black; background-color:transparent; border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;}");
     ui->strumentiButton->setStyleSheet("#strumentiButton{   color:black; background-color:transparent; border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;}");
     ui->aboutButton->setStyleSheet("#aboutButton{           color:black; background-color:transparent; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
+}
+
+void EditorWindow::installTheme_Dark_Polito(){
+    //GENERAL COLOR
+    ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
+    ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/polilogo.png)");
+
+    //TOP FRAME
+    ui->frameTopBar->setStyleSheet("#frameTopBar{           background:#003576;}");
+    ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: #00224d;}       #fileButton:pressed {background-color: #000b1a;}");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: #00224d;} #visualizzaButton:pressed {background-color: #000b1a;}");
+    ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: #00224d;}   #modificaButton:pressed {background-color: #000b1a;}");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #00224d;}  #strumentiButton:pressed {background-color: #000b1a;}");
+    ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #00224d;}      #aboutButton:pressed {background-color: #000b1a;}");
 }
 
 /***************************************************************************************************************************************

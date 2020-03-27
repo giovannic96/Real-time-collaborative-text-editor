@@ -102,5 +102,6 @@
         <file>image/Editor/font.png</file>
         <file>image/font_icon.png</file>
         <file>image/userProfile.png</file>
+        <file>image/Editor/polilogo.png</file>
     </qresource>
 </RCC>
