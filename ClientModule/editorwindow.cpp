@@ -1440,7 +1440,7 @@ void EditorWindow::ApplyDayMode(){
         installTheme_Day_ClassicPurple();
     }else if(estate.GetThemeDay()==5){
         installTheme_Day_ClassicOrange();
-    }else if(estate.GetThemeDark()==6){
+    }else if(estate.GetThemeDay()==6){
         installTheme_Day_ClassicGreen();
     }else if(estate.GetThemeDay()==7){
         installTheme_Day_ClassicRed();
