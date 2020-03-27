@@ -94,6 +94,9 @@ void Settings::on_Save_clicked(){
     if(dayThemeIndex==8){
         estate.SetThemeDay(9);
     }
+    if(dayThemeIndex==9){
+        estate.SetThemeDay(10);
+    }
 
     if(darkThemeIndex==0){
         estate.SetThemeDark(1);
@@ -121,6 +124,9 @@ void Settings::on_Save_clicked(){
     }
     if(darkThemeIndex==8){
         estate.SetThemeDark(9);
+    }
+    if(darkThemeIndex==9){
+        estate.SetThemeDark(10);
     }
 
     WriteSettingOnFile();
@@ -218,7 +224,10 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->ComboDay->setCurrentIndex(7);
     }else if(themedayD==9){
         ui->ComboDay->setCurrentIndex(8);
+    }else if(themedayD==10){
+        ui->ComboDay->setCurrentIndex(9);
     }
+
 
     int themedarkD = estate.GetThemeDark();
     if(themedarkD==1){
@@ -239,5 +248,7 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->ComboDark->setCurrentIndex(7);
     }else if(themedarkD==9){
         ui->ComboDark->setCurrentIndex(8);
+    }else if(themedarkD==10){
+        ui->ComboDark->setCurrentIndex(9);
     }
 }
