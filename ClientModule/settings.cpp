@@ -85,6 +85,15 @@ void Settings::on_Save_clicked(){
     if(dayThemeIndex==5){
         estate.SetThemeDay(6);
     }
+    if(dayThemeIndex==6){
+        estate.SetThemeDay(7);
+    }
+    if(dayThemeIndex==7){
+        estate.SetThemeDay(8);
+    }
+    if(dayThemeIndex==8){
+        estate.SetThemeDay(9);
+    }
 
     if(darkThemeIndex==0){
         estate.SetThemeDark(1);
@@ -104,6 +113,16 @@ void Settings::on_Save_clicked(){
     if(darkThemeIndex==5){
         estate.SetThemeDark(6);
     }
+    if(darkThemeIndex==6){
+        estate.SetThemeDark(7);
+    }
+    if(darkThemeIndex==7){
+        estate.SetThemeDark(8);
+    }
+    if(darkThemeIndex==8){
+        estate.SetThemeDark(9);
+    }
+
     WriteSettingOnFile();
 
     QWidget::close();
@@ -193,6 +212,12 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->ComboDay->setCurrentIndex(4);
     }else if(themedayD==6){
         ui->ComboDay->setCurrentIndex(5);
+    }else if(themedayD==7){
+        ui->ComboDay->setCurrentIndex(6);
+    }else if(themedayD==8){
+        ui->ComboDay->setCurrentIndex(7);
+    }else if(themedayD==9){
+        ui->ComboDay->setCurrentIndex(8);
     }
 
     int themedarkD = estate.GetThemeDark();
@@ -208,5 +233,11 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->ComboDark->setCurrentIndex(4);
     }else if(themedarkD==6){
         ui->ComboDark->setCurrentIndex(5);
+    }else if(themedarkD==7){
+        ui->ComboDark->setCurrentIndex(6);
+    }else if(themedarkD==8){
+        ui->ComboDark->setCurrentIndex(7);
+    }else if(themedarkD==9){
+        ui->ComboDark->setCurrentIndex(8);
     }
 }

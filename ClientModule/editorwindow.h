@@ -119,14 +119,19 @@ private slots:
     void installTheme_Day_ClassicPurple();
     void installTheme_Day_ClassicOrange();
     void installTheme_Day_ClassicGreen();
+    void installTheme_Day_ClassicRed();
+    void installTheme_Day_Rainbow();
+    void installTheme_Day_FountainRainbow();
     void installTheme_Dark_ClassicOrange();
     void installTheme_Dark_PlainOrange();
     void installTheme_Dark_ElectricOrange();
     void installTheme_Dark_ClassicPurple();
     void installTheme_Dark_ClassicBlue();
     void installTheme_Dark_ClassicGreen();
+    void installTheme_Dark_ClassicRed();
+    void installTheme_Dark_Rainbow();
+    void installTheme_Dark_FountainRainbow();
 
-    void ShowtimeInstallerAtSavedChanges();
 
     /************************************
      *        STANDALONE FUNCTION       *
