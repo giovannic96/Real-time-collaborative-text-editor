@@ -23,6 +23,9 @@ private slots:
     void on_rinaldo_clicked();
     void on_enrico_clicked();
 
+signals:
+    void closeInfoWindow();
+
 private:
     Ui::infoWindow *ui;
     //For "version" QString

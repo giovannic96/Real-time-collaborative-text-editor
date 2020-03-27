@@ -1227,8 +1227,7 @@ void EditorWindow::on_actionFullscreen_triggered() {
 
 //ABOUT ACTION           -->     CTRL+Shift+I
 void EditorWindow::on_actionAbout_triggered() {
-    infoWindow *iw = new infoWindow(this);
-    iw->show();
+    openInfoWindows();
 }
 
 //CLOSE DOCUMENT ACTION  -->     CTRL+Q
@@ -1684,7 +1683,7 @@ void EditorWindow::TitlebarChangeByTimer(){
            a-=-1;
            estate.SetTitlebarCounter(a);
            for(int i=0; i<=a; i++){
-               textOnTitleBar.push_front(" ");
+               textOnTitleBar.push_front("         ");
            }
            if(a>=25){
                estate.SetTitlebarAlternate(false);
@@ -1977,6 +1976,20 @@ void EditorWindow::openSettingsWindows(){
         settings_closed = false;
     }
 }
+
+void EditorWindow::setInfoWindowClosed(){
+    infowindow_closed = true;
+}
+
+void EditorWindow::openInfoWindows(){
+    if(infowindow_closed){//you can access to the stats, else you must close the current Settings Window
+        infoWindow *iw = new infoWindow();
+        connect(iw, &infoWindow::closeInfoWindow, this, &EditorWindow::setInfoWindowClosed);
+        iw->show();
+        infowindow_closed = false;
+    }
+}
+
 
 
 /***************************************************************************************************************************************

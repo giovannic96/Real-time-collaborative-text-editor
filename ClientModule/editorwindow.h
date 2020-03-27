@@ -139,6 +139,8 @@ private slots:
     void setUserProfileClosed();
     void setSettingsClosed();
     void openSettingsWindows();
+    void setInfoWindowClosed();
+    void openInfoWindows();
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
@@ -212,6 +214,7 @@ private:
     //Boolean for check if only one instance of following window is created
     bool profile_closed = true;
     bool settings_closed = true;
+    bool infowindow_closed = true;
 
 
 };
