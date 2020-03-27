@@ -112,6 +112,21 @@ private slots:
     void SetIconPackDarkMode();
     void LoadUserSetting();
     void TitlebarChangeByTimer();
+    /**********THEME SELECTOR***********/
+    void installTheme_Day_ClassicBlue();
+    void installTheme_Day_PlainBlue();
+    void installTheme_Day_ElectricBlue();
+    void installTheme_Day_ClassicPurple();
+    void installTheme_Day_ClassicOrange();
+    void installTheme_Day_ClassicGreen();
+    void installTheme_Dark_ClassicOrange();
+    void installTheme_Dark_PlainOrange();
+    void installTheme_Dark_ElectricOrange();
+    void installTheme_Dark_ClassicPurple();
+    void installTheme_Dark_ClassicBlue();
+    void installTheme_Dark_ClassicGreen();
+
+    void ShowtimeInstallerAtSavedChanges();
 
     /************************************
      *        STANDALONE FUNCTION       *
