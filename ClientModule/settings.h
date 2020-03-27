@@ -18,6 +18,9 @@ private slots:
     void on_Default_clicked();
     void on_Abort_clicked();
 
+signals:
+    void closeSettings();
+
 private:
     void LoadAndSetDefaultRadioButton();
     void WriteSettingOnFile();

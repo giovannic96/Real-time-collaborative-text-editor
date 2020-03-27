@@ -134,8 +134,6 @@ void MenuWindow::on_Username_clicked(){
                 Contafile=0;
                 ContaFileOwner=0;
             }
-            //qDebug()<<"Ho un totale di "<< Contafile << "file";
-            //qDebug()<<"Ho creato "<< ContaFileOwner << "file";
 
             UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
             connect(up, &UserProfile::closeUserProfile, this, &MenuWindow::setUserProfileClosed);
