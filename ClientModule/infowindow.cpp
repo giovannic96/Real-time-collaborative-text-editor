@@ -4,6 +4,7 @@
 //CONSTRUCTOR
 infoWindow::infoWindow(QWidget *parent): QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::infoWindow){
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_DeleteOnClose, true); //Call the constructor when Windows close this.
     ui->version->setText(qstr);
     ui->giovanni->setStyleSheet("background: transparent;");
     ui->francesco->setStyleSheet("background: transparent;");
