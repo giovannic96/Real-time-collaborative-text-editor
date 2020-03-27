@@ -64,23 +64,45 @@ void Settings::on_Save_clicked(){
     /*****************************/
     //            Temi           //
     /*****************************/
-    if(ui->dayTheme1->isChecked()){
+    int dayThemeIndex = ui->ComboDay->currentIndex();
+    int darkThemeIndex = ui->ComboDark->currentIndex();
+
+    if(dayThemeIndex==0){
         estate.SetThemeDay(1);
     }
-    if(ui->dayTheme2->isChecked()){
+    if(dayThemeIndex==1){
         estate.SetThemeDay(2);
     }
-    if(ui->dayTheme3->isChecked()){
+    if(dayThemeIndex==2){
         estate.SetThemeDay(3);
     }
-    if(ui->darkTheme1->isChecked()){
+    if(dayThemeIndex==3){
+        estate.SetThemeDay(4);
+    }
+    if(dayThemeIndex==4){
+        estate.SetThemeDay(5);
+    }
+    if(dayThemeIndex==5){
+        estate.SetThemeDay(6);
+    }
+
+    if(darkThemeIndex==0){
         estate.SetThemeDark(1);
     }
-    if(ui->darkTheme2->isChecked()){
+    if(darkThemeIndex==1){
         estate.SetThemeDark(2);
     }
-    if(ui->darkTheme3->isChecked()){
+    if(darkThemeIndex==2){
         estate.SetThemeDark(3);
+    }
+    if(darkThemeIndex==3){
+        estate.SetThemeDark(4);
+    }
+    if(darkThemeIndex==4){
+        estate.SetThemeDark(5);
+    }
+    if(darkThemeIndex==5){
+        estate.SetThemeDark(6);
     }
     WriteSettingOnFile();
 
@@ -112,8 +134,8 @@ void Settings::on_Default_clicked(){
      estate.SetToolbar(true);               ui->toolShowRadio->setChecked(true);
      estate.SetCollaboratorBar(true);       ui->collabShowRadio->setChecked(true);
      estate.SetTitlebar(1);                 ui->titleRadio1->setChecked(true);
-     estate.SetThemeDay(1);                 ui->dayTheme1->setChecked(true);
-     estate.SetThemeDark(1);                ui->darkTheme1->setChecked(true);
+     estate.SetThemeDay(1);                 ui->ComboDay->setCurrentIndex(0);
+     estate.SetThemeDark(1);                ui->ComboDark->setCurrentIndex(0);
 
      WriteSettingOnFile();
 }
@@ -160,19 +182,31 @@ void Settings::LoadAndSetDefaultRadioButton(){
 
     int themedayD = estate.GetThemeDay();
     if(themedayD==1){
-        ui->dayTheme1->setChecked(true);
+        ui->ComboDay->setCurrentIndex(0);
     }else if(themedayD==2){
-        ui->dayTheme2->setChecked(true);
+        ui->ComboDay->setCurrentIndex(1);
     }else if(themedayD==3){
-        ui->dayTheme3->setChecked(true);
+        ui->ComboDay->setCurrentIndex(2);
+    }else if(themedayD==4){
+        ui->ComboDay->setCurrentIndex(3);
+    }else if(themedayD==5){
+        ui->ComboDay->setCurrentIndex(4);
+    }else if(themedayD==6){
+        ui->ComboDay->setCurrentIndex(5);
     }
 
     int themedarkD = estate.GetThemeDark();
     if(themedarkD==1){
-        ui->darkTheme1->setChecked(true);
-    }else if(themedayD==2){
-        ui->darkTheme2->setChecked(true);
-    }else if(themedayD==3){
-        ui->darkTheme3->setChecked(true);
+        ui->ComboDark->setCurrentIndex(0);
+    }else if(themedarkD==2){
+        ui->ComboDark->setCurrentIndex(1);
+    }else if(themedarkD==3){
+        ui->ComboDark->setCurrentIndex(2);
+    }else if(themedarkD==4){
+        ui->ComboDark->setCurrentIndex(3);
+    }else if(themedarkD==5){
+        ui->ComboDark->setCurrentIndex(4);
+    }else if(themedarkD==6){
+        ui->ComboDark->setCurrentIndex(5);
     }
 }
