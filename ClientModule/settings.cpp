@@ -9,6 +9,9 @@ Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(ne
 
     LoadAndSetDefaultRadioButton();
 
+    Settings::on_ComboDark_currentIndexChanged(ui->ComboDark->currentIndex());
+    Settings::on_ComboDay_currentIndexChanged(ui->ComboDay->currentIndex());
+
 }
 
 Settings::~Settings(){
@@ -260,5 +263,84 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->ComboDark->setCurrentIndex(9);
     }else if(themedarkD==11){
         ui->ComboDark->setCurrentIndex(10);
+    }
+}
+
+void Settings::on_ComboDay_currentIndexChanged(int index)
+{
+    int dayThemeIndex = ui->ComboDay->currentIndex();
+
+    if(dayThemeIndex==0){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicBlue.png);\n}");
+    }
+    if(dayThemeIndex==1){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayPlainBlue.png);\n}");
+    }
+    if(dayThemeIndex==2){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayElectricBlue.png);\n}");
+    }
+    if(dayThemeIndex==3){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicPurple.png);\n}");
+    }
+    if(dayThemeIndex==4){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicOrange.png);\n}");
+    }
+    if(dayThemeIndex==5){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicGreen.png);\n}");
+    }
+    if(dayThemeIndex==6){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicRed.png);\n}");
+    }
+    if(dayThemeIndex==7){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayFantasy.png);\n}");
+    }
+    if(dayThemeIndex==8){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayRainbow.png);\n}");
+    }
+    if(dayThemeIndex==9){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayPolito.png);\n}");
+    }
+    if(dayThemeIndex==10){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/daySpecial.png);\n}");
+    }
+}
+
+void Settings::on_ComboDark_currentIndexChanged(int index)
+{
+    int darkThemeIndex = ui->ComboDark->currentIndex();
+
+    if(darkThemeIndex==0){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicOrange.png);\n}");
+    }
+    if(darkThemeIndex==1){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkPlainOrange.png);\n}");
+    }
+    if(darkThemeIndex==2){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkElectricOrange.png);\n}");
+    }
+    if(darkThemeIndex==3){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicPurple.png);\n}");
+    }
+    if(darkThemeIndex==4){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicBlue.png);\n}");
+    }
+    if(darkThemeIndex==5){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicGreen.png);\n}");
+    }
+    if(darkThemeIndex==6){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicRed.png);\n}");
+    }
+    if(darkThemeIndex==7){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkFantasy.png);\n}");
+    }
+    if(darkThemeIndex==8){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkRainbow.png);\n}");
+    }
+    if(darkThemeIndex==9){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkPolito.png);\n}");
+    }
+    if(darkThemeIndex==10){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkSpecial.png);\n}");
+
     }
 }

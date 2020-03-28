@@ -595,17 +595,6 @@ void EditorWindow::on_buttonCopy_clicked() {
 }
 
 /***********************************************************************************
-*                         TEXT SEARCH BUTTON                                       *
-************************************************************************************/
-void EditorWindow::on_buttonSearch_clicked() {
-    QString findtext = QInputDialog::getText(this, "Search", "Insert text to search: ");
-    ui->RealTextEdit->moveCursor(QTextCursor::Start);
-    if(!ui->RealTextEdit->find(findtext,QTextDocument::FindWholeWords))
-        QMessageBox::information(this, "Warning", "No result found!");
-    ui->RealTextEdit->setFocus();
-}
-
-/***********************************************************************************
 *                            FONT SIZE COMBOBOX                                    *
 ************************************************************************************/
 void EditorWindow::on_fontSizeBox_currentIndexChanged(int index) {
@@ -1523,7 +1512,6 @@ void EditorWindow::SetIconPackDayMode(){
     ui->buttonCopy->setIcon(icoCPY);
     ui->buttonCut->setIcon(icoCUT);
     ui->buttonPaste->setIcon(icoPAS);
-    ui->buttonSearch->setIcon(icoMAGN);
     ui->buttonColor->setIcon(icoCOL);
     ui->buttonBold->setIcon(v2B);
     ui->buttonItalic->setIcon(v2I);
@@ -1552,7 +1540,6 @@ void EditorWindow::SetIconPackDarkMode(){
     ui->buttonCopy->setIcon(icoCPY);
     ui->buttonCut->setIcon(icoCUT);
     ui->buttonPaste->setIcon(icoPAS);
-    ui->buttonSearch->setIcon(icoMAGN);
     ui->buttonColor->setIcon(icoCOL);
     ui->buttonBold->setIcon(v2B);
     ui->buttonItalic->setIcon(v2I);
@@ -2032,6 +2019,7 @@ void EditorWindow::installTheme_Dark_Special(){
     ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
 }
 
+>>>>>>> cc034157056d9a3f81dfc2bf770a3fac06fb0cb4
 
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
@@ -2191,7 +2179,6 @@ void EditorWindow::showToolbar(){
     ui->buttonCut->show();
     ui->buttonPaste->show();
     ui->buttonColor->show();
-    ui->buttonSearch->show();
 }
 
 void EditorWindow::hideToolbar(){
@@ -2209,7 +2196,6 @@ void EditorWindow::hideToolbar(){
     ui->buttonCut->hide();
     ui->buttonPaste->hide();
     ui->buttonColor->hide();
-    ui->buttonSearch->hide();
 }
 
 //HANDLE LOSS OF CONNECTION

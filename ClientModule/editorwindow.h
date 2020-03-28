@@ -63,9 +63,6 @@ private slots:
     void on_buttonPaste_clicked();
     void on_buttonCopy_clicked();
 
-    //Highlight the text
-    void on_buttonSearch_clicked();
-
     //Modify font and size of text
     void on_fontSizeBox_currentIndexChanged(int index);
     void on_fontFamilyBox_currentIndexChanged(int index);

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>950</width>
-    <height>350</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1458,60 +1458,6 @@ background-color: lightgrey;
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="buttonSearch">
-                   <property name="minimumSize">
-                    <size>
-                     <width>34</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>34</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>10</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                     <underline>false</underline>
-                     <strikeout>false</strikeout>
-                    </font>
-                   </property>
-                   <property name="cursor">
-                    <cursorShape>PointingHandCursor</cursorShape>
-                   </property>
-                   <property name="autoFillBackground">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">#buttonSearch{
-	border-radius: 4px;
-}
-
-#buttonSearch:hover{
-	background-color: #BDC3C7;
-}
-</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="Risorse.qrc">
-                     <normaloff>:/image/Editor/Magnifier.png</normaloff>:/image/Editor/Magnifier.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="buttonColor">
                    <property name="minimumSize">
                     <size>
@@ -1577,7 +1523,7 @@ background-color: lightgrey;
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>50</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>

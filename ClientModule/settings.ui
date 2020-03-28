@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>559</width>
-    <height>337</height>
+    <height>341</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>300</y>
+     <y>310</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -30,9 +30,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
-     <width>541</width>
-     <height>211</height>
+     <y>10</y>
+     <width>531</width>
+     <height>291</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -45,8 +45,8 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>20</y>
+       <x>16</x>
+       <y>91</y>
        <width>101</width>
        <height>16</height>
       </rect>
@@ -59,12 +59,15 @@
      <property name="text">
       <string>Colore Editor</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>150</x>
-       <y>20</y>
+       <x>342</x>
+       <y>91</y>
        <width>141</width>
        <height>16</height>
       </rect>
@@ -77,14 +80,17 @@
      <property name="text">
       <string>Barra Collaboratori</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>20</y>
+       <x>162</x>
+       <y>89</y>
        <width>161</width>
-       <height>16</height>
+       <height>21</height>
       </rect>
      </property>
      <property name="font">
@@ -95,12 +101,15 @@
      <property name="text">
       <string>Barra degli Strumenti</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>40</y>
+       <x>20</x>
+       <y>112</y>
        <width>91</width>
        <height>52</height>
       </rect>
@@ -138,8 +147,8 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>40</y>
+       <x>200</x>
+       <y>112</y>
        <width>83</width>
        <height>52</height>
       </rect>
@@ -177,8 +186,8 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>151</x>
-       <y>41</y>
+       <x>370</x>
+       <y>112</y>
        <width>83</width>
        <height>52</height>
       </rect>
@@ -241,17 +250,29 @@
       <rect>
        <x>10</x>
        <y>40</y>
-       <width>285</width>
-       <height>136</height>
+       <width>501</width>
+       <height>222</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QRadioButton" name="titleRadio1">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-bottom:1px solid lightgrey;</string>
         </property>
         <property name="text">
          <string>Nome documento</string>
@@ -263,13 +284,22 @@
       </item>
       <item>
        <widget class="QRadioButton" name="titleRadio2">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border-bottom:1px solid lightgrey;</string>
+        </property>
         <property name="text">
-         <string>Nome programma</string>
+         <string>C.A.R.T.E</string>
         </property>
         <property name="checked">
          <bool>false</bool>
@@ -278,41 +308,148 @@
       </item>
       <item>
        <widget class="QRadioButton" name="titleRadio3">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border-bottom:1px solid lightgrey;</string>
+        </property>
         <property name="text">
-         <string>Nome programma + Nome documento</string>
+         <string>C.A.R.T.E. + Nome documento</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="titleRadio4">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border-bottom:1px solid lightgrey;</string>
+        </property>
         <property name="text">
-         <string>Alterna nome programma / documento</string>
+         <string>Alterna C.A.R.T.E. / Nome documento</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="titleRadio5">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border-bottom:1px solid lightgrey;</string>
+        </property>
         <property name="text">
-         <string>Nome programma animato</string>
+         <string>C.A.R.T.E. animato</string>
         </property>
        </widget>
       </item>
      </layout>
+    </widget>
+    <widget class="QLabel" name="PreviewBar">
+     <property name="geometry">
+      <rect>
+       <x>303</x>
+       <y>47</y>
+       <width>200</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:url(:/image/Settings/nomeDoc.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PreviewBar_2">
+     <property name="geometry">
+      <rect>
+       <x>303</x>
+       <y>90</y>
+       <width>200</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:url(:/image/Settings/carte.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PreviewBar_3">
+     <property name="geometry">
+      <rect>
+       <x>303</x>
+       <y>133</y>
+       <width>200</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:url(:/image/Settings/carteNomeDoc.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PreviewBar_4">
+     <property name="geometry">
+      <rect>
+       <x>303</x>
+       <y>176</y>
+       <width>200</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:url(:/image/Settings/carte.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PreviewBar_5">
+     <property name="geometry">
+      <rect>
+       <x>303</x>
+       <y>219</y>
+       <width>200</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:url(:/image/Settings/carte.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_3">
@@ -323,7 +460,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
+       <y>140</y>
        <width>101</width>
        <height>16</height>
       </rect>
@@ -360,7 +497,7 @@
       <rect>
        <x>90</x>
        <y>20</y>
-       <width>221</width>
+       <width>151</width>
        <height>22</height>
       </rect>
      </property>
@@ -411,7 +548,7 @@
      </item>
      <item>
       <property name="text">
-       <string>PoliTo</string>
+       <string>Polito</string>
       </property>
      </item>
      <item>
@@ -424,8 +561,8 @@
      <property name="geometry">
       <rect>
        <x>90</x>
-       <y>70</y>
-       <width>221</width>
+       <y>140</y>
+       <width>151</width>
        <height>22</height>
       </rect>
      </property>
@@ -476,7 +613,7 @@
      </item>
      <item>
       <property name="text">
-       <string>PoliTo</string>
+       <string>Polito</string>
       </property>
      </item>
      <item>
@@ -485,13 +622,71 @@
       </property>
      </item>
     </widget>
+    <widget class="QLabel" name="PreviewThemeDay">
+     <property name="geometry">
+      <rect>
+       <x>323</x>
+       <y>14</y>
+       <width>185</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="Line" name="line">
+     <property name="geometry">
+      <rect>
+       <x>299</x>
+       <y>7</y>
+       <width>2</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:lightgrey;
+border:none;</string>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="PreviewThemeDark">
+     <property name="geometry">
+      <rect>
+       <x>323</x>
+       <y>141</y>
+       <width>185</width>
+       <height>120</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QPushButton" name="Abort">
    <property name="geometry">
     <rect>
      <x>380</x>
-     <y>300</y>
+     <y>310</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -504,36 +699,13 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>300</y>
+     <y>310</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Ripristina</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_7">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>10</y>
-     <width>401</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>28</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">#label_7 {color:#0000FF}</string>
-   </property>
-   <property name="text">
-    <string>C.A.R.T.E. - OPZIONI</string>
    </property>
   </widget>
  </widget>
