@@ -11,6 +11,7 @@
 #include "editorstate.h"
 #include "settings.h"
 #include "qlistwidget.h"
+#include "userprofile.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"
@@ -78,7 +79,6 @@ private slots:
      *               EVENT              *
      ************************************/
     bool eventFilter(QObject *obj, QEvent *ev);
-    void keyPressEvent(QKeyEvent *e);   //Handle Shortcut of Action
     void closeEvent(QCloseEvent * event);
 
     /************************************
@@ -236,6 +236,9 @@ private:
     bool profile_closed = true;
     bool settings_closed = true;
     bool infowindow_closed = true;
+    UserProfile *up;
+
+
 };
 
 #endif // EDITORWINDOW_H

@@ -2,7 +2,6 @@
 #include "ui_editorwindow.h"
 #include "MyQTextEdit.h"
 #include "infowindow.h"
-#include "userprofile.h"
 #include "menuwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
@@ -1194,6 +1193,10 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
             switch(replay){
                 case 0:
                   event->ignore();
+                  //close userProfile Window if it was opened;                 
+                  if(!profile_closed){
+                      delete up;
+                  }
                   CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
                   break;
                 case 1:
@@ -2290,7 +2293,7 @@ void EditorWindow::on_profileButton_clicked() {
             ContaFileOwner=0;
         }
 
-        UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+        up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
         connect(up, &UserProfile::closeUserProfile, this, &EditorWindow::setUserProfileClosed);
         profile_closed = false;
         //up->show(); Not necessary is done by the costructor
