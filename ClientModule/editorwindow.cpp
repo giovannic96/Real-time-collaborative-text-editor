@@ -1450,6 +1450,8 @@ void EditorWindow::ApplyDayMode(){
         installTheme_Day_FountainRainbow();
     }else if(estate.GetThemeDay()==10){
         installTheme_Day_Polito();
+    }else if(estate.GetThemeDay()==11){
+        installTheme_Day_Special();
     }
 
     //COLLAB BAR
@@ -1483,7 +1485,10 @@ void EditorWindow::ApplyDarkMode(){
         installTheme_Dark_FountainRainbow();
     }else if(estate.GetThemeDark()==10){
         installTheme_Dark_Polito();
+    }else if(estate.GetThemeDark()==11){
+        installTheme_Dark_Special();
     }
+
 
     //COLLAB BAR
     ui->label->setStyleSheet("color: #FFFFFF");
@@ -1660,7 +1665,7 @@ void EditorWindow::installTheme_Day_ClassicBlue(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #0683FF;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1822,6 +1827,23 @@ void EditorWindow::installTheme_Day_Polito(){
     ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #00224d;}  #strumentiButton:pressed {background-color: #000b1a;}");
     ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #00224d;}      #aboutButton:pressed {background-color: #000b1a;}");
 }
+
+void EditorWindow::installTheme_Day_Special(){
+    //GENERAL COLOR
+    ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
+    ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
+
+    //TOP FRAME
+    ui->frameTopBar->setStyleSheet("#frameTopBar{           background: url(:/image/Editor/hidrologo.jpg);}");
+    ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: transparent;}       #fileButton:pressed {background-color: transparent;}");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: transparent;} #visualizzaButton:pressed {background-color: transparent;}");
+    ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;}");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;}");
+    ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
+}
+
 
 /*****************************************************************DARK THEME BEGIN*************************************************************************************/
 
@@ -1993,6 +2015,23 @@ void EditorWindow::installTheme_Dark_Polito(){
     ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: #00224d;}  #strumentiButton:pressed {background-color: #000b1a;}");
     ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: #00224d;}      #aboutButton:pressed {background-color: #000b1a;}");
 }
+
+void EditorWindow::installTheme_Dark_Special(){
+    //GENERAL COLOR
+    ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
+    ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
+
+    //TOP FRAME
+    ui->frameTopBar->setStyleSheet("#frameTopBar{           background: url(:/image/Editor/hidrologo.jpg);}");
+    ui->fileButton->setStyleSheet("#fileButton{             color:white; border:none;}  #fileButton:hover{background-color: transparent;}       #fileButton:pressed {background-color: transparent;}");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ color:white; border:none;}  #visualizzaButton:hover{background-color: transparent;} #visualizzaButton:pressed {background-color: transparent;}");
+    ui->modificaButton->setStyleSheet("#modificaButton{     color:white; border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;}");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;}");
+    ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
+}
+
 
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
