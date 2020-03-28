@@ -9,7 +9,7 @@ UserProfile::UserProfile(myClient* client, QString nome, QString mail,int files,
     this->setAttribute(Qt::WA_DeleteOnClose, true); //Call the constructor when Windows close this.
     ui->setupUi(this);
     ui->Username->setText(nome); //Associate the QLabel "Username" at the string "nome" passed by argument. In this way I can show the username of the user
-    ui->Mail->setText(mail);     //Same way
+    ui->Mail->setText(mail);
 
     QString TotalFiles = QString::number(files);
     QString MyFiles = QString::number(myFiles);

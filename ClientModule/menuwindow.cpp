@@ -4,7 +4,6 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include "editorwindow.h"
-#include "userprofile.h"
 #include "startwindow.h"
 #include <iostream>
 #include <QListWidgetItem>
@@ -135,7 +134,7 @@ void MenuWindow::on_Username_clicked(){
                 ContaFileOwner=0;
             }
 
-            UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+            up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
             connect(up, &UserProfile::closeUserProfile, this, &MenuWindow::setUserProfileClosed);
             profile_closed = false;
             //up->show(); Not necessary is done by the costructor
@@ -176,6 +175,10 @@ void MenuWindow::on_backButton_clicked() {
 
 //NEW DOCUMENT
 void MenuWindow::on_newDoc_clicked(){
+    //close userProfile Window if it was opened;
+    if(!profile_closed){
+        delete up;
+    }
     if(_client->getStatus()==false){
         handleTheConnectionLoss();
     }else{
@@ -218,6 +221,10 @@ void MenuWindow::on_newDoc_clicked(){
 }
 
 void MenuWindow::on_listFiles_clicked() {
+    //close userProfile Window if it was opened;
+    if(!profile_closed){
+        delete up;
+    }
     if(_client->getStatus()==false){
         handleTheConnectionLoss();
     }else{
@@ -241,6 +248,10 @@ void MenuWindow::on_listFiles_clicked() {
 }
 
 void MenuWindow::on_uriDoc_clicked() {
+    //close userProfile Window if it was opened;
+    if(!profile_closed){
+        delete up;
+    }
     if(_client->getStatus()==false) {
         handleTheConnectionLoss();
     } else {
@@ -284,6 +295,10 @@ void MenuWindow::on_uriDoc_clicked() {
 
 //OPEN ONE DOCUMENT FROM A LIST OF USER'S DOC
 void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
+    //close userProfile Window if it was opened;
+    if(!profile_closed){
+        delete up;
+    }
     auto t_start1 = std::chrono::high_resolution_clock::now();
     if(_client->getStatus()==false) {
         handleTheConnectionLoss();

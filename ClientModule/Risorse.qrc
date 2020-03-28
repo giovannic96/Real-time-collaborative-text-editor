@@ -101,10 +101,7 @@
         <file>image/Editor/carte.png</file>
         <file>image/Editor/font.png</file>
         <file>image/font_icon.png</file>
-        <file>image/userProfile.png</file>
         <file>image/Editor/polilogo.png</file>
-        <file>image/Settings/carte.png</file>
-        <file>image/Settings/carteNomeDoc.png</file>
         <file>image/Settings/darkClassicBlue.png</file>
         <file>image/Settings/darkClassicGreen.png</file>
         <file>image/Settings/darkClassicOrange.png</file>
@@ -127,7 +124,12 @@
         <file>image/Settings/dayPolito.png</file>
         <file>image/Settings/dayRainbow.png</file>
         <file>image/Settings/daySpecial.png</file>
-        <file>image/Settings/nomeDoc.png</file>
         <file>image/Editor/hidrologo.jpg</file>
+        <file>image/Settings/alternatoCarteDoc.gif</file>
+        <file>image/Settings/animatoCarte.gif</file>
+        <file>image/Settings/carte.png</file>
+        <file>image/Settings/carteNomeDoc.png</file>
+        <file>image/Settings/nomeDoc.png</file>
+        <file>image/userProfile.png</file>
     </qresource>
 </RCC>

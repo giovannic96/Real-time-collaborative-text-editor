@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include "editorwindow.h"
 #include "myClient.h"
+#include "userprofile.h"
 
 namespace Ui{class MenuWindow;}
 
@@ -44,6 +45,7 @@ private:
     bool profile = false;
     bool FirstTimeWindowOpens=true;    
     bool profile_closed = true;
+    UserProfile *up;
 
 protected:
     //Function for mouse related event
