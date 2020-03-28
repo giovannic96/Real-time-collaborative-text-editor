@@ -21,7 +21,6 @@ public:
 
 private slots:
     void on_exitButton_clicked();
-    void on_UserImageButton_clicked();
 
 signals:
     void closeUserProfile();
