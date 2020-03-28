@@ -183,17 +183,33 @@ void jsonUtility::from_json_formatting_symbols(const json &j, std::vector<json>&
     jsonSymbols = j.at("formattingSymVector").get<std::vector<json>>();
 }
 
-void jsonUtility::from_json_symbolsAndFilename(const json &j, std::vector<json>& jsonSymbols, std::string& filename) {
+/* We need to use this 'from_json' to deserialize std::vector<symbol> (see function from_json_symbols) */
+void from_json(const json& j, symbol& s) {
+    wchar_t letter = j.at("letter").get<wchar_t>();
+    std::pair<int,int> id = j.at("id").get<std::pair<int,int>>();
+    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
+    symbolStyle style;
+    style.setBold(j.at("isBold").get<bool>());
+    style.setItalic(j.at("isItalic").get<bool>());
+    style.setUnderlined(j.at("isUnderlined").get<bool>());
+    style.setFontFamily(j.at("fontFamily").get<std::string>());
+    style.setFontSize(j.at("fontSize").get<int>());
+    style.setAlignment(j.at("alignment").get<int>());
+    style.setColor(j.at("color").get<std::string>());
+    s = symbol(letter, id, pos, style);
+}
+
+void jsonUtility::from_json_symbols(const json &j, std::vector<symbol>& symbols) {
+    symbols = j.at("content").at("symVector").get<std::vector<symbol>>(); //use from_json previously defined
+}
+
+void jsonUtility::from_json_symbolsAndFilename(const json &j, std::vector<symbol>& symbols, std::string& filename) {
     filename = j.at("content").at("filename").get<std::string>();
-    jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
+    symbols = j.at("content").at("symVector").get<std::vector<symbol>>(); //use from_json previously defined
 }
 
 void jsonUtility::from_json_filename(const json &j, std::string& filename) {
     filename = j.at("content").at("filename").get<std::string>();
-}
-
-void jsonUtility::from_json_symbols(const json &j, std::vector<json>& jsonSymbols) {
-    jsonSymbols = j.at("content").at("symVector").get<std::vector<json>>();
 }
 
 void jsonUtility::from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols) {

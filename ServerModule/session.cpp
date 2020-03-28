@@ -84,8 +84,12 @@ void session::do_read_body() {
             std::string opJSON;
             json jdata_in;
             try {
+                auto t_start = std::chrono::high_resolution_clock::now();
                 jdata_in = json::parse(fullBody);
                 jsonUtility::from_json(jdata_in, opJSON); //get json value and put into JSON variables
+                auto t_end = std::chrono::high_resolution_clock::now();
+                double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+                std::cout << "OPENFILE PARSE - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 
                 int edId = shared_from_this()->getId();
                 std::string curFile = std::string();
@@ -128,7 +132,8 @@ void session::do_read_body() {
                     }
                 }
                 else if(opJSON == "OPENFILE_REQUEST" || opJSON == "OPENWITHURI_REQUEST") {
-                    std::cout << "Sent:" << response << "END" << std::endl;
+                    auto t_start1 = std::chrono::high_resolution_clock::now();
+                    //std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsg(response); //send data only to this participant
 
                     if (response.find("OPENFILE_FILE_EMPTY") != std::string::npos || response.find("OPENFILE_OK") != std::string::npos ||
@@ -153,6 +158,9 @@ void session::do_read_body() {
                         std::cout << "Sent:" << response2 << "END" << std::endl;
                         this->sendMsgAll(response2, edId, curFile); //send data to all the participants, having the curFile opened
                     }
+                    auto t_end1 = std::chrono::high_resolution_clock::now();
+                    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+                    std::cout << "OPENFILE sendMsg and sendMsgAll - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
                 }
                 else {
                     std::cout << "Sent:" << response << "END" << std::endl;
@@ -497,22 +505,30 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
+            auto t_start1 = std::chrono::high_resolution_clock::now();
+
             shared_from_this()->setCurrentFile(uriJSON);
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
-            //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
-            //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
             if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
                 db_res = "OPENFILE_FILE_EMPTY";
             else
                 db_res = "OPENFILE_OK";
+            auto t_end1 = std::chrono::high_resolution_clock::now();
+            double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+            std::cout << "OP FILE RESPONSE PT1 - ELAPSED (ms): " << elapsed_time_ms1 << std::endl << std::endl;
 
+            auto t_start = std::chrono::high_resolution_clock::now();
             //Serialize data
             json j;
-            std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
-            jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, symVectorJSON);
+            jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, shared_from_this()->getSymbols());
             const std::string response = j.dump();
+
+            auto t_end = std::chrono::high_resolution_clock::now();
+            double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+            std::cout << "OP FILE RESPONSE PT2 - ELAPSED (ms): " << elapsed_time_ms << std::endl << std::endl;
             return response;
         }
         else if(resp == dbService::OPENFILE_FAILED)
@@ -552,8 +568,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             shared_from_this()->setCurrentFile(uriJSON);
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
-            //TODO: update flag! This means that while file is being sent, we have to mantain a queue containing all the modifications in between
-            //TODO: after file has been sent, send to all the clients all the modifications present in previous created queue
+            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
             if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
                 db_res = "OPENFILE_FILE_EMPTY";
@@ -562,8 +577,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
             //Serialize data
             json j;
-            std::vector<json> symVectorJSON = jsonUtility::fromSymToJson(shared_from_this()->getSymbols());
-            jsonUtility::to_json_symVectorAndFilename(j, "OPENWITHURI_RESPONSE", db_res, symVectorJSON, filenameJSON);
+            jsonUtility::to_json_symVectorAndFilename(j, "OPENWITHURI_RESPONSE", db_res, shared_from_this()->getSymbols(), filenameJSON);
             const std::string response = j.dump();
             return response;
         }

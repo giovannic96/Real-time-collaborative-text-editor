@@ -128,7 +128,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     SetDynamicDocNameLabel();
     auto t_end = std::chrono::high_resolution_clock::now();
     double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-    std::cout << "EDITOR WINDOW CONSTRUCTOR - ELAPSED (ms): " << elapsed_time_ms << std::endl;
+    std::cout << "EDITOR WINDOW CONSTRUCTOR AFTER SHOWSYMBOLS - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 }
 
 EditorWindow::~EditorWindow() {

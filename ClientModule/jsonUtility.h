@@ -42,9 +42,9 @@ public:
     static void from_json_inviteURI(const json& j, std::string& op);
     static void from_json_rename_file(const json &j, std::string &resp, std::string& filename);
     static void from_json_resp(const json &j, std::string &resp);
-    static void from_json_symbols(const json &j, std::vector<json> &jsonSymbols);
+    static void from_json_symbols(const json &j, std::vector<symbol> &symbols);
     static void from_json_formatting_symbols(const json &j, std::vector<json>& jsonSymbols);
-    static void from_json_symbolsAndFilename(const json &j, std::vector<json> &jsonSymbols, std::string& filename);
+    static void from_json_symbolsAndFilename(const json &j, std::vector<symbol> &symbols, std::string& filename);
     static void from_json_filename(const json &j, std::string& filename);
     static void from_json_files(const json &j, std::vector<json> &jsonFiles);
     static File* from_json_file(const json &j);
