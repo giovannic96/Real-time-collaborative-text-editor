@@ -284,6 +284,7 @@ void MenuWindow::on_uriDoc_clicked() {
 
 //OPEN ONE DOCUMENT FROM A LIST OF USER'S DOC
 void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
+    auto t_start1 = std::chrono::high_resolution_clock::now();
     if(_client->getStatus()==false) {
         handleTheConnectionLoss();
     } else {
@@ -312,6 +313,9 @@ void MenuWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item) {
         //Send data (header and body)
         _client->sendRequestMsg(req);
     }
+    auto t_end1 = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+    std::cout << "ITEM DOUBLE CLICKED - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
 }
 
 void MenuWindow::showPopupSuccess(QString result) {

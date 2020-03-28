@@ -6,6 +6,7 @@
 #include "header_files/jsonUtility.h"
 #include "header_files/symbolInfo.h"
 #include <iomanip>
+#include <chrono>
 
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
     j = json{
@@ -31,13 +32,29 @@ void jsonUtility::to_json_symbol(json &j, const symbol &symbol) {
     };
 }
 
-void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector) {
+/* We need to use this 'to_json' to serialize std::vector<symbol> (see function to_json_symVector) */
+void to_json(json& j, const symbol& s) {
+    j = json{
+            {"letter", s.getLetter()},
+            {"id", s.getId()}, //std::pair
+            {"pos", s.getPos()}, //std::vector<int>
+            {"isBold", s.getStyle().isBold()},
+            {"isItalic", s.getStyle().isItalic()},
+            {"isUnderlined", s.getStyle().isUnderlined()},
+            {"fontFamily", s.getStyle().getFontFamily()},
+            {"fontSize", s.getStyle().getFontSize()},
+            {"alignment", s.getStyle().getAlignment()},
+            {"color", s.getStyle().getColor()}
+    };
+}
+
+void jsonUtility::to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<symbol> &symVector) {
     j = json{
             {"operation", op},
             {"content", {
-                {"response", resp},
-                {"symVector", symVector} //JSON vector
-            }}
+            {"response", resp},
+            {"symVector", symVector} //use to_json previously defined
+        }}
     };
 }
 
@@ -67,13 +84,13 @@ void jsonUtility::to_json_user_offline(json &j, const std::string &op, const std
     };
 }
 
-void jsonUtility::to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename) {
+void jsonUtility::to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<symbol> &symVector, const std::string &filename) {
     j = json{
             {"operation", op},
             {"content", {
                     {"response", resp},
                     {"filename", filename},
-                    {"symVector", symVector} //JSON vector
+                    {"symVector", symVector}
             }}
     };
 }
@@ -266,7 +283,7 @@ json jsonUtility::merge(const json &a, const json &b) {
 }
 
 std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols) {
-
+    auto t_start = std::chrono::high_resolution_clock::now();
     if(symbols.empty())
         return json::array();
 
@@ -277,6 +294,9 @@ std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols)
         jsonUtility::to_json_symbol(j, sym); //convert sym into json
         jsons.push_back(j);
     }
+    auto t_end = std::chrono::high_resolution_clock::now();
+    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+    std::cout << "fromSymToJson - ELAPSED (ms): " << elapsed_time_ms << std::endl;
     return jsons;
 }
 

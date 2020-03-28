@@ -20,6 +20,7 @@ private:
 
 public:
     /* Constructors */
+    symbol() = default;
     symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos);
     symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, symbolStyle style);
 
