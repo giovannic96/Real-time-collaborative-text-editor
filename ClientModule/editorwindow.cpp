@@ -2019,8 +2019,6 @@ void EditorWindow::installTheme_Dark_Special(){
     ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
 }
 
->>>>>>> cc034157056d9a3f81dfc2bf770a3fac06fb0cb4
-
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
  *                                                                                                                                     *
