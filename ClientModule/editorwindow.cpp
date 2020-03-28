@@ -364,7 +364,7 @@ void EditorWindow::on_aboutButton_clicked(){
 
     //prepare list of Shortcut
     QList<QKeySequence> shortcutAbout;
-    shortcutAbout.append(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_I));     //CTRL+Shift+I
+    shortcutAbout.append(QKeySequence(Qt::CTRL + Qt::Key_H));     //CTRL+H
 
     //set Shortcut
     about->setShortcuts(shortcutAbout);
@@ -1241,7 +1241,7 @@ void EditorWindow::on_actionFullscreen_triggered() {
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-//ABOUT ACTION           -->     CTRL+Shift+I
+//ABOUT ACTION           -->     CTRL+H
 void EditorWindow::on_actionAbout_triggered() {
     openInfoWindows();
 }
@@ -1422,7 +1422,6 @@ void EditorWindow::PaintItBlack() {
         estate.SetDarkMode(true);
 
         ApplyDarkMode();
-        SetIconPackDarkMode();
 
         //Change the icon on TopBar menu
         QIcon menuIcon;
@@ -1434,7 +1433,6 @@ void EditorWindow::PaintItBlack() {
         estate.SetDarkMode(false);
 
         ApplyDayMode();
-        SetIconPackDayMode();
 
         //Change the icon on TopBar menu
         QIcon menuIcon;
@@ -1474,6 +1472,8 @@ void EditorWindow::ApplyDayMode(){
         installTheme_Day_Special();
     }
 
+    SetIconPackDayMode();
+
     //COLLAB BAR
     ui->label->setStyleSheet("color: grey");
     ui->label_2->setStyleSheet("color: grey");
@@ -1509,6 +1509,7 @@ void EditorWindow::ApplyDarkMode(){
         installTheme_Dark_Special();
     }
 
+    SetIconPackDarkMode();
 
     //COLLAB BAR
     ui->label->setStyleSheet("color: #FFFFFF");
@@ -1591,7 +1592,7 @@ void EditorWindow::LoadUserSetting(){
 
     if(estate.GetDarkMode() == true){
         //ApplyDarkMode();      <-- Not now! It has to be done after the LOAD AND SET "THEME" VALUE
-        SetIconPackDarkMode();
+        //SetIconPackDarkMode();<-- Not now! It inside ApplyDarkMode
         //Change the icon on TopBar menu
         QIcon menuIcon;
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
@@ -1618,6 +1619,8 @@ void EditorWindow::LoadUserSetting(){
     }else if(estate.GetTitlebar()==3){      // [3]=Prog+Doc
         textOnTitleBar = "C.A.R.T.E. - " + docName;
     }else if(estate.GetTitlebar()==4){      // [4]=Alternate
+        //Do nothing. TitlebarChangeByTimer is handle it by titlebarTimer, and is started/enabled when I load titlebar value to [4]
+    }else if(estate.GetTitlebar()==5){      // [4]=Animated
         //Do nothing. TitlebarChangeByTimer is handle it by titlebarTimer, and is started/enabled when I load titlebar value to [4]
     }
     this->setWindowTitle(textOnTitleBar);
