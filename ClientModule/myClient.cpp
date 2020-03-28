@@ -71,13 +71,16 @@ void myClient::do_read_body() {
                 do_read_header();
                 return;
             }
-            std::cout << std::endl << std::endl << "full body:" << fullBody << std::endl << std::endl;
+            //std::cout << std::endl << std::endl << "full body:" << fullBody << std::endl << std::endl;
 
             std::string opJSON;
             try{
+                auto t_start = std::chrono::high_resolution_clock::now();
                 json jdata_in = json::parse(fullBody);
                 jsonUtility::from_json(jdata_in, opJSON);
-
+                auto t_end = std::chrono::high_resolution_clock::now();
+                double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+                std::cout << "JSON PARSE - ELAPSED (ms): " << elapsed_time_ms << std::endl;
                 if(opJSON == "LOGIN_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
@@ -179,28 +182,22 @@ void myClient::do_read_body() {
                     } else
                         emit opResultFailure("NEWFILE_FAILURE");
                 } else if(opJSON == "OPENFILE_RESPONSE") {
+
+                    auto t_start1 = std::chrono::high_resolution_clock::now();
+
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                     if(db_responseJSON == "OPENFILE_OK") {
-                        std::vector<json> jsonSymbols;
-                        jsonUtility::from_json_symbols(jdata_in, jsonSymbols);
-
-                        std::vector<symbol> symbols;
-                        for(const auto& j: jsonSymbols) {
-                            symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
-
-                            s = jsonUtility::from_json_symbol(j);
-                            if(s==nullptr) {
-                                emitMsgInCorrectWindow(); //show error
-                                do_read_header();
-                            }
-                            symbols.push_back(*s);
-                            delete s;
-                        }
+                        std::vector<symbol> symbolsJSON;
+                        jsonUtility::from_json_symbols(jdata_in, symbolsJSON);
 
                         //Update client data
-                        this->setVector(symbols);
+                        this->setVector(symbolsJSON);
+
+                        auto t_end1 = std::chrono::high_resolution_clock::now();
+                        double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+                        std::cout << "OPENFILE RESPONSE - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
 
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
@@ -223,25 +220,13 @@ void myClient::do_read_body() {
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
                     if(db_responseJSON == "OPENWITHURI_OK") {
-                        std::vector<json> jsonSymbols;
+                        std::vector<symbol> symbolsJSON;
                         std::string filenameJSON;
-                        jsonUtility::from_json_symbolsAndFilename(jdata_in, jsonSymbols, filenameJSON);
-
-                        std::vector<symbol> symbols;
-                        for(const auto& j: jsonSymbols) {
-                            symbol *s = nullptr; //do not remember to delete it! (keyword 'delete')
-                            s = jsonUtility::from_json_symbol(j);
-                            if(s==nullptr) {
-                                emitMsgInCorrectWindow(); //show error
-                                do_read_header();
-                            }
-                            symbols.push_back(*s);
-                            delete s;
-                        }
+                        jsonUtility::from_json_symbolsAndFilename(jdata_in, symbolsJSON, filenameJSON);
 
                         //Update client data
                         this->setFilename(QString::fromStdString(filenameJSON));
-                        this->setVector(symbols);
+                        this->setVector(symbolsJSON);
 
                         qDebug() << "OPENWITHURI success" << endl;
                         emit opResultSuccess("OPENWITHURI_SUCCESS");

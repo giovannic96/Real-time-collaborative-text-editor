@@ -34,8 +34,8 @@ public:
     static void to_json_cursor_change(json &j, const std::string &op, const std::string &username, const std::string &color, const int &pos);
     static void to_json_collab_colors_resp(json &j, const std::string &op, const std::string &resp, const std::map<std::string, std::pair<std::string,bool>> &collabColorsMap);
     static void to_json_user_offline(json &j, const std::string &op, const std::string &resp, const std::string &username, const std::map<std::string, std::pair<std::string,bool>> &collabColorsMap);
-    static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector);
-    static void to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<json> &symVector, const std::string &filename);
+    static void to_json_symVector(json &j, const std::string &op, const std::string &resp, const std::vector<symbol> &symVector);
+    static void to_json_symVectorAndFilename(json &j, const std::string &op, const std::string &resp, const std::vector<symbol> &symVector, const std::string &filename);
     static void to_json_fileVector(json &j, const std::string &op, const std::string &resp, const std::vector<json> &vectorFile);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);

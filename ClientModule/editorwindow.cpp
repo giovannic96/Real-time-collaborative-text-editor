@@ -127,7 +127,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     SetDynamicDocNameLabel();
     auto t_end = std::chrono::high_resolution_clock::now();
     double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-    std::cout << "EDITOR WINDOW CONSTRUCTOR - ELAPSED (ms): " << elapsed_time_ms << std::endl;
+    std::cout << "EDITOR WINDOW CONSTRUCTOR AFTER SHOWSYMBOLS - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 }
 
 EditorWindow::~EditorWindow() {
@@ -2018,8 +2018,6 @@ void EditorWindow::installTheme_Dark_Special(){
     ui->strumentiButton->setStyleSheet("#strumentiButton{   color:white; border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;}");
     ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
 }
-
->>>>>>> cc034157056d9a3f81dfc2bf770a3fac06fb0cb4
 
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
