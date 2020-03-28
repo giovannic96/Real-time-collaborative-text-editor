@@ -271,9 +271,10 @@ File* jsonUtility::from_json_file(const json &j) {
     return f;
 }
 
-void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color) {
+void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail) {
     name = j.at("content").at("usernameLogin").get<std::string>();
     color = j.at("content").at("colorLogin").get<std::string>();
+    mail = j.at("content").at("mailLogin").get<std::string>();
 }
 
 void jsonUtility::from_json(const json &j, std::string &user, std::string &pass) {

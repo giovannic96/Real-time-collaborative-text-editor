@@ -27,7 +27,7 @@ public:
     static QString generateURI(int len);
     static QString generateColor();
     static QString getTimestamp();
-    static DB_RESPONSE tryLogin(const std::string& user, const std::string& pass, QString& color);
+    static DB_RESPONSE tryLogin(const std::string& user, const std::string& pass, QString& color, QString& mail);
     static DB_RESPONSE tryLogout(const std::string& user, const std::string& urifile);
     static DB_RESPONSE tryLogout(const std::string& user);
     static DB_RESPONSE trySignup(const std::string& user, const std::string& pass, const std::string& email);
