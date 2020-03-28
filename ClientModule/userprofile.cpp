@@ -70,14 +70,6 @@ void UserProfile::mouseMoveEvent(QMouseEvent *evt) {
     oldPos = evt->globalPos();
 }
 
-//USER'S IMAGE BUTTON
-//TODO --> Quando l'utente passa il mouse sul bottone, dovrà apparire sovrapposta un'altra immagine semitrasparente con un icona di uan fotocamera al centro
-void UserProfile::on_UserImageButton_clicked() {
-    QMessageBox msgBox;
-    msgBox.setText("Cliccando qui apparirà la schermata per far cambiare l'immagine dell'utente.\n");
-    msgBox.exec();
-}
-
 QChar UserProfile::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase){
 
     if ( ( c >= 0xC0 && c <= 0xC5 ) || ( c >= 0xE1 && c <= 0xE5 ) || c == 0xAA )

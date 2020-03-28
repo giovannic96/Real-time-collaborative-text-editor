@@ -253,7 +253,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
         QString colorJSON = "#00ffffff";
-        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON, colorJSON);
+        QString mail = "";
+        dbService::DB_RESPONSE resp = dbService::tryLogin(userJSON, passJSON, colorJSON, mail);
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LOGIN_OK) {
@@ -274,7 +275,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON, colorJSON.toStdString());
+        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON, colorJSON.toStdString(), mail.toStdString());
         const std::string response = j.dump();
         return response;
 

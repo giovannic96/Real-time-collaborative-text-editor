@@ -114,13 +114,14 @@ void jsonUtility::to_json_fileVector(json &j, const std::string &op, const std::
     };
 }
 
-void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin) {
+void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin, const std::string &mail) {
     j = json{
             {"operation", op},
             {"content", {
                 {"response", resp},
                 {"usernameLogin", usernameLogin},
-                {"colorLogin", colorLogin}
+                {"colorLogin", colorLogin},
+                {"mailLogin", mail}
             }}
     };
 }

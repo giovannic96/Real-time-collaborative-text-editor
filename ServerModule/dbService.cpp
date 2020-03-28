@@ -69,7 +69,7 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user, const std::
     }
 }
 
-dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass, QString& color) {
+dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::string& pass, QString& color, QString& mail) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(user.data(), user.size());
     QString password = QString::fromUtf8(pass.data(), pass.size());
@@ -87,6 +87,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
             if(query.next()) {
                 QString usernameFromDb = query.value(0).toString();
                 QString passwordFromDb = query.value(1).toString();
+                QString mailFromDb = query.value(2).toString();
                 bool isLoggedFromDb = query.value(3).toBool();
                 QString colorFromDb = query.value(4).toString();
 
@@ -100,6 +101,7 @@ dbService::DB_RESPONSE dbService::tryLogin(const std::string& user, const std::s
                         if(query2.exec()) {
                             std::cout << "Login success" << std::endl;
                             color = colorFromDb;
+                            mail = mailFromDb;
                             return LOGIN_OK;
                         } else {
                             std::cout << "Error on UPDATE" << std::endl;
