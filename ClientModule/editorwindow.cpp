@@ -113,6 +113,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     showSymbolsAt(0, _client->getVector());
     auto t_start = std::chrono::high_resolution_clock::now();
 
+    this->installEventFilter(this);
     ui->RealTextEdit->installEventFilter(this);
     collabColorsRequest(_client->getFileURI());
 
@@ -120,6 +121,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     LoadUserSetting();
     titlebarTimer = new QTimer(this);
     connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
+    titlebarTimer->start(1);
 
     //Set docName on CollabBar
     SetDynamicDocNameLabel();
@@ -362,7 +364,7 @@ void EditorWindow::on_aboutButton_clicked(){
 
     //prepare list of Shortcut
     QList<QKeySequence> shortcutAbout;
-    shortcutAbout.append(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_I));     //CTRL+Shift+I
+    shortcutAbout.append(QKeySequence(Qt::CTRL + Qt::Key_H));     //CTRL+H
 
     //set Shortcut
     about->setShortcuts(shortcutAbout);
@@ -854,13 +856,56 @@ void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos)
 ************************************************************************************/
 bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
-    if (obj == ui->RealTextEdit && ev->type() == QEvent::KeyPress) {
+    if(ev->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(ev);
         qDebug() << "You Pressed Key " + keyEvent->text();
         int key = keyEvent->key();
         Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
         QList<Qt::Key> modifiersList;
 
+        //*********************************************** CTRL-H *************************************************
+        if((key == Qt::Key_H) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionAbout_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-S *************************************************
+        else if((key == Qt::Key_S) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionEsporta_come_PDF_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-F11 *************************************************
+        else if((key == Qt::Key_F11) && (modifiers == Qt::ControlModifier)) {
+            on_actionFullscreen_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-Q *************************************************
+        else if((key == Qt::Key_Q) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionClose_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-R *************************************************
+        else if((key == Qt::Key_R) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionRinomina_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-D *************************************************
+        else if((key == Qt::Key_D) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionDark_Mode_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-M *************************************************
+        else if((key == Qt::Key_M) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionToolbar_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-O *************************************************
+        else if((key == Qt::Key_O) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionOpzioni_triggered();
+            return true;
+        }
+
+    /* Trigger these shortcuts only if you are inside doc */
+    if (obj == ui->RealTextEdit) {
         if(!keyEvent->text().isEmpty()) { //to ignore chars like "CAPS_LOCK", "SHIFT", "CTRL", etc...
         //************************************************* CTRL-X *************************************************
         if (keyEvent->matches(QKeySequence::Cut)) {
@@ -901,36 +946,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         else if (keyEvent->matches(QKeySequence::SelectAll)) {
             return false; //let the original handler handle this sequence
         }
-        //*********************************************** CTRL-H *************************************************
-        else if((key == Qt::Key_H) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionAbout_triggered();
-            return true;
-        }
-        //*********************************************** CTRL-S *************************************************
-        else if((key == Qt::Key_S) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionEsporta_come_PDF_triggered();
-            return true;
-        }
-        //*********************************************** CTRL-F11 *************************************************
-        else if((key == Qt::Key_F11) && (modifiers == Qt::ControlModifier)) {
-            on_actionFullscreen_triggered();
-            return true;
-        }
-        //*********************************************** CTRL-Q *************************************************
-        else if((key == Qt::Key_Q) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionClose_triggered();
-            return true;
-        }
-        //*********************************************** CTRL-R *************************************************
-        else if((key == Qt::Key_R) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionRinomina_triggered();
-            return true;
-        }
-        //*********************************************** CTRL-D *************************************************
-        else if((key == Qt::Key_D) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionDark_Mode_triggered();
-            return true;
-        }
         //*********************************************** CTRL-I *************************************************
         else if((key == Qt::Key_I) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
             ui->buttonItalic->click();
@@ -944,16 +959,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         //*********************************************** CTRL-U *************************************************
         else if((key == Qt::Key_U) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
             ui->buttonUnderline->click();
-            return true;
-        }
-        //*********************************************** CTRL-M *************************************************
-        else if((key == Qt::Key_M) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionToolbar_triggered();
-            return true;
-        }
-        //*********************************************** CTRL-O *************************************************
-        else if((key == Qt::Key_O) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
-            on_actionOpzioni_triggered();
             return true;
         }
         //******************************************** ALL THE OTHER CTRL COMBINATION ****************************
@@ -1166,6 +1171,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
             return QObject::eventFilter(obj, ev);
         return false; //or return QObject::eventFilter(obj, ev);
     }
+    }
     return false; //or return QObject::eventFilter(obj, ev);
 }
 
@@ -1235,7 +1241,7 @@ void EditorWindow::on_actionFullscreen_triggered() {
     ui->RealTextEdit->setFocus(); //Return focus to textedit
 }
 
-//ABOUT ACTION           -->     CTRL+Shift+I
+//ABOUT ACTION           -->     CTRL+H
 void EditorWindow::on_actionAbout_triggered() {
     openInfoWindows();
 }
@@ -1416,7 +1422,6 @@ void EditorWindow::PaintItBlack() {
         estate.SetDarkMode(true);
 
         ApplyDarkMode();
-        SetIconPackDarkMode();
 
         //Change the icon on TopBar menu
         QIcon menuIcon;
@@ -1428,7 +1433,6 @@ void EditorWindow::PaintItBlack() {
         estate.SetDarkMode(false);
 
         ApplyDayMode();
-        SetIconPackDayMode();
 
         //Change the icon on TopBar menu
         QIcon menuIcon;
@@ -1468,6 +1472,8 @@ void EditorWindow::ApplyDayMode(){
         installTheme_Day_Special();
     }
 
+    SetIconPackDayMode();
+
     //COLLAB BAR
     ui->label->setStyleSheet("color: grey");
     ui->label_2->setStyleSheet("color: grey");
@@ -1503,6 +1509,7 @@ void EditorWindow::ApplyDarkMode(){
         installTheme_Dark_Special();
     }
 
+    SetIconPackDarkMode();
 
     //COLLAB BAR
     ui->label->setStyleSheet("color: #FFFFFF");
@@ -1585,7 +1592,7 @@ void EditorWindow::LoadUserSetting(){
 
     if(estate.GetDarkMode() == true){
         //ApplyDarkMode();      <-- Not now! It has to be done after the LOAD AND SET "THEME" VALUE
-        SetIconPackDarkMode();
+        //SetIconPackDarkMode();<-- Not now! It inside ApplyDarkMode
         //Change the icon on TopBar menu
         QIcon menuIcon;
         menuIcon.addPixmap(QPixmap(":/image/Editor/DarkSun.png"),QIcon::Normal,QIcon::On);
@@ -1612,6 +1619,8 @@ void EditorWindow::LoadUserSetting(){
     }else if(estate.GetTitlebar()==3){      // [3]=Prog+Doc
         textOnTitleBar = "C.A.R.T.E. - " + docName;
     }else if(estate.GetTitlebar()==4){      // [4]=Alternate
+        //Do nothing. TitlebarChangeByTimer is handle it by titlebarTimer, and is started/enabled when I load titlebar value to [4]
+    }else if(estate.GetTitlebar()==5){      // [4]=Animated
         //Do nothing. TitlebarChangeByTimer is handle it by titlebarTimer, and is started/enabled when I load titlebar value to [4]
     }
     this->setWindowTitle(textOnTitleBar);
