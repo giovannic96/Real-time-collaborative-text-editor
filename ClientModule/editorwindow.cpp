@@ -122,6 +122,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     LoadUserSetting();
     titlebarTimer = new QTimer(this);
     connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
+    titlebarTimer->start(1);
 
     //Set docName on CollabBar
     SetDynamicDocNameLabel();
