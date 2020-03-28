@@ -108,35 +108,38 @@ void MenuWindow::on_Username_clicked(){
     if(_client->getStatus()==false){
         handleTheConnectionLoss();
     }else{
-        profile = true;
-        on_listFiles_clicked();
-        on_backButton_clicked();
-        QString filename, owner, timestamp;
-        QList<QListWidgetItem*> fileItem;
-        int Contafile=0;
-        int ContaFileOwner=0;
 
-        if(!_client->getVectorFile().empty()){
-            std::vector<File> files = _client->getVectorFile();
-            foreach (File f, files) {
-                filename  = QString::fromUtf8(f.getfilename().c_str());
-                owner     = QString::fromUtf8(f.getowner().c_str());
-                timestamp = QString::fromUtf8(f.gettimestamp().c_str());
-                Contafile++;
-                if(owner==_client->getUsername()){
-                    ContaFileOwner++;
+        if(profile_closed){//you can access to the stats, else you must close the current UserProfile Window
+
+            profile = true;
+            on_listFiles_clicked();
+            on_backButton_clicked();
+            QString filename, owner, timestamp;
+            QList<QListWidgetItem*> fileItem;
+            int Contafile=0;
+            int ContaFileOwner=0;
+
+            if(!_client->getVectorFile().empty()){
+                std::vector<File> files = _client->getVectorFile();
+                foreach (File f, files) {
+                    filename  = QString::fromUtf8(f.getfilename().c_str());
+                    owner     = QString::fromUtf8(f.getowner().c_str());
+                    timestamp = QString::fromUtf8(f.gettimestamp().c_str());
+                    Contafile++;
+                    if(owner==_client->getUsername()){
+                        ContaFileOwner++;
+                    }
                 }
+            }else{
+                Contafile=0;
+                ContaFileOwner=0;
             }
-        }else{
-            Contafile=0;
-            ContaFileOwner=0;
+
+            UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
+            connect(up, &UserProfile::closeUserProfile, this, &MenuWindow::setUserProfileClosed);
+            profile_closed = false;
+            //up->show(); Not necessary is done by the costructor
         }
-
-        qDebug()<<"Ho un totale di "<< Contafile << "file";
-        qDebug()<<"Ho creato "<< ContaFileOwner << "file";
-
-        UserProfile *up = new UserProfile(_client, _client->getUsername(), _client->getMail(), Contafile, ContaFileOwner); //with parameters
-        up->show();
     }
 }
 
@@ -441,6 +444,10 @@ void MenuWindow::showListFile(std::vector<File> files) {
 void MenuWindow::resumeWindow() {
     this->show();
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MenuWindow:: setUserProfileClosed(){
+    profile_closed = true;
 }
 
 void MenuWindow::handleTheConnectionLoss() {

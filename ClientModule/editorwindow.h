@@ -63,9 +63,6 @@ private slots:
     void on_buttonPaste_clicked();
     void on_buttonCopy_clicked();
 
-    //Highlight the text
-    void on_buttonSearch_clicked();
-
     //Modify font and size of text
     void on_fontSizeBox_currentIndexChanged(int index);
     void on_fontFamilyBox_currentIndexChanged(int index);
@@ -112,6 +109,30 @@ private slots:
     void SetIconPackDarkMode();
     void LoadUserSetting();
     void TitlebarChangeByTimer();
+    /**********THEME SELECTOR***********/
+    void installTheme_Day_ClassicBlue();
+    void installTheme_Day_PlainBlue();
+    void installTheme_Day_ElectricBlue();
+    void installTheme_Day_ClassicPurple();
+    void installTheme_Day_ClassicOrange();
+    void installTheme_Day_ClassicGreen();
+    void installTheme_Day_ClassicRed();
+    void installTheme_Day_Rainbow();
+    void installTheme_Day_FountainRainbow();
+    void installTheme_Day_Polito();
+    void installTheme_Day_Special();
+    void installTheme_Dark_ClassicOrange();
+    void installTheme_Dark_PlainOrange();
+    void installTheme_Dark_ElectricOrange();
+    void installTheme_Dark_ClassicPurple();
+    void installTheme_Dark_ClassicBlue();
+    void installTheme_Dark_ClassicGreen();
+    void installTheme_Dark_ClassicRed();
+    void installTheme_Dark_Rainbow();
+    void installTheme_Dark_FountainRainbow();
+    void installTheme_Dark_Polito();
+    void installTheme_Dark_Special();
+
 
     /************************************
      *        STANDALONE FUNCTION       *
@@ -133,10 +154,18 @@ private slots:
     void SetDynamicDocNameLabel();
 
     /************************************
-     *        OTHER SLOTS FUNCTION      *
+     *  ONE INSTANCE HANDLER FUNCTION   *
      ************************************/
     void on_profileButton_clicked();
+    void setUserProfileClosed();
+    void setSettingsClosed();
+    void openSettingsWindows();
+    void setInfoWindowClosed();
+    void openInfoWindows();
 
+    /************************************
+     *        OTHER SLOTS FUNCTION      *
+     ************************************/
 public slots:
     void showPopupSuccess(QString result, std::string filename = "");
     void showPopupFailure(QString result);
@@ -153,6 +182,7 @@ public slots:
     void getUserOnline(myCollabColorsMap collabColorsMap);
     void updateAlignmentButton();
     void showCollabColorsMap(myCollabColorsMap collabColorsMap);
+
 
 private:
     EditorState estate;
@@ -201,6 +231,12 @@ private:
     bool changedFontSize = false, changedCurIndex = false, setCurPointSize = false;
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6, CHANGE_FONT_SIZE=7};
     QChar SimplifySingleCharForSorting( QChar c, bool changeToLowerCase);
+
+    //Boolean for check if only one instance of following window is created
+    bool profile_closed = true;
+    bool settings_closed = true;
+    bool infowindow_closed = true;
+
 
 };
 

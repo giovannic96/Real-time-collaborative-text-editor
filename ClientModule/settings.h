@@ -18,6 +18,13 @@ private slots:
     void on_Default_clicked();
     void on_Abort_clicked();
 
+    void on_ComboDay_currentIndexChanged(int index);
+
+    void on_ComboDark_currentIndexChanged(int index);
+
+signals:
+    void closeSettings();
+
 private:
     void LoadAndSetDefaultRadioButton();
     void WriteSettingOnFile();

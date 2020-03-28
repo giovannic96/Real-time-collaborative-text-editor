@@ -5,12 +5,17 @@
 
 Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(new Ui::Settings), estate(estate){
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_DeleteOnClose, true); //Call the constructor when Windows close this.
 
     LoadAndSetDefaultRadioButton();
+
+    Settings::on_ComboDark_currentIndexChanged(ui->ComboDark->currentIndex());
+    Settings::on_ComboDay_currentIndexChanged(ui->ComboDay->currentIndex());
 
 }
 
 Settings::~Settings(){
+    emit closeSettings();
     delete ui;
 }
 
@@ -62,24 +67,77 @@ void Settings::on_Save_clicked(){
     /*****************************/
     //            Temi           //
     /*****************************/
-    if(ui->dayTheme1->isChecked()){
+    int dayThemeIndex = ui->ComboDay->currentIndex();
+    int darkThemeIndex = ui->ComboDark->currentIndex();
+
+    if(dayThemeIndex==0){
         estate.SetThemeDay(1);
     }
-    if(ui->dayTheme2->isChecked()){
+    if(dayThemeIndex==1){
         estate.SetThemeDay(2);
     }
-    if(ui->dayTheme3->isChecked()){
+    if(dayThemeIndex==2){
         estate.SetThemeDay(3);
     }
-    if(ui->darkTheme1->isChecked()){
+    if(dayThemeIndex==3){
+        estate.SetThemeDay(4);
+    }
+    if(dayThemeIndex==4){
+        estate.SetThemeDay(5);
+    }
+    if(dayThemeIndex==5){
+        estate.SetThemeDay(6);
+    }
+    if(dayThemeIndex==6){
+        estate.SetThemeDay(7);
+    }
+    if(dayThemeIndex==7){
+        estate.SetThemeDay(8);
+    }
+    if(dayThemeIndex==8){
+        estate.SetThemeDay(9);
+    }
+    if(dayThemeIndex==9){
+        estate.SetThemeDay(10);
+    }
+    if(dayThemeIndex==10){
+        estate.SetThemeDay(11);
+    }
+
+    if(darkThemeIndex==0){
         estate.SetThemeDark(1);
     }
-    if(ui->darkTheme2->isChecked()){
+    if(darkThemeIndex==1){
         estate.SetThemeDark(2);
     }
-    if(ui->darkTheme3->isChecked()){
+    if(darkThemeIndex==2){
         estate.SetThemeDark(3);
     }
+    if(darkThemeIndex==3){
+        estate.SetThemeDark(4);
+    }
+    if(darkThemeIndex==4){
+        estate.SetThemeDark(5);
+    }
+    if(darkThemeIndex==5){
+        estate.SetThemeDark(6);
+    }
+    if(darkThemeIndex==6){
+        estate.SetThemeDark(7);
+    }
+    if(darkThemeIndex==7){
+        estate.SetThemeDark(8);
+    }
+    if(darkThemeIndex==8){
+        estate.SetThemeDark(9);
+    }
+    if(darkThemeIndex==9){
+        estate.SetThemeDark(10);
+    }
+    if(darkThemeIndex==10){
+        estate.SetThemeDark(11);
+    }
+
     WriteSettingOnFile();
 
     QWidget::close();
@@ -110,8 +168,8 @@ void Settings::on_Default_clicked(){
      estate.SetToolbar(true);               ui->toolShowRadio->setChecked(true);
      estate.SetCollaboratorBar(true);       ui->collabShowRadio->setChecked(true);
      estate.SetTitlebar(1);                 ui->titleRadio1->setChecked(true);
-     estate.SetThemeDay(1);                 ui->dayTheme1->setChecked(true);
-     estate.SetThemeDark(1);                ui->darkTheme1->setChecked(true);
+     estate.SetThemeDay(1);                 ui->ComboDay->setCurrentIndex(0);
+     estate.SetThemeDark(1);                ui->ComboDark->setCurrentIndex(0);
 
      WriteSettingOnFile();
 }
@@ -158,19 +216,131 @@ void Settings::LoadAndSetDefaultRadioButton(){
 
     int themedayD = estate.GetThemeDay();
     if(themedayD==1){
-        ui->dayTheme1->setChecked(true);
+        ui->ComboDay->setCurrentIndex(0);
     }else if(themedayD==2){
-        ui->dayTheme2->setChecked(true);
+        ui->ComboDay->setCurrentIndex(1);
     }else if(themedayD==3){
-        ui->dayTheme3->setChecked(true);
+        ui->ComboDay->setCurrentIndex(2);
+    }else if(themedayD==4){
+        ui->ComboDay->setCurrentIndex(3);
+    }else if(themedayD==5){
+        ui->ComboDay->setCurrentIndex(4);
+    }else if(themedayD==6){
+        ui->ComboDay->setCurrentIndex(5);
+    }else if(themedayD==7){
+        ui->ComboDay->setCurrentIndex(6);
+    }else if(themedayD==8){
+        ui->ComboDay->setCurrentIndex(7);
+    }else if(themedayD==9){
+        ui->ComboDay->setCurrentIndex(8);
+    }else if(themedayD==10){
+        ui->ComboDay->setCurrentIndex(9);
+    }else if(themedayD==11){
+        ui->ComboDay->setCurrentIndex(10);
     }
+
 
     int themedarkD = estate.GetThemeDark();
     if(themedarkD==1){
-        ui->darkTheme1->setChecked(true);
-    }else if(themedayD==2){
-        ui->darkTheme2->setChecked(true);
-    }else if(themedayD==3){
-        ui->darkTheme3->setChecked(true);
+        ui->ComboDark->setCurrentIndex(0);
+    }else if(themedarkD==2){
+        ui->ComboDark->setCurrentIndex(1);
+    }else if(themedarkD==3){
+        ui->ComboDark->setCurrentIndex(2);
+    }else if(themedarkD==4){
+        ui->ComboDark->setCurrentIndex(3);
+    }else if(themedarkD==5){
+        ui->ComboDark->setCurrentIndex(4);
+    }else if(themedarkD==6){
+        ui->ComboDark->setCurrentIndex(5);
+    }else if(themedarkD==7){
+        ui->ComboDark->setCurrentIndex(6);
+    }else if(themedarkD==8){
+        ui->ComboDark->setCurrentIndex(7);
+    }else if(themedarkD==9){
+        ui->ComboDark->setCurrentIndex(8);
+    }else if(themedarkD==10){
+        ui->ComboDark->setCurrentIndex(9);
+    }else if(themedarkD==11){
+        ui->ComboDark->setCurrentIndex(10);
+    }
+}
+
+void Settings::on_ComboDay_currentIndexChanged(int index)
+{
+    int dayThemeIndex = ui->ComboDay->currentIndex();
+
+    if(dayThemeIndex==0){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicBlue.png);\n}");
+    }
+    if(dayThemeIndex==1){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayPlainBlue.png);\n}");
+    }
+    if(dayThemeIndex==2){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayElectricBlue.png);\n}");
+    }
+    if(dayThemeIndex==3){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicPurple.png);\n}");
+    }
+    if(dayThemeIndex==4){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicOrange.png);\n}");
+    }
+    if(dayThemeIndex==5){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicGreen.png);\n}");
+    }
+    if(dayThemeIndex==6){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicRed.png);\n}");
+    }
+    if(dayThemeIndex==7){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayFantasy.png);\n}");
+    }
+    if(dayThemeIndex==8){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayRainbow.png);\n}");
+    }
+    if(dayThemeIndex==9){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayPolito.png);\n}");
+    }
+    if(dayThemeIndex==10){
+        ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/daySpecial.png);\n}");
+    }
+}
+
+void Settings::on_ComboDark_currentIndexChanged(int index)
+{
+    int darkThemeIndex = ui->ComboDark->currentIndex();
+
+    if(darkThemeIndex==0){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicOrange.png);\n}");
+    }
+    if(darkThemeIndex==1){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkPlainOrange.png);\n}");
+    }
+    if(darkThemeIndex==2){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkElectricOrange.png);\n}");
+    }
+    if(darkThemeIndex==3){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicPurple.png);\n}");
+    }
+    if(darkThemeIndex==4){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicBlue.png);\n}");
+    }
+    if(darkThemeIndex==5){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicGreen.png);\n}");
+    }
+    if(darkThemeIndex==6){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicRed.png);\n}");
+    }
+    if(darkThemeIndex==7){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkFantasy.png);\n}");
+    }
+    if(darkThemeIndex==8){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkRainbow.png);\n}");
+    }
+    if(darkThemeIndex==9){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkPolito.png);\n}");
+    }
+    if(darkThemeIndex==10){
+        ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkSpecial.png);\n}");
+
     }
 }

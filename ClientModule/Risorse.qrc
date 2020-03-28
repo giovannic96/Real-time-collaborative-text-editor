@@ -102,5 +102,32 @@
         <file>image/Editor/font.png</file>
         <file>image/font_icon.png</file>
         <file>image/userProfile.png</file>
+        <file>image/Editor/polilogo.png</file>
+        <file>image/Settings/carte.png</file>
+        <file>image/Settings/carteNomeDoc.png</file>
+        <file>image/Settings/darkClassicBlue.png</file>
+        <file>image/Settings/darkClassicGreen.png</file>
+        <file>image/Settings/darkClassicOrange.png</file>
+        <file>image/Settings/darkClassicPurple.png</file>
+        <file>image/Settings/darkClassicRed.png</file>
+        <file>image/Settings/darkElectricOrange.png</file>
+        <file>image/Settings/darkFantasy.png</file>
+        <file>image/Settings/darkPlainOrange.png</file>
+        <file>image/Settings/darkPolito.png</file>
+        <file>image/Settings/darkRainbow.png</file>
+        <file>image/Settings/darkSpecial.png</file>
+        <file>image/Settings/dayClassicBlue.png</file>
+        <file>image/Settings/dayClassicGreen.png</file>
+        <file>image/Settings/dayClassicOrange.png</file>
+        <file>image/Settings/dayClassicPurple.png</file>
+        <file>image/Settings/dayClassicRed.png</file>
+        <file>image/Settings/dayElectricBlue.png</file>
+        <file>image/Settings/dayFantasy.png</file>
+        <file>image/Settings/dayPlainBlue.png</file>
+        <file>image/Settings/dayPolito.png</file>
+        <file>image/Settings/dayRainbow.png</file>
+        <file>image/Settings/daySpecial.png</file>
+        <file>image/Settings/nomeDoc.png</file>
+        <file>image/Editor/hidrologo.jpg</file>
     </qresource>
 </RCC>

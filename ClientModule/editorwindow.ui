@@ -6,20 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>700</height>
+    <width>950</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1000</width>
-    <height>500</height>
+    <width>950</width>
+    <height>350</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>950</width>
+     <height>350</height>
+    </size>
+   </property>
    <property name="styleSheet">
     <string notr="true">#centralwidget{
 background: url(:/image/Editor/sfondo.png);
@@ -137,6 +143,10 @@ background: url(:/image/Editor/sfondo.png);
 		stop:0.88 #0A5597
 	);
 }
+
+#frameTopBar:menu-indicator{ image:none; }
+
+
 </string>
              </property>
              <property name="frameShape">
@@ -165,13 +175,13 @@ background: url(:/image/Editor/sfondo.png);
                <widget class="QPushButton" name="fileButton">
                 <property name="minimumSize">
                  <size>
-                  <width>50</width>
+                  <width>60</width>
                   <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
+                  <width>60</width>
                   <height>45</height>
                  </size>
                 </property>
@@ -197,12 +207,25 @@ background: url(:/image/Editor/sfondo.png);
 	background-color: #075299;
 }
 
-#fileButton:menu-indicator{ image: none; }	/*KNOW BUG OF HIDING ARROW
+#fileButton:menu-indicator{ image:none; }	/*KNOW BUG OF HIDING ARROW
 See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
 */</string>
                 </property>
                 <property name="text">
                  <string>File</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>:/image/Editor/1pxImage.png</normaloff>:/image/Editor/1pxImage.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="shortcut">
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -210,13 +233,13 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                <widget class="QPushButton" name="visualizzaButton">
                 <property name="minimumSize">
                  <size>
-                  <width>100</width>
+                  <width>105</width>
                   <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
+                  <width>105</width>
                   <height>45</height>
                  </size>
                 </property>
@@ -245,19 +268,29 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 <property name="text">
                  <string>Visualizza</string>
                 </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>:/image/Editor/1pxImage.png</normaloff>:/image/Editor/1pxImage.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="modificaButton">
                 <property name="minimumSize">
                  <size>
-                  <width>85</width>
+                  <width>95</width>
                   <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
+                  <width>9</width>
                   <height>45</height>
                  </size>
                 </property>
@@ -286,19 +319,29 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 <property name="text">
                  <string>Modifica</string>
                 </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>:/image/Editor/1pxImage.png</normaloff>:/image/Editor/1pxImage.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="strumentiButton">
                 <property name="minimumSize">
                  <size>
-                  <width>100</width>
+                  <width>110</width>
                   <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
+                  <width>110</width>
                   <height>45</height>
                  </size>
                 </property>
@@ -325,19 +368,29 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 <property name="text">
                  <string>Strumenti</string>
                 </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>:/image/Editor/1pxImage.png</normaloff>:/image/Editor/1pxImage.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="aboutButton">
                 <property name="minimumSize">
                  <size>
-                  <width>30</width>
+                  <width>40</width>
                   <height>45</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>16777215</width>
+                  <width>40</width>
                   <height>45</height>
                  </size>
                 </property>
@@ -365,6 +418,16 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 </property>
                 <property name="text">
                  <string>?</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>:/image/Editor/1pxImage.png</normaloff>:/image/Editor/1pxImage.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
                 </property>
                </widget>
               </item>
@@ -460,7 +523,7 @@ See Diretta Manual merge on &amp;quot;C.A.R.T.E. v0.2.1a&amp;quot; at 2:12:00
                 <number>5</number>
                </property>
                <property name="rightMargin">
-                <number>20</number>
+                <number>0</number>
                </property>
                <property name="bottomMargin">
                 <number>0</number>
@@ -1395,60 +1458,6 @@ background-color: lightgrey;
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="buttonSearch">
-                   <property name="minimumSize">
-                    <size>
-                     <width>34</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>34</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>10</pointsize>
-                     <weight>75</weight>
-                     <bold>true</bold>
-                     <underline>false</underline>
-                     <strikeout>false</strikeout>
-                    </font>
-                   </property>
-                   <property name="cursor">
-                    <cursorShape>PointingHandCursor</cursorShape>
-                   </property>
-                   <property name="autoFillBackground">
-                    <bool>false</bool>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">#buttonSearch{
-	border-radius: 4px;
-}
-
-#buttonSearch:hover{
-	background-color: #BDC3C7;
-}
-</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="Risorse.qrc">
-                     <normaloff>:/image/Editor/Magnifier.png</normaloff>:/image/Editor/Magnifier.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="buttonColor">
                    <property name="minimumSize">
                     <size>
@@ -1510,11 +1519,11 @@ background-color: lightgrey;
                   <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeType">
-                  <enum>QSizePolicy::MinimumExpanding</enum>
+                  <enum>QSizePolicy::Expanding</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>100</width>
                    <height>0</height>
                   </size>
                  </property>
@@ -1597,7 +1606,7 @@ background-color: lightgrey;
                 <number>0</number>
                </property>
                <property name="sizeConstraint">
-                <enum>QLayout::SetNoConstraint</enum>
+                <enum>QLayout::SetDefaultConstraint</enum>
                </property>
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout">
@@ -2039,7 +2048,7 @@ QToolTip {
 }</string>
                      </property>
                      <property name="verticalScrollBarPolicy">
-                      <enum>Qt::ScrollBarAlwaysOff</enum>
+                      <enum>Qt::ScrollBarAsNeeded</enum>
                      </property>
                      <property name="sizeAdjustPolicy">
                       <enum>QAbstractScrollArea::AdjustIgnored</enum>
@@ -2073,6 +2082,65 @@ QToolTip {
                      </property>
                     </widget>
                    </item>
+                   <item>
+                    <widget class="QScrollBar" name="verticalScrollBarOn">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>8</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>8</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="sizeIncrement">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QScrollBar:vertical {
+			border-radius: 4px;
+            background: lightgrey;
+            width:8px;    
+        }
+
+        QScrollBar::handle:vertical {         
+       
+            min-height: 0px;
+          	border: 0px solid red;
+			border-radius: 4px;
+			background-color: #80808080;
+        }
+        QScrollBar::add-line:vertical {       
+            height: 0px;
+            subcontrol-position: bottom;
+            subcontrol-origin: margin;
+        }
+        QScrollBar::sub-line:vertical {
+            height: 0 px;
+            subcontrol-position: top;
+            subcontrol-origin: margin;
+        }</string>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </item>
                  <item>
@@ -2095,6 +2163,9 @@ QToolTip {
                  </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
                    <item>
                     <widget class="QListWidget" name="listWidgetOff">
                      <property name="sizePolicy">
@@ -2160,7 +2231,7 @@ QSlider::sub-page:vertical {
 }</string>
                      </property>
                      <property name="verticalScrollBarPolicy">
-                      <enum>Qt::ScrollBarAlwaysOff</enum>
+                      <enum>Qt::ScrollBarAsNeeded</enum>
                      </property>
                      <property name="horizontalScrollBarPolicy">
                       <enum>Qt::ScrollBarAsNeeded</enum>
@@ -2197,6 +2268,56 @@ QSlider::sub-page:vertical {
                      </property>
                      <property name="selectionRectVisible">
                       <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QScrollBar" name="verticalScrollBarOff">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>8</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>8</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QScrollBar:vertical {
+			border-radius: 4px;
+            background: lightgrey;
+            width:8px;    
+        }
+
+        QScrollBar::handle:vertical {         
+       
+            min-height: 0px;
+          	border: 0px solid red;
+			border-radius: 4px;
+			background-color: #80808080;
+        }
+        QScrollBar::add-line:vertical {       
+            height: 0px;
+            subcontrol-position: bottom;
+            subcontrol-origin: margin;
+        }
+        QScrollBar::sub-line:vertical {
+            height: 0 px;
+            subcontrol-position: top;
+            subcontrol-origin: margin;
+        }</string>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
                      </property>
                     </widget>
                    </item>

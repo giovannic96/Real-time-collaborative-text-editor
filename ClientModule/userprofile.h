@@ -23,6 +23,9 @@ private slots:
     void on_exitButton_clicked();
     void on_UserImageButton_clicked();
 
+signals:
+    void closeUserProfile();
+
 private:
     Ui::UserProfile *ui;                //"ui" (user interface)
     myClient *_client;

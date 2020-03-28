@@ -83,7 +83,8 @@ RC_ICONS = icon.ico
 
 DISTFILES += \
     Db/texteditor_users.sqlite \
-    changelog.md
+    changelog.md \
+    image/Editor/hidrologo.jpg
 
 #Boost library
 win32 {
