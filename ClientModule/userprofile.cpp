@@ -5,6 +5,7 @@
 
 UserProfile::UserProfile(myClient* client, QString nome, QString mail,int files, int myFiles, QWidget *parent):
     QWidget(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint), ui(new Ui::UserProfile), _client(client) {
+
     this->setAttribute(Qt::WA_TranslucentBackground, true);
     this->setAttribute(Qt::WA_DeleteOnClose, true); //Call the constructor when Windows close this.
     ui->setupUi(this);

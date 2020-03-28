@@ -16,7 +16,6 @@
 #include <QCursor>
 #include <QShortcut>
 
-
 using json = nlohmann::json;
 
 EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), _client(client) {
