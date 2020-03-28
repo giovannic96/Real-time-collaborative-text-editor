@@ -78,7 +78,6 @@ private slots:
      *               EVENT              *
      ************************************/
     bool eventFilter(QObject *obj, QEvent *ev);
-    void keyPressEvent(QKeyEvent *e);   //Handle Shortcut of Action
     void closeEvent(QCloseEvent * event);
 
     /************************************
