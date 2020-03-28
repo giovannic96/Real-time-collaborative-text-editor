@@ -15,6 +15,7 @@ infoWindow::infoWindow(QWidget *parent): QWidget(parent, Qt::FramelessWindowHint
 
 //DESTRUCTOR
 infoWindow::~infoWindow(){
+    emit closeInfoWindow();
     delete ui;
 }
 

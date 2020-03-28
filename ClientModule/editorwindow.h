@@ -11,6 +11,9 @@
 #include "editorstate.h"
 #include "settings.h"
 #include "qlistwidget.h"
+#include "userprofile.h"
+#include"infowindow.h"
+#include "settings.h"
 
 #define ALPHA_TRANSPARENT "0.003922"
 #define ALPHA_COLOR "0.529412"
@@ -235,6 +238,11 @@ private:
     bool profile_closed = true;
     bool settings_closed = true;
     bool infowindow_closed = true;
+    UserProfile *up;
+    infoWindow *iw;
+    Settings * s;
+
+
 };
 
 #endif // EDITORWINDOW_H
