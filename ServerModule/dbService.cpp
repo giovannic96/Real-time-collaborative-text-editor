@@ -221,7 +221,7 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
                 query3.bindValue(":isConfirmed", true);
 
                 if (query3.exec()) {
-                    /*
+                    ///*
                     // TODO: remove this query4 later
                     QSqlQuery query4(QSqlDatabase::database("MyConnect3"));
                     query4.prepare("INSERT INTO permissions (idfile, iduser, isOwner, isOpen, isConfirmed) VALUES (:idfile, :iduser, :isOwner, :isOpen, :isConfirmed)");
@@ -231,7 +231,7 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
                     query4.bindValue(":isOpen", false);
                     query4.bindValue(":isConfirmed", true);
                     query4.exec();
-                    */
+                    //*/
                     return NEWFILE_OK;
                 }
                 else

@@ -903,14 +903,70 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         } //*********************************************** CTRL-A *************************************************
         else if (keyEvent->matches(QKeySequence::SelectAll)) {
             return false; //let the original handler handle this sequence
-        } //******************************************** ALL THE OTHER CTRL COMBINATION ****************************
+        }
+        //*********************************************** CTRL-H *************************************************
+        else if((key == Qt::Key_H) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionAbout_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-S *************************************************
+        else if((key == Qt::Key_S) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionEsporta_come_PDF_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-F11 *************************************************
+        else if((key == Qt::Key_F11) && (modifiers == Qt::ControlModifier)) {
+            on_actionFullscreen_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-Q *************************************************
+        else if((key == Qt::Key_Q) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionClose_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-R *************************************************
+        else if((key == Qt::Key_R) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionRinomina_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-D *************************************************
+        else if((key == Qt::Key_D) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionDark_Mode_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-I *************************************************
+        else if((key == Qt::Key_I) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            ui->buttonItalic->click();
+            return true;
+        }
+        //*********************************************** CTRL-B *************************************************
+        else if((key == Qt::Key_B) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            ui->buttonBold->click();
+            return true;
+        }
+        //*********************************************** CTRL-U *************************************************
+        else if((key == Qt::Key_U) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            ui->buttonUnderline->click();
+            return true;
+        }
+        //*********************************************** CTRL-M *************************************************
+        else if((key == Qt::Key_M) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionToolbar_triggered();
+            return true;
+        }
+        //*********************************************** CTRL-O *************************************************
+        else if((key == Qt::Key_O) && (modifiers == Qt::ControlModifier) && QApplication::keyboardModifiers()) {
+            on_actionOpzioni_triggered();
+            return true;
+        }
+        //******************************************** ALL THE OTHER CTRL COMBINATION ****************************
         else if((modifiers & Qt::ControlModifier) && !(key == Qt::Key_BracketLeft) && !(key == Qt::Key_BracketRight)
                 && !(key == Qt::Key_BraceLeft) && !(key == Qt::Key_BraceRight) && !(key == Qt::Key_At) && !(key == Qt::Key_NumberSign) ) {
             qDebug() << "Operation Not Supported";
             return true;
         } //******************************************** ANY DIGIT *************************************************
         else if(!(key == Qt::Key_Backspace) && !(key == Qt::Key_Delete) && !(key == Qt::Key_Escape)) {
-            //Get datad
+            //Get data
             std::pair<int, wchar_t> tuple;
             QTextCursor cursor = ui->RealTextEdit->textCursor();
             QColor color(ui->RealTextEdit->getEditorColor());
@@ -1114,46 +1170,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
         return false; //or return QObject::eventFilter(obj, ev);
     }
     return false; //or return QObject::eventFilter(obj, ev);
-}
-
-  //******************//
- // Shortcut Handler //
-//******************//
-void EditorWindow::keyPressEvent(QKeyEvent *e) {
-    if ((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier)  && (e->modifiers() == Qt::ShiftModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + Shift + I";
-        on_actionAbout_triggered();
-    }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + S";
-        on_actionEsporta_come_PDF_triggered();
-    }else if((e->key() == Qt::Key_F11) && (e->modifiers() == Qt::ControlModifier)){
-        qDebug()<<" CTRL + F11";
-        on_actionFullscreen_triggered();
-    }else if((e->key() == Qt::Key_Q) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + Q";
-        on_actionClose_triggered();
-    }else if((e->key() == Qt::Key_R) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + R";
-        on_actionRinomina_triggered();
-    }else if((e->key() == Qt::Key_D) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + D";
-        on_actionDark_Mode_triggered();
-    }else if((e->key() == Qt::Key_I) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + I";
-        ui->buttonItalic->click();
-    }else if((e->key() == Qt::Key_B) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + B";
-        ui->buttonBold->click();
-    }else if((e->key() == Qt::Key_S) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + S";
-        ui->buttonUnderline->click();
-    }else if((e->key() == Qt::Key_M) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + M";
-        on_actionToolbar_triggered();
-    }else if((e->key() == Qt::Key_O) && (e->modifiers() == Qt::ControlModifier) && QApplication::keyboardModifiers()){
-        qDebug()<<" CTRL + O";
-        on_actionOpzioni_triggered();
-    }
 }
 
 //***********************//
