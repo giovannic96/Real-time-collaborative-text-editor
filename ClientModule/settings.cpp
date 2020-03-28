@@ -2,6 +2,7 @@
 #include "ui_settings.h"
 #include "editorwindow.h"
 #include <QSettings>
+#include <QMovie>
 
 Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(new Ui::Settings), estate(estate){
     ui->setupUi(this);
@@ -11,6 +12,13 @@ Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(ne
 
     Settings::on_ComboDark_currentIndexChanged(ui->ComboDark->currentIndex());
     Settings::on_ComboDay_currentIndexChanged(ui->ComboDay->currentIndex());
+
+    QMovie *movie = new QMovie(":/image/Settings/alternatoCarteDoc.gif");
+    ui->PreviewBar_4->setMovie(movie);
+    QMovie *movie2 = new QMovie(":/image/Settings/animatoCarte.gif");
+    ui->PreviewBar_5->setMovie(movie2);
+    movie->start();
+    movie2->start();
 
 }
 
