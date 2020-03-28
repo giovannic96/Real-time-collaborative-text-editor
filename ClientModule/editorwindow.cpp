@@ -1,7 +1,6 @@
 #include "editorwindow.h"
 #include "ui_editorwindow.h"
 #include "MyQTextEdit.h"
-#include "infowindow.h"
 #include "menuwindow.h"
 #include <QInputDialog>
 #include <QLineEdit>
@@ -16,7 +15,7 @@
 #include <QMenu>
 #include <QCursor>
 #include <QShortcut>
-#include "settings.h"
+
 
 using json = nlohmann::json;
 
@@ -1197,6 +1196,15 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
                   if(!profile_closed){
                       delete up;
                   }
+                  //close infoWindow if it was opened;
+                  if(!infowindow_closed){
+                      delete iw;
+                  }
+                  //close Settings Window if it was opened;
+                  if(!settings_closed){
+                      delete s;
+                  }
+
                   CloseDocumentRequest(); //Return to MenuWindow (close only the current document)
                   break;
                 case 1:
@@ -2308,7 +2316,7 @@ void EditorWindow::setSettingsClosed(){
 void EditorWindow::openSettingsWindows(){
     if(settings_closed){//you can access to the stats, else you must close the current Settings Window
 
-        Settings *s = new Settings(estate);
+        s = new Settings(estate);
         connect(s, &Settings::closeSettings, this, &EditorWindow::setSettingsClosed);
         s->show();
         settings_closed = false;
@@ -2321,9 +2329,10 @@ void EditorWindow::setInfoWindowClosed(){
 
 void EditorWindow::openInfoWindows(){
     if(infowindow_closed){//you can access to the stats, else you must close the current Settings Window
-        infoWindow *iw = new infoWindow();
+        iw = new infoWindow();
         connect(iw, &infoWindow::closeInfoWindow, this, &EditorWindow::setInfoWindowClosed);
-        iw->show();
+        //->show() is already done by constructo of infowindow
+        //iw->show();
         infowindow_closed = false;
     }
 }
