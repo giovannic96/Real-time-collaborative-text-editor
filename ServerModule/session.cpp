@@ -133,7 +133,7 @@ void session::do_read_body() {
                 }
                 else if(opJSON == "OPENFILE_REQUEST" || opJSON == "OPENWITHURI_REQUEST") {
                     auto t_start1 = std::chrono::high_resolution_clock::now();
-                    //std::cout << "Sent:" << response << "END" << std::endl;
+                    std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsg(response); //send data only to this participant
 
                     if (response.find("OPENFILE_FILE_EMPTY") != std::string::npos || response.find("OPENFILE_OK") != std::string::npos ||
@@ -512,6 +512,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
             room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
+            curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+            edId = shared_from_this()->getId();
+
             if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
                 db_res = "OPENFILE_FILE_EMPTY";
             else
@@ -569,6 +572,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
             room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+
+            curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
+            edId = shared_from_this()->getId();
 
             if(shared_from_this()->getSymbols().empty()) //file is empty (it can happen that one client save an empty file)
                 db_res = "OPENFILE_FILE_EMPTY";

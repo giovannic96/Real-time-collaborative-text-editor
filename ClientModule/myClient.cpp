@@ -74,13 +74,10 @@ void myClient::do_read_body() {
             //std::cout << std::endl << std::endl << "full body:" << fullBody << std::endl << std::endl;
 
             std::string opJSON;
-            try{
-                auto t_start = std::chrono::high_resolution_clock::now();
+            try {
                 json jdata_in = json::parse(fullBody);
                 jsonUtility::from_json(jdata_in, opJSON);
-                auto t_end = std::chrono::high_resolution_clock::now();
-                double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-                std::cout << "JSON PARSE - ELAPSED (ms): " << elapsed_time_ms << std::endl;
+
                 if(opJSON == "LOGIN_RESPONSE") {
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);

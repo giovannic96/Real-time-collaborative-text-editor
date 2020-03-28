@@ -266,6 +266,7 @@ void MyQTextEdit::removeRemoteCursor(std::string username) {
 }
 
 void MyQTextEdit::changeRemoteCursor(std::string username, std::string color, int pos) {
+    qDebug() << "CHANGEREMOTECURSOR" << " : " << QString::fromStdString(username) <<  "  " << pos;
     QString col = QString::fromStdString(color);
     col[1] = 'f';
     col[2] = 'f';

@@ -236,8 +236,6 @@ private:
     bool profile_closed = true;
     bool settings_closed = true;
     bool infowindow_closed = true;
-
-
 };
 
 #endif // EDITORWINDOW_H

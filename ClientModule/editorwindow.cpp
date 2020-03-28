@@ -105,6 +105,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     }
     ui->RealTextEdit->setEditorColor(_client->getColor());
     //ui->RealTextEdit->addRemoteCursor(_client->getUsername(), std::make_pair(_client->getColor(),0));
+    cursorChangeRequest(0);
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
@@ -133,7 +134,6 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 EditorWindow::~EditorWindow() {
     delete ui;
 }
-
 
 /***************************************************************************************************************************************
  *                                                           INTERFACE                                                                 *
@@ -653,7 +653,6 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
         refreshFormatButtons();
     }
 }
-
 
 void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     QTextCursor c = ui->RealTextEdit->textCursor();
@@ -2019,8 +2018,6 @@ void EditorWindow::installTheme_Dark_Special(){
     ui->aboutButton->setStyleSheet("#aboutButton{           color:white; border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;}");
 }
 
->>>>>>> cc034157056d9a3f81dfc2bf770a3fac06fb0cb4
-
 /***************************************************************************************************************************************
  *                                                    STANDALONE FUNCTION                                                              *
  *                                                                                                                                     *
@@ -2358,6 +2355,9 @@ void EditorWindow::showPopupFailure(QString result) {
 
 void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
 
+    //this will show remote cursor of other users
+    cursorChangeRequest(ui->RealTextEdit->textCursor().position());
+
     ui->listWidgetOn->clear();
     ui->listWidgetOff->clear();
 
@@ -2375,21 +2375,19 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
         bool isOnline = it->second.second;
         username = _client->getUsername();
 
-        if(username==user){
+        if(username==user)
             continue;
-        }
 
-        for (int i=0;i<user.length();i++){
+        for (int i=0;i<user.length();i++) {
             firstLetter = user.at(i);
-            if(firstLetter.isLetter()){
+            if(firstLetter.isLetter())
                 break;
-            }
         }
 
         firstLetter = SimplifySingleCharForSorting(firstLetter,1);
         ic = QString(":/image/Letters/%1.png").arg(firstLetter.toUpper());
 
-        if(isOnline){
+        if(isOnline) {
             color[1]='f';
             color[2]='f';
             gradient.setColorAt(0,QColor(color));
@@ -2401,9 +2399,8 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             itemOn->setBackground(brush);
             itemOn->setToolTip("Mostrare mail");
             fileItem.append(itemOn);
-
         }
-        else{
+        else {
             gradient.setColorAt(0,QColor(color));
             gradient.setColorAt(1,Qt::transparent);
             brush = QBrush(gradient);
