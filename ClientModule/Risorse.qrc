@@ -103,5 +103,6 @@
         <file>image/font_icon.png</file>
         <file>image/userProfile.png</file>
         <file>image/Editor/polilogo.png</file>
+        <file>image/Editor/hidrologo.jpg</file>
     </qresource>
 </RCC>

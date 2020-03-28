@@ -123,6 +123,7 @@ private slots:
     void installTheme_Day_Rainbow();
     void installTheme_Day_FountainRainbow();
     void installTheme_Day_Polito();
+    void installTheme_Day_Special();
     void installTheme_Dark_ClassicOrange();
     void installTheme_Dark_PlainOrange();
     void installTheme_Dark_ElectricOrange();
@@ -133,6 +134,7 @@ private slots:
     void installTheme_Dark_Rainbow();
     void installTheme_Dark_FountainRainbow();
     void installTheme_Dark_Polito();
+    void installTheme_Dark_Special();
 
 
     /************************************
