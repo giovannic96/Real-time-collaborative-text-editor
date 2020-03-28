@@ -97,12 +97,14 @@
         <file>image/showPassword.png</file>
         <file>image/DarkEditor/sfondo.png</file>
         <file>image/Editor/logo.png</file>
+        <file>image/DarkEditor/carte.png</file>
+        <file>image/Editor/carte.png</file>
         <file>image/Editor/font.png</file>
         <file>image/font_icon.png</file>
         <file>image/userProfile.png</file>
         <file>image/Editor/polilogo.png</file>
-        <file>image/Editor/hidrologo.jpg</file>
-<<<<<<< HEAD
+        <file>image/Settings/carte.png</file>
+        <file>image/Settings/carteNomeDoc.png</file>
         <file>image/Settings/darkClassicBlue.png</file>
         <file>image/Settings/darkClassicGreen.png</file>
         <file>image/Settings/darkClassicOrange.png</file>
@@ -125,10 +127,7 @@
         <file>image/Settings/dayPolito.png</file>
         <file>image/Settings/dayRainbow.png</file>
         <file>image/Settings/daySpecial.png</file>
-        <file>image/Settings/carte.png</file>
-        <file>image/Settings/carteNomeDoc.png</file>
         <file>image/Settings/nomeDoc.png</file>
-=======
->>>>>>> cc034157056d9a3f81dfc2bf770a3fac06fb0cb4
+        <file>image/Editor/hidrologo.jpg</file>
     </qresource>
 </RCC>
