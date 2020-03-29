@@ -2446,6 +2446,10 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             fileItem.append(itemOff);
         }
      }
+
+    ui->listWidgetOn->setStyleSheet("#listWidgetOn{\nborder:transparent;\nbackground: transparent;\n}\n\nQToolTip { \n	color: #000000; \n	background-color: #FFF2BF; \n	border: 0px; \n}");
+    ui->listWidgetOff->setStyleSheet("#listWidgetOff{\nborder:transparent;\nbackground: transparent;\ncolor: rgb(159,159,159);\n}\n\nQToolTip { \n	color: #000000; \n	background-color: #FFF2BF; \n	border: 0px; \n}");
+
 }
 
 void EditorWindow::getUserOffline(myCollabColorsMap collabColorsMap) {

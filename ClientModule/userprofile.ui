@@ -296,8 +296,8 @@ color:white;
     </property>
     <property name="iconSize">
      <size>
-      <width>132</width>
-      <height>128</height>
+      <width>90</width>
+      <height>90</height>
      </size>
     </property>
    </widget>
