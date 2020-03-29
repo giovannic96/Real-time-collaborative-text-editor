@@ -127,27 +127,39 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
 }
 
 int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
-    if(curSymPos.at(posIndex) < newSymPos.at(posIndex))
-        return 1; //correct position found
-    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex))
-        if (newSymPos.size() < posIndex+1 && curSymPos.size() >= posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
+    if (curSymPos.at(posIndex) < newSymPos.at(posIndex))
+        return 0;
+    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
+        if (newSymPos.size() < posIndex + 1 &&
+            curSymPos.size() >= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
             return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
-        else if (newSymPos.size() >= posIndex+1 && curSymPos.size() < posIndex+1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
+        else if (newSymPos.size() >= posIndex + 1 &&
+                 curSymPos.size() < posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
             return 1; //correct position found
-        else if (newSymPos.size() < posIndex+1 && curSymPos.size() < posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
-            return comparePos(curSymPos, newSymPos, posIndex+1); //call recursively this function using next index for posIndex
+        else if (newSymPos.size() < posIndex + 1 &&
+                 curSymPos.size() < posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
+            return comparePos(curSymPos, newSymPos,
+                              posIndex + 1); //call recursively this function using next index for posIndex
+    } else
+        return 1; //correct position found
 }
 
 int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
     if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
         return 1; //correct position found
-    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex))
-        if (newSymPos.size() > posIndex+1 && curSymPos.size() <= posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
+    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
+        if (newSymPos.size() > posIndex + 1 &&
+            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
             return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
-        else if (newSymPos.size() <= posIndex+1 && curSymPos.size() > posIndex+1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
+        else if (newSymPos.size() <= posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
             return 1; //correct position found
-        else if (newSymPos.size() > posIndex+1 && curSymPos.size() > posIndex+1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
-            return comparePos(curSymPos, newSymPos, posIndex+1); //call recursively this function using next index for posIndex
+        else if (newSymPos.size() > posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
+            return comparePos(curSymPos, newSymPos,
+                              posIndex + 1); //call recursively this function using next index for posIndex
+    } else
+        return 0;
 }
 
 msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
@@ -241,7 +253,8 @@ void participant::process(const msgInfo& m) {
         int startIndex = _symbols.size();
 
         //get first index
-        if (m.getNewIndex() >= _symbols.size() / 2) { //LOOP FROM RIGHT TO LEFT
+        if (m.getNewIndex() > _symbols.size() / 2) { //LOOP FROM RIGHT TO LEFT
+            std::cout << std::endl << "RIGHT TO LEFT: " << startIndex << std::endl << std::endl;
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
                 startIndex--;
                 int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
@@ -249,8 +262,14 @@ void participant::process(const msgInfo& m) {
                     continue;
                 else if (retValue == 1)
                     break;
+                else {
+                    startIndex = (int) _symbols.size();
+                    break;
+                }
             }
-        } else { //LOOP FROM LEFT TO RIGHT
+        }
+        else { //LOOP FROM LEFT TO RIGHT
+            std::cout << std::endl << "LEFT TO RIGHT: " << startIndex << std::endl << std::endl;
             for (const auto &s: _symbols) {
                 symbols_index++;
                 int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
@@ -259,9 +278,13 @@ void participant::process(const msgInfo& m) {
                 else if (retValue == 1) {
                     startIndex = symbols_index - 1;
                     break;
+                } else {
+                    startIndex = (int) _symbols.size();
+                    break;
                 }
             }
         }
+        std::cout << std::endl << "STAAAAAART INDEX: " << startIndex << std::endl << std::endl;
         _symbols.insert(_symbols.begin() + startIndex, m.getSymbol());
     }
     /* Removal */
@@ -360,7 +383,7 @@ void participant::process(const msgInfo& m) {
             std::for_each(_symbols.begin() + index, _symbols.begin() + index + m.getRange(), [&m](symbol& s) {
                 symbolStyle newStyle;
                 //in this case 'newIndex' of msgInfo represents the alignment
-                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex(),s.getStyle().getColor()};
+                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex(), s.getStyle().getColor()};
                 s.setStyle(newStyle);
             });
         }
@@ -372,7 +395,7 @@ void participant::process(const msgInfo& m) {
 
         auto t_start = std::chrono::high_resolution_clock::now();
         //get first index
-        if(m.getNewIndex() >= _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
+        if(m.getNewIndex() > _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
                 my_index--;
                 int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
@@ -380,9 +403,13 @@ void participant::process(const msgInfo& m) {
                     continue;
                 else if (retValue == 1)
                     break;
+                else {
+                    my_index = (int) _symbols.size();
+                    break;
+                }
             }
         }
-        else { //LOOP FROM LEFT TO RIGHT
+        else { //LOOP FROM LEFT TO RIGHT*/
             for (const auto &s: _symbols) {
                 symbols_index++;
                 int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
@@ -390,6 +417,9 @@ void participant::process(const msgInfo& m) {
                     continue;
                 else if (retValue == 1) {
                     my_index = symbols_index - 1;
+                    break;
+                } else {
+                    my_index = symbols_index;
                     break;
                 }
             }

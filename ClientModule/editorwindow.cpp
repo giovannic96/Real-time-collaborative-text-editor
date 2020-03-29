@@ -757,7 +757,6 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     refreshFormatButtons();
 }
 
-
 void EditorWindow::on_RealTextEdit_textChanged(){
     int charCount = ui->RealTextEdit->toPlainText().count();
     int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
@@ -765,12 +764,11 @@ void EditorWindow::on_RealTextEdit_textChanged(){
     QString ZaChar = "Caratteri: "+QString::number(charCount);
     QString ZaLine;
     QString ZaWord = "Parole: "+QString::number(wordCount);
-    if(charCount==0&&wordCount==0){
+    if(charCount==0 && wordCount==0) {
         ZaLine = "Linee: 0";
     }
-    else{
+    else {
         ZaLine = "Linee: "+QString::number(lineCount);
-
     }
     ui->label->setText(ZaChar);
     ui->label_2->setText(ZaWord);
