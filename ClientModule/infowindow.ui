@@ -74,10 +74,10 @@ background-repeat:no-repeat;</string>
    <widget class="QLabel" name="version">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>281</width>
-      <height>31</height>
+      <x>15</x>
+      <y>117</y>
+      <width>401</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -102,14 +102,14 @@ background-repeat:no-repeat;</string>
       <x>20</x>
       <y>160</y>
       <width>491</width>
-      <height>221</height>
+      <height>231</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">color: white;</string>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Progetto realizzato ai fini del corso di &amp;quot;Programmazione di Sistema&amp;quot; bla bla bla...&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;In ordine di cognome:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Giovanni Calà&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Rinaldo Clemente&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Enrico Mancuso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Francesco Raitano&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Copyright © 2019&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Progetto realizzato ai fini del corso di &amp;quot;Programmazione di Sistema&amp;quot; bla bla bla...&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;br/&gt;&lt;/span&gt;In ordine di cognome:&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Giovanni Calà&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Rinaldo Clemente&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Enrico Mancuso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;- Francesco Raitano&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Copyright © 2019&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -119,7 +119,7 @@ background-repeat:no-repeat;</string>
     <property name="geometry">
      <rect>
       <x>27</x>
-      <y>244</y>
+      <y>220</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -135,7 +135,7 @@ background-repeat:no-repeat;</string>
     <property name="geometry">
      <rect>
       <x>27</x>
-      <y>270</y>
+      <y>245</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -151,7 +151,7 @@ background-repeat:no-repeat;</string>
     <property name="geometry">
      <rect>
       <x>27</x>
-      <y>296</y>
+      <y>270</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -167,7 +167,7 @@ background-repeat:no-repeat;</string>
     <property name="geometry">
      <rect>
       <x>27</x>
-      <y>322</y>
+      <y>294</y>
       <width>111</width>
       <height>23</height>
      </rect>

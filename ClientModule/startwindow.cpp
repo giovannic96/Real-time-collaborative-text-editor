@@ -9,6 +9,7 @@
 #include "jsonUtility.h"
 #include "editorwindow.h"
 #include "message.h"
+#include <QDesktopWidget>
 
 using json = nlohmann::json;
 using boost::asio::ip::tcp;
@@ -18,6 +19,14 @@ typedef std::deque<message> message_queue;
 StartWindow::StartWindow(QWidget *parent): QMainWindow(parent, Qt::FramelessWindowHint | Qt::WindowSystemMenuHint),
     ui(new Ui::StartWindow), _client(new myClient)
 {
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    double width = screenGeometry.width();
+    int minWidth = 1920;
+    double scale = width / minWidth;
+    std::string scaleAsString = std::to_string(scale);
+    QByteArray scaleAsQByteArray(scaleAsString.c_str(), scaleAsString.length());
+    qputenv("QT_SCALE_FACTOR", scaleAsQByteArray);
+
     ui->setupUi(this);
     ui->version->setText(qstr);
     ui->LoginUsernameForm->setFocus();

@@ -33,7 +33,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>500</width>
+     <width>330</width>
      <height>505</height>
     </rect>
    </property>
@@ -61,7 +61,7 @@ background:url(:image/userProfile.png);
     <property name="geometry">
      <rect>
       <x>207</x>
-      <y>327</y>
+      <y>320</y>
       <width>100</width>
       <height>50</height>
      </rect>
@@ -102,19 +102,19 @@ background:url(:image/userProfile.png);
       <x>16</x>
       <y>120</y>
       <width>300</width>
-      <height>41</height>
+      <height>50</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>300</width>
-      <height>0</height>
+      <height>50</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>300</width>
-      <height>16777215</height>
+      <height>50</height>
      </size>
     </property>
     <property name="font">
@@ -141,19 +141,19 @@ background:url(:image/userProfile.png);
       <x>16</x>
       <y>160</y>
       <width>300</width>
-      <height>30</height>
+      <height>50</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>300</width>
-      <height>0</height>
+      <height>50</height>
      </size>
     </property>
     <property name="maximumSize">
      <size>
       <width>300</width>
-      <height>16777215</height>
+      <height>50</height>
      </size>
     </property>
     <property name="font">
@@ -178,7 +178,7 @@ background:url(:image/userProfile.png);
     <property name="geometry">
      <rect>
       <x>16</x>
-      <y>245</y>
+      <y>238</y>
       <width>300</width>
       <height>50</height>
      </rect>
@@ -217,7 +217,7 @@ background:url(:image/userProfile.png);
     <property name="geometry">
      <rect>
       <x>27</x>
-      <y>327</y>
+      <y>320</y>
       <width>100</width>
       <height>50</height>
      </rect>

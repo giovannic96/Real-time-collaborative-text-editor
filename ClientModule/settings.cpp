@@ -5,6 +5,7 @@
 #include <QMovie>
 
 Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(new Ui::Settings), estate(estate){
+
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose, true); //Call the constructor when Windows close this.
 
