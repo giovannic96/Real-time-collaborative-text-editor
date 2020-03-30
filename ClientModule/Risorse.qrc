@@ -131,5 +131,15 @@
         <file>image/Settings/carteNomeDoc.png</file>
         <file>image/Settings/nomeDoc.png</file>
         <file>image/userProfile.png</file>
+        <file>image/Editor/about.png</file>
+        <file>image/Editor/file.png</file>
+        <file>image/Editor/modifica.png</file>
+        <file>image/Editor/strumenti.png</file>
+        <file>image/Editor/visualizza.png</file>
+        <file>image/DarkEditor/about.png</file>
+        <file>image/DarkEditor/file.png</file>
+        <file>image/DarkEditor/modifica.png</file>
+        <file>image/DarkEditor/strumenti.png</file>
+        <file>image/DarkEditor/visualizza.png</file>
     </qresource>
 </RCC>
