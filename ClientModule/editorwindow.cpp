@@ -437,7 +437,6 @@ void EditorWindow::on_buttonUnderline_clicked() {
 *                            TEXT COLOR BUTTONS                                    *
 ************************************************************************************/
 void EditorWindow::on_buttonColor_clicked() {
-     qDebug() << ui->RealTextEdit->document()->toHtml();
      QString html = ui->RealTextEdit->document()->toHtml();
 
      if(ui->buttonColor->isChecked()) {
@@ -617,7 +616,14 @@ void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
     if(ui->fontFamilyBox->currentText() != "") {
         QTextCursor c = ui->RealTextEdit->textCursor();
         QString fontFamily = ui->fontFamilyBox->currentText(); //get fontfamily from text of item selected
-        ui->RealTextEdit->setFontFamily(fontFamily);
+
+        // Solution for Qt Bug: setFontFamily()
+        QTextCharFormat format;
+        QFont f = ui->RealTextEdit->font();
+        f.setFamily(fontFamily);
+        format.setFont(f);
+        c.mergeCharFormat(format);
+
         sendFontChangeRequest(fontFamily.toStdString());
         ui->RealTextEdit->setFocus();
     }
