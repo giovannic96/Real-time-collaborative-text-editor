@@ -1195,7 +1195,7 @@ void EditorWindow::closeEvent(QCloseEvent * event) {
             switch(replay){
                 case 0:
                   event->ignore();
-                  //close userProfile Window if it was opened;                 
+                  //close userProfile Window if it was opened;
                   if(!profile_closed){
                       delete up;
                   }
