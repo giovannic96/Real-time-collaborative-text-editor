@@ -1875,7 +1875,7 @@ void EditorWindow::installTheme_Dark_ClassicOrange(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1892,7 +1892,7 @@ void EditorWindow::installTheme_Dark_PlainOrange(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: #1A1A1A;}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{  background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{  background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1909,7 +1909,7 @@ void EditorWindow::installTheme_Dark_ElectricOrange(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("    #editorFrame{   background: black;}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #111111; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1926,7 +1926,7 @@ void EditorWindow::installTheme_Dark_ClassicPurple(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1943,7 +1943,7 @@ void EditorWindow::installTheme_Dark_ClassicBlue(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1960,7 +1960,7 @@ void EditorWindow::installTheme_Dark_ClassicGreen(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1976,7 +1976,7 @@ void EditorWindow::installTheme_Dark_ClassicRed(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1992,7 +1992,7 @@ void EditorWindow::installTheme_Dark_Rainbow(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -2007,7 +2007,7 @@ void EditorWindow::installTheme_Dark_FountainRainbow(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -2023,7 +2023,7 @@ void EditorWindow::installTheme_Dark_Polito(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/polilogo.png)");
 
     //TOP FRAME
@@ -2039,7 +2039,7 @@ void EditorWindow::installTheme_Dark_Special(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/DarkEditor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("   #RealTextEdit{  color: white; background: #333333; border-left: 2px solid #e6e6e6;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #ff8000;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{   background-color:transparent; border: transparent; color: #F0F0F0;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
