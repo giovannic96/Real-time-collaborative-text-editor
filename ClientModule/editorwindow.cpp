@@ -1690,7 +1690,7 @@ void EditorWindow::installTheme_Day_ClassicBlue(){
     //GENERAL COLOR
     ui->editorFrame->setStyleSheet("   #editorFrame{   background: url(:/image/Editor/sfondo.png);}");
     ui->RealTextEdit->setStyleSheet("  #RealTextEdit{  color: black; background: #FFFFFF; border-left: 2px solid #404040;}");
-    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #0683FF;}");
+    ui->DocNameLabel->setStyleSheet("  #DocNameLabel{ background-color:transparent; border: transparent; color: #505050;}");
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
@@ -1761,11 +1761,11 @@ void EditorWindow::installTheme_Day_ClassicOrange(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{          background: qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FFB533 stop:0.53#FFB533 stop:0.54#FFB533 stop:0.63#FFA200 stop:0.64#FFA200 stop:0.88 #FF8000);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #e67300;}  #strumentiButton:pressed {background-color: #e67300;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: #e67300;}       #fileButton:pressed {background-color: #e67300;} #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #e67300;} #visualizzaButton:pressed {background-color: #e67300;} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: #e67300;}   #modificaButton:pressed {background-color: #e67300;} #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #e67300;}  #strumentiButton:pressed {background-color: #e67300;} #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}  #aboutButton:hover{background-color: #e67300;}      #aboutButton:pressed {background-color: #e67300;} #aboutButton:menu-indicator{ image:none; }");
 }
 
 
@@ -1828,11 +1828,11 @@ void EditorWindow::installTheme_Day_FountainRainbow(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FF0000 stop:0.16#FF9900 stop:0.32#FFFF00 stop:0.48#40FF00 stop:0.66#00FFFF stop:0.82#0000FF stop:0.98#FF00FF);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: transparent;}       #fileButton:pressed {background-color: transparent;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: transparent;} #visualizzaButton:pressed {background-color: transparent;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: rgba(128,128,128,64);}       #fileButton:pressed {background-color: rgba(128,128,128,128);} #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: rgba(128,128,128,64);} #visualizzaButton:pressed {background-color: rgba(128,128,128,128);} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: rgba(128,128,128,64);}   #modificaButton:pressed {background-color: rgba(128,128,128,128);} #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: rgba(128,128,128,64);}  #strumentiButton:pressed {background-color: rgba(128,128,128,128);} #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: rgba(128,128,128,64);}      #aboutButton:pressed {background-color: rgba(128,128,128,128);} #aboutButton:menu-indicator{ image:none; }");
 }
 
 void EditorWindow::installTheme_Day_Polito(){
@@ -1844,11 +1844,11 @@ void EditorWindow::installTheme_Day_Polito(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:#003576;}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: #00224d;}       #fileButton:pressed {background-color: #000b1a;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #00224d;} #visualizzaButton:pressed {background-color: #000b1a;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: #00224d;}   #modificaButton:pressed {background-color: #000b1a;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #00224d;}  #strumentiButton:pressed {background-color: #000b1a;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}  #aboutButton:hover{background-color: #00224d;}      #aboutButton:pressed {background-color: #000b1a;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}             #fileButton:hover{background-color: #00224d;}       #fileButton:pressed {background-color: #000b1a;}        #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}       #visualizzaButton:hover{background-color: #00224d;} #visualizzaButton:pressed {background-color: #000b1a;}  #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}         #modificaButton:hover{background-color: #00224d;}   #modificaButton:pressed {background-color: #000b1a;}    #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}        #strumentiButton:hover{background-color: #00224d;}  #strumentiButton:pressed {background-color: #000b1a;}   #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}            #aboutButton:hover{background-color: #00224d;}      #aboutButton:pressed {background-color: #000b1a;}       #aboutButton:menu-indicator{ image:none; }");
 }
 
 void EditorWindow::installTheme_Day_Special(){
@@ -1860,11 +1860,12 @@ void EditorWindow::installTheme_Day_Special(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background: url(:/image/Editor/hidrologo.jpg);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: transparent;}       #fileButton:pressed {background-color: transparent;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: transparent;} #visualizzaButton:pressed {background-color: transparent;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;} #aboutButton:menu-indicator{ image:none; }");
+    // <-----------------BUTTON--------------------->       <-----------------------BACKGROUND-------------------------->   <----------------------------HOVER---------------------------->  <------------------------------PRESSED---------------------------->  <----------------MENU INDICATOR----------------->
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}         #fileButton:hover{background-color: rgba(128,128,128,60);}       #fileButton:pressed {background-color: rgba(128,128,128,128);}       #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}   #visualizzaButton:hover{background-color: rgba(128,128,128,60);} #visualizzaButton:pressed {background-color: rgba(128,128,128,128);} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}     #modificaButton:hover{background-color: rgba(128,128,128,60);}   #modificaButton:pressed {background-color: rgba(128,128,128,128);}   #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}    #strumentiButton:hover{background-color: rgba(128,128,128,60);}  #strumentiButton:pressed {background-color: rgba(128,128,128,128);}  #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}        #aboutButton:hover{background-color: rgba(128,128,128,60);}      #aboutButton:pressed {background-color: rgba(128,128,128,128);}      #aboutButton:menu-indicator{ image:none; }");
 }
 
 
@@ -1947,11 +1948,11 @@ void EditorWindow::installTheme_Dark_ClassicBlue(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#0683FF stop:0.53#0683FF stop:0.54#0683FF stop:0.63#005DBA stop:0.64#005DBA stop:0.88 #0A5597);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #075299;}  #strumentiButton:pressed {background-color: #075299;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: #075299;}       #fileButton:pressed {background-color: #075299;} #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #075299;} #visualizzaButton:pressed {background-color: #075299;} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: #075299;}   #modificaButton:pressed {background-color: #075299;} #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #075299;}  #strumentiButton:pressed {background-color: #075299;} #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: #075299;}      #aboutButton:pressed {background-color: #075299;} #aboutButton:menu-indicator{ image:none; }");
 }
 
 
@@ -1964,11 +1965,11 @@ void EditorWindow::installTheme_Dark_ClassicGreen(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#00CC00 stop:0.53#00CC00 stop:0.54#00CC00 stop:0.63#009900 stop:0.64#009900 stop:0.88 #006600);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: #008000;}       #fileButton:pressed {background-color: #004D00;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #008000;} #visualizzaButton:pressed {background-color: #004D00;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: #008000;}   #modificaButton:pressed {background-color: #004D00;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #008000;}  #strumentiButton:pressed {background-color: #004D00;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}  #aboutButton:hover{background-color: #008000;}      #aboutButton:pressed {background-color: #330080;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: #008000;}       #fileButton:pressed {background-color: #004D00;} #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #008000;} #visualizzaButton:pressed {background-color: #004D00;} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: #008000;}   #modificaButton:pressed {background-color: #004D00;} #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #008000;}  #strumentiButton:pressed {background-color: #004D00;} #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: #008000;}      #aboutButton:pressed {background-color: #330080;} #aboutButton:menu-indicator{ image:none; }");
 }
 
 void EditorWindow::installTheme_Dark_ClassicRed(){
@@ -1980,11 +1981,11 @@ void EditorWindow::installTheme_Dark_ClassicRed(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#CC0000 stop:0.53#CC0000 stop:0.54#CC0000 stop:0.63#990000 stop:0.64#990000 stop:0.88 #660000);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: #800000;}       #fileButton:pressed {background-color: #4D0000;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #800000;} #visualizzaButton:pressed {background-color: #4D0000;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: #800000;}   #modificaButton:pressed {background-color: #4D0000;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #800000;}  #strumentiButton:pressed {background-color: #4D0000;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}  #aboutButton:hover{background-color: #800000;}      #aboutButton:pressed {background-color: #4D0000;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: #800000;}       #fileButton:pressed {background-color: #4D0000;} #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #800000;} #visualizzaButton:pressed {background-color: #4D0000;} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: #800000;}   #modificaButton:pressed {background-color: #4D0000;} #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: #800000;}  #strumentiButton:pressed {background-color: #4D0000;} #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: #800000;}      #aboutButton:pressed {background-color: #4D0000;} #aboutButton:menu-indicator{ image:none; }");
 }
 
 void EditorWindow::installTheme_Dark_Rainbow(){
@@ -2011,11 +2012,11 @@ void EditorWindow::installTheme_Dark_FountainRainbow(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#FF0000 stop:0.16#FF9900 stop:0.32#FFFF00 stop:0.48#40FF00 stop:0.66#00FFFF stop:0.82#0000FF stop:0.98#FF00FF);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: transparent;}       #fileButton:pressed {background-color: transparent;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: transparent;} #visualizzaButton:pressed {background-color: transparent;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}  #fileButton:hover{background-color: rgba(128,128,128,64);}       #fileButton:pressed {background-color: rgba(128,128,128,128);} #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: rgba(128,128,128,64);} #visualizzaButton:pressed {background-color: rgba(128,128,128,128);} #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}  #modificaButton:hover{background-color: rgba(128,128,128,64);}   #modificaButton:pressed {background-color: rgba(128,128,128,128);} #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: rgba(128,128,128,64);}  #strumentiButton:pressed {background-color: rgba(128,128,128,128);} #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}  #aboutButton:hover{background-color: rgba(128,128,128,64);}      #aboutButton:pressed {background-color: rgba(128,128,128,128);} #aboutButton:menu-indicator{ image:none; }");
 }
 
 void EditorWindow::installTheme_Dark_Polito(){
@@ -2043,11 +2044,11 @@ void EditorWindow::installTheme_Dark_Special(){
 
     //TOP FRAME
     ui->frameTopBar->setStyleSheet("#frameTopBar{           background: url(:/image/Editor/hidrologo.jpg);}");
-    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: transparent;}       #fileButton:pressed {background-color: transparent;} #fileButton:menu-indicator{ image:none; }");
-    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: transparent;} #visualizzaButton:pressed {background-color: transparent;} #visualizzaButton:menu-indicator{ image:none; }");
-    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: transparent;}   #modificaButton:pressed {background-color: transparent;} #modificaButton:menu-indicator{ image:none; }");
-    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/Editor/strumenti.png); border:none;}  #strumentiButton:hover{background-color: transparent;}  #strumentiButton:pressed {background-color: transparent;} #strumentiButton:menu-indicator{ image:none; }");
-    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/Editor/about.png); border:none;}  #aboutButton:hover{background-color: transparent;}      #aboutButton:pressed {background-color: transparent;} #aboutButton:menu-indicator{ image:none; }");
+    ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/DarkEditor/file.png); border:none;}         #fileButton:hover{background-color: rgba(128,128,128,60);}       #fileButton:pressed {background-color: rgba(128,128,128,128);}         #fileButton:menu-indicator{ image:none; }");
+    ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/DarkEditor/visualizza.png); border:none;}   #visualizzaButton:hover{background-color: rgba(128,128,128,60);} #visualizzaButton:pressed {background-color: rgba(128,128,128,128);}   #visualizzaButton:menu-indicator{ image:none; }");
+    ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/DarkEditor/modifica.png); border:none;}     #modificaButton:hover{background-color: rgba(128,128,128,60);}   #modificaButton:pressed {background-color: rgba(128,128,128,128);}     #modificaButton:menu-indicator{ image:none; }");
+    ui->strumentiButton->setStyleSheet("#strumentiButton{   background: url(:/image/DarkEditor/strumenti.png); border:none;}    #strumentiButton:hover{background-color: rgba(128,128,128,60);}  #strumentiButton:pressed {background-color: rgba(128,128,128,128);}    #strumentiButton:menu-indicator{ image:none; }");
+    ui->aboutButton->setStyleSheet("#aboutButton{           background: url(:/image/DarkEditor/about.png); border:none;}        #aboutButton:hover{background-color: rgba(128,128,128,60);}      #aboutButton:pressed {background-color: rgba(128,128,128,128);}        #aboutButton:menu-indicator{ image:none; }");
 }
 
 /***************************************************************************************************************************************
