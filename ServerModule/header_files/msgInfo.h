@@ -26,6 +26,7 @@ public:
     msgInfo(int type, int editorId, symbol s, int range, std::string family);
     msgInfo(int type, int editorId, std::vector<symbol> symbols, int startIndex);
     msgInfo(int type, int editorId, symbol s, std::string family);
+    msgInfo(int type, int editorId, int range, int alignment);
     int getType() const;
     int getRange() const;
     int getEditorId();

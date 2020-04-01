@@ -451,6 +451,11 @@ void EditorWindow::on_buttonColor_clicked() {
          ui->buttonColor->setStyleSheet("#buttonColor{border-radius:4px}    #buttonColor:hover{background-color: #BDC3C7;}");
      }
      ui->RealTextEdit->document()->setHtml(html);
+
+     /* Update alignment (maybe 'setHTML' changes somehow its value) */
+     setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(ui->RealTextEdit->textCursor().blockFormat().alignment())));
+     AlignButtonStyleHandler();
+
      ui->RealTextEdit->setFocus();
 }
 
@@ -617,12 +622,24 @@ void EditorWindow::on_fontFamilyBox_currentIndexChanged(int index) {
         QTextCursor c = ui->RealTextEdit->textCursor();
         QString fontFamily = ui->fontFamilyBox->currentText(); //get fontfamily from text of item selected
 
-        // Solution for Qt Bug: setFontFamily()
+        int startIndex = c.selectionStart();
+        int endIndex = c.selectionEnd();
         QTextCharFormat format;
-        QFont f = ui->RealTextEdit->font();
-        f.setFamily(fontFamily);
-        format.setFont(f);
-        c.mergeCharFormat(format);
+        QFont f;
+
+        c.beginEditBlock();
+        while(endIndex > startIndex) {
+            c.setPosition(--endIndex);
+            c.setPosition(endIndex+1, QTextCursor::KeepAnchor); //to select the char to be updated
+            f.setFamily(fontFamily);
+            f.setBold(c.charFormat().font().bold());
+            f.setItalic(c.charFormat().font().italic());
+            f.setUnderline(c.charFormat().font().underline());
+            f.setPointSize(c.charFormat().font().pointSize());
+            format.setFont(f);
+            c.mergeCharFormat(format);
+        }
+        c.endEditBlock();
 
         sendFontChangeRequest(fontFamily.toStdString());
         ui->RealTextEdit->setFocus();
@@ -645,9 +662,10 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
             c.charFormat().fontWeight()==QFont::Bold ? ui->buttonBold->setChecked(true) : ui->buttonBold->setChecked(false);
             c.charFormat().fontItalic()==true ? ui->buttonItalic->setChecked(true) : ui->buttonItalic->setChecked(false);
             c.charFormat().fontUnderline()==true ? ui->buttonUnderline->setChecked(true) : ui->buttonUnderline->setChecked(false);
+
             if(c.blockFormat().alignment()==Qt::AlignRight)
                 AlignDXButtonHandler();
-            else if(c.blockFormat().alignment()==Qt::AlignCenter)
+            else if(c.blockFormat().alignment()==Qt::AlignCenter || c.blockFormat().alignment()==Qt::AlignHCenter)
                 AlignCXButtonHandler();
             else if(c.blockFormat().alignment()==Qt::AlignJustify)
                 AlignJFXButtonHandler();
@@ -714,7 +732,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     //  DETERMINES TEXT ALIGNMENT
     //*****************************************************************************************************
     if(!c.hasSelection()) {
-        if(ui->RealTextEdit->alignment() == Qt::AlignCenter)
+        if(ui->RealTextEdit->alignment() == Qt::AlignCenter || ui->RealTextEdit->alignment() == Qt::AlignHCenter)
             AlignCXButtonHandler();
         else if(ui->RealTextEdit->alignment() == Qt::AlignRight)
             AlignDXButtonHandler();
@@ -729,7 +747,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
         } else {
             if(alignmentCalculated == Qt::AlignRight)
                 AlignDXButtonHandler();
-            else if(alignmentCalculated == Qt::AlignCenter)
+            else if(alignmentCalculated == Qt::AlignCenter || alignmentCalculated == Qt::AlignHCenter)
                 AlignCXButtonHandler();
             else if(alignmentCalculated == Qt::AlignJustify)
                 AlignJFXButtonHandler();
@@ -2251,7 +2269,7 @@ void EditorWindow::setupInitialCondition(){
     QTextCursor c = ui->RealTextEdit->textCursor();
     if(c.blockFormat().alignment()==Qt::AlignRight)
         AlignDXButtonHandler();
-    else if(c.blockFormat().alignment()==Qt::AlignCenter)
+    else if(c.blockFormat().alignment()==Qt::AlignCenter || c.blockFormat().alignment() == Qt::AlignHCenter)
         AlignCXButtonHandler();
     else if(c.blockFormat().alignment()==Qt::AlignJustify)
         AlignJFXButtonHandler();
@@ -2599,6 +2617,8 @@ void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
 
     cursor.beginEditBlock();
     cursor.setPosition(endIndex);
+    cursor.setPosition(startIndex+1, QTextCursor::KeepAnchor);
+    cursor.removeSelectedText();
     cursor.setPosition(startIndex, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
     cursor.endEditBlock();
@@ -2777,7 +2797,7 @@ QVector<std::pair<int,symbolStyle>> EditorWindow::getStylesFromHTML(QString html
     QVector<std::pair<int,symbolStyle>> finalVector;
     symbolStyle startStyle = getFirstCharStyle(cursor);
     htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID<span VOID>a</span>></p>");
-qDebug() << "new html: " << htmlText;
+
     QRegularExpression rx("<span ([^<]+)</span>");
     QStringList list = getRegexListFromHTML(htmlText, rx);
     QVector<QRegularExpression> rxs = getStyleRegexes();
@@ -2988,13 +3008,16 @@ void EditorWindow::sendFontChangeRequest(int fontSize) {
 }
 
 void EditorWindow::sendAlignChangeRequest(int blockStart, int blockEnd, int alignment) {
-    //Serialize data
-    json j;
-    jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_REQUEST", blockStart, blockEnd, alignment);
-    const std::string req = j.dump();
 
-    //Send data (header and body)
-    _client->sendRequestMsg(req);
+    //if(blockStart < blockEnd) {
+        //Serialize data
+        json j;
+        jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_REQUEST", blockStart, blockEnd, alignment);
+        const std::string req = j.dump();
+
+        //Send data (header and body)
+        _client->sendRequestMsg(req);
+    //}
 }
 
 void EditorWindow::sendFontChangeRequest(std::string fontFamily) {
@@ -3145,12 +3168,13 @@ Qt::AlignmentFlag EditorWindow::detectAlignment() {
 void EditorWindow::setAlignmentButton(Qt::AlignmentFlag alignment) {
     if(alignment == Qt::AlignRight)
         AlignDXButtonHandler();
-    else if(alignment == Qt::AlignCenter)
-        AlignCXButtonHandler();
+    else if(alignment == Qt::AlignLeft)
+        AlignSXButtonHandler();
     else if(alignment == Qt::AlignJustify)
         AlignJFXButtonHandler();
-    else
-        AlignSXButtonHandler();
+    else if(alignment == Qt::AlignCenter || Qt::AlignHCenter) {
+        AlignCXButtonHandler();
+    }
 }
 
 void EditorWindow::alignSingleBlock(QTextCursor& cursor, Qt::AlignmentFlag alignment) {

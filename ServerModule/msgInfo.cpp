@@ -30,6 +30,10 @@ msgInfo::msgInfo(int type, int editorId, symbol s, std::string family)
         : type(type), editorId(editorId), s(std::move(s)), fontFamily(std::move(family)) {
 }
 
+msgInfo::msgInfo(int type, int editorId, int range, int alignment)
+        : type(type), editorId(editorId), range(range), newIndex(alignment), s('a', std::make_pair(0,0), std::vector<int>()) {
+}
+
 int msgInfo::getType() const {
     return type;
 }

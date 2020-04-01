@@ -232,18 +232,23 @@ msgInfo participant::localFontFamilyChange(int startIndex, int endIndex, const s
 }
 
 msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alignment) noexcept(false) {
-    if(startIndex >= endIndex || startIndex < 0 || startIndex > _symbols.size()) {
+    if(startIndex > endIndex || startIndex < 0 || startIndex > _symbols.size()) {
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
-    symbol s = _symbols.at(startIndex);
-    std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [alignment](symbol& s) {
-        symbolStyle newStyle;
-        newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), alignment, s.getStyle().getColor()};
-        s.setStyle(newStyle);
-    });
-    msgInfo m(5, getId(), s, endIndex-startIndex, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex
-    return m;
+    if(startIndex == endIndex) {
+        msgInfo m(5, getId(), endIndex-startIndex, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex
+        return m;
+    } else {
+        symbol s = _symbols.at(startIndex);
+        std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [alignment](symbol& s) {
+            symbolStyle newStyle;
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), alignment, s.getStyle().getColor()};
+            s.setStyle(newStyle);
+        });
+        msgInfo m(5, getId(), s, endIndex-startIndex, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex
+        return m;
+    }
 }
 
 void participant::process(const msgInfo& m) {
@@ -371,21 +376,23 @@ void participant::process(const msgInfo& m) {
     }
     /* Alignment change */
     else if(m.getType() == 5) {
-        std::vector<int> fractionalPos = m.getSymbol().getPos();
-        auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
-        if (it == _symbols.end()) {
-            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
-            return;
-        }
-        int index = it - _symbols.begin();
+        if(m.getRange() > 0) {
+            std::vector<int> fractionalPos = m.getSymbol().getPos();
+            auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
+            if (it == _symbols.end()) {
+                std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+                return;
+            }
+            int index = it - _symbols.begin();
 
-        if(_symbols.at(index).getId() == m.getSymbol().getId()) {
-            std::for_each(_symbols.begin() + index, _symbols.begin() + index + m.getRange(), [&m](symbol& s) {
-                symbolStyle newStyle;
-                //in this case 'newIndex' of msgInfo represents the alignment
-                newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex(), s.getStyle().getColor()};
-                s.setStyle(newStyle);
-            });
+            if(_symbols.at(index).getId() == m.getSymbol().getId()) {
+                std::for_each(_symbols.begin() + index, _symbols.begin() + index + m.getRange(), [&m](symbol& s) {
+                    symbolStyle newStyle;
+                    //in this case 'newIndex' of msgInfo represents the alignment
+                    newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), m.getNewIndex(), s.getStyle().getColor()};
+                    s.setStyle(newStyle);
+                });
+            }
         }
     }
     /* Insertion range */

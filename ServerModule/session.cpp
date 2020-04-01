@@ -804,14 +804,15 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         int endIndexJSON;
         int alignmentJSON;
         jsonUtility::from_json_alignment_change(jdata_in, startIndexJSON, endIndexJSON, alignmentJSON);
-        std::cout << "[ALIGNMENT_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " newAlignment: " << std::to_string(alignmentJSON) << std::endl;
+        std::cout << "[ALIGNMENT_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - "
+                  << std::to_string(endIndexJSON) << " newAlignment: " << std::to_string(alignmentJSON) << std::endl;
 
         //Construct msgInfo
         msgInfo m = localAlignmentChange(startIndexJSON, endIndexJSON, alignmentJSON);
         std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
-        //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        if (m.getRange() > 0) //Update room symbols for this file
+            room_.updateMap(shared_from_this()->getCurrentFile(), shared_from_this()->getSymbols());
 
         //Dispatch message to all the clients
         room_.send(m);
