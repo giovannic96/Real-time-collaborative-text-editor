@@ -193,6 +193,9 @@ background: url(:/image/Editor/sfondo.png);
                   <bold>false</bold>
                  </font>
                 </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">#fileButton {
 	border:none;
@@ -245,6 +248,9 @@ background: url(:/image/Editor/sfondo.png);
                   <bold>false</bold>
                  </font>
                 </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">#visualizzaButton {
 	border: none;
@@ -294,6 +300,9 @@ background: url(:/image/Editor/sfondo.png);
                   <bold>false</bold>
                  </font>
                 </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
                 <property name="styleSheet">
                  <string notr="true">#modificaButton {
 	border: none;
@@ -340,6 +349,9 @@ background: url(:/image/Editor/sfondo.png);
                   <family>Verdana</family>
                   <pointsize>11</pointsize>
                  </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#strumentiButton {
@@ -389,6 +401,9 @@ background: url(:/image/Editor/sfondo.png);
                   <weight>50</weight>
                   <bold>false</bold>
                  </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">#aboutButton {
@@ -765,8 +780,8 @@ margin-top: 3px;
                    </property>
                    <property name="iconSize">
                     <size>
-                     <width>10</width>
-                     <height>10</height>
+                     <width>12</width>
+                     <height>12</height>
                     </size>
                    </property>
                    <item>
@@ -1962,7 +1977,7 @@ background-color: lightgrey;
                     <enum>Qt::Vertical</enum>
                    </property>
                    <property name="sizeType">
-                    <enum>QSizePolicy::MinimumExpanding</enum>
+                    <enum>QSizePolicy::Minimum</enum>
                    </property>
                    <property name="sizeHint" stdset="0">
                     <size>
