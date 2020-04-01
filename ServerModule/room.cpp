@@ -9,8 +9,6 @@
 void room::join(const participant_ptr& participant) {
     participants_.insert(participant);
     std::cout << "participant #" << participant->getId() << " joined the room" << std::endl;
-    for (auto msg: recent_msgs_)
-        participant->deliver(msg);
 }
 
 void room::leave(const participant_ptr& participant) {
