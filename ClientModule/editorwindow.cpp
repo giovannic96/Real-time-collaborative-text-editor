@@ -2619,11 +2619,24 @@ void EditorWindow::eraseSymbols(int startIndex, int endIndex) {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
 
     cursor.beginEditBlock();
+
+    /* get start alignment */
+    cursor.setPosition(startIndex);
+    int startAlignment = cursor.blockFormat().alignment();
+
+    /* erase symbols */
     cursor.setPosition(endIndex);
     cursor.setPosition(startIndex+1, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
     cursor.setPosition(startIndex, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
+
+    /* set start alignment */
+    QTextBlockFormat textBlockFormat;
+    textBlockFormat = cursor.blockFormat();
+    textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(startAlignment));
+    cursor.mergeBlockFormat(textBlockFormat);
+
     cursor.endEditBlock();
 
     qDebug() << "Deleted char range" << endl;
@@ -2741,44 +2754,33 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
     textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
     cursor.mergeBlockFormat(textBlockFormat);
     cursor.movePosition(QTextCursor::EndOfBlock);
+    int curPos = cursor.position();
 
     /* Detect if last block does not have any characters */
-    int pos1 = cursor.position();
+    int posBefore = cursor.position();
     cursor.movePosition(QTextCursor::Right); //for \n -> this will be certainly done
     cursor.movePosition(QTextCursor::Right); //this will be done only if last block is not empty
-    int pos2 = cursor.position();
-    if(pos2-pos1 == 1) {
-        lastBlockEmpty = true;
-        cursor.movePosition(QTextCursor::Left);
-    } else { //Go back to previous position
-        cursor.movePosition(QTextCursor::Left);
-        cursor.movePosition(QTextCursor::Left);
-    }
-
-    int curPos = cursor.position();
+    int posAfter = cursor.position();
+    if(posAfter-posBefore == 1) lastBlockEmpty = true;
+    cursor.setPosition(curPos);
 
     /* Change alignment of the next blocks, if requested */
     while(curPos < endBlock-1) {
+        qDebug() << "entrato";
         cursor.movePosition(QTextCursor::Right);
         textBlockFormat = cursor.blockFormat();
         textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
         cursor.mergeBlockFormat(textBlockFormat);
         cursor.movePosition(QTextCursor::EndOfBlock);
+        curPos = cursor.position();
 
         /* Detect if last block does not have any characters */
-        int pos1 = cursor.position();
+        int posBefore = cursor.position();
         cursor.movePosition(QTextCursor::Right); //for \n -> this will be certainly done
         cursor.movePosition(QTextCursor::Right); //this will be done only if last block is not empty
-        int pos2 = cursor.position();
-        if(pos2-pos1 == 1) {
-            lastBlockEmpty = true;
-            cursor.movePosition(QTextCursor::Left);
-        } else { //Go back to previous position
-            cursor.movePosition(QTextCursor::Left);
-            cursor.movePosition(QTextCursor::Left);
-        }
-
-        curPos = cursor.position();
+        int posAfter = cursor.position();
+        if(posAfter-posBefore == 1) lastBlockEmpty = true;
+        cursor.setPosition(curPos);
     }
 
     /* Set correct alignment if lastBlock was empty */
@@ -3239,7 +3241,7 @@ void EditorWindow::alignMultipleBlocks(int startIndex, int endIndex, QTextCursor
 
 void EditorWindow::changeNextCharsAlignment(QTextCursor cursor, int startIndex, int endIndex) {
     int oldPos = cursor.position();
-
+    qDebug() << "ENTRATOOOOOO";
     /* Get alignment of the char prior to the selection and chars after the selection, until the end of the block */
     cursor.setPosition(startIndex);
     int finalAlignment = static_cast<int>(cursor.blockFormat().alignment());
@@ -3248,6 +3250,7 @@ void EditorWindow::changeNextCharsAlignment(QTextCursor cursor, int startIndex, 
 
     /* Set alignment of the chars after selection to the alignment of the chars prior to the selection */
     if(finalAlignment != charsAfterSelectionAlignment) {
+        qDebug() << "ENTRATOO2";
         if(ui->RealTextEdit->document()->lastBlock() == cursor.block()) //Qt considers <CR> in last line, even if I didn't press Return btn
             sendAlignChangeRequest(endIndex, cursor.block().position()+cursor.block().length()-1, finalAlignment);
         else
