@@ -2764,6 +2764,7 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
         textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
         cursor.mergeBlockFormat(textBlockFormat);
         cursor.movePosition(QTextCursor::EndOfBlock);
+        curPos = cursor.position();
 
         /* Detect if last block does not have any characters */
         int pos1 = cursor.position();
@@ -2777,8 +2778,6 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
             cursor.movePosition(QTextCursor::Left);
             cursor.movePosition(QTextCursor::Left);
         }
-
-        curPos = cursor.position();
     }
 
     /* Set correct alignment if lastBlock was empty */
