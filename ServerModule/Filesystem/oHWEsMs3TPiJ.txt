@@ -1,1 +1,0 @@
-[{"alignment":1,"color":"#87ff7a14","fontFamily":"Times New Roman","fontSize":14,"id":[17,1],"isBold":false,"isItalic":false,"isUnderlined":false,"letter":102,"pos":[0]},{"alignment":1,"color":"#87ff7a14","fontFamily":"Times New Roman","fontSize":14,"id":[17,2],"isBold":false,"isItalic":false,"isUnderlined":false,"letter":13,"pos":[1]}]
