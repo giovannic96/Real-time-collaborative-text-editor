@@ -2766,7 +2766,6 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
 
     /* Change alignment of the next blocks, if requested */
     while(curPos < endBlock-1) {
-        qDebug() << "entrato";
         cursor.movePosition(QTextCursor::Right);
         textBlockFormat = cursor.blockFormat();
         textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
@@ -2798,6 +2797,7 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
     setAlignmentButton(static_cast<Qt::AlignmentFlag>(static_cast<int>(cursor.blockFormat().alignment())));
     AlignButtonStyleHandler();
     ui->RealTextEdit->setAlignment(cursor.blockFormat().alignment());
+    ui->RealTextEdit->viewport()->update();
 
     qDebug() << "Changed alignment" << endl;
     ui->RealTextEdit->setFocus();
@@ -3050,16 +3050,13 @@ void EditorWindow::sendFontChangeRequest(int fontSize) {
 }
 
 void EditorWindow::sendAlignChangeRequest(int blockStart, int blockEnd, int alignment) {
+    //Serialize data
+    json j;
+    jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_REQUEST", blockStart, blockEnd, alignment);
+    const std::string req = j.dump();
 
-    //if(blockStart < blockEnd) {
-        //Serialize data
-        json j;
-        jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_REQUEST", blockStart, blockEnd, alignment);
-        const std::string req = j.dump();
-
-        //Send data (header and body)
-        _client->sendRequestMsg(req);
-    //}
+    //Send data (header and body)
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::sendFontChangeRequest(std::string fontFamily) {
@@ -3241,7 +3238,7 @@ void EditorWindow::alignMultipleBlocks(int startIndex, int endIndex, QTextCursor
 
 void EditorWindow::changeNextCharsAlignment(QTextCursor cursor, int startIndex, int endIndex) {
     int oldPos = cursor.position();
-    qDebug() << "ENTRATOOOOOO";
+
     /* Get alignment of the char prior to the selection and chars after the selection, until the end of the block */
     cursor.setPosition(startIndex);
     int finalAlignment = static_cast<int>(cursor.blockFormat().alignment());
@@ -3250,7 +3247,6 @@ void EditorWindow::changeNextCharsAlignment(QTextCursor cursor, int startIndex, 
 
     /* Set alignment of the chars after selection to the alignment of the chars prior to the selection */
     if(finalAlignment != charsAfterSelectionAlignment) {
-        qDebug() << "ENTRATOO2";
         if(ui->RealTextEdit->document()->lastBlock() == cursor.block()) //Qt considers <CR> in last line, even if I didn't press Return btn
             sendAlignChangeRequest(endIndex, cursor.block().position()+cursor.block().length()-1, finalAlignment);
         else
