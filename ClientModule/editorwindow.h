@@ -164,6 +164,7 @@ private slots:
     void openSettingsWindows();
     void setInfoWindowClosed();
     void openInfoWindows();
+    void goodbyeClient();
 
     /************************************
      *        OTHER SLOTS FUNCTION      *
@@ -184,7 +185,6 @@ public slots:
     void getUserOnline(myCollabColorsMap collabColorsMap);
     void updateAlignmentButton();
     void showCollabColorsMap(myCollabColorsMap collabColorsMap);
-
 
 private:
     EditorState estate;

@@ -3,6 +3,7 @@
 #include "editorwindow.h"
 #include <QSettings>
 #include <QMovie>
+#include <QMessageBox>
 
 Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(new Ui::Settings), estate(estate){
 
@@ -20,7 +21,7 @@ Settings::Settings(EditorState &estate, QWidget *parent): QWidget(parent), ui(ne
     ui->PreviewBar_5->setMovie(movie2);
     movie->start();
     movie2->start();
-
+    this->setWindowTitle("C.A.R.T.E. - Opzioni");
 }
 
 Settings::~Settings(){
@@ -181,6 +182,9 @@ void Settings::on_Default_clicked(){
      estate.SetThemeDark(1);                ui->ComboDark->setCurrentIndex(0);
 
      WriteSettingOnFile();
+     QMessageBox msgBox;
+     msgBox.setText("Le opzioni sono state rispristinate.");
+     msgBox.exec();
 }
 
 void Settings::on_Abort_clicked(){
@@ -189,6 +193,7 @@ void Settings::on_Abort_clicked(){
 }
 
 void Settings::LoadAndSetDefaultRadioButton(){
+    //Load DarkMode value
     bool darkmodeD = estate.GetDarkMode();
     if(darkmodeD==true){
         ui->darkRadio->setChecked(true);
@@ -196,6 +201,7 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->dayRadio->setChecked(true);
     }
 
+    //Load Toolbar value
     bool toolbarD = estate.GetToolbar();
     if(toolbarD==false){
         ui->toolHideRadio->setChecked(true);
@@ -203,6 +209,7 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->toolShowRadio->setChecked(true);
     }
 
+    //Load CollaboratorBar value
     bool collabD = estate.GetCollaboratorBar();
     if(collabD==false){
         ui->collabHideRadio->setChecked(true);
@@ -210,6 +217,7 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->collabShowRadio->setChecked(true);
     }
 
+    //Load Title on Editor value
     int titleD = estate.GetTitlebar();
     if(titleD==1){
         ui->titleRadio1->setChecked(true);
@@ -223,6 +231,7 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->titleRadio5->setChecked(true);
     }
 
+    //Load DayTheme value
     int themedayD = estate.GetThemeDay();
     if(themedayD==1){
         ui->ComboDay->setCurrentIndex(0);
@@ -248,7 +257,7 @@ void Settings::LoadAndSetDefaultRadioButton(){
         ui->ComboDay->setCurrentIndex(10);
     }
 
-
+    //Load DarkTheme value
     int themedarkD = estate.GetThemeDark();
     if(themedarkD==1){
         ui->ComboDark->setCurrentIndex(0);
@@ -275,81 +284,54 @@ void Settings::LoadAndSetDefaultRadioButton(){
     }
 }
 
-void Settings::on_ComboDay_currentIndexChanged(int index)
-{
-    int dayThemeIndex = ui->ComboDay->currentIndex();
-
-    if(dayThemeIndex==0){
+void Settings::on_ComboDay_currentIndexChanged(int index){
+    if(index==0){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicBlue.png);\n}");
-    }
-    if(dayThemeIndex==1){
+    }else if(index==1){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayPlainBlue.png);\n}");
-    }
-    if(dayThemeIndex==2){
+    }else if(index==2){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayElectricBlue.png);\n}");
-    }
-    if(dayThemeIndex==3){
+    }else if(index==3){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicPurple.png);\n}");
-    }
-    if(dayThemeIndex==4){
+    }else if(index==4){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicOrange.png);\n}");
-    }
-    if(dayThemeIndex==5){
+    }else if(index==5){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicGreen.png);\n}");
-    }
-    if(dayThemeIndex==6){
+    }else if(index==6){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayClassicRed.png);\n}");
-    }
-    if(dayThemeIndex==7){
+    }else if(index==7){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayFantasy.png);\n}");
-    }
-    if(dayThemeIndex==8){
+    }else if(index==8){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayRainbow.png);\n}");
-    }
-    if(dayThemeIndex==9){
+    }else if(index==9){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/dayPolito.png);\n}");
-    }
-    if(dayThemeIndex==10){
+    }else if(index==10){
         ui->PreviewThemeDay->setStyleSheet("#PreviewThemeDay{\n	background:url(:/image/Settings/daySpecial.png);\n}");
     }
 }
 
-void Settings::on_ComboDark_currentIndexChanged(int index)
-{
-    int darkThemeIndex = ui->ComboDark->currentIndex();
-
-    if(darkThemeIndex==0){
+void Settings::on_ComboDark_currentIndexChanged(int index){
+    if(index==0){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicOrange.png);\n}");
-    }
-    if(darkThemeIndex==1){
+    }else if(index==1){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkPlainOrange.png);\n}");
-    }
-    if(darkThemeIndex==2){
+    }else if(index==2){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkElectricOrange.png);\n}");
-    }
-    if(darkThemeIndex==3){
+    }else if(index==3){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicPurple.png);\n}");
-    }
-    if(darkThemeIndex==4){
+    }else if(index==4){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicBlue.png);\n}");
-    }
-    if(darkThemeIndex==5){
+    }else if(index==5){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicGreen.png);\n}");
-    }
-    if(darkThemeIndex==6){
+    }else if(index==6){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkClassicRed.png);\n}");
-    }
-    if(darkThemeIndex==7){
+    }else if(index==7){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkFantasy.png);\n}");
-    }
-    if(darkThemeIndex==8){
+    }else if(index==8){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkRainbow.png);\n}");
-    }
-    if(darkThemeIndex==9){
+    }else if(index==9){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkPolito.png);\n}");
-    }
-    if(darkThemeIndex==10){
+    }else if(index==10){
         ui->PreviewThemeDark->setStyleSheet("#PreviewThemeDark{\n	background:url(:/image/Settings/darkSpecial.png);\n}");
-
     }
 }

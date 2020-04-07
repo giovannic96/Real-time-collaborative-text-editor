@@ -35,9 +35,7 @@ private slots:
     void on_RegMailForm_returnPressed();
     void on_RegPasswordForm_editingFinished();
     void on_RegMailForm_editingFinished();
-
     void on_RegUsernameForm_editingFinished();
-
     void on_eyeButton_clicked();
 
 public slots:
@@ -53,6 +51,8 @@ private:
     QString qstr = version.getVersion();
     myClient *_client;
     bool regMat;
+
+    void LoginProcedure();
 
 protected:
     //Function for mouse related event

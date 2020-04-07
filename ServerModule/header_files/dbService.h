@@ -39,7 +39,7 @@ public:
     static DB_RESPONSE tryGetEmail(const std::string& invited, std::string& email_invited);
     static DB_RESPONSE tryAddFriend(const std::string& invited, const std::string& urifile);
     static DB_RESPONSE tryGetCollabColors(const std::string& uri, std::map<std::string, std::pair<std::string, bool>>& collabColorsMap);
-
+    static DB_RESPONSE tryCleanAll();
     };
 
 

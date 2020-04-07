@@ -60,28 +60,38 @@ void StartWindow::mouseMoveEvent(QMouseEvent *evt){
 
 void StartWindow::on_LoginButton_clicked(){
     if(_client->getStatus()==false){
-        QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n"
-                                                        "Riprova più tardi");
+        _client ->do_connect();
+        Sleep(1000);
+        qDebug () << "IL SERVER é connesso?--> " <<_client->getStatus();
+        if(_client->getStatus()==false){
+            //secondo controllo se non sono riuscito a ricollegarmi al server
+            QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server!\n" "Riprova più tardi");
+        }else{
+            LoginProcedure();
+        }
     } else {
-        //Get data from the form
-        QString user = ui->LoginUsernameForm->text();
-        QByteArray ba_user = user.toLocal8Bit();
-        const char *c_user = ba_user.data();
-        QString pass = ui->LoginPasswordForm->text();
-        QByteArray ba_pass = pass.toLocal8Bit();
-        const char *c_pass = ba_pass.data();
-
-        //update client data
-        _client->setUsername(user);
-
-        //Serialize data
-        json j;
-        jsonUtility::to_json(j, "LOGIN_REQUEST", c_user, c_pass);
-        const std::string req = j.dump();
-
-        //Send data (header and body)
-        _client->sendRequestMsg(req);
+        LoginProcedure();
     }
+}
+
+void StartWindow::LoginProcedure(){
+    QString user = ui->LoginUsernameForm->text();
+    QByteArray ba_user = user.toLocal8Bit();
+    const char *c_user = ba_user.data();
+    QString pass = ui->LoginPasswordForm->text();
+    QByteArray ba_pass = pass.toLocal8Bit();
+    const char *c_pass = ba_pass.data();
+
+    //update client data
+    _client->setUsername(user);
+
+    //Serialize data
+    json j;
+    jsonUtility::to_json(j, "LOGIN_REQUEST", c_user, c_pass);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    _client->sendRequestMsg(req);
 }
 
 void StartWindow::on_SignUpButton_clicked() {

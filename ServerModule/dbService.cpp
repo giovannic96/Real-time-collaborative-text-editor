@@ -12,6 +12,37 @@
 #include <QtCore/QVariant>
 #include <QtCore/QDateTime>
 
+dbService::DB_RESPONSE dbService::tryCleanAll() {
+    QSqlDatabase db;
+    db = QSqlDatabase::addDatabase("QSQLITE", "MyConnect2");
+    db.setDatabaseName("../Db/texteditor_users.sqlite");
+    if(db.open()) {
+        QSqlQuery query(QSqlDatabase::database("MyConnect2"));
+        query.prepare(QString("UPDATE permissions SET isOpen=0"));
+
+        if(query.exec()) {
+            QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
+            query2.prepare(QString("UPDATE users SET isLogged=0"));
+
+            if(query2.exec()) {
+                std::cout << "CLEANDB success" << std::endl;
+                db.close();
+                return LOGOUT_OK;
+            } else {
+                db.close();
+                return QUERY_ERROR;
+            }
+        } else {
+            db.close();
+            return QUERY_ERROR;
+        }
+    } else {
+        QSqlError error = db.lastError();
+        std::cout << "Error on db connection. " << error.text().data() << std::endl;
+        return DB_ERROR;
+    }
+}
+
 dbService::DB_RESPONSE dbService::tryLogout(const std::string& user) {
     QSqlDatabase db;
     QString username = QString::fromUtf8(user.data(), user.size());
@@ -28,7 +59,7 @@ dbService::DB_RESPONSE dbService::tryLogout(const std::string& user) {
             db.close();
             return LOGOUT_OK;
         } else {
-            std::cout << "Error on SELECT" << std::endl;
+            std::cout << "Error on UPDATE" << std::endl;
             db.close();
             return QUERY_ERROR;
         }

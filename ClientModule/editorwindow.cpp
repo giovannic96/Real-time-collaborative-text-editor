@@ -40,6 +40,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(ui->fontSizeBox->lineEdit(), &QLineEdit::editingFinished, this, &EditorWindow::resetFontSize);
     connect(ui->RealTextEdit, &MyQTextEdit::updateAlignmentButton, this, &EditorWindow::updateAlignmentButton);
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
+    connect(_client, &myClient::statusChanged, this, &EditorWindow::goodbyeClient);
 
     ui->listWidgetOn->setViewMode(QListView::ListMode);
     ui->listWidgetOn->setGridSize(QSize(215,40));
@@ -2014,6 +2015,7 @@ void EditorWindow::installTheme_Dark_Rainbow(){
     ui->opaqueLogo->setStyleSheet("background: url(:/image/Editor/logo.png)");
 
     //TOP FRAME
+    ui->frameTopBar->setStyleSheet("#frameTopBar{           background:qlineargradient(x1:0, y1:1, x2:1, y2:1, stop:0#000000 stop:0.50#000000  stop:0.57#FF0000 stop:0.65#FF9900 stop:0.72#FFFF00 stop:0.80#40FF00 stop:0.87#00FFFF stop:0.92#0000FF stop:0.97#FF00FF);}");
     ui->fileButton->setStyleSheet("#fileButton{             background: url(:/image/Editor/file.png); border:none;}  #fileButton:hover{background-color: #4d4d4d;}       #fileButton:pressed {background-color: #666666;} #fileButton:menu-indicator{ image:none; }");
     ui->visualizzaButton->setStyleSheet("#visualizzaButton{ background: url(:/image/Editor/visualizza.png); border:none;}  #visualizzaButton:hover{background-color: #4d4d4d;} #visualizzaButton:pressed {background-color: #666666;} #visualizzaButton:menu-indicator{ image:none; }");
     ui->modificaButton->setStyleSheet("#modificaButton{     background: url(:/image/Editor/modifica.png); border:none;}  #modificaButton:hover{background-color: #4d4d4d;}   #modificaButton:pressed {background-color: #666666;} #modificaButton:menu-indicator{ image:none; }");
@@ -3393,4 +3395,11 @@ QChar EditorWindow::SimplifySingleCharForSorting(QChar c, bool changeToLowerCase
     if ( c == 0x9F || c == 0xDD || c == 0xFD || c == 0xFF )
         return ( ( c == 0x9F || c == 0xDD ) && !changeToLowerCase ) ? 'Y' : 'y';
     return c;
+}
+
+void EditorWindow::goodbyeClient() {
+   if(_client->getStatus()==false) {
+        QMessageBox::warning(nullptr, "Attenzione", "Non sono riuscito a contattare il server\n\nL'applicazione verrà chiusa");
+        QApplication::exit(-1000);
+   }
 }
