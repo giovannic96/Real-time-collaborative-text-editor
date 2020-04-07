@@ -13,7 +13,7 @@
   <property name="minimumSize">
    <size>
     <width>950</width>
-    <height>350</height>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <property name="minimumSize">
     <size>
      <width>950</width>
-     <height>350</height>
+     <height>500</height>
     </size>
    </property>
    <property name="styleSheet">
@@ -1761,7 +1761,7 @@ border-radius: 4px;</string>
                    <property name="sizeHint" stdset="0">
                     <size>
                      <width>20</width>
-                     <height>4</height>
+                     <height>6</height>
                     </size>
                    </property>
                   </spacer>
@@ -1818,7 +1818,7 @@ background-color: lightgrey;
                    <property name="sizeHint" stdset="0">
                     <size>
                      <width>20</width>
-                     <height>6</height>
+                     <height>10</height>
                     </size>
                    </property>
                   </spacer>
@@ -1887,7 +1887,7 @@ background-color: lightgrey;
                    <property name="sizeHint" stdset="0">
                     <size>
                      <width>20</width>
-                     <height>6</height>
+                     <height>15</height>
                     </size>
                    </property>
                   </spacer>
@@ -1947,6 +1947,22 @@ background-color: lightgrey;
                   </widget>
                  </item>
                  <item>
+                  <spacer name="verticalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Minimum</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>15</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <widget class="Line" name="line_3">
                    <property name="minimumSize">
                     <size>
@@ -1982,7 +1998,7 @@ background-color: lightgrey;
                    <property name="sizeHint" stdset="0">
                     <size>
                      <width>20</width>
-                     <height>6</height>
+                     <height>15</height>
                     </size>
                    </property>
                   </spacer>
@@ -2020,6 +2036,22 @@ background-color: lightgrey;
                     <string>Collaboratori online</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_9">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Minimum</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>6</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_11">
@@ -2166,6 +2198,22 @@ QToolTip {
                   </layout>
                  </item>
                  <item>
+                  <spacer name="verticalSpacer_11">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Minimum</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>6</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <widget class="QLabel" name="labelCollOff">
                    <property name="font">
                     <font>
@@ -2182,6 +2230,22 @@ QToolTip {
                     <string>Collaboratori offline</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Minimum</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>6</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_12">
