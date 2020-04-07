@@ -2732,6 +2732,7 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     QTextBlockFormat textBlockFormat;
     int oldPos = cursor.position();
+    bool lastBlockEmpty = false;
 
     cursor.beginEditBlock();
     /* Change alignment of the 1st block */
@@ -2740,6 +2741,20 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
     textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
     cursor.mergeBlockFormat(textBlockFormat);
     cursor.movePosition(QTextCursor::EndOfBlock);
+
+    /* Detect if last block does not have any characters */
+    int pos1 = cursor.position();
+    cursor.movePosition(QTextCursor::Right); //for \n -> this will be certainly done
+    cursor.movePosition(QTextCursor::Right); //this will be done only if last block is not empty
+    int pos2 = cursor.position();
+    if(pos2-pos1 == 1) {
+        lastBlockEmpty = true;
+        cursor.movePosition(QTextCursor::Left);
+    } else { //Go back to previous position
+        cursor.movePosition(QTextCursor::Left);
+        cursor.movePosition(QTextCursor::Left);
+    }
+
     int curPos = cursor.position();
 
     /* Change alignment of the next blocks, if requested */
@@ -2749,7 +2764,29 @@ void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) 
         textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
         cursor.mergeBlockFormat(textBlockFormat);
         cursor.movePosition(QTextCursor::EndOfBlock);
+
+        /* Detect if last block does not have any characters */
+        int pos1 = cursor.position();
+        cursor.movePosition(QTextCursor::Right); //for \n -> this will be certainly done
+        cursor.movePosition(QTextCursor::Right); //this will be done only if last block is not empty
+        int pos2 = cursor.position();
+        if(pos2-pos1 == 1) {
+            lastBlockEmpty = true;
+            cursor.movePosition(QTextCursor::Left);
+        } else { //Go back to previous position
+            cursor.movePosition(QTextCursor::Left);
+            cursor.movePosition(QTextCursor::Left);
+        }
+
         curPos = cursor.position();
+    }
+
+    /* Set correct alignment if lastBlock was empty */
+    if(lastBlockEmpty) {
+        cursor.movePosition(QTextCursor::Right);
+        textBlockFormat = cursor.blockFormat();
+        textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(alignment));
+        cursor.mergeBlockFormat(textBlockFormat);
     }
 
     /* Update cursor and style buttons */
@@ -3223,7 +3260,9 @@ std::pair<int,int> EditorWindow::alignBlocks(int startIndex, int endIndex, const
     QTextCursor tempCursor = cursor;
     QTextBlockFormat textBlockFormat;
     int startPos, endPos = -1;
+    bool lastBlockEmpty = false;
 
+    tempCursor.beginEditBlock();
     tempCursor.setPosition(startIndex);
     tempCursor.movePosition(QTextCursor::StartOfBlock);
     startPos = tempCursor.position();
@@ -3231,12 +3270,21 @@ std::pair<int,int> EditorWindow::alignBlocks(int startIndex, int endIndex, const
         textBlockFormat = tempCursor.blockFormat();
         textBlockFormat.setAlignment(alignment);
         tempCursor.mergeBlockFormat(textBlockFormat);
+
+        /* Detect if last block does not have any characters */
+        int posBefore = tempCursor.position();
         tempCursor.movePosition(QTextCursor::EndOfBlock); //NB: EndOfBlock does NOT consider <CR> (for ex.), so I have to move Right to reach the next block
+        int posAfter = tempCursor.position();
+        if(posBefore == posAfter)
+            lastBlockEmpty = true;
+
         endPos = tempCursor.position();
         tempCursor.movePosition(QTextCursor::Right);
     }
     tempCursor.movePosition(QTextCursor::Left); //to check if we selected also the last block
-    if(ui->RealTextEdit->document()->lastBlock() == tempCursor.block())
+    tempCursor.endEditBlock();
+
+    if(lastBlockEmpty || ui->RealTextEdit->document()->lastBlock() == tempCursor.block())
         return std::make_pair(startPos, endPos); //endPos and not endPos+1 due to the fact that Qt considers <CR> in last line, even if I didn't press Return btn
     else
         return std::make_pair(startPos, endPos+1); //endPos+1 to change alignment also for <CR>
