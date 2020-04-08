@@ -658,12 +658,22 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
         if(ui->RealTextEdit->toPlainText().length() == 0) { //there aren't chars
             setupInitialCondition();
         } else {
+            bool hasNoFormat = false;
+            if(QString::number(c.charFormat().fontPointSize()) == "0") {
+                c.movePosition(QTextCursor::Right); //get format from the letter to the right (usually \n in this case)
+                hasNoFormat = true;
+            }
+
+            /* Setup format buttons */
             ui->fontSizeBox->setCurrentText(QString::number(c.charFormat().fontPointSize()));
             ui->fontFamilyBox->setCurrentIndex(ui->fontFamilyBox->findText(c.charFormat().fontFamily()));
             c.charFormat().fontWeight()==QFont::Bold ? ui->buttonBold->setChecked(true) : ui->buttonBold->setChecked(false);
             c.charFormat().fontItalic()==true ? ui->buttonItalic->setChecked(true) : ui->buttonItalic->setChecked(false);
             c.charFormat().fontUnderline()==true ? ui->buttonUnderline->setChecked(true) : ui->buttonUnderline->setChecked(false);
 
+            if(hasNoFormat) c.movePosition(QTextCursor::Left); //ok, we got the correct format, now go back to the left
+
+            /* Setup alignment buttons */
             if(c.blockFormat().alignment()==Qt::AlignRight)
                 AlignDXButtonHandler();
             else if(c.blockFormat().alignment()==Qt::AlignCenter || c.blockFormat().alignment()==Qt::AlignHCenter)
@@ -1136,7 +1146,7 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 int endIndex = cursor.selectionEnd();
 
                 /* Update new alignment */
-                cursor.setPosition(cursor.selectionStart());
+                cursor.setPosition(startIndex);
                 QTextBlockFormat textBlockFormat;
                 int firstCharAlignment = static_cast<int>(cursor.blockFormat().alignment());
                 textBlockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(firstCharAlignment));
