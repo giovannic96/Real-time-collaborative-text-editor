@@ -2879,7 +2879,7 @@ QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText
     int startAlignment = getFirstCharAlignment(cursor);
 
     /* Remove initial html header and substitute '\n' with empty paragraphs */
-    htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID></p>");
+    htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID></p>");  
 
     /* Split htmlText in many strings defined by the tags <p> e </p> (paragraphs) */
     QRegularExpression rx("<p (.*?)</p>");
@@ -2887,9 +2887,9 @@ QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText
 
     if(paragraphs.empty())
         throw OperationNotSupported();
-    if(paragraphs.length()==3 && paragraphs.at(0).contains("paragraph-type:empty") && paragraphs.at(2).contains("paragraph-type:empty")) {
-        paragraphs.pop_back();
-        paragraphs.pop_back();
+    if(paragraphs.length() >= 3) {
+        paragraphs.erase(std::remove_if(paragraphs.begin(), std::prev(paragraphs.end()),
+            [](const QString& s){ return s.contains("paragraph-type:empty"); }), std::prev(paragraphs.end()));
     }
 
     /* Handle first paragraph -> each char of this paragraph will have the startAlignment */
@@ -2920,7 +2920,7 @@ QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText
 
     /* Replace all 0s with 1s due to '\n' that is not considered as '<span>' tag */
     std::for_each(std::begin(finalVec), std::end(finalVec), [](std::pair<int,int>& p) {
-        if(p.first  == 0)
+        if(p.first == 0)
             p.first = 1;
     });
 
