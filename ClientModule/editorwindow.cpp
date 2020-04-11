@@ -2733,12 +2733,18 @@ void EditorWindow::changeFontSize(int startIndex, int endIndex, int fontSize) {
 void EditorWindow::changeFontFamily(int startIndex, int endIndex, std::string fontFamily) {
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     QTextCharFormat newFormat;
+    QFont f;
 
     cursor.beginEditBlock();
     while(endIndex > startIndex) {
         cursor.setPosition(--endIndex);
         cursor.setPosition(endIndex+1, QTextCursor::KeepAnchor); //to select the char to be updated
-        newFormat.setFontFamily(QString::fromStdString(fontFamily));
+        f.setFamily(QString::fromStdString(fontFamily));
+        f.setBold(cursor.charFormat().font().bold());
+        f.setItalic(cursor.charFormat().font().italic());
+        f.setUnderline(cursor.charFormat().font().underline());
+        f.setPointSize(cursor.charFormat().font().pointSize());
+        newFormat.setFont(f);
         cursor.mergeCharFormat(newFormat);
     }
     cursor.endEditBlock();
@@ -2880,7 +2886,7 @@ QVector<std::pair<int,int>> EditorWindow::getAlignmentsFromHTML(QString htmlText
     int startAlignment = getFirstCharAlignment(cursor);
 
     /* Remove initial html header and substitute '\n' with empty paragraphs */
-    htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID></p>");  
+    htmlText = htmlText.mid(htmlText.indexOf("<p"), htmlText.length()).replace("\n", "<p VOID></p>");
 
     /* Split htmlText in many strings defined by the tags <p> e </p> (paragraphs) */
     QRegularExpression rx("<p (.*?)</p>");
