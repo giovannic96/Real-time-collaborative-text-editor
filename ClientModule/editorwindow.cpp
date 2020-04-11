@@ -132,6 +132,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 }
 
 EditorWindow::~EditorWindow() {
+    emit closeEditor();
     delete ui;
 }
 

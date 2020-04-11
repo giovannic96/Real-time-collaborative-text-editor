@@ -35,6 +35,7 @@ public slots:
     void showListFile(std::vector<File> files);    
     void resumeWindow();
     void setUserProfileClosed();
+    void setEditorClosed();
 
 private:
     Ui::MenuWindow *ui;
@@ -43,8 +44,9 @@ private:
     EditorWindow *_ew;
     bool Logout = false;
     bool profile = false;
-    bool FirstTimeWindowOpens=true;    
+    bool FirstTimeWindowOpens = true;
     bool profile_closed = true;
+    bool editor_closed = true;
     UserProfile *up;
 
 protected:

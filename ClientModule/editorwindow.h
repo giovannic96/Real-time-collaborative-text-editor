@@ -166,6 +166,9 @@ private slots:
     void openInfoWindows();
     void goodbyeClient();
 
+signals:
+    void closeEditor();
+
     /************************************
      *        OTHER SLOTS FUNCTION      *
      ************************************/

@@ -340,18 +340,14 @@ void MenuWindow::showPopupSuccess(QString result) {
         s->show();
     } else if(result == "LOGOUT_SUCCESS") {
         QApplication::exit();
-    } else if(result == "NEWFILE_SUCCESS") {
-        _ew = new EditorWindow(_client);
-        this->hide();
-        _ew->showMaximized();
-    } else if(result == "OPENFILE_SUCCESS") {
-        _ew = new EditorWindow(_client);
-        this->hide();
-        _ew->showMaximized();
-    } else if(result == "OPENWITHURI_SUCCESS") {
-        _ew = new EditorWindow(_client);
-        this->hide();
-        _ew->showMaximized();
+    } else if(result == "NEWFILE_SUCCESS" || result == "OPENFILE_SUCCESS" || result == "OPENWITHURI_SUCCESS") {
+        if(editor_closed){
+            _ew = new EditorWindow(_client);
+            connect(_ew, &EditorWindow::closeEditor, this, &MenuWindow::setEditorClosed);
+            editor_closed = false;
+            this->hide();
+            _ew->showMaximized();
+        }
     } else if(result == "LISTFILE_SUCCESS") {
         if(profile) {
             profile = false;
@@ -463,6 +459,10 @@ void MenuWindow::resumeWindow() {
 
 void MenuWindow:: setUserProfileClosed(){
     profile_closed = true;
+}
+
+void MenuWindow:: setEditorClosed(){
+    editor_closed = true;
 }
 
 void MenuWindow::handleTheConnectionLoss() {
