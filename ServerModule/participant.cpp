@@ -19,6 +19,7 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
+
     if(_symbols.empty()) {
         pos = {0};
         index = 0;
@@ -40,8 +41,8 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
 msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false) {
 
     auto t_start = std::chrono::high_resolution_clock::now();
-
     std::vector<int> pos;
+
     int startIndex = symbols.front().getIndex();
 
     //generate initial pos and initial index
@@ -60,6 +61,7 @@ msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false
     bool firstTime = true;
     bool secondTime = true;
     int counter = 0;
+
     std::for_each(symbols.begin(), symbols.end(), [&firstTime, &secondTime, &counter, &pos, &symbolVector, this](const symbolInfo& s) {
         //get values
         wchar_t value = s.getLetter();
@@ -81,10 +83,13 @@ msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false
         symbol sym(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
         symbolVector.push_back(sym);
     });
+
     _symbols.insert(_symbols.begin() + startIndex, symbolVector.begin(), symbolVector.end());
+
     auto t_end = std::chrono::high_resolution_clock::now();
     double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
     std::cout << "FOR EACH LOCAL INSERT - ELAPSED (ms): " << elapsed_time_ms << std::endl;
+
     msgInfo m(6, getId(), std::move(symbolVector), startIndex);
     return m;
 }
@@ -94,6 +99,7 @@ std::vector<int> participant::generatePos(int index) {
     const std::vector<int> posAfter = _symbols[index].getPos();
     return generatePosBetween(posBefore, posAfter);
 }
+                                                //pos1 [1, 1] pos2 [1, 0]
 
 std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos) {
     int id1 = pos1.at(0);
@@ -124,24 +130,25 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
             return newPos;
         }
     }
+    //else if(id2 - id1 < 0)//TODO THIS must not happen otherwise the server crashes
 }
 
 int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
     if (curSymPos.at(posIndex) < newSymPos.at(posIndex))
-        return 0;
+        return 1;
     else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
-        if (newSymPos.size() < posIndex + 1 &&
-            curSymPos.size() >= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
-            return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
-        else if (newSymPos.size() >= posIndex + 1 &&
-                 curSymPos.size() < posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
-            return 1; //correct position found
-        else if (newSymPos.size() < posIndex + 1 &&
-                 curSymPos.size() < posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
-            return comparePos(curSymPos, newSymPos,
+        if (newSymPos.size() > posIndex + 1 &&
+            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] == null
+            return 1; // correct position found
+        else if (newSymPos.size() <= posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex+1] != null
+            return -1; //curSymPos > newSymPos  -> make another cycle taking the next symbol from _symbols
+        else if (newSymPos.size() > posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] != null
+            return comparePosdx(curSymPos, newSymPos,
                               posIndex + 1); //call recursively this function using next index for posIndex
     } else
-        return 1; //correct position found
+        return -1; //make another cycle taking the next symbol from _symbols
 }
 
 int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
@@ -159,7 +166,7 @@ int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymP
             return comparePos(curSymPos, newSymPos,
                               posIndex + 1); //call recursively this function using next index for posIndex
     } else
-        return 0;
+        return -1; //make another cycle taking the next symbol from _symbols
 }
 
 msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
@@ -178,6 +185,7 @@ msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexc
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
+
     symbol s = _symbols.at(startIndex);
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [format](symbol& s) {
         symbolStyle newStyle;
@@ -254,21 +262,21 @@ msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alig
 void participant::process(const msgInfo& m) {
     /* Insertion */
     if (m.getType() == 0) { //TODO: switch case for different msgtypes, better enum not int
+
         int symbols_index = 0, pos_index = 0;
         int startIndex = _symbols.size();
 
         //get first index
-        if (m.getNewIndex() > _symbols.size() / 2) { //LOOP FROM RIGHT TO LEFT
+        if (m.getNewIndex() > _symbols.size()/2) { //LOOP FROM RIGHT TO LEFT
             std::cout << std::endl << "RIGHT TO LEFT: " << startIndex << std::endl << std::endl;
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
                 startIndex--;
                 int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
+
                 if (retValue == -1)
                     continue;
-                else if (retValue == 1)
-                    break;
-                else {
-                    startIndex = (int) _symbols.size();
+                else if (retValue == 1) {
+                    startIndex ++;
                     break;
                 }
             }
@@ -278,19 +286,18 @@ void participant::process(const msgInfo& m) {
             for (const auto &s: _symbols) {
                 symbols_index++;
                 int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
+
                 if (retValue == -1)
                     continue;
                 else if (retValue == 1) {
                     startIndex = symbols_index - 1;
-                    break;
-                } else {
-                    startIndex = (int) _symbols.size();
                     break;
                 }
             }
         }
         std::cout << std::endl << "STAAAAAART INDEX: " << startIndex << std::endl << std::endl;
         _symbols.insert(_symbols.begin() + startIndex, m.getSymbol());
+
     }
     /* Removal */
     else if (m.getType() == 1) {
@@ -408,10 +415,8 @@ void participant::process(const msgInfo& m) {
                 int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
                 if (retValue == -1)
                     continue;
-                else if (retValue == 1)
-                    break;
-                else {
-                    my_index = (int) _symbols.size();
+                else if (retValue == 1) {
+                    my_index ++;
                     break;
                 }
             }
@@ -424,9 +429,6 @@ void participant::process(const msgInfo& m) {
                     continue;
                 else if (retValue == 1) {
                     my_index = symbols_index - 1;
-                    break;
-                } else {
-                    my_index = symbols_index;
                     break;
                 }
             }
