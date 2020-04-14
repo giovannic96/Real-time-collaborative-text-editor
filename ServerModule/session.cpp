@@ -187,8 +187,6 @@ void session::do_read_body() {
 }
 
 void session::do_write() {
-    //enable to test
-    //std::this_thread::sleep_for (std::chrono::seconds(2));
 
     auto self(shared_from_this());
     boost::asio::async_write(socket_,
@@ -688,7 +686,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         //Serialize data
         json j;
         jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second), styleJSON);
-
         const std::string response = j.dump();
         return response;
 

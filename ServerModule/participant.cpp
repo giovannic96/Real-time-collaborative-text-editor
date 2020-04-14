@@ -19,7 +19,6 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
-
     if(_symbols.empty()) {
         pos = {0};
         index = 0;
@@ -39,7 +38,6 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
 }
 
 msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false) {
-
     auto t_start = std::chrono::high_resolution_clock::now();
     std::vector<int> pos;
 
@@ -99,7 +97,6 @@ std::vector<int> participant::generatePos(int index) {
     const std::vector<int> posAfter = _symbols[index].getPos();
     return generatePosBetween(posBefore, posAfter);
 }
-                                                //pos1 [1, 1] pos2 [1, 0]
 
 std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos) {
     int id1 = pos1.at(0);
@@ -297,7 +294,6 @@ void participant::process(const msgInfo& m) {
         }
         std::cout << std::endl << "STAAAAAART INDEX: " << startIndex << std::endl << std::endl;
         _symbols.insert(_symbols.begin() + startIndex, m.getSymbol());
-
     }
     /* Removal */
     else if (m.getType() == 1) {
