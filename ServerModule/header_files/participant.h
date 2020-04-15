@@ -27,7 +27,7 @@ private:
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6};
 
 public:
-    virtual ~participant() {}
+    virtual ~participant() = default;
     virtual void deliver(const message& msg) = 0;
     int getId() const;
     msgInfo localInsert(int index, wchar_t value, symbolStyle style);

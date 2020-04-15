@@ -6,7 +6,6 @@
 #include "header_files/jsonUtility.h"
 #include "header_files/symbolInfo.h"
 #include <iomanip>
-#include <chrono>
 
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
     j = json{
@@ -284,7 +283,6 @@ json jsonUtility::merge(const json &a, const json &b) {
 }
 
 std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols) {
-    auto t_start = std::chrono::high_resolution_clock::now();
     if(symbols.empty())
         return json::array();
 
@@ -295,9 +293,6 @@ std::vector<json> jsonUtility::fromSymToJson(const std::vector<symbol>& symbols)
         jsonUtility::to_json_symbol(j, sym); //convert sym into json
         jsons.push_back(j);
     }
-    auto t_end = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-    std::cout << "fromSymToJson - ELAPSED (ms): " << elapsed_time_ms << std::endl;
     return jsons;
 }
 

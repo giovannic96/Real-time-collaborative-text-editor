@@ -180,8 +180,6 @@ void myClient::do_read_body() {
                         emit opResultFailure("NEWFILE_FAILURE");
                 } else if(opJSON == "OPENFILE_RESPONSE") {
 
-                    auto t_start1 = std::chrono::high_resolution_clock::now();
-
                     std::string db_responseJSON;
                     jsonUtility::from_json_resp(jdata_in, db_responseJSON);
 
@@ -191,10 +189,6 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setVector(symbolsJSON);
-
-                        auto t_end1 = std::chrono::high_resolution_clock::now();
-                        double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-                        std::cout << "OPENFILE RESPONSE - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
 
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {

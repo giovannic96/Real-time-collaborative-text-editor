@@ -8,8 +8,8 @@
 #include <QtSql/QSqlDatabase>
 #include "header_files/dbService.h"
 
-void cleanDBFlags(){
-    dbService::DB_RESPONSE resp = dbService::tryCleanAll();
+void cleanDBFlags() {
+    dbService::tryCleanAll();
     QSqlDatabase::removeDatabase("MyConnect2");
 }
 

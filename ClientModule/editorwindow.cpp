@@ -19,8 +19,6 @@
 using json = nlohmann::json;
 
 EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(parent), ui(new Ui::EditorWindow), _client(client) {
-    auto t_start1 = std::chrono::high_resolution_clock::now();
-
     ui->setupUi(this);
     connect(_client, &myClient::editorResultSuccess, this, &EditorWindow::showPopupSuccess);
     connect(_client, &myClient::editorResultFailure, this, &EditorWindow::showPopupFailure);
@@ -42,6 +40,26 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     connect(&ui->RealTextEdit->timer, &QTimer::timeout, ui->RealTextEdit, &MyQTextEdit::hideHorizontalRect);
     connect(_client, &myClient::statusChanged, this, &EditorWindow::goodbyeClient);
 
+    setupListWidgets();
+    setupFirstLetter();
+    setupColor();
+    setupValidator();
+    setupTextEdit();
+    setupFontIcon();
+    cursorChangeRequest(0);
+    hideLastAddedItem(ui->fontFamilyBox);
+    qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
+    qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
+    showSymbolsAt(0, _client->getVector());
+    this->installEventFilter(this);
+    ui->RealTextEdit->installEventFilter(this);
+    collabColorsRequest(_client->getFileURI());
+    LoadUserSetting();
+    setupTitlebarTimer();
+    SetDynamicDocNameLabel(); //set docName on CollabBar
+}
+
+void EditorWindow::setupListWidgets() {
     ui->listWidgetOn->setViewMode(QListView::ListMode);
     ui->listWidgetOn->setGridSize(QSize(215,40));
     ui->listWidgetOn->setIconSize(QSize(30,30));
@@ -66,69 +84,56 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
 
     ui->listWidgetOn->setVerticalScrollBar(ui->verticalScrollBarOn);
     ui->listWidgetOff->setVerticalScrollBar(ui->verticalScrollBarOff);
+}
 
-    QString user = _client->getUsername();
-    ui->labelUser->setText(user);
-
-    QChar firstLetter;
-
-    for (int i=0;i<user.length();i++){
-        firstLetter = user.at(i);
-        if(firstLetter.isLetter()){
-            break;
-        }
-    }
-
-    SimplifySingleCharForSorting(firstLetter,1);
-    ui->profileButton->setText(firstLetter.toUpper());
-
-    QColor color = _client->getColor();
-    QString qss = QString("border-radius: 5px; \nbackground-color: %1; color:white;").arg(color.name());
-    ui->profileButton->setStyleSheet(qss);
-
-    QRegularExpressionValidator* fontSizeValidator;
-    QIcon fontIcon(":/image/Editor/font.png");
-    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
-
-    ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
-
+void EditorWindow::setupTextEdit() {
     ui->RealTextEdit->setFontPointSize(14);
     ui->RealTextEdit->setFontFamily("Times New Roman");
     ui->RealTextEdit->setAcceptDrops(false);
     ui->RealTextEdit->setUndoRedoEnabled(false);
     ui->RealTextEdit->document()->setDocumentMargin(50);
+    ui->RealTextEdit->setEditorColor(_client->getColor());
+}
+
+void EditorWindow::setupFirstLetter() {
+    QString user = _client->getUsername();
+    ui->labelUser->setText(user);
+
+    QChar firstLetter;
+    for (int i=0;i<user.length();i++) {
+        firstLetter = user.at(i);
+        if(firstLetter.isLetter()) {
+            break;
+        }
+    }
+    SimplifySingleCharForSorting(firstLetter,1);
+    ui->profileButton->setText(firstLetter.toUpper());
+}
+
+void EditorWindow::setupValidator() {
+    QRegularExpressionValidator* fontSizeValidator;
+    fontSizeValidator = new QRegularExpressionValidator(QRegularExpression("^(200|[1-9]|[1-9][0-9]|1[0-9][0-9])")); //from 1 to 200
+    ui->fontSizeBox->lineEdit()->setValidator(fontSizeValidator);
+}
+
+void EditorWindow::setupColor() {
+    QColor color = _client->getColor();
+    QString qss = QString("border-radius: 5px; \nbackground-color: %1; color:white;").arg(color.name());
+    ui->profileButton->setStyleSheet(qss);
+}
+
+void EditorWindow::setupFontIcon() {
+    QIcon fontIcon(":/image/Editor/font.png");
     ui->fontFamilyBox->setCurrentText(ui->RealTextEdit->currentFont().family());
     for(int i=0; i<ui->fontFamilyBox->count(); i++) {
         ui->fontFamilyBox->setItemIcon(i, fontIcon);
     }
-    ui->RealTextEdit->setEditorColor(_client->getColor());
-    //ui->RealTextEdit->addRemoteCursor(_client->getUsername(), std::make_pair(_client->getColor(),0));
-    cursorChangeRequest(0);
-    hideLastAddedItem(ui->fontFamilyBox);
-    qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
-    qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
-    auto t_end1 = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-    std::cout << "EDITOR WINDOW CONSTRUCTOR - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
+}
 
-    showSymbolsAt(0, _client->getVector());
-    auto t_start = std::chrono::high_resolution_clock::now();
-
-    this->installEventFilter(this);
-    ui->RealTextEdit->installEventFilter(this);
-    collabColorsRequest(_client->getFileURI());
-
-    //Load Last User's Saved Setting
-    LoadUserSetting();
+void EditorWindow::setupTitlebarTimer() {
     titlebarTimer = new QTimer(this);
-    connect(titlebarTimer,SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
+    connect(titlebarTimer, SIGNAL(timeout()), this, SLOT(TitlebarChangeByTimer()));
     titlebarTimer->start(1);
-
-    //Set docName on CollabBar
-    SetDynamicDocNameLabel();
-    auto t_end = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-    std::cout << "EDITOR WINDOW CONSTRUCTOR AFTER SHOWSYMBOLS - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 }
 
 EditorWindow::~EditorWindow() {
@@ -377,12 +382,6 @@ void EditorWindow::on_aboutButton_clicked(){
     ui->aboutButton->setMenu(&menuAbout);
     ui->aboutButton->showMenu();
 }
-
-
-/***********************************************************************************
-*                                  COLLABORATOR BAR                                *
-************************************************************************************/
-
 
 /***********************************************************************************
 *                                TEXT FORMAT BUTTONS                               *
@@ -793,7 +792,7 @@ void EditorWindow::on_RealTextEdit_cursorPositionChanged() {
     refreshFormatButtons();
 }
 
-void EditorWindow::on_RealTextEdit_textChanged(){
+void EditorWindow::on_RealTextEdit_textChanged() {
     int charCount = ui->RealTextEdit->toPlainText().count();
     int wordCount = ui->RealTextEdit->toPlainText().split(QRegExp("(\\s|\\n|\\r)+"), QString::SkipEmptyParts).count();
     int lineCount = ui->RealTextEdit->document()->blockCount();
@@ -883,7 +882,6 @@ void EditorWindow::on_RealTextEdit_customContextMenuRequested(const QPoint &pos)
     //show menu
     menu.exec(ui->RealTextEdit->viewport()->mapToGlobal(pos)); //I don't know why, but it works! (I mean viewport->mapToGlobal)
 }
-
 
 /***********************************************************************************
 *                                   EVENT HANDLER                                  *
@@ -1125,8 +1123,6 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 ui->fontSizeBox->addItem(ui->fontSizeBox->currentText());
                 hideLastAddedItem(ui->fontSizeBox);
             }
-
-            qDebug() << "char: " << c;
             tuple = std::make_pair(pos, c);
 
             //Serialize data
@@ -2142,7 +2138,6 @@ void EditorWindow::AlignNoneButtonHandler() {
     ui->buttonAlignJFX->setChecked(false);
 }
 
-
 //Set the button style if Alignment is checked
 void EditorWindow::AlignButtonStyleHandler() {
    if(ui->buttonAlignCX->isChecked()) {
@@ -2291,10 +2286,8 @@ void EditorWindow::setupInitialCondition(){
         AlignSXButtonHandler();
 }
 
-void EditorWindow::SetDynamicDocNameLabel(){
-
+void EditorWindow::SetDynamicDocNameLabel() {
     ui->DocNameLabel->setText(docName); //Update docNameLabel after rename! Important!!!
-
     ui->DocNameLabel->adjustSize();
     ui->DocNameLabel->resize(ui->DocNameLabel->sizeHint());
     qDebug() << "DocNameLabel pixel width is --> " << ui->DocNameLabel->width();
@@ -2373,7 +2366,6 @@ void EditorWindow::openInfoWindows(){
         infowindow_closed = false;
     }
 }
-
 
 
 /***************************************************************************************************************************************
@@ -2477,10 +2469,8 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             fileItem.append(itemOff);
         }
      }
-
     ui->listWidgetOn->setStyleSheet("#listWidgetOn{\nborder:transparent;\nbackground: transparent;\n}\n\nQToolTip { \n	color: #000000; \n	background-color: #FFF2BF; \n	border: 0px; \n}");
     ui->listWidgetOff->setStyleSheet("#listWidgetOff{\nborder:transparent;\nbackground: transparent;\ncolor: rgb(159,159,159);\n}\n\nQToolTip { \n	color: #000000; \n	background-color: #FFF2BF; \n	border: 0px; \n}");
-
 }
 
 void EditorWindow::getUserOffline(myCollabColorsMap collabColorsMap) {
@@ -2495,8 +2485,6 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     wchar_t letter;
     int index = firstIndex;
     QTextCursor c = ui->RealTextEdit->textCursor();
-
-    auto t_start1 = std::chrono::high_resolution_clock::now();
 
     c.beginEditBlock();
     foreach (symbol s, symbols) {
@@ -2557,10 +2545,6 @@ void EditorWindow::showSymbolsAt(int firstIndex, std::vector<symbol> symbols) {
     }
     c.endEditBlock();
     ui->RealTextEdit->setTextCursor(c);
-
-    auto t_end1 = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-    std::cout << "SHOW SYMBOLS AT - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
 }
 
 void EditorWindow::showSymbol(std::pair<int, wchar_t> tuple, symbolStyle style) {
@@ -3353,8 +3337,6 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
     const QMimeData *mimeData = clipboard->mimeData();
     QTextCursor cursor = ui->RealTextEdit->textCursor();
 
-    auto t_start1 = std::chrono::high_resolution_clock::now();
-
     if(mimeData->hasText() && !mimeData->hasImage() && !mimeData->hasUrls() && !mimeData->html().contains("<a href")) {
         /* Get chars from clipboard mimeData */
         int numChars = mimeData->text().size(); //number of chars = number of iterations
@@ -3421,10 +3403,6 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
         std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(infoSymbols);
         jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
         const std::string req = j.dump();
-
-        auto t_end1 = std::chrono::high_resolution_clock::now();
-        double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-        std::cout << "insertCharRangeRequest ELAPSED: " << elapsed_time_ms1 << std::endl;
 
         //Send data (header and body)
         _client->sendRequestMsg(req);

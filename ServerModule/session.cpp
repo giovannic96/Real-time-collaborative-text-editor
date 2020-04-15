@@ -59,7 +59,6 @@ void session::do_read_header()
             if(!shared_from_this()->getUsername().empty()) { //it can be empty at the beginning (if a crash happens)
                 dbService::tryLogout(shared_from_this()->getUsername());
                 QSqlDatabase::removeDatabase("MyConnect2");
-                //TODO: handle response from db
             }
             room_.leave(shared_from_this());
         }
@@ -84,12 +83,8 @@ void session::do_read_body() {
             std::string opJSON;
             json jdata_in;
             try {
-                auto t_start = std::chrono::high_resolution_clock::now();
                 jdata_in = json::parse(fullBody);
                 jsonUtility::from_json(jdata_in, opJSON); //get json value and put into JSON variables
-                auto t_end = std::chrono::high_resolution_clock::now();
-                double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-                std::cout << "OPENFILE PARSE - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 
                 int edId = shared_from_this()->getId();
                 std::string curFile = std::string();
@@ -132,7 +127,6 @@ void session::do_read_body() {
                     }
                 }
                 else if(opJSON == "OPENFILE_REQUEST" || opJSON == "OPENWITHURI_REQUEST") {
-                    auto t_start1 = std::chrono::high_resolution_clock::now();
                     std::cout << "Sent:" << response << "END" << std::endl;
                     this->sendMsg(response); //send data only to this participant
 
@@ -158,9 +152,6 @@ void session::do_read_body() {
                         std::cout << "Sent:" << response2 << "END" << std::endl;
                         this->sendMsgAll(response2, edId, curFile); //send data to all the participants, having the curFile opened
                     }
-                    auto t_end1 = std::chrono::high_resolution_clock::now();
-                    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-                    std::cout << "OPENFILE sendMsg and sendMsgAll - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
                 }
                 else {
                     std::cout << "Sent:" << response << "END" << std::endl;
@@ -179,7 +170,6 @@ void session::do_read_body() {
             if(!shared_from_this()->getUsername().empty()) { //it can be empty at the beginning (if a crash happens)
                 dbService::tryLogout(shared_from_this()->getUsername());
                 QSqlDatabase::removeDatabase("MyConnect2");
-                //TODO: handle response from db
             }
             room_.leave(shared_from_this());
         }
@@ -187,7 +177,6 @@ void session::do_read_body() {
 }
 
 void session::do_write() {
-
     auto self(shared_from_this());
     boost::asio::async_write(socket_,
                              boost::asio::buffer(write_msgs_.front().data(),write_msgs_.front().length()+1),
@@ -203,7 +192,6 @@ void session::do_write() {
              if(!shared_from_this()->getUsername().empty()) { //it can be empty at the beginning (if a crash happens)
                  dbService::tryLogout(shared_from_this()->getUsername());
                  QSqlDatabase::removeDatabase("MyConnect2");
-                 //TODO: handle response from db
              }
              room_.leave(shared_from_this());
          }
@@ -251,7 +239,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json(jdata_in, userJSON, passJSON); //get json value and put into JSON variables
 
         //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
         QString colorJSON = "#00ffffff";
         QString mail = "";
@@ -285,9 +272,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
 
         //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
@@ -313,9 +298,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json_uri(jdata_in,userJSON, uriJSON); //get json value and put into JSON variables
 
         //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-
         dbService::DB_RESPONSE resp = dbService::tryLogout(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
@@ -347,7 +330,6 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json(jdata_in, userJSON, passJSON, emailJSON); //get json value and put into JSON variables
 
         //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
         dbService::DB_RESPONSE resp = dbService::trySignup(userJSON, passJSON, emailJSON);
         QSqlDatabase::removeDatabase("MyConnect");
@@ -376,14 +358,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string filenameJSON;
 
         jsonUtility::from_json_filename(jdata_in, userJSON, filenameJSON); //get json value and put into JSON variables
-        //conversion needed to save filename string correctly in the DB
-        filenameJSON = QString::fromUtf8(filenameJSON.c_str()).toLatin1().toStdString();
-
-        //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
-        const char *db_res;
+        filenameJSON = QString::fromUtf8(filenameJSON.c_str()).toLatin1().toStdString(); //conversion needed to save filename string correctly in the DB
 
         //update tables on db
+        const char *db_res;
         QString uri = dbService::generateURI(12);
         dbService::DB_RESPONSE resp = dbService::tryNewFile(userJSON, filenameJSON, uri);
         QSqlDatabase::removeDatabase("MyConnect3");
@@ -423,11 +401,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string userJSON;
         jsonUtility::from_json_username(jdata_in, userJSON); //get json value and put into JSON variables
 
-        //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
-        const char *db_res;
-
         //check the list of file for the current user
+        const char *db_res;
         std::vector<File> vectorFile;
         dbService::DB_RESPONSE resp = dbService::tryListFile(userJSON, vectorFile);
         QSqlDatabase::removeDatabase("MyConnect2");
@@ -464,13 +439,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string uriJson;
         std::string userJSON;
         jsonUtility::from_json_renameFile(jdata_in, newNameFileJson, uriJson,userJSON);
-        //conversion needed to save filename string correctly in the DB
-        newNameFileJson = QString::fromUtf8(newNameFileJson.c_str()).toLatin1().toStdString();
+
+        newNameFileJson = QString::fromUtf8(newNameFileJson.c_str()).toLatin1().toStdString(); //conversion needed to save filename string correctly in the DB
 
         //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
         const char *db_res;
-
         dbService::DB_RESPONSE resp = dbService::tryRenameFile(newNameFileJson, uriJson, userJSON);
         QSqlDatabase::removeDatabase("MyConnect3");
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
@@ -497,18 +470,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string uriJSON;
         jsonUtility::from_json_uri(jdata_in, userJSON, uriJSON); //get json value and put into JSON variables
 
-        //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
-        const char *db_res;
-
         //update tables on db
+        const char *db_res;
         dbService::DB_RESPONSE resp = dbService::tryOpenFile(userJSON, uriJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
-            auto t_start1 = std::chrono::high_resolution_clock::now();
-
             shared_from_this()->setCurrentFile(uriJSON);
             shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
 
@@ -521,19 +489,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
                 db_res = "OPENFILE_FILE_EMPTY";
             else
                 db_res = "OPENFILE_OK";
-            auto t_end1 = std::chrono::high_resolution_clock::now();
-            double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-            std::cout << "OP FILE RESPONSE PT1 - ELAPSED (ms): " << elapsed_time_ms1 << std::endl << std::endl;
 
-            auto t_start = std::chrono::high_resolution_clock::now();
             //Serialize data
             json j;
             jsonUtility::to_json_symVector(j, "OPENFILE_RESPONSE", db_res, shared_from_this()->getSymbols());
             const std::string response = j.dump();
-
-            auto t_end = std::chrono::high_resolution_clock::now();
-            double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-            std::cout << "OP FILE RESPONSE PT2 - ELAPSED (ms): " << elapsed_time_ms << std::endl << std::endl;
             return response;
         }
         else if(resp == dbService::OPENFILE_FAILED)
@@ -557,16 +517,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::string filenameJSON;
         jsonUtility::from_json_uri(jdata_in, userJSON, uriJSON); //get json value and put into JSON variables
 
-        //Get data from db
-        //const char *db_res = dbService::enumToStr(dbService::tryLogin(userJSON, passJSON));
-        const char *db_res;
-
         //update tables on db
+        const char *db_res;
         dbService::DB_RESPONSE resp = dbService::tryOpenWithURIFile(userJSON, uriJSON, filenameJSON);
         QSqlDatabase::removeDatabase("MyConnect2");
-
-        //conversion needed to save filename string correctly in the DB
-        //filenameJSON = QString::fromUtf8(filenameJSON.c_str()).toLatin1().toStdString();
 
         if (resp == dbService::OPENWITHURI_OK) {
             //Update session data

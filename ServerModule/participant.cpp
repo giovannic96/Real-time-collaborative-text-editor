@@ -5,20 +5,89 @@
 #include <algorithm>
 #include <iostream>
 #include <utility>
-#include <chrono>
 #include "header_files/participant.h"
 
 int participant::getId() const {
     return _siteId;
 }
 
+std::vector<int> participant::generatePos(int index) {
+    const std::vector<int> posBefore = _symbols[index-1].getPos();
+    const std::vector<int> posAfter = _symbols[index].getPos();
+    return generatePosBetween(posBefore, posAfter);
+}
+
+std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos) {
+    int id1 = pos1.at(0);
+    int id2 = pos2.at(0);
+
+    if(id2 - id1 == 0) {
+        newPos.push_back(id1);
+        pos1.erase(pos1.begin());
+        pos2.erase(pos2.begin());
+        if(pos1.empty()) {
+            newPos.push_back(pos2.front()-1);
+            return newPos;
+        } else
+            return generatePosBetween(pos1, pos2, newPos);
+    }
+    else if(id2 - id1 > 1) {
+        newPos.push_back(pos1.front()+1);
+        return newPos;
+    }
+    else if(id2 - id1 == 1) {
+        newPos.push_back(id1);
+        pos1.erase(pos1.begin());
+        if(pos1.empty()) {
+            newPos.push_back(0);
+            return newPos;
+        } else {
+            newPos.push_back(pos1.front()+1);
+            return newPos;
+        }
+    }
+    //else if(id2 - id1 < 0)//TODO this must not happen otherwise the server crashes
+}
+
+int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
+    if (curSymPos.at(posIndex) < newSymPos.at(posIndex))
+        return 1;
+    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
+        if (newSymPos.size() > posIndex + 1 &&
+            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] == null
+            return 1; // correct position found
+        else if (newSymPos.size() <= posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex+1] != null
+            return -1; //curSymPos > newSymPos  -> make another cycle taking the next symbol from _symbols
+        else if (newSymPos.size() > posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] != null
+            return comparePosdx(curSymPos, newSymPos,
+                              posIndex + 1); //call recursively this function using next index for posIndex
+    } else
+        return -1; //make another cycle taking the next symbol from _symbols
+}
+
+int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
+    if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
+        return 1; //correct position found
+    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
+        if (newSymPos.size() > posIndex + 1 &&
+            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
+            return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
+        else if (newSymPos.size() <= posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
+            return 1; //correct position found
+        else if (newSymPos.size() > posIndex + 1 &&
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
+            return comparePos(curSymPos, newSymPos,
+                              posIndex + 1); //call recursively this function using next index for posIndex
+    } else
+        return -1; //make another cycle taking the next symbol from _symbols
+}
+
 msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) noexcept(false) {
     std::vector<int> pos;
 
-    if(index < 0 || index > _symbols.size()) {
-        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
-        //TODO: return null msgInfo or sthg similar
-    }
     if(_symbols.empty()) {
         pos = {0};
         index = 0;
@@ -38,9 +107,7 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
 }
 
 msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false) {
-    auto t_start = std::chrono::high_resolution_clock::now();
     std::vector<int> pos;
-
     int startIndex = symbols.front().getIndex();
 
     //generate initial pos and initial index
@@ -81,96 +148,13 @@ msgInfo participant::localInsert(std::vector<symbolInfo> symbols) noexcept(false
         symbol sym(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
         symbolVector.push_back(sym);
     });
-
     _symbols.insert(_symbols.begin() + startIndex, symbolVector.begin(), symbolVector.end());
-
-    auto t_end = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-    std::cout << "FOR EACH LOCAL INSERT - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 
     msgInfo m(6, getId(), std::move(symbolVector), startIndex);
     return m;
 }
 
-std::vector<int> participant::generatePos(int index) {
-    const std::vector<int> posBefore = _symbols[index-1].getPos();
-    const std::vector<int> posAfter = _symbols[index].getPos();
-    return generatePosBetween(posBefore, posAfter);
-}
-
-std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos) {
-    int id1 = pos1.at(0);
-    int id2 = pos2.at(0);
-
-    if(id2 - id1 == 0) {
-        newPos.push_back(id1);
-        pos1.erase(pos1.begin());
-        pos2.erase(pos2.begin());
-        if(pos1.empty()) {
-            newPos.push_back(pos2.front()-1);
-            return newPos;
-        } else
-            return generatePosBetween(pos1, pos2, newPos);
-    }
-    else if(id2 - id1 > 1) {
-        newPos.push_back(pos1.front()+1);
-        return newPos;
-    }
-    else if(id2 - id1 == 1) {
-        newPos.push_back(id1);
-        pos1.erase(pos1.begin());
-        if(pos1.empty()) {
-            newPos.push_back(0);
-            return newPos;
-        } else {
-            newPos.push_back(pos1.front()+1);
-            return newPos;
-        }
-    }
-    //else if(id2 - id1 < 0)//TODO THIS must not happen otherwise the server crashes
-}
-
-int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
-    if (curSymPos.at(posIndex) < newSymPos.at(posIndex))
-        return 1;
-    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
-        if (newSymPos.size() > posIndex + 1 &&
-            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] == null
-            return 1; // correct position found
-        else if (newSymPos.size() <= posIndex + 1 &&
-                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex+1] != null
-            return -1; //curSymPos > newSymPos  -> make another cycle taking the next symbol from _symbols
-        else if (newSymPos.size() > posIndex + 1 &&
-                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] != null
-            return comparePosdx(curSymPos, newSymPos,
-                              posIndex + 1); //call recursively this function using next index for posIndex
-    } else
-        return -1; //make another cycle taking the next symbol from _symbols
-}
-
-int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
-    if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
-        return 1; //correct position found
-    else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
-        if (newSymPos.size() > posIndex + 1 &&
-            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
-            return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
-        else if (newSymPos.size() <= posIndex + 1 &&
-                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
-            return 1; //correct position found
-        else if (newSymPos.size() > posIndex + 1 &&
-                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
-            return comparePos(curSymPos, newSymPos,
-                              posIndex + 1); //call recursively this function using next index for posIndex
-    } else
-        return -1; //make another cycle taking the next symbol from _symbols
-}
-
 msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
-    if(startIndex >= endIndex || startIndex < 0 || endIndex > _symbols.size()) {
-        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
-        //TODO: return null msgInfo or sthg similar
-    }
     symbol s = _symbols.at(startIndex);
     _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
     msgInfo m(1, getId(), s, endIndex-startIndex);
@@ -178,11 +162,6 @@ msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
 }
 
 msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexcept(false) {
-    if(startIndex >= endIndex || startIndex < 0 || startIndex > _symbols.size()) {
-        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
-        //TODO: return null msgInfo or sthg similar
-    }
-
     symbol s = _symbols.at(startIndex);
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [format](symbol& s) {
         symbolStyle newStyle;
@@ -207,10 +186,6 @@ msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexc
 }
 
 msgInfo participant::localFontSizeChange(int startIndex, int endIndex, int fontSize) noexcept(false) {
-    if(startIndex >= endIndex || startIndex < 0 || startIndex > _symbols.size()) {
-        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
-        //TODO: return null msgInfo or sthg similar
-    }
     symbol s = _symbols.at(startIndex);
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [fontSize](symbol& s) {
         symbolStyle newStyle;
@@ -222,10 +197,6 @@ msgInfo participant::localFontSizeChange(int startIndex, int endIndex, int fontS
 }
 
 msgInfo participant::localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily) noexcept(false) {
-    if(startIndex >= endIndex || startIndex < 0 || startIndex > _symbols.size()) {
-        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
-        //TODO: return null msgInfo or sthg similar
-    }
     symbol s = _symbols.at(startIndex);
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [fontFamily](symbol& s) {
         symbolStyle newStyle;
@@ -237,10 +208,6 @@ msgInfo participant::localFontFamilyChange(int startIndex, int endIndex, const s
 }
 
 msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alignment) noexcept(false) {
-    if(startIndex > endIndex || startIndex < 0 || startIndex > _symbols.size()) {
-        std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
-        //TODO: return null msgInfo or sthg similar
-    }
     if(startIndex == endIndex) {
         msgInfo m(5, getId(), endIndex-startIndex, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex
         return m;
@@ -258,7 +225,7 @@ msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alig
 
 void participant::process(const msgInfo& m) {
     /* Insertion */
-    if (m.getType() == 0) { //TODO: switch case for different msgtypes, better enum not int
+    if (m.getType() == 0) {
 
         int symbols_index = 0, pos_index = 0;
         int startIndex = _symbols.size();
@@ -300,7 +267,7 @@ void participant::process(const msgInfo& m) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
-            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            std::cout << "Symbol not found.";
             return;
         }
         int index = it - _symbols.begin();
@@ -313,7 +280,7 @@ void participant::process(const msgInfo& m) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
-            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            std::cout << "Symbol not found.";
             return;
         }
         int index = it - _symbols.begin();
@@ -345,7 +312,7 @@ void participant::process(const msgInfo& m) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
-            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            std::cout << "Symbol not found.";
             return;
         }
         int index = it - _symbols.begin();
@@ -364,7 +331,7 @@ void participant::process(const msgInfo& m) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
-            std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+            std::cout << "Symbol not found.";
             return;
         }
         int index = it - _symbols.begin();
@@ -383,7 +350,7 @@ void participant::process(const msgInfo& m) {
             std::vector<int> fractionalPos = m.getSymbol().getPos();
             auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
             if (it == _symbols.end()) {
-                std::cout << "Symbol not found."; //TODO: throw NotFoundException();
+                std::cout << "Symbol not found.";
                 return;
             }
             int index = it - _symbols.begin();
@@ -403,7 +370,6 @@ void participant::process(const msgInfo& m) {
         int symbols_index = 0, pos_index = 0;
         int my_index = _symbols.size();
 
-        auto t_start = std::chrono::high_resolution_clock::now();
         //get first index
         if(m.getNewIndex() > _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
@@ -417,7 +383,7 @@ void participant::process(const msgInfo& m) {
                 }
             }
         }
-        else { //LOOP FROM LEFT TO RIGHT*/
+        else { //LOOP FROM LEFT TO RIGHT
             for (const auto &s: _symbols) {
                 symbols_index++;
                 int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
@@ -429,16 +395,8 @@ void participant::process(const msgInfo& m) {
                 }
             }
         }
-        auto t_end = std::chrono::high_resolution_clock::now();
-        double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-        std::cout << "FOR EACH SYMBOLS - ELAPSED (ms): " << elapsed_time_ms << std::endl;
-
-        auto t_start1 = std::chrono::high_resolution_clock::now();
         std::vector<symbol> v = m.getSymbolVector();
         _symbols.insert(_symbols.begin() + my_index, v.begin(), v.end());
-        auto t_end1 = std::chrono::high_resolution_clock::now();
-        double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-        std::cout << "FOR EACH m.getSymbolVector() - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
     }
 }
 

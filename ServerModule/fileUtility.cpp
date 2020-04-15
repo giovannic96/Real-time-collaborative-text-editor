@@ -4,7 +4,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <chrono>
 #include "header_files/fileUtility.h"
 #include "header_files/json.hpp"
 #include "header_files/jsonUtility.h"
@@ -42,18 +41,10 @@ std::vector<symbol> fileUtility::readFile(const std::string& filepath) {
     }
 
     /* Construct symbols vector */
-    auto t_start1 = std::chrono::high_resolution_clock::now();
     json jdata_in = json::parse(str);
-    auto t_end1 = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-    std::cout << "READ FILE PARSE - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
     std::vector<json> jsonSymbols;
-    auto t_start = std::chrono::high_resolution_clock::now();
     jsonUtility::from_json_storedSymbols(jdata_in, jsonSymbols);
     symbols = jsonUtility::fromJsonToSym(jsonSymbols);
-    auto t_end = std::chrono::high_resolution_clock::now();
-    double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-    std::cout << "READ FILE PT2 - ELAPSED (ms): " << elapsed_time_ms << std::endl;
     return symbols;
 }
 
