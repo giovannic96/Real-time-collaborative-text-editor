@@ -2090,12 +2090,6 @@ background-color: lightgrey;
                       <string notr="true">#listWidgetOn{
 border:transparent;
 background: transparent;
-}
-
-QToolTip { 
-	color: #000000; 
-	background-color: #FFF2BF; 
-	border: 0px; 
 }</string>
                      </property>
                      <property name="verticalScrollBarPolicy">
@@ -2288,12 +2282,6 @@ QToolTip {
 border:transparent;
 background: transparent;
 color: rgb(159,159,159);
-}
-
-QToolTip { 
-	color: #000000; 
-	background-color: #FFF2BF; 
-	border: 0px; 
 }</string>
                      </property>
                      <property name="verticalScrollBarPolicy">

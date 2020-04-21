@@ -2454,7 +2454,6 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             itemOn->setText(" "+user);
             itemOn->setIcon(QIcon(ic));
             itemOn->setBackground(brush);
-            itemOn->setToolTip("Mostrare mail");
             fileItem.append(itemOn);
         }
         else {
@@ -2465,12 +2464,11 @@ void EditorWindow::showCollabColorsMap(myCollabColorsMap collabColorsMap) {
             itemOff->setText(" "+user);
             itemOff->setIcon(QIcon(ic));
             itemOff->setBackground(brush);
-            itemOff->setToolTip("Mostrare mail");
             fileItem.append(itemOff);
         }
      }
-    ui->listWidgetOn->setStyleSheet("#listWidgetOn{\nborder:transparent;\nbackground: transparent;\n}\n\nQToolTip { \n	color: #000000; \n	background-color: #FFF2BF; \n	border: 0px; \n}");
-    ui->listWidgetOff->setStyleSheet("#listWidgetOff{\nborder:transparent;\nbackground: transparent;\ncolor: rgb(159,159,159);\n}\n\nQToolTip { \n	color: #000000; \n	background-color: #FFF2BF; \n	border: 0px; \n}");
+    ui->listWidgetOn->setStyleSheet("#listWidgetOn{\nborder:transparent;\nbackground: transparent;\n}");
+    ui->listWidgetOff->setStyleSheet("#listWidgetOff{\nborder:transparent;\nbackground: transparent;\ncolor: rgb(159,159,159);\n}");
 }
 
 void EditorWindow::getUserOffline(myCollabColorsMap collabColorsMap) {
