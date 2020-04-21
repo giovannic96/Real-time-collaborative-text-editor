@@ -87,7 +87,10 @@ void myClient::do_read_body() {
                         std::string db_usernameLoginJSON;
                         std::string db_colorJSON;
                         std::string db_mailJSON;
-                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON, db_colorJSON, db_mailJSON);
+                        int siteId;
+                        jsonUtility::from_json_usernameLogin(jdata_in, siteId, db_usernameLoginJSON, db_colorJSON, db_mailJSON);
+                        _participant.setSiteId(siteId);
+
                         QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
                         QString color_qstring = QString::fromUtf8(db_colorJSON.data(), db_colorJSON.size());
                         QString mail_qstring = QString::fromUtf8(db_mailJSON.data(), db_mailJSON.size());

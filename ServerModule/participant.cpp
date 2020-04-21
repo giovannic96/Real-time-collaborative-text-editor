@@ -12,10 +12,10 @@ int participant::getId() const {
     return _siteId;
 }
 
-msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) noexcept(false) {
-    std::vector<int> pos;
+msgInfo participant::localInsert(std::vector<int> pos, wchar_t value, symbolStyle style) noexcept(false) {
 
-    if(index < 0 || index > _symbols.size()) {
+
+    /*if(index < 0 || index > _symbols.size()) {
         std::cout << "Inserted index not valid."; //TODO: throw InsertedIndexNotValid();
         //TODO: return null msgInfo or sthg similar
     }
@@ -28,7 +28,7 @@ msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) no
     } else if(index == 0) {
         pos = {_symbols.front().getPos().at(0) - 1}; //put negative pos
     } else
-        pos = generatePos(index);
+        pos = generatePos(index);*/
 
     symbol s(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
     _symbols.insert(_symbols.begin() + index, s);

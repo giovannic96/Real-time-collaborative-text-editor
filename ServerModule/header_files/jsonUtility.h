@@ -30,7 +30,7 @@ public:
     static void to_json_file(json &j, const File &file);
     static void to_json_newuri(json &j, const std::string &op, const std::string &resp, const std::string &uri);
     static void to_json_rename_file(json &j, const std::string &op, const std::string &resp, const std::string &filename);
-    static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin, const std::string &mail);
+    static void to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const int editorId, const std::string &usernameLogin, const std::string &colorLogin, const std::string &mail);
     static void to_json_cursor_change(json &j, const std::string &op, const std::string &username, const std::string &color, const int &pos);
     static void to_json_collab_colors_resp(json &j, const std::string &op, const std::string &resp, const std::map<std::string, std::pair<std::string,bool>> &collabColorsMap);
     static void to_json_user_offline(json &j, const std::string &op, const std::string &resp, const std::string &username, const std::map<std::string, std::pair<std::string,bool>> &collabColorsMap);
@@ -55,7 +55,7 @@ public:
     static void from_json(const json& j, std::string& user, std::string& pass);
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);
     static void from_json_storedSymbols(const json& j, std::vector<json>& jsonSymbols);
-    static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple, symbolStyle& style);
+    static void from_json_insertion(const json& j, std::vector<int>& pos, symbolStyle& style);
     static void from_json_cursor_change_req(const json& j, int& index);
     static void from_json_removal_range(const json& j, int& startIndex, int& endIndex);
     static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);

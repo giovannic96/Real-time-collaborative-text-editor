@@ -1128,10 +1128,11 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
             qDebug() << "char: " << c;
             tuple = std::make_pair(pos, c);
+            std::vector<int> pos_vector = _client->_participant.localInsert(pos, c, getCurCharStyle());
 
             //Serialize data
             json j;
-            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple, getCurCharStyle());
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", pos_vector, getCurCharStyle());
             const std::string req = j.dump();
 
             //Send data (header and body)

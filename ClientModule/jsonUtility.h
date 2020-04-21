@@ -27,7 +27,7 @@ public:
     static void to_jsonUri(json& j, const std::string& op, const std::string& user, const std::string& uri);
     static void to_json_inviteURI(json& j, const std::string& op, const std::string& invited, const std::string& applicant, const std::string& uri);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
-    static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style);
+    static void to_json_insertion(json &j, const std::string &op, const std::vector<int> &pos, const symbolStyle &style);
     static void to_json_cursor_change_req(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
     static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
@@ -51,7 +51,7 @@ public:
     static symbol* from_json_symbol(const json &j);
     static symbolInfo* from_json_formatting_symbol(const json &j);
     static void from_json_collab_colors_map(const json &j, std::string &op);
-    static void from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail);
+    static void from_json_usernameLogin(const json &j,int siteId, std::string &name, std::string &color, std::string &mail);
     static void from_jsonUri(const json& j, std::string& uri);
     static void from_json(const json& j, std::string& user, std::string& pass);
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);

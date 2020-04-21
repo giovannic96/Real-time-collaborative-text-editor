@@ -276,7 +276,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON, colorJSON.toStdString(), mail.toStdString());
+        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, shared_from_this()->getId(), userJSON, colorJSON.toStdString(), mail.toStdString());
         const std::string response = j.dump();
         return response;
 
@@ -664,10 +664,10 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "INSERTION_REQUEST") {
-        std::pair<int, wchar_t> tupleJSON;
+        std::vector<int> posJSON;
         symbolStyle styleJSON;
-        jsonUtility::from_json_insertion(jdata_in, tupleJSON, styleJSON); //get json value and put into JSON variables
-        std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
+        jsonUtility::from_json_insertion(jdata_in, posJSON, styleJSON); //get json value and put into JSON variables
+
 
         //Construct msgInfo
         msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, styleJSON);

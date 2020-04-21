@@ -36,6 +36,7 @@ SOURCES += \
     menuwindow.cpp \
     message.cpp \
     myClient.cpp \
+    participant.cpp \
     settings.cpp \
     startwindow.cpp \
     symbol.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     menuwindow.h \
     message.h \
     myClient.h \
+    participant.h \
     settings.h \
     startwindow.h \
     symbol.h \

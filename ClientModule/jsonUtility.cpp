@@ -24,10 +24,10 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style) {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::vector<int> &pos, const symbolStyle &style) {
     j = json{
         {"operation", op},
-        {"tuple", tuple},
+        {"pos", pos},
         {"isBold", style.isBold()},
         {"isItalic", style.isItalic()},
         {"isUnderlined", style.isUnderlined()},
@@ -287,7 +287,8 @@ File* jsonUtility::from_json_file(const json &j) {
     return f;
 }
 
-void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail) {
+void jsonUtility::from_json_usernameLogin(const json &j,int siteId, std::string &name, std::string &color, std::string &mail) {
+    siteId = j.at("content").at("editorId").get<int>();
     name = j.at("content").at("usernameLogin").get<std::string>();
     color = j.at("content").at("colorLogin").get<std::string>();
     mail = j.at("content").at("mailLogin").get<std::string>();

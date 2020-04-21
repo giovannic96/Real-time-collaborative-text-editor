@@ -15,6 +15,7 @@
 #include "File.h"
 #include <QDebug>
 #include <iostream>
+#include "participant.h"
 
 
 using boost::asio::ip::tcp;
@@ -48,6 +49,7 @@ public:
     void close();
     void write(const message& msg);
     void sendRequestMsg(std::string request);
+    participant _participant;
 
 signals:
     void statusChanged(bool);
@@ -77,7 +79,7 @@ signals:
     void changeRemoteCursor(std::string username, std::string color, int pos);
     void showCollabColorsMap(myCollabColorsMap collabColorsMap);
 
-private:
+private:    
     boost::asio::io_context io_context_;
     std::shared_ptr<boost::asio::io_context::work> work_;
     std::thread worker_;
