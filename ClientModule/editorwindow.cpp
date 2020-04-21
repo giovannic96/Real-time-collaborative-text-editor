@@ -3376,9 +3376,10 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
                         [](std::pair<int,symbolStyle> const pair){ return std::make_pair(pair.first, pair.second.getAlignment()); });
         ui->RealTextEdit->setAlignmentsVector(alignmentsVector);
 
-        std::vector<symbolInfo> infoSymbols;
+        std::vector<symbol> infoSymbols; //temporary vector without symbol pos (it will be used by the process)
         int index;
         wchar_t c;
+        int initialPos = pos;
         symbolStyle charStyle;
 
         /* Loop over mimeData chars and give the extracted style to each of them */
@@ -3393,14 +3394,17 @@ void EditorWindow::insertCharRangeRequest(int pos, bool cursorHasSelection) noex
                 qDebug() << ex.what();
                 throw OperationNotSupported(); //raise exception
             }
-            symbolInfo s(index, c, charStyle);
+            symbol s(c, charStyle);
             infoSymbols.push_back(s);
         }
 
+        //Update symbol vector of the client
+        std::vector<symbol> symbols = _client->crdt.localInsert(initialPos, infoSymbols);
+
         //Serialize data
         json j;
-        std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(infoSymbols);
-        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON);
+        std::vector<json> symFormattingVectorJSON = jsonUtility::fromFormattingSymToJson(symbols);
+        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_REQUEST", symFormattingVectorJSON, initialPos);
         const std::string req = j.dump();
 
         //Send data (header and body)

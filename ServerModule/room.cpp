@@ -52,16 +52,17 @@ void room::dispatchMessages() {
     while(!infoMsgs_.empty()) {
         for (const auto& it: participants_)
             if (it->getId() != infoMsgs_.front().getEditorId())
-                it->process(infoMsgs_.front(), room(), std::string(), std::vector<symbol>());
+                it->process(infoMsgs_.front());
         infoMsgs_.pop_front();
     }
 }
 
-std::vector<symbol> room::getSymbolMap(const std::string& filename) {
+std::vector<symbol> room::getSymbolMap(const std::string& filename, bool canReadFromFile) {
     if(room_map_.empty()) //server has nothing in RAM
         return std::vector<symbol>();
-    if(room_map_.at(filename).empty()) //server has not in RAM the vector symbols for this filename
-        return fileUtility::readFile(R"(..\Filesystem\)" + filename + ".txt");
+    if(room_map_.at(filename).empty()) {//server has not in RAM the vector symbols for this filename
+        return canReadFromFile ? fileUtility::readFile(R"(..\Filesystem\)" + filename + ".txt") : std::vector<symbol>();
+    }
     else //server has already in RAM this vector symbols
         return room_map_.at(filename);
 }
@@ -72,6 +73,14 @@ std::map<std::string, std::vector<symbol>> room::getMap() {
 
 void room::updateMap(const std::string &key, const std::vector<symbol>& symbols) {
     this->room_map_[key] = symbols; //overwrite symbols in that key(uri)
+}
+
+void room::updateSymbolMap(const std::string &key, int index, const symbol& s) {
+    this->room_map_[key].insert(this->room_map_[key].begin() + index, s);
+}
+
+void room::updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols) {
+    this->room_map_[key].insert(this->room_map_[key].begin() + index, symbols.begin(), symbols.end());
 }
 
 void room::setMap(const std::map<std::string, std::vector<symbol>>& m) {

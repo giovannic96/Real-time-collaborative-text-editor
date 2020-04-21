@@ -108,13 +108,11 @@ symbol crdt::localInsert(int index, wchar_t value, symbolStyle style) noexcept(f
     symbol s(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
     _symbols.insert(_symbols.begin() + index, s);
 
-    //msgInfo m(0, getSiteId(), s, index);
     return s;
 }
 
-std::vector<symbol> crdt::localInsert(std::vector<symbolInfo> symbols) noexcept(false) {
+std::vector<symbol> crdt::localInsert(int startIndex, std::vector<symbol> symbols) noexcept(false) {
     std::vector<int> pos;
-    int startIndex = symbols.front().getIndex();
 
     //generate initial pos and initial index
     if(_symbols.empty()) {
@@ -133,7 +131,7 @@ std::vector<symbol> crdt::localInsert(std::vector<symbolInfo> symbols) noexcept(
     bool secondTime = true;
     int counter = 0;
 
-    std::for_each(symbols.begin(), symbols.end(), [&firstTime, &secondTime, &counter, &pos, &symbolVector, this](const symbolInfo& s) {
+    std::for_each(symbols.begin(), symbols.end(), [&firstTime, &secondTime, &counter, &pos, &symbolVector, this](const symbol& s) {
         //get values
         wchar_t value = s.getLetter();
         symbolStyle style = s.getStyle();
@@ -156,20 +154,17 @@ std::vector<symbol> crdt::localInsert(std::vector<symbolInfo> symbols) noexcept(
     });
     _symbols.insert(_symbols.begin() + startIndex, symbolVector.begin(), symbolVector.end());
 
-    //msgInfo m(6, getSiteId(), std::move(symbolVector), startIndex);
     return std::move(symbolVector);
 }
 
 int crdt::process(int type, int indexEditor, symbol newSym) {
     /* Insertion */
     if (type == 0) {
-
         int symbols_index = 0, pos_index = 0;
         int startIndex = static_cast<int>(_symbols.size());
 
         //get first index
         if (indexEditor > static_cast<int>(_symbols.size()/2)) { //LOOP FROM RIGHT TO LEFT
-            std::cout << std::endl << "RIGHT TO LEFT: " << startIndex << std::endl << std::endl;
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
                 startIndex--;
                 int retValue = comparePosdx(s->getPos(), s->getId(), newSym.getPos(), newSym.getId(), pos_index);
@@ -183,7 +178,6 @@ int crdt::process(int type, int indexEditor, symbol newSym) {
             }
         }
         else { //LOOP FROM LEFT TO RIGHT
-            std::cout << std::endl << "LEFT TO RIGHT: " << startIndex << std::endl << std::endl;
             for (const auto &s: _symbols) {
                 symbols_index++;
                 int retValue = comparePos(s.getPos(), s.getId(), newSym.getPos(), newSym.getId(), pos_index);
@@ -198,6 +192,44 @@ int crdt::process(int type, int indexEditor, symbol newSym) {
         }
         std::cout << std::endl << "STAAAAAART INDEX: " << startIndex << std::endl << std::endl;
         _symbols.insert(_symbols.begin() + startIndex, newSym);
+        return startIndex;
+    }
+}
+
+int crdt::process(int type, int indexEditor, std::vector<symbol> newSymbols) {
+    /* Insertion range */
+    if(type == 6) {
+        int symbols_index = 0, pos_index = 0;
+        int startIndex = static_cast<int>(_symbols.size());
+
+        //get first index
+        if(indexEditor > static_cast<int>(_symbols.size()/2)) {  //LOOP FROM RIGHT TO LEFT
+            for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
+                startIndex--;
+                int retValue = comparePosdx(s->getPos(), s->getId(), newSymbols.at(0).getPos(),
+                                            newSymbols.at(0).getId(), pos_index);
+                if (retValue == -1)
+                    continue;
+                else if (retValue == 1) {
+                    startIndex ++;
+                    break;
+                }
+            }
+        }
+        else { //LOOP FROM LEFT TO RIGHT
+            for (const auto &s: _symbols) {
+                symbols_index++;
+                int retValue = comparePos(s.getPos(), s.getId(), newSymbols.at(0).getPos(),
+                                          newSymbols.at(0).getId(), pos_index);
+                if (retValue == -1)
+                    continue;
+                else if (retValue == 1) {
+                    startIndex = symbols_index - 1;
+                    break;
+                }
+            }
+        }
+        _symbols.insert(_symbols.begin() + startIndex, newSymbols.begin(), newSymbols.end());
         return startIndex;
     }
 }

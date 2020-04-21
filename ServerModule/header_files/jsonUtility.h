@@ -21,9 +21,8 @@ public:
     static json merge(const json &a, const json &b);
     static std::vector<json> fromSymToJson(const std::vector<symbol>& symbols);
     static std::vector<symbol> fromJsonToSym(const std::vector<json>& jsons);
-    static std::vector<symbolInfo> fromJsonToFormattingSym(const std::vector<json>& jsons);
+    static std::vector<symbol> fromJsonToFormattingSym(const std::vector<json>& jsons);
     static symbol from_json_symbol(const json& j);
-    static symbolInfo from_json_formatting_symbol(const json &j);
     static std::vector<json> fromFileToJson(const std::vector<File>& files);
     static void to_json(json &j, const std::string &op, const std::string &resp);
     static void to_json_symbol(json &j, const symbol &symbol);
@@ -62,7 +61,7 @@ public:
     static void from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize);
     static void from_json_fontfamily_change(const json &j, int& startIndex, int& endIndex, std::string& fontFamily);
     static void from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment);
-    static void from_json_insertion_range(const json &j, std::vector<json>& symbols);
+    static void from_json_insertion_range(const json &j, std::vector<json>& symbols, int &startIndex);
     static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
     static void from_json_collab_colors(const json& j, std::string& uri);
 };

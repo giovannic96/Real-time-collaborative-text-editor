@@ -325,11 +325,11 @@ std::vector<symbol> jsonUtility::fromJsonToSym(const std::vector<json>& jsons) {
     return symbols;
 }
 
-std::vector<symbolInfo> jsonUtility::fromJsonToFormattingSym(const std::vector<json>& jsons) {
+std::vector<symbol> jsonUtility::fromJsonToFormattingSym(const std::vector<json>& jsons) {
     // Get formatting symbols from json
-    std::vector<symbolInfo> symbols;
+    std::vector<symbol> symbols;
     for (auto const &j: jsons) {
-        symbols.push_back(jsonUtility::from_json_formatting_symbol(j));
+        symbols.push_back(jsonUtility::from_json_symbol(j));
     }
     return symbols;
 }
@@ -351,29 +351,15 @@ void jsonUtility::from_json_storedSymbols(const json& j, std::vector<json>& json
 
 symbol jsonUtility::from_json_symbol(const json &j) {
     //get symbol values from json
-    wchar_t letter = j.at("letter").get<wchar_t>();
-    std::pair<int,int> id = j.at("id").get<std::pair<int, int>>();
-    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
+    std::pair<int,int> id = j.at("symbolId").get<std::pair<int,int>>();
+    std::vector<int> pos = j.at("symbolPos").get<std::vector<int>>();
+    wchar_t letter = j.at("symbolLetter").get<wchar_t>();
     symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
                     j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
                         j.at("color").get<std::string>());
 
     //now create the symbol
     symbol s(letter, id, pos, style);
-    return s;
-}
-
-symbolInfo jsonUtility::from_json_formatting_symbol(const json &j) {
-
-    //get symbol values from json
-    int index = j.at("index").get<int>();
-    wchar_t letter = j.at("letter").get<wchar_t>();
-    symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
-                      j.at("color").get<std::string>());
-
-    //now create the symbol
-    symbolInfo s(index, letter, style);
     return s;
 }
 
@@ -414,8 +400,9 @@ void jsonUtility::from_json_alignment_change(const json &j, int& startBlock, int
     alignment = j.at("alignment").get<int>();
 }
 
-void jsonUtility::from_json_insertion_range(const json &j, std::vector<json>& symbols) {
+void jsonUtility::from_json_insertion_range(const json &j, std::vector<json>& symbols, int& startIndex) {
     symbols = j.at("formattingSymVector").get<std::vector<json>>();
+    startIndex = j.at("startIndex").get<int>();
 }
 
 void jsonUtility::from_json_renameFile(const json &j, std::string &nameFile, std::string &urifile, std::string &username) {

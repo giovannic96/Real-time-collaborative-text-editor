@@ -6,7 +6,6 @@
 #include <iostream>
 #include <utility>
 #include "header_files/participant.h"
-#include "header_files/room.h"
 
 int participant::getId() const {
     return _siteId;
@@ -228,23 +227,20 @@ msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alig
     }
 }
 
-void participant::process(const msgInfo &m, room room, std::string string, std::vector<symbol> vector) {
+int participant::process(const msgInfo &m) {}
 
-}
-
-void participant::process(const msgInfo& m, room& room, std::string& filename, std::vector<symbol>& symbols) {
+int participant::process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const symbol& newSymbol) {
     /* Insertion */
-    if (m.getType() == 0) {
-
+    if (type == 0) {
         int symbols_index = 0, pos_index = 0;
-        int startIndex = _symbols.size();
+        int startIndex = roomSymbols.size();
 
         //get first index
-        if (m.getEditorId() > _symbols.size()/2) { //LOOP FROM RIGHT TO LEFT
+        if (indexEditor > roomSymbols.size()/2) { //LOOP FROM RIGHT TO LEFT
             std::cout << std::endl << "RIGHT TO LEFT: " << startIndex << std::endl << std::endl;
-            for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
+            for (auto s = roomSymbols.crbegin(); s != roomSymbols.crend(); s++) {
                 startIndex--;
-                int retValue = comparePosdx(s->getPos(), s->getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
+                int retValue = comparePosdx(s->getPos(), s->getId(), newSymbol.getPos(), newSymbol.getId(), pos_index);
 
                 if (retValue == -1)
                     continue;
@@ -256,9 +252,9 @@ void participant::process(const msgInfo& m, room& room, std::string& filename, s
         }
         else { //LOOP FROM LEFT TO RIGHT
             std::cout << std::endl << "LEFT TO RIGHT: " << startIndex << std::endl << std::endl;
-            for (const auto &s: _symbols) {
+            for (const auto &s: roomSymbols) {
                 symbols_index++;
-                int retValue = comparePos(s.getPos(), s.getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
+                int retValue = comparePos(s.getPos(), s.getId(), newSymbol.getPos(), newSymbol.getId(), pos_index);
 
                 if (retValue == -1)
                     continue;
@@ -269,28 +265,31 @@ void participant::process(const msgInfo& m, room& room, std::string& filename, s
             }
         }
         std::cout << std::endl << "STAAAAAART INDEX: " << startIndex << std::endl << std::endl;
-        _symbols.insert(_symbols.begin() + startIndex, m.getSymbol());
+        return startIndex;
     }
     /* Removal */
+    /*
     else if (m.getType() == 1) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
             std::cout << "Symbol not found.";
-            return;
+            return -1;
         }
         int index = it - _symbols.begin();
 
         if(_symbols.at(index).getId() == m.getSymbol().getId())
             _symbols.erase(_symbols.begin() + index, _symbols.begin() + index + m.getNewIndex());
     }
+     */
     /* Format */
+    /*
     else if(m.getType() == 2) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
             std::cout << "Symbol not found.";
-            return;
+            return -1;
         }
         int index = it - _symbols.begin();
 
@@ -316,13 +315,15 @@ void participant::process(const msgInfo& m, room& room, std::string& filename, s
             });
         }
     }
+     */
     /* Font size change */
+    /*
     else if(m.getType() == 3) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
             std::cout << "Symbol not found.";
-            return;
+            return -1;
         }
         int index = it - _symbols.begin();
 
@@ -335,13 +336,15 @@ void participant::process(const msgInfo& m, room& room, std::string& filename, s
             });
         }
     }
+     */
     /* Font family change */
+    /*
     else if(m.getType() == 4) {
         std::vector<int> fractionalPos = m.getSymbol().getPos();
         auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
         if (it == _symbols.end()) {
             std::cout << "Symbol not found.";
-            return;
+            return -1;
         }
         int index = it - _symbols.begin();
 
@@ -353,14 +356,16 @@ void participant::process(const msgInfo& m, room& room, std::string& filename, s
             });
         }
     }
+     */
     /* Alignment change */
+    /*
     else if(m.getType() == 5) {
         if(m.getRange() > 0) {
             std::vector<int> fractionalPos = m.getSymbol().getPos();
             auto it = std::find_if(_symbols.begin(), _symbols.end(), [fractionalPos](const symbol& i) {return i.getPos() == fractionalPos;});
             if (it == _symbols.end()) {
                 std::cout << "Symbol not found.";
-                return;
+                return -1;
             }
             int index = it - _symbols.begin();
 
@@ -374,38 +379,41 @@ void participant::process(const msgInfo& m, room& room, std::string& filename, s
             }
         }
     }
+     */
+}
+
+int participant::process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const std::vector<symbol>& newSymbols) {
     /* Insertion range */
-    else if(m.getType() == 6) {
+    if(type == 6) {
         int symbols_index = 0, pos_index = 0;
-        int my_index = _symbols.size();
+        int startIndex = roomSymbols.size();
 
         //get first index
-        if(m.getEditorId() > _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
-            for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
-                my_index--;
-                int retValue = comparePosdx(s->getPos(), s->getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
+        if(indexEditor > roomSymbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
+            for (auto s = roomSymbols.crbegin(); s != roomSymbols.crend(); s++) {
+                startIndex--;
+                int retValue = comparePosdx(s->getPos(), s->getId(), newSymbols.at(0).getPos(), newSymbols.at(0).getId(), pos_index);
                 if (retValue == -1)
                     continue;
                 else if (retValue == 1) {
-                    my_index ++;
+                    startIndex ++;
                     break;
                 }
             }
         }
         else { //LOOP FROM LEFT TO RIGHT
-            for (const auto &s: _symbols) {
+            for (const auto &s: roomSymbols) {
                 symbols_index++;
-                int retValue = comparePos(s.getPos(), s.getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
+                int retValue = comparePos(s.getPos(), s.getId(), newSymbols.at(0).getPos(), newSymbols.at(0).getId(), pos_index);
                 if (retValue == -1)
                     continue;
                 else if (retValue == 1) {
-                    my_index = symbols_index - 1;
+                    startIndex = symbols_index - 1;
                     break;
                 }
             }
         }
-        std::vector<symbol> v = m.getSymbolVector();
-        _symbols.insert(_symbols.begin() + my_index, v.begin(), v.end());
+        return startIndex;
     }
 }
 

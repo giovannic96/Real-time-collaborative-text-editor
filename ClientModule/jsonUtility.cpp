@@ -41,6 +41,21 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const symbol
     };
 }
 
+void jsonUtility::to_json_FormattingSymbol(json &j, const symbol &symbol) {
+    j = json{
+        {"symbolId", symbol.getId()},
+        {"symbolPos", symbol.getPos()},
+        {"symbolLetter", symbol.getLetter()},
+        {"isBold", symbol.getStyle().isBold()},
+        {"isItalic", symbol.getStyle().isItalic()},
+        {"isUnderlined", symbol.getStyle().isUnderlined()},
+        {"fontFamily", symbol.getStyle().getFontFamily()},
+        {"fontSize", symbol.getStyle().getFontSize()},
+        {"alignment", symbol.getStyle().getAlignment()},
+        {"color", symbol.getStyle().getColor()}
+    };
+}
+
 void jsonUtility::to_json_cursor_change_req(json &j, const std::string &op, const int &index) {
     j = json {
         {"operation", op},
@@ -159,10 +174,11 @@ void jsonUtility::to_jsonUser(json &j, const std::string &op, const std::string 
     };
 }
 
-void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector) {
+void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector, const int &startIndex) {
     j = json{
             {"operation", op},
-            {"formattingSymVector", symVector} //JSON vector
+            {"formattingSymVector", symVector}, //JSON vector
+            {"startIndex", startIndex}
     };
 }
 
@@ -376,21 +392,7 @@ void jsonUtility::from_json_fontfamily_change(const json &j, int& startIndex, in
     fontFamily = j.at("fontFamily").get<std::string>();
 }
 
-void jsonUtility::to_json_FormattingSymbol(json &j, const symbolInfo &symbol) {
-    j = json{
-            {"index", symbol.getIndex()},
-            {"letter", symbol.getLetter()},
-            {"isBold", symbol.getStyle().isBold()},
-            {"isItalic", symbol.getStyle().isItalic()},
-            {"isUnderlined", symbol.getStyle().isUnderlined()},
-            {"fontFamily", symbol.getStyle().getFontFamily()},
-            {"fontSize", symbol.getStyle().getFontSize()},
-            {"alignment", symbol.getStyle().getAlignment()},
-            {"color", symbol.getStyle().getColor()}
-    };
-}
-
-std::vector<json> jsonUtility::fromFormattingSymToJson(const std::vector<symbolInfo>& symbols) {
+std::vector<json> jsonUtility::fromFormattingSymToJson(const std::vector<symbol>& symbols) {
     if(symbols.empty())
         return json::array();
 

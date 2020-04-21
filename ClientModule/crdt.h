@@ -12,13 +12,14 @@ public:
     crdt() = default;
     virtual ~crdt() = default;
     symbol localInsert(int index, wchar_t value, symbolStyle style);
-    std::vector<symbol> localInsert(std::vector<symbolInfo> symbols);
+    std::vector<symbol> localInsert(int startIndex, std::vector<symbol> symbols);
     void localErase(int startIndex, int endIndex);
     void localFormat(int startIndex, int endIndex, int format);
     void localFontSizeChange(int startIndex, int endIndex, int fontSize);
     void localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
     void localAlignmentChange(int startIndex, int endIndex, int alignment);
     int process(int type, int indexEditor, symbol newSym);
+    int process(int type, int indexEditor, std::vector<symbol> newSymbols);
     void setVector(std::vector<symbol> symbols);
     void setSiteId(int id);
     void setCounter(int counter);

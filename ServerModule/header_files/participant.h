@@ -10,7 +10,6 @@
 #include "symbol.h"
 #include "msgInfo.h"
 #include "symbolInfo.h"
-#include "room.h"
 
 class participant {
 
@@ -38,7 +37,10 @@ public:
     msgInfo localFontSizeChange(int startIndex, int endIndex, int fontSize);
     msgInfo localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
     msgInfo localAlignmentChange(int startIndex, int endIndex, int alignment);
-    void process(const msgInfo &m);
+    int process(const msgInfo &m);
+    int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const symbol& newSymbol);
+    int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const std::vector<symbol>& newSymbols);
+    //void process(const msgInfo& m, room& room, std::string& filename, std::vector<symbol>& symbols);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
     void setSymbols(std::vector<symbol> symbols);

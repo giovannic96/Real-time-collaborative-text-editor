@@ -288,9 +288,9 @@ void myClient::do_read_body() {
                     std::pair<int, wchar_t> tuple = std::make_pair(newIndex, symbolJSON.getLetter());
                     emit insertSymbol(tuple, symbolJSON.getStyle());
                 } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
-                    int firstIndex;
+                    int firstIndexJSON;
                     std::vector<json> jsonSymbols;
-                    jsonUtility::from_json_insertion_range(jdata_in, firstIndex, jsonSymbols);
+                    jsonUtility::from_json_insertion_range(jdata_in, firstIndexJSON, jsonSymbols);
                     std::vector<symbol> symbols;
 
                     //generate symbols vector from json vector
@@ -304,7 +304,11 @@ void myClient::do_read_body() {
                         symbols.push_back(*s);
                         delete s;
                     }
-                    emit insertSymbols(firstIndex, symbols);
+
+                    //process received symbol and retrieve new calculated index
+                    int newIndex = this->crdt.process(6, firstIndexJSON, symbols);
+
+                    emit insertSymbols(newIndex, symbols);
                 } else if(opJSON == "CURSOR_CHANGE_RESPONSE") {
                     std::string usernameJSON;
                     std::string colorJSON;

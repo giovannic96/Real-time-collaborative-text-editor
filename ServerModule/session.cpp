@@ -480,7 +480,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
             shared_from_this()->setCurrentFile(uriJSON);
-            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
+            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON, true));
 
             room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
@@ -527,7 +527,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         if (resp == dbService::OPENWITHURI_OK) {
             //Update session data
             shared_from_this()->setCurrentFile(uriJSON);
-            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON));
+            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON, true));
 
             room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
@@ -625,15 +625,12 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json_insertion(jdata_in, symbolJSON, indexEditorJSON); //get json value and put into JSON variables
         std::cout << "symbol received: " << symbolJSON.getLetter() << "," << "ID: " << symbolJSON.getId().first << "," << symbolJSON.getId().second << std::endl;
 
-        msgInfo m(0, indexEditorJSON, symbolJSON);
-        process(m);
-
-        //Construct msgInfo
-        //msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, styleJSON);
-        //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        //process received symbol and retrieve new calculated index
+        int newIndex = process(0, indexEditorJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),
+                false), symbolJSON);
 
         //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateSymbolMap(shared_from_this()->getCurrentFile(), newIndex, symbolJSON);
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
@@ -826,27 +823,24 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
     } else if (opJSON == "INSERTIONRANGE_REQUEST") {
         std::vector<json> formattingSymbolsJSON;
-        jsonUtility::from_json_insertion_range(jdata_in, formattingSymbolsJSON);
-        std::vector<symbolInfo> formattingSymbols = jsonUtility::fromJsonToFormattingSym(formattingSymbolsJSON);
+        int startIndexJSON;
+        jsonUtility::from_json_insertion_range(jdata_in, formattingSymbolsJSON, startIndexJSON);
+        std::vector<symbol> symbols = jsonUtility::fromJsonToFormattingSym(formattingSymbolsJSON);
 
-        //Construct msgInfo
-        msgInfo m = localInsert(formattingSymbols);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        //process received symbol and retrieve new calculated index
+        int newIndex = process(6, startIndexJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),
+                false), symbols);
 
         //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+        room_.updateSymbolsMap(shared_from_this()->getCurrentFile(), newIndex, symbols);
 
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
-        std::vector<json> symbolsJSON = jsonUtility::fromSymToJson(m.getSymbolVector());
-        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_RESPONSE", m.getNewIndex(), symbolsJSON);
+        std::vector<json> symbolsJSON = jsonUtility::fromSymToJson(symbols);
+        jsonUtility::to_json_insertion_range(j, "INSERTIONRANGE_RESPONSE", startIndexJSON, symbolsJSON);
         const std::string response = j.dump();
         return response;
 
