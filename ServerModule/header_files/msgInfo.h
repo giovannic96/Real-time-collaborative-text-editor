@@ -29,7 +29,7 @@ public:
     msgInfo(int type, int editorId, int range, int alignment);
     int getType() const;
     int getRange() const;
-    int getEditorId();
+    int getEditorId() const;
     symbol getSymbol() const;
     int getNewIndex() const;
     std::string getFontFamily() const;

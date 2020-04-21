@@ -13,11 +13,10 @@ myClient::myClient()
           mail_(""),
           color_("#00ffffff"),
           fullBody(""),
-          fileVector_(std::vector<File>()),
-          vector_() {
-            worker_= std::thread([&](){
-                io_context_.run(); //boost thread loop start
-          });
+          crdt(),
+          fileVector_(std::vector<File>())
+{
+    worker_= std::thread([&](){io_context_.run();}); //boost thread loop start
     do_connect();
 }
 
@@ -87,19 +86,18 @@ void myClient::do_read_body() {
                         std::string db_usernameLoginJSON;
                         std::string db_colorJSON;
                         std::string db_mailJSON;
-                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON, db_colorJSON, db_mailJSON);
+                        int idJSON;
+                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON, db_colorJSON, db_mailJSON, idJSON);
                         QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
                         QString color_qstring = QString::fromUtf8(db_colorJSON.data(), db_colorJSON.size());
                         QString mail_qstring = QString::fromUtf8(db_mailJSON.data(), db_mailJSON.size());
 
+                        //Set values
                         this->setUsername(name_qstring);
                         this->setColor(color_qstring);
                         this->setMail(mail_qstring);
+                        this->crdt.setSiteId(idJSON);
 
-                        /*
-                        emit changeTextUsername(this->getUsername());
-                        emit changeTextMail(this->getMail());
-                        */
                         emit formResultSuccess("LOGIN_SUCCESS");
                     } else {
                         qDebug() << "Wrong user or password" << endl;
@@ -174,7 +172,7 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setFileURI(uriQString);
-                        this->setVector(std::vector<symbol>());
+                        this->crdt.setSymbols(std::vector<symbol>());
                         emit opResultSuccess("NEWFILE_SUCCESS");
                     } else
                         emit opResultFailure("NEWFILE_FAILURE");
@@ -188,12 +186,12 @@ void myClient::do_read_body() {
                         jsonUtility::from_json_symbols(jdata_in, symbolsJSON);
 
                         //Update client data
-                        this->setVector(symbolsJSON);
+                        this->crdt.setSymbols(symbolsJSON);
 
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
                         //Update client data
-                        this->setVector(std::vector<symbol>());
+                        this->crdt.setSymbols(std::vector<symbol>());
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else
                         emit opResultFailure("OPENFILE_FAILURE");
@@ -217,7 +215,7 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setFilename(QString::fromStdString(filenameJSON));
-                        this->setVector(symbolsJSON);
+                        this->crdt.setSymbols(symbolsJSON);
 
                         qDebug() << "OPENWITHURI success" << endl;
                         emit opResultSuccess("OPENWITHURI_SUCCESS");
@@ -227,7 +225,7 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setFilename(QString::fromStdString(filenameJSON));
-                        this->setVector(std::vector<symbol>());
+                        this->crdt.setSymbols(std::vector<symbol>());
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else {
                         qDebug() << "Something went wrong" << endl;
@@ -280,10 +278,15 @@ void myClient::do_read_body() {
                     else
                         emit editorResultFailure("INVITE_URI_FAILURE");
                 } else if(opJSON == "INSERTION_RESPONSE") {
-                    std::pair<int, wchar_t> tupleJSON;
-                    symbolStyle styleJSON;
-                    jsonUtility::from_json_insertion(jdata_in, tupleJSON, styleJSON);
-                    emit insertSymbol(tupleJSON, styleJSON);
+                    symbol symbolJSON;
+                    int indexEditorJSON;
+                    jsonUtility::from_json_insertion(jdata_in, symbolJSON, indexEditorJSON);
+
+                    //process received symbol and retrieve new calculated index
+                    int newIndex = this->crdt.process(0, indexEditorJSON, symbolJSON);
+
+                    std::pair<int, wchar_t> tuple = std::make_pair(newIndex, symbolJSON.getLetter());
+                    emit insertSymbol(tuple, symbolJSON.getStyle());
                 } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
                     int firstIndex;
                     std::vector<json> jsonSymbols;
@@ -441,20 +444,12 @@ QString myClient::getColor() {
     return this->color_;
 }
 
-void myClient::setVector(std::vector<symbol> symbols){
-    this->vector_ = symbols;
-}
-
 void myClient::setVectorFile(std::vector<File> files){
     this->fileVector_ = files;
 }
 
 std::vector<File> myClient::getVectorFile(){
     return this->fileVector_;
-}
-
-std::vector<symbol> myClient::getVector(){
-    return this->vector_;
 }
 
 void myClient::setFilename(QString filename) {

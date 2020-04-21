@@ -6,6 +6,7 @@
 #include <iostream>
 #include <utility>
 #include "header_files/participant.h"
+#include "header_files/room.h"
 
 int participant::getId() const {
     return _siteId;
@@ -49,7 +50,7 @@ std::vector<int> participant::generatePosBetween(std::vector<int> pos1, std::vec
     //else if(id2 - id1 < 0)//TODO this must not happen otherwise the server crashes
 }
 
-int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
+int participant::comparePosdx(std::vector<int> curSymPos, std::pair<int,int> curSymId, std::vector<int> newSymPos, std::pair<int,int> newSymId, int posIndex) {
     if (curSymPos.at(posIndex) < newSymPos.at(posIndex))
         return 1;
     else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
@@ -61,26 +62,30 @@ int participant::comparePosdx(std::vector<int> curSymPos, std::vector<int> newSy
             return -1; //curSymPos > newSymPos  -> make another cycle taking the next symbol from _symbols
         else if (newSymPos.size() > posIndex + 1 &&
                  curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] != null
-            return comparePosdx(curSymPos, newSymPos,
-                              posIndex + 1); //call recursively this function using next index for posIndex
+            return comparePosdx(curSymPos, curSymId, newSymPos,
+                              newSymId, posIndex + 1); //call recursively this function using next index for posIndex
+        else //newSymPos[posIndex+1] == null && curSymPos[posIndex+1] == null
+            return newSymId > curSymId ? 1 : -1;
     } else
         return -1; //make another cycle taking the next symbol from _symbols
 }
 
-int participant::comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex) {
+int participant::comparePos(std::vector<int> curSymPos, std::pair<int,int> curSymId, std::vector<int> newSymPos, std::pair<int,int> newSymId, int posIndex) {
     if(curSymPos.at(posIndex) > newSymPos.at(posIndex))
         return 1; //correct position found
     else if (curSymPos.at(posIndex) == newSymPos.at(posIndex)) {
         if (newSymPos.size() > posIndex + 1 &&
-            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] == null
+            curSymPos.size() <= posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] == null
             return -1; //newSymPos > curSymPos -> make another cycle taking the next symbol from _symbols
         else if (newSymPos.size() <= posIndex + 1 &&
-                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex] != null
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] == null && curSymPos[posIndex+1] != null
             return 1; //correct position found
         else if (newSymPos.size() > posIndex + 1 &&
-                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex] != null
-            return comparePos(curSymPos, newSymPos,
-                              posIndex + 1); //call recursively this function using next index for posIndex
+                 curSymPos.size() > posIndex + 1) //newSymPos[posIndex+1] != null && curSymPos[posIndex+1] != null
+            return comparePos(curSymPos, curSymId, newSymPos,
+                    newSymId,posIndex + 1); //call recursively this function using next index for posIndex
+        else //newSymPos[posIndex+1] == null && curSymPos[posIndex+1] == null
+            return newSymId.first < curSymId.first ? 1 : -1;
     } else
         return -1; //make another cycle taking the next symbol from _symbols
 }
@@ -223,7 +228,11 @@ msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alig
     }
 }
 
-void participant::process(const msgInfo& m) {
+void participant::process(const msgInfo &m, room room, std::string string, std::vector<symbol> vector) {
+
+}
+
+void participant::process(const msgInfo& m, room& room, std::string& filename, std::vector<symbol>& symbols) {
     /* Insertion */
     if (m.getType() == 0) {
 
@@ -231,11 +240,11 @@ void participant::process(const msgInfo& m) {
         int startIndex = _symbols.size();
 
         //get first index
-        if (m.getNewIndex() > _symbols.size()/2) { //LOOP FROM RIGHT TO LEFT
+        if (m.getEditorId() > _symbols.size()/2) { //LOOP FROM RIGHT TO LEFT
             std::cout << std::endl << "RIGHT TO LEFT: " << startIndex << std::endl << std::endl;
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
                 startIndex--;
-                int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
+                int retValue = comparePosdx(s->getPos(), s->getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
 
                 if (retValue == -1)
                     continue;
@@ -249,7 +258,7 @@ void participant::process(const msgInfo& m) {
             std::cout << std::endl << "LEFT TO RIGHT: " << startIndex << std::endl << std::endl;
             for (const auto &s: _symbols) {
                 symbols_index++;
-                int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
+                int retValue = comparePos(s.getPos(), s.getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
 
                 if (retValue == -1)
                     continue;
@@ -371,10 +380,10 @@ void participant::process(const msgInfo& m) {
         int my_index = _symbols.size();
 
         //get first index
-        if(m.getNewIndex() > _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
+        if(m.getEditorId() > _symbols.size()/2) {  //LOOP FROM RIGHT TO LEFT
             for (auto s = _symbols.crbegin(); s != _symbols.crend(); s++) {
                 my_index--;
-                int retValue = comparePosdx(s->getPos(), m.getSymbol().getPos(), pos_index);
+                int retValue = comparePosdx(s->getPos(), s->getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
                 if (retValue == -1)
                     continue;
                 else if (retValue == 1) {
@@ -386,7 +395,7 @@ void participant::process(const msgInfo& m) {
         else { //LOOP FROM LEFT TO RIGHT
             for (const auto &s: _symbols) {
                 symbols_index++;
-                int retValue = comparePos(s.getPos(), m.getSymbol().getPos(), pos_index);
+                int retValue = comparePos(s.getPos(), s.getId(), m.getSymbol().getPos(), m.getSymbol().getId(), pos_index);
                 if (retValue == -1)
                     continue;
                 else if (retValue == 1) {

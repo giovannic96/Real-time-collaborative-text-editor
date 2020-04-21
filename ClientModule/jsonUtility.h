@@ -27,7 +27,7 @@ public:
     static void to_jsonUri(json& j, const std::string& op, const std::string& user, const std::string& uri);
     static void to_json_inviteURI(json& j, const std::string& op, const std::string& invited, const std::string& applicant, const std::string& uri);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
-    static void to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style);
+    static void to_json_insertion(json &j, const std::string &op, const symbol &symbol, const int &indexInEditor);
     static void to_json_cursor_change_req(json &j, const std::string &op, const int &index);
     static void to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex);
     static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
@@ -38,6 +38,7 @@ public:
     static void to_json_FormattingSymbol(json &j, const symbolInfo &symbol);
     static void to_jsonUser(json &j, const std::string &op, const std::string &user);
     static void to_json_collab_colors(json &j, const std::string &op, const std::string &uri);
+    static void from_json_insertion(const json& j, symbol& s, int &indexInEditor);
     static void from_json(const json& j, std::string& op);
     static void from_json_inviteURI(const json& j, std::string& op);
     static void from_json_rename_file(const json &j, std::string &resp, std::string& filename);
@@ -51,11 +52,10 @@ public:
     static symbol* from_json_symbol(const json &j);
     static symbolInfo* from_json_formatting_symbol(const json &j);
     static void from_json_collab_colors_map(const json &j, std::string &op);
-    static void from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail);
+    static void from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail, int &siteId);
     static void from_jsonUri(const json& j, std::string& uri);
     static void from_json(const json& j, std::string& user, std::string& pass);
     static void from_json(const json &j, std::string &user, std::string &pass, std::string &email);
-    static void from_json_insertion(const json& j, std::pair<int, wchar_t>& tuple, symbolStyle& style);
     static void from_json_insertion_range(const json &j, int& firstIndex, std::vector<json>& jsonSymbols);
     static void from_json_cursor_change(const json &j, std::string& username, std::string& color, int& pos);
     static void from_json_collab_colors_resp(const json &j, myCollabColorsMap& collabColorsMap);

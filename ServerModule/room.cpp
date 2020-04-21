@@ -52,7 +52,7 @@ void room::dispatchMessages() {
     while(!infoMsgs_.empty()) {
         for (const auto& it: participants_)
             if (it->getId() != infoMsgs_.front().getEditorId())
-                it->process(infoMsgs_.front());
+                it->process(infoMsgs_.front(), room(), std::string(), std::vector<symbol>());
         infoMsgs_.pop_front();
     }
 }

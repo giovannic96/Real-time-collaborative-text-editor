@@ -15,7 +15,7 @@
 #include "File.h"
 #include <QDebug>
 #include <iostream>
-
+#include "crdt.h"
 
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;
@@ -29,6 +29,7 @@ class myClient : public QObject
 public:
     myClient();
     virtual ~myClient();
+    crdt crdt;
     void do_connect();
     bool getStatus();
     QString getUsername();
@@ -37,13 +38,11 @@ public:
     QString getFileURI();
     QString getColor();
     std::vector<File> getVectorFile();
-    std::vector<symbol> getVector();
     void setUsername(QString name);
     void setMail(QString mail);
     void setFilename(QString filename);
     void setFileURI(QString uri);
     void setColor(QString color);
-    void setVector(std::vector<symbol> symbols);
     void setVectorFile(std::vector<File> fileVector);
     void close();
     void write(const message& msg);
@@ -58,10 +57,6 @@ signals:
     void editorResultSuccess(QString result, std::string filename = "");
     void editorResultFailure(QString result);
     void backToMenuWindow();
-    /*
-    void changeTextUsername(QString text);
-    void changeTextMail(QString mail);
-    */
     void listFileResult(std::vector<File> files);
     void insertSymbol(std::pair<int, wchar_t> tuple, symbolStyle style);
     void insertSymbols(int firstIndex, std::vector<symbol> symbols);
@@ -98,7 +93,6 @@ private:
     QString mail_;
     QString color_;
     std::vector<File> fileVector_;
-    std::vector<symbol> vector_;
 };
 
 #endif // MYCLIENT_H

@@ -14,6 +14,9 @@
 #include "room.h"
 #include "email.h"
 
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
+
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
 

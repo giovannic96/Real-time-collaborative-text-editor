@@ -50,7 +50,7 @@ EditorWindow::EditorWindow(myClient* client, QWidget *parent): QMainWindow(paren
     hideLastAddedItem(ui->fontFamilyBox);
     qRegisterMetaType<std::vector<symbol>>("std::vector<symbol>");
     qRegisterMetaType<myCollabColorsMap>("std::map<std::string,std::pair<std::string,bool>");
-    showSymbolsAt(0, _client->getVector());
+    showSymbolsAt(0, _client->crdt.getSymbols());
     this->installEventFilter(this);
     ui->RealTextEdit->installEventFilter(this);
     collabColorsRequest(_client->getFileURI());
@@ -1123,11 +1123,12 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 ui->fontSizeBox->addItem(ui->fontSizeBox->currentText());
                 hideLastAddedItem(ui->fontSizeBox);
             }
-            tuple = std::make_pair(pos, c);
+
+            symbol s = _client->crdt.localInsert(pos, c, getCurCharStyle());
 
             //Serialize data
             json j;
-            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", tuple, getCurCharStyle());
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", s, pos);
             const std::string req = j.dump();
 
             //Send data (header and body)

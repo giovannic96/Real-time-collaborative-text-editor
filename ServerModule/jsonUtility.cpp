@@ -113,14 +113,15 @@ void jsonUtility::to_json_fileVector(json &j, const std::string &op, const std::
     };
 }
 
-void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin, const std::string &mail) {
+void jsonUtility::to_json_usernameLogin(json &j, const std::string &op, const std::string &resp, const std::string &usernameLogin, const std::string &colorLogin, const std::string &mail, const int &siteId) {
     j = json{
             {"operation", op},
             {"content", {
                 {"response", resp},
                 {"usernameLogin", usernameLogin},
                 {"colorLogin", colorLogin},
-                {"mailLogin", mail}
+                {"mailLogin", mail},
+                {"siteId", siteId}
             }}
     };
 }
@@ -167,17 +168,20 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style) {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const symbol &symbol, const int &indexInEditor) {
     j = json{
         {"operation", op},
-        {"tuple", tuple},
-        {"isBold", style.isBold()},
-        {"isItalic", style.isItalic()},
-        {"isUnderlined", style.isUnderlined()},
-        {"fontFamily", style.getFontFamily()},
-        {"fontSize", style.getFontSize()},
-        {"alignment", style.getAlignment()},
-        {"color", style.getColor()}
+        {"symbolId", symbol.getId()},
+        {"symbolPos", symbol.getPos()},
+        {"symbolLetter", symbol.getLetter()},
+        {"isBold", symbol.getStyle().isBold()},
+        {"isItalic", symbol.getStyle().isItalic()},
+        {"isUnderlined", symbol.getStyle().isUnderlined()},
+        {"fontFamily", symbol.getStyle().getFontFamily()},
+        {"fontSize", symbol.getStyle().getFontSize()},
+        {"alignment", symbol.getStyle().getAlignment()},
+        {"color", symbol.getStyle().getColor()},
+        {"indexInEditor", indexInEditor}
     };
 }
 
@@ -231,6 +235,22 @@ void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const 
             {"firstIndexRange", firstIndexRange},
             {"symbols", symbols}
     };
+}
+
+void jsonUtility::from_json_insertion(const json& j, symbol& s, int &indexInEditor) {
+    indexInEditor = j.at("indexInEditor").get<int>();
+    wchar_t letter = j.at("symbolLetter").get<wchar_t>();
+    std::pair<int,int> id = j.at("symbolId").get<std::pair<int,int>>();
+    std::vector<int> pos = j.at("symbolPos").get<std::vector<int>>();
+    symbolStyle style;
+    style.setBold(j.at("isBold").get<bool>());
+    style.setItalic(j.at("isItalic").get<bool>());
+    style.setUnderlined(j.at("isUnderlined").get<bool>());
+    style.setFontFamily(j.at("fontFamily").get<std::string>());
+    style.setFontSize(j.at("fontSize").get<int>());
+    style.setAlignment(j.at("alignment").get<int>());
+    style.setColor(j.at("color").get<std::string>());
+    s = symbol(letter, id, pos, style);
 }
 
 void jsonUtility::from_json(const json &j, std::string &op) {
@@ -355,13 +375,6 @@ symbolInfo jsonUtility::from_json_formatting_symbol(const json &j) {
     //now create the symbol
     symbolInfo s(index, letter, style);
     return s;
-}
-
-void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, symbolStyle& style) {
-    tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
-    style = {j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(), j.at("isUnderlined").get<bool>(),
-             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
-             j.at("color").get<std::string>()};
 }
 
 void jsonUtility::from_json_cursor_change_req(const json &j, int& index) {

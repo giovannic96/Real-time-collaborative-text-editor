@@ -42,7 +42,7 @@ symbol msgInfo::getSymbol() const {
     return s;
 }
 
-int msgInfo::getEditorId() {
+int msgInfo::getEditorId() const {
     return editorId;
 }
 

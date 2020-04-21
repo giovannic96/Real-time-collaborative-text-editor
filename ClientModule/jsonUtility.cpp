@@ -24,17 +24,20 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style) {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const symbol &symbol, const int &indexInEditor) {
     j = json{
         {"operation", op},
-        {"tuple", tuple},
-        {"isBold", style.isBold()},
-        {"isItalic", style.isItalic()},
-        {"isUnderlined", style.isUnderlined()},
-        {"fontFamily", style.getFontFamily()},
-        {"fontSize", style.getFontSize()},
-        {"alignment", style.getAlignment()},
-        {"color", style.getColor()}
+        {"symbolId", symbol.getId()},
+        {"symbolPos", symbol.getPos()},
+        {"symbolLetter", symbol.getLetter()},
+        {"isBold", symbol.getStyle().isBold()},
+        {"isItalic", symbol.getStyle().isItalic()},
+        {"isUnderlined", symbol.getStyle().isUnderlined()},
+        {"fontFamily", symbol.getStyle().getFontFamily()},
+        {"fontSize", symbol.getStyle().getFontSize()},
+        {"alignment", symbol.getStyle().getAlignment()},
+        {"color", symbol.getStyle().getColor()},
+        {"indexInEditor", indexInEditor}
     };
 }
 
@@ -199,6 +202,22 @@ void from_json(const json& j, symbol& s) {
     s = symbol(letter, id, pos, style);
 }
 
+void jsonUtility::from_json_insertion(const json& j, symbol& s, int &indexInEditor) {
+    indexInEditor = j.at("indexInEditor").get<int>();
+    wchar_t letter = j.at("symbolLetter").get<wchar_t>();
+    std::pair<int,int> id = j.at("symbolId").get<std::pair<int,int>>();
+    std::vector<int> pos = j.at("symbolPos").get<std::vector<int>>();
+    symbolStyle style;
+    style.setBold(j.at("isBold").get<bool>());
+    style.setItalic(j.at("isItalic").get<bool>());
+    style.setUnderlined(j.at("isUnderlined").get<bool>());
+    style.setFontFamily(j.at("fontFamily").get<std::string>());
+    style.setFontSize(j.at("fontSize").get<int>());
+    style.setAlignment(j.at("alignment").get<int>());
+    style.setColor(j.at("color").get<std::string>());
+    s = symbol(letter, id, pos, style);
+}
+
 void jsonUtility::from_json_symbols(const json &j, std::vector<symbol>& symbols) {
     symbols = j.at("content").at("symVector").get<std::vector<symbol>>(); //use from_json previously defined
 }
@@ -287,10 +306,11 @@ File* jsonUtility::from_json_file(const json &j) {
     return f;
 }
 
-void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail) {
+void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail, int &siteId) {
     name = j.at("content").at("usernameLogin").get<std::string>();
     color = j.at("content").at("colorLogin").get<std::string>();
     mail = j.at("content").at("mailLogin").get<std::string>();
+    siteId = j.at("content").at("siteId").get<int>();
 }
 
 void jsonUtility::from_json(const json &j, std::string &user, std::string &pass) {
@@ -306,13 +326,6 @@ void jsonUtility::from_json(const json &j, std::string &user, std::string &pass,
 
 void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
     uri = j.at("content").at("uri").get<std::string>();
-}
-
-void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, symbolStyle& style) {
-    tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
-    style = {j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(), j.at("isUnderlined").get<bool>(),
-             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
-             j.at("color").get<std::string>()};
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {

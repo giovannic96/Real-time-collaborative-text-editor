@@ -28,6 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS BOOST_SYSTEM_NO_DEPRECATED BOOST_THREAD_USE_LI
 SOURCES += \
     File.cpp \
     MyQTextEdit.cpp \
+    crdt.cpp \
     editorstate.cpp \
     editorwindow.cpp \
     infowindow.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
 HEADERS += \
     File.h \
     MyQTextEdit.h \
+    crdt.h \
     editorstate.h \
     editorwindow.h \
     infowindow.h \

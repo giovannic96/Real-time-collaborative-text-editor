@@ -177,6 +177,7 @@ void session::do_read_body() {
 }
 
 void session::do_write() {
+    std::this_thread::sleep_for (std::chrono::seconds(2));
     auto self(shared_from_this());
     boost::asio::async_write(socket_,
                              boost::asio::buffer(write_msgs_.front().data(),write_msgs_.front().length()+1),
@@ -263,7 +264,8 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Serialize data
         json j;
-        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON, colorJSON.toStdString(), mail.toStdString());
+        jsonUtility::to_json_usernameLogin(j, "LOGIN_RESPONSE", db_res, userJSON, colorJSON.toStdString(),
+                                              mail.toStdString(), shared_from_this()->getId());
         const std::string response = j.dump();
         return response;
 
@@ -618,28 +620,27 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "INSERTION_REQUEST") {
-        std::pair<int, wchar_t> tupleJSON;
-        symbolStyle styleJSON;
-        jsonUtility::from_json_insertion(jdata_in, tupleJSON, styleJSON); //get json value and put into JSON variables
-        std::cout << "tuple received: " << tupleJSON.first << "," << tupleJSON.second << std::endl;
+        symbol symbolJSON;
+        int indexEditorJSON;
+        jsonUtility::from_json_insertion(jdata_in, symbolJSON, indexEditorJSON); //get json value and put into JSON variables
+        std::cout << "symbol received: " << symbolJSON.getLetter() << "," << "ID: " << symbolJSON.getId().first << "," << symbolJSON.getId().second << std::endl;
+
+        msgInfo m(0, indexEditorJSON, symbolJSON);
+        process(m);
 
         //Construct msgInfo
-        msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, styleJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        //msgInfo m = localInsert(tupleJSON.first, tupleJSON.second, styleJSON);
+        //std::cout << "msgInfo constructed: " << m.toString() << std::endl;
 
         //Update room symbols for this file
         room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
-        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", std::pair<int, wchar_t>(m.getNewIndex(), tupleJSON.second), styleJSON);
+        jsonUtility::to_json_insertion(j, "INSERTION_RESPONSE", symbolJSON, indexEditorJSON);
         const std::string response = j.dump();
         return response;
 

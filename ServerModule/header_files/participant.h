@@ -10,6 +10,7 @@
 #include "symbol.h"
 #include "msgInfo.h"
 #include "symbolInfo.h"
+#include "room.h"
 
 class participant {
 
@@ -22,8 +23,8 @@ private:
     int _counter = 0;
     std::vector<int> generatePos(int index);
     std::vector<int> generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos = {});
-    int comparePosdx(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex);
-    int comparePos(std::vector<int> curSymPos, std::vector<int> newSymPos, int posIndex);
+    int comparePosdx(std::vector<int> curSymPos, std::pair<int,int> curSymId, std::vector<int> newSymPos, std::pair<int,int> newSymId, int posIndex);
+    int comparePos(std::vector<int> curSymPos, std::pair<int,int> curSymId, std::vector<int> newSymPos, std::pair<int,int> newSymId, int posIndex);
     enum formatType {MAKE_BOLD=0, MAKE_ITALIC=1, MAKE_UNDERLINE=2, UNMAKE_BOLD=3, UNMAKE_ITALIC=4, UNMAKE_UNDERLINE=5, FORMAT_UNKNOWN=6};
 
 public:
@@ -37,7 +38,7 @@ public:
     msgInfo localFontSizeChange(int startIndex, int endIndex, int fontSize);
     msgInfo localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
     msgInfo localAlignmentChange(int startIndex, int endIndex, int alignment);
-    void process(const msgInfo& m);
+    void process(const msgInfo &m);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
     void setSymbols(std::vector<symbol> symbols);
