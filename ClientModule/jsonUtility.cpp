@@ -63,11 +63,10 @@ void jsonUtility::to_json_cursor_change_req(json &j, const std::string &op, cons
     };
 }
 
-void jsonUtility::to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex) {
+void jsonUtility::to_json_removal_range(json &j, const std::string &op, const std::vector<std::pair<int,int>> &symbolsId) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex}
+            {"symbolsId", symbolsId}
     };
 }
 
@@ -363,9 +362,8 @@ void jsonUtility::from_json_user_offline(const json &j, std::string &username, m
     collabColorsMap = j.at("collabColorsMap").get<myCollabColorsMap>();
 }
 
-void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_removal_range(const json &j, std::vector<sId>& symbolsId) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
 }
 
 void jsonUtility::from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format) {

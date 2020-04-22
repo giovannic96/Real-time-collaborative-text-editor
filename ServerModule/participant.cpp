@@ -417,45 +417,55 @@ int participant::process(int type, int indexEditor, const std::vector<symbol>& r
     }
 }
 
+int participant::processErase(const std::vector<symbol>& roomSymbols, sId id) {
+    /* Removal */
+    auto it = std::find_if(roomSymbols.begin(), roomSymbols.end(), [id](const symbol& s) {return s.getId() == id;});
+    if (it != roomSymbols.end()) {
+        int index = it - roomSymbols.begin();
+        return index;
+    }
+    return -1;
+}
+
 std::vector<symbol> participant::getSymbols() {
-    return _symbols;
+return _symbols;
 }
 
 std::string participant::getCurrentFile() {
-    return this->currentFile;
+return this->currentFile;
 }
 
 std::string participant::getUsername() {
-    return this->username;
+return this->username;
 }
 
 std::string participant::getColor() {
-    return this->color;
+return this->color;
 }
 
 std::string participant::to_string() {
-    std::string my_string;
-    for(const auto& s: _symbols)
-        my_string.push_back(s.getLetter());
-    return my_string;
+std::string my_string;
+for(const auto& s: _symbols)
+    my_string.push_back(s.getLetter());
+return my_string;
 }
 
 void participant::setSiteId(int edId) {
-    this->_siteId = edId;
+this->_siteId = edId;
 }
 
 void participant::setSymbols(std::vector<symbol> symbols) {
-    this->_symbols = std::move(symbols);
+this->_symbols = std::move(symbols);
 }
 
 void participant::setCurrentFile(std::string uri) {
-    this->currentFile = std::move(uri);
+this->currentFile = std::move(uri);
 }
 
 void participant::setUsername(std::string userName) {
-    this->username = std::move(userName);
+this->username = std::move(userName);
 }
 
 void participant::setColor(std::string color) {
-    this->color = std::move(color);
+this->color = std::move(color);
 }

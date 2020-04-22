@@ -20,6 +20,8 @@
 using boost::asio::ip::tcp;
 typedef std::deque<message> message_queue;
 typedef std::map<std::string, std::pair<std::string,bool>> myCollabColorsMap;
+typedef std::pair<int,int> sId;
+
 Q_DECLARE_METATYPE(myCollabColorsMap)
 
 class myClient : public QObject

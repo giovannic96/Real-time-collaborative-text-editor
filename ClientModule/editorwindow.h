@@ -223,7 +223,7 @@ private:
     void insertCharRangeRequest(int pos, bool cursorHasSelection);
     void cursorChangeRequest(int pos);
     void collabColorsRequest(QString uri);
-    void removeCharRequest(int startIndex, int endIndex);
+    void removeCharRequest(const std::vector<std::pair<int,int>>& symbolsId);
     void sendFormatRequest(int format);
     void sendFontChangeRequest(int fontSize);
     void sendFontChangeRequest(std::string fontFamily);

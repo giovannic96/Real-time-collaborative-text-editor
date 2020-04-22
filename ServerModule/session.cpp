@@ -642,32 +642,31 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "REMOVAL_REQUEST") {
-        int startIndexJSON;
-        int endIndexJSON;
-        jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON); //get json value and put into JSON variables
-        std::cout << "[REMOVAL] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << std::endl;
+        std::vector<sId> symbolsId;
+        jsonUtility::from_json_removal_range(jdata_in, symbolsId);
+        int newIndex;
 
-        //Construct msgInfo
-        msgInfo m = localErase(startIndexJSON, endIndexJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
-
-        //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
-
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
+        for(const sId& id : symbolsId) {
+            //process received symbol and retrieve new calculated index
+            newIndex = processErase(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false),id);
+            if(newIndex != -1) {
+                //Update room symbols for this file
+                std::cerr << "NEW INDEX: " << newIndex << std::endl;
+                room_.updateSymbolMap(shared_from_this()->getCurrentFile(), newIndex);
+            }
+        }
 
         //Write on file if there aren't chars (to prevent 2nd client reading from file previous symbols, see 'getSymbolMap', 2nd 'if' statement)
         if(room_.getMap().at(shared_from_this()->getCurrentFile()).empty())
-            fileUtility::writeFile(R"(..\Filesystem\)" + shared_from_this()->getCurrentFile() + ".txt", room_.getMap().at(shared_from_this()->getCurrentFile()));
+            fileUtility::writeFile(R"(..\Filesystem\)" + shared_from_this()->getCurrentFile() + ".txt",
+                    room_.getMap().at(shared_from_this()->getCurrentFile()));
 
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
 
         //Serialize data
         json j;
-        jsonUtility::to_json_removal_range(j, "REMOVAL_RESPONSE", startIndexJSON, endIndexJSON);
+        jsonUtility::to_json_removal_range(j, "REMOVAL_RESPONSE", symbolsId);
         const std::string response = j.dump();
         return response;
 
@@ -826,13 +825,17 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         int startIndexJSON;
         jsonUtility::from_json_insertion_range(jdata_in, formattingSymbolsJSON, startIndexJSON);
         std::vector<symbol> symbols = jsonUtility::fromJsonToFormattingSym(formattingSymbolsJSON);
+        int newIndex = startIndexJSON;
 
-        //process received symbol and retrieve new calculated index
-        int newIndex = process(6, startIndexJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),
-                false), symbols);
+        for(const symbol& s : symbols) {
+            //process received symbol and retrieve new calculated index
+            newIndex = process(0, newIndex, room_.getSymbolMap(shared_from_this()->getCurrentFile(),
+                    false), s);
 
-        //Update room symbols for this file
-        room_.updateSymbolsMap(shared_from_this()->getCurrentFile(), newIndex, symbols);
+            //Update room symbols for this file
+            room_.updateSymbolMap(shared_from_this()->getCurrentFile(), newIndex, s);
+        }
+        //int newIndex = process(6, startIndexJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), symbols);
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened

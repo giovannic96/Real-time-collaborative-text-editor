@@ -19,6 +19,7 @@
 
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
+typedef std::pair<int,int> sId;
 
 class session : public participant, public std::enable_shared_from_this<session> {
 

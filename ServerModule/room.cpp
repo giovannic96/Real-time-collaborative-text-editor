@@ -79,6 +79,10 @@ void room::updateSymbolMap(const std::string &key, int index, const symbol& s) {
     this->room_map_[key].insert(this->room_map_[key].begin() + index, s);
 }
 
+void room::updateSymbolMap(const std::string &key, int index) {
+    this->room_map_[key].erase(this->room_map_[key].begin() + index);
+}
+
 void room::updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols) {
     this->room_map_[key].insert(this->room_map_[key].begin() + index, symbols.begin(), symbols.end());
 }

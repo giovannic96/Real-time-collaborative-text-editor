@@ -153,8 +153,19 @@ std::vector<symbol> crdt::localInsert(int startIndex, std::vector<symbol> symbol
         symbolVector.push_back(sym);
     });
     _symbols.insert(_symbols.begin() + startIndex, symbolVector.begin(), symbolVector.end());
-
     return std::move(symbolVector);
+}
+
+std::vector<std::pair<int,int>> crdt::localErase(int startIndex, int endIndex) noexcept(false) {
+    //create vector of id to be sent (in removal we need only id, not entire symbol)
+    std::vector<std::pair<int,int>> symbolsId;
+    std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [&symbolsId](const symbol& s) {
+        symbolsId.push_back(s.getId());
+    });
+
+    //erase local symbols
+    _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
+    return symbolsId;
 }
 
 int crdt::process(int type, int indexEditor, symbol newSym) {
@@ -232,6 +243,17 @@ int crdt::process(int type, int indexEditor, std::vector<symbol> newSymbols) {
         _symbols.insert(_symbols.begin() + startIndex, newSymbols.begin(), newSymbols.end());
         return startIndex;
     }
+}
+
+int crdt::processErase(sId id) {
+    /* Removal */
+    auto it = std::find_if(_symbols.begin(), _symbols.end(), [id](const symbol& s) {return s.getId() == id;});
+    if (it != _symbols.end()) {
+        int index = it - _symbols.begin();
+        _symbols.erase(_symbols.begin() + index);
+        return index;
+    }
+    return -1;
 }
 
 int crdt::getSiteId() {

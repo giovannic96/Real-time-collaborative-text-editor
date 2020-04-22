@@ -6,6 +6,8 @@
 #include <symbolInfo.h>
 #include <symbol.h>
 
+typedef std::pair<int,int> sId;
+
 class crdt {
 
 public:
@@ -13,13 +15,14 @@ public:
     virtual ~crdt() = default;
     symbol localInsert(int index, wchar_t value, symbolStyle style);
     std::vector<symbol> localInsert(int startIndex, std::vector<symbol> symbols);
-    void localErase(int startIndex, int endIndex);
+    std::vector<std::pair<int,int>> localErase(int startIndex, int endIndex);
     void localFormat(int startIndex, int endIndex, int format);
     void localFontSizeChange(int startIndex, int endIndex, int fontSize);
     void localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
     void localAlignmentChange(int startIndex, int endIndex, int alignment);
     int process(int type, int indexEditor, symbol newSym);
     int process(int type, int indexEditor, std::vector<symbol> newSymbols);
+    int processErase(sId id);
     void setVector(std::vector<symbol> symbols);
     void setSiteId(int id);
     void setCounter(int counter);

@@ -11,6 +11,8 @@
 #include "msgInfo.h"
 #include "symbolInfo.h"
 
+typedef std::pair<int,int> sId;
+
 class participant {
 
 private:
@@ -40,6 +42,7 @@ public:
     int process(const msgInfo &m);
     int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const symbol& newSymbol);
     int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const std::vector<symbol>& newSymbols);
+    int processErase(const std::vector<symbol>& roomSymbols, sId id);
     //void process(const msgInfo& m, room& room, std::string& filename, std::vector<symbol>& symbols);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)

@@ -292,6 +292,7 @@ void myClient::do_read_body() {
                     std::vector<json> jsonSymbols;
                     jsonUtility::from_json_insertion_range(jdata_in, firstIndexJSON, jsonSymbols);
                     std::vector<symbol> symbols;
+                    int newIndex = firstIndexJSON;
 
                     //generate symbols vector from json vector
                     for(const auto& j: jsonSymbols) {
@@ -302,13 +303,17 @@ void myClient::do_read_body() {
                             do_read_header();
                         }
                         symbols.push_back(*s);
+
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.process(0, newIndex, *s);
+
+                        std::pair<int, wchar_t> tuple = std::make_pair(newIndex, s->getLetter());
+                        emit insertSymbol(tuple, s->getStyle());
+
                         delete s;
                     }
 
-                    //process received symbol and retrieve new calculated index
-                    int newIndex = this->crdt.process(6, firstIndexJSON, symbols);
-
-                    emit insertSymbols(newIndex, symbols);
+                    //emit insertSymbols(newIndex, symbols);
                 } else if(opJSON == "CURSOR_CHANGE_RESPONSE") {
                     std::string usernameJSON;
                     std::string colorJSON;
@@ -327,10 +332,19 @@ void myClient::do_read_body() {
                         emit showCollabColorsMap(collabColorsMapJSON);
                     }
                 } else if(opJSON == "REMOVAL_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
-                    jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
-                    emit eraseSymbols(startIndexJSON, endIndexJSON);
+                    std::vector<sId> symbolsId;
+                    jsonUtility::from_json_removal_range(jdata_in, symbolsId);
+
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processErase(id);
+                        if(newIndex != -1) {
+                            qDebug() << "NEWINDEX: "<<newIndex;
+                            qDebug() << "ENTRATOOO";
+                            emit eraseSymbols(newIndex, newIndex+1);
+                        }
+                    }
                 } else if(opJSON == "FORMAT_RANGE_RESPONSE") {
                     int startIndexJSON;
                     int endIndexJSON;
