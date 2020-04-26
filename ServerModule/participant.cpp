@@ -164,7 +164,7 @@ msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
     _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
     msgInfo m(1, getId(), s, endIndex-startIndex);
     return m;
-}*/
+}
 
 msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexcept(false) {
     symbol s = _symbols.at(startIndex);
@@ -189,7 +189,7 @@ msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexc
     msgInfo m(2, getId(), s, endIndex-startIndex, format); //in this case 'format' (4th param) represents the format type, not the newIndex -> 0: Bold, 1: Italic, 2: Underline
     return m;
 }
-
+*/
 msgInfo participant::localFontSizeChange(int startIndex, int endIndex, int fontSize) noexcept(false) {
     symbol s = _symbols.at(startIndex);
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [fontSize](symbol& s) {

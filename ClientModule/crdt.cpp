@@ -177,24 +177,39 @@ std::vector<sId> crdt::localFormat(int startIndex, int endIndex, int format) noe
         symbolsId.push_back(s.getId());
 
         //change format of current symbol
-        symbolStyle newStyle;
+        symbolStyle style = s.getStyle();
+
         if(format == MAKE_BOLD)
-            newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor()};
+            style.setBold(true);
         else if(format == MAKE_ITALIC)
-            newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+            style.setItalic(true);
         else if(format == MAKE_UNDERLINE)
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+            style.setUnderlined(true);
         else if(format == UNMAKE_BOLD)
-            newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+            style.setBold(false);
         else if(format == UNMAKE_ITALIC)
-            newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+            style.setItalic(false);
         else if(format == UNMAKE_UNDERLINE)
-            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
-        else
-            newStyle = s.getStyle();
+            style.setUnderlined(false);
 
         //set new format to the current symbol
-        s.setStyle(newStyle);
+        s.setStyle(style);
+    });
+    return symbolsId;
+}
+
+std::vector<sId> crdt::localFontSizeChange(int startIndex, int endIndex, int fontSize) noexcept(false) {
+    //create vector of id to be sent (in removal we need only id, not entire symbol)
+    std::vector<sId> symbolsId;
+
+    std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [&symbolsId, fontSize](symbol& s) {
+        //put id in symbolsId
+        symbolsId.push_back(s.getId());
+
+        //set new font size to the current symbol
+        symbolStyle style = s.getStyle();
+        style.setFontSize(fontSize);
+        s.setStyle(style);
     });
     return symbolsId;
 }
@@ -294,18 +309,33 @@ int crdt::processFormat(sId id, int format) {
     if (it != _symbols.end()) {
         int index = it - _symbols.begin();
         symbolStyle style = _symbols.at(index).getStyle();
-            if(format == MAKE_BOLD)
-                style.setBold(true);
-            else if(format == MAKE_ITALIC)
-                style.setItalic(true);
-            else if(format == MAKE_UNDERLINE)
-                style.setUnderlined(true);
-            else if(format == UNMAKE_BOLD)
-                style.setBold(false);
-            else if(format == UNMAKE_ITALIC)
-                style.setItalic(false);
-            else if(format == UNMAKE_UNDERLINE)
-                style.setUnderlined(false);
+
+        if(format == MAKE_BOLD)
+            style.setBold(true);
+        else if(format == MAKE_ITALIC)
+            style.setItalic(true);
+        else if(format == MAKE_UNDERLINE)
+            style.setUnderlined(true);
+        else if(format == UNMAKE_BOLD)
+            style.setBold(false);
+        else if(format == UNMAKE_ITALIC)
+            style.setItalic(false);
+        else if(format == UNMAKE_UNDERLINE)
+            style.setUnderlined(false);
+
+        //update symbols vector
+        _symbols.at(index).setStyle(style);
+        return index;
+    }
+    return -1;
+}
+
+int crdt::processFontSize(sId id, int fontSize) {
+    auto it = std::find_if(_symbols.begin(), _symbols.end(), [id](const symbol& s) {return s.getId() == id;});
+    if (it != _symbols.end()) {
+        int index = it - _symbols.begin();
+        symbolStyle style = _symbols.at(index).getStyle();
+        style.setFontSize(fontSize);
 
         //update symbols vector
         _symbols.at(index).setStyle(style);

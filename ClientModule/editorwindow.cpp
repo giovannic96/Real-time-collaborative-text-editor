@@ -3089,9 +3089,12 @@ void EditorWindow::sendFontChangeRequest(int fontSize) {
         int startIndex = cursor.selectionStart();
         int endIndex = cursor.selectionEnd();
 
+        //Update symbols of the client
+        std::vector<sId> symbolsId = _client->crdt.localFontSizeChange(startIndex, endIndex, fontSize);
+
         //Serialize data
         json j;
-        jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_REQUEST", startIndex, endIndex, fontSize);
+        jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_REQUEST", symbolsId, fontSize);
         const std::string req = j.dump();
 
         //Send data (header and body)

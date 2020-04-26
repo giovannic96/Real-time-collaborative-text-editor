@@ -39,6 +39,7 @@ public:
     void insertInSymbolMap(const std::string &key, int index, const symbol& s);
     void eraseInSymbolMap(const std::string &key, int index);
     void formatInSymbolMap(const std::string &key, int index, int format);
+    void changeFontSizeInSymbolMap(const std::string &key, int index, int fontSize);
     void updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols);
     void setMap(const std::map<std::string, std::vector<symbol>>& m);
     std::vector<symbol> getSymbolMap(const std::string& filename, bool canReadFromFile);

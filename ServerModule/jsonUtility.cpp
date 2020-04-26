@@ -197,11 +197,10 @@ void jsonUtility::to_json_format_range(json &j, const std::string &op, const std
     };
 }
 
-void jsonUtility::to_json_fontsize_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &fontSize) {
+void jsonUtility::to_json_fontsize_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &fontSize) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex},
+            {"symbolsId", symbolsId},
             {"fontSize", fontSize}
     };
 }
@@ -375,9 +374,8 @@ void jsonUtility::from_json_format_range(const json &j, std::vector<sId>& symbol
     format = j.at("format").get<int>();
 }
 
-void jsonUtility::from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_fontsize_change(const json &j, std::vector<sId>& symbolsId, int& fontSize) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     fontSize = j.at("fontSize").get<int>();
 }
 

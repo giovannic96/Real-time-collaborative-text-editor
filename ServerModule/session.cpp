@@ -695,29 +695,27 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "FONTSIZE_CHANGE_REQUEST") {
-        int startIndexJSON;
-        int endIndexJSON;
+        std::vector<sId> symbolsId;
         int fontSizeJSON;
-        jsonUtility::from_json_fontsize_change(jdata_in, startIndexJSON, endIndexJSON, fontSizeJSON); //get json value and put into JSON variables
-        std::cout << "[FONTSIZE_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " newFontSize: " << std::to_string(fontSizeJSON) << std::endl;
+        jsonUtility::from_json_fontsize_change(jdata_in, symbolsId, fontSizeJSON);
+        int newIndex;
 
-        //Construct msgInfo
-        msgInfo m = localFontSizeChange(startIndexJSON, endIndexJSON, fontSizeJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        for(const sId& id : symbolsId) {
+            //process received symbol and retrieve new calculated index
+            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            if(newIndex != -1) {
+                //Update room symbols for this file
+                std::cerr << "NEW INDEX: " << newIndex << std::endl;
+                room_.changeFontSizeInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, fontSizeJSON);
+            }
+        }
 
-        //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
-
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
 
         //Serialize data
         json j;
-        jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, fontSizeJSON);
+        jsonUtility::to_json_fontsize_change(j, "FONTSIZE_CHANGE_RESPONSE", symbolsId, fontSizeJSON);
         const std::string response = j.dump();
         return response;
 

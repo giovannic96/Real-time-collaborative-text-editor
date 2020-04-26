@@ -358,11 +358,18 @@ void myClient::do_read_body() {
                         }
                     }
                 } else if(opJSON == "FONTSIZE_CHANGE_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
+                    std::vector<sId> symbolsId;
                     int fontSizeJSON;
-                    jsonUtility::from_json_fontsize_change(jdata_in, startIndexJSON, endIndexJSON, fontSizeJSON);
-                    emit changeFontSize(startIndexJSON, endIndexJSON, fontSizeJSON);
+                    jsonUtility::from_json_fontsize_change(jdata_in, symbolsId, fontSizeJSON);
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processFontSize(id, fontSizeJSON);
+                        if(newIndex != -1) {
+                            qDebug() << "NEWINDEX: "<<newIndex;
+                            emit changeFontSize(newIndex, newIndex+1, fontSizeJSON);
+                        }
+                    }
                 } else if(opJSON == "FONTFAMILY_CHANGE_RESPONSE") {
                     int startIndexJSON;
                     int endIndexJSON;
