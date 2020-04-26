@@ -2,10 +2,7 @@
 // Created by giova on 05/10/2019.
 //
 
-#include <iostream>
 #include "header_files/jsonUtility.h"
-#include "header_files/symbolInfo.h"
-#include <iomanip>
 
 void jsonUtility::to_json(json &j, const std::string &op, const std::string &resp) {
     j = json{

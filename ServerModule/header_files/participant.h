@@ -9,7 +9,6 @@
 #include "message.h"
 #include "symbol.h"
 #include "msgInfo.h"
-#include "symbolInfo.h"
 
 typedef std::pair<int,int> sId;
 
@@ -32,9 +31,11 @@ public:
     virtual ~participant() = default;
     virtual void deliver(const message& msg) = 0;
     int getId() const;
+    /*
     msgInfo localInsert(int index, wchar_t value, symbolStyle style);
     msgInfo localInsert(std::vector<symbolInfo> symbols);
     msgInfo localErase(int startIndex, int endIndex);
+     */
     msgInfo localFormat(int startIndex, int endIndex, int format);
     msgInfo localFontSizeChange(int startIndex, int endIndex, int fontSize);
     msgInfo localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);

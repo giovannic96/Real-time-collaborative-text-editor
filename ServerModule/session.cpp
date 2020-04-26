@@ -15,7 +15,6 @@
 #include "header_files/dbService.h"
 #include "header_files/fileUtility.h"
 #include "header_files/File.h"
-#include "header_files/symbolInfo.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "InfiniteRecursion"

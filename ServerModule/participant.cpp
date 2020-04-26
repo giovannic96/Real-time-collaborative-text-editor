@@ -89,6 +89,7 @@ int participant::comparePos(std::vector<int> curSymPos, std::pair<int,int> curSy
         return -1; //make another cycle taking the next symbol from _symbols
 }
 
+/*
 msgInfo participant::localInsert(int index, wchar_t value, symbolStyle style) noexcept(false) {
     std::vector<int> pos;
 
@@ -163,7 +164,7 @@ msgInfo participant::localErase(int startIndex, int endIndex) noexcept(false) {
     _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
     msgInfo m(1, getId(), s, endIndex-startIndex);
     return m;
-}
+}*/
 
 msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexcept(false) {
     symbol s = _symbols.at(startIndex);

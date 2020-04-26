@@ -40,7 +40,6 @@ SOURCES += \
     settings.cpp \
     startwindow.cpp \
     symbol.cpp \
-    symbolInfo.cpp \
     symbolStyle.cpp \
     userprofile.cpp \
     versioninfo.cpp
@@ -60,7 +59,6 @@ HEADERS += \
     settings.h \
     startwindow.h \
     symbol.h \
-    symbolInfo.h \
     symbolStyle.h \
     userprofile.h \
     versioninfo.h

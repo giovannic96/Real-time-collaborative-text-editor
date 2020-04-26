@@ -11,7 +11,6 @@
 #include <deque>
 #include "jsonUtility.h"
 #include "symbol.h"
-#include "symbolInfo.h"
 #include "File.h"
 #include <QDebug>
 #include <iostream>

@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <symbolStyle.h>
-#include <symbolInfo.h>
 #include <symbol.h>
 
 typedef std::pair<int,int> sId;

@@ -7,7 +7,6 @@
 
 #include "json.hpp"
 #include "symbol.h"
-#include "symbolInfo.h"
 #include "File.h"
 
 using nlohmann::json;

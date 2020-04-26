@@ -197,10 +197,6 @@ void jsonUtility::from_json_resp(const json &j, std::string &resp) {
     resp = j.at("content").at("response").get<std::string>();
 }
 
-void jsonUtility::from_json_formatting_symbols(const json &j, std::vector<json>& jsonSymbols) {
-    jsonSymbols = j.at("formattingSymVector").get<std::vector<json>>();
-}
-
 /* We need to use this 'from_json' to deserialize std::vector<symbol> (see function from_json_symbols) */
 void from_json(const json& j, symbol& s) {
     wchar_t letter = j.at("letter").get<wchar_t>();
@@ -282,20 +278,6 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
 
     //now create the symbol
     symbol *s = new symbol(letter, id, pos, style);
-    return s;
-}
-
-symbolInfo* jsonUtility::from_json_formatting_symbol(const json &j) {
-
-    //get symbol values from json
-    int index = j.at("index").get<int>();
-    wchar_t letter = j.at("letter").get<wchar_t>();
-    symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
-                      j.at("color").get<std::string>());
-
-    //now create the symbol
-    symbolInfo *s = new symbolInfo(index, letter, style);
     return s;
 }
 
