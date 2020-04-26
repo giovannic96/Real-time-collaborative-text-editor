@@ -43,7 +43,7 @@ public:
     static void to_json_format_range(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &format);
     static void to_json_fontsize_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &fontSize);
     static void to_json_fontfamily_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const std::string &fontFamily);
-    static void to_json_alignment_change(json &j, const std::string &op, const int &startBlock, const int &endBlock, const int &alignment);
+    static void to_json_alignment_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &alignment);
     static void to_json_insertion_range(json &j, const std::string &op, const int &firstIndex, const std::vector<json> &symbolsJSONS);
     static void from_json_insertion(const json& j, symbol& s, int &indexInEditor);
     static void from_json(const json& j, std::string& op);
@@ -60,7 +60,7 @@ public:
     static void from_json_format_range(const json &j, std::vector<sId>& symbolsId, int& format);
     static void from_json_fontsize_change(const json &j, std::vector<sId>& symbolsId, int& fontSize);
     static void from_json_fontfamily_change(const json &j, std::vector<sId>& symbolsId, std::string& fontFamily);
-    static void from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment);
+    static void from_json_alignment_change(const json &j, std::vector<sId>& symbolsId, int& alignment);
     static void from_json_insertion_range(const json &j, std::vector<json>& symbols, int &startIndex);
     static void from_json_inviteURI(const json& j, std::string& invited, std::string& applicant, std::string &uri);
     static void from_json_collab_colors(const json& j, std::string& uri);

@@ -112,6 +112,12 @@ void room::changeFontFamilyInSymbolMap(const std::string &key, int index, const 
     this->room_map_[key].at(index).setStyle(style);
 }
 
+void room::changeAlignmentInSymbolMap(const std::string &key, int index, int alignment) {
+    symbolStyle style = this->room_map_[key].at(index).getStyle();
+    style.setAlignment(alignment);
+    this->room_map_[key].at(index).setStyle(style);
+}
+
 void room::updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols) {
     this->room_map_[key].insert(this->room_map_[key].begin() + index, symbols.begin(), symbols.end());
 }

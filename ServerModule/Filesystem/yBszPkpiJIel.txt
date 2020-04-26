@@ -1,1 +1,0 @@
-[{"alignment":1,"color":"#87fa1111","fontFamily":"Times New Roman","fontSize":14,"id":[2,8],"isBold":false,"isItalic":false,"isUnderlined":false,"letter":102,"pos":[0]},{"alignment":1,"color":"#87fa1111","fontFamily":"Comic Sans MS","fontSize":14,"id":[2,9],"isBold":false,"isItalic":false,"isUnderlined":false,"letter":103,"pos":[1]}]

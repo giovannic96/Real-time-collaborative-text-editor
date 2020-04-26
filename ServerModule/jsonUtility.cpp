@@ -213,11 +213,10 @@ void jsonUtility::to_json_fontfamily_change(json &j, const std::string &op, cons
     };
 }
 
-void jsonUtility::to_json_alignment_change(json &j, const std::string &op, const int &startBlock, const int &endBlock, const int &alignment) {
+void jsonUtility::to_json_alignment_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &alignment) {
     j = json{
             {"operation", op},
-            {"startBlock", startBlock},
-            {"endBlock", endBlock},
+            {"symbolsId", symbolsId},
             {"alignment", alignment}
     };
 }
@@ -383,9 +382,8 @@ void jsonUtility::from_json_fontfamily_change(const json &j, std::vector<sId>& s
     fontFamily = j.at("fontFamily").get<std::string>();
 }
 
-void jsonUtility::from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment) {
-    startBlock = j.at("startBlock").get<int>();
-    endBlock = j.at("endBlock").get<int>();
+void jsonUtility::from_json_alignment_change(const json &j, std::vector<sId>& symbolsId, int& alignment) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     alignment = j.at("alignment").get<int>();
 }
 

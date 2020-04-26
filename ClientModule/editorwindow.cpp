@@ -3103,9 +3103,12 @@ void EditorWindow::sendFontChangeRequest(int fontSize) {
 }
 
 void EditorWindow::sendAlignChangeRequest(int blockStart, int blockEnd, int alignment) {
+    //Update symbols of the client
+    std::vector<sId> symbolsId = _client->crdt.localAlignmentChange(blockStart, blockEnd, alignment);
+
     //Serialize data
     json j;
-    jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_REQUEST", blockStart, blockEnd, alignment);
+    jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_REQUEST", symbolsId, alignment);
     const std::string req = j.dump();
 
     //Send data (header and body)

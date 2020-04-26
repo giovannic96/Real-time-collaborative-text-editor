@@ -189,7 +189,7 @@ msgInfo participant::localFormat(int startIndex, int endIndex, int format) noexc
     msgInfo m(2, getId(), s, endIndex-startIndex, format); //in this case 'format' (4th param) represents the format type, not the newIndex -> 0: Bold, 1: Italic, 2: Underline
     return m;
 }
-*/
+
 msgInfo participant::localFontSizeChange(int startIndex, int endIndex, int fontSize) noexcept(false) {
     symbol s = _symbols.at(startIndex);
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [fontSize](symbol& s) {
@@ -211,7 +211,7 @@ msgInfo participant::localFontFamilyChange(int startIndex, int endIndex, const s
     msgInfo m(4, getId(), s, endIndex-startIndex, fontFamily);
     return m;
 }
-
+*/
 msgInfo participant::localAlignmentChange(int startIndex, int endIndex, int alignment) noexcept(false) {
     if(startIndex == endIndex) {
         msgInfo m(5, getId(), endIndex-startIndex, alignment); //in this case 'alignment' (4th param) represents the alignment, not the newIndex

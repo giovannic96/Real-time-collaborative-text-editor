@@ -41,6 +41,7 @@ public:
     void formatInSymbolMap(const std::string &key, int index, int format);
     void changeFontSizeInSymbolMap(const std::string &key, int index, int fontSize);
     void changeFontFamilyInSymbolMap(const std::string &key, int index, const std::string& fontFamily);
+    void changeAlignmentInSymbolMap(const std::string &key, int index, int alignment);
     void updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols);
     void setMap(const std::map<std::string, std::vector<symbol>>& m);
     std::vector<symbol> getSymbolMap(const std::string& filename, bool canReadFromFile);

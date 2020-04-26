@@ -384,11 +384,37 @@ void myClient::do_read_body() {
                         }
                     }
                 } else if(opJSON == "ALIGNMENT_CHANGE_RESPONSE") {
-                    int startBlockJSON;
-                    int endBlockJSON;
+                    std::vector<sId> symbolsId;
                     int alignmentJSON;
-                    jsonUtility::from_json_alignment_change(jdata_in, startBlockJSON, endBlockJSON, alignmentJSON);
-                    emit changeAlignment(startBlockJSON, endBlockJSON, alignmentJSON);
+                    jsonUtility::from_json_alignment_change(jdata_in, symbolsId, alignmentJSON);
+                    int newIndex;
+
+                    if(symbolsId.empty())
+                        emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
+                    else {
+                        for(const sId& id : symbolsId) {
+                            //process received symbol and retrieve new calculated index
+                            newIndex = this->crdt.processAlignment(id, alignmentJSON);
+                            if(newIndex != -1) {
+                                qDebug() << "NEWINDEX: "<<newIndex;
+                                emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
+                            }
+                        }
+                    }
+                } else if(opJSON == "ALIGNMENT_UPDATE_RESPONSE") {
+                    std::vector<sId> updateAlignmentVector;
+                    int alignmentJSON;
+                    jsonUtility::from_json_alignment_change(jdata_in, updateAlignmentVector, alignmentJSON);
+                    int newIndex;
+
+                    for(const sId& id : updateAlignmentVector) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processAlignment(id, alignmentJSON);
+                        if(newIndex != -1) {
+                            qDebug() << "NEWINDEX: "<<newIndex;
+                            emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
+                        }
+                    }
                 } else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");

@@ -745,30 +745,52 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "ALIGNMENT_CHANGE_REQUEST") {
-        int startIndexJSON;
-        int endIndexJSON;
+        std::vector<sId> symbolsId;
         int alignmentJSON;
-        jsonUtility::from_json_alignment_change(jdata_in, startIndexJSON, endIndexJSON, alignmentJSON);
-        std::cout << "[ALIGNMENT_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - "
-                  << std::to_string(endIndexJSON) << " newAlignment: " << std::to_string(alignmentJSON) << std::endl;
+        jsonUtility::from_json_alignment_change(jdata_in, symbolsId, alignmentJSON);
+        int newIndex = -1;
 
-        //Construct msgInfo
-        msgInfo m = localAlignmentChange(startIndexJSON, endIndexJSON, alignmentJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        std::cerr << "symbolsId SIZE: " << symbolsId.size() << "ALIGNMENT RECEIVED: " << alignmentJSON << std::endl;
 
-        if (m.getRange() > 0) //Update room symbols for this file
-            room_.updateMap(shared_from_this()->getCurrentFile(), shared_from_this()->getSymbols());
+        for (const sId &id : symbolsId) {
+            //process received symbol and retrieve new calculated index
+            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(), false), id);
+            if (newIndex != -1) {
+                //Update room symbols for this file
+                std::cerr << "NEW INDEX: " << newIndex << std::endl;
+                room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
+            }
+        }
 
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
+
+        //Update alignment of next symbols (until '\n')
+        std::vector<sId> updateAlignmentVector;
+        while (++newIndex != room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()) {
+            if(room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
+               room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n') {
+                room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
+                updateAlignmentVector.push_back(
+                        room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
+                break;
+            }
+            room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
+            updateAlignmentVector.push_back(
+                    room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
+        }
+
+        if(!updateAlignmentVector.empty()) {
+            //Serialize data
+            json j;
+            jsonUtility::to_json_alignment_change(j, "ALIGNMENT_UPDATE_RESPONSE", updateAlignmentVector, alignmentJSON);
+            const std::string response = j.dump();
+            this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
+        }
 
         //Serialize data
         json j;
-        jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, alignmentJSON);
+        jsonUtility::to_json_alignment_change(j, "ALIGNMENT_CHANGE_RESPONSE", symbolsId, alignmentJSON);
         const std::string response = j.dump();
         return response;
 

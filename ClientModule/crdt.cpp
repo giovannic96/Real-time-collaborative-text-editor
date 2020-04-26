@@ -230,6 +230,24 @@ std::vector<sId> crdt::localFontFamilyChange(int startIndex, int endIndex, const
     return symbolsId;
 }
 
+std::vector<sId> crdt::localAlignmentChange(int startIndex, int endIndex, int alignment) noexcept(false) {
+    //create vector of id to be sent (in removal we need only id, not entire symbol)
+    std::vector<sId> symbolsId;
+
+    qDebug() << "START INDEX: " << startIndex << "END INDEX: " << endIndex;
+
+    std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [&symbolsId, alignment](symbol& s) {
+        //put id in symbolsId
+        symbolsId.push_back(s.getId());
+
+        //set new font size to the current symbol
+        symbolStyle style = s.getStyle();
+        style.setAlignment(alignment);
+        s.setStyle(style);
+    });
+    return symbolsId;
+}
+
 int crdt::process(int type, int indexEditor, symbol newSym) {
     /* Insertion */
     if (type == 0) {
@@ -374,6 +392,22 @@ int crdt::processFontFamily(sId id, const std::string& fontFamily) {
     return -1;
 }
 
+int crdt::processAlignment(sId id, int alignment) {
+    //check also if alignments are different because server send to all clients (including me) in case of ALIGNMENT_UPDATE
+    auto it = std::find_if(_symbols.begin(), _symbols.end(), [id, alignment](const symbol& s) {
+        return s.getId() == id && s.getStyle().getAlignment() != alignment;});
+    if (it != _symbols.end()) {
+        int index = it - _symbols.begin();
+        symbolStyle style = _symbols.at(index).getStyle();
+        style.setAlignment(alignment);
+
+        //update symbols vector
+        _symbols.at(index).setStyle(style);
+        return index;
+    }
+    return -1;
+}
+
 int crdt::getSiteId() {
     return this->_siteId;
 }
@@ -396,4 +430,10 @@ void crdt::setCounter(int counter) {
 
 void crdt::setSymbols(std::vector<symbol> symbols) {
     this->_symbols = std::move(symbols);
+}
+
+void crdt::updateAlignmentSymbols(int index, int alignment) {
+    symbolStyle style = this->_symbols.at(index).getStyle();
+    style.setAlignment(alignment);
+    this->_symbols.at(index).setStyle(style);
 }
