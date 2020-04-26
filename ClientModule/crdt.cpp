@@ -214,6 +214,22 @@ std::vector<sId> crdt::localFontSizeChange(int startIndex, int endIndex, int fon
     return symbolsId;
 }
 
+std::vector<sId> crdt::localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily) noexcept(false) {
+    //create vector of id to be sent (in removal we need only id, not entire symbol)
+    std::vector<sId> symbolsId;
+
+    std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [&symbolsId, fontFamily](symbol& s) {
+        //put id in symbolsId
+        symbolsId.push_back(s.getId());
+
+        //set new font size to the current symbol
+        symbolStyle style = s.getStyle();
+        style.setFontFamily(fontFamily);
+        s.setStyle(style);
+    });
+    return symbolsId;
+}
+
 int crdt::process(int type, int indexEditor, symbol newSym) {
     /* Insertion */
     if (type == 0) {
@@ -336,6 +352,20 @@ int crdt::processFontSize(sId id, int fontSize) {
         int index = it - _symbols.begin();
         symbolStyle style = _symbols.at(index).getStyle();
         style.setFontSize(fontSize);
+
+        //update symbols vector
+        _symbols.at(index).setStyle(style);
+        return index;
+    }
+    return -1;
+}
+
+int crdt::processFontFamily(sId id, const std::string& fontFamily) {
+    auto it = std::find_if(_symbols.begin(), _symbols.end(), [id](const symbol& s) {return s.getId() == id;});
+    if (it != _symbols.end()) {
+        int index = it - _symbols.begin();
+        symbolStyle style = _symbols.at(index).getStyle();
+        style.setFontFamily(fontFamily);
 
         //update symbols vector
         _symbols.at(index).setStyle(style);

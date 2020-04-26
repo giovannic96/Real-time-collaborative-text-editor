@@ -371,11 +371,18 @@ void myClient::do_read_body() {
                         }
                     }
                 } else if(opJSON == "FONTFAMILY_CHANGE_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
+                    std::vector<sId> symbolsId;
                     std::string fontFamilyJSON;
-                    jsonUtility::from_json_fontfamily_change(jdata_in, startIndexJSON, endIndexJSON, fontFamilyJSON);
-                    emit changeFontFamily(startIndexJSON, endIndexJSON, fontFamilyJSON);
+                    jsonUtility::from_json_fontfamily_change(jdata_in, symbolsId, fontFamilyJSON);
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processFontFamily(id, fontFamilyJSON);
+                        if(newIndex != -1) {
+                            qDebug() << "NEWINDEX: "<<newIndex;
+                            emit changeFontFamily(newIndex, newIndex+1, fontFamilyJSON);
+                        }
+                    }
                 } else if(opJSON == "ALIGNMENT_CHANGE_RESPONSE") {
                     int startBlockJSON;
                     int endBlockJSON;

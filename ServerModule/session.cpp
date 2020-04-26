@@ -720,29 +720,27 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "FONTFAMILY_CHANGE_REQUEST") {
-        int startIndexJSON;
-        int endIndexJSON;
+        std::vector<sId> symbolsId;
         std::string fontFamilyJSON;
-        jsonUtility::from_json_fontfamily_change(jdata_in, startIndexJSON, endIndexJSON, fontFamilyJSON);
-        std::cout << "[FONTFAMILY_CHANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " newFontFamily: " << fontFamilyJSON << std::endl;
+        jsonUtility::from_json_fontfamily_change(jdata_in, symbolsId, fontFamilyJSON);
+        int newIndex;
 
-        //Construct msgInfo
-        msgInfo m = localFontFamilyChange(startIndexJSON, endIndexJSON, fontFamilyJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        for(const sId& id : symbolsId) {
+            //process received symbol and retrieve new calculated index
+            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            if(newIndex != -1) {
+                //Update room symbols for this file
+                std::cerr << "NEW INDEX: " << newIndex << std::endl;
+                room_.changeFontFamilyInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, fontFamilyJSON);
+            }
+        }
 
-        //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
-
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
 
         //Serialize data
         json j;
-        jsonUtility::to_json_fontfamily_change(j, "FONTFAMILY_CHANGE_RESPONSE", startIndexJSON, endIndexJSON, fontFamilyJSON);
+        jsonUtility::to_json_fontfamily_change(j, "FONTFAMILY_CHANGE_RESPONSE", symbolsId, fontFamilyJSON);
         const std::string response = j.dump();
         return response;
 

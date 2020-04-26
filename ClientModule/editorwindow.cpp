@@ -3118,9 +3118,12 @@ void EditorWindow::sendFontChangeRequest(std::string fontFamily) {
         int startIndex = cursor.selectionStart();
         int endIndex = cursor.selectionEnd();
 
+        //Update symbols of the client
+        std::vector<sId> symbolsId = _client->crdt.localFontFamilyChange(startIndex, endIndex, fontFamily);
+
         //Serialize data
         json j;
-        jsonUtility::to_json_fontfamily_change(j, "FONTFAMILY_CHANGE_REQUEST", startIndex, endIndex, fontFamily);
+        jsonUtility::to_json_fontfamily_change(j, "FONTFAMILY_CHANGE_REQUEST", symbolsId, fontFamily);
         const std::string req = j.dump();
 
         //Send data (header and body)
