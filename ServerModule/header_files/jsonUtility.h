@@ -39,8 +39,8 @@ public:
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass);
     static void to_json(json& j, const std::string& op, const std::string& user, const std::string& pass, const std::string& email);
     static void to_json_insertion(json &j, const std::string &op, const symbol &symbol, const int &indexInEditor);
-    static void to_json_removal_range(json &j, const std::string &op, const std::vector<std::pair<int,int>> &symbolsId);
-    static void to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format);
+    static void to_json_removal_range(json &j, const std::string &op, const std::vector<sId> &symbolsId);
+    static void to_json_format_range(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &format);
     static void to_json_fontsize_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &fontSize);
     static void to_json_fontfamily_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const std::string &fontFamily);
     static void to_json_alignment_change(json &j, const std::string &op, const int &startBlock, const int &endBlock, const int &alignment);
@@ -57,7 +57,7 @@ public:
     static void from_json_storedSymbols(const json& j, std::vector<json>& jsonSymbols);
     static void from_json_cursor_change_req(const json& j, int& index);
     static void from_json_removal_range(const json& j, std::vector<sId>& symbolsId);
-    static void from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format);
+    static void from_json_format_range(const json &j, std::vector<sId>& symbolsId, int& format);
     static void from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize);
     static void from_json_fontfamily_change(const json &j, int& startIndex, int& endIndex, std::string& fontFamily);
     static void from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment);

@@ -75,12 +75,29 @@ void room::updateMap(const std::string &key, const std::vector<symbol>& symbols)
     this->room_map_[key] = symbols; //overwrite symbols in that key(uri)
 }
 
-void room::updateSymbolMap(const std::string &key, int index, const symbol& s) {
+void room::insertInSymbolMap(const std::string &key, int index, const symbol& s) {
     this->room_map_[key].insert(this->room_map_[key].begin() + index, s);
 }
 
-void room::updateSymbolMap(const std::string &key, int index) {
+void room::eraseInSymbolMap(const std::string &key, int index) {
     this->room_map_[key].erase(this->room_map_[key].begin() + index);
+}
+
+void room::formatInSymbolMap(const std::string &key, int index, int format) {
+    symbolStyle style = this->room_map_[key].at(index).getStyle();
+    if(format == participant::MAKE_BOLD)
+        style.setBold(true);
+    else if(format == participant::MAKE_ITALIC)
+        style.setItalic(true);
+    else if(format == participant::MAKE_UNDERLINE)
+        style.setUnderlined(true);
+    else if(format == participant::UNMAKE_BOLD)
+        style.setBold(false);
+    else if(format == participant::UNMAKE_ITALIC)
+        style.setItalic(false);
+    else if(format == participant::UNMAKE_UNDERLINE)
+        style.setUnderlined(false);
+    this->room_map_[key].at(index).setStyle(style);
 }
 
 void room::updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols) {

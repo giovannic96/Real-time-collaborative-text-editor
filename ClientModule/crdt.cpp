@@ -156,15 +156,46 @@ std::vector<symbol> crdt::localInsert(int startIndex, std::vector<symbol> symbol
     return std::move(symbolVector);
 }
 
-std::vector<std::pair<int,int>> crdt::localErase(int startIndex, int endIndex) noexcept(false) {
+std::vector<sId> crdt::localErase(int startIndex, int endIndex) noexcept(false) {
     //create vector of id to be sent (in removal we need only id, not entire symbol)
-    std::vector<std::pair<int,int>> symbolsId;
+    std::vector<sId> symbolsId;
     std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [&symbolsId](const symbol& s) {
         symbolsId.push_back(s.getId());
     });
 
     //erase local symbols
     _symbols.erase(_symbols.begin() + startIndex, _symbols.begin() + endIndex);
+    return symbolsId;
+}
+
+std::vector<sId> crdt::localFormat(int startIndex, int endIndex, int format) noexcept(false) {
+    //create vector of id to be sent (in removal we need only id, not entire symbol)
+    std::vector<sId> symbolsId;
+
+    std::for_each(_symbols.begin() + startIndex, _symbols.begin() + endIndex, [&symbolsId, format](symbol& s) {
+        //put id in symbolsId
+        symbolsId.push_back(s.getId());
+
+        //change format of current symbol
+        symbolStyle newStyle;
+        if(format == MAKE_BOLD)
+            newStyle = {true, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor()};
+        else if(format == MAKE_ITALIC)
+            newStyle = {s.getStyle().isBold(), true, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+        else if(format == MAKE_UNDERLINE)
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), true, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+        else if(format == UNMAKE_BOLD)
+            newStyle = {false, s.getStyle().isItalic(), s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+        else if(format == UNMAKE_ITALIC)
+            newStyle = {s.getStyle().isBold(), false, s.getStyle().isUnderlined(), s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+        else if(format == UNMAKE_UNDERLINE)
+            newStyle = {s.getStyle().isBold(), s.getStyle().isItalic(), false, s.getStyle().getFontFamily(), s.getStyle().getFontSize(), s.getStyle().getAlignment(), s.getStyle().getColor() };
+        else
+            newStyle = s.getStyle();
+
+        //set new format to the current symbol
+        s.setStyle(newStyle);
+    });
     return symbolsId;
 }
 
@@ -201,7 +232,7 @@ int crdt::process(int type, int indexEditor, symbol newSym) {
                 }
             }
         }
-        std::cout << std::endl << "STAAAAAART INDEX: " << startIndex << std::endl << std::endl;
+        //update symbols vector
         _symbols.insert(_symbols.begin() + startIndex, newSym);
         return startIndex;
     }
@@ -240,17 +271,44 @@ int crdt::process(int type, int indexEditor, std::vector<symbol> newSymbols) {
                 }
             }
         }
+        //update symbols vector
         _symbols.insert(_symbols.begin() + startIndex, newSymbols.begin(), newSymbols.end());
         return startIndex;
     }
 }
 
 int crdt::processErase(sId id) {
-    /* Removal */
     auto it = std::find_if(_symbols.begin(), _symbols.end(), [id](const symbol& s) {return s.getId() == id;});
     if (it != _symbols.end()) {
         int index = it - _symbols.begin();
+
+        //update symbols vector
         _symbols.erase(_symbols.begin() + index);
+        return index;
+    }
+    return -1;
+}
+
+int crdt::processFormat(sId id, int format) {
+    auto it = std::find_if(_symbols.begin(), _symbols.end(), [id](const symbol& s) {return s.getId() == id;});
+    if (it != _symbols.end()) {
+        int index = it - _symbols.begin();
+        symbolStyle style = _symbols.at(index).getStyle();
+            if(format == MAKE_BOLD)
+                style.setBold(true);
+            else if(format == MAKE_ITALIC)
+                style.setItalic(true);
+            else if(format == MAKE_UNDERLINE)
+                style.setUnderlined(true);
+            else if(format == UNMAKE_BOLD)
+                style.setBold(false);
+            else if(format == UNMAKE_ITALIC)
+                style.setItalic(false);
+            else if(format == UNMAKE_UNDERLINE)
+                style.setUnderlined(false);
+
+        //update symbols vector
+        _symbols.at(index).setStyle(style);
         return index;
     }
     return -1;

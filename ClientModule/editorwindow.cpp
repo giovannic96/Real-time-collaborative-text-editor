@@ -565,7 +565,10 @@ void EditorWindow::on_buttonCut_clicked() {
         int startIndex = cursor.selectionStart();
         int endIndex = cursor.selectionEnd();
         changeNextCharsAlignment(cursor, startIndex, endIndex);
+
+        //Update symbols of the client
         std::vector<sId> symbolsId = _client->crdt.localErase(startIndex, endIndex);
+
         removeCharRequest(symbolsId);
         ui->RealTextEdit->cut();
     }
@@ -584,7 +587,10 @@ void EditorWindow::on_buttonPaste_clicked() {
             int startIndex = cursor.selectionStart();
             int endIndex = cursor.selectionEnd();
             changeNextCharsAlignment(cursor, startIndex, endIndex);
+
+            //Update symbols of the client
             std::vector<sId> symbolsId = _client->crdt.localErase(startIndex, endIndex);
+
             removeCharRequest(symbolsId);
         }
         insertCharRangeRequest(pos, hasSelection);
@@ -949,7 +955,10 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                 int startIndex = cursor.selectionStart();
                 int endIndex = cursor.selectionEnd();
                 changeNextCharsAlignment(cursor, startIndex, endIndex);
+
+                //Update symbols of the client
                 std::vector<sId> symbolsId = _client->crdt.localErase(startIndex, endIndex);
+
                 removeCharRequest(symbolsId);
             }
             return QObject::eventFilter(obj, ev);
@@ -969,7 +978,10 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
                     int startIndex = cursor.selectionStart();
                     int endIndex = cursor.selectionEnd();
                     changeNextCharsAlignment(cursor, startIndex, endIndex);
+
+                    //Update symbols of the client
                     std::vector<sId> symbolsId = _client->crdt.localErase(startIndex, endIndex);
+
                     removeCharRequest(symbolsId);
                 }
                 insertCharRangeRequest(pos, hasSelection);
@@ -1166,12 +1178,18 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
                 /* Send requests */
                 changeNextCharsAlignment(cursor, startIndex, endIndex);
+
+                //Update symbols of the client
                 std::vector<sId> symbolsId = _client->crdt.localErase(startIndex, endIndex);
+
                 removeCharRequest(symbolsId);
             }
             else if(pos > 0) { //Remove only one character
                 changeNextCharsAlignment(cursor, pos-1, pos);
+
+                //Update symbols of the client
                 std::vector<sId> symbolsId = _client->crdt.localErase(pos-1, pos);
+
                 removeCharRequest(symbolsId);
             }
             return QObject::eventFilter(obj, ev);
@@ -1198,12 +1216,18 @@ bool EditorWindow::eventFilter(QObject *obj, QEvent *ev) {
 
                 /* Send requests */
                 changeNextCharsAlignment(cursor, startIndex, endIndex);
+
+                //Update symbols of the client
                 std::vector<sId> symbolsId = _client->crdt.localErase(startIndex, endIndex);
+
                 removeCharRequest(symbolsId);
             }
             else if(pos >= 0 && pos < ui->RealTextEdit->toPlainText().size()) {
                 changeNextCharsAlignment(cursor, pos, pos+1);
+
+                //Update symbols of the client
                 std::vector<sId> symbolsId = _client->crdt.localErase(pos, pos+1);
+
                 removeCharRequest(symbolsId);
             }
             return QObject::eventFilter(obj, ev);
@@ -3036,14 +3060,27 @@ void EditorWindow::sendFormatRequest(int format) {
         int startIndex = cursor.selectionStart();
         int endIndex = cursor.selectionEnd();
 
+        //Update symbols of the client
+        std::vector<sId> symbolsId = _client->crdt.localFormat(startIndex, endIndex, format);
+
         //Serialize data
         json j;
-        jsonUtility::to_json_format_range(j, "FORMAT_RANGE_REQUEST", startIndex, endIndex, format);
+        jsonUtility::to_json_format_range(j, "FORMAT_RANGE_REQUEST", symbolsId, format);
         const std::string req = j.dump();
 
         //Send data (header and body)
         _client->sendRequestMsg(req);
     }
+}
+
+void EditorWindow::removeCharRequest(const std::vector<sId>& symbolsId) {
+    //Serialize data
+    json j;
+    jsonUtility::to_json_removal_range(j, "REMOVAL_REQUEST", symbolsId);
+    const std::string req = j.dump();
+
+    //Send data (header and body)
+    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::sendFontChangeRequest(int fontSize) {
@@ -3312,16 +3349,6 @@ QString EditorWindow::updateBackgroundColor(QString html, QString finalAlpha) {
         html.replace(originalBackColor, s.replace(curAlpha, finalAlpha));
     }
     return html;
-}
-
-void EditorWindow::removeCharRequest(const std::vector<sId>& symbolsId) {
-    //Serialize data
-    json j;
-    jsonUtility::to_json_removal_range(j, "REMOVAL_REQUEST", symbolsId);
-    const std::string req = j.dump();
-
-    //Send data (header and body)
-    _client->sendRequestMsg(req);
 }
 
 void EditorWindow::cursorChangeRequest(int pos) {

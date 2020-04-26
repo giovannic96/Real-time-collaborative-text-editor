@@ -14,14 +14,15 @@ public:
     virtual ~crdt() = default;
     symbol localInsert(int index, wchar_t value, symbolStyle style);
     std::vector<symbol> localInsert(int startIndex, std::vector<symbol> symbols);
-    std::vector<std::pair<int,int>> localErase(int startIndex, int endIndex);
-    void localFormat(int startIndex, int endIndex, int format);
+    std::vector<sId> localErase(int startIndex, int endIndex);
+    std::vector<sId> localFormat(int startIndex, int endIndex, int format);
     void localFontSizeChange(int startIndex, int endIndex, int fontSize);
     void localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
     void localAlignmentChange(int startIndex, int endIndex, int alignment);
     int process(int type, int indexEditor, symbol newSym);
     int process(int type, int indexEditor, std::vector<symbol> newSymbols);
     int processErase(sId id);
+    int processFormat(sId id, int format);
     void setVector(std::vector<symbol> symbols);
     void setSiteId(int id);
     void setCounter(int counter);

@@ -341,16 +341,22 @@ void myClient::do_read_body() {
                         newIndex = this->crdt.processErase(id);
                         if(newIndex != -1) {
                             qDebug() << "NEWINDEX: "<<newIndex;
-                            qDebug() << "ENTRATOOO";
                             emit eraseSymbols(newIndex, newIndex+1);
                         }
                     }
                 } else if(opJSON == "FORMAT_RANGE_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
+                    std::vector<sId> symbolsId;
                     int formatJSON;
-                    jsonUtility::from_json_format_range(jdata_in, startIndexJSON, endIndexJSON, formatJSON);
-                    emit formatSymbols(startIndexJSON, endIndexJSON, formatJSON);
+                    jsonUtility::from_json_format_range(jdata_in, symbolsId, formatJSON);
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processFormat(id, formatJSON);
+                        if(newIndex != -1) {
+                            qDebug() << "NEWINDEX: "<<newIndex;
+                            emit formatSymbols(newIndex, newIndex+1, formatJSON);
+                        }
+                    }
                 } else if(opJSON == "FONTSIZE_CHANGE_RESPONSE") {
                     int startIndexJSON;
                     int endIndexJSON;

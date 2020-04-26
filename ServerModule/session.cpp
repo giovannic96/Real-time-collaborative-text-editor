@@ -629,7 +629,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
                 false), symbolJSON);
 
         //Update room symbols for this file
-        room_.updateSymbolMap(shared_from_this()->getCurrentFile(), newIndex, symbolJSON);
+        room_.insertInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, symbolJSON);
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
@@ -647,11 +647,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = processErase(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false),id);
+            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false),id);
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                room_.updateSymbolMap(shared_from_this()->getCurrentFile(), newIndex);
+                room_.eraseInSymbolMap(shared_from_this()->getCurrentFile(), newIndex);
             }
         }
 
@@ -670,29 +670,27 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else if (opJSON == "FORMAT_RANGE_REQUEST") {
-        int startIndexJSON;
-        int endIndexJSON;
+        std::vector<sId> symbolsId;
         int formatJSON;
-        jsonUtility::from_json_format_range(jdata_in, startIndexJSON, endIndexJSON, formatJSON); //get json value and put into JSON variables
-        std::cout << "[FORMAT_RANGE] indexes received: " << std::to_string(startIndexJSON) << " - " << std::to_string(endIndexJSON) << " format: " << std::to_string(formatJSON) << std::endl;
+        jsonUtility::from_json_format_range(jdata_in, symbolsId, formatJSON); //get json value and put into JSON variables
+        int newIndex;
 
-        //Construct msgInfo
-        msgInfo m = localFormat(startIndexJSON, endIndexJSON, formatJSON);
-        std::cout << "msgInfo constructed: " << m.toString() << std::endl;
+        for(const sId& id : symbolsId) {
+            //process received symbol and retrieve new calculated index
+            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            if(newIndex != -1) {
+                //Update room symbols for this file
+                std::cerr << "NEW INDEX: " << newIndex << std::endl;
+                room_.formatInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, formatJSON);
+            }
+        }
 
-        //Update room symbols for this file
-        room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
-
-        //Dispatch message to all the clients
-        room_.send(m);
-        room_.dispatchMessages();
-
-        edId = m.getEditorId(); //don't send this message to this editor
+        edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
 
         //Serialize data
         json j;
-        jsonUtility::to_json_format_range(j, "FORMAT_RANGE_RESPONSE", startIndexJSON, endIndexJSON, formatJSON);
+        jsonUtility::to_json_format_range(j, "FORMAT_RANGE_RESPONSE", symbolsId, formatJSON);
         const std::string response = j.dump();
         return response;
 
@@ -832,7 +830,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
                     false), s);
 
             //Update room symbols for this file
-            room_.updateSymbolMap(shared_from_this()->getCurrentFile(), newIndex, s);
+            room_.insertInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, s);
         }
         //int newIndex = process(6, startIndexJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), symbols);
 

@@ -189,11 +189,10 @@ void jsonUtility::to_json_removal_range(json &j, const std::string &op, const st
     };
 }
 
-void jsonUtility::to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format) {
+void jsonUtility::to_json_format_range(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &format) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex},
+            {"symbolsId", symbolsId},
             {"format", format}
     };
 }
@@ -371,9 +370,8 @@ void jsonUtility::from_json_removal_range(const json &j, std::vector<sId>& symbo
     symbolsId = j.at("symbolsId").get<std::vector<sId>>();
 }
 
-void jsonUtility::from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_format_range(const json &j, std::vector<sId>& symbolsId, int& format) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     format = j.at("format").get<int>();
 }
 

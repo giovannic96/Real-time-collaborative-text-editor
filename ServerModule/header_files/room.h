@@ -36,8 +36,9 @@ public:
     std::map<std::string, std::vector<symbol>> getMap();
     void updateMap(const std::string& key, const std::vector<symbol>& symbols);
     void addEntryInMap(const std::string& key, const std::vector<symbol>& symbols);
-    void updateSymbolMap(const std::string &key, int index);
-    void updateSymbolMap(const std::string &key, int index, const symbol& s);
+    void insertInSymbolMap(const std::string &key, int index, const symbol& s);
+    void eraseInSymbolMap(const std::string &key, int index);
+    void formatInSymbolMap(const std::string &key, int index, int format);
     void updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols);
     void setMap(const std::map<std::string, std::vector<symbol>>& m);
     std::vector<symbol> getSymbolMap(const std::string& filename, bool canReadFromFile);

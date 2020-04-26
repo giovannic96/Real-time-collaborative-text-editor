@@ -418,8 +418,7 @@ int participant::process(int type, int indexEditor, const std::vector<symbol>& r
     }
 }
 
-int participant::processErase(const std::vector<symbol>& roomSymbols, sId id) {
-    /* Removal */
+int participant::getIndexById(const std::vector<symbol>& roomSymbols, sId id) {
     auto it = std::find_if(roomSymbols.begin(), roomSymbols.end(), [id](const symbol& s) {return s.getId() == id;});
     if (it != roomSymbols.end()) {
         int index = it - roomSymbols.begin();
