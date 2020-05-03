@@ -31,7 +31,7 @@ public:
     int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const std::vector<symbol>& newSymbols);
     int getIndexById(const std::vector<symbol>& roomSymbols, sId id);
     std::string to_string();
-    std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
+    std::vector<symbol> getSymbols();
     void setSymbols(std::vector<symbol> symbols);
     void setCurrentFile(std::string uri);
     void setUsername(std::string userName);

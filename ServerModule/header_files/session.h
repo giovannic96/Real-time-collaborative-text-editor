@@ -28,7 +28,6 @@ private:
     message read_msg_;
     message_queue write_msgs_;
     std::string fullBody;
-    dbService dbService_;
     void do_read_header();
     void do_read_body();
     void do_write(); //for the editor

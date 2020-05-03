@@ -668,7 +668,7 @@ void EditorWindow::on_RealTextEdit_selectionChanged() {
             setupInitialCondition();
         } else {
             bool hasNoFormat = false;
-            if(QString::number(c.charFormat().fontPointSize()) == "0") {
+            if(QString::number(c.charFormat().fontPointSize()) == "0" || c.charFormat().fontFamily() == "") {
                 c.movePosition(QTextCursor::Right); //get format from the letter to the right (usually \n in this case)
                 hasNoFormat = true;
             }

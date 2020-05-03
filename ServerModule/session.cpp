@@ -673,15 +673,30 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json_format_range(jdata_in, symbolsId, formatJSON); //get json value and put into JSON variables
         int newIndex;
 
+        auto t_start = std::chrono::high_resolution_clock::now();
+
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = getIndexById(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            auto t_start1 = std::chrono::high_resolution_clock::now();
+            newIndex = getIndexById(room::getInstance().getSymbolMap(
+                    shared_from_this()->getCurrentFile(),false), id);
+            auto t_end1 = std::chrono::high_resolution_clock::now();
+            double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
+            std::cerr << "GETINDEXBYID - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
+
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
+                auto t_start2 = std::chrono::high_resolution_clock::now();
                 room::getInstance().formatInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, formatJSON);
+                auto t_end2 = std::chrono::high_resolution_clock::now();
+                double elapsed_time_ms2 = std::chrono::duration<double, std::milli>(t_end2-t_start2).count();
+                std::cerr << "FORMATINSYMBOLMAP - ELAPSED (ms): " << elapsed_time_ms2 << std::endl;
             }
         }
+        auto t_end = std::chrono::high_resolution_clock::now();
+        double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
+        std::cerr << "FORMAT RANGE - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
