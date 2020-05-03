@@ -22,15 +22,13 @@
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
 
-session::session(tcp::socket socket, room &room)
-                            : socket_(std::move(socket)), room_(room) {
-}
+session::session(tcp::socket socket) : socket_(std::move(socket)) {}
 
 void session::session_start(int editorId) {
     shared_from_this()->setSiteId(editorId);
     shared_from_this()->setCurrentFile("");
     fullBody = "";
-    room_.join(shared_from_this());
+    room::getInstance().join(shared_from_this());
     do_read_header();
 }
 
@@ -59,7 +57,7 @@ void session::do_read_header()
                 dbService::tryLogout(shared_from_this()->getUsername());
                 QSqlDatabase::removeDatabase("MyConnect2");
             }
-            room_.leave(shared_from_this());
+            room::getInstance().leave(shared_from_this());
         }
     });
 }
@@ -170,13 +168,13 @@ void session::do_read_body() {
                 dbService::tryLogout(shared_from_this()->getUsername());
                 QSqlDatabase::removeDatabase("MyConnect2");
             }
-            room_.leave(shared_from_this());
+            room::getInstance().leave(shared_from_this());
         }
     });
 }
 
 void session::do_write() {
-    std::this_thread::sleep_for (std::chrono::seconds(2));
+    //std::this_thread::sleep_for (std::chrono::seconds(2));
     auto self(shared_from_this());
     boost::asio::async_write(socket_,
                              boost::asio::buffer(write_msgs_.front().data(),write_msgs_.front().length()+1),
@@ -193,7 +191,7 @@ void session::do_write() {
                  dbService::tryLogout(shared_from_this()->getUsername());
                  QSqlDatabase::removeDatabase("MyConnect2");
              }
-             room_.leave(shared_from_this());
+             room::getInstance().leave(shared_from_this());
          }
      });
 }
@@ -228,7 +226,7 @@ void session::sendMsgAll(const std::string& response, const int& edId, const std
         }
         message msg = message::constructMsg(std::string(chunkResponse.begin(), chunkResponse.begin() + chunkSize), isLastChunk);
         chunkResponse.erase(0, chunkSize);
-        room_.deliverToAll(msg, edId, curFile, includeThisEditor); //deliver msg to all the clients except the client with id 'edId' (this client)
+        room::getInstance().deliverToAll(msg, edId, curFile, includeThisEditor); //deliver msg to all the clients except the client with id 'edId' (this client)
     }
 }
 
@@ -306,7 +304,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         edId = shared_from_this()->getId();
 
         if(resp == dbService::LOGOUT_OK) {
-            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room_.getMap().at(uriJSON));
+            fileUtility::writeFile(R"(..\Filesystem\)" + uriJSON + ".txt", room::getInstance().getMap().at(uriJSON));
             shared_from_this()->setSymbols(std::vector<symbol>());
             db_res = "LOGOUTURI_OK";
         }
@@ -375,7 +373,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
             //Update session data
             shared_from_this()->setCurrentFile(uri.toStdString());
-            room_.addEntryInMap(shared_from_this()->getCurrentFile(), std::vector<symbol>());
+            room::getInstance().addEntryInMap(shared_from_this()->getCurrentFile(), std::vector<symbol>());
 
             //Serialize data
             json j;
@@ -409,13 +407,13 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         QSqlDatabase::removeDatabase("MyConnect2");
 
         if(resp == dbService::LIST_EXIST) {
-            if(room_.getMap().empty()) {
+            if(room::getInstance().getMap().empty()) {
                 for (const auto &f: vectorFile)
-                    room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
+                    room::getInstance().addEntryInMap(f.getidfile(), std::vector<symbol>());
             } else {
                 for (const auto &f: vectorFile)
-                    if (room_. getMap().count(f.getidfile()) <= 0) //key not exists
-                        room_.addEntryInMap(f.getidfile(), std::vector<symbol>());
+                    if (room::getInstance(). getMap().count(f.getidfile()) <= 0) //key not exists
+                        room::getInstance().addEntryInMap(f.getidfile(), std::vector<symbol>());
             }
             db_res = "LIST_EXIST";
         }
@@ -479,9 +477,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         if(resp == dbService::OPENFILE_OK) {
             //Update session data
             shared_from_this()->setCurrentFile(uriJSON);
-            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON, true));
+            shared_from_this()->setSymbols(room::getInstance().getSymbolMap(uriJSON, true));
 
-            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+            room::getInstance().updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
             curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
             edId = shared_from_this()->getId();
@@ -526,9 +524,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         if (resp == dbService::OPENWITHURI_OK) {
             //Update session data
             shared_from_this()->setCurrentFile(uriJSON);
-            shared_from_this()->setSymbols(room_.getSymbolMap(uriJSON, true));
+            shared_from_this()->setSymbols(room::getInstance().getSymbolMap(uriJSON, true));
 
-            room_.updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
+            room::getInstance().updateMap(shared_from_this()->getCurrentFile(),shared_from_this()->getSymbols());
 
             curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
             edId = shared_from_this()->getId();
@@ -625,11 +623,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         std::cout << "symbol received: " << symbolJSON.getLetter() << "," << "ID: " << symbolJSON.getId().first << "," << symbolJSON.getId().second << std::endl;
 
         //process received symbol and retrieve new calculated index
-        int newIndex = process(0, indexEditorJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),
+        int newIndex = process(0, indexEditorJSON, room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),
                 false), symbolJSON);
 
         //Update room symbols for this file
-        room_.insertInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, symbolJSON);
+        room::getInstance().insertInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, symbolJSON);
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
@@ -647,18 +645,18 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false),id);
+            newIndex = getIndexById(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),false),id);
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                room_.eraseInSymbolMap(shared_from_this()->getCurrentFile(), newIndex);
+                room::getInstance().eraseInSymbolMap(shared_from_this()->getCurrentFile(), newIndex);
             }
         }
 
         //Write on file if there aren't chars (to prevent 2nd client reading from file previous symbols, see 'getSymbolMap', 2nd 'if' statement)
-        if(room_.getMap().at(shared_from_this()->getCurrentFile()).empty())
+        if(room::getInstance().getMap().at(shared_from_this()->getCurrentFile()).empty())
             fileUtility::writeFile(R"(..\Filesystem\)" + shared_from_this()->getCurrentFile() + ".txt",
-                    room_.getMap().at(shared_from_this()->getCurrentFile()));
+                                   room::getInstance().getMap().at(shared_from_this()->getCurrentFile()));
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send only the message to clients that have this currentFile opened
@@ -677,11 +675,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            newIndex = getIndexById(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                room_.formatInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, formatJSON);
+                room::getInstance().formatInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, formatJSON);
             }
         }
 
@@ -702,11 +700,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            newIndex = getIndexById(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                room_.changeFontSizeInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, fontSizeJSON);
+                room::getInstance().changeFontSizeInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, fontSizeJSON);
             }
         }
 
@@ -727,11 +725,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
+            newIndex = getIndexById(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),false), id);
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                room_.changeFontFamilyInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, fontFamilyJSON);
+                room::getInstance().changeFontFamilyInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, fontFamilyJSON);
             }
         }
 
@@ -754,17 +752,17 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for (const sId &id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            newIndex = getIndexById(room_.getSymbolMap(shared_from_this()->getCurrentFile(), false), id);
+            newIndex = getIndexById(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false), id);
             if (newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
+                room::getInstance().changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
             }
         }
         bool canLoop = true;
         if(newIndex != -1)
-            if (room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
-                room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n')
+            if (room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
+                    room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n')
                 canLoop = false;
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
@@ -772,21 +770,21 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         //Update alignment of next symbols (until '\n')
         std::vector<sId> updateAlignmentVector;
-        std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
+        std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
 
-        while (canLoop && ++newIndex != room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()) {
-            std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
+        while (canLoop && ++newIndex != room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).size()) {
+            std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
 
-            if(room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
-               room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n') {
-                room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
+            if(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
+                    room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n') {
+                room::getInstance().changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
                 updateAlignmentVector.push_back(
-                        room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
+                        room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
                 break;
             }
-            room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
+            room::getInstance().changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
             updateAlignmentVector.push_back(
-                    room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
+                    room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
         }
 
         if(!updateAlignmentVector.empty()) {
@@ -853,11 +851,11 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         for(const symbol& s : symbols) {
             //process received symbol and retrieve new calculated index
-            newIndex = process(0, newIndex, room_.getSymbolMap(shared_from_this()->getCurrentFile(),
+            newIndex = process(0, newIndex, room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(),
                     false), s);
 
             //Update room symbols for this file
-            room_.insertInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, s);
+            room::getInstance().insertInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, s);
         }
         //int newIndex = process(6, startIndexJSON, room_.getSymbolMap(shared_from_this()->getCurrentFile(),false), symbols);
 
@@ -872,7 +870,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         return response;
 
     } else { //editor functions
-        room_.deliver(read_msg_); //deliver to all the participants
+        room::getInstance().deliver(read_msg_); //deliver to all the participants
     }
 }
 

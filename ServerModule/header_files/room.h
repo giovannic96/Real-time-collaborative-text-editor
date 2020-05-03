@@ -19,12 +19,19 @@ typedef std::deque<message> message_queue;
 class room {
 
 private:
+    room() {}
     std::set<participant_ptr> participants_;
     enum { max_recent_msgs = 100 };
     message_queue recent_msgs_;
     std::map<std::string, std::vector<symbol>> room_map_;
 
 public:
+    static room& getInstance() {
+        static room instance;
+        return instance;
+    }
+    room(room const&) = delete;
+    void operator=(room const&) = delete;
     void join(const participant_ptr& participant);
     void leave(const participant_ptr& participant);
     void deliver(const message& msg); //deliver to the clients
@@ -41,6 +48,7 @@ public:
     void updateSymbolsMap(const std::string &key, int index, const std::vector<symbol>& symbols);
     void setMap(const std::map<std::string, std::vector<symbol>>& m);
     std::vector<symbol> getSymbolMap(const std::string& filename, bool canReadFromFile);
+
 };
 
 

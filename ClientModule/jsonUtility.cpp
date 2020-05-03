@@ -27,9 +27,9 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
 void jsonUtility::to_json_insertion(json &j, const std::string &op, const symbol &symbol, const int &indexInEditor) {
     j = json{
         {"operation", op},
-        {"symbolId", symbol.getId()},
-        {"symbolPos", symbol.getPos()},
-        {"symbolLetter", symbol.getLetter()},
+        {"id", symbol.getId()},
+        {"pos", symbol.getPos()},
+        {"letter", symbol.getLetter()},
         {"isBold", symbol.getStyle().isBold()},
         {"isItalic", symbol.getStyle().isItalic()},
         {"isUnderlined", symbol.getStyle().isUnderlined()},
@@ -43,9 +43,9 @@ void jsonUtility::to_json_insertion(json &j, const std::string &op, const symbol
 
 void jsonUtility::to_json_FormattingSymbol(json &j, const symbol &symbol) {
     j = json{
-        {"symbolId", symbol.getId()},
-        {"symbolPos", symbol.getPos()},
-        {"symbolLetter", symbol.getLetter()},
+        {"id", symbol.getId()},
+        {"pos", symbol.getPos()},
+        {"letter", symbol.getLetter()},
         {"isBold", symbol.getStyle().isBold()},
         {"isItalic", symbol.getStyle().isItalic()},
         {"isUnderlined", symbol.getStyle().isUnderlined()},
@@ -211,9 +211,9 @@ void from_json(const json& j, symbol& s) {
 
 void jsonUtility::from_json_insertion(const json& j, symbol& s, int &indexInEditor) {
     indexInEditor = j.at("indexInEditor").get<int>();
-    wchar_t letter = j.at("symbolLetter").get<wchar_t>();
-    std::pair<int,int> id = j.at("symbolId").get<std::pair<int,int>>();
-    std::vector<int> pos = j.at("symbolPos").get<std::vector<int>>();
+    wchar_t letter = j.at("letter").get<wchar_t>();
+    std::pair<int,int> id = j.at("id").get<std::pair<int,int>>();
+    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
     symbolStyle style;
     style.setBold(j.at("isBold").get<bool>());
     style.setItalic(j.at("isItalic").get<bool>());

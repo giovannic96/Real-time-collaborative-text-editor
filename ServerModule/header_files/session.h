@@ -25,7 +25,6 @@ class session : public participant, public std::enable_shared_from_this<session>
 
 private:
     tcp::socket socket_;
-    room& room_;
     message read_msg_;
     message_queue write_msgs_;
     std::string fullBody;
@@ -38,7 +37,7 @@ private:
     void sendMsgAll(const std::string& response, const int& edId, const std::string& curFile, bool includeThisEditor=false); //send msg to all the clients except client with id 'edId' having the curFile opened
 
 public:
-    explicit session(tcp::socket socket, room& room);
+    explicit session(tcp::socket socket);
     void session_start(int editorId);
     void deliver(const message& msg);
 };
