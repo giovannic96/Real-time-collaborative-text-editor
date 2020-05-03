@@ -44,19 +44,6 @@ void room::deliverToAll(const message &msg, const int& edId, const std::string& 
     }
 }
 
-void room::send(const msgInfo &m) {
-    infoMsgs_.push_back(m);
-}
-
-void room::dispatchMessages() {
-    while(!infoMsgs_.empty()) {
-        for (const auto& it: participants_)
-            if (it->getId() != infoMsgs_.front().getEditorId())
-                it->process(infoMsgs_.front());
-        infoMsgs_.pop_front();
-    }
-}
-
 std::vector<symbol> room::getSymbolMap(const std::string& filename, bool canReadFromFile) {
     if(room_map_.empty()) //server has nothing in RAM
         return std::vector<symbol>();

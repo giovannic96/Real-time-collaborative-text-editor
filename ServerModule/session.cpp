@@ -761,13 +761,22 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
                 room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
             }
         }
+        bool canLoop = true;
+        if(newIndex != -1)
+            if (room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
+                room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n')
+                canLoop = false;
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
 
         //Update alignment of next symbols (until '\n')
         std::vector<sId> updateAlignmentVector;
-        while (++newIndex != room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()) {
+        std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
+
+        while (canLoop && ++newIndex != room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()) {
+            std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
+
             if(room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
                room_.getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n') {
                 room_.changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);

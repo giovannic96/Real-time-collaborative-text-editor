@@ -12,7 +12,7 @@ private:
     std::string _timestamp;
 public:
     File(std::string idfile, std::string filename, std::string owner, std::string timestamp);
-    std::string ToString() const;
+
     std::string getidfile() const;
     std::string getfilename() const;
     std::string getowner() const;

@@ -8,7 +8,6 @@
 #include <vector>
 #include "message.h"
 #include "symbol.h"
-#include "msgInfo.h"
 
 typedef std::pair<int,int> sId;
 
@@ -20,9 +19,6 @@ private:
     std::string username;
     std::string color;
     std::vector<symbol> _symbols;
-    int _counter = 0;
-    std::vector<int> generatePos(int index);
-    std::vector<int> generatePosBetween(std::vector<int> pos1, std::vector<int> pos2, std::vector<int> newPos = {});
     int comparePosdx(std::vector<int> curSymPos, std::pair<int,int> curSymId, std::vector<int> newSymPos, std::pair<int,int> newSymId, int posIndex);
     int comparePos(std::vector<int> curSymPos, std::pair<int,int> curSymId, std::vector<int> newSymPos, std::pair<int,int> newSymId, int posIndex);
 
@@ -31,20 +27,9 @@ public:
     virtual ~participant() = default;
     virtual void deliver(const message& msg) = 0;
     int getId() const;
-    /*
-    msgInfo localInsert(int index, wchar_t value, symbolStyle style);
-    msgInfo localInsert(std::vector<symbolInfo> symbols);
-    msgInfo localErase(int startIndex, int endIndex);
-     */
-    msgInfo localFormat(int startIndex, int endIndex, int format);
-    msgInfo localFontSizeChange(int startIndex, int endIndex, int fontSize);
-    msgInfo localFontFamilyChange(int startIndex, int endIndex, const std::string& fontFamily);
-    msgInfo localAlignmentChange(int startIndex, int endIndex, int alignment);
-    int process(const msgInfo &m);
     int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const symbol& newSymbol);
     int process(int type, int indexEditor, const std::vector<symbol>& roomSymbols, const std::vector<symbol>& newSymbols);
     int getIndexById(const std::vector<symbol>& roomSymbols, sId id);
-    //void process(const msgInfo& m, room& room, std::string& filename, std::vector<symbol>& symbols);
     std::string to_string();
     std::vector<symbol> getSymbols(); //maybe we can use pointer (symbol*)
     void setSymbols(std::vector<symbol> symbols);
