@@ -2779,6 +2779,7 @@ void EditorWindow::updateAlignmentButton() {
 }
 
 void EditorWindow::changeAlignment(int startBlock, int endBlock, int alignment) {
+    qDebug() << "ENTRATOOOOO";
     QTextCursor cursor = ui->RealTextEdit->textCursor();
     QTextBlockFormat textBlockFormat;
     int oldPos = cursor.position();
@@ -3280,11 +3281,88 @@ void EditorWindow::alignSingleBlock(QTextCursor& cursor, Qt::AlignmentFlag align
     textBlockFormat.setAlignment(alignment);
     cursor.mergeBlockFormat(textBlockFormat);
     ui->RealTextEdit->setTextCursor(cursor);
-    if(ui->RealTextEdit->document()->lastBlock() == cursor.block()) //Qt considers <CR> in last line, even if I didn't press Return btn
-        sendAlignChangeRequest(cursor.block().position(), cursor.block().position()+cursor.block().length()-1, alignment);
-    else
+    int oldPos = cursor.position();
+
+    if(ui->RealTextEdit->document()->lastBlock() == cursor.block()) { //Qt considers <CR> in last line, even if I didn't press Return btn
+
+        //update symbols of the client
+        cursor.movePosition(QTextCursor::End);
+        int lastPos = cursor.position();
+        qDebug() << "LASTpOS: " << lastPos;
+        int vecSize = static_cast<int>(_client->crdt.getSymbols().size());
+        qDebug() << "VECSIZE: " << vecSize;
+
+        bool addNewline = false;
+        symbol s;
+        if(vecSize == 0) {
+            symbolStyle style = getCurCharStyle();
+            QTextCharFormat format;
+            //QTextBlockFormat blockFormat;
+
+            /* Get style */
+            format.setFontFamily(QString::fromStdString(style.getFontFamily()));
+            format.setFontPointSize(style.getFontSize());
+            format.setFontItalic(style.isItalic());
+            format.setFontWeight(style.isBold() ? QFont::Bold : QFont::Normal);
+            format.setFontUnderline(style.isUnderlined());
+            //blockFormat.setAlignment(static_cast<Qt::AlignmentFlag>(style.getAlignment()));
+
+            /* Insert (formatted) char locally */
+            cursor.setPosition(lastPos);
+            cursor.setCharFormat(format);
+            cursor.insertText(static_cast<QString>('\r'));
+            //cursor.setBlockFormat(blockFormat);
+            cursor.setPosition(oldPos);
+            ui->RealTextEdit->setTextCursor(cursor);
+
+            /* Insert (formatted) char remotely */
+            s = _client->crdt.localInsert(lastPos, '\r', style);
+            addNewline = true;
+        }
+        else if(cursor.position() >= lastPos) {
+            symbolStyle style = _client->crdt.getSymbols().at(vecSize-1).getStyle();
+            QTextCharFormat format;
+
+            /* Get style */
+            format.setFontFamily(QString::fromStdString(style.getFontFamily()));
+            format.setFontPointSize(style.getFontSize());
+            format.setFontItalic(style.isItalic());
+            format.setFontWeight(style.isBold() ? QFont::Bold : QFont::Normal);
+            format.setFontUnderline(style.isUnderlined());
+
+            /* Insert (formatted) char locally */
+            cursor.setPosition(vecSize);
+            cursor.setCharFormat(format);
+            cursor.insertText(static_cast<QString>('\r'));
+            cursor.setPosition(oldPos);
+            ui->RealTextEdit->setTextCursor(cursor);
+
+            /* Insert (formatted) char remotely */
+            s = _client->crdt.localInsert(vecSize, '\r', style);
+            addNewline = true;
+        }
+
+        if(addNewline) {
+            //Serialize data
+            json j;
+            qDebug() << "ALIGNMENT: " << s.getStyle().getAlignment();
+            jsonUtility::to_json_insertion(j, "INSERTION_REQUEST", s, vecSize);
+            const std::string req = j.dump();
+
+            //Send data (header and body)
+            _client->sendRequestMsg(req);
+
+            sendAlignChangeRequest(cursor.block().position(), cursor.block().position()+cursor.block().length(), alignment);
+        } else {
+            qDebug() << "BLOCK LENGTH: " << cursor.block().length();
+            sendAlignChangeRequest(cursor.block().position(), cursor.block().position()+cursor.block().length()-1, alignment);
+        }
+    }
+    else {
+        qDebug() << "SIAMO NELL ELSE";
         sendAlignChangeRequest(cursor.block().position(), cursor.block().position()+cursor.block().length(), alignment);
-    //NB: cursor.block().length() considers also <CR>, while QTextCursor::EndOfBlock not!
+        //NB: cursor.block().length() considers also <CR>, while QTextCursor::EndOfBlock not!
+    }
 }
 
 void EditorWindow::alignMultipleBlocks(int startIndex, int endIndex, QTextCursor& cursor, Qt::AlignmentFlag alignment) {

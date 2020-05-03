@@ -105,6 +105,7 @@ symbol crdt::localInsert(int index, wchar_t value, symbolStyle style) noexcept(f
     } else
         pos = generatePos(index);
 
+    qDebug() << "SAN CRISPINO MAIALE: " << pos;
     symbol s(value, std::make_pair(_siteId, ++_counter), pos, std::move(style));
     _symbols.insert(_symbols.begin() + index, s);
 

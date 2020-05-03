@@ -673,30 +673,16 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
         jsonUtility::from_json_format_range(jdata_in, symbolsId, formatJSON); //get json value and put into JSON variables
         int newIndex;
 
-        auto t_start = std::chrono::high_resolution_clock::now();
-
         for(const sId& id : symbolsId) {
             //process received symbol and retrieve new calculated index
-            auto t_start1 = std::chrono::high_resolution_clock::now();
             newIndex = getIndexById(room::getInstance().getSymbolMap(
                     shared_from_this()->getCurrentFile(),false), id);
-            auto t_end1 = std::chrono::high_resolution_clock::now();
-            double elapsed_time_ms1 = std::chrono::duration<double, std::milli>(t_end1-t_start1).count();
-            std::cerr << "GETINDEXBYID - ELAPSED (ms): " << elapsed_time_ms1 << std::endl;
-
             if(newIndex != -1) {
                 //Update room symbols for this file
                 std::cerr << "NEW INDEX: " << newIndex << std::endl;
-                auto t_start2 = std::chrono::high_resolution_clock::now();
                 room::getInstance().formatInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, formatJSON);
-                auto t_end2 = std::chrono::high_resolution_clock::now();
-                double elapsed_time_ms2 = std::chrono::duration<double, std::milli>(t_end2-t_start2).count();
-                std::cerr << "FORMATINSYMBOLMAP - ELAPSED (ms): " << elapsed_time_ms2 << std::endl;
             }
         }
-        auto t_end = std::chrono::high_resolution_clock::now();
-        double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_end-t_start).count();
-        std::cerr << "FORMAT RANGE - ELAPSED (ms): " << elapsed_time_ms << std::endl;
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
@@ -774,41 +760,9 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
                 room::getInstance().changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
             }
         }
-        bool canLoop = true;
-        if(newIndex != -1)
-            if (room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
-                    room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n')
-                canLoop = false;
 
         edId = shared_from_this()->getId(); //don't send this message to this editor
         curFile = shared_from_this()->getCurrentFile(); //send the message only to clients having this currentFile opened
-
-        //Update alignment of next symbols (until '\n')
-        std::vector<sId> updateAlignmentVector;
-        std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
-
-        while (canLoop && ++newIndex != room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).size()) {
-            std::cerr << "ESPLOSO newIndex = " << newIndex << " SIZE =" <<room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).size()<< std::endl;
-
-            if(room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\r' ||
-                    room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getLetter() == '\n') {
-                room::getInstance().changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
-                updateAlignmentVector.push_back(
-                        room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
-                break;
-            }
-            room::getInstance().changeAlignmentInSymbolMap(shared_from_this()->getCurrentFile(), newIndex, alignmentJSON);
-            updateAlignmentVector.push_back(
-                    room::getInstance().getSymbolMap(shared_from_this()->getCurrentFile(), false).at(newIndex).getId());
-        }
-
-        if(!updateAlignmentVector.empty()) {
-            //Serialize data
-            json j;
-            jsonUtility::to_json_alignment_change(j, "ALIGNMENT_UPDATE_RESPONSE", updateAlignmentVector, alignmentJSON);
-            const std::string response = j.dump();
-            this->sendMsgAll(response, edId, curFile, true); //send data to all the participants, having the curFile opened
-        }
 
         //Serialize data
         json j;
