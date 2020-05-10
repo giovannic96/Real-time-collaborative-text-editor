@@ -70,8 +70,6 @@ void myClient::do_read_body() {
                 do_read_header();
                 return;
             }
-            //std::cout << std::endl << std::endl << "full body:" << fullBody << std::endl << std::endl;
-
             std::string opJSON;
             try {
                 json jdata_in = json::parse(fullBody);
@@ -312,8 +310,6 @@ void myClient::do_read_body() {
 
                         delete s;
                     }
-
-                    //emit insertSymbols(newIndex, symbols);
                 } else if(opJSON == "CURSOR_CHANGE_RESPONSE") {
                     std::string usernameJSON;
                     std::string colorJSON;
@@ -327,8 +323,6 @@ void myClient::do_read_body() {
                     if(db_responseJSON == "COLLAB_COLORS_MAP_OK") {
                         myCollabColorsMap collabColorsMapJSON;
                         jsonUtility::from_json_collab_colors_resp(jdata_in, collabColorsMapJSON);
-                        for (const auto& kv : collabColorsMapJSON)
-                            qDebug() << "username: " << QString::fromStdString(kv.first) << " color: " << QString::fromStdString(kv.second.first) << " isOnline: " << kv.second.second;
                         emit showCollabColorsMap(collabColorsMapJSON);
                     }
                 } else if(opJSON == "REMOVAL_RESPONSE") {
@@ -340,7 +334,6 @@ void myClient::do_read_body() {
                         //process received symbol and retrieve new calculated index
                         newIndex = this->crdt.processErase(id);
                         if(newIndex != -1) {
-                            qDebug() << "NEWINDEX: "<<newIndex;
                             emit eraseSymbols(newIndex, newIndex+1);
                         }
                     }
@@ -353,7 +346,6 @@ void myClient::do_read_body() {
                         //process received symbol and retrieve new calculated index
                         newIndex = this->crdt.processFormat(id, formatJSON);
                         if(newIndex != -1) {
-                            qDebug() << "NEWINDEX: "<<newIndex;
                             emit formatSymbols(newIndex, newIndex+1, formatJSON);
                         }
                     }
@@ -366,7 +358,6 @@ void myClient::do_read_body() {
                         //process received symbol and retrieve new calculated index
                         newIndex = this->crdt.processFontSize(id, fontSizeJSON);
                         if(newIndex != -1) {
-                            qDebug() << "NEWINDEX: "<<newIndex;
                             emit changeFontSize(newIndex, newIndex+1, fontSizeJSON);
                         }
                     }
@@ -379,7 +370,6 @@ void myClient::do_read_body() {
                         //process received symbol and retrieve new calculated index
                         newIndex = this->crdt.processFontFamily(id, fontFamilyJSON);
                         if(newIndex != -1) {
-                            qDebug() << "NEWINDEX: "<<newIndex;
                             emit changeFontFamily(newIndex, newIndex+1, fontFamilyJSON);
                         }
                     }
@@ -396,26 +386,12 @@ void myClient::do_read_body() {
                             //process received symbol and retrieve new calculated index
                             newIndex = this->crdt.processAlignment(id, alignmentJSON);
                             if(newIndex != -1) {
-                                qDebug() << "NEWINDEX: "<<newIndex;
                                 emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
                             }
                         }
                     }
-                } else if(opJSON == "ALIGNMENT_UPDATE_RESPONSE") {
-                    std::vector<sId> updateAlignmentVector;
-                    int alignmentJSON;
-                    jsonUtility::from_json_alignment_change(jdata_in, updateAlignmentVector, alignmentJSON);
-                    int newIndex;
-
-                    for(const sId& id : updateAlignmentVector) {
-                        //process received symbol and retrieve new calculated index
-                        newIndex = this->crdt.processAlignment(id, alignmentJSON);
-                        if(newIndex != -1) {
-                            qDebug() << "NEWINDEX: "<<newIndex;
-                            emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
-                        }
-                    }
-                } else {
+                }
+                else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");
                 }
