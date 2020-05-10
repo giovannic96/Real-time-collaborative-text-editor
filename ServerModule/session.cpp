@@ -571,7 +571,7 @@ std::string session::handleRequests(const std::string& opJSON, const json& jdata
 
         if(resp2 == dbService::GET_EMAIL_OK) {
             // Send email
-            if(true/*email::sendEmail(email_invited, uriJSON)*/) {
+            if(email::sendEmail(email_invited, uriJSON)) {
                 const char *db_res;
                 if(invitedJSON == applicantJSON){
                     db_res = "SAME_USER";
