@@ -366,17 +366,17 @@ void MenuWindow::showPopupSuccess(QString result) {
 
 void MenuWindow::showPopupFailure(QString result) {
     if(result == "LOGOUT_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Logout non completato!");           //Stay in the same window
+        QMessageBox::critical(this,"Errore", "C'è stato un errore, impossibile effettuare il logout!");           //Stay in the same window
     } else if(result == "DISCONNECT_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Disconnect non completato!");       //Stay in the same window
+        QMessageBox::critical(this,"Errore", "C'è stato un errore, disconnessione non completata!");       //Stay in the same window
     } else if(result == "NEWFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Newfile non completata!");          //Stay in the same window
+        QMessageBox::critical(this,"Errore", "C'è stato un errore, impossibile creare il file!");          //Stay in the same window
     } else if(result == "OPENFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Openfile non completata!");         //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "C'è stato un errore, impossibile aprire il file!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "OPENWITHURI_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Openwithuri non completata!");      //Stay in the same window
+        QMessageBox::critical(this,"Errore", "C'è stato un errore, impossibile aprire il file!");      //Stay in the same window
     } else if(result == "LISTFILE_FAILURE") {
-        QMessageBox::critical(this,"Errore", "Listfile non completata!");         //Stay in the same window (MenuWindow(1))
+        QMessageBox::critical(this,"Errore", "C'è stato un errore, impossibile visualizzare la lista dei file!");         //Stay in the same window (MenuWindow(1))
     } else if(result == "LISTFILE_FAILURE_LISTNOTEXIST") {
         //QMessageBox::warning(this,"Attenzione", "Non hai ancora nessun un documento!");  //Stay in the same window (MenuWindow(1))
 

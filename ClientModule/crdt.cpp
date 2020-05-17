@@ -13,28 +13,28 @@ std::vector<int> crdt::generatePosBetween(std::vector<int> pos1, std::vector<int
     int id1 = pos1.at(0);
     int id2 = pos2.at(0);
 
-    if(id2 - id1 == 0) {
+    if(id2 - id1 == 0) { // [1] [1 0] or [1 0] [1 1]
         newPos.push_back(id1);
         pos1.erase(pos1.begin());
         pos2.erase(pos2.begin());
         if(pos1.empty()) {
-            newPos.push_back(pos2.front()-1);
+            newPos.push_back(pos2.front()-1); // [1] [1 0] -> [1 -1]
             return newPos;
         } else
-            return generatePosBetween(pos1, pos2, newPos);
+            return generatePosBetween(pos1, pos2, newPos); // [1 0] [1 1] -> recall and enter third if
     }
-    else if(id2 - id1 > 1) {
-        newPos.push_back(pos1.front()+1);
+    else if(id2 - id1 > 1) { // [0] [3]
+        newPos.push_back(pos1.front()+1); // [0] [3] -> [1]
         return newPos;
     }
-    else if(id2 - id1 == 1) {
+    else if(id2 - id1 == 1) { // [1] [2] or [1 1] [2]
         newPos.push_back(id1);
         pos1.erase(pos1.begin());
         if(pos1.empty()) {
-            newPos.push_back(0);
+            newPos.push_back(0); // [1] [2] -> [1 0]
             return newPos;
         } else {
-            newPos.push_back(pos1.front()+1);
+            newPos.push_back(pos1.front()+1); // [1 1] [2] -> [1 2]
             return newPos;
         }
     }
