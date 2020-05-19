@@ -24,17 +24,35 @@ void jsonUtility::to_json(json &j, const std::string &op, const std::string &use
     };
 }
 
-void jsonUtility::to_json_insertion(json &j, const std::string &op, const std::pair<int, wchar_t> &tuple, const symbolStyle &style) {
+void jsonUtility::to_json_insertion(json &j, const std::string &op, const symbol &symbol, const int &indexInEditor) {
     j = json{
         {"operation", op},
-        {"tuple", tuple},
-        {"isBold", style.isBold()},
-        {"isItalic", style.isItalic()},
-        {"isUnderlined", style.isUnderlined()},
-        {"fontFamily", style.getFontFamily()},
-        {"fontSize", style.getFontSize()},
-        {"alignment", style.getAlignment()},
-        {"color", style.getColor()}
+        {"id", symbol.getId()},
+        {"pos", symbol.getPos()},
+        {"letter", symbol.getLetter()},
+        {"isBold", symbol.getStyle().isBold()},
+        {"isItalic", symbol.getStyle().isItalic()},
+        {"isUnderlined", symbol.getStyle().isUnderlined()},
+        {"fontFamily", symbol.getStyle().getFontFamily()},
+        {"fontSize", symbol.getStyle().getFontSize()},
+        {"alignment", symbol.getStyle().getAlignment()},
+        {"color", symbol.getStyle().getColor()},
+        {"indexInEditor", indexInEditor}
+    };
+}
+
+void jsonUtility::to_json_FormattingSymbol(json &j, const symbol &symbol) {
+    j = json{
+        {"id", symbol.getId()},
+        {"pos", symbol.getPos()},
+        {"letter", symbol.getLetter()},
+        {"isBold", symbol.getStyle().isBold()},
+        {"isItalic", symbol.getStyle().isItalic()},
+        {"isUnderlined", symbol.getStyle().isUnderlined()},
+        {"fontFamily", symbol.getStyle().getFontFamily()},
+        {"fontSize", symbol.getStyle().getFontSize()},
+        {"alignment", symbol.getStyle().getAlignment()},
+        {"color", symbol.getStyle().getColor()}
     };
 }
 
@@ -45,46 +63,41 @@ void jsonUtility::to_json_cursor_change_req(json &j, const std::string &op, cons
     };
 }
 
-void jsonUtility::to_json_removal_range(json &j, const std::string &op, const int &startIndex, const int &endIndex) {
+void jsonUtility::to_json_removal_range(json &j, const std::string &op, const std::vector<sId> &symbolsId) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex}
+            {"symbolsId", symbolsId}
     };
 }
 
-void jsonUtility::to_json_format_range(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &format) {
+void jsonUtility::to_json_format_range(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &format) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex},
+            {"symbolsId", symbolsId},
             {"format", format}
     };
 }
 
-void jsonUtility::to_json_fontsize_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const int &fontSize) {
+void jsonUtility::to_json_fontsize_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &fontSize) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex},
+            {"symbolsId", symbolsId},
             {"fontSize", fontSize}
     };
 }
 
-void jsonUtility::to_json_alignment_change(json &j, const std::string &op, const int &startBlock, const int &endBlock, const int &alignment) {
+void jsonUtility::to_json_alignment_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const int &alignment) {
     j = json{
             {"operation", op},
-            {"startBlock", startBlock},
-            {"endBlock", endBlock},
+            {"symbolsId", symbolsId},
             {"alignment", alignment}
     };
 }
 
-void jsonUtility::to_json_fontfamily_change(json &j, const std::string &op, const int &startIndex, const int &endIndex, const std::string &fontFamily) {
+void jsonUtility::to_json_fontfamily_change(json &j, const std::string &op, const std::vector<sId> &symbolsId, const std::string &fontFamily) {
     j = json{
             {"operation", op},
-            {"startIndex", startIndex},
-            {"endIndex", endIndex},
+            {"symbolsId", symbolsId},
             {"fontFamily", fontFamily}
     };
 }
@@ -156,10 +169,11 @@ void jsonUtility::to_jsonUser(json &j, const std::string &op, const std::string 
     };
 }
 
-void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector) {
+void jsonUtility::to_json_insertion_range(json &j, const std::string &op, const std::vector<json> &symVector, const int &startIndex) {
     j = json{
             {"operation", op},
-            {"formattingSymVector", symVector} //JSON vector
+            {"formattingSymVector", symVector}, //JSON vector
+            {"startIndex", startIndex}
     };
 }
 
@@ -179,12 +193,24 @@ void jsonUtility::from_json_resp(const json &j, std::string &resp) {
     resp = j.at("content").at("response").get<std::string>();
 }
 
-void jsonUtility::from_json_formatting_symbols(const json &j, std::vector<json>& jsonSymbols) {
-    jsonSymbols = j.at("formattingSymVector").get<std::vector<json>>();
-}
-
 /* We need to use this 'from_json' to deserialize std::vector<symbol> (see function from_json_symbols) */
 void from_json(const json& j, symbol& s) {
+    wchar_t letter = j.at("letter").get<wchar_t>();
+    std::pair<int,int> id = j.at("id").get<std::pair<int,int>>();
+    std::vector<int> pos = j.at("pos").get<std::vector<int>>();
+    symbolStyle style;
+    style.setBold(j.at("isBold").get<bool>());
+    style.setItalic(j.at("isItalic").get<bool>());
+    style.setUnderlined(j.at("isUnderlined").get<bool>());
+    style.setFontFamily(j.at("fontFamily").get<std::string>());
+    style.setFontSize(j.at("fontSize").get<int>());
+    style.setAlignment(j.at("alignment").get<int>());
+    style.setColor(j.at("color").get<std::string>());
+    s = symbol(letter, id, pos, style);
+}
+
+void jsonUtility::from_json_insertion(const json& j, symbol& s, int &indexInEditor) {
+    indexInEditor = j.at("indexInEditor").get<int>();
     wchar_t letter = j.at("letter").get<wchar_t>();
     std::pair<int,int> id = j.at("id").get<std::pair<int,int>>();
     std::vector<int> pos = j.at("pos").get<std::vector<int>>();
@@ -251,20 +277,6 @@ symbol* jsonUtility::from_json_symbol(const json &j) {
     return s;
 }
 
-symbolInfo* jsonUtility::from_json_formatting_symbol(const json &j) {
-
-    //get symbol values from json
-    int index = j.at("index").get<int>();
-    wchar_t letter = j.at("letter").get<wchar_t>();
-    symbolStyle style(j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(),j.at("isUnderlined").get<bool>(),
-                      j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
-                      j.at("color").get<std::string>());
-
-    //now create the symbol
-    symbolInfo *s = new symbolInfo(index, letter, style);
-    return s;
-}
-
 File* jsonUtility::from_json_file(const json &j) {
     std::string idfile;
     std::string filename;
@@ -287,10 +299,11 @@ File* jsonUtility::from_json_file(const json &j) {
     return f;
 }
 
-void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail) {
+void jsonUtility::from_json_usernameLogin(const json &j, std::string &name, std::string &color, std::string &mail, int &siteId) {
     name = j.at("content").at("usernameLogin").get<std::string>();
     color = j.at("content").at("colorLogin").get<std::string>();
     mail = j.at("content").at("mailLogin").get<std::string>();
+    siteId = j.at("content").at("siteId").get<int>();
 }
 
 void jsonUtility::from_json(const json &j, std::string &user, std::string &pass) {
@@ -306,13 +319,6 @@ void jsonUtility::from_json(const json &j, std::string &user, std::string &pass,
 
 void jsonUtility::from_jsonUri(const json &j, std::string &uri) {
     uri = j.at("content").at("uri").get<std::string>();
-}
-
-void jsonUtility::from_json_insertion(const json &j, std::pair<int, wchar_t>& tuple, symbolStyle& style) {
-    tuple = j.at("tuple").get<std::pair<int, wchar_t>>();
-    style = {j.at("isBold").get<bool>(), j.at("isItalic").get<bool>(), j.at("isUnderlined").get<bool>(),
-             j.at("fontFamily").get<std::string>(), j.at("fontSize").get<int>(), j.at("alignment").get<int>(),
-             j.at("color").get<std::string>()};
 }
 
 void jsonUtility::from_json_removal(const json &j, int& index) {
@@ -334,50 +340,31 @@ void jsonUtility::from_json_user_offline(const json &j, std::string &username, m
     collabColorsMap = j.at("collabColorsMap").get<myCollabColorsMap>();
 }
 
-void jsonUtility::from_json_removal_range(const json &j, int& startIndex, int& endIndex) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_removal_range(const json &j, std::vector<sId>& symbolsId) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
 }
 
-void jsonUtility::from_json_format_range(const json &j, int& startIndex, int& endIndex, int& format) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_format_range(const json &j, std::vector<sId>& symbolsId, int& format) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     format = j.at("format").get<int>();
 }
 
-void jsonUtility::from_json_fontsize_change(const json &j, int& startIndex, int& endIndex, int& fontSize) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_fontsize_change(const json &j, std::vector<sId>& symbolsId, int& fontSize) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     fontSize = j.at("fontSize").get<int>();
 }
 
-void jsonUtility::from_json_alignment_change(const json &j, int& startBlock, int& endBlock, int& alignment) {
-    startBlock = j.at("startBlock").get<int>();
-    endBlock = j.at("endBlock").get<int>();
+void jsonUtility::from_json_alignment_change(const json &j, std::vector<sId>& symbolsId, int& alignment) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     alignment = j.at("alignment").get<int>();
 }
 
-void jsonUtility::from_json_fontfamily_change(const json &j, int& startIndex, int& endIndex, std::string& fontFamily) {
-    startIndex = j.at("startIndex").get<int>();
-    endIndex = j.at("endIndex").get<int>();
+void jsonUtility::from_json_fontfamily_change(const json &j, std::vector<sId>& symbolsId, std::string& fontFamily) {
+    symbolsId = j.at("symbolsId").get<std::vector<sId>>();
     fontFamily = j.at("fontFamily").get<std::string>();
 }
 
-void jsonUtility::to_json_FormattingSymbol(json &j, const symbolInfo &symbol) {
-    j = json{
-            {"index", symbol.getIndex()},
-            {"letter", symbol.getLetter()},
-            {"isBold", symbol.getStyle().isBold()},
-            {"isItalic", symbol.getStyle().isItalic()},
-            {"isUnderlined", symbol.getStyle().isUnderlined()},
-            {"fontFamily", symbol.getStyle().getFontFamily()},
-            {"fontSize", symbol.getStyle().getFontSize()},
-            {"alignment", symbol.getStyle().getAlignment()},
-            {"color", symbol.getStyle().getColor()}
-    };
-}
-
-std::vector<json> jsonUtility::fromFormattingSymToJson(const std::vector<symbolInfo>& symbols) {
+std::vector<json> jsonUtility::fromFormattingSymToJson(const std::vector<symbol>& symbols) {
     if(symbols.empty())
         return json::array();
 

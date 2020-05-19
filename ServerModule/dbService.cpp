@@ -251,17 +251,6 @@ dbService::DB_RESPONSE dbService::tryNewFile(const std::string& user, const std:
                 query3.bindValue(":isConfirmed", true);
 
                 if (query3.exec()) {
-                    ///*
-                    // TODO: remove this query4 later
-                    QSqlQuery query4(QSqlDatabase::database("MyConnect3"));
-                    query4.prepare("INSERT INTO permissions (idfile, iduser, isOwner, isOpen, isConfirmed) VALUES (:idfile, :iduser, :isOwner, :isOpen, :isConfirmed)");
-                    query4.bindValue(":idfile", uri);
-                    query4.bindValue(":iduser", "a5");
-                    query4.bindValue(":isOwner", false);
-                    query4.bindValue(":isOpen", false);
-                    query4.bindValue(":isConfirmed", true);
-                    query4.exec();
-                    //*/
                     return NEWFILE_OK;
                 }
                 else
@@ -479,9 +468,7 @@ dbService::DB_RESPONSE dbService::tryAddFriend(const std::string &invited, const
                 std::cout << "User already partecipant of the file" << std::endl;
                 db.close();
                 return ALREADY_PARTECIPANT;
-
             } else {
-
                 QSqlQuery query2(QSqlDatabase::database("MyConnect2"));
                 query2.prepare(QString("INSERT INTO permissions (idfile, iduser, isOwner, isOpen, isConfirmed) VALUES (:uri, :username, 0, 0, 0);"));
                 query2.bindValue(":username", username);
@@ -632,7 +619,7 @@ dbService::DB_RESPONSE dbService::tryRenameFile(const std::string &newNameFile, 
         query.bindValue(":filename", namefile);
 
         if (query.exec()) {
-            if (query.next()) {//filename already exists
+            if (query.next()) { //filename already exists
                 db.close();
                 return RENAME_FAILED;
             } else {

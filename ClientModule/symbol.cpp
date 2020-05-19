@@ -8,6 +8,9 @@
 symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos)
     : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _style() {}
 
+symbol::symbol(wchar_t character, symbolStyle style)
+    : _letter(character), _style(std::move(style)) {}
+
 symbol::symbol(wchar_t character, std::pair<int, int> id, std::vector<int> pos, symbolStyle style)
     : _letter(character), _id(std::move(id)), _pos(std::move(pos)), _style(std::move(style)) {}
 

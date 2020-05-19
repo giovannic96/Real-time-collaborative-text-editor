@@ -14,18 +14,20 @@
 #include "room.h"
 #include "email.h"
 
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
+
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
+typedef std::pair<int,int> sId;
 
 class session : public participant, public std::enable_shared_from_this<session> {
 
 private:
     tcp::socket socket_;
-    room& room_;
     message read_msg_;
     message_queue write_msgs_;
     std::string fullBody;
-    dbService dbService_;
     void do_read_header();
     void do_read_body();
     void do_write(); //for the editor
@@ -34,7 +36,7 @@ private:
     void sendMsgAll(const std::string& response, const int& edId, const std::string& curFile, bool includeThisEditor=false); //send msg to all the clients except client with id 'edId' having the curFile opened
 
 public:
-    explicit session(tcp::socket socket, room& room);
+    explicit session(tcp::socket socket);
     void session_start(int editorId);
     void deliver(const message& msg);
 };

@@ -52,6 +52,7 @@ void MyQTextEdit::paintEvent(QPaintEvent *event) {
 
     QHash<QString, std::pair<QString,int>>::iterator i;
     for (i = remoteCursors.begin(); i != remoteCursors.end(); ++i) {
+
         /* Get current info */
         QTextCursor cursor = this->textCursor();
         cursor.setPosition(i.value().second);

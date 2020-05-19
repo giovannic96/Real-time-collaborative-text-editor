@@ -13,11 +13,10 @@ myClient::myClient()
           mail_(""),
           color_("#00ffffff"),
           fullBody(""),
-          fileVector_(std::vector<File>()),
-          vector_() {
-            worker_= std::thread([&](){
-                io_context_.run(); //boost thread loop start
-          });
+          crdt(),
+          fileVector_(std::vector<File>())
+{
+    worker_= std::thread([&](){io_context_.run();}); //boost thread loop start
     do_connect();
 }
 
@@ -71,8 +70,6 @@ void myClient::do_read_body() {
                 do_read_header();
                 return;
             }
-            //std::cout << std::endl << std::endl << "full body:" << fullBody << std::endl << std::endl;
-
             std::string opJSON;
             try {
                 json jdata_in = json::parse(fullBody);
@@ -87,19 +84,18 @@ void myClient::do_read_body() {
                         std::string db_usernameLoginJSON;
                         std::string db_colorJSON;
                         std::string db_mailJSON;
-                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON, db_colorJSON, db_mailJSON);
+                        int idJSON;
+                        jsonUtility::from_json_usernameLogin(jdata_in, db_usernameLoginJSON, db_colorJSON, db_mailJSON, idJSON);
                         QString name_qstring = QString::fromUtf8(db_usernameLoginJSON.data(), db_usernameLoginJSON.size()); //convert to QString
                         QString color_qstring = QString::fromUtf8(db_colorJSON.data(), db_colorJSON.size());
                         QString mail_qstring = QString::fromUtf8(db_mailJSON.data(), db_mailJSON.size());
 
+                        //Set values
                         this->setUsername(name_qstring);
                         this->setColor(color_qstring);
                         this->setMail(mail_qstring);
+                        this->crdt.setSiteId(idJSON);
 
-                        /*
-                        emit changeTextUsername(this->getUsername());
-                        emit changeTextMail(this->getMail());
-                        */
                         emit formResultSuccess("LOGIN_SUCCESS");
                     } else {
                         qDebug() << "Wrong user or password" << endl;
@@ -174,7 +170,7 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setFileURI(uriQString);
-                        this->setVector(std::vector<symbol>());
+                        this->crdt.setSymbols(std::vector<symbol>());
                         emit opResultSuccess("NEWFILE_SUCCESS");
                     } else
                         emit opResultFailure("NEWFILE_FAILURE");
@@ -188,12 +184,12 @@ void myClient::do_read_body() {
                         jsonUtility::from_json_symbols(jdata_in, symbolsJSON);
 
                         //Update client data
-                        this->setVector(symbolsJSON);
+                        this->crdt.setSymbols(symbolsJSON);
 
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else if(db_responseJSON == "OPENFILE_FILE_EMPTY") {
                         //Update client data
-                        this->setVector(std::vector<symbol>());
+                        this->crdt.setSymbols(std::vector<symbol>());
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else
                         emit opResultFailure("OPENFILE_FAILURE");
@@ -217,7 +213,7 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setFilename(QString::fromStdString(filenameJSON));
-                        this->setVector(symbolsJSON);
+                        this->crdt.setSymbols(symbolsJSON);
 
                         qDebug() << "OPENWITHURI success" << endl;
                         emit opResultSuccess("OPENWITHURI_SUCCESS");
@@ -227,7 +223,7 @@ void myClient::do_read_body() {
 
                         //Update client data
                         this->setFilename(QString::fromStdString(filenameJSON));
-                        this->setVector(std::vector<symbol>());
+                        this->crdt.setSymbols(std::vector<symbol>());
                         emit opResultSuccess("OPENFILE_SUCCESS");
                     } else {
                         qDebug() << "Something went wrong" << endl;
@@ -280,15 +276,21 @@ void myClient::do_read_body() {
                     else
                         emit editorResultFailure("INVITE_URI_FAILURE");
                 } else if(opJSON == "INSERTION_RESPONSE") {
-                    std::pair<int, wchar_t> tupleJSON;
-                    symbolStyle styleJSON;
-                    jsonUtility::from_json_insertion(jdata_in, tupleJSON, styleJSON);
-                    emit insertSymbol(tupleJSON, styleJSON);
+                    symbol symbolJSON;
+                    int indexEditorJSON;
+                    jsonUtility::from_json_insertion(jdata_in, symbolJSON, indexEditorJSON);
+
+                    //process received symbol and retrieve new calculated index
+                    int newIndex = this->crdt.process(0, indexEditorJSON, symbolJSON);
+
+                    std::pair<int, wchar_t> tuple = std::make_pair(newIndex, symbolJSON.getLetter());
+                    emit insertSymbol(tuple, symbolJSON.getStyle());
                 } else if(opJSON == "INSERTIONRANGE_RESPONSE") {
-                    int firstIndex;
+                    int firstIndexJSON;
                     std::vector<json> jsonSymbols;
-                    jsonUtility::from_json_insertion_range(jdata_in, firstIndex, jsonSymbols);
+                    jsonUtility::from_json_insertion_range(jdata_in, firstIndexJSON, jsonSymbols);
                     std::vector<symbol> symbols;
+                    int newIndex = firstIndexJSON;
 
                     //generate symbols vector from json vector
                     for(const auto& j: jsonSymbols) {
@@ -299,9 +301,15 @@ void myClient::do_read_body() {
                             do_read_header();
                         }
                         symbols.push_back(*s);
+
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.process(0, newIndex, *s);
+
+                        std::pair<int, wchar_t> tuple = std::make_pair(newIndex, s->getLetter());
+                        emit insertSymbol(tuple, s->getStyle());
+
                         delete s;
                     }
-                    emit insertSymbols(firstIndex, symbols);
                 } else if(opJSON == "CURSOR_CHANGE_RESPONSE") {
                     std::string usernameJSON;
                     std::string colorJSON;
@@ -315,40 +323,75 @@ void myClient::do_read_body() {
                     if(db_responseJSON == "COLLAB_COLORS_MAP_OK") {
                         myCollabColorsMap collabColorsMapJSON;
                         jsonUtility::from_json_collab_colors_resp(jdata_in, collabColorsMapJSON);
-                        for (const auto& kv : collabColorsMapJSON)
-                            qDebug() << "username: " << QString::fromStdString(kv.first) << " color: " << QString::fromStdString(kv.second.first) << " isOnline: " << kv.second.second;
                         emit showCollabColorsMap(collabColorsMapJSON);
                     }
                 } else if(opJSON == "REMOVAL_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
-                    jsonUtility::from_json_removal_range(jdata_in, startIndexJSON, endIndexJSON);
-                    emit eraseSymbols(startIndexJSON, endIndexJSON);
+                    std::vector<sId> symbolsId;
+                    jsonUtility::from_json_removal_range(jdata_in, symbolsId);
+
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processErase(id);
+                        if(newIndex != -1) {
+                            emit eraseSymbols(newIndex, newIndex+1);
+                        }
+                    }
                 } else if(opJSON == "FORMAT_RANGE_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
+                    std::vector<sId> symbolsId;
                     int formatJSON;
-                    jsonUtility::from_json_format_range(jdata_in, startIndexJSON, endIndexJSON, formatJSON);
-                    emit formatSymbols(startIndexJSON, endIndexJSON, formatJSON);
+                    jsonUtility::from_json_format_range(jdata_in, symbolsId, formatJSON);
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processFormat(id, formatJSON);
+                        if(newIndex != -1) {
+                            emit formatSymbols(newIndex, newIndex+1, formatJSON);
+                        }
+                    }
                 } else if(opJSON == "FONTSIZE_CHANGE_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
+                    std::vector<sId> symbolsId;
                     int fontSizeJSON;
-                    jsonUtility::from_json_fontsize_change(jdata_in, startIndexJSON, endIndexJSON, fontSizeJSON);
-                    emit changeFontSize(startIndexJSON, endIndexJSON, fontSizeJSON);
+                    jsonUtility::from_json_fontsize_change(jdata_in, symbolsId, fontSizeJSON);
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processFontSize(id, fontSizeJSON);
+                        if(newIndex != -1) {
+                            emit changeFontSize(newIndex, newIndex+1, fontSizeJSON);
+                        }
+                    }
                 } else if(opJSON == "FONTFAMILY_CHANGE_RESPONSE") {
-                    int startIndexJSON;
-                    int endIndexJSON;
+                    std::vector<sId> symbolsId;
                     std::string fontFamilyJSON;
-                    jsonUtility::from_json_fontfamily_change(jdata_in, startIndexJSON, endIndexJSON, fontFamilyJSON);
-                    emit changeFontFamily(startIndexJSON, endIndexJSON, fontFamilyJSON);
+                    jsonUtility::from_json_fontfamily_change(jdata_in, symbolsId, fontFamilyJSON);
+                    int newIndex;
+                    for(const sId& id : symbolsId) {
+                        //process received symbol and retrieve new calculated index
+                        newIndex = this->crdt.processFontFamily(id, fontFamilyJSON);
+                        if(newIndex != -1) {
+                            emit changeFontFamily(newIndex, newIndex+1, fontFamilyJSON);
+                        }
+                    }
                 } else if(opJSON == "ALIGNMENT_CHANGE_RESPONSE") {
-                    int startBlockJSON;
-                    int endBlockJSON;
+                    std::vector<sId> symbolsId;
                     int alignmentJSON;
-                    jsonUtility::from_json_alignment_change(jdata_in, startBlockJSON, endBlockJSON, alignmentJSON);
-                    emit changeAlignment(startBlockJSON, endBlockJSON, alignmentJSON);
-                } else {
+                    jsonUtility::from_json_alignment_change(jdata_in, symbolsId, alignmentJSON);
+                    int newIndex;
+
+                    if(symbolsId.empty())
+                        emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
+                    else {
+                        for(const sId& id : symbolsId) {
+                            //process received symbol and retrieve new calculated index
+                            newIndex = this->crdt.processAlignment(id, alignmentJSON);
+                            if(newIndex != -1) {
+                                emit changeAlignment(newIndex, newIndex+1, alignmentJSON);
+                            }
+                        }
+                    }
+                }
+                else {
                     qDebug() << "Something went wrong" << endl;
                     emit opResultFailure("RESPONSE_FAILURE");
                 }
@@ -441,20 +484,12 @@ QString myClient::getColor() {
     return this->color_;
 }
 
-void myClient::setVector(std::vector<symbol> symbols){
-    this->vector_ = symbols;
-}
-
 void myClient::setVectorFile(std::vector<File> files){
     this->fileVector_ = files;
 }
 
 std::vector<File> myClient::getVectorFile(){
     return this->fileVector_;
-}
-
-std::vector<symbol> myClient::getVector(){
-    return this->vector_;
 }
 
 void myClient::setFilename(QString filename) {
